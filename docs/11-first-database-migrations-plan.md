@@ -6,7 +6,7 @@ This document defines the proposed order for initial Supabase database migration
 
 ## Migration 001 — organisations
 
-Status: Drafted in `supabase/migrations/001_create_organisations.sql`, not applied.
+Status: Drafted in `supabase/migrations/001_create_organisations.sql`. Manually applied in Supabase outside this repo workflow.
 
 Purpose: Create the tenant/organisation foundation.
 
@@ -22,7 +22,22 @@ Key fields:
 
 Notes: RLS should not be enabled in this migration. RLS policies will come later after organisation memberships exist.
 
-## Migration 002 — organisation settings and branding
+## Migration 002 — seed Clean Eats organisation
+
+Status: Drafted in `supabase/migrations/002_seed_clean_eats_organisation.sql`, not applied.
+
+Purpose: Seed Clean Eats as Client 1 / Tenant 1.
+
+Key values:
+
+- `name`: Clean Eats Australia
+- `slug`: cleaneats
+- `industry`: Food Manufacturing
+- `status`: active
+
+Notes: Clean Eats is seeded before settings, branding, users, and memberships. This seed is idempotent and safe to re-run. RLS remains deferred until memberships exist.
+
+## Migration 003 — organisation settings and branding
 
 Purpose: Add tenant-level operating settings and visual identity.
 
@@ -43,7 +58,7 @@ Key fields:
 - `sidebar_style`
 - `theme_mode`
 
-## Migration 003 — profiles and memberships
+## Migration 004 — profiles and memberships
 
 Purpose: Link Supabase users to application profiles and organisation memberships.
 
@@ -63,7 +78,7 @@ Key fields:
 - `invited_at`
 - `joined_at`
 
-## Migration 004 — modules and organisation modules
+## Migration 005 — modules and organisation modules
 
 Purpose: Define available platform modules and enable them per organisation.
 
@@ -80,7 +95,7 @@ Key fields:
 - `phase`
 - `enabled`
 
-## Migration 005 — roles and permissions
+## Migration 006 — roles and permissions
 
 Purpose: Define the role and permission model for tenant and platform access.
 
@@ -96,7 +111,7 @@ Key fields:
 - `permission_key`
 - `description`
 
-## Migration 006 — audit logs
+## Migration 007 — audit logs
 
 Purpose: Record important tenant and platform actions.
 
@@ -116,7 +131,7 @@ Key fields:
 
 ## Suggested Seed Data
 
-- Clean Eats organisation
+- Clean Eats organisation seeded in Migration 002
 - Default branding
 - Default enabled modules
 - Default roles

@@ -64,7 +64,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 
 ## Database Migrations
 
-Reviewed SQL migration files live in `supabase/migrations`. They are committed for review before being applied to Supabase.
+Reviewed SQL migration and seed files live in `supabase/migrations`. They are committed for review before being applied to Supabase.
 
 ## Current Scope
 
