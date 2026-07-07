@@ -59,6 +59,8 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Codex working rules](docs/07-codex-working-rules.md)
 - [Tenant / organisation architecture](docs/08-tenant-organisation-architecture.md)
 - [Database foundation plan](docs/09-database-foundation-plan.md)
+- [Supabase / auth plan](docs/10-supabase-auth-plan.md)
+- [First database migrations plan](docs/11-first-database-migrations-plan.md)
 
 ## Current Scope
 

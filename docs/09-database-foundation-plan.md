@@ -2,6 +2,8 @@
 
 This document outlines a proposed future database foundation for Food Prod Hub. It is a planning document only. Do not create Supabase migrations from this document until the database scope is explicitly approved.
 
+The proposed first migration order is documented separately in [First Database Migrations Plan](11-first-database-migrations-plan.md).
+
 ## Naming Conventions
 
 - Use lowercase snake_case table and column names.
