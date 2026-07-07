@@ -155,6 +155,8 @@ Triggers and automatic audit writing are not added yet.
 
 The next logical phase is Auth and Security Foundation.
 
+The Auth and RLS planning document is available at [Auth and RLS Planning](13-auth-and-rls-planning.md).
+
 Suggested next steps:
 
 - Treat this document as the migration 001-010 backend foundation checkpoint.

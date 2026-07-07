@@ -6,6 +6,8 @@ This document defines the proposed order for initial Supabase database migration
 
 Migrations 001 to 010 have been manually applied in Supabase. The backend foundation review document is available at [Backend Foundation Review](12-backend-foundation-review.md).
 
+No further migrations should be added until the [Auth and RLS Planning](13-auth-and-rls-planning.md) document has been reviewed, unless a specific foundation gap is identified.
+
 ## Migration 001 — organisations
 
 Status: Drafted in `supabase/migrations/001_create_organisations.sql`. Manually applied in Supabase outside this repo workflow.
