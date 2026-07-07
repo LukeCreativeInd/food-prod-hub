@@ -6,6 +6,8 @@ This document defines the proposed order for initial Supabase database migration
 
 ## Migration 001 — organisations
 
+Status: Drafted in `supabase/migrations/001_create_organisations.sql`, not applied.
+
 Purpose: Create the tenant/organisation foundation.
 
 Key fields:
@@ -17,6 +19,8 @@ Key fields:
 - `status`
 - `created_at`
 - `updated_at`
+
+Notes: RLS should not be enabled in this migration. RLS policies will come later after organisation memberships exist.
 
 ## Migration 002 — organisation settings and branding
 
@@ -124,6 +128,7 @@ Key fields:
 - Organisation-owned records filtered by `organisation_id`
 - Platform admins need separate handling
 - Audit logs append-only where possible
+- RLS for `organisations` will come in a later reviewed migration after memberships exist
 
 ## What Not To Build Yet
 

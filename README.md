@@ -62,6 +62,10 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Supabase / auth plan](docs/10-supabase-auth-plan.md)
 - [First database migrations plan](docs/11-first-database-migrations-plan.md)
 
+## Database Migrations
+
+Reviewed SQL migration files live in `supabase/migrations`. They are committed for review before being applied to Supabase.
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
