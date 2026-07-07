@@ -6,6 +6,8 @@ This document is a planning checkpoint only.
 
 No RLS policies, auth UI, users, memberships or app database queries have been implemented yet.
 
+The practical implementation checklist now lives at [Auth Implementation Checklist](14-auth-implementation-checklist.md).
+
 ## Auth Goal
 
 The goal is:

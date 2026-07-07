@@ -157,6 +157,8 @@ The next logical phase is Auth and Security Foundation.
 
 The Auth and RLS planning document is available at [Auth and RLS Planning](13-auth-and-rls-planning.md).
 
+Auth implementation planning has progressed to [Auth Implementation Checklist](14-auth-implementation-checklist.md).
+
 Suggested next steps:
 
 - Treat this document as the migration 001-010 backend foundation checkpoint.

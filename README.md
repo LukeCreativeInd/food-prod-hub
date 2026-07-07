@@ -63,6 +63,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [First database migrations plan](docs/11-first-database-migrations-plan.md)
 - [Backend foundation review](docs/12-backend-foundation-review.md)
 - [Auth and RLS planning](docs/13-auth-and-rls-planning.md)
+- [Auth implementation checklist](docs/14-auth-implementation-checklist.md)
 
 ## Database Migrations
 
@@ -71,6 +72,8 @@ Reviewed SQL migration and seed files live in `supabase/migrations`. They are co
 The first backend foundation block is summarised in [Backend foundation review](docs/12-backend-foundation-review.md).
 
 The next security phase is planned in [Auth and RLS planning](docs/13-auth-and-rls-planning.md).
+
+The practical auth build sequence is tracked in [Auth implementation checklist](docs/14-auth-implementation-checklist.md).
 
 ## Current Scope
 
