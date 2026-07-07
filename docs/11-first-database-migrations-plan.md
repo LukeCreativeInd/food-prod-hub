@@ -39,6 +39,8 @@ Notes: Clean Eats is seeded before settings, branding, users, and memberships. T
 
 ## Migration 003 — organisation settings and branding
 
+Status: Drafted in `supabase/migrations/003_create_organisation_settings_and_branding.sql`, not applied.
+
 Purpose: Add tenant-level operating settings and visual identity.
 
 Tables:
@@ -51,12 +53,16 @@ Key fields:
 - `organisation_id`
 - `timezone`
 - `currency`
-- `units`
+- `default_units`
+- `date_format`
+- `time_format`
 - `logo_url`
 - `primary_colour`
 - `accent_colour`
 - `sidebar_style`
 - `theme_mode`
+
+Notes: Settings and branding are separated from `organisations` to keep tenant profile, operational defaults, and visual customisation modular. Clean Eats settings/branding seed data will come in a later reviewed migration. RLS remains deferred until memberships exist.
 
 ## Migration 004 — profiles and memberships
 
@@ -132,7 +138,7 @@ Key fields:
 ## Suggested Seed Data
 
 - Clean Eats organisation seeded in Migration 002
-- Default branding
+- Default settings and branding in a later reviewed migration
 - Default enabled modules
 - Default roles
 - Initial admin user placeholder
