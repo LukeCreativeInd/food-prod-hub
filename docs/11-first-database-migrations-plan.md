@@ -62,9 +62,34 @@ Key fields:
 - `sidebar_style`
 - `theme_mode`
 
-Notes: Settings and branding are separated from `organisations` to keep tenant profile, operational defaults, and visual customisation modular. Clean Eats settings/branding seed data will come in a later reviewed migration. RLS remains deferred until memberships exist.
+Notes: Settings and branding are separated from `organisations` to keep tenant profile, operational defaults, and visual customisation modular. Clean Eats settings/branding seed data is separate from this table creation migration. RLS remains deferred until memberships exist.
 
-## Migration 004 — profiles and memberships
+## Migration 004 — seed Clean Eats settings and branding
+
+Status: Drafted in `supabase/migrations/004_seed_clean_eats_settings_and_branding.sql`, not applied.
+
+Purpose: Seed Clean Eats organisation settings and branding after the organisation and settings/branding tables exist.
+
+Tables:
+
+- `organisation_settings`
+- `organisation_branding`
+
+Key values:
+
+- `timezone`: Australia/Melbourne
+- `currency`: AUD
+- `default_units`: metric
+- `date_format`: DD/MM/YYYY
+- `time_format`: 24h
+- `primary_colour`: #176B3A
+- `accent_colour`: #A7D129
+- `sidebar_style`: clean-operations
+- `theme_mode`: light
+
+Notes: Clean Eats settings/branding seed data is separate from the table creation migration and is idempotent. Users/memberships and RLS still come later.
+
+## Migration 005 — profiles and memberships
 
 Purpose: Link Supabase users to application profiles and organisation memberships.
 
@@ -84,7 +109,7 @@ Key fields:
 - `invited_at`
 - `joined_at`
 
-## Migration 005 — modules and organisation modules
+## Migration 006 — modules and organisation modules
 
 Purpose: Define available platform modules and enable them per organisation.
 
@@ -101,7 +126,7 @@ Key fields:
 - `phase`
 - `enabled`
 
-## Migration 006 — roles and permissions
+## Migration 007 — roles and permissions
 
 Purpose: Define the role and permission model for tenant and platform access.
 
@@ -117,7 +142,7 @@ Key fields:
 - `permission_key`
 - `description`
 
-## Migration 007 — audit logs
+## Migration 008 — audit logs
 
 Purpose: Record important tenant and platform actions.
 
@@ -138,7 +163,7 @@ Key fields:
 ## Suggested Seed Data
 
 - Clean Eats organisation seeded in Migration 002
-- Default settings and branding in a later reviewed migration
+- Clean Eats settings and branding seeded in Migration 004
 - Default enabled modules
 - Default roles
 - Initial admin user placeholder
