@@ -160,6 +160,8 @@ Notes: Default roles and permissions are seeded before RLS. User memberships wil
 
 ## Migration 008 — modules and organisation modules
 
+Status: Drafted in `supabase/migrations/008_create_modules_and_organisation_modules.sql`, not applied.
+
 Purpose: Define available platform modules and enable them per organisation.
 
 Tables:
@@ -171,9 +173,12 @@ Key fields:
 
 - `module_key`
 - `label`
-- `group`
+- `module_group`
 - `phase`
 - `enabled`
+- `sort_order`
+
+Notes: `modules` and `organisation_modules` define the database-backed module enablement layer. Module seed data and Clean Eats enabled modules come later. RLS remains deferred until memberships, roles, and module policies are designed.
 
 ## Migration 009 — audit logs
 
