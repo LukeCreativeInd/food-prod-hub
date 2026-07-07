@@ -138,7 +138,27 @@ Key fields:
 
 Notes: Roles and permissions are created before seed data. `organisation_memberships.role_key` will later align with `roles.role_key`. RLS remains deferred until roles, permissions, and memberships are seeded.
 
-## Migration 007 — modules and organisation modules
+## Migration 007 — seed default roles and permissions
+
+Status: Drafted in `supabase/migrations/007_seed_default_roles_and_permissions.sql`, not applied.
+
+Purpose: Seed default platform roles, organisation roles, permissions, and role-permission assignments.
+
+Tables:
+
+- `roles`
+- `permissions`
+- `role_permissions`
+
+Key values:
+
+- Platform role: `platform_admin`
+- Organisation roles: `organisation_admin`, `operations_manager`, `production_manager`, `qa_manager`, `warehouse_manager`, `wholesale_manager`, `staff`, `tablet_user`, `viewer`
+- Foundation permissions for admin, products, costings, production, inventory, purchasing, QA, logistics, wholesale, CRM, reports, and platform support
+
+Notes: Default roles and permissions are seeded before RLS. User memberships will later reference `role_key` values that now exist in `roles`. RLS remains deferred until roles, permissions, and memberships are seeded and policies are designed.
+
+## Migration 008 — modules and organisation modules
 
 Purpose: Define available platform modules and enable them per organisation.
 
@@ -155,7 +175,7 @@ Key fields:
 - `phase`
 - `enabled`
 
-## Migration 008 — audit logs
+## Migration 009 — audit logs
 
 Purpose: Record important tenant and platform actions.
 
@@ -177,8 +197,8 @@ Key fields:
 
 - Clean Eats organisation seeded in Migration 002
 - Clean Eats settings and branding seeded in Migration 004
+- Default roles and permissions seeded in Migration 007
 - Default enabled modules
-- Default roles
 - Initial admin user placeholder
 
 ## RLS Planning Notes

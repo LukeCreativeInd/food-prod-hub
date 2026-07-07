@@ -67,6 +67,8 @@ Profiles and organisation memberships will be created before auth UI is added. `
 
 Roles and permissions will eventually control module and action access after login. Tablet users should receive limited production-task permissions, such as viewing assigned tasks and completing task logging, without broad admin or reporting access.
 
+Default roles and permissions have a planned seed migration. The `tablet_user` role is restricted to production task logging permissions so tablet-friendly users do not inherit broader admin, reporting, or platform access.
+
 Roles and permissions should be implemented only after the tenant and auth model is approved.
 
 ## Protected Routes
