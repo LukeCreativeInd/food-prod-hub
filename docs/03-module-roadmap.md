@@ -1,5 +1,7 @@
 # Module Roadmap
 
+The platform should use a central module registry as the source list for available modules. Each organisation/tenant should eventually enable or disable modules through configuration instead of client-specific code forks.
+
 ## Phase 0 — Platform foundation
 
 - App shell
@@ -8,6 +10,8 @@
 - Organisation settings planning
 - Users/roles planning
 - Module placeholders
+- Module registry planning
+- Organisation module enablement planning
 
 ## Phase 1 — Core Food Operations
 

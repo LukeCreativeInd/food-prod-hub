@@ -57,6 +57,8 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Release process](docs/05-release-process.md)
 - [Clean Eats discovery notes](docs/06-clean-eats-discovery-notes.md)
 - [Codex working rules](docs/07-codex-working-rules.md)
+- [Tenant / organisation architecture](docs/08-tenant-organisation-architecture.md)
+- [Database foundation plan](docs/09-database-foundation-plan.md)
 
 ## Current Scope
 
