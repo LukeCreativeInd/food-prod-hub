@@ -80,6 +80,8 @@ Organisation branding and customisation may include:
 - Currency
 - Units
 
+The Organisation Settings area should become the tenant admin area for organisation profile details, branding, enabled modules, users, roles, permissions, and operational settings. In the current foundation, it should remain a placeholder until authentication, data storage, and approved business rules are added.
+
 ## User Roles
 
 Draft initial roles:
