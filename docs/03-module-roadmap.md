@@ -1,0 +1,53 @@
+# Module Roadmap
+
+## Phase 0 — Platform foundation
+
+- App shell
+- Design system
+- Tenant structure planning
+- Organisation settings planning
+- Users/roles planning
+- Module placeholders
+
+## Phase 1 — Core Food Operations
+
+- Products
+- Ingredients
+- Components/batch recipes
+- Meals
+- Packaging
+- Suppliers
+- Costings
+- Production planning
+- Production areas
+- Production tasks
+- Tablet-friendly task logging
+- Staff action logging
+- Basic inventory
+- Goods inwards
+- Basic stock movements
+- Basic purchasing requirements
+- Basic reports
+
+## Phase 2 — QA, advanced purchasing and integrations
+
+- QA checks
+- Production sign-offs
+- Batch checks
+- Temperature logs
+- Corrective actions
+- Purchase orders
+- Xero integration
+- Label printing
+- Barcode/QR scanning
+- Supplier price updates
+
+## Phase 3 — Business management
+
+- CRM
+- Wholesale account management
+- Tasks
+- Maintenance
+- Advanced reporting
+- Klaviyo/customer insights
+- More automation

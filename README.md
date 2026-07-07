@@ -1,8 +1,19 @@
-# Clean Eats Hub
+# Food Prod Hub / Clean Eats Hub
 
-Internal food operations platform for Clean Eats.
+Food Prod Hub is a modular food manufacturing operations platform. Clean Eats Hub is the first client implementation and currently guides the first platform foundation work.
 
-This is the Hub foundation. It includes the app shell, grouped module navigation, placeholder pages, Tailwind CSS styling, and Supabase environment placeholders. Business logic, authentication, database schema, and costing calculations are intentionally not implemented yet.
+## Project Overview
+
+The platform is intended to support food manufacturers with one operating hub and modular workflows. Clean Eats is Client 1, but the codebase should be planned so future clients can use configurable modules without client-specific forks.
+
+The current app includes the foundation for an internal operations hub: app shell, grouped module navigation, placeholder pages, Tailwind CSS styling, and Supabase environment placeholders. Business logic, authentication, database schema, costing calculations, and complex Supabase behavior are intentionally not implemented yet.
+
+## Current Status
+
+- Current phase: Platform foundation
+- App shell and placeholder module pages exist
+- Design direction is Clean Eats-inspired while platform planning remains reusable
+- Documentation has been added for product direction, architecture, roadmap, development standards, release process, discovery notes, and Codex working rules
 
 ## Tech Stack
 
@@ -11,7 +22,7 @@ This is the Hub foundation. It includes the app shell, grouped module navigation
 - Tailwind CSS
 - Supabase
 
-## Getting Started
+## How To Run Locally
 
 Install dependencies:
 
@@ -36,6 +47,16 @@ pnpm dev
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 If `pnpm` asks you to approve dependency build scripts, review the listed packages and approve them according to your local development policy.
+
+## Documentation
+
+- [Product vision](docs/01-product-vision.md)
+- [Platform architecture](docs/02-platform-architecture.md)
+- [Module roadmap](docs/03-module-roadmap.md)
+- [Development standards](docs/04-development-standards.md)
+- [Release process](docs/05-release-process.md)
+- [Clean Eats discovery notes](docs/06-clean-eats-discovery-notes.md)
+- [Codex working rules](docs/07-codex-working-rules.md)
 
 ## Current Scope
 
