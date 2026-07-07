@@ -4,6 +4,8 @@
 
 This document defines the proposed order for initial Supabase database migrations. It is a planning document only. Do not create these migrations until the database scope is explicitly approved.
 
+Migrations 001 to 010 have been manually applied in Supabase. The backend foundation review document is available at [Backend Foundation Review](12-backend-foundation-review.md).
+
 ## Migration 001 — organisations
 
 Status: Drafted in `supabase/migrations/001_create_organisations.sql`. Manually applied in Supabase outside this repo workflow.

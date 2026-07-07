@@ -61,10 +61,13 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Database foundation plan](docs/09-database-foundation-plan.md)
 - [Supabase / auth plan](docs/10-supabase-auth-plan.md)
 - [First database migrations plan](docs/11-first-database-migrations-plan.md)
+- [Backend foundation review](docs/12-backend-foundation-review.md)
 
 ## Database Migrations
 
 Reviewed SQL migration and seed files live in `supabase/migrations`. They are committed for review before being applied to Supabase, including tenant foundation, organisation settings, and branding migrations.
+
+The first backend foundation block is summarised in [Backend foundation review](docs/12-backend-foundation-review.md).
 
 ## Current Scope
 
