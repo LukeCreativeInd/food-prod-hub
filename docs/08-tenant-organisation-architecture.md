@@ -100,6 +100,8 @@ Draft initial roles:
 
 These roles are planning placeholders only. Final permissions should be confirmed through discovery before implementation.
 
+The future Users admin page should manage organisation users, memberships, roles, and permission assignments. In the current foundation, it should remain a static placeholder showing how management users, platform admins, and tablet production users may be represented before authentication or persistence is added.
+
 ## MVP Tenant Approach
 
 Phase 1 can start with one seeded Clean Eats organisation, while still building data structures as tenant-aware. Even if the first usable version only has Clean Eats data, tenant-aware naming and relationships should be planned so future organisations can be added without major rewrites.

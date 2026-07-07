@@ -106,7 +106,7 @@ Key fields:
 - `created_at`
 - `updated_at`
 
-Notes: Supabase Auth may own authentication identity. The app profile layer should avoid duplicating sensitive auth responsibilities.
+Notes: Supabase Auth may own authentication identity. The app profile layer should avoid duplicating sensitive auth responsibilities. Profiles should support both management users and tablet production users.
 
 ### organisation_memberships
 
@@ -124,7 +124,7 @@ Key fields:
 - `created_by`
 - `archived_at`
 
-Notes: A user may belong to more than one organisation in the future.
+Notes: A user may belong to more than one organisation in the future. Memberships should support both desktop/admin access and simplified tablet production access.
 
 ### roles
 
@@ -140,7 +140,7 @@ Key fields:
 - `created_at`
 - `updated_at`
 
-Notes: Roles should be stable enough for permissions but flexible enough for future customisation.
+Notes: Roles should be stable enough for permissions but flexible enough for future customisation. The role model should account for management users, platform administrators, and staff users who only need task-focused tablet workflows.
 
 ### permissions
 
