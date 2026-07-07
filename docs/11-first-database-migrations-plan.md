@@ -200,6 +200,8 @@ Notes: Global modules and Clean Eats enabled modules are seeded after module tab
 
 ## Migration 010 — audit logs
 
+Status: Drafted in `supabase/migrations/010_create_audit_logs.sql`, not applied.
+
 Purpose: Record important tenant and platform actions.
 
 Table:
@@ -209,12 +211,17 @@ Table:
 Key fields:
 
 - `organisation_id`
-- `actor_user_id`
+- `actor_profile_id`
+- `actor_role_key`
 - `action`
 - `entity_type`
 - `entity_id`
+- `module_key`
+- `summary`
 - `metadata`
 - `created_at`
+
+Notes: `audit_logs` creates the future traceability foundation for tenants, users, modules and business records. Triggers and RLS will come later.
 
 ## Suggested Seed Data
 

@@ -83,6 +83,8 @@ Future route groups may include:
 
 Each protected route group should validate authentication, organisation membership, role, and permission as appropriate.
 
+Future auth, user, membership, role, tenant, and permission changes should write audit log records where appropriate, especially for administrative actions and access changes.
+
 ## Security Principles
 
 - Never trust client-side tenant selection alone.

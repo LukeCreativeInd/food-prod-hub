@@ -31,7 +31,9 @@ The proposed first migration order is documented separately in [First Database M
 
 ## Audit Logging Principle
 
-Important tenant actions should eventually write audit log entries. Audit logs should capture the organisation, actor, action, entity type, entity ID, timestamp, and useful metadata.
+Important tenant actions should eventually write audit log entries. Audit logs should capture the organisation, actor, role context, action, entity type, entity ID, module, timestamp, and useful metadata.
+
+Audit logs should be append-only where possible and should form the future traceability foundation for tenant administration, production actions, QA sign-offs, inventory movements, integration syncs, and platform support activity.
 
 Future integration connection records and sync logs may be needed once integrations are approved. These should be tenant-scoped, securely handle credential references, and record sync attempts, outcomes, and failures without designing full integration tables yet.
 
@@ -254,4 +256,4 @@ Key fields:
 - `metadata`
 - `created_at`
 
-Notes: Audit logs should be append-only where possible and retained for operational accountability.
+Notes: Audit logs should be append-only where possible and retained for operational accountability. Automatic audit triggers and detailed logging rules should be designed later once auth, memberships, roles, and RLS policies are in place.
