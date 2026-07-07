@@ -31,3 +31,14 @@ Each tenant may have its own branding, modules, users, and data. The app should 
 - Prefer configurable modules and settings over custom client code.
 - Avoid client-specific forks unless there is a clear, approved platform reason.
 - Plan platform admin tools separately from tenant operations tools.
+
+## Integration Layer Pattern
+
+Future integrations should follow this pattern where possible:
+
+1. External system
+2. Integration layer
+3. Normalised Hub data
+4. Modules use normalised data
+
+Modules should avoid being tightly coupled directly to one external provider where a reusable integration layer and normalised Hub data model would be better.

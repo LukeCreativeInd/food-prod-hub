@@ -31,6 +31,8 @@ This document outlines a proposed future database foundation for Food Prod Hub. 
 
 Important tenant actions should eventually write audit log entries. Audit logs should capture the organisation, actor, action, entity type, entity ID, timestamp, and useful metadata.
 
+Future integration connection records and sync logs may be needed once integrations are approved. These should be tenant-scoped, securely handle credential references, and record sync attempts, outcomes, and failures without designing full integration tables yet.
+
 ## RLS / Security Notes For Later
 
 - Future Supabase Row Level Security should enforce organisation boundaries.
