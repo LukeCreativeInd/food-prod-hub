@@ -91,6 +91,8 @@ Notes: Clean Eats settings/branding seed data is separate from the table creatio
 
 ## Migration 005 — profiles and memberships
 
+Status: Drafted in `supabase/migrations/005_create_profiles_and_memberships.sql`, not applied.
+
 Purpose: Link Supabase users to application profiles and organisation memberships.
 
 Tables:
@@ -100,14 +102,19 @@ Tables:
 
 Key fields:
 
-- `user_id`
+- `id`
 - `full_name`
 - `email`
+- `profile_id`
 - `organisation_id`
 - `role_key`
+- `team`
+- `access_level`
 - `status`
 - `invited_at`
 - `joined_at`
+
+Notes: Profiles and memberships prepare for Supabase Auth, but no auth UI or auth foreign key is added yet. Seed users are not added yet. Roles/permissions and RLS still come later.
 
 ## Migration 006 — modules and organisation modules
 

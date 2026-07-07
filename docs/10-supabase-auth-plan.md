@@ -56,6 +56,8 @@ Future auth and profile data should separate:
 
 This separation keeps authentication identity, app profile data, tenant access, and permissions clear.
 
+Profiles and organisation memberships will be created before auth UI is added. `profiles.id` is intended to align with Supabase auth user IDs later, while memberships define which organisations each profile can access.
+
 ## Role and Permission Approach
 
 - Roles belong to memberships or organisation context.
