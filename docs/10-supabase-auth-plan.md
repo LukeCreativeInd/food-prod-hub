@@ -96,6 +96,12 @@ Future environment variables:
 - `NEXT_PUBLIC_APP_URL`
 - `NEXT_PUBLIC_PLATFORM_DOMAIN`
 
+## Supabase Publishable Keys
+
+Supabase now labels browser-safe public API keys as Publishable keys. This project stores that publishable key in `NEXT_PUBLIC_SUPABASE_ANON_KEY` for compatibility with existing Supabase client naming and helper conventions.
+
+Secret keys, including `sb_secret_...` keys and future service-role keys, are server-only and must not be exposed to the browser.
+
 ## MVP Auth Approach
 
 Phase 1 can start with:
