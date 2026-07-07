@@ -68,6 +68,8 @@ The initial module registry should be treated as the central list of available m
 
 Database-backed module enablement is represented by a global `modules` registry and `organisation_modules` rows that enable or disable modules per organisation.
 
+Clean Eats begins with all starting modules enabled, while future tenants may have different module combinations.
+
 The future Modules admin page should manage module enablement per organisation/tenant. In the current foundation, it should remain a static placeholder showing how enabled modules, groups, and future toggles may be presented before real persistence is added.
 
 ## Branding / Customisation

@@ -180,7 +180,25 @@ Key fields:
 
 Notes: `modules` and `organisation_modules` define the database-backed module enablement layer. Module seed data and Clean Eats enabled modules come later. RLS remains deferred until memberships, roles, and module policies are designed.
 
-## Migration 009 — audit logs
+## Migration 009 — seed platform modules and Clean Eats enabled modules
+
+Status: Drafted in `supabase/migrations/009_seed_platform_modules_and_clean_eats_modules.sql`, not applied.
+
+Purpose: Seed the global platform module registry and enable starting modules for Clean Eats.
+
+Tables:
+
+- `modules`
+- `organisation_modules`
+
+Key values:
+
+- Platform modules: products, costings, production, inventory, purchasing, QA, logistics, wholesale, CRM, reports, admin
+- Clean Eats enabled modules: all starting platform modules
+
+Notes: Global modules and Clean Eats enabled modules are seeded after module tables exist. Future tenants can have different `organisation_modules` rows without custom code forks. RLS remains deferred.
+
+## Migration 010 — audit logs
 
 Purpose: Record important tenant and platform actions.
 
@@ -203,7 +221,7 @@ Key fields:
 - Clean Eats organisation seeded in Migration 002
 - Clean Eats settings and branding seeded in Migration 004
 - Default roles and permissions seeded in Migration 007
-- Default enabled modules
+- Platform modules and Clean Eats enabled modules seeded in Migration 009
 - Initial admin user placeholder
 
 ## RLS Planning Notes
