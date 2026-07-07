@@ -116,7 +116,29 @@ Key fields:
 
 Notes: Profiles and memberships prepare for Supabase Auth, but no auth UI or auth foreign key is added yet. Seed users are not added yet. Roles/permissions and RLS still come later.
 
-## Migration 006 — modules and organisation modules
+## Migration 006 — roles and permissions
+
+Status: Drafted in `supabase/migrations/006_create_roles_and_permissions.sql`, not applied.
+
+Purpose: Define the role and permission model for tenant and platform access.
+
+Tables:
+
+- `roles`
+- `permissions`
+- `role_permissions`
+
+Key fields:
+
+- `role_key`
+- `permission_key`
+- `module_key`
+- `action_key`
+- `description`
+
+Notes: Roles and permissions are created before seed data. `organisation_memberships.role_key` will later align with `roles.role_key`. RLS remains deferred until roles, permissions, and memberships are seeded.
+
+## Migration 007 — modules and organisation modules
 
 Purpose: Define available platform modules and enable them per organisation.
 
@@ -132,22 +154,6 @@ Key fields:
 - `group`
 - `phase`
 - `enabled`
-
-## Migration 007 — roles and permissions
-
-Purpose: Define the role and permission model for tenant and platform access.
-
-Tables:
-
-- `roles`
-- `permissions`
-- `role_permissions`
-
-Key fields:
-
-- `role_key`
-- `permission_key`
-- `description`
 
 ## Migration 008 — audit logs
 

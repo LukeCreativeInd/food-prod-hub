@@ -65,6 +65,8 @@ Profiles and organisation memberships will be created before auth UI is added. `
 - Staff/tablet users may have limited access to production task screens.
 - Admin users may access organisation settings, users, modules, and integrations.
 
+Roles and permissions will eventually control module and action access after login. Tablet users should receive limited production-task permissions, such as viewing assigned tasks and completing task logging, without broad admin or reporting access.
+
 Roles and permissions should be implemented only after the tenant and auth model is approved.
 
 ## Protected Routes
