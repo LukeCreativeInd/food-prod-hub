@@ -14,6 +14,8 @@ Auth context visibility has been added through the dashboard status card documen
 
 Basic route protection has been added and documented at [Basic Route Protection](20-basic-route-protection.md).
 
+Public auth and protected app layouts have been separated and documented at [Public Auth and Protected App Layouts](21-public-auth-and-protected-app-layouts.md).
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State
@@ -179,6 +181,7 @@ Stage 1:
 - Add login/logout. Completed.
 - Detect current user.
 - Redirect unauthenticated users away from protected routes. Completed.
+- Separate public auth layout from protected app shell. Completed.
 
 Stage 2:
 

@@ -1,3 +1,4 @@
+import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
@@ -171,7 +172,7 @@ export default async function UsersPage() {
   await requireAuth();
 
   return (
-    <>
+    <AppShell>
       <PageHeader
         title="Users & Roles"
         description="Users will eventually be managed per organisation/tenant, with roles controlling access to modules, production tasks, QA checks, reports, and admin areas."
@@ -308,6 +309,6 @@ export default async function UsersPage() {
           />
         </SectionCard>
       </div>
-    </>
+    </AppShell>
   );
 }

@@ -1,3 +1,4 @@
+import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
@@ -155,7 +156,7 @@ export default async function IntegrationsPage() {
   await requireAuth();
 
   return (
-    <>
+    <AppShell>
       <PageHeader
         title="Integrations"
         description="Integrations will eventually connect each organisation/tenant to external systems for orders, purchasing, accounting, delivery, marketing, and imports."
@@ -292,6 +293,6 @@ export default async function IntegrationsPage() {
           />
         </SectionCard>
       </div>
-    </>
+    </AppShell>
   );
 }

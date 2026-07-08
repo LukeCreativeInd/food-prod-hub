@@ -6,6 +6,8 @@ Basic Supabase Auth route protection has been added.
 
 This does not add RLS, middleware, permission-based route restrictions, database migrations, user creation, membership creation or business module data queries.
 
+Update: route protection now runs inside the separated protected app layout structure. `/login` uses a standalone public auth layout with no sidebar.
+
 ## Route Protection Approach
 
 The app uses a small reusable server guard:

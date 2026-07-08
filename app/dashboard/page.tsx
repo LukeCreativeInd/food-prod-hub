@@ -1,4 +1,5 @@
 import { AuthContextStatus } from "@/components/auth/auth-context-status";
+import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
   ActivityItem,
@@ -145,7 +146,7 @@ export default async function DashboardPage() {
   await requireAuth();
 
   return (
-    <>
+    <AppShell>
       <PageHeader
         title="Dashboard"
         description="Command centre for the Clean Eats Hub platform foundation."
@@ -257,6 +258,6 @@ export default async function DashboardPage() {
 
         <AuthContextStatus />
       </div>
-    </>
+    </AppShell>
   );
 }

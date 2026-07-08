@@ -1,3 +1,4 @@
+import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
@@ -65,7 +66,7 @@ export default async function ModulesPage() {
   await requireAuth();
 
   return (
-    <>
+    <AppShell>
       <PageHeader
         title="Modules"
         description="Modules will eventually be enabled or disabled per organisation/tenant. This Clean Eats view is static only and does not save changes."
@@ -166,6 +167,6 @@ export default async function ModulesPage() {
           />
         </SectionCard>
       </div>
-    </>
+    </AppShell>
   );
 }

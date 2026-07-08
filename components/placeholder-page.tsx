@@ -1,3 +1,4 @@
+import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState, PageActionButton, SectionCard } from "@/components/ui";
 import { requireAuth } from "@/lib/auth";
@@ -14,7 +15,7 @@ export async function PlaceholderPage({
   await requireAuth();
 
   return (
-    <>
+    <AppShell>
       <PageHeader title={title} description={description} />
       <div className="space-y-6 px-5 py-6 md:px-8">
         <SectionCard
@@ -32,6 +33,6 @@ export async function PlaceholderPage({
           />
         </SectionCard>
       </div>
-    </>
+    </AppShell>
   );
 }

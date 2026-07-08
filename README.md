@@ -19,6 +19,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Auth context helpers can resolve profile, Clean Eats membership, organisation and permissions after manual setup exists
 - Dashboard includes a small auth context status card for setup verification
 - Basic Supabase Auth route protection is enabled for app pages
+- `/login` uses a standalone public auth layout; protected pages use the app shell/sidebar
 
 ## Tech Stack
 
@@ -75,6 +76,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Profile, membership and organisation helpers](docs/18-profile-membership-organisation-helpers.md)
 - [Auth context status](docs/19-auth-context-status.md)
 - [Basic route protection](docs/20-basic-route-protection.md)
+- [Public auth and protected app layouts](docs/21-public-auth-and-protected-app-layouts.md)
 
 ## Database Migrations
 
@@ -97,6 +99,8 @@ Auth context helper behaviour is documented in [Profile, membership and organisa
 The dashboard verification card is documented in [Auth context status](docs/19-auth-context-status.md).
 
 Basic route protection is documented in [Basic route protection](docs/20-basic-route-protection.md).
+
+The public auth/protected app layout split is documented in [Public auth and protected app layouts](docs/21-public-auth-and-protected-app-layouts.md).
 
 ## Current Scope
 

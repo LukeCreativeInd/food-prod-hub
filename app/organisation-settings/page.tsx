@@ -1,3 +1,4 @@
+import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
@@ -65,7 +66,7 @@ export default async function OrganisationSettingsPage() {
   await requireAuth();
 
   return (
-    <>
+    <AppShell>
       <PageHeader
         title="Organisation Settings"
         description="Tenant profile, branding, module access, and future organisation administration placeholders."
@@ -150,6 +151,6 @@ export default async function OrganisationSettingsPage() {
           />
         </SectionCard>
       </div>
-    </>
+    </AppShell>
   );
 }
