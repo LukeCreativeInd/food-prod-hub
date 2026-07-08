@@ -100,6 +100,8 @@ Staff should review the dummy modules over the next few days and provide feedbac
 
 ## CSV/Data Collection Order
 
+The Products UI skeleton has now been aligned to this collection order. The Products sidebar shows Suppliers, Ingredients, Packaging, Components, Recipes and Finished Products, with `Meals` removed from visible Products navigation for now.
+
 Agreed order:
 
 1. Suppliers

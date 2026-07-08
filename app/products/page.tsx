@@ -12,28 +12,20 @@ import { requireAppAccess } from "@/lib/auth";
 
 const summaryCards = [
   {
+    label: "Suppliers",
+    value: "6",
+    helperText: "Supplier placeholders collected before product data import.",
+    badge: "Sample",
+    tone: "info" as const,
+    icon: "SU",
+  },
+  {
     label: "Ingredients",
     value: "42",
     helperText: "Sample raw material records for screen review.",
     badge: "Sample",
     tone: "info" as const,
     icon: "IN",
-  },
-  {
-    label: "Components",
-    value: "14",
-    helperText: "Batch recipes, mixes and prepared component placeholders.",
-    badge: "Draft",
-    tone: "neutral" as const,
-    icon: "CP",
-  },
-  {
-    label: "Meals",
-    value: "28",
-    helperText: "Finished product placeholders for future meal structures.",
-    badge: "Sample",
-    tone: "success" as const,
-    icon: "ML",
   },
   {
     label: "Packaging",
@@ -44,12 +36,28 @@ const summaryCards = [
     icon: "PK",
   },
   {
-    label: "Suppliers",
-    value: "6",
-    helperText: "Supplier placeholders linked to products later.",
-    badge: "Sample",
+    label: "Components",
+    value: "14",
+    helperText: "Batch recipes, mixes and prepared component placeholders.",
+    badge: "Draft",
+    tone: "neutral" as const,
+    icon: "CP",
+  },
+  {
+    label: "Recipes",
+    value: "18",
+    helperText: "Recipe structure placeholders linking inputs to outputs.",
+    badge: "New",
     tone: "info" as const,
-    icon: "SU",
+    icon: "RC",
+  },
+  {
+    label: "Finished Products",
+    value: "28",
+    helperText: "Sellable/output item placeholders for production and sales.",
+    badge: "Sample",
+    tone: "success" as const,
+    icon: "FP",
   },
   {
     label: "Setup prompts",
@@ -63,21 +71,15 @@ const summaryCards = [
 
 const moduleAreas = [
   {
+    title: "Suppliers",
+    description: "Supplier records collected before ingredients and packaging.",
+    href: "/suppliers",
+    eyebrow: "Products",
+  },
+  {
     title: "Ingredients",
     description: "Raw materials used across meals, components and production.",
     href: "/ingredients",
-    eyebrow: "Products",
-  },
-  {
-    title: "Components",
-    description: "Batch recipes, mixes and prepared components.",
-    href: "/components",
-    eyebrow: "Products",
-  },
-  {
-    title: "Meals",
-    description: "Finished products built from ingredients and packaging.",
-    href: "/meals",
     eyebrow: "Products",
   },
   {
@@ -87,9 +89,21 @@ const moduleAreas = [
     eyebrow: "Products",
   },
   {
-    title: "Suppliers",
-    description: "Supplier records that will link to ingredients and packaging.",
-    href: "/suppliers",
+    title: "Components",
+    description: "Batch recipes, mixes and prepared components.",
+    href: "/components",
+    eyebrow: "Products",
+  },
+  {
+    title: "Recipes",
+    description: "Recipe definitions linking components, ingredients and packaging.",
+    href: "/recipes",
+    eyebrow: "Products",
+  },
+  {
+    title: "Finished Products",
+    description: "Sellable/output items produced from recipes.",
+    href: "/finished-products",
     eyebrow: "Products",
   },
 ];
@@ -98,13 +112,13 @@ const recentUpdates = [
   {
     title: "Products skeleton created",
     description:
-      "Overview, ingredients, components, meals, packaging and suppliers are ready for staff review.",
+      "Overview, suppliers, ingredients, packaging, components, recipes and finished products are ready for staff review.",
     meta: "Step 042",
   },
   {
     title: "Terminology review needed",
     description:
-      "Components, batch recipes, mixes and meals need Tony/team confirmation.",
+      "Components, batch recipes, recipes and finished products need Tony/team confirmation.",
     meta: "Review",
   },
   {
@@ -122,7 +136,7 @@ export default async function ProductsPage() {
     <AppShell>
       <PageHeader
         title="Products"
-        description="Product data foundation for ingredients, components, meals, packaging and suppliers."
+        description="Product data foundation for suppliers, ingredients, packaging, components, recipes and finished products."
       />
       <div className="space-y-6 px-5 py-6 md:px-8">
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -138,13 +152,18 @@ export default async function ProductsPage() {
             action={<StatusBadge tone="info">Placeholder</StatusBadge>}
           >
             <div className="grid gap-3 sm:grid-cols-2">
-              {["Add Ingredient", "Add Component", "Add Meal", "Add Supplier"].map(
-                (action) => (
-                  <PageActionButton key={action} variant="secondary">
-                    {action}
-                  </PageActionButton>
-                ),
-              )}
+              {[
+                "Add Supplier",
+                "Add Ingredient",
+                "Add Packaging",
+                "Add Component",
+                "Add Recipe",
+                "Add Finished Product",
+              ].map((action) => (
+                <PageActionButton key={action} variant="secondary">
+                  {action}
+                </PageActionButton>
+              ))}
             </div>
           </SectionCard>
 
@@ -166,6 +185,7 @@ export default async function ProductsPage() {
             <div className="space-y-3">
               {[
                 "Confirm whether Components means batch recipes, mixes or both.",
+                "Confirm how Recipes differ from Components and Finished Products.",
                 "Confirm required supplier and packaging fields.",
                 "Confirm which missing data warnings matter first.",
               ].map((prompt) => (

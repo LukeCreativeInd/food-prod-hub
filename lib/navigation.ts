@@ -42,8 +42,18 @@ export const navigationGroups: NavigationGroup[] = [
     iconKey: "products",
     items: [
       {
+        label: "Suppliers",
+        href: "/suppliers",
+        requiredModuleKey: "products",
+      },
+      {
         label: "Ingredients",
         href: "/ingredients",
+        requiredModuleKey: "products",
+      },
+      {
+        label: "Packaging",
+        href: "/packaging",
         requiredModuleKey: "products",
       },
       {
@@ -51,15 +61,14 @@ export const navigationGroups: NavigationGroup[] = [
         href: "/components",
         requiredModuleKey: "products",
       },
-      { label: "Meals", href: "/meals", requiredModuleKey: "products" },
       {
-        label: "Packaging",
-        href: "/packaging",
+        label: "Recipes",
+        href: "/recipes",
         requiredModuleKey: "products",
       },
       {
-        label: "Suppliers",
-        href: "/suppliers",
+        label: "Finished Products",
+        href: "/finished-products",
         requiredModuleKey: "products",
       },
     ],

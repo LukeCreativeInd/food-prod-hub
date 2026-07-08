@@ -42,6 +42,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Staff meeting outcomes now prioritise Phase 1 demo modules for Products, Costings, Production and Inventory
 - Costings module UI skeleton has been added using sample data only
 - Costings demo pages now include Ingredient Costs, Packaging Costs and Component Costs
+- Products navigation now follows the staff meeting data order: Suppliers, Ingredients, Packaging, Components, Recipes, Finished Products
 
 ## Tech Stack
 

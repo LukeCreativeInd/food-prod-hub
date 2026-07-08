@@ -77,3 +77,32 @@ Recommended next step:
 The Products skeleton should be reviewed with Tony/team before real database tables or real Clean Eats imports are created.
 
 The staff review pack now exists at [Staff Review Pack - Products/UI Foundation](43-staff-review-pack-products-ui.md).
+
+## 042 Follow-Up: Products Structure Aligned To Staff Meeting
+
+The Products module skeleton has been aligned to the agreed staff meeting CSV/data collection order:
+
+1. Suppliers
+2. Ingredients
+3. Packaging
+4. Components and Batch Recipes / Items
+5. Recipes
+6. Finished Product
+
+Products navigation now shows:
+
+- Suppliers
+- Ingredients
+- Packaging
+- Components
+- Recipes
+- Finished Products
+
+`Recipes` and `Finished Products` have been added as sample UI pages:
+
+- `/recipes`
+- `/finished-products`
+
+`Meals` is no longer the visible Products navigation label for now. The existing `/meals` route remains as a legacy placeholder but is no longer shown in the Products sidebar.
+
+No real product data, database tables, Supabase queries, calculations or imports were added. This follow-up keeps the Products UI skeleton aligned with the source CSV/data collection structure before database modelling begins.
