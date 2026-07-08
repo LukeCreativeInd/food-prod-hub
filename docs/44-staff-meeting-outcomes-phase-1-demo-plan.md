@@ -252,6 +252,8 @@ This has now been added and documented in [Module-Level Permission-Aware Navigat
 - only after access plan is reviewed
 - no Admin/platform access
 
+The manual setup guide now exists at [Demo/Test User Manual Setup](52-demo-test-user-manual-setup.md). This completes setup planning before the staff demo review round; the actual user/profile/membership must still be created manually and tested.
+
 ### 053 - Staff Demo Review Round
 
 - staff review Phase 1 modules with test user

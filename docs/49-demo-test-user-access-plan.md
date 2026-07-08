@@ -163,6 +163,8 @@ This has now been added and documented in [Module-Level Permission-Aware Navigat
 - verify context
 - test login
 
+The manual setup guide now exists at [Demo/Test User Manual Setup](52-demo-test-user-manual-setup.md). It includes Supabase Auth steps, profile and membership SQL templates, access checks and staff review instructions.
+
 ### 053 - Staff Demo Review Round
 
 - provide login to staff
@@ -171,6 +173,8 @@ This has now been added and documented in [Module-Level Permission-Aware Navigat
 ## Demo User Manual Setup Plan
 
 Documented for later only. Do not execute during this planning task.
+
+Detailed setup instructions are now documented at [Demo/Test User Manual Setup](52-demo-test-user-manual-setup.md).
 
 1. Create Supabase Auth user.
 2. Copy Auth user ID.

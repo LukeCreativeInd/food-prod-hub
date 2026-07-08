@@ -115,3 +115,5 @@ Recommended next step:
 **052 - Create Demo/Test User Manual Setup**
 
 Create the Supabase Auth user, matching profile and Clean Eats membership with `role_key = phase_1_demo_user`, then verify the sidebar shows only the intended Phase 1 demo modules.
+
+Module-level navigation is ready to support demo user setup. The manual setup guide is documented at [Demo/Test User Manual Setup](52-demo-test-user-manual-setup.md).

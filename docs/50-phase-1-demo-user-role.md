@@ -91,6 +91,8 @@ This migration does not create:
 
 The demo/test user should still be created manually later after navigation and route access have been reviewed.
 
+The manual demo/test user setup guide now exists at [Demo/Test User Manual Setup](52-demo-test-user-manual-setup.md).
+
 ## Sidebar Visibility Support
 
 The seeded `phase_1_demo_user` role is now supported by sidebar module visibility logic documented in [Module-Level Permission-Aware Navigation](51-module-level-permission-aware-navigation.md).
@@ -118,3 +120,5 @@ Recommended next step:
 **052 - Create Demo/Test User Manual Setup**
 
 Create the Supabase Auth user, profile and Clean Eats membership with `role_key = phase_1_demo_user`, then verify the sidebar visibility and page access before sharing the login for staff review.
+
+Detailed instructions are documented in [Demo/Test User Manual Setup](52-demo-test-user-manual-setup.md).
