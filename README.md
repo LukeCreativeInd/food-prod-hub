@@ -40,6 +40,8 @@ The current app includes the foundation for an internal operations hub: app shel
 - Products module UI skeleton has been added using sample data only
 - Staff review pack for the Products/UI foundation has been prepared
 - Staff meeting outcomes now prioritise Phase 1 demo modules for Products, Costings, Production and Inventory
+- Costings module UI skeleton has been added using sample data only
+- Costings demo pages now include Ingredient Costs, Packaging Costs and Component Costs
 
 ## Tech Stack
 
@@ -120,6 +122,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Products module UI skeleton](docs/42-products-module-ui-skeleton.md)
 - [Staff review pack for Products/UI foundation](docs/43-staff-review-pack-products-ui.md)
 - [Staff meeting outcomes and Phase 1 demo plan](docs/44-staff-meeting-outcomes-phase-1-demo-plan.md)
+- [Costings module UI skeleton](docs/45-costings-module-ui-skeleton.md)
 
 ## Database Migrations
 
@@ -190,6 +193,8 @@ The Products module UI skeleton is documented in [Products module UI skeleton](d
 The Products/UI staff review pack is documented in [Staff review pack for Products/UI foundation](docs/43-staff-review-pack-products-ui.md).
 
 The staff meeting outcomes and Phase 1 demo build direction are documented in [Staff meeting outcomes and Phase 1 demo plan](docs/44-staff-meeting-outcomes-phase-1-demo-plan.md).
+
+The Costings module UI skeleton is documented in [Costings module UI skeleton](docs/45-costings-module-ui-skeleton.md).
 
 ## Current Scope
 

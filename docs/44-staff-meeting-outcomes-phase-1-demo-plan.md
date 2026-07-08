@@ -199,6 +199,10 @@ For now, Production module demo screens should include a preview of this flow us
 - sample data only
 - cost status, margins, missing cost prompts and price history placeholders
 
+This has now been created and documented in [Costings Module UI Skeleton](45-costings-module-ui-skeleton.md).
+
+The Costings demo scope now includes ingredient, packaging, component, meal margin and price history review pages so staff can review how costs may flow before real costing tables or calculations are designed.
+
 ### 046 - Production Module UI Skeleton
 
 - sample data only

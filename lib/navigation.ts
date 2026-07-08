@@ -71,6 +71,21 @@ export const navigationGroups: NavigationGroup[] = [
     iconKey: "costings",
     items: [
       {
+        label: "Ingredient Costs",
+        href: "/ingredient-costs",
+        requiredModuleKey: "costings",
+      },
+      {
+        label: "Packaging Costs",
+        href: "/packaging-costs",
+        requiredModuleKey: "costings",
+      },
+      {
+        label: "Component Costs",
+        href: "/component-costs",
+        requiredModuleKey: "costings",
+      },
+      {
         label: "Meal Margins",
         href: "/meal-margins",
         requiredModuleKey: "costings",
