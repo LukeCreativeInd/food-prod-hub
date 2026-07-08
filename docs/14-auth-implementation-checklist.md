@@ -6,6 +6,8 @@ This is a planning and build checklist only.
 
 The auth helper foundation and basic login/logout UI have now been added. No users, memberships, RLS policies or app database queries have been implemented yet.
 
+First admin setup instructions have been created at [First Admin Setup](17-first-admin-setup.md), but the manual setup itself is not completed by this repo task.
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State
@@ -108,6 +110,8 @@ Potential future platform routes:
 These routes are planned only. They are not implemented by this document.
 
 ## First Admin User Setup Checklist
+
+Manual setup instructions are available in [First Admin Setup](17-first-admin-setup.md). These instructions have been created, but the user/profile/membership setup must still be completed manually in Supabase.
 
 Safe first admin setup sequence:
 

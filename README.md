@@ -15,6 +15,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Design direction is Clean Eats-inspired while platform planning remains reusable
 - Documentation has been added for product direction, architecture, roadmap, development standards, release process, discovery notes, and Codex working rules
 - Supabase Auth helper foundation and basic login/logout UI exist, but route protection is not implemented yet
+- First admin setup instructions exist, but no users or memberships are created by the app yet
 
 ## Tech Stack
 
@@ -67,6 +68,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Auth implementation checklist](docs/14-auth-implementation-checklist.md)
 - [Auth helper foundation](docs/15-auth-helper-foundation.md)
 - [Login and logout UI](docs/16-login-and-logout-ui.md)
+- [First admin setup](docs/17-first-admin-setup.md)
 
 ## Database Migrations
 
@@ -81,6 +83,8 @@ The practical auth build sequence is tracked in [Auth implementation checklist](
 The initial auth helper structure is documented in [Auth helper foundation](docs/15-auth-helper-foundation.md).
 
 The basic auth entry points are documented in [Login and logout UI](docs/16-login-and-logout-ui.md).
+
+Manual first admin setup is documented in [First admin setup](docs/17-first-admin-setup.md).
 
 ## Current Scope
 

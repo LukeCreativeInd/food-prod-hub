@@ -68,4 +68,6 @@ RLS is still not enabled. It should remain deferred until the first admin auth u
 
 The next recommended step is to manually create the first Supabase Auth user, then create the matching profile and Clean Eats membership in a controlled setup flow.
 
+Follow [First Admin Setup](17-first-admin-setup.md) before testing the login flow with Luke's real admin user.
+
 After that, the app can add profile, membership and current organisation helpers before adding route protection.
