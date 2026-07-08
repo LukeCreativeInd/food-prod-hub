@@ -10,6 +10,8 @@ The practical implementation checklist now lives at [Auth Implementation Checkli
 
 The auth/navigation implementation foundation is now complete and summarised in [Auth and Navigation Foundation Review](26-auth-and-navigation-foundation-review.md). RLS planning is the next major checkpoint.
 
+Detailed RLS planning has now started in [RLS Planning](27-rls-planning.md). That document maps the staged approach for helper functions, first policies, tenant-owned tables, audit logs and rollout safety before any RLS policies are created.
+
 ## Auth Goal
 
 The goal is:

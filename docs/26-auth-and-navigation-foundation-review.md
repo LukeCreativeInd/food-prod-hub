@@ -6,6 +6,8 @@ The auth and navigation foundation is now in place.
 
 This is the checkpoint after login/logout, first admin setup, route protection, permission-aware admin access and enabled-module-aware navigation.
 
+The next security planning checkpoint has started in [RLS Planning](27-rls-planning.md).
+
 Current state:
 
 - RLS is still not enabled.
@@ -210,6 +212,8 @@ Before enabling RLS:
 Recommended next phase:
 
 RLS Planning and Staged RLS Foundation
+
+The detailed planning document now lives at [RLS Planning](27-rls-planning.md).
 
 Suggested next steps:
 
