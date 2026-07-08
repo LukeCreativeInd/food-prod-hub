@@ -13,6 +13,8 @@ They require:
 
 This does not add RLS, permission-based page restrictions, database migrations, user creation, membership creation or business module data queries.
 
+Update: selected admin/configuration routes now have permission-aware guards on top of membership-aware access. See [Admin Permission Route Guard](23-admin-permission-route-guard.md).
+
 ## What Changed
 
 A new guard was added:

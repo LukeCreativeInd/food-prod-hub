@@ -21,6 +21,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Basic Supabase Auth route protection is enabled for app pages
 - `/login` uses a standalone public auth layout; protected pages use the app shell/sidebar
 - Protected app pages require a valid profile, active Clean Eats membership, and active organisation context
+- Selected admin/configuration routes now require matching view permissions
 
 ## Tech Stack
 
@@ -79,6 +80,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Basic route protection](docs/20-basic-route-protection.md)
 - [Public auth and protected app layouts](docs/21-public-auth-and-protected-app-layouts.md)
 - [Membership-aware route guard](docs/22-membership-aware-route-guard.md)
+- [Admin permission route guard](docs/23-admin-permission-route-guard.md)
 
 ## Database Migrations
 
@@ -106,6 +108,8 @@ The public auth/protected app layout split is documented in [Public auth and pro
 
 Membership-aware app access is documented in [Membership-aware route guard](docs/22-membership-aware-route-guard.md).
 
+Admin/configuration permission guarding is documented in [Admin permission route guard](docs/23-admin-permission-route-guard.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -115,5 +119,6 @@ Membership-aware app access is documented in [Membership-aware route guard](docs
 - Basic Supabase Auth login/logout UI
 - Basic app route protection for signed-in users
 - Membership-aware app access for protected pages
+- Permission-aware route protection for selected admin/configuration pages
 
 No costing logic, RLS policies, app business-data queries, permission-based route restrictions, or complex Supabase behavior has been added.

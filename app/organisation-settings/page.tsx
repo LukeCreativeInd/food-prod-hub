@@ -7,7 +7,7 @@ import {
   SectionCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requirePermissionAccess } from "@/lib/auth";
 import { availableModules } from "@/lib/module-registry";
 
 const cleanEatsOrganisation = {
@@ -63,7 +63,7 @@ function DetailGrid({ items }: { items: string[][] }) {
 }
 
 export default async function OrganisationSettingsPage() {
-  await requireAppAccess();
+  await requirePermissionAccess("admin.organisation.view");
 
   return (
     <AppShell>

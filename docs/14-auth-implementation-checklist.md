@@ -18,6 +18,8 @@ Public auth and protected app layouts have been separated and documented at [Pub
 
 Membership-aware route guarding has been added and documented at [Membership-Aware Route Guard](22-membership-aware-route-guard.md).
 
+Admin permission route guarding has been added and documented at [Admin Permission Route Guard](23-admin-permission-route-guard.md).
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State
@@ -195,8 +197,8 @@ Stage 2:
 
 Stage 3:
 
-- Add role/permission checks.
-- Restrict admin routes.
+- Add role/permission checks. Completed.
+- Restrict admin routes. Completed for selected admin/configuration pages.
 - Restrict tablet routes.
 - Restrict platform routes.
 
