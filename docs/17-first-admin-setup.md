@@ -8,6 +8,8 @@ No users or memberships have been created by this task. RLS is still not enabled
 
 The login page exists, but it will only work after a Supabase Auth user exists.
 
+Once the profile and membership rows exist, the auth context helpers can now resolve the current admin profile, Clean Eats membership, organisation and role key.
+
 ## Why This Step Exists
 
 Before protected routes or RLS are enabled, the platform needs one verified admin user who can sign in and be linked to Clean Eats.
@@ -157,6 +159,8 @@ join public.organisations
   on organisations.id = organisation_memberships.organisation_id
 where profiles.id = 'AUTH_USER_ID';
 ```
+
+After this query returns the expected row, the app helpers in `lib/auth/` can resolve the current admin context.
 
 ## Manual Step 6 - Test Login
 

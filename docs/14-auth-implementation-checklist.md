@@ -8,6 +8,8 @@ The auth helper foundation and basic login/logout UI have now been added. No use
 
 First admin setup instructions have been created at [First Admin Setup](17-first-admin-setup.md), but the manual setup itself is not completed by this repo task.
 
+Profile, membership and current organisation helpers have been implemented and documented at [Profile, Membership and Organisation Helpers](18-profile-membership-organisation-helpers.md).
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State
@@ -176,8 +178,8 @@ Stage 1:
 
 Stage 2:
 
-- Load current profile and membership.
-- Establish current organisation context.
+- Load current profile and membership. Completed.
+- Establish current organisation context. Completed.
 - Show safe fallback if no membership exists.
 
 Stage 3:
@@ -269,7 +271,7 @@ Audit logging should not block initial auth rollout. Automatic triggers can come
 4. Add protected route handling.
 5. Manually create Luke auth user.
 6. Manually create Luke profile and Clean Eats membership.
-7. Add profile/membership/current organisation helpers.
+7. Add profile/membership/current organisation helpers. Completed.
 8. Add route-level permission checks.
 9. Test locally.
 10. Test on Vercel.
