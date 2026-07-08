@@ -75,3 +75,5 @@ Recommended next step:
 **043 - Staff Review Pack / Products Terminology Review**
 
 The Products skeleton should be reviewed with Tony/team before real database tables or real Clean Eats imports are created.
+
+The staff review pack now exists at [Staff Review Pack - Products/UI Foundation](43-staff-review-pack-products-ui.md).

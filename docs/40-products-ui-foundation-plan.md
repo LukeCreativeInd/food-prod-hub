@@ -260,6 +260,8 @@ This should not be overbuilt before the core Clean Eats pilot modules have real 
 
 ## Staff Review Plan
 
+The staff review pack for the Products/UI skeleton has now been prepared in [Staff Review Pack - Products/UI Foundation](43-staff-review-pack-products-ui.md).
+
 Reviewers:
 
 - Tony: production/director/product structure

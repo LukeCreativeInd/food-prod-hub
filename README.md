@@ -38,6 +38,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Sidebar navigation now separates Production, Inventory, QA, Logistics, CRM and Reports into top-level modules
 - Sidebar duplicate overview child links have been removed; parent modules now act as overview links
 - Products module UI skeleton has been added using sample data only
+- Staff review pack for the Products/UI foundation has been prepared
 
 ## Tech Stack
 
@@ -116,6 +117,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Products/UI foundation plan](docs/40-products-ui-foundation-plan.md)
 - [Global visual direction polish](docs/41-global-visual-direction-polish.md)
 - [Products module UI skeleton](docs/42-products-module-ui-skeleton.md)
+- [Staff review pack for Products/UI foundation](docs/43-staff-review-pack-products-ui.md)
 
 ## Database Migrations
 
@@ -182,6 +184,8 @@ The Phase 3 Products/UI Foundation plan is documented in [Products/UI foundation
 The first global visual polish pass is documented in [Global visual direction polish](docs/41-global-visual-direction-polish.md).
 
 The Products module UI skeleton is documented in [Products module UI skeleton](docs/42-products-module-ui-skeleton.md).
+
+The Products/UI staff review pack is documented in [Staff review pack for Products/UI foundation](docs/43-staff-review-pack-products-ui.md).
 
 ## Current Scope
 
