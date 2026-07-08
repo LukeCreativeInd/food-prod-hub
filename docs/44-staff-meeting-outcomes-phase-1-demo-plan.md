@@ -237,6 +237,8 @@ This has now been created and documented in [Demo/Test User Access Plan](49-demo
 - create or seed `phase_1_demo_user`
 - assign selected Phase 1 view permissions only
 
+This seed migration has now been drafted and documented in [Phase 1 Demo User Role](50-phase-1-demo-user-role.md). It creates the `phase_1_demo_user` role and selected view-only permission assignments for later manual demo user setup.
+
 ### 051 - Module-Level Permission-Aware Navigation
 
 - ensure non-admin modules are hidden if the user lacks the module view permission

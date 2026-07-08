@@ -139,6 +139,12 @@ Before creating the test user, confirm or implement module-level view-permission
 - create or seed `phase_1_demo_user` role
 - assign selected view permissions only
 
+This seed migration has now been drafted for review:
+
+`supabase/migrations/016_seed_phase_1_demo_user_role.sql`
+
+It creates the role and selected view-only role permission assignments. It does not create the actual demo user, profile or membership.
+
 ### 051 - Module-Level Permission-Aware Navigation
 
 - ensure non-admin modules are hidden if the user lacks the module view permission

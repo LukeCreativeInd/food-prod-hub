@@ -47,6 +47,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Inventory module UI skeleton has been added with goods inwards, batch, movement, purchasing and BOM/traceability previews
 - Dashboard has been refreshed as the Phase 1 demo landing page for staff review
 - Demo/test user access planning has been added before any staff demo user is created
+- Phase 1 demo user role seed migration has been drafted for review
 
 ## Tech Stack
 
@@ -132,6 +133,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Inventory module UI skeleton](docs/47-inventory-module-ui-skeleton.md)
 - [Phase 1 dashboard refresh](docs/48-phase-1-dashboard-refresh.md)
 - [Demo/test user access plan](docs/49-demo-test-user-access-plan.md)
+- [Phase 1 demo user role](docs/50-phase-1-demo-user-role.md)
 
 ## Database Migrations
 
@@ -212,6 +214,8 @@ The Inventory module UI skeleton is documented in [Inventory module UI skeleton]
 The Phase 1 dashboard refresh is documented in [Phase 1 dashboard refresh](docs/48-phase-1-dashboard-refresh.md).
 
 The demo/test user access plan is documented in [Demo/test user access plan](docs/49-demo-test-user-access-plan.md).
+
+The Phase 1 demo user role seed is documented in [Phase 1 demo user role](docs/50-phase-1-demo-user-role.md).
 
 ## Current Scope
 
