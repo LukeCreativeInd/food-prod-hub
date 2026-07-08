@@ -4,7 +4,7 @@
 
 This is a planning and build checklist only.
 
-No auth UI, auth helpers, users, memberships, RLS policies or app database queries have been implemented yet.
+The auth helper foundation has now been added. No auth UI, users, memberships, RLS policies or app database queries have been implemented yet.
 
 This checklist should be completed step by step before enabling RLS broadly.
 
@@ -35,11 +35,9 @@ The app is not connected to live database data yet.
 Current `package.json` status:
 
 - `@supabase/supabase-js` is installed.
-- `@supabase/ssr` is not currently installed.
+- `@supabase/ssr` is installed.
 
-Do not install packages as part of this checklist document.
-
-Future auth implementation may need `@supabase/ssr` if the app uses Supabase server clients for server components, server actions, middleware or cookie-based session handling.
+The helper foundation added `@supabase/ssr` for Next.js App Router client/server helpers.
 
 ## Environment Variable Checklist
 
@@ -58,7 +56,7 @@ Notes:
 
 ## Supabase Client Helper Plan
 
-Future helper files may include:
+Current helper files:
 
 - `lib/supabase/client.ts`
 - `lib/supabase/server.ts`
@@ -74,6 +72,12 @@ Expected responsibilities:
 - Server client for server components and server actions.
 - User, profile and membership helpers for tenant context.
 - Permission helpers for route and action checks.
+
+Current status:
+
+- Browser and server Supabase client helpers are created.
+- `getCurrentUser()` is created and reads Supabase Auth only.
+- Profile, organisation, membership and permission helpers are placeholders only and do not query the database yet.
 
 ## Route Structure Plan
 
@@ -255,8 +259,8 @@ Audit logging should not block initial auth rollout. Automatic triggers can come
 
 ## Recommended Implementation Order
 
-1. Confirm auth package status.
-2. Add Supabase client/server helpers.
+1. Confirm auth package status. Completed.
+2. Add Supabase client/server helpers. Completed.
 3. Add login/logout UI.
 4. Add protected route handling.
 5. Manually create Luke auth user.

@@ -14,6 +14,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - App shell and placeholder module pages exist
 - Design direction is Clean Eats-inspired while platform planning remains reusable
 - Documentation has been added for product direction, architecture, roadmap, development standards, release process, discovery notes, and Codex working rules
+- Supabase Auth helper foundation exists, but login and route protection are not implemented yet
 
 ## Tech Stack
 
@@ -64,6 +65,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Backend foundation review](docs/12-backend-foundation-review.md)
 - [Auth and RLS planning](docs/13-auth-and-rls-planning.md)
 - [Auth implementation checklist](docs/14-auth-implementation-checklist.md)
+- [Auth helper foundation](docs/15-auth-helper-foundation.md)
 
 ## Database Migrations
 
@@ -75,11 +77,13 @@ The next security phase is planned in [Auth and RLS planning](docs/13-auth-and-r
 
 The practical auth build sequence is tracked in [Auth implementation checklist](docs/14-auth-implementation-checklist.md).
 
+The initial auth helper structure is documented in [Auth helper foundation](docs/15-auth-helper-foundation.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
 - Placeholder pages for the Clean Eats Hub modules
 - Green and white Clean Eats-style visual foundation
-- Supabase client environment placeholders
+- Supabase client/server auth helper foundation
 
-No costing logic, database schema, authentication, or complex Supabase behavior has been added.
+No costing logic, login UI, route protection, RLS policies, app database queries, or complex Supabase behavior has been added.
