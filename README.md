@@ -30,6 +30,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - RLS helper function search path hardening has been manually applied and tested successfully
 - Roles/permissions RLS SELECT policies have been manually applied and tested successfully
 - Audit logs RLS planning has started; audit log RLS remains intentionally delayed
+- Audit logs RLS SELECT policy migration has been drafted for review
 
 ## Tech Stack
 
@@ -102,6 +103,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Roles and permissions RLS SELECT policies](docs/34-roles-permissions-rls-select-policies.md)
 - [Roles and permissions RLS applied review](docs/35-roles-permissions-rls-applied-review.md)
 - [Audit logs RLS planning](docs/36-audit-logs-rls-planning.md)
+- [Audit logs RLS SELECT policy](docs/37-audit-logs-rls-select-policy.md)
 
 ## Database Migrations
 
@@ -156,6 +158,8 @@ Roles and permissions RLS SELECT policies are documented in [Roles and permissio
 The applied roles/permissions RLS checkpoint is documented in [Roles and permissions RLS applied review](docs/35-roles-permissions-rls-applied-review.md).
 
 Audit logs RLS planning is documented in [Audit logs RLS planning](docs/36-audit-logs-rls-planning.md).
+
+Audit logs RLS SELECT policy drafting is documented in [Audit logs RLS SELECT policy](docs/37-audit-logs-rls-select-policy.md).
 
 ## Current Scope
 

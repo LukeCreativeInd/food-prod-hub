@@ -163,6 +163,8 @@ Recommended next migration:
 
 `supabase/migrations/015_enable_audit_logs_rls_select_policy.sql`
 
+Migration 015 has now been drafted and requires review before applying. It is documented in [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md).
+
 It should:
 
 - Enable RLS on `public.audit_logs`.
@@ -221,6 +223,8 @@ Recommended next step:
 037 - Create Audit Logs RLS SELECT Policy Migration
 
 This should create migration 015. It should be manually reviewed before applying. It should only enable RLS and add a `platform_admin` `SELECT` policy for `audit_logs`.
+
+The draft migration is documented in [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md).
 
 ## Short Executive Summary
 

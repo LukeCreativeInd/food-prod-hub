@@ -86,6 +86,8 @@ Roles/permissions RLS SELECT policies are now active and reviewed in [Roles and 
 
 `audit_logs` is now the final current RLS planning area. Audit logs RLS planning is documented in [Audit Logs RLS Planning](36-audit-logs-rls-planning.md).
 
+Audit logs RLS migration drafting has started in [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md). It drafts a platform-admin-only `SELECT` policy for `audit_logs`.
+
 ### Stage 3 - Membership and Admin Checks
 
 - Add insert/update/delete policies where needed.
@@ -244,6 +246,8 @@ Roles/permissions RLS planning is documented in [Roles and Permissions RLS Plann
 Roles/permissions RLS SELECT policy drafting is documented in [Roles and Permissions RLS SELECT Policies](34-roles-permissions-rls-select-policies.md), and the applied review is documented in [Roles and Permissions RLS Applied Review](35-roles-permissions-rls-applied-review.md).
 
 Audit logs RLS planning is documented in [Audit Logs RLS Planning](36-audit-logs-rls-planning.md).
+
+Audit logs RLS SELECT policy drafting is documented in [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md).
 
 ## Short Executive Summary
 

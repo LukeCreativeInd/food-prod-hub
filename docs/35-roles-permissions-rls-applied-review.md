@@ -116,6 +116,7 @@ Writes require more detailed permission checks. Organisation/admin writes should
 ## Remaining RLS Risks / Watch Points
 
 - `audit_logs` need special handling.
+- Audit logs RLS SELECT policy migration has now been drafted after audit logs planning in [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md).
 - Roles/permissions writes must remain tightly controlled.
 - Future helper function changes should be reviewed carefully.
 - Future tenant-owned tables must include `organisation_id`.
@@ -129,6 +130,8 @@ Recommended next step:
 036 - Audit Logs RLS Planning
 
 Audit logs RLS planning now exists at [Audit Logs RLS Planning](36-audit-logs-rls-planning.md).
+
+Audit logs RLS SELECT policy drafting now exists at [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md).
 
 `audit_logs` is the last current public table with RLS intentionally delayed. Audit logs need a special plan because they are sensitive. We need to decide read/write rules, append-only behaviour, trusted server inserts and admin visibility before enabling RLS.
 
