@@ -9,16 +9,37 @@ export type NavigationItem = {
 
 export type NavigationGroup = {
   label: string;
+  href: string;
+  isRoot?: boolean;
+  requiredPermission?: string;
+  requiredModuleKey?: ModuleKey;
+  iconKey:
+    | "dashboard"
+    | "products"
+    | "costings"
+    | "production"
+    | "inventory"
+    | "qa"
+    | "logistics"
+    | "crm"
+    | "reports"
+    | "admin";
   items: NavigationItem[];
 };
 
 export const navigationGroups: NavigationGroup[] = [
   {
     label: "Dashboard",
-    items: [{ label: "Dashboard", href: "/dashboard" }],
+    href: "/dashboard",
+    isRoot: true,
+    iconKey: "dashboard",
+    items: [],
   },
   {
     label: "Products",
+    href: "/ingredients",
+    requiredModuleKey: "products",
+    iconKey: "products",
     items: [
       {
         label: "Ingredients",
@@ -45,12 +66,10 @@ export const navigationGroups: NavigationGroup[] = [
   },
   {
     label: "Costings",
+    href: "/costing-overview",
+    requiredModuleKey: "costings",
+    iconKey: "costings",
     items: [
-      {
-        label: "Costing Overview",
-        href: "/costing-overview",
-        requiredModuleKey: "costings",
-      },
       {
         label: "Meal Margins",
         href: "/meal-margins",
@@ -64,13 +83,11 @@ export const navigationGroups: NavigationGroup[] = [
     ],
   },
   {
-    label: "Operations",
+    label: "Production",
+    href: "/production",
+    requiredModuleKey: "production",
+    iconKey: "production",
     items: [
-      {
-        label: "Production",
-        href: "/production",
-        requiredModuleKey: "production",
-      },
       {
         label: "Production Areas",
         href: "/production-areas",
@@ -81,11 +98,13 @@ export const navigationGroups: NavigationGroup[] = [
         href: "/production-tasks",
         requiredModuleKey: "production",
       },
-      {
-        label: "Inventory",
-        href: "/inventory",
-        requiredModuleKey: "inventory",
-      },
+    ],
+  },
+  {
+    label: "Inventory",
+    href: "/inventory",
+    iconKey: "inventory",
+    items: [
       {
         label: "Goods Inwards",
         href: "/goods-inwards",
@@ -96,28 +115,60 @@ export const navigationGroups: NavigationGroup[] = [
         href: "/purchasing",
         requiredModuleKey: "purchasing",
       },
-      { label: "QA", href: "/qa", requiredModuleKey: "qa" },
+    ],
+  },
+  {
+    label: "QA",
+    href: "/qa",
+    requiredModuleKey: "qa",
+    iconKey: "qa",
+    items: [
       {
-        label: "Logistics",
-        href: "/logistics",
-        requiredModuleKey: "logistics",
+        label: "Checks",
+        href: "/qa-checks",
+        requiredModuleKey: "qa",
+      },
+      {
+        label: "Sign-offs",
+        href: "/qa-sign-offs",
+        requiredModuleKey: "qa",
+      },
+      {
+        label: "Incidents",
+        href: "/qa-incidents",
+        requiredModuleKey: "qa",
       },
     ],
   },
   {
-    label: "Business",
-    items: [
-      {
-        label: "Wholesale",
-        href: "/wholesale",
-        requiredModuleKey: "wholesale",
-      },
-      { label: "CRM", href: "/crm", requiredModuleKey: "crm" },
-      { label: "Reports", href: "/reports", requiredModuleKey: "reports" },
-    ],
+    label: "Logistics",
+    href: "/logistics",
+    isRoot: true,
+    requiredModuleKey: "logistics",
+    iconKey: "logistics",
+    items: [],
+  },
+  {
+    label: "CRM",
+    href: "/crm",
+    isRoot: true,
+    requiredModuleKey: "crm",
+    iconKey: "crm",
+    items: [],
+  },
+  {
+    label: "Reports",
+    href: "/reports",
+    isRoot: true,
+    requiredModuleKey: "reports",
+    iconKey: "reports",
+    items: [],
   },
   {
     label: "Admin",
+    href: "/organisation-settings",
+    requiredModuleKey: "admin",
+    iconKey: "admin",
     items: [
       {
         label: "Organisation Settings",

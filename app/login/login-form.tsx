@@ -34,7 +34,7 @@ export function LoginForm() {
   }
 
   return (
-    <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
+    <form className="mt-7 space-y-5" onSubmit={handleSubmit}>
       <div>
         <label
           htmlFor="email"
@@ -50,7 +50,7 @@ export function LoginForm() {
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="mt-2 block w-full rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-clean-green-600 focus:ring-2 focus:ring-clean-green-100"
+          className="mt-2 block w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-clean-green-600 focus:bg-white focus:ring-2 focus:ring-clean-green-100"
           placeholder="you@example.com"
         />
       </div>
@@ -70,7 +70,7 @@ export function LoginForm() {
           required
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          className="mt-2 block w-full rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-clean-green-600 focus:ring-2 focus:ring-clean-green-100"
+          className="mt-2 block w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-clean-green-600 focus:bg-white focus:ring-2 focus:ring-clean-green-100"
           placeholder="Enter your password"
         />
       </div>
@@ -84,7 +84,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full rounded-md bg-clean-green-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-clean-green-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+        className="w-full rounded-md bg-clean-green-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-clean-green-900 disabled:cursor-not-allowed disabled:bg-slate-300"
       >
         {isLoading ? "Signing in..." : "Sign in"}
       </button>

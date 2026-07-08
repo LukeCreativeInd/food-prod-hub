@@ -11,9 +11,9 @@ type LogoutButtonProps = {
 
 const variantStyles: Record<NonNullable<LogoutButtonProps["variant"]>, string> = {
   sidebar:
-    "border-white/10 text-emerald-50/80 hover:bg-white/10 hover:text-white",
+    "w-full border-white/10 px-3 py-2 text-left text-emerald-50/80 hover:bg-white/10 hover:text-white",
   light:
-    "border-green-200 bg-white text-clean-green-900 hover:bg-green-50 hover:text-clean-green-950",
+    "inline-flex w-auto items-center justify-center border-green-200 bg-white px-3 py-2 text-clean-green-900 hover:bg-green-50 hover:text-clean-green-950",
 };
 
 export function LogoutButton({ variant = "sidebar" }: LogoutButtonProps) {
@@ -46,7 +46,7 @@ export function LogoutButton({ variant = "sidebar" }: LogoutButtonProps) {
       type="button"
       onClick={handleLogout}
       disabled={isLoading}
-      className={`w-full rounded-md border px-3 py-2 text-left text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 ${variantStyles[variant]}`}
+      className={`rounded-md border text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 ${variantStyles[variant]}`}
     >
       {isLoading ? "Signing out..." : "Sign out"}
     </button>

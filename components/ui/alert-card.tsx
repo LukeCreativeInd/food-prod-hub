@@ -16,7 +16,7 @@ export function AlertCard({
   tone = "neutral",
 }: AlertCardProps) {
   return (
-    <article className="rounded-md border border-slate-200 bg-white p-4">
+    <article className="rounded-md border border-slate-200/80 bg-slate-50/60 p-4 transition hover:border-green-200 hover:bg-white">
       <div className="flex items-start justify-between gap-3">
         <h4 className="text-sm font-semibold text-slate-900">{title}</h4>
         {meta ? <StatusBadge tone={tone}>{meta}</StatusBadge> : null}

@@ -16,7 +16,7 @@ export function ModuleCard({
   return (
     <Link
       href={href}
-      className="group block rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-green-200 hover:shadow-md"
+      className="group block rounded-lg border border-slate-200/80 bg-white p-5 shadow-sm ring-1 ring-white/60 transition hover:-translate-y-0.5 hover:border-green-200 hover:shadow-md"
     >
       {eyebrow ? (
         <p className="text-xs font-semibold uppercase text-clean-green-700">

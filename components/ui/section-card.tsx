@@ -14,7 +14,7 @@ export function SectionCard({
   children,
 }: SectionCardProps) {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
+    <section className="rounded-lg border border-slate-200/80 bg-white shadow-sm ring-1 ring-white/60">
       <div className="flex flex-col gap-3 border-b border-slate-100 px-5 py-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h3 className="text-base font-semibold text-slate-950">{title}</h3>

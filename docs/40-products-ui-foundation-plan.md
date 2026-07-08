@@ -183,6 +183,8 @@ The UI skeleton should help staff confirm which terms make sense before database
 - dashboard cards
 - shared cards/tables/badges/detail page patterns
 
+This first visual polish pass has now been implemented and documented in [Global Visual Direction Polish](41-global-visual-direction-polish.md).
+
 ### 042 - Products Module UI Skeleton
 
 - Products overview

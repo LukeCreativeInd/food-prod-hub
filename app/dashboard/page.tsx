@@ -12,13 +12,14 @@ import {
 } from "@/components/ui";
 import { requireAppAccess } from "@/lib/auth";
 
-const productionStats = [
+const dashboardStats = [
   {
     label: "Meals scheduled",
     value: "4,820",
     helperText: "Across morning prep, assembly, and pack-out windows.",
     badge: "Draft",
     tone: "info" as const,
+    icon: "M",
   },
   {
     label: "Production tasks",
@@ -26,6 +27,23 @@ const productionStats = [
     helperText: "Open task placeholders for area leads and supervisors.",
     badge: "Planned",
     tone: "success" as const,
+    icon: "T",
+  },
+  {
+    label: "Stock signals",
+    value: "12",
+    helperText: "Placeholder inventory prompts for warehouse visibility.",
+    badge: "Sample",
+    tone: "warning" as const,
+    icon: "S",
+  },
+  {
+    label: "QA checks",
+    value: "8",
+    helperText: "Future food safety checks waiting for workflow design.",
+    badge: "Future",
+    tone: "neutral" as const,
+    icon: "QA",
   },
 ];
 
@@ -142,6 +160,27 @@ const moduleShortcuts = [
   },
 ];
 
+const operationsSnapshot = [
+  {
+    area: "Kitchen prep",
+    status: "Sample",
+    owner: "Production lead",
+    note: "Prepared component timing will appear here.",
+  },
+  {
+    area: "Pack-out",
+    status: "Planned",
+    owner: "Operations",
+    note: "Meal counts and packaging readiness will appear here.",
+  },
+  {
+    area: "Warehouse",
+    status: "Review",
+    owner: "Warehouse",
+    note: "Stock and goods inwards prompts will appear here.",
+  },
+];
+
 export default async function DashboardPage() {
   await requireAppAccess();
 
@@ -149,11 +188,11 @@ export default async function DashboardPage() {
     <AppShell>
       <PageHeader
         title="Dashboard"
-        description="Command centre for the Clean Eats Hub platform foundation."
+        description="Command centre for the Clean Eats Hub platform foundation, using safe sample data for screen review."
       />
       <div className="space-y-6 px-5 py-6 md:px-8">
-        <section className="grid gap-4 lg:grid-cols-2">
-          {productionStats.map((stat) => (
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {dashboardStats.map((stat) => (
             <StatCard key={stat.label} {...stat} />
           ))}
         </section>
@@ -189,6 +228,49 @@ export default async function DashboardPage() {
                 {moduleShortcuts.map((module) => (
                   <ModuleCard key={module.href} {...module} />
                 ))}
+              </div>
+            </SectionCard>
+
+            <SectionCard
+              title="Operations Snapshot"
+              description="Sample table pattern for future production, warehouse and QA views."
+              action={<StatusBadge tone="neutral">Sample data</StatusBadge>}
+            >
+              <div className="overflow-x-auto rounded-md border border-slate-200">
+                <table className="min-w-full divide-y divide-slate-200 text-sm">
+                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
+                    <tr>
+                      <th className="px-4 py-3">Area</th>
+                      <th className="px-4 py-3">Status</th>
+                      <th className="px-4 py-3">Owner</th>
+                      <th className="px-4 py-3">Note</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 bg-white">
+                    {operationsSnapshot.map((item) => (
+                      <tr key={item.area}>
+                        <td className="px-4 py-3 font-semibold text-slate-900">
+                          {item.area}
+                        </td>
+                        <td className="px-4 py-3">
+                          <StatusBadge
+                            tone={
+                              item.status === "Review" ? "warning" : "info"
+                            }
+                          >
+                            {item.status}
+                          </StatusBadge>
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {item.owner}
+                        </td>
+                        <td className="px-4 py-3 text-slate-500">
+                          {item.note}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </SectionCard>
           </div>
@@ -256,7 +338,9 @@ export default async function DashboardPage() {
           </SectionCard>
         </section>
 
-        <AuthContextStatus />
+        <div className="pt-2">
+          <AuthContextStatus />
+        </div>
       </div>
     </AppShell>
   );
