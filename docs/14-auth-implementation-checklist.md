@@ -24,6 +24,8 @@ Permission-aware sidebar visibility has been added and documented at [Permission
 
 Enabled-module-aware navigation has been added and documented at [Enabled-Module-Aware Navigation](25-enabled-module-aware-navigation.md).
 
+The completed auth/navigation foundation review is available at [Auth and Navigation Foundation Review](26-auth-and-navigation-foundation-review.md).
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State

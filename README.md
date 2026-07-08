@@ -24,6 +24,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Selected admin/configuration routes now require matching view permissions
 - Sidebar hides selected admin/configuration links when matching permissions are missing
 - Sidebar hides module links when the current organisation does not have that module enabled
+- Auth/navigation foundation review is complete; RLS planning is the next major checkpoint
 
 ## Tech Stack
 
@@ -85,6 +86,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Admin permission route guard](docs/23-admin-permission-route-guard.md)
 - [Permission-aware sidebar](docs/24-permission-aware-sidebar.md)
 - [Enabled-module-aware navigation](docs/25-enabled-module-aware-navigation.md)
+- [Auth and navigation foundation review](docs/26-auth-and-navigation-foundation-review.md)
 
 ## Database Migrations
 
@@ -117,6 +119,8 @@ Admin/configuration permission guarding is documented in [Admin permission route
 Permission-aware navigation visibility is documented in [Permission-aware sidebar](docs/24-permission-aware-sidebar.md).
 
 Enabled-module-aware navigation is documented in [Enabled-module-aware navigation](docs/25-enabled-module-aware-navigation.md).
+
+The auth/navigation foundation checkpoint is summarised in [Auth and navigation foundation review](docs/26-auth-and-navigation-foundation-review.md).
 
 ## Current Scope
 

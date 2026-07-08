@@ -8,6 +8,8 @@ No RLS policies, auth UI, users, memberships or app database queries have been i
 
 The practical implementation checklist now lives at [Auth Implementation Checklist](14-auth-implementation-checklist.md).
 
+The auth/navigation implementation foundation is now complete and summarised in [Auth and Navigation Foundation Review](26-auth-and-navigation-foundation-review.md). RLS planning is the next major checkpoint.
+
 ## Auth Goal
 
 The goal is:

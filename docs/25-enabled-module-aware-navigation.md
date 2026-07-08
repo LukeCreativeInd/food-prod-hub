@@ -6,6 +6,8 @@ The sidebar now considers the current organisation's enabled modules when decidi
 
 This is navigation visibility only. It does not add RLS, disabled-module route guards, database migrations, business module data queries or live production/costing/inventory/QA workflows.
 
+This completes the current auth/navigation foundation block before RLS planning. The review checkpoint is [Auth and Navigation Foundation Review](26-auth-and-navigation-foundation-review.md).
+
 ## What Changed
 
 A new helper was added:
