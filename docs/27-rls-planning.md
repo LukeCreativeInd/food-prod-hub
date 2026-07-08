@@ -82,6 +82,8 @@ The first foundation RLS SELECT policy migration has now been manually applied a
 
 Roles/permissions RLS planning has started in [Roles and Permissions RLS Planning](32-roles-permissions-rls-planning.md). This plans the next reference-table RLS step without creating policies yet.
 
+Roles/permissions RLS migration drafting has started in [Roles and Permissions RLS SELECT Policies](34-roles-permissions-rls-select-policies.md). It drafts SELECT policies for `roles`, `permissions` and `role_permissions` only.
+
 ### Stage 3 - Membership and Admin Checks
 
 - Add insert/update/delete policies where needed.
@@ -236,6 +238,8 @@ The first policy rollout plan is documented in [First RLS Policies Plan](29-firs
 The first foundation RLS SELECT policy migration is documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md), and the applied review is documented in [Foundation RLS Applied Review](31-foundation-rls-applied-review.md).
 
 Roles/permissions RLS planning is documented in [Roles and Permissions RLS Planning](32-roles-permissions-rls-planning.md).
+
+Roles/permissions RLS SELECT policy drafting is documented in [Roles and Permissions RLS SELECT Policies](34-roles-permissions-rls-select-policies.md).
 
 ## Short Executive Summary
 

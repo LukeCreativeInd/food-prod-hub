@@ -136,6 +136,8 @@ Recommended next migration:
 
 The migration number shifted from 013 to 014 because Migration 013 is used for RLS helper function search path hardening.
 
+Migration 014 has now been drafted and requires review before applying. It is documented in [Roles and Permissions RLS SELECT Policies](34-roles-permissions-rls-select-policies.md).
+
 It should:
 
 - Enable RLS on `public.roles`, `public.permissions` and `public.role_permissions`.
@@ -185,6 +187,8 @@ Recommended next step:
 033 - Create Roles and Permissions RLS SELECT Policies Migration
 
 This should create migration 014. It should be reviewed before applying, and it should be applied only after confirming current app state is healthy.
+
+The draft migration is documented in [Roles and Permissions RLS SELECT Policies](34-roles-permissions-rls-select-policies.md).
 
 ## Short Executive Summary
 
