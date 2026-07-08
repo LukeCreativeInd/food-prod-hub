@@ -219,20 +219,27 @@ This has now been created and documented in [Production Module UI Skeleton](46-p
 
 This has now been created and documented in [Inventory Module UI Skeleton](47-inventory-module-ui-skeleton.md). It includes goods inwards, batch receiving, stock locations, stock movements, purchasing prompts and BOM/traceability previews for Phase 1 staff review.
 
-### 048 - Demo/Test User Access Plan
+### 048 - Phase 1 Dashboard Refresh
+
+- sample data only
+- dashboard landing page for Products, Costings, Production and Inventory staff review
+
+This has now been created and documented in [Phase 1 Dashboard Refresh](48-phase-1-dashboard-refresh.md). The dashboard now focuses on the Phase 1 demo modules, staff review prompts, CSV/data collection order and next steps before real data is connected.
+
+### 049 - Demo/Test User Access Plan
 
 - plan role/module/permission access for staff demo user
 
-### 049 - Create Demo/Test User
+### 050 - Create Demo/Test User
 
 - only after access plan is reviewed
 - no Admin/platform access
 
-### 050 - Staff Demo Review Round
+### 051 - Staff Demo Review Round
 
 - staff review Phase 1 modules with test user
 
-### 051 - Products/Inventory Data Model Planning
+### 052 - Products/Inventory Data Model Planning
 
 - use feedback and CSVs to plan real database tables
 

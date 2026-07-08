@@ -45,6 +45,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Products navigation now follows the staff meeting data order: Suppliers, Ingredients, Packaging, Components, Recipes, Finished Products
 - Production module UI skeleton has been added with report, plan, task and facility/iPad previews
 - Inventory module UI skeleton has been added with goods inwards, batch, movement, purchasing and BOM/traceability previews
+- Dashboard has been refreshed as the Phase 1 demo landing page for staff review
 
 ## Tech Stack
 
@@ -128,6 +129,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Costings module UI skeleton](docs/45-costings-module-ui-skeleton.md)
 - [Production module UI skeleton](docs/46-production-module-ui-skeleton.md)
 - [Inventory module UI skeleton](docs/47-inventory-module-ui-skeleton.md)
+- [Phase 1 dashboard refresh](docs/48-phase-1-dashboard-refresh.md)
 
 ## Database Migrations
 
@@ -204,6 +206,8 @@ The Costings module UI skeleton is documented in [Costings module UI skeleton](d
 The Production module UI skeleton is documented in [Production module UI skeleton](docs/46-production-module-ui-skeleton.md).
 
 The Inventory module UI skeleton is documented in [Inventory module UI skeleton](docs/47-inventory-module-ui-skeleton.md).
+
+The Phase 1 dashboard refresh is documented in [Phase 1 dashboard refresh](docs/48-phase-1-dashboard-refresh.md).
 
 ## Current Scope
 

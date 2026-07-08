@@ -2,9 +2,7 @@ import { AuthContextStatus } from "@/components/auth/auth-context-status";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
-  ActivityItem,
   AlertCard,
-  ModuleCard,
   PageActionButton,
   SectionCard,
   StatCard,
@@ -14,171 +12,143 @@ import { requireAppAccess } from "@/lib/auth";
 
 const dashboardStats = [
   {
-    label: "Meals scheduled",
-    value: "4,820",
-    helperText: "Across morning prep, assembly, and pack-out windows.",
-    badge: "Draft",
-    tone: "info" as const,
-    icon: "M",
-  },
-  {
-    label: "Production tasks",
-    value: "36",
-    helperText: "Open task placeholders for area leads and supervisors.",
-    badge: "Planned",
+    label: "Demo modules ready",
+    value: "4",
+    helperText: "Products, Costings, Production and Inventory are ready for review.",
+    badge: "Phase 1",
     tone: "success" as const,
-    icon: "T",
+    icon: "P1",
   },
   {
-    label: "Stock signals",
-    value: "12",
-    helperText: "Placeholder inventory prompts for warehouse visibility.",
+    label: "Sample screens",
+    value: "30+",
+    helperText: "Static review screens across the Phase 1 module flow.",
     badge: "Sample",
-    tone: "warning" as const,
-    icon: "S",
-  },
-  {
-    label: "QA checks",
-    value: "8",
-    helperText: "Future food safety checks waiting for workflow design.",
-    badge: "Future",
-    tone: "neutral" as const,
-    icon: "QA",
-  },
-];
-
-const costingAlerts = [
-  {
-    title: "Chicken breast supplier price review",
-    description:
-      "Placeholder alert for a recent supplier price movement that may need costing review.",
-    meta: "Review",
-    tone: "warning" as const,
-  },
-  {
-    title: "Packaging carton variance",
-    description:
-      "Placeholder alert for packaging cost movement awaiting confirmation.",
-    meta: "Pending",
-    tone: "neutral" as const,
-  },
-];
-
-const inventoryWarnings = [
-  {
-    title: "Brown rice approaching reorder point",
-    description:
-      "Placeholder warning for stock visibility once inventory workflows exist.",
-    meta: "Low",
-    tone: "warning" as const,
-  },
-  {
-    title: "Meal sleeve stock requires count",
-    description:
-      "Placeholder warning for packaging inventory and warehouse follow-up.",
-    meta: "Count",
     tone: "info" as const,
-  },
-];
-
-const qaChecks = [
-  {
-    title: "Cooling log review",
-    description:
-      "Placeholder for QA checks that will support production sign-off.",
-    meta: "Today",
-    tone: "success" as const,
+    icon: "UI",
   },
   {
-    title: "Label verification queue",
-    description:
-      "Placeholder for label, allergen, and compliance review workflows.",
-    meta: "Open",
-    tone: "neutral" as const,
-  },
-];
-
-const purchasingActions = [
-  {
-    title: "Confirm produce order",
-    description:
-      "Placeholder action for supplier purchasing once ordering is added.",
-    meta: "Due",
+    label: "CSV/data groups",
+    value: "6",
+    helperText: "Suppliers through finished products for collection and review.",
+    badge: "Collect",
     tone: "warning" as const,
+    icon: "CSV",
   },
   {
-    title: "Review approved supplier list",
-    description:
-      "Placeholder action for supplier records and purchasing governance.",
-    meta: "Draft",
-    tone: "info" as const,
+    label: "Live business data",
+    value: "0",
+    helperText: "No real Products, Costings, Production or Inventory data is connected.",
+    badge: "Safe",
+    tone: "neutral" as const,
+    icon: "0",
   },
 ];
 
-const recentActivity = [
+const phaseOneModules = [
   {
-    title: "Production plan placeholder refreshed",
-    description: "Morning production view prepared for future scheduling data.",
-    meta: "8:15 AM",
+    title: "Products",
+    icon: "PR",
+    description: "Define the supplier, ingredient, packaging, component, recipe and finished product foundation.",
+    status: "UI skeleton ready",
+    href: "/products",
+    subPages: [
+      "Suppliers",
+      "Ingredients",
+      "Packaging",
+      "Components",
+      "Recipes",
+      "Finished Products",
+    ],
   },
   {
-    title: "Inventory module placeholder opened",
-    description: "Warehouse warning tiles are ready for future stock signals.",
-    meta: "Yesterday",
+    title: "Costings",
+    icon: "CO",
+    description: "Review how input costs, packaging costs, component costs, meal margins and price history may appear.",
+    status: "UI skeleton ready",
+    href: "/costing-overview",
+    subPages: [
+      "Ingredient Costs",
+      "Packaging Costs",
+      "Component Costs",
+      "Meal Margins",
+      "Price History",
+    ],
   },
-  {
-    title: "Costing workspace grouped",
-    description: "Costing overview, margins, and price history are now grouped.",
-    meta: "Mon",
-  },
-];
-
-const moduleShortcuts = [
   {
     title: "Production",
-    description: "Daily production planning, areas, and task visibility.",
+    icon: "PD",
+    description: "Preview the flow from production reports into plans, areas, tasks and facility/iPad review screens.",
+    status: "UI skeleton ready",
     href: "/production",
-    eyebrow: "Operations",
+    subPages: [
+      "Production Report",
+      "Plan",
+      "Areas",
+      "Tasks",
+      "Facility/iPad View",
+    ],
   },
   {
     title: "Inventory",
-    description: "Stock warnings, counts, and warehouse readiness.",
+    icon: "IN",
+    description: "Preview goods inwards, batches, locations, movements, purchasing prompts and BOM/traceability.",
+    status: "UI skeleton ready",
     href: "/inventory",
-    eyebrow: "Operations",
-  },
-  {
-    title: "Costing Overview",
-    description: "Future costing alerts, margin movements, and price changes.",
-    href: "/costing-overview",
-    eyebrow: "Costings",
-  },
-  {
-    title: "Purchasing",
-    description: "Supplier orders, follow-ups, and purchase actions.",
-    href: "/purchasing",
-    eyebrow: "Operations",
+    subPages: [
+      "Goods Inwards",
+      "Batch Receiving",
+      "Stock Locations",
+      "Stock Movements",
+      "Purchasing",
+      "BOM/Traceability",
+    ],
   },
 ];
 
-const operationsSnapshot = [
+const demoFlow = [
   {
-    area: "Kitchen prep",
-    status: "Sample",
-    owner: "Production lead",
-    note: "Prepared component timing will appear here.",
+    title: "1. Products data foundation",
+    description: "Products define what exists: suppliers, ingredients, packaging, components, recipes and finished products.",
+    meta: "What exists",
+    tone: "success" as const,
   },
   {
-    area: "Pack-out",
-    status: "Planned",
-    owner: "Operations",
-    note: "Meal counts and packaging readiness will appear here.",
+    title: "2. Costings review",
+    description: "Costings show what it costs and where ingredient, packaging, component or margin details need review.",
+    meta: "What it costs",
+    tone: "info" as const,
   },
   {
-    area: "Warehouse",
-    status: "Review",
-    owner: "Warehouse",
-    note: "Stock and goods inwards prompts will appear here.",
+    title: "3. Production planning/reporting",
+    description: "Production shows what needs to be made, where work happens and how tasks may reach facility screens.",
+    meta: "What to make",
+    tone: "warning" as const,
   },
+  {
+    title: "4. Inventory, batches and traceability",
+    description: "Inventory tracks what comes in, moves around, gets used and may later trace into finished products.",
+    meta: "What gets used",
+    tone: "neutral" as const,
+  },
+];
+
+const staffReviewChecklist = [
+  "Do the module names make sense?",
+  "Are the screens easy to understand?",
+  "Are fields or columns missing?",
+  "What should be manager-only?",
+  "What should be tablet/facility-facing?",
+  "What data do we need first?",
+];
+
+const csvCollectionOrder = [
+  "Suppliers",
+  "Ingredients",
+  "Packaging",
+  "Components / Batch Recipes / Items",
+  "Recipes",
+  "Finished Products",
 ];
 
 export default async function DashboardPage() {
@@ -187,158 +157,181 @@ export default async function DashboardPage() {
   return (
     <AppShell>
       <PageHeader
-        title="Dashboard"
-        description="Command centre for the Clean Eats Hub platform foundation, using safe sample data for screen review."
+        title="Clean Eats Hub"
+        description="Phase 1 Demo Workspace for staff review using sample data only."
       />
       <div className="space-y-6 px-5 py-6 md:px-8">
+        <SectionCard
+          title="Phase 1 demo workspace"
+          description="Review the Phase 1 demo modules using sample data before real Clean Eats data is connected."
+          action={<StatusBadge tone="info">Staff review focus</StatusBadge>}
+        >
+          <div className="rounded-md border border-green-200 bg-green-50/60 px-4 py-4">
+            <p className="text-sm font-semibold text-clean-green-900">
+              Sample data only
+            </p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              This dashboard is a review landing page for Products, Costings,
+              Production and Inventory. The screens are static placeholders so
+              staff can confirm terminology, fields and workflow direction
+              before real data is modelled or imported.
+            </p>
+          </div>
+        </SectionCard>
+
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {dashboardStats.map((stat) => (
             <StatCard key={stat.label} {...stat} />
           ))}
         </section>
 
-        <div className="grid gap-6 xl:grid-cols-3">
-          <div className="space-y-6 xl:col-span-2">
-            <SectionCard
-              title="Today's Production"
-              description="High-level production readiness placeholders for the day."
-              action={<StatusBadge tone="info">Placeholder</StatusBadge>}
-            >
-              <div className="grid gap-4 lg:grid-cols-2">
-                <AlertCard
-                  title="Assembly line plan"
-                  description="Morning meals, chilled components, and pack-out timing will surface here."
-                  meta="Planned"
-                  tone="success"
-                />
-                <AlertCard
-                  title="Production area capacity"
-                  description="Future area utilisation and handover status will appear in this section."
-                  meta="Draft"
-                  tone="info"
-                />
-              </div>
-            </SectionCard>
+        <SectionCard
+          title="Phase 1 modules"
+          description="Start here for the staff demo review. Each module uses sample data only."
+          action={<StatusBadge tone="success">UI skeletons ready</StatusBadge>}
+        >
+          <div className="grid gap-4 lg:grid-cols-2">
+            {phaseOneModules.map((module) => (
+              <article
+                key={module.title}
+                className="rounded-lg border border-slate-200/80 bg-white p-5 shadow-sm ring-1 ring-white/60"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-green-50 text-sm font-bold text-clean-green-800">
+                      {module.icon}
+                    </span>
+                    <div>
+                      <h3 className="text-base font-semibold text-slate-950">
+                        {module.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-6 text-slate-500">
+                        {module.description}
+                      </p>
+                    </div>
+                  </div>
+                  <StatusBadge tone="success">{module.status}</StatusBadge>
+                </div>
 
-            <SectionCard
-              title="Module shortcuts"
-              description="Quick entry points for the core operational workspaces."
-            >
-              <div className="grid gap-4 lg:grid-cols-2">
-                {moduleShortcuts.map((module) => (
-                  <ModuleCard key={module.href} {...module} />
-                ))}
-              </div>
-            </SectionCard>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {module.subPages.map((page) => (
+                    <span
+                      key={page}
+                      className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600"
+                    >
+                      {page}
+                    </span>
+                  ))}
+                </div>
 
-            <SectionCard
-              title="Operations Snapshot"
-              description="Sample table pattern for future production, warehouse and QA views."
-              action={<StatusBadge tone="neutral">Sample data</StatusBadge>}
-            >
-              <div className="overflow-x-auto rounded-md border border-slate-200">
-                <table className="min-w-full divide-y divide-slate-200 text-sm">
-                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
-                    <tr>
-                      <th className="px-4 py-3">Area</th>
-                      <th className="px-4 py-3">Status</th>
-                      <th className="px-4 py-3">Owner</th>
-                      <th className="px-4 py-3">Note</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 bg-white">
-                    {operationsSnapshot.map((item) => (
-                      <tr key={item.area}>
-                        <td className="px-4 py-3 font-semibold text-slate-900">
-                          {item.area}
-                        </td>
-                        <td className="px-4 py-3">
-                          <StatusBadge
-                            tone={
-                              item.status === "Review" ? "warning" : "info"
-                            }
-                          >
-                            {item.status}
-                          </StatusBadge>
-                        </td>
-                        <td className="px-4 py-3 text-slate-600">
-                          {item.owner}
-                        </td>
-                        <td className="px-4 py-3 text-slate-500">
-                          {item.note}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </SectionCard>
+                <div className="mt-5">
+                  <PageActionButton href={module.href} variant="secondary">
+                    {`Open ${module.title}`}
+                  </PageActionButton>
+                </div>
+              </article>
+            ))}
           </div>
+        </SectionCard>
 
+        <section className="grid gap-6 xl:grid-cols-3">
           <SectionCard
-            title="Recent Activity"
-            description="Static activity examples for the Hub shell."
+            title="Demo flow"
+            description="How the Phase 1 demo modules connect in plain English."
             action={
-              <PageActionButton href="/reports" variant="secondary">
-                View reports
-              </PageActionButton>
+              <StatusBadge tone="info">{`Products -> Inventory`}</StatusBadge>
             }
           >
-            <div className="space-y-4">
-              {recentActivity.map((item) => (
-                <ActivityItem key={item.title} {...item} />
-              ))}
-            </div>
-          </SectionCard>
-        </div>
-
-        <section className="grid gap-6 xl:grid-cols-2">
-          <SectionCard
-            title="Costing Alerts"
-            description="Future costing exceptions and price movement prompts."
-          >
             <div className="space-y-3">
-              {costingAlerts.map((alert) => (
-                <AlertCard key={alert.title} {...alert} />
+              {demoFlow.map((item) => (
+                <AlertCard key={item.title} {...item} />
               ))}
             </div>
           </SectionCard>
 
           <SectionCard
-            title="Inventory Warnings"
-            description="Future low stock, count, and replenishment signals."
+            title="Staff review checklist"
+            description="Use these prompts during staff walkthroughs."
+            action={<StatusBadge tone="warning">Review prompts</StatusBadge>}
           >
             <div className="space-y-3">
-              {inventoryWarnings.map((alert) => (
-                <AlertCard key={alert.title} {...alert} />
+              {staffReviewChecklist.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3"
+                >
+                  <p className="text-sm font-medium text-slate-700">{item}</p>
+                </div>
               ))}
             </div>
           </SectionCard>
 
           <SectionCard
-            title="QA Checks"
-            description="Future quality and compliance review prompts."
+            title="CSV/data collection order"
+            description="Collect first, review, then model/import later."
+            action={<StatusBadge tone="neutral">No imports yet</StatusBadge>}
           >
-            <div className="space-y-3">
-              {qaChecks.map((alert) => (
-                <AlertCard key={alert.title} {...alert} />
+            <ol className="space-y-3">
+              {csvCollectionOrder.map((item, index) => (
+                <li key={item} className="flex gap-3">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-clean-green-700 text-xs font-bold text-white">
+                    {index + 1}
+                  </span>
+                  <span className="pt-1 text-sm font-medium text-slate-700">
+                    {item}
+                  </span>
+                </li>
               ))}
-            </div>
-          </SectionCard>
-
-          <SectionCard
-            title="Purchasing Actions"
-            description="Future purchasing follow-ups and supplier actions."
-          >
-            <div className="space-y-3">
-              {purchasingActions.map((alert) => (
-                <AlertCard key={alert.title} {...alert} />
-              ))}
+            </ol>
+            <div className="mt-5 rounded-md border border-green-200 bg-green-50/60 px-4 py-3">
+              <p className="text-sm leading-6 text-slate-600">
+                Collect first, review with staff, then model and import once
+                the screens and terminology feel right.
+              </p>
             </div>
           </SectionCard>
         </section>
 
+        <SectionCard
+          title="Next steps"
+          description="Suggested order before real data and table design begin."
+          action={<StatusBadge tone="info">Demo preparation</StatusBadge>}
+        >
+          <div className="grid gap-3 md:grid-cols-3">
+            <AlertCard
+              title="Plan demo/test user access"
+              description="Confirm which Phase 1 modules a staff demo user should see."
+              meta="Next"
+              tone="success"
+            />
+            <AlertCard
+              title="Run staff review"
+              description="Walk through the sample screens and capture missing fields or wording changes."
+              meta="Review"
+              tone="warning"
+            />
+            <AlertCard
+              title="Design real tables later"
+              description="Use staff feedback and collected CSVs before designing Products and Inventory data models."
+              meta="Later"
+              tone="neutral"
+            />
+          </div>
+        </SectionCard>
+
         <div className="pt-2">
+          <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-sm font-semibold text-slate-950">
+                Development/admin status
+              </h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Temporary technical status kept lower on the dashboard while
+                auth and access setup is reviewed.
+              </p>
+            </div>
+            <StatusBadge tone="info">Admin check</StatusBadge>
+          </div>
           <AuthContextStatus />
         </div>
       </div>
