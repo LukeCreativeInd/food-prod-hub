@@ -7,8 +7,11 @@ This began as a planning document for introducing RLS safely.
 - RLS helper functions have now been manually applied.
 - First-stage foundation `SELECT` policies have now been manually applied and tested.
 - No write policies have been created yet.
-- Roles/permissions, audit logs and business tables still need later RLS planning.
+- Roles/permissions and audit logs RLS have now been planned, applied and reviewed.
+- Future business tables still need RLS planning as they are created.
 - This document itself does not make database changes.
+
+The current public-table RLS foundation is now complete and documented in [RLS Foundation Complete Review and Next Phase Plan](39-rls-foundation-complete-review-and-next-phase.md). Future RLS should be handled table-by-table as new business modules are designed and created.
 
 ## RLS Goal
 
@@ -248,6 +251,8 @@ Roles/permissions RLS SELECT policy drafting is documented in [Roles and Permiss
 Audit logs RLS planning is documented in [Audit Logs RLS Planning](36-audit-logs-rls-planning.md).
 
 Audit logs RLS SELECT policy drafting is documented in [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md), and the applied review is documented in [Audit Logs RLS Applied Review](38-audit-logs-rls-applied-review.md).
+
+The completed RLS foundation checkpoint is documented in [RLS Foundation Complete Review and Next Phase Plan](39-rls-foundation-complete-review-and-next-phase.md).
 
 ## Short Executive Summary
 

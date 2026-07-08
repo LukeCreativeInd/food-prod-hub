@@ -31,6 +31,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Roles/permissions RLS SELECT policies have been manually applied and tested successfully
 - Audit logs RLS SELECT policy has been manually applied and tested successfully
 - All current public database tables now have RLS enabled
+- RLS foundation review is complete; the next recommended build phase is Products/UI Foundation
 
 ## Tech Stack
 
@@ -105,6 +106,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Audit logs RLS planning](docs/36-audit-logs-rls-planning.md)
 - [Audit logs RLS SELECT policy](docs/37-audit-logs-rls-select-policy.md)
 - [Audit logs RLS applied review](docs/38-audit-logs-rls-applied-review.md)
+- [RLS foundation complete review and next phase](docs/39-rls-foundation-complete-review-and-next-phase.md)
 
 ## Database Migrations
 
@@ -163,6 +165,8 @@ Audit logs RLS planning is documented in [Audit logs RLS planning](docs/36-audit
 Audit logs RLS SELECT policy is documented in [Audit logs RLS SELECT policy](docs/37-audit-logs-rls-select-policy.md).
 
 The applied audit logs RLS checkpoint is documented in [Audit logs RLS applied review](docs/38-audit-logs-rls-applied-review.md).
+
+The completed RLS foundation and recommended next build phase are documented in [RLS foundation complete review and next phase](docs/39-rls-foundation-complete-review-and-next-phase.md).
 
 ## Current Scope
 

@@ -10,9 +10,11 @@ The next security planning checkpoint has started in [RLS Planning](27-rls-plann
 
 RLS helper function drafting has started after this checkpoint in [RLS Helper Functions](28-rls-helper-functions.md).
 
-Current state:
+The later RLS foundation is now complete and reviewed in [RLS Foundation Complete Review and Next Phase Plan](39-rls-foundation-complete-review-and-next-phase.md). The project is ready to plan the Products/UI foundation phase.
 
-- RLS is still not enabled.
+Current state at the time of this checkpoint:
+
+- RLS was still not enabled at this checkpoint.
 - Business module data is not connected yet.
 - Production, costing, inventory and QA tables have not been created yet.
 

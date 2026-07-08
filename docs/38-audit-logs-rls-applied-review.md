@@ -124,6 +124,8 @@ Recommended next step:
 
 039 - RLS Foundation Complete Review / Next Build Phase Planning
 
+The RLS foundation complete review and next phase plan now lives at [RLS Foundation Complete Review and Next Phase Plan](39-rls-foundation-complete-review-and-next-phase.md).
+
 Now that all current public tables have RLS enabled, the next step should be a broader checkpoint that decides whether to:
 
 - start first real business module tables, likely Products/Ingredients/Components/Meals
