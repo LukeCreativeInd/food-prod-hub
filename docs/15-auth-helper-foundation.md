@@ -4,7 +4,9 @@
 
 The initial Supabase Auth helper foundation has been added for the Next.js App Router app.
 
-This is helper structure only. It does not add login UI, route protection, users, memberships, RLS policies, app database queries or business logic.
+This foundation does not add route protection, users, memberships, RLS policies, app database queries or business logic.
+
+Update: the helper foundation is now used by the basic login/logout UI documented in [Login and Logout UI](16-login-and-logout-ui.md). Route protection, profiles, memberships, RLS and tenant data queries are still not implemented.
 
 ## Package Added
 
@@ -80,8 +82,6 @@ Exports the auth helper functions from one barrel file for future imports.
 
 ## Intentionally Not Implemented Yet
 
-- No login UI
-- No logout UI
 - No protected route redirects
 - No Supabase Auth user creation
 - No profile creation

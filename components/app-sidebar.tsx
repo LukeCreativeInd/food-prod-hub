@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
+import { LogoutButton } from "@/components/auth/logout-button";
 import { navigationGroups } from "@/lib/navigation";
 
 export function AppSidebar() {
@@ -57,8 +58,11 @@ export function AppSidebar() {
         ))}
       </nav>
 
-      <div className="hidden border-t border-white/10 px-6 py-4 text-xs text-emerald-100/70 md:block">
-        Modular food operations platform
+      <div className="border-t border-white/10 px-4 py-3 md:px-6 md:py-4">
+        <p className="mb-3 text-xs text-emerald-100/70">
+          Modular food operations platform
+        </p>
+        <LogoutButton />
       </div>
     </aside>
   );

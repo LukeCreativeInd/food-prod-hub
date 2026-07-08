@@ -4,7 +4,7 @@
 
 This is a planning and build checklist only.
 
-The auth helper foundation has now been added. No auth UI, users, memberships, RLS policies or app database queries have been implemented yet.
+The auth helper foundation and basic login/logout UI have now been added. No users, memberships, RLS policies or app database queries have been implemented yet.
 
 This checklist should be completed step by step before enabling RLS broadly.
 
@@ -165,8 +165,8 @@ Each user should be created through the Supabase Auth or invite flow and then li
 
 Stage 1:
 
-- Add auth helpers.
-- Add login/logout.
+- Add auth helpers. Completed.
+- Add login/logout. Completed.
 - Detect current user.
 - Redirect unauthenticated users away from protected routes.
 
@@ -261,7 +261,7 @@ Audit logging should not block initial auth rollout. Automatic triggers can come
 
 1. Confirm auth package status. Completed.
 2. Add Supabase client/server helpers. Completed.
-3. Add login/logout UI.
+3. Add login/logout UI. Completed.
 4. Add protected route handling.
 5. Manually create Luke auth user.
 6. Manually create Luke profile and Clean Eats membership.
