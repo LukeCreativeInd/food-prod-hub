@@ -105,9 +105,7 @@ export function AppSidebar({ navigationGroups }: AppSidebarProps) {
         {navigationGroups.map((group) => {
           const isExpanded = expandedGroups.includes(group.label);
           const hasChildren = group.items.length > 0;
-          const parentHref = group.isRoot
-            ? group.href
-            : group.items[0]?.href ?? group.href;
+          const parentHref = group.href;
           const isParentActive =
             pathname === parentHref ||
             pathname.startsWith(`${parentHref}/`) ||

@@ -176,3 +176,9 @@ Notes:
 - A later step should review module registration/routes so each major module has a clean overview page.
 
 The new QA nested pages use the existing placeholder page pattern only. They do not add QA business logic, database queries, tables, migrations or RLS changes.
+
+## Products Skeleton Uses Polished UI Direction
+
+Step 042 now applies the polished global visual direction to the Products module skeleton. The Products overview, Ingredients, Components, Meals, Packaging and Suppliers pages use the light shell, sidebar, cards, summary metrics and table patterns established in step 041.
+
+The Products skeleton remains sample-data-only and does not add real product queries, database tables, migrations or business logic.

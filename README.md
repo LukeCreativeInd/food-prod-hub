@@ -37,6 +37,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Sidebar follow-up refinements now use a light mockup-aligned shell with expandable module sections
 - Sidebar navigation now separates Production, Inventory, QA, Logistics, CRM and Reports into top-level modules
 - Sidebar duplicate overview child links have been removed; parent modules now act as overview links
+- Products module UI skeleton has been added using sample data only
 
 ## Tech Stack
 
@@ -114,6 +115,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [RLS foundation complete review and next phase](docs/39-rls-foundation-complete-review-and-next-phase.md)
 - [Products/UI foundation plan](docs/40-products-ui-foundation-plan.md)
 - [Global visual direction polish](docs/41-global-visual-direction-polish.md)
+- [Products module UI skeleton](docs/42-products-module-ui-skeleton.md)
 
 ## Database Migrations
 
@@ -178,6 +180,8 @@ The completed RLS foundation and recommended next build phase are documented in 
 The Phase 3 Products/UI Foundation plan is documented in [Products/UI foundation plan](docs/40-products-ui-foundation-plan.md).
 
 The first global visual polish pass is documented in [Global visual direction polish](docs/41-global-visual-direction-polish.md).
+
+The Products module UI skeleton is documented in [Products module UI skeleton](docs/42-products-module-ui-skeleton.md).
 
 ## Current Scope
 

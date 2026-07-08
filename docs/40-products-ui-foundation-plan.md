@@ -196,6 +196,8 @@ This first visual polish pass has now been implemented and documented in [Global
 - sample data only
 - no real product migrations yet unless explicitly decided
 
+The Products module UI skeleton has now been created and documented in [Products Module UI Skeleton](42-products-module-ui-skeleton.md).
+
 ### 043 - Staff Review With Tony/Team
 
 - review terminology

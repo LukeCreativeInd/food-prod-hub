@@ -37,7 +37,7 @@ export const navigationGroups: NavigationGroup[] = [
   },
   {
     label: "Products",
-    href: "/ingredients",
+    href: "/products",
     requiredModuleKey: "products",
     iconKey: "products",
     items: [
