@@ -25,9 +25,8 @@ The current app includes the foundation for an internal operations hub: app shel
 - Sidebar hides selected admin/configuration links when matching permissions are missing
 - Sidebar hides module links when the current organisation does not have that module enabled
 - Auth/navigation foundation review is complete; detailed RLS planning has started
-- RLS helper functions have been created and manually applied, but RLS is still not enabled
-- First foundation RLS policy rollout has been planned, but no policies are created yet
-- First foundation RLS SELECT policy migration has been drafted for review, but has not been applied by this repo task
+- RLS helper functions have been created and manually applied
+- First foundation RLS SELECT policies have been manually applied and tested successfully
 
 ## Tech Stack
 
@@ -94,6 +93,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [RLS helper functions](docs/28-rls-helper-functions.md)
 - [First RLS policies plan](docs/29-first-rls-policies-plan.md)
 - [Foundation RLS SELECT policies](docs/30-foundation-rls-select-policies.md)
+- [Foundation RLS applied review](docs/31-foundation-rls-applied-review.md)
 
 ## Database Migrations
 
@@ -135,7 +135,9 @@ The drafted RLS helper function migration is documented in [RLS helper functions
 
 The first staged foundation RLS policy plan is documented in [First RLS policies plan](docs/29-first-rls-policies-plan.md).
 
-The drafted first foundation RLS SELECT policy migration is documented in [Foundation RLS SELECT policies](docs/30-foundation-rls-select-policies.md).
+The first foundation RLS SELECT policy migration is documented in [Foundation RLS SELECT policies](docs/30-foundation-rls-select-policies.md).
+
+The applied first foundation RLS checkpoint is documented in [Foundation RLS applied review](docs/31-foundation-rls-applied-review.md).
 
 ## Current Scope
 
@@ -150,6 +152,6 @@ The drafted first foundation RLS SELECT policy migration is documented in [Found
 - Permission-aware sidebar visibility for selected admin/configuration links
 - Enabled-module-aware sidebar visibility for tenant modules
 - SQL helper functions for future reviewed RLS policies
-- Drafted first foundation RLS SELECT policy migration for manual review
+- Applied first foundation RLS SELECT policies for tenant/auth context reads
 
-No costing logic, RLS policies, app business-data queries, broad module permission gates, or complex Supabase behavior has been added.
+No costing logic, app business-data queries, broad module permission gates, RLS write policies, audit log policies, or complex Supabase behavior has been added.

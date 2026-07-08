@@ -2,11 +2,11 @@
 
 ## Status
 
-Migration 012 has been drafted:
+Migration 012 was drafted and has now been manually applied:
 
 `supabase/migrations/012_enable_foundation_rls_select_policies.sql`
 
-This migration must be manually reviewed before running. It has not been applied to Supabase by this repo task.
+It has been tested successfully after application. The applied checkpoint is documented in [Foundation RLS Applied Review](31-foundation-rls-applied-review.md).
 
 ## Tables Where RLS Will Be Enabled
 

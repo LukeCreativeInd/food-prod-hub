@@ -122,7 +122,7 @@ Recommended next SQL migration:
 
 `supabase/migrations/012_enable_foundation_rls_select_policies.sql`
 
-This migration has now been drafted and requires manual review before applying.
+This migration has now been drafted, manually applied and reviewed in [Foundation RLS Applied Review](31-foundation-rls-applied-review.md).
 
 It should:
 
@@ -214,7 +214,7 @@ Recommended next step:
 
 This should create migration 012. It should enable RLS and `SELECT` policies only for the selected foundation tables. It should be manually reviewed before applying, then applied and tested immediately.
 
-The drafted migration is documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md).
+The drafted migration is documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md), and the applied checkpoint is documented in [Foundation RLS Applied Review](31-foundation-rls-applied-review.md).
 
 ## Short Executive Summary
 

@@ -68,7 +68,7 @@ permissions
 - Create safe SQL helper functions for current auth user access checks.
 - Do not enable RLS yet unless functions are ready.
 
-Migration 011 has now been drafted for review at `supabase/migrations/011_create_rls_helper_functions.sql`. It adds helper functions only and does not enable RLS or create policies.
+Migration 011 has been manually applied from `supabase/migrations/011_create_rls_helper_functions.sql`. It adds helper functions only and does not enable RLS or create policies.
 
 ### Stage 2 - Low-Risk Read Policies
 
@@ -77,7 +77,7 @@ Migration 011 has now been drafted for review at `supabase/migrations/011_create
 
 The first RLS policy stage has been planned in [First RLS Policies Plan](29-first-rls-policies-plan.md). It recommends a small foundation-table `SELECT` policy rollout before any business table RLS.
 
-The first foundation RLS SELECT policy migration has now been drafted at `supabase/migrations/012_enable_foundation_rls_select_policies.sql` and documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md). It still requires manual review before applying.
+The first foundation RLS SELECT policy migration has now been manually applied and tested successfully. It is documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md), and the applied checkpoint is documented in [Foundation RLS Applied Review](31-foundation-rls-applied-review.md).
 
 ### Stage 3 - Membership and Admin Checks
 
@@ -230,7 +230,7 @@ The helper function draft is documented in [RLS Helper Functions](28-rls-helper-
 
 The first policy rollout plan is documented in [First RLS Policies Plan](29-first-rls-policies-plan.md).
 
-The first foundation RLS SELECT policy migration draft is documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md).
+The first foundation RLS SELECT policy migration is documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md), and the applied review is documented in [Foundation RLS Applied Review](31-foundation-rls-applied-review.md).
 
 ## Short Executive Summary
 
