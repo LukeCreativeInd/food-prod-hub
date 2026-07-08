@@ -129,6 +129,7 @@ Write policies need more careful permission rules. Delaying write policies reduc
 ## Remaining RLS Risks / Watch Points
 
 - Helper functions are not `SECURITY DEFINER`.
+- Helper function search_path warnings are being addressed before roles/permissions RLS in [RLS Helper Function Search Path Fix](33-rls-helper-function-search-path-fix.md).
 - Some future policies may need helper adjustment if RLS blocks helper reads.
 - `organisation_memberships` policies should avoid recursive checks.
 - `roles`/`permissions` policies need careful global reference handling.

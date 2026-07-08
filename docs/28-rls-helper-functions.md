@@ -38,6 +38,8 @@ The drafted functions do not use `SECURITY DEFINER`.
 
 They are plain `language sql stable` functions that use the current authenticated user context through `auth.uid()`. If future RLS policy testing shows that a helper must bypass table-level RLS to avoid recursion or access problems, that should be reviewed in a separate migration with an explicit `search_path` and a narrow reason.
 
+Migration 013 has been drafted to replace these helper functions with identical logic and an explicit `search_path = public, auth`, addressing Supabase advisor "Function Search Path Mutable" warnings without using `SECURITY DEFINER`.
+
 ## Grants
 
 The migration grants execute access on each helper function to `authenticated`.

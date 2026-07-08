@@ -132,7 +132,9 @@ First-stage view:
 
 Recommended next migration:
 
-`supabase/migrations/013_enable_roles_permissions_rls_select_policies.sql`
+`supabase/migrations/014_enable_roles_permissions_rls_select_policies.sql`
+
+The migration number shifted from 013 to 014 because Migration 013 is used for RLS helper function search path hardening.
 
 It should:
 
@@ -182,7 +184,7 @@ Recommended next step:
 
 033 - Create Roles and Permissions RLS SELECT Policies Migration
 
-This should create migration 013. It should be reviewed before applying, and it should be applied only after confirming current app state is healthy.
+This should create migration 014. It should be reviewed before applying, and it should be applied only after confirming current app state is healthy.
 
 ## Short Executive Summary
 

@@ -27,6 +27,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Auth/navigation foundation review is complete; detailed RLS planning has started
 - RLS helper functions have been created and manually applied
 - First foundation RLS SELECT policies have been manually applied and tested successfully
+- RLS helper function search path hardening has been drafted for review
 - Roles/permissions RLS planning has started; no role/permission RLS policies are active yet
 
 ## Tech Stack
@@ -96,6 +97,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Foundation RLS SELECT policies](docs/30-foundation-rls-select-policies.md)
 - [Foundation RLS applied review](docs/31-foundation-rls-applied-review.md)
 - [Roles and permissions RLS planning](docs/32-roles-permissions-rls-planning.md)
+- [RLS helper function search path fix](docs/33-rls-helper-function-search-path-fix.md)
 
 ## Database Migrations
 
@@ -142,6 +144,8 @@ The first foundation RLS SELECT policy migration is documented in [Foundation RL
 The applied first foundation RLS checkpoint is documented in [Foundation RLS applied review](docs/31-foundation-rls-applied-review.md).
 
 Roles and permissions RLS planning is documented in [Roles and permissions RLS planning](docs/32-roles-permissions-rls-planning.md).
+
+RLS helper function search path hardening is documented in [RLS helper function search path fix](docs/33-rls-helper-function-search-path-fix.md).
 
 ## Current Scope
 
