@@ -2,12 +2,13 @@
 
 ## Planning Status
 
-This is a planning document only.
+This began as a planning document for introducing RLS safely.
 
-- No RLS policies have been created.
-- RLS has not been enabled on any tables yet.
-- No database changes are made by this document.
-- The app currently relies on server-side route guards and helpers, not database-level RLS.
+- RLS helper functions have now been manually applied.
+- First-stage foundation `SELECT` policies have now been manually applied and tested.
+- No write policies have been created yet.
+- Roles/permissions, audit logs and business tables still need later RLS planning.
+- This document itself does not make database changes.
 
 ## RLS Goal
 
@@ -79,6 +80,8 @@ The first RLS policy stage has been planned in [First RLS Policies Plan](29-firs
 
 The first foundation RLS SELECT policy migration has now been manually applied and tested successfully. It is documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md), and the applied checkpoint is documented in [Foundation RLS Applied Review](31-foundation-rls-applied-review.md).
 
+Roles/permissions RLS planning has started in [Roles and Permissions RLS Planning](32-roles-permissions-rls-planning.md). This plans the next reference-table RLS step without creating policies yet.
+
 ### Stage 3 - Membership and Admin Checks
 
 - Add insert/update/delete policies where needed.
@@ -95,7 +98,7 @@ The first foundation RLS SELECT policy migration has now been manually applied a
 
 ## Candidate SQL Helper Functions
 
-These are possible helper functions for later reviewed migrations. They are not implemented yet.
+These helper functions were planned here and have now been created by Migration 011.
 
 | Function | Purpose |
 | --- | --- |
@@ -231,6 +234,8 @@ The helper function draft is documented in [RLS Helper Functions](28-rls-helper-
 The first policy rollout plan is documented in [First RLS Policies Plan](29-first-rls-policies-plan.md).
 
 The first foundation RLS SELECT policy migration is documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md), and the applied review is documented in [Foundation RLS Applied Review](31-foundation-rls-applied-review.md).
+
+Roles/permissions RLS planning is documented in [Roles and Permissions RLS Planning](32-roles-permissions-rls-planning.md).
 
 ## Short Executive Summary
 

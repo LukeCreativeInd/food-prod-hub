@@ -141,6 +141,8 @@ Recommended next step:
 
 032 - Roles and Permissions RLS Planning
 
+Roles/permissions RLS planning now exists at [Roles and Permissions RLS Planning](32-roles-permissions-rls-planning.md).
+
 Before enabling RLS on `roles`, `permissions` and `role_permissions`, we should plan:
 
 - whether authenticated users can read active roles/permissions
