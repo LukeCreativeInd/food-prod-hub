@@ -7,7 +7,7 @@ import {
   SectionCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAuth } from "@/lib/auth";
+import { requireAppAccess } from "@/lib/auth";
 import { availableModules, type ModuleGroup } from "@/lib/module-registry";
 
 const tenantSummary = {
@@ -63,7 +63,7 @@ function DisabledToggle() {
 }
 
 export default async function ModulesPage() {
-  await requireAuth();
+  await requireAppAccess();
 
   return (
     <AppShell>

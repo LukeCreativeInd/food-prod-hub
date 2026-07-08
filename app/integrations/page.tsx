@@ -6,7 +6,7 @@ import {
   SectionCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAuth } from "@/lib/auth";
+import { requireAppAccess } from "@/lib/auth";
 
 const mockIntegrations = [
   {
@@ -153,7 +153,7 @@ function statusTone(status: string) {
 }
 
 export default async function IntegrationsPage() {
-  await requireAuth();
+  await requireAppAccess();
 
   return (
     <AppShell>

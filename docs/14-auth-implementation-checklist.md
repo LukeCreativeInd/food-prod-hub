@@ -16,6 +16,8 @@ Basic route protection has been added and documented at [Basic Route Protection]
 
 Public auth and protected app layouts have been separated and documented at [Public Auth and Protected App Layouts](21-public-auth-and-protected-app-layouts.md).
 
+Membership-aware route guarding has been added and documented at [Membership-Aware Route Guard](22-membership-aware-route-guard.md).
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State
@@ -189,6 +191,7 @@ Stage 2:
 - Establish current organisation context. Completed.
 - Show safe fallback if no membership exists.
 - Surface temporary auth context status for setup verification. Completed.
+- Require valid profile, membership and organisation context for app pages. Completed.
 
 Stage 3:
 

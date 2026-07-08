@@ -8,6 +8,8 @@ This does not add RLS, middleware, permission-based route restrictions, database
 
 Update: route protection now runs inside the separated protected app layout structure. `/login` uses a standalone public auth layout with no sidebar.
 
+Update: app pages now use membership-aware route guarding. Signed-in users missing a profile, active Clean Eats membership or active organisation context are redirected to `/access-issue`.
+
 ## Route Protection Approach
 
 The app uses a small reusable server guard:

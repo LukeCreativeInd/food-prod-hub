@@ -64,7 +64,9 @@ Protected pages still redirect unauthenticated users to:
 
 - `/login`
 
-This task does not add profile, membership or permission enforcement.
+Update: protected app layout pages now use membership-aware access where appropriate. Users with missing profile, membership or organisation context are sent to `/access-issue`.
+
+Permission enforcement is still not added.
 
 ## Intentionally Not Changed
 

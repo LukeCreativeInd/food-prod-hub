@@ -10,7 +10,7 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAuth } from "@/lib/auth";
+import { requireAppAccess } from "@/lib/auth";
 
 const productionStats = [
   {
@@ -143,7 +143,7 @@ const moduleShortcuts = [
 ];
 
 export default async function DashboardPage() {
-  await requireAuth();
+  await requireAppAccess();
 
   return (
     <AppShell>

@@ -1,7 +1,7 @@
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState, PageActionButton, SectionCard } from "@/components/ui";
-import { requireAuth } from "@/lib/auth";
+import { requireAppAccess } from "@/lib/auth";
 
 type PlaceholderPageProps = {
   title: string;
@@ -12,7 +12,7 @@ export async function PlaceholderPage({
   title,
   description,
 }: PlaceholderPageProps) {
-  await requireAuth();
+  await requireAppAccess();
 
   return (
     <AppShell>
