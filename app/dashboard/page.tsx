@@ -1,3 +1,4 @@
+import { AuthContextStatus } from "@/components/auth/auth-context-status";
 import { PageHeader } from "@/components/page-header";
 import {
   ActivityItem,
@@ -250,6 +251,8 @@ export default function DashboardPage() {
             </div>
           </SectionCard>
         </section>
+
+        <AuthContextStatus />
       </div>
     </>
   );

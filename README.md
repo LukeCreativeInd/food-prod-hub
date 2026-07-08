@@ -17,6 +17,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Supabase Auth helper foundation and basic login/logout UI exist, but route protection is not implemented yet
 - First admin setup instructions exist, but no users or memberships are created by the app yet
 - Auth context helpers can resolve profile, Clean Eats membership, organisation and permissions after manual setup exists
+- Dashboard includes a small auth context status card for setup verification
 
 ## Tech Stack
 
@@ -71,6 +72,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Login and logout UI](docs/16-login-and-logout-ui.md)
 - [First admin setup](docs/17-first-admin-setup.md)
 - [Profile, membership and organisation helpers](docs/18-profile-membership-organisation-helpers.md)
+- [Auth context status](docs/19-auth-context-status.md)
 
 ## Database Migrations
 
@@ -89,6 +91,8 @@ The basic auth entry points are documented in [Login and logout UI](docs/16-logi
 Manual first admin setup is documented in [First admin setup](docs/17-first-admin-setup.md).
 
 Auth context helper behaviour is documented in [Profile, membership and organisation helpers](docs/18-profile-membership-organisation-helpers.md).
+
+The dashboard verification card is documented in [Auth context status](docs/19-auth-context-status.md).
 
 ## Current Scope
 

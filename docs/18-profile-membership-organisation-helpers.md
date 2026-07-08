@@ -6,6 +6,8 @@ The auth context helpers now read the signed-in user's profile, Clean Eats membe
 
 This is still a pre-route-protection step. RLS is not enabled, routes are not protected, and business module pages are not connected to production, costing, inventory or QA data.
 
+These helpers are now surfaced through a small dashboard status card documented in [Auth Context Status](19-auth-context-status.md).
+
 ## Helpers Implemented
 
 ### `getCurrentUser()`

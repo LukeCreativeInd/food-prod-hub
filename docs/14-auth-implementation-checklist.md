@@ -10,6 +10,8 @@ First admin setup instructions have been created at [First Admin Setup](17-first
 
 Profile, membership and current organisation helpers have been implemented and documented at [Profile, Membership and Organisation Helpers](18-profile-membership-organisation-helpers.md).
 
+Auth context visibility has been added through the dashboard status card documented at [Auth Context Status](19-auth-context-status.md).
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State
@@ -181,6 +183,7 @@ Stage 2:
 - Load current profile and membership. Completed.
 - Establish current organisation context. Completed.
 - Show safe fallback if no membership exists.
+- Surface temporary auth context status for setup verification. Completed.
 
 Stage 3:
 
