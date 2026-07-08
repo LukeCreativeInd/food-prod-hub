@@ -27,9 +27,9 @@ The current app includes the foundation for an internal operations hub: app shel
 - Auth/navigation foundation review is complete; detailed RLS planning has started
 - RLS helper functions have been created and manually applied
 - First foundation RLS SELECT policies have been manually applied and tested successfully
-- RLS helper function search path hardening has been drafted for review
-- Roles/permissions RLS planning has started; no role/permission RLS policies are active yet
-- Roles/permissions RLS SELECT policy migration has been drafted for review
+- RLS helper function search path hardening has been manually applied and tested successfully
+- Roles/permissions RLS SELECT policies have been manually applied and tested successfully
+- Audit logs RLS remains intentionally delayed
 
 ## Tech Stack
 
@@ -100,6 +100,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Roles and permissions RLS planning](docs/32-roles-permissions-rls-planning.md)
 - [RLS helper function search path fix](docs/33-rls-helper-function-search-path-fix.md)
 - [Roles and permissions RLS SELECT policies](docs/34-roles-permissions-rls-select-policies.md)
+- [Roles and permissions RLS applied review](docs/35-roles-permissions-rls-applied-review.md)
 
 ## Database Migrations
 
@@ -149,7 +150,9 @@ Roles and permissions RLS planning is documented in [Roles and permissions RLS p
 
 RLS helper function search path hardening is documented in [RLS helper function search path fix](docs/33-rls-helper-function-search-path-fix.md).
 
-Roles and permissions RLS SELECT policy drafting is documented in [Roles and permissions RLS SELECT policies](docs/34-roles-permissions-rls-select-policies.md).
+Roles and permissions RLS SELECT policies are documented in [Roles and permissions RLS SELECT policies](docs/34-roles-permissions-rls-select-policies.md).
+
+The applied roles/permissions RLS checkpoint is documented in [Roles and permissions RLS applied review](docs/35-roles-permissions-rls-applied-review.md).
 
 ## Current Scope
 
@@ -165,5 +168,6 @@ Roles and permissions RLS SELECT policy drafting is documented in [Roles and per
 - Enabled-module-aware sidebar visibility for tenant modules
 - SQL helper functions for future reviewed RLS policies
 - Applied first foundation RLS SELECT policies for tenant/auth context reads
+- Applied roles/permissions RLS SELECT policies for permission reference reads
 
 No costing logic, app business-data queries, broad module permission gates, RLS write policies, audit log policies, or complex Supabase behavior has been added.

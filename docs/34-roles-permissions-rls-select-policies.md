@@ -2,11 +2,11 @@
 
 ## Status
 
-Migration 014 has been drafted:
+Migration 014 was drafted and has now been manually applied:
 
 `supabase/migrations/014_enable_roles_permissions_rls_select_policies.sql`
 
-This migration must be manually reviewed before running. It has not been applied to Supabase by this repo task.
+It has been tested successfully after application. The applied checkpoint is documented in [Roles and Permissions RLS Applied Review](35-roles-permissions-rls-applied-review.md).
 
 ## Tables Where RLS Will Be Enabled
 

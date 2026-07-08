@@ -133,7 +133,7 @@ Write policies need more careful permission rules. Delaying write policies reduc
 - Some future policies may need helper adjustment if RLS blocks helper reads.
 - `organisation_memberships` policies should avoid recursive checks.
 - `roles`/`permissions` policies need careful global reference handling.
-- Roles/permissions RLS SELECT policy migration has now been drafted after helper function hardening in [Roles and Permissions RLS SELECT Policies](34-roles-permissions-rls-select-policies.md).
+- Roles/permissions RLS is now applied on top of the foundation RLS rollout and reviewed in [Roles and Permissions RLS Applied Review](35-roles-permissions-rls-applied-review.md).
 - Audit logs need special append-only/admin-read design.
 - Service-role keys must remain server-only and never client-exposed.
 

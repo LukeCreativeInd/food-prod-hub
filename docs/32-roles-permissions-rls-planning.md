@@ -136,7 +136,7 @@ Recommended next migration:
 
 The migration number shifted from 013 to 014 because Migration 013 is used for RLS helper function search path hardening.
 
-Migration 014 has now been drafted and requires review before applying. It is documented in [Roles and Permissions RLS SELECT Policies](34-roles-permissions-rls-select-policies.md).
+Migration 014 has now been drafted, manually applied and reviewed in [Roles and Permissions RLS Applied Review](35-roles-permissions-rls-applied-review.md).
 
 It should:
 
@@ -188,7 +188,7 @@ Recommended next step:
 
 This should create migration 014. It should be reviewed before applying, and it should be applied only after confirming current app state is healthy.
 
-The draft migration is documented in [Roles and Permissions RLS SELECT Policies](34-roles-permissions-rls-select-policies.md).
+The draft migration is documented in [Roles and Permissions RLS SELECT Policies](34-roles-permissions-rls-select-policies.md), and the applied checkpoint is documented in [Roles and Permissions RLS Applied Review](35-roles-permissions-rls-applied-review.md).
 
 ## Short Executive Summary
 
