@@ -26,6 +26,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Sidebar hides module links when the current organisation does not have that module enabled
 - Auth/navigation foundation review is complete; detailed RLS planning has started
 - RLS helper functions have been drafted for review, but RLS is still not enabled
+- First foundation RLS policy rollout has been planned, but no policies are created yet
 
 ## Tech Stack
 
@@ -90,6 +91,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Auth and navigation foundation review](docs/26-auth-and-navigation-foundation-review.md)
 - [RLS planning](docs/27-rls-planning.md)
 - [RLS helper functions](docs/28-rls-helper-functions.md)
+- [First RLS policies plan](docs/29-first-rls-policies-plan.md)
 
 ## Database Migrations
 
@@ -128,6 +130,8 @@ The auth/navigation foundation checkpoint is summarised in [Auth and navigation 
 The staged Row Level Security plan is documented in [RLS planning](docs/27-rls-planning.md).
 
 The drafted RLS helper function migration is documented in [RLS helper functions](docs/28-rls-helper-functions.md).
+
+The first staged foundation RLS policy plan is documented in [First RLS policies plan](docs/29-first-rls-policies-plan.md).
 
 ## Current Scope
 

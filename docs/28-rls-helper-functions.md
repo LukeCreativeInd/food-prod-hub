@@ -6,7 +6,7 @@ Migration 011 has been drafted:
 
 `supabase/migrations/011_create_rls_helper_functions.sql`
 
-This document is a planning and review note only. The migration has not been applied to Supabase by this repo task.
+This document is a planning and review note. Migration 011 was created in the repo and has since been manually applied in Supabase.
 
 ## What Was Added
 
@@ -61,3 +61,5 @@ Next recommended step:
 First staged RLS policies planning/review.
 
 That next checkpoint should decide which foundation tables receive the first read policies, how the helper functions behave under RLS, and how Luke's first admin access is verified before broader rollout.
+
+That first policy stage has now been planned in [First RLS Policies Plan](29-first-rls-policies-plan.md).
