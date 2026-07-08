@@ -25,6 +25,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Sidebar hides selected admin/configuration links when matching permissions are missing
 - Sidebar hides module links when the current organisation does not have that module enabled
 - Auth/navigation foundation review is complete; detailed RLS planning has started
+- RLS helper functions have been drafted for review, but RLS is still not enabled
 
 ## Tech Stack
 
@@ -88,6 +89,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Enabled-module-aware navigation](docs/25-enabled-module-aware-navigation.md)
 - [Auth and navigation foundation review](docs/26-auth-and-navigation-foundation-review.md)
 - [RLS planning](docs/27-rls-planning.md)
+- [RLS helper functions](docs/28-rls-helper-functions.md)
 
 ## Database Migrations
 
@@ -125,6 +127,8 @@ The auth/navigation foundation checkpoint is summarised in [Auth and navigation 
 
 The staged Row Level Security plan is documented in [RLS planning](docs/27-rls-planning.md).
 
+The drafted RLS helper function migration is documented in [RLS helper functions](docs/28-rls-helper-functions.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -137,5 +141,6 @@ The staged Row Level Security plan is documented in [RLS planning](docs/27-rls-p
 - Permission-aware route protection for selected admin/configuration pages
 - Permission-aware sidebar visibility for selected admin/configuration links
 - Enabled-module-aware sidebar visibility for tenant modules
+- Drafted SQL helper functions for future reviewed RLS policies
 
 No costing logic, RLS policies, app business-data queries, broad module permission gates, or complex Supabase behavior has been added.

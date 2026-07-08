@@ -8,6 +8,8 @@ This is the checkpoint after login/logout, first admin setup, route protection, 
 
 The next security planning checkpoint has started in [RLS Planning](27-rls-planning.md).
 
+RLS helper function drafting has started after this checkpoint in [RLS Helper Functions](28-rls-helper-functions.md).
+
 Current state:
 
 - RLS is still not enabled.

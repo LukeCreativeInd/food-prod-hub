@@ -68,6 +68,8 @@ permissions
 - Create safe SQL helper functions for current auth user access checks.
 - Do not enable RLS yet unless functions are ready.
 
+Migration 011 has now been drafted for review at `supabase/migrations/011_create_rls_helper_functions.sql`. It adds helper functions only and does not enable RLS or create policies.
+
 ### Stage 2 - Low-Risk Read Policies
 
 - Start with select policies on foundation tables.
@@ -214,11 +216,13 @@ Audit logs need special append-only and security rules. Roles and permissions ar
 
 ## Recommended Next Implementation Step
 
-Recommended next step:
+Recommended next step completed for review:
 
 028 - Draft RLS Helper Functions Migration
 
 This should create safe SQL helper functions only. It should not enable RLS yet unless explicitly decided. It should be reviewed carefully before applying. After helper functions, the next step can be first staged RLS policies.
+
+The helper function draft is documented in [RLS Helper Functions](28-rls-helper-functions.md).
 
 ## Short Executive Summary
 
