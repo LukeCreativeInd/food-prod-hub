@@ -217,6 +217,8 @@ This has now been created and documented in [Production Module UI Skeleton](46-p
 - sample data only
 - goods inwards, batches, stock movements and BOM/traceability preview
 
+This has now been created and documented in [Inventory Module UI Skeleton](47-inventory-module-ui-skeleton.md). It includes goods inwards, batch receiving, stock locations, stock movements, purchasing prompts and BOM/traceability previews for Phase 1 staff review.
+
 ### 048 - Demo/Test User Access Plan
 
 - plan role/module/permission access for staff demo user

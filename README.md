@@ -44,6 +44,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Costings demo pages now include Ingredient Costs, Packaging Costs and Component Costs
 - Products navigation now follows the staff meeting data order: Suppliers, Ingredients, Packaging, Components, Recipes, Finished Products
 - Production module UI skeleton has been added with report, plan, task and facility/iPad previews
+- Inventory module UI skeleton has been added with goods inwards, batch, movement, purchasing and BOM/traceability previews
 
 ## Tech Stack
 
@@ -126,6 +127,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Staff meeting outcomes and Phase 1 demo plan](docs/44-staff-meeting-outcomes-phase-1-demo-plan.md)
 - [Costings module UI skeleton](docs/45-costings-module-ui-skeleton.md)
 - [Production module UI skeleton](docs/46-production-module-ui-skeleton.md)
+- [Inventory module UI skeleton](docs/47-inventory-module-ui-skeleton.md)
 
 ## Database Migrations
 
@@ -200,6 +202,8 @@ The staff meeting outcomes and Phase 1 demo build direction are documented in [S
 The Costings module UI skeleton is documented in [Costings module UI skeleton](docs/45-costings-module-ui-skeleton.md).
 
 The Production module UI skeleton is documented in [Production module UI skeleton](docs/46-production-module-ui-skeleton.md).
+
+The Inventory module UI skeleton is documented in [Inventory module UI skeleton](docs/47-inventory-module-ui-skeleton.md).
 
 ## Current Scope
 

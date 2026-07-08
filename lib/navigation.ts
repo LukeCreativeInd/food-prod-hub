@@ -142,6 +142,7 @@ export const navigationGroups: NavigationGroup[] = [
   {
     label: "Inventory",
     href: "/inventory",
+    requiredModuleKey: "inventory",
     iconKey: "inventory",
     items: [
       {
@@ -150,9 +151,29 @@ export const navigationGroups: NavigationGroup[] = [
         requiredModuleKey: "inventory",
       },
       {
+        label: "Batch Receiving",
+        href: "/batch-receiving",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "Stock Locations",
+        href: "/stock-locations",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "Stock Movements",
+        href: "/stock-movements",
+        requiredModuleKey: "inventory",
+      },
+      {
         label: "Purchasing",
         href: "/purchasing",
-        requiredModuleKey: "purchasing",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "BOM / Traceability",
+        href: "/bom-traceability",
+        requiredModuleKey: "inventory",
       },
     ],
   },
