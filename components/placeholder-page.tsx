@@ -1,12 +1,18 @@
 import { PageHeader } from "@/components/page-header";
 import { EmptyState, PageActionButton, SectionCard } from "@/components/ui";
+import { requireAuth } from "@/lib/auth";
 
 type PlaceholderPageProps = {
   title: string;
   description: string;
 };
 
-export function PlaceholderPage({ title, description }: PlaceholderPageProps) {
+export async function PlaceholderPage({
+  title,
+  description,
+}: PlaceholderPageProps) {
+  await requireAuth();
+
   return (
     <>
       <PageHeader title={title} description={description} />

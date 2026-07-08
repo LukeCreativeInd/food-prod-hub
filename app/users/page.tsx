@@ -5,6 +5,7 @@ import {
   SectionCard,
   StatusBadge,
 } from "@/components/ui";
+import { requireAuth } from "@/lib/auth";
 
 const mockUsers = [
   {
@@ -166,7 +167,9 @@ function statusTone(status: string) {
   return status === "Active" ? "success" : "warning";
 }
 
-export default function UsersPage() {
+export default async function UsersPage() {
+  await requireAuth();
+
   return (
     <>
       <PageHeader

@@ -9,6 +9,7 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
+import { requireAuth } from "@/lib/auth";
 
 const productionStats = [
   {
@@ -140,7 +141,9 @@ const moduleShortcuts = [
   },
 ];
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  await requireAuth();
+
   return (
     <>
       <PageHeader

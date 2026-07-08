@@ -1,6 +1,15 @@
-import { LoginForm } from "@/app/login/login-form";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+import { LoginForm } from "@/app/login/login-form";
+import { getCurrentUser } from "@/lib/auth";
+
+export default async function LoginPage() {
+  const user = await getCurrentUser();
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center px-5 py-10 md:px-8">
       <section className="w-full max-w-md rounded-lg border border-slate-200 bg-white p-6 shadow-sm md:p-8">

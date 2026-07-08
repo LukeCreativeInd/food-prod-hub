@@ -18,6 +18,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - First admin setup instructions exist, but no users or memberships are created by the app yet
 - Auth context helpers can resolve profile, Clean Eats membership, organisation and permissions after manual setup exists
 - Dashboard includes a small auth context status card for setup verification
+- Basic Supabase Auth route protection is enabled for app pages
 
 ## Tech Stack
 
@@ -73,6 +74,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [First admin setup](docs/17-first-admin-setup.md)
 - [Profile, membership and organisation helpers](docs/18-profile-membership-organisation-helpers.md)
 - [Auth context status](docs/19-auth-context-status.md)
+- [Basic route protection](docs/20-basic-route-protection.md)
 
 ## Database Migrations
 
@@ -94,6 +96,8 @@ Auth context helper behaviour is documented in [Profile, membership and organisa
 
 The dashboard verification card is documented in [Auth context status](docs/19-auth-context-status.md).
 
+Basic route protection is documented in [Basic route protection](docs/20-basic-route-protection.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -101,5 +105,6 @@ The dashboard verification card is documented in [Auth context status](docs/19-a
 - Green and white Clean Eats-style visual foundation
 - Supabase client/server auth helper foundation
 - Basic Supabase Auth login/logout UI
+- Basic app route protection for signed-in users
 
-No costing logic, route protection, RLS policies, app database queries, or complex Supabase behavior has been added.
+No costing logic, RLS policies, app business-data queries, permission-based route restrictions, or complex Supabase behavior has been added.

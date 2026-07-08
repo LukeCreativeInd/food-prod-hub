@@ -12,6 +12,8 @@ Profile, membership and current organisation helpers have been implemented and d
 
 Auth context visibility has been added through the dashboard status card documented at [Auth Context Status](19-auth-context-status.md).
 
+Basic route protection has been added and documented at [Basic Route Protection](20-basic-route-protection.md).
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State
@@ -176,7 +178,7 @@ Stage 1:
 - Add auth helpers. Completed.
 - Add login/logout. Completed.
 - Detect current user.
-- Redirect unauthenticated users away from protected routes.
+- Redirect unauthenticated users away from protected routes. Completed.
 
 Stage 2:
 
@@ -271,7 +273,7 @@ Audit logging should not block initial auth rollout. Automatic triggers can come
 1. Confirm auth package status. Completed.
 2. Add Supabase client/server helpers. Completed.
 3. Add login/logout UI. Completed.
-4. Add protected route handling.
+4. Add protected route handling. Completed.
 5. Manually create Luke auth user.
 6. Manually create Luke profile and Clean Eats membership.
 7. Add profile/membership/current organisation helpers. Completed.

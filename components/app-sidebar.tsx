@@ -9,6 +9,7 @@ import { navigationGroups } from "@/lib/navigation";
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const showLogout = pathname !== "/login";
 
   return (
     <aside className="flex w-full flex-col border-b border-emerald-950 bg-emerald-950 text-white md:sticky md:top-0 md:h-screen md:w-80 md:border-b-0 md:border-r md:border-emerald-900">
@@ -62,7 +63,7 @@ export function AppSidebar() {
         <p className="mb-3 text-xs text-emerald-100/70">
           Modular food operations platform
         </p>
-        <LogoutButton />
+        {showLogout ? <LogoutButton /> : null}
       </div>
     </aside>
   );

@@ -1,5 +1,8 @@
 import { redirect } from "next/navigation";
 
-export default function HomePage() {
+import { requireAuth } from "@/lib/auth";
+
+export default async function HomePage() {
+  await requireAuth();
   redirect("/dashboard");
 }

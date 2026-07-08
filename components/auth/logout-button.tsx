@@ -12,11 +12,22 @@ export function LogoutButton() {
   async function handleLogout() {
     setIsLoading(true);
 
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signOut();
 
-    router.push("/login");
-    router.refresh();
+      if (error) {
+        console.error("Unable to sign out.", error.message);
+        return;
+      }
+
+      router.refresh();
+      router.push("/login");
+    } catch (error) {
+      console.error("Unable to sign out.", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

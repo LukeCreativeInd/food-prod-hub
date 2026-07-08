@@ -6,6 +6,7 @@ import {
   SectionCard,
   StatusBadge,
 } from "@/components/ui";
+import { requireAuth } from "@/lib/auth";
 import { availableModules } from "@/lib/module-registry";
 
 const cleanEatsOrganisation = {
@@ -60,7 +61,9 @@ function DetailGrid({ items }: { items: string[][] }) {
   );
 }
 
-export default function OrganisationSettingsPage() {
+export default async function OrganisationSettingsPage() {
+  await requireAuth();
+
   return (
     <>
       <PageHeader

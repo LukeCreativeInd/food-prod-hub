@@ -6,6 +6,8 @@ A small development-safe auth context status card has been added to the dashboar
 
 This does not add route protection, middleware, RLS, database migrations, user creation, membership creation or business module data queries.
 
+Update: the dashboard is now behind basic Supabase Auth route protection, so the card is viewed after a signed-in user reaches `/dashboard`.
+
 ## Where It Appears
 
 The status card appears on:
