@@ -20,6 +20,8 @@ Membership-aware route guarding has been added and documented at [Membership-Awa
 
 Admin permission route guarding has been added and documented at [Admin Permission Route Guard](23-admin-permission-route-guard.md).
 
+Permission-aware sidebar visibility has been added and documented at [Permission-Aware Sidebar](24-permission-aware-sidebar.md).
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State
@@ -199,6 +201,7 @@ Stage 3:
 
 - Add role/permission checks. Completed.
 - Restrict admin routes. Completed for selected admin/configuration pages.
+- Hide selected admin sidebar links when permissions are missing. Completed.
 - Restrict tablet routes.
 - Restrict platform routes.
 

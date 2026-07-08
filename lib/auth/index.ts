@@ -6,7 +6,11 @@ export { getCurrentUser } from "./get-current-user";
 export { requireAppAccess } from "./require-app-access";
 export { requireAuth } from "./require-auth";
 export { requirePermissionAccess } from "./require-permission";
-export { requirePermission, userHasPermission } from "./permissions";
+export {
+  getCurrentPermissionKeys,
+  requirePermission,
+  userHasPermission,
+} from "./permissions";
 export type {
   CurrentMembership,
   CurrentOrganisation,

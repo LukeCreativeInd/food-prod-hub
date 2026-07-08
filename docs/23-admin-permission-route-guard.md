@@ -6,6 +6,8 @@ Selected admin/configuration pages now require specific view permissions.
 
 This does not add RLS, database migrations, users, memberships, business module data queries or permission-based sidebar link hiding.
 
+Update: matching admin sidebar links are now hidden when the current user is missing the required permission. See [Permission-Aware Sidebar](24-permission-aware-sidebar.md).
+
 ## What Changed
 
 A new permission-aware guard was added:
@@ -88,11 +90,11 @@ Special signed-in/app-access fallback pages:
 
 ## Sidebar Links
 
-Sidebar links are not hidden yet.
+Matching admin sidebar links are now hidden when the current user is missing the required permission.
 
-Users without a required admin permission may still see a link, but opening that admin page redirects them to `/no-access`.
+This is a UX improvement only. Opening an admin route directly still depends on `requirePermissionAccess()`.
 
-Sidebar permission visibility can come later.
+Non-admin module links are still visible for now.
 
 ## RLS Reminder
 

@@ -1,6 +1,7 @@
 export type NavigationItem = {
   label: string;
   href: string;
+  requiredPermission?: string;
 };
 
 export type NavigationGroup = {
@@ -55,10 +56,26 @@ export const navigationGroups: NavigationGroup[] = [
   {
     label: "Admin",
     items: [
-      { label: "Organisation Settings", href: "/organisation-settings" },
-      { label: "Users", href: "/users" },
-      { label: "Modules", href: "/modules" },
-      { label: "Integrations", href: "/integrations" },
+      {
+        label: "Organisation Settings",
+        href: "/organisation-settings",
+        requiredPermission: "admin.organisation.view",
+      },
+      {
+        label: "Users",
+        href: "/users",
+        requiredPermission: "admin.users.view",
+      },
+      {
+        label: "Modules",
+        href: "/modules",
+        requiredPermission: "admin.modules.view",
+      },
+      {
+        label: "Integrations",
+        href: "/integrations",
+        requiredPermission: "admin.integrations.view",
+      },
     ],
   },
 ];

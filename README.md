@@ -22,6 +22,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - `/login` uses a standalone public auth layout; protected pages use the app shell/sidebar
 - Protected app pages require a valid profile, active Clean Eats membership, and active organisation context
 - Selected admin/configuration routes now require matching view permissions
+- Sidebar hides selected admin/configuration links when matching permissions are missing
 
 ## Tech Stack
 
@@ -81,6 +82,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Public auth and protected app layouts](docs/21-public-auth-and-protected-app-layouts.md)
 - [Membership-aware route guard](docs/22-membership-aware-route-guard.md)
 - [Admin permission route guard](docs/23-admin-permission-route-guard.md)
+- [Permission-aware sidebar](docs/24-permission-aware-sidebar.md)
 
 ## Database Migrations
 
@@ -110,6 +112,8 @@ Membership-aware app access is documented in [Membership-aware route guard](docs
 
 Admin/configuration permission guarding is documented in [Admin permission route guard](docs/23-admin-permission-route-guard.md).
 
+Permission-aware navigation visibility is documented in [Permission-aware sidebar](docs/24-permission-aware-sidebar.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -120,5 +124,6 @@ Admin/configuration permission guarding is documented in [Admin permission route
 - Basic app route protection for signed-in users
 - Membership-aware app access for protected pages
 - Permission-aware route protection for selected admin/configuration pages
+- Permission-aware sidebar visibility for selected admin/configuration links
 
-No costing logic, RLS policies, app business-data queries, permission-based route restrictions, or complex Supabase behavior has been added.
+No costing logic, RLS policies, app business-data queries, broad module permission gates, or complex Supabase behavior has been added.

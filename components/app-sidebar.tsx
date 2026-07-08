@@ -5,9 +5,13 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 import { LogoutButton } from "@/components/auth/logout-button";
-import { navigationGroups } from "@/lib/navigation";
+import type { NavigationGroup } from "@/lib/navigation";
 
-export function AppSidebar() {
+type AppSidebarProps = {
+  navigationGroups: NavigationGroup[];
+};
+
+export function AppSidebar({ navigationGroups }: AppSidebarProps) {
   const pathname = usePathname();
   const showLogout = pathname !== "/login";
 
