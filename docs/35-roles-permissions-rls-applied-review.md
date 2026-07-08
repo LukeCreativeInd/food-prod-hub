@@ -128,6 +128,8 @@ Recommended next step:
 
 036 - Audit Logs RLS Planning
 
+Audit logs RLS planning now exists at [Audit Logs RLS Planning](36-audit-logs-rls-planning.md).
+
 `audit_logs` is the last current public table with RLS intentionally delayed. Audit logs need a special plan because they are sensitive. We need to decide read/write rules, append-only behaviour, trusted server inserts and admin visibility before enabling RLS.
 
 ## Short Executive Summary
