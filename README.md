@@ -29,8 +29,8 @@ The current app includes the foundation for an internal operations hub: app shel
 - First foundation RLS SELECT policies have been manually applied and tested successfully
 - RLS helper function search path hardening has been manually applied and tested successfully
 - Roles/permissions RLS SELECT policies have been manually applied and tested successfully
-- Audit logs RLS planning has started; audit log RLS remains intentionally delayed
-- Audit logs RLS SELECT policy migration has been drafted for review
+- Audit logs RLS SELECT policy has been manually applied and tested successfully
+- All current public database tables now have RLS enabled
 
 ## Tech Stack
 
@@ -104,6 +104,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Roles and permissions RLS applied review](docs/35-roles-permissions-rls-applied-review.md)
 - [Audit logs RLS planning](docs/36-audit-logs-rls-planning.md)
 - [Audit logs RLS SELECT policy](docs/37-audit-logs-rls-select-policy.md)
+- [Audit logs RLS applied review](docs/38-audit-logs-rls-applied-review.md)
 
 ## Database Migrations
 
@@ -159,7 +160,9 @@ The applied roles/permissions RLS checkpoint is documented in [Roles and permiss
 
 Audit logs RLS planning is documented in [Audit logs RLS planning](docs/36-audit-logs-rls-planning.md).
 
-Audit logs RLS SELECT policy drafting is documented in [Audit logs RLS SELECT policy](docs/37-audit-logs-rls-select-policy.md).
+Audit logs RLS SELECT policy is documented in [Audit logs RLS SELECT policy](docs/37-audit-logs-rls-select-policy.md).
+
+The applied audit logs RLS checkpoint is documented in [Audit logs RLS applied review](docs/38-audit-logs-rls-applied-review.md).
 
 ## Current Scope
 
@@ -176,5 +179,6 @@ Audit logs RLS SELECT policy drafting is documented in [Audit logs RLS SELECT po
 - SQL helper functions for future reviewed RLS policies
 - Applied first foundation RLS SELECT policies for tenant/auth context reads
 - Applied roles/permissions RLS SELECT policies for permission reference reads
+- Applied audit logs RLS SELECT policy for platform-admin traceability reads
 
-No costing logic, app business-data queries, broad module permission gates, RLS write policies, audit log policies, or complex Supabase behavior has been added.
+No costing logic, app business-data queries, broad module permission gates, RLS write policies, audit log write policies, or complex Supabase behavior has been added.

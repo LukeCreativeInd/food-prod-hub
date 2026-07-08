@@ -7,7 +7,7 @@ This is a planning document only.
 - No migration is created by this task.
 - No RLS is enabled on `audit_logs` by this task.
 - No policies are created by this task.
-- `audit_logs` is currently the remaining intentionally delayed public table.
+- `audit_logs` was the remaining intentionally delayed public table at this planning checkpoint. Migration 015 has since been applied and reviewed in [Audit Logs RLS Applied Review](38-audit-logs-rls-applied-review.md).
 
 ## Why Audit Logs Need Special Handling
 
@@ -163,7 +163,7 @@ Recommended next migration:
 
 `supabase/migrations/015_enable_audit_logs_rls_select_policy.sql`
 
-Migration 015 has now been drafted and requires review before applying. It is documented in [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md).
+Migration 015 has now been drafted, manually applied and reviewed in [Audit Logs RLS Applied Review](38-audit-logs-rls-applied-review.md).
 
 It should:
 
@@ -224,7 +224,7 @@ Recommended next step:
 
 This should create migration 015. It should be manually reviewed before applying. It should only enable RLS and add a `platform_admin` `SELECT` policy for `audit_logs`.
 
-The draft migration is documented in [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md).
+The draft migration is documented in [Audit Logs RLS SELECT Policy](37-audit-logs-rls-select-policy.md), and the applied checkpoint is documented in [Audit Logs RLS Applied Review](38-audit-logs-rls-applied-review.md).
 
 ## Short Executive Summary
 

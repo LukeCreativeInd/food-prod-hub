@@ -2,11 +2,11 @@
 
 ## Status
 
-Migration 015 has been drafted:
+Migration 015 was drafted and has now been manually applied:
 
 `supabase/migrations/015_enable_audit_logs_rls_select_policy.sql`
 
-This migration must be manually reviewed before running. It has not been applied to Supabase by this repo task.
+It has been tested successfully after application. The applied checkpoint is documented in [Audit Logs RLS Applied Review](38-audit-logs-rls-applied-review.md).
 
 ## What The Migration Does
 
