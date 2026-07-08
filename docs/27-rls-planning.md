@@ -77,6 +77,8 @@ Migration 011 has now been drafted for review at `supabase/migrations/011_create
 
 The first RLS policy stage has been planned in [First RLS Policies Plan](29-first-rls-policies-plan.md). It recommends a small foundation-table `SELECT` policy rollout before any business table RLS.
 
+The first foundation RLS SELECT policy migration has now been drafted at `supabase/migrations/012_enable_foundation_rls_select_policies.sql` and documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md). It still requires manual review before applying.
+
 ### Stage 3 - Membership and Admin Checks
 
 - Add insert/update/delete policies where needed.
@@ -227,6 +229,8 @@ This should create safe SQL helper functions only. It should not enable RLS yet 
 The helper function draft is documented in [RLS Helper Functions](28-rls-helper-functions.md).
 
 The first policy rollout plan is documented in [First RLS Policies Plan](29-first-rls-policies-plan.md).
+
+The first foundation RLS SELECT policy migration draft is documented in [Foundation RLS SELECT Policies](30-foundation-rls-select-policies.md).
 
 ## Short Executive Summary
 
