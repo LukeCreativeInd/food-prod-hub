@@ -132,6 +132,8 @@ Recommendation:
 
 Before creating the test user, confirm or implement module-level view-permission filtering across all main modules.
 
+This access gap has now been addressed at the sidebar/navigation level in [Module-Level Permission-Aware Navigation](51-module-level-permission-aware-navigation.md). Non-admin module links now declare view permissions so the sidebar can filter by both enabled modules and user permissions.
+
 ## Recommended Implementation Sequence
 
 ### 050 - Demo Role and Permission Seed Planning / Migration
@@ -151,7 +153,7 @@ It creates the role and selected view-only role permission assignments. It does 
 - preserve admin permission filtering
 - preserve enabled-module filtering
 
-If the current code already supports module-level permission filtering for all modules, this step may be skipped or adjusted. Current review suggests this step is still needed before staff demo access.
+This has now been added and documented in [Module-Level Permission-Aware Navigation](51-module-level-permission-aware-navigation.md). Route-level permission guards for every non-admin module remain a future review item if needed.
 
 ### 052 - Create Demo/Test User Manual Setup
 

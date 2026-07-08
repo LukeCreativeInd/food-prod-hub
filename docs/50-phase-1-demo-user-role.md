@@ -91,6 +91,12 @@ This migration does not create:
 
 The demo/test user should still be created manually later after navigation and route access have been reviewed.
 
+## Sidebar Visibility Support
+
+The seeded `phase_1_demo_user` role is now supported by sidebar module visibility logic documented in [Module-Level Permission-Aware Navigation](51-module-level-permission-aware-navigation.md).
+
+Because the role has Products, Costings, Production and Inventory view permissions, it should see those Phase 1 modules once the demo user/profile/membership is created. Because it does not have Admin, QA, Logistics, CRM or Reports permissions, those modules should be hidden from the sidebar.
+
 ## RLS and Security
 
 This migration does not:
@@ -109,12 +115,6 @@ Roles, permissions and role_permissions already have RLS SELECT policies. This s
 
 Recommended next step:
 
-**051 - Module-Level Permission-Aware Navigation**
-
-Before creating the demo/test user, confirm that non-admin module navigation can be limited by role permissions, not only by enabled tenant modules. This keeps the demo account focused on Products, Costings, Production and Inventory.
-
-After that:
-
 **052 - Create Demo/Test User Manual Setup**
 
-Create the Supabase Auth user, profile and Clean Eats membership with `role_key = phase_1_demo_user`.
+Create the Supabase Auth user, profile and Clean Eats membership with `role_key = phase_1_demo_user`, then verify the sidebar visibility and page access before sharing the login for staff review.

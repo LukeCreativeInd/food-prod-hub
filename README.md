@@ -48,6 +48,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Dashboard has been refreshed as the Phase 1 demo landing page for staff review
 - Demo/test user access planning has been added before any staff demo user is created
 - Phase 1 demo user role seed migration has been drafted for review
+- Module-level permission-aware navigation has been added for non-admin modules
 
 ## Tech Stack
 
@@ -134,6 +135,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Phase 1 dashboard refresh](docs/48-phase-1-dashboard-refresh.md)
 - [Demo/test user access plan](docs/49-demo-test-user-access-plan.md)
 - [Phase 1 demo user role](docs/50-phase-1-demo-user-role.md)
+- [Module-level permission-aware navigation](docs/51-module-level-permission-aware-navigation.md)
 
 ## Database Migrations
 
@@ -216,6 +218,8 @@ The Phase 1 dashboard refresh is documented in [Phase 1 dashboard refresh](docs/
 The demo/test user access plan is documented in [Demo/test user access plan](docs/49-demo-test-user-access-plan.md).
 
 The Phase 1 demo user role seed is documented in [Phase 1 demo user role](docs/50-phase-1-demo-user-role.md).
+
+Module-level permission-aware navigation is documented in [Module-level permission-aware navigation](docs/51-module-level-permission-aware-navigation.md).
 
 ## Current Scope
 

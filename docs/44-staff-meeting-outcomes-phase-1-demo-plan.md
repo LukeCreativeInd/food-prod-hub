@@ -245,6 +245,8 @@ This seed migration has now been drafted and documented in [Phase 1 Demo User Ro
 - preserve enabled-module filtering
 - preserve admin permission filtering
 
+This has now been added and documented in [Module-Level Permission-Aware Navigation](51-module-level-permission-aware-navigation.md). The future demo user sidebar should show Dashboard, Products, Costings, Production and Inventory while hiding Admin, QA, Logistics, CRM and Reports.
+
 ### 052 - Create Demo/Test User
 
 - only after access plan is reviewed
