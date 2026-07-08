@@ -6,6 +6,8 @@ The sidebar now hides selected admin/configuration links when the current signed
 
 This is a navigation visibility improvement only. Route guards remain the real access control.
 
+Update: sidebar visibility now also considers enabled tenant modules. See [Enabled-Module-Aware Navigation](25-enabled-module-aware-navigation.md).
+
 ## What Changed
 
 Admin navigation items now carry a `requiredPermission` value in `lib/navigation.ts`.
@@ -36,9 +38,9 @@ Access is still enforced by route guards:
 
 A user without an admin permission may not see the sidebar link, and direct navigation to the route will still redirect to `/no-access`.
 
-## Links Intentionally Left Unfiltered
+## Links Intentionally Left Permission-Unfiltered
 
-For now, these remain visible after app access is granted:
+For now, these remain permission-visible after app access is granted when their modules are enabled:
 
 - Dashboard
 - Products links
@@ -48,7 +50,7 @@ For now, these remain visible after app access is granted:
 - Business links
 - Reports
 
-Enabled-module filtering and broader module permission filtering will come later.
+Broader module permission filtering will come later.
 
 ## RLS Reminder
 

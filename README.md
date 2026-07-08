@@ -14,7 +14,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - App shell and placeholder module pages exist
 - Design direction is Clean Eats-inspired while platform planning remains reusable
 - Documentation has been added for product direction, architecture, roadmap, development standards, release process, discovery notes, and Codex working rules
-- Supabase Auth helper foundation and basic login/logout UI exist, but route protection is not implemented yet
+- Supabase Auth helper foundation and basic login/logout UI exist
 - First admin setup instructions exist, but no users or memberships are created by the app yet
 - Auth context helpers can resolve profile, Clean Eats membership, organisation and permissions after manual setup exists
 - Dashboard includes a small auth context status card for setup verification
@@ -23,6 +23,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Protected app pages require a valid profile, active Clean Eats membership, and active organisation context
 - Selected admin/configuration routes now require matching view permissions
 - Sidebar hides selected admin/configuration links when matching permissions are missing
+- Sidebar hides module links when the current organisation does not have that module enabled
 
 ## Tech Stack
 
@@ -83,6 +84,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Membership-aware route guard](docs/22-membership-aware-route-guard.md)
 - [Admin permission route guard](docs/23-admin-permission-route-guard.md)
 - [Permission-aware sidebar](docs/24-permission-aware-sidebar.md)
+- [Enabled-module-aware navigation](docs/25-enabled-module-aware-navigation.md)
 
 ## Database Migrations
 
@@ -114,6 +116,8 @@ Admin/configuration permission guarding is documented in [Admin permission route
 
 Permission-aware navigation visibility is documented in [Permission-aware sidebar](docs/24-permission-aware-sidebar.md).
 
+Enabled-module-aware navigation is documented in [Enabled-module-aware navigation](docs/25-enabled-module-aware-navigation.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -125,5 +129,6 @@ Permission-aware navigation visibility is documented in [Permission-aware sideba
 - Membership-aware app access for protected pages
 - Permission-aware route protection for selected admin/configuration pages
 - Permission-aware sidebar visibility for selected admin/configuration links
+- Enabled-module-aware sidebar visibility for tenant modules
 
 No costing logic, RLS policies, app business-data queries, broad module permission gates, or complex Supabase behavior has been added.

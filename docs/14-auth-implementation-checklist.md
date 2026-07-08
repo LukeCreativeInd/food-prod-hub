@@ -22,6 +22,8 @@ Admin permission route guarding has been added and documented at [Admin Permissi
 
 Permission-aware sidebar visibility has been added and documented at [Permission-Aware Sidebar](24-permission-aware-sidebar.md).
 
+Enabled-module-aware navigation has been added and documented at [Enabled-Module-Aware Navigation](25-enabled-module-aware-navigation.md).
+
 This checklist should be completed step by step before enabling RLS broadly.
 
 ## Current Backend State
@@ -202,6 +204,7 @@ Stage 3:
 - Add role/permission checks. Completed.
 - Restrict admin routes. Completed for selected admin/configuration pages.
 - Hide selected admin sidebar links when permissions are missing. Completed.
+- Hide sidebar links when the current organisation module is not enabled. Completed.
 - Restrict tablet routes.
 - Restrict platform routes.
 

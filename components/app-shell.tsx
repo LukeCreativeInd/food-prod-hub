@@ -1,7 +1,10 @@
 import type { ReactNode } from "react";
 
 import { AppSidebar } from "@/components/app-sidebar";
-import { getCurrentPermissionKeys } from "@/lib/auth";
+import {
+  getCurrentEnabledModuleKeys,
+  getCurrentPermissionKeys,
+} from "@/lib/auth";
 import { navigationGroups } from "@/lib/navigation";
 
 type AppShellProps = {
@@ -9,14 +12,21 @@ type AppShellProps = {
 };
 
 export async function AppShell({ children }: AppShellProps) {
-  const permissionKeys = await getCurrentPermissionKeys();
+  const [permissionKeys, enabledModuleKeys] = await Promise.all([
+    getCurrentPermissionKeys(),
+    getCurrentEnabledModuleKeys(),
+  ]);
   const permissionSet = new Set(permissionKeys);
+  const enabledModuleSet = new Set(enabledModuleKeys);
   const visibleNavigationGroups = navigationGroups
     .map((group) => ({
       ...group,
       items: group.items.filter(
         (item) =>
-          !item.requiredPermission || permissionSet.has(item.requiredPermission),
+          (!item.requiredPermission ||
+            permissionSet.has(item.requiredPermission)) &&
+          (!item.requiredModuleKey ||
+            enabledModuleSet.has(item.requiredModuleKey)),
       ),
     }))
     .filter((group) => group.items.length > 0);

@@ -1,7 +1,10 @@
+import type { ModuleKey } from "@/lib/tenant-types";
+
 export type NavigationItem = {
   label: string;
   href: string;
   requiredPermission?: string;
+  requiredModuleKey?: ModuleKey;
 };
 
 export type NavigationGroup = {
@@ -17,40 +20,100 @@ export const navigationGroups: NavigationGroup[] = [
   {
     label: "Products",
     items: [
-      { label: "Ingredients", href: "/ingredients" },
-      { label: "Components", href: "/components" },
-      { label: "Meals", href: "/meals" },
-      { label: "Packaging", href: "/packaging" },
-      { label: "Suppliers", href: "/suppliers" },
+      {
+        label: "Ingredients",
+        href: "/ingredients",
+        requiredModuleKey: "products",
+      },
+      {
+        label: "Components",
+        href: "/components",
+        requiredModuleKey: "products",
+      },
+      { label: "Meals", href: "/meals", requiredModuleKey: "products" },
+      {
+        label: "Packaging",
+        href: "/packaging",
+        requiredModuleKey: "products",
+      },
+      {
+        label: "Suppliers",
+        href: "/suppliers",
+        requiredModuleKey: "products",
+      },
     ],
   },
   {
     label: "Costings",
     items: [
-      { label: "Costing Overview", href: "/costing-overview" },
-      { label: "Meal Margins", href: "/meal-margins" },
-      { label: "Price History", href: "/price-history" },
+      {
+        label: "Costing Overview",
+        href: "/costing-overview",
+        requiredModuleKey: "costings",
+      },
+      {
+        label: "Meal Margins",
+        href: "/meal-margins",
+        requiredModuleKey: "costings",
+      },
+      {
+        label: "Price History",
+        href: "/price-history",
+        requiredModuleKey: "costings",
+      },
     ],
   },
   {
     label: "Operations",
     items: [
-      { label: "Production", href: "/production" },
-      { label: "Production Areas", href: "/production-areas" },
-      { label: "Production Tasks", href: "/production-tasks" },
-      { label: "Inventory", href: "/inventory" },
-      { label: "Goods Inwards", href: "/goods-inwards" },
-      { label: "Purchasing", href: "/purchasing" },
-      { label: "QA", href: "/qa" },
-      { label: "Logistics", href: "/logistics" },
+      {
+        label: "Production",
+        href: "/production",
+        requiredModuleKey: "production",
+      },
+      {
+        label: "Production Areas",
+        href: "/production-areas",
+        requiredModuleKey: "production",
+      },
+      {
+        label: "Production Tasks",
+        href: "/production-tasks",
+        requiredModuleKey: "production",
+      },
+      {
+        label: "Inventory",
+        href: "/inventory",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "Goods Inwards",
+        href: "/goods-inwards",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "Purchasing",
+        href: "/purchasing",
+        requiredModuleKey: "purchasing",
+      },
+      { label: "QA", href: "/qa", requiredModuleKey: "qa" },
+      {
+        label: "Logistics",
+        href: "/logistics",
+        requiredModuleKey: "logistics",
+      },
     ],
   },
   {
     label: "Business",
     items: [
-      { label: "Wholesale", href: "/wholesale" },
-      { label: "CRM", href: "/crm" },
-      { label: "Reports", href: "/reports" },
+      {
+        label: "Wholesale",
+        href: "/wholesale",
+        requiredModuleKey: "wholesale",
+      },
+      { label: "CRM", href: "/crm", requiredModuleKey: "crm" },
+      { label: "Reports", href: "/reports", requiredModuleKey: "reports" },
     ],
   },
   {
@@ -59,21 +122,25 @@ export const navigationGroups: NavigationGroup[] = [
       {
         label: "Organisation Settings",
         href: "/organisation-settings",
+        requiredModuleKey: "admin",
         requiredPermission: "admin.organisation.view",
       },
       {
         label: "Users",
         href: "/users",
+        requiredModuleKey: "admin",
         requiredPermission: "admin.users.view",
       },
       {
         label: "Modules",
         href: "/modules",
+        requiredModuleKey: "admin",
         requiredPermission: "admin.modules.view",
       },
       {
         label: "Integrations",
         href: "/integrations",
+        requiredModuleKey: "admin",
         requiredPermission: "admin.integrations.view",
       },
     ],
