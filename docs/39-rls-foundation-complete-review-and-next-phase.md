@@ -150,6 +150,8 @@ The next recommended document is:
 
 **040 - Next Build Phase Plan: Products/UI Foundation**
 
+That planning document now exists at [Products/UI Foundation Plan](40-products-ui-foundation-plan.md).
+
 That document should define product module scope, UI polish priorities, sample screens, staff feedback process and database modelling sequence.
 
 ## Short Executive Summary
