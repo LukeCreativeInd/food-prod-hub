@@ -113,6 +113,16 @@ export const navigationGroups: NavigationGroup[] = [
     iconKey: "production",
     items: [
       {
+        label: "Production Report",
+        href: "/production-report",
+        requiredModuleKey: "production",
+      },
+      {
+        label: "Production Plan",
+        href: "/production-plan",
+        requiredModuleKey: "production",
+      },
+      {
         label: "Production Areas",
         href: "/production-areas",
         requiredModuleKey: "production",
@@ -120,6 +130,11 @@ export const navigationGroups: NavigationGroup[] = [
       {
         label: "Production Tasks",
         href: "/production-tasks",
+        requiredModuleKey: "production",
+      },
+      {
+        label: "Facility / iPad View",
+        href: "/facility-tasks",
         requiredModuleKey: "production",
       },
     ],

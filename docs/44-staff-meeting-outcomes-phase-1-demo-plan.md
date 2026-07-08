@@ -210,6 +210,8 @@ The Costings demo scope now includes ingredient, packaging, component, meal marg
 - sample data only
 - production overview, areas, tasks and tablet/iPad task preview
 
+This has now been created and documented in [Production Module UI Skeleton](46-production-module-ui-skeleton.md). It includes production report, production plan, production areas, production tasks and facility/iPad workflow previews.
+
 ### 047 - Inventory Module UI Skeleton
 
 - sample data only
