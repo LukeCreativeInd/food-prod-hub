@@ -303,6 +303,8 @@ Due date:
 
 ## What Happens After Feedback
 
+The wider staff meeting has now happened. The agreed next step is to build Phase 1 demo modules with dummy/sample data and collect CSV/source data in parallel. The updated plan is documented in [Staff Meeting Outcomes and Phase 1 Demo Plan](44-staff-meeting-outcomes-phase-1-demo-plan.md).
+
 After staff feedback:
 
 - update UI terminology if needed

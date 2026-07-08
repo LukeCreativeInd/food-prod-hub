@@ -262,6 +262,8 @@ This should not be overbuilt before the core Clean Eats pilot modules have real 
 
 The staff review pack for the Products/UI skeleton has now been prepared in [Staff Review Pack - Products/UI Foundation](43-staff-review-pack-products-ui.md).
 
+The wider staff meeting has now shifted the immediate next build sequence toward Phase 1 demo modules before real Products database tables. That updated direction is documented in [Staff Meeting Outcomes and Phase 1 Demo Plan](44-staff-meeting-outcomes-phase-1-demo-plan.md).
+
 Reviewers:
 
 - Tony: production/director/product structure

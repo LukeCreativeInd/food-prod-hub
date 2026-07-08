@@ -39,6 +39,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Sidebar duplicate overview child links have been removed; parent modules now act as overview links
 - Products module UI skeleton has been added using sample data only
 - Staff review pack for the Products/UI foundation has been prepared
+- Staff meeting outcomes now prioritise Phase 1 demo modules for Products, Costings, Production and Inventory
 
 ## Tech Stack
 
@@ -118,6 +119,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Global visual direction polish](docs/41-global-visual-direction-polish.md)
 - [Products module UI skeleton](docs/42-products-module-ui-skeleton.md)
 - [Staff review pack for Products/UI foundation](docs/43-staff-review-pack-products-ui.md)
+- [Staff meeting outcomes and Phase 1 demo plan](docs/44-staff-meeting-outcomes-phase-1-demo-plan.md)
 
 ## Database Migrations
 
@@ -186,6 +188,8 @@ The first global visual polish pass is documented in [Global visual direction po
 The Products module UI skeleton is documented in [Products module UI skeleton](docs/42-products-module-ui-skeleton.md).
 
 The Products/UI staff review pack is documented in [Staff review pack for Products/UI foundation](docs/43-staff-review-pack-products-ui.md).
+
+The staff meeting outcomes and Phase 1 demo build direction are documented in [Staff meeting outcomes and Phase 1 demo plan](docs/44-staff-meeting-outcomes-phase-1-demo-plan.md).
 
 ## Current Scope
 
