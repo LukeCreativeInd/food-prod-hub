@@ -102,3 +102,5 @@ Recommended next step:
 **049 - Demo/Test User Access Plan**
 
 Plan the staff demo/test user experience now that the Phase 1 dashboard and sample UI modules for Products, Costings, Production and Inventory exist.
+
+This planning step has now been created at [Demo/Test User Access Plan](49-demo-test-user-access-plan.md). It should be reviewed before creating any demo user, membership, role seed or access changes.

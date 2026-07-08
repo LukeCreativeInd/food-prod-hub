@@ -230,16 +230,29 @@ This has now been created and documented in [Phase 1 Dashboard Refresh](48-phase
 
 - plan role/module/permission access for staff demo user
 
-### 050 - Create Demo/Test User
+This has now been created and documented in [Demo/Test User Access Plan](49-demo-test-user-access-plan.md). The plan recommends a safe non-admin demo user, a dedicated `phase_1_demo_user` role, and a check/fix for module-level permission-aware navigation before user creation.
+
+### 050 - Demo Role and Permission Seed Planning / Migration
+
+- create or seed `phase_1_demo_user`
+- assign selected Phase 1 view permissions only
+
+### 051 - Module-Level Permission-Aware Navigation
+
+- ensure non-admin modules are hidden if the user lacks the module view permission
+- preserve enabled-module filtering
+- preserve admin permission filtering
+
+### 052 - Create Demo/Test User
 
 - only after access plan is reviewed
 - no Admin/platform access
 
-### 051 - Staff Demo Review Round
+### 053 - Staff Demo Review Round
 
 - staff review Phase 1 modules with test user
 
-### 052 - Products/Inventory Data Model Planning
+### 054 - Products/Inventory Data Model Planning
 
 - use feedback and CSVs to plan real database tables
 
