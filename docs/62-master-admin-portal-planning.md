@@ -246,6 +246,8 @@ That plan defines the intended flow for creating future client HUBs with separat
 
 The future commercial platform/domain model is defined in [Commercial Platform Architecture and Domain Model](67-commercial-platform-architecture-domain-model.md). That document clarifies that `/platform` is a useful temporary development route, while long-term Platform Admin should become a separate platform-owner environment such as an admin subdomain.
 
+The future admin/public/tenant domain model depends on final product naming. Naming and brand direction planning is tracked in [Naming and Brand Direction Planning](68-naming-and-brand-direction-planning.md).
+
 ## Data Model Readiness
 
 Existing foundation tables that support future master admin:

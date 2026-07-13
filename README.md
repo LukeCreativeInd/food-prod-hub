@@ -66,6 +66,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Tenant creation and provisioning planning has been added before any create/edit tenant flows are built
 - Billing and subscription planning has been added before any payment provider or billing UI work
 - Commercial platform architecture and domain model planning has been added before domain/routing changes
+- Naming and brand direction planning has been added before domain checks, logo work or public website branding
 
 ## Tech Stack
 
@@ -169,6 +170,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Tenant creation and provisioning plan](docs/65-tenant-creation-and-provisioning-plan.md)
 - [Billing and subscription planning](docs/66-billing-and-subscription-planning.md)
 - [Commercial platform architecture and domain model](docs/67-commercial-platform-architecture-domain-model.md)
+- [Naming and brand direction planning](docs/68-naming-and-brand-direction-planning.md)
 
 ## Database Migrations
 
@@ -285,6 +287,8 @@ Future tenant creation and provisioning is planned in [Tenant creation and provi
 Future billing and subscription handling is planned in [Billing and subscription planning](docs/66-billing-and-subscription-planning.md).
 
 The future commercial platform/domain model is planned in [Commercial platform architecture and domain model](docs/67-commercial-platform-architecture-domain-model.md).
+
+Future naming and brand direction is planned in [Naming and brand direction planning](docs/68-naming-and-brand-direction-planning.md).
 
 ## Current Scope
 

@@ -210,6 +210,8 @@ Recommended next planning doc after architecture:
 
 **068 - Naming and Brand Direction Planning**
 
+Naming and brand direction planning now exists in [Naming and Brand Direction Planning](68-naming-and-brand-direction-planning.md). It should guide future domain selection, public website naming, tenant subdomain readability and visual identity exploration before domains are purchased or branding is finalised.
+
 ## Domain Options To Consider
 
 Future domain examples:
