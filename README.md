@@ -68,6 +68,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Commercial platform architecture and domain model planning has been added before domain/routing changes
 - Naming and brand direction planning has been added before domain checks, logo work or public website branding
 - Platform Admin v1 build planning has been added before further Platform Admin functionality
+- Platform Admin v1 design polish has been applied to `/platform` and `/platform/tenants/cleaneats`
 
 ## Tech Stack
 
@@ -173,6 +174,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Commercial platform architecture and domain model](docs/67-commercial-platform-architecture-domain-model.md)
 - [Naming and brand direction planning](docs/68-naming-and-brand-direction-planning.md)
 - [Platform Admin v1 build plan](docs/69-platform-admin-v1-build-plan.md)
+- [Platform Admin v1 design polish](docs/70-platform-admin-v1-design-polish.md)
 
 ## Database Migrations
 
@@ -293,6 +295,8 @@ The future commercial platform/domain model is planned in [Commercial platform a
 Future naming and brand direction is planned in [Naming and brand direction planning](docs/68-naming-and-brand-direction-planning.md).
 
 Platform Admin v1 scope is planned in [Platform Admin v1 build plan](docs/69-platform-admin-v1-build-plan.md).
+
+Platform Admin v1 design polish is documented in [Platform Admin v1 design polish](docs/70-platform-admin-v1-design-polish.md).
 
 ## Current Scope
 

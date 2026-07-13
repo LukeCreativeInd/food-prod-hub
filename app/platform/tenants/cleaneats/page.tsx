@@ -1,51 +1,54 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
-import {
-  AlertCard,
-  SectionCard,
-  StatCard,
-  StatusBadge,
-} from "@/components/ui";
 import { requirePermissionAccess } from "@/lib/auth";
 
-const tenantProfile = [
-  { label: "Organisation name", value: "Clean Eats Australia" },
-  { label: "Slug", value: "cleaneats" },
-  { label: "Industry", value: "Food Manufacturing" },
-  { label: "Status", value: "active" },
-  { label: "Tenant type", value: "Client 1 / Pilot" },
-  { label: "Environment", value: "Demo/Foundation" },
-  { label: "Notes", value: "Phase 1 demo modules active" },
+const summaryCards = [
+  { label: "Slug", value: "cleaneats", detail: "Stable tenant key" },
+  { label: "Vertical", value: "Food Production", detail: "Tenant 1 pilot" },
+  { label: "Status", value: "Active / Pilot", detail: "Static v1 state" },
+  { label: "Environment", value: "Demo/Foundation", detail: "Phase 1 review" },
+  {
+    label: "Module pack",
+    value: "Phase 1 + planned",
+    detail: "Demo modules active",
+  },
+  { label: "Billing", value: "Manual / none", detail: "Not configured" },
 ];
 
-const settingsPreview = [
-  { label: "Display name", value: "Clean Eats Hub" },
-  { label: "Primary colour", value: "Clean Eats green" },
-  { label: "Timezone", value: "Australia/Melbourne" },
-  { label: "Currency", value: "AUD" },
-  { label: "Units", value: "Metric" },
-  { label: "Date format", value: "DD/MM/YYYY" },
+const contextItems = [
+  "Same codebase",
+  "Separate organisation data",
+  "Separate branding/settings",
+  "Separate users/memberships",
+  "Separate enabled modules",
+  "Future subdomain: cleaneats.[brand].com.au",
 ];
 
-const enabledModules = [
-  "Products",
-  "Costings",
-  "Production",
-  "Inventory",
-  "QA",
-  "Logistics",
-  "CRM",
-  "Reports",
-  "Admin",
+const moduleGroups = [
+  {
+    label: "Default",
+    modules: ["Dashboard"],
+    note: "Default app area; not a selectable module initially.",
+  },
+  {
+    label: "Phase 1 demo",
+    modules: ["Products", "Costings", "Production", "Inventory"],
+    note: "Current staff review module set.",
+  },
+  {
+    label: "Planned/full",
+    modules: ["QA", "Logistics", "CRM", "Reports", "Admin"],
+    note: "Planned full operations model for this tenant.",
+  },
 ];
-
-const phaseOneModules = ["Products", "Costings", "Production", "Inventory"];
 
 const memberships = [
   {
     name: "Luke",
     role: "platform_admin",
-    access: "Platform admin",
+    access: "Platform admin / support oversight",
     status: "Active",
   },
   {
@@ -62,283 +65,355 @@ const memberships = [
   },
 ];
 
+const settingsPreview = [
+  ["Display name", "Clean Eats Hub"],
+  ["Primary colour", "Tenant-level Clean Eats green"],
+  ["Timezone", "Australia/Melbourne"],
+  ["Currency", "AUD"],
+  ["Units", "Metric"],
+  ["Date format", "DD/MM/YYYY"],
+];
+
+const billingItems = [
+  ["Plan", "Internal/Pilot"],
+  ["Status", "Not configured"],
+  ["Provider", "None"],
+  ["Enforcement", "Manual/soft only"],
+];
+
 const integrations = [
-  {
-    name: "Shopify",
-    status: "Planned",
-    description: "Future order, customer and product import pathway.",
-  },
-  {
-    name: "Xero",
-    status: "Planned",
-    description: "Future purchase order, bill or financial reference export.",
-  },
-  {
-    name: "Courier/logistics tools",
-    status: "Future",
-    description: "Future delivery manifests and logistics support.",
-  },
-  {
-    name: "CSV imports",
-    status: "Collection",
-    description: "Current early-stage collection path for structured data.",
-  },
+  ["Shopify", "Planned", "Future order/customer/product import pathway."],
+  ["Xero", "Planned", "Future financial reference export."],
+  ["Courier/logistics tools", "Future", "Future manifests and logistics data."],
+  ["CSV imports", "Collection", "Current early-stage collection pathway."],
 ];
 
 const supportItems = [
-  {
-    title: "Support notes",
-    description:
-      "Future platform-admin support notes can sit here once the support model is designed.",
-    meta: "Future",
-  },
-  {
-    title: "Audit logs",
-    description:
-      "Audit logs are protected by RLS and currently planned for platform_admin-readable traceability.",
-    meta: "Protected",
-  },
-  {
-    title: "Tenant health",
-    description:
-      "Sample placeholder for future health checks, setup completion and operational status.",
-    meta: "Placeholder",
-  },
+  ["Support notes", "Future", "Internal support context can be added later."],
+  [
+    "Audit logs",
+    "Protected",
+    "RLS-protected audit summaries are planned for platform admins.",
+  ],
+  ["Tenant health", "Placeholder", "Sample health/status panel only."],
 ];
+
+const guardrails = [
+  "No writes from this page",
+  "No tenant creation/editing",
+  "No billing actions",
+  "No user invites",
+  "No support-mode switching yet",
+];
+
+function PlatformBadge({
+  children,
+  tone = "slate",
+}: {
+  children: string;
+  tone?: "slate" | "blue" | "amber" | "green";
+}) {
+  const tones = {
+    slate: "border-slate-600 bg-slate-800 text-slate-100",
+    blue: "border-blue-200 bg-blue-50 text-blue-700",
+    amber: "border-amber-200 bg-amber-50 text-amber-800",
+    green: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  };
+
+  return (
+    <span
+      className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${tones[tone]}`}
+    >
+      {children}
+    </span>
+  );
+}
+
+function DetailPanel({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="border-b border-slate-200 px-5 py-4 md:px-6">
+        <h2 className="text-lg font-bold text-slate-950">{title}</h2>
+        <p className="mt-1 text-sm leading-6 text-slate-600">{description}</p>
+      </div>
+      <div className="p-5 md:p-6">{children}</div>
+    </section>
+  );
+}
 
 export default async function CleanEatsTenantDetailPage() {
   await requirePermissionAccess("platform.tenants.view");
 
   return (
     <AppShell>
-      <PageHeader
-        title="Clean Eats Australia"
-        description="Tenant detail preview for cleaneats. Read-only Platform Admin skeleton."
-      />
-
-      <div className="space-y-6 px-5 py-6 md:px-8">
-        <SectionCard
-          title="Tenant detail"
-          description="Static platform-admin preview for Tenant 1. No tenant editing, billing, module toggles or integration actions are implemented."
-          action={<StatusBadge tone="success">active</StatusBadge>}
-        >
-          <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="rounded-md border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-6 text-sky-800">
-              This page uses static read-only placeholders. It does not use
-              service-role access, bypass RLS, query business module data or
-              save changes.
+      <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
+        <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
+          <div className="p-6 md:p-8">
+            <Link
+              href="/platform"
+              className="inline-flex w-fit items-center rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm font-semibold text-slate-100 transition hover:bg-slate-800"
+            >
+              Back to Platform
+            </Link>
+            <div className="mt-7 flex flex-wrap gap-2">
+              <PlatformBadge tone="green">Active</PlatformBadge>
+              <PlatformBadge>Client 1</PlatformBadge>
+              <PlatformBadge tone="amber">Read-only</PlatformBadge>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <StatCard
-                label="Slug"
-                value="cleaneats"
-                helperText="Tenant URL/key placeholder for Clean Eats."
-                badge="Tenant"
-                tone="info"
-                icon="CE"
-              />
-              <StatCard
-                label="Phase 1 demo"
-                value="4"
-                helperText="Products, Costings, Production and Inventory."
-                badge="Active"
-                tone="success"
-                icon="P1"
-              />
-            </div>
+            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
+              Tenant detail / Food Production / Pilot tenant
+            </p>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
+              Clean Eats Australia
+            </h1>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
+              Platform Admin preview. Tenant branding and data are
+              tenant-scoped; this page uses static read-only placeholders only.
+            </p>
           </div>
-        </SectionCard>
-
-        <section className="grid gap-6 xl:grid-cols-2">
-          <SectionCard
-            title="Tenant profile"
-            description="Foundation profile details for the first tenant preview."
-            action={<StatusBadge tone="neutral">Static</StatusBadge>}
-          >
-            <div className="grid gap-3 sm:grid-cols-2">
-              {tenantProfile.map((item) => (
-                <div
-                  key={item.label}
-                  className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3"
-                >
-                  <p className="text-xs font-semibold uppercase text-slate-500">
-                    {item.label}
-                  </p>
-                  <p className="mt-2 text-sm font-semibold text-slate-900">
-                    {item.value}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
-
-          <SectionCard
-            title="Branding and settings preview"
-            description="Future tenant-level display and operational defaults."
-            action={<StatusBadge tone="info">Preview</StatusBadge>}
-          >
-            <div className="space-y-3">
-              {settingsPreview.map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center justify-between gap-4 rounded-md border border-slate-200 bg-white px-4 py-3 text-sm"
-                >
-                  <span className="font-medium text-slate-500">
-                    {item.label}
-                  </span>
-                  <span className="text-right font-semibold text-slate-900">
-                    {item.value}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
         </section>
 
-        <SectionCard
-          title="Enabled modules summary"
-          description="Current intended module state for Clean Eats tenant planning."
-          action={<StatusBadge tone="success">9 core modules</StatusBadge>}
-        >
-          <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
-            <div>
-              <p className="text-sm font-semibold text-slate-900">
-                Enabled/core
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {summaryCards.map((card) => (
+            <article
+              key={card.label}
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+            >
+              <p className="text-sm font-semibold text-slate-500">
+                {card.label}
               </p>
-              <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {enabledModules.map((module) => (
-                  <div
-                    key={module}
-                    className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800"
-                  >
-                    {module}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-4">
-              <div className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3">
-                <p className="text-sm font-semibold text-emerald-900">
-                  Phase 1 demo modules
-                </p>
-                <p className="mt-2 text-sm leading-6 text-emerald-800">
-                  {phaseOneModules.join(", ")}
-                </p>
-              </div>
-              <div className="space-y-2 text-sm leading-6 text-slate-600">
-                <p>Dashboard is the default app area.</p>
-                <p>Purchasing sits under Inventory.</p>
-                <p>Wholesale is dormant pending CRM planning.</p>
-              </div>
-            </div>
-          </div>
-        </SectionCard>
+              <p className="mt-3 text-xl font-bold text-slate-950">
+                {card.value}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                {card.detail}
+              </p>
+            </article>
+          ))}
+        </section>
 
-        <section className="grid gap-6 xl:grid-cols-2">
-          <SectionCard
-            title="Users and memberships preview"
-            description="Read-only labels only. No passwords or auth IDs are shown."
-            action={<StatusBadge tone="warning">No invites</StatusBadge>}
-          >
-            <div className="overflow-hidden rounded-lg border border-slate-200">
-              <div className="grid gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase text-slate-500 md:grid-cols-[1fr_0.8fr_1.2fr_0.6fr]">
-                <span>User</span>
-                <span>Role</span>
-                <span>Access</span>
-                <span>Status</span>
+        <DetailPanel
+          title="Tenant architecture / context"
+          description="Tenant boundaries that keep Clean Eats separate from future clients."
+        >
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {contextItems.map((item) => (
+              <div
+                key={item}
+                className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800"
+              >
+                {item}
               </div>
-              <div className="divide-y divide-slate-200 bg-white">
-                {memberships.map((membership) => (
-                  <div
-                    key={membership.name}
-                    className="grid gap-3 px-4 py-4 text-sm md:grid-cols-[1fr_0.8fr_1.2fr_0.6fr] md:items-center"
+            ))}
+          </div>
+        </DetailPanel>
+
+        <DetailPanel
+          title="Modules"
+          description="Module state for the Clean Eats pilot, grouped for platform-admin review."
+        >
+          <div className="grid gap-4 xl:grid-cols-3">
+            {moduleGroups.map((group) => (
+              <article
+                key={group.label}
+                className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+              >
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <h3 className="text-sm font-bold text-slate-950">
+                    {group.label}
+                  </h3>
+                  <PlatformBadge
+                    tone={group.label === "Phase 1 demo" ? "green" : "blue"}
                   >
-                    <p className="font-semibold text-slate-950">
-                      {membership.name}
-                    </p>
-                    <p className="font-medium text-slate-700">
-                      {membership.role}
-                    </p>
-                    <p className="text-slate-600">{membership.access}</p>
-                    <StatusBadge
+                    {group.modules.length.toString()}
+                  </PlatformBadge>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {group.modules.map((module) => (
+                    <span
+                      key={module}
+                      className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800"
+                    >
+                      {module}
+                    </span>
+                  ))}
+                </div>
+                <p className="mt-4 text-sm leading-6 text-slate-600">
+                  {group.note}
+                </p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-5 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-700">
+            Purchasing sits under Inventory. Wholesale is dormant pending CRM
+            planning.
+          </div>
+        </DetailPanel>
+
+        <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+          <DetailPanel
+            title="Users / memberships preview"
+            description="Plain labels only. No auth IDs, passwords or user-management actions."
+          >
+            <div className="space-y-3">
+              {memberships.map((membership) => (
+                <article
+                  key={membership.name}
+                  className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                >
+                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-950">
+                        {membership.name}
+                      </h3>
+                      <p className="mt-1 text-sm font-semibold text-slate-700">
+                        {membership.role}
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">
+                        {membership.access}
+                      </p>
+                    </div>
+                    <PlatformBadge
                       tone={
-                        membership.status === "Active" ? "success" : "warning"
+                        membership.status === "Active" ? "green" : "amber"
                       }
                     >
                       {membership.status}
-                    </StatusBadge>
+                    </PlatformBadge>
                   </div>
-                ))}
-              </div>
-            </div>
-          </SectionCard>
-
-          <SectionCard
-            title="Integration placeholders"
-            description="Future external system setup status for this tenant."
-            action={<StatusBadge tone="neutral">No live APIs</StatusBadge>}
-          >
-            <div className="space-y-3">
-              {integrations.map((integration) => (
-                <AlertCard
-                  key={integration.name}
-                  title={integration.name}
-                  description={integration.description}
-                  meta={integration.status}
-                  tone={
-                    integration.status === "Collection" ? "info" : "warning"
-                  }
-                />
+                </article>
               ))}
             </div>
-          </SectionCard>
-        </section>
+          </DetailPanel>
 
-        <section className="grid gap-6 xl:grid-cols-2">
-          <SectionCard
-            title="Billing and subscription placeholder"
-            description="Billing is intentionally not configured for the pilot/internal phase."
-            action={<StatusBadge tone="neutral">Placeholder</StatusBadge>}
+          <DetailPanel
+            title="Branding / settings preview"
+            description="Tenant branding is separate from Platform Admin styling."
           >
-            <div className="grid gap-3 sm:grid-cols-2">
-              {[
-                ["Billing", "Not configured"],
-                ["Plan", "Pilot/internal"],
-                ["Subscription", "Future"],
-                ["Payment status", "Not applicable yet"],
-              ].map(([label, value]) => (
+            <div className="space-y-3">
+              {settingsPreview.map(([label, value]) => (
                 <div
                   key={label}
-                  className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3"
+                  className="flex flex-col gap-1 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <span className="text-sm font-semibold text-slate-500">
+                    {label}
+                  </span>
+                  <span className="text-sm font-bold text-slate-950">
+                    {value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </DetailPanel>
+        </section>
+
+        <section className="grid gap-6 xl:grid-cols-3">
+          <DetailPanel
+            title="Billing"
+            description="Commercial state remains manual and placeholder-only."
+          >
+            <div className="space-y-3">
+              {billingItems.map(([label, value]) => (
+                <div
+                  key={label}
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3"
                 >
                   <p className="text-xs font-semibold uppercase text-slate-500">
                     {label}
                   </p>
-                  <p className="mt-2 text-sm font-semibold text-slate-900">
+                  <p className="mt-2 text-sm font-bold text-slate-950">
                     {value}
                   </p>
                 </div>
               ))}
             </div>
-          </SectionCard>
+          </DetailPanel>
 
-          <SectionCard
-            title="Support and audit placeholder"
-            description="Future support context for platform admins."
-            action={<StatusBadge tone="info">Read-only</StatusBadge>}
+          <DetailPanel
+            title="Integrations"
+            description="Future connection states only. No live API actions."
           >
             <div className="space-y-3">
-              {supportItems.map((item) => (
-                <AlertCard
-                  key={item.title}
-                  title={item.title}
-                  description={item.description}
-                  meta={item.meta}
-                  tone="info"
-                />
+              {integrations.map(([name, status, detail]) => (
+                <article
+                  key={name}
+                  className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="text-sm font-bold text-slate-950">
+                      {name}
+                    </h3>
+                    <PlatformBadge
+                      tone={status === "Collection" ? "blue" : "amber"}
+                    >
+                      {status}
+                    </PlatformBadge>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                    {detail}
+                  </p>
+                </article>
               ))}
             </div>
-          </SectionCard>
+          </DetailPanel>
+
+          <DetailPanel
+            title="Support / audit"
+            description="Future support context for platform admins."
+          >
+            <div className="space-y-3">
+              {supportItems.map(([name, status, detail]) => (
+                <article
+                  key={name}
+                  className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="text-sm font-bold text-slate-950">
+                      {name}
+                    </h3>
+                    <PlatformBadge tone="blue">{status}</PlatformBadge>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                    {detail}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </DetailPanel>
+        </section>
+
+        <section className="rounded-xl border border-slate-800 bg-slate-950 p-5 shadow-sm md:p-6">
+          <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-white">
+                Read-only guardrails
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-slate-300">
+                This tenant detail page is a platform-admin preview, not a
+                tenant management console.
+              </p>
+            </div>
+            <PlatformBadge tone="amber">No actions</PlatformBadge>
+          </div>
+          <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+            {guardrails.map((guardrail) => (
+              <div
+                key={guardrail}
+                className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-slate-100"
+              >
+                {guardrail}
+              </div>
+            ))}
+          </div>
         </section>
       </div>
     </AppShell>

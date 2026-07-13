@@ -303,6 +303,8 @@ Avoid:
 - make Platform Admin feel like a control centre
 - keep static placeholders
 
+Design polish has now been applied to `/platform` and `/platform/tenants/cleaneats`. Details are documented in [Platform Admin v1 Design Polish](70-platform-admin-v1-design-polish.md).
+
 ### Phase 3 - Safe live foundation reads
 
 - read tenant list/settings/modules/memberships under RLS
@@ -336,6 +338,10 @@ Before building more functionality, define how Platform Admin should look and fe
 - clear separation from tenant app UI
 
 Then after 070, pause Platform Admin and return to Clean Eats real data/module layout planning.
+
+Update:
+
+The 070 design polish pass is complete. The next recommended step is to pause Platform Admin and return to Clean Eats real data/module layout planning.
 
 ## Open Questions
 
