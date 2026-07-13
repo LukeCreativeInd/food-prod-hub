@@ -8,6 +8,8 @@ No user is created by this task. No memberships are created by this task. No rol
 
 This plan should be reviewed before creating the demo/test user.
 
+Update: the demo user has now been created and access has been confirmed. See [Staff Demo Review Round](53-staff-demo-review-round.md) for the confirmed access state and staff review process.
+
 ## Purpose of Demo/Test User
 
 The demo/test user will let Clean Eats staff log in and review the Phase 1 demo modules using sample data.

@@ -50,6 +50,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Phase 1 demo user role seed migration has been drafted for review
 - Module-level permission-aware navigation has been added for non-admin modules
 - Demo/test user manual setup guide has been added for controlled Supabase setup
+- Staff demo review round has been documented for Phase 1 feedback
 
 ## Tech Stack
 
@@ -138,6 +139,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Phase 1 demo user role](docs/50-phase-1-demo-user-role.md)
 - [Module-level permission-aware navigation](docs/51-module-level-permission-aware-navigation.md)
 - [Demo/test user manual setup](docs/52-demo-test-user-manual-setup.md)
+- [Staff demo review round](docs/53-staff-demo-review-round.md)
 
 ## Database Migrations
 
@@ -224,6 +226,8 @@ The Phase 1 demo user role seed is documented in [Phase 1 demo user role](docs/5
 Module-level permission-aware navigation is documented in [Module-level permission-aware navigation](docs/51-module-level-permission-aware-navigation.md).
 
 The demo/test user manual setup guide is documented in [Demo/test user manual setup](docs/52-demo-test-user-manual-setup.md).
+
+The staff demo review round is documented in [Staff demo review round](docs/53-staff-demo-review-round.md).
 
 ## Current Scope
 

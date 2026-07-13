@@ -258,6 +258,8 @@ The manual setup guide now exists at [Demo/Test User Manual Setup](52-demo-test-
 
 - staff review Phase 1 modules with test user
 
+The staff demo review round is now ready and documented in [Staff Demo Review Round](53-staff-demo-review-round.md). The demo user has been created and tested, with Dashboard, Products, Costings, Production and Inventory visible and Admin, QA, Logistics, CRM and Reports hidden.
+
 ### 054 - Products/Inventory Data Model Planning
 
 - use feedback and CSVs to plan real database tables

@@ -8,6 +8,8 @@ No user, profile or membership is created by this document. The `phase_1_demo_us
 
 This user is for internal Clean Eats staff review only.
 
+Update: the manual setup has been completed and tested successfully for Clean Eats Demo User at `hello@cleaneatsaustralia.com.au`. The confirmed staff review process is documented in [Staff Demo Review Round](53-staff-demo-review-round.md).
+
 ## Purpose
 
 The demo/test user lets Clean Eats staff safely review Phase 1 demo modules using sample data only.
