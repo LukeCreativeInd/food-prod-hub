@@ -493,3 +493,9 @@ Start upload/storage/extraction foundation because the review workflow and sampl
 ## Short Executive Summary
 
 Purchase Document Intake should be a bulk onboarding accelerator for supplier invoice history, not a manual invoice-entry replacement. The generic flow should upload documents, extract supplier/line/price data, let users review and correct it, then commit approved records into Suppliers, Supplier Items, Internal Items, Mappings and Price History while preserving tenant isolation and source provenance.
+
+## Step 076 Update
+
+The upload/storage foundation has started in [Purchase Document Upload and Extraction Foundation](76-purchase-document-upload-extraction-foundation.md).
+
+That step adds tenant-scoped file upload, file metadata, SHA-256 duplicate detection and signed source document viewing. It still does not add OCR, generic extraction parsing or generic commit automation.

@@ -318,6 +318,8 @@ Purchase Document Intake generalisation and action feedback polish is documented
 
 Generic invoice extraction and commit planning is documented in [Generic invoice extraction and commit planning](docs/75-generic-invoice-extraction-and-commit-planning.md).
 
+Purchase Document upload and extraction foundation is documented in [Purchase Document upload and extraction foundation](docs/76-purchase-document-upload-extraction-foundation.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -336,5 +338,6 @@ Generic invoice extraction and commit planning is documented in [Generic invoice
 - Applied audit logs RLS SELECT policy for platform-admin traceability reads
 - Purchase Document Intake read/write actions for saved review records only
 - Controlled Cammaroto sample commit flow for reviewed supplier, item, mapping and price reference records
+- Tenant-scoped Purchase Document file upload foundation with private storage migration draft
 
-No costing calculations, broad production business logic, audit log write policies, OCR, storage-backed uploads, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.
+No costing calculations, broad production business logic, audit log write policies, OCR, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

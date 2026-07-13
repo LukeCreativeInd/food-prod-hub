@@ -2,10 +2,14 @@ import Link from "next/link";
 
 import { ActionSubmitButton } from "@/app/purchase-documents/action-submit-button";
 import { createCammarotoSampleReviewAction } from "@/app/purchase-documents/actions";
+import { UploadDocumentForm } from "@/app/purchase-documents/upload-document-form";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState, StatusBadge } from "@/components/ui";
-import { getPurchaseDocumentsForCurrentOrganisation } from "@/lib/purchase-document-intake";
+import {
+  getPurchaseDocumentsForCurrentOrganisation,
+  purchaseDocumentUploadConfig,
+} from "@/lib/purchase-document-intake";
 
 const workflowSteps = [
   "Upload Document",
@@ -110,9 +114,9 @@ export default async function PurchaseDocumentsPage() {
               </p>
             </div>
             <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
-              Real upload, storage and extraction are planned follow-ups. The
-              current sample invoice path is available for testing the workflow
-              end to end.
+              Real tenant-scoped upload is now available. Extraction remains a
+              reviewed follow-up, and the current sample invoice path is still
+              available for testing the commit workflow end to end.
             </div>
           </div>
         </section>
@@ -164,21 +168,21 @@ export default async function PurchaseDocumentsPage() {
             </div>
             <div className="mt-4 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-5">
               <p className="text-sm font-semibold text-slate-950">
-                Upload/extraction coming next
+                Upload supplier invoice
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                Future upload will validate MIME type, record file metadata,
-                store a tenant-scoped storage path and capture a file
-                fingerprint where practical. No OCR or extraction is connected
-                yet.
+                Upload PDF or common image files into private tenant-scoped
+                storage. The system validates file type and size, stores a file
+                fingerprint and prevents same-tenant duplicate uploads where
+                practical. Extraction is not fully automated yet.
               </p>
-              <button
-                type="button"
-                disabled
-                className="mt-4 inline-flex cursor-not-allowed items-center rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-400"
-              >
-                Storage upload coming next
-              </button>
+              <UploadDocumentForm
+                acceptedTypes={purchaseDocumentUploadConfig.supportedMimeTypes}
+                maxUploadLabel={purchaseDocumentUploadConfig.maxUploadLabel}
+                supportedUploadLabel={
+                  purchaseDocumentUploadConfig.supportedUploadLabel
+                }
+              />
             </div>
           </div>
 

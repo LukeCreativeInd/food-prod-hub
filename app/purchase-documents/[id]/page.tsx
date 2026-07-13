@@ -24,6 +24,7 @@ type PageProps = {
     commit?: string;
     sample?: string;
     saved?: string;
+    upload?: string;
   }>;
 };
 
@@ -60,6 +61,23 @@ function formatNumber(value: number | null) {
   return value === null ? "" : String(value);
 }
 
+function formatFileSize(value: number | null) {
+  if (value === null) {
+    return "Not recorded";
+  }
+
+  if (value < 1024) {
+    return `${value} B`;
+  }
+
+  const kilobytes = value / 1024;
+  if (kilobytes < 1024) {
+    return `${kilobytes.toFixed(1)} KB`;
+  }
+
+  return `${(kilobytes / 1024).toFixed(1)} MB`;
+}
+
 function formatStatus(status: string) {
   return status
     .split("_")
@@ -83,7 +101,20 @@ function statusTone(status: string) {
   return "warning" as const;
 }
 
-function messageFor(commit?: string, sample?: string, saved?: string) {
+function messageFor(
+  commit?: string,
+  sample?: string,
+  saved?: string,
+  upload?: string,
+) {
+  if (upload === "created") {
+    return "Purchase document uploaded. Extraction is not connected yet, so review fields can be filled after a future extraction step.";
+  }
+
+  if (upload === "duplicate") {
+    return "This document appears to have already been uploaded. The existing record was opened instead of creating a duplicate.";
+  }
+
   if (commit === "committed") {
     return "Purchase document committed. Supplier, item, mapping, price and informational-rule records were created or reused.";
   }
@@ -273,8 +304,8 @@ export default async function PurchaseDocumentReviewPage({
     );
   }
 
-  const { document, lines } = review;
-  const message = messageFor(query.commit, query.sample, query.saved);
+  const { document, lines, sourceFile } = review;
+  const message = messageFor(query.commit, query.sample, query.saved, query.upload);
   const canCommit = await userHasPermission("purchase_documents.commit");
   const isCommitted = document.status === "committed";
   const lineTotal = lines.reduce(
@@ -294,6 +325,7 @@ export default async function PurchaseDocumentReviewPage({
   );
   const lineClassificationsReady =
     lines.length > 0 && lines.every((line) => line.classification !== "unknown");
+  const hasLines = lines.length > 0;
   const commitReady =
     !isCommitted &&
     !["duplicate", "rejected", "failed"].includes(document.status) &&
@@ -354,6 +386,9 @@ export default async function PurchaseDocumentReviewPage({
                     {formatStatus(document.status)}
                   </StatusBadge>
                   <StatusBadge tone="info">Saved database record</StatusBadge>
+                  {document.storage_path ? (
+                    <StatusBadge tone="success">Storage-backed</StatusBadge>
+                  ) : null}
                   {isCommitted ? (
                     <StatusBadge tone="success">Committed records linked</StatusBadge>
                   ) : null}
@@ -385,17 +420,70 @@ export default async function PurchaseDocumentReviewPage({
                 Source document
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
-                Document viewer placeholder. Future storage-backed uploads will
-                render the source PDF/image here.
+                Source files are loaded through short-lived signed URLs for
+                authorised users. Extraction is not connected yet.
               </p>
               <div className="mt-5 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-5">
                 <p className="text-sm font-semibold text-slate-950">
                   {document.original_filename}
                 </p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Storage path: {document.storage_path ?? "not stored yet"}.
-                  OCR/extraction is not connected.
-                </p>
+                <dl className="mt-3 grid gap-3 text-sm md:grid-cols-2 xl:grid-cols-1">
+                  <div>
+                    <dt className="text-xs font-semibold uppercase text-slate-500">
+                      File type
+                    </dt>
+                    <dd className="mt-1 font-semibold text-slate-800">
+                      {document.mime_type ?? "Not recorded"}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs font-semibold uppercase text-slate-500">
+                      File size
+                    </dt>
+                    <dd className="mt-1 font-semibold text-slate-800">
+                      {formatFileSize(document.file_size_bytes)}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs font-semibold uppercase text-slate-500">
+                      Storage status
+                    </dt>
+                    <dd className="mt-1 font-semibold text-slate-800">
+                      {document.storage_path
+                        ? "Stored in private tenant storage"
+                        : "No uploaded file stored"}
+                    </dd>
+                  </div>
+                </dl>
+                {sourceFile.error ? (
+                  <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
+                    {sourceFile.error}
+                  </div>
+                ) : null}
+                {sourceFile.signedUrl ? (
+                  <div className="mt-4 space-y-3">
+                    <a
+                      href={sourceFile.signedUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+                    >
+                      Open source document
+                    </a>
+                    <iframe
+                      title="Source purchase document preview"
+                      src={sourceFile.signedUrl}
+                      className="h-96 w-full rounded-md border border-slate-200 bg-white"
+                    />
+                  </div>
+                ) : null}
+                {lines.length === 0 ? (
+                  <p className="mt-4 text-sm leading-6 text-slate-600">
+                    Extraction is not connected yet. Supplier and line
+                    extraction will be added in a follow-up, so no invoice lines
+                    were created by this upload.
+                  </p>
+                ) : null}
               </div>
             </aside>
 
@@ -505,8 +593,9 @@ export default async function PurchaseDocumentReviewPage({
                 and internal item names stay separate.
               </p>
             </div>
-            <div className="divide-y divide-slate-200">
-              {lines.map((line) => {
+            {hasLines ? (
+              <div className="divide-y divide-slate-200">
+                {lines.map((line) => {
                 const defaults = lineReviewDefaults(line);
 
                 return (
@@ -649,8 +738,16 @@ export default async function PurchaseDocumentReviewPage({
                     </div>
                   </article>
                 );
-              })}
-            </div>
+                })}
+              </div>
+            ) : (
+              <div className="p-5">
+                <EmptyState
+                  title="No extracted invoice lines yet"
+                  description="The source document is uploaded, but extraction is not connected yet. A follow-up will create reviewed draft lines from the uploaded invoice."
+                />
+              </div>
+            )}
           </section>
 
           <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
@@ -663,6 +760,12 @@ export default async function PurchaseDocumentReviewPage({
                   {committedSummary.map(([label, value]) => (
                     <FieldPreview key={label} label={label} value={value} />
                   ))}
+                </div>
+              ) : !hasLines ? (
+                <div className="mt-5 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
+                  Extraction is pending. No supplier, item, mapping, price or
+                  stock records can be committed until reviewed invoice lines
+                  exist.
                 </div>
               ) : (
                 <div className="mt-5 grid gap-3 md:grid-cols-2">

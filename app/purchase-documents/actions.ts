@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import {
   commitCammarotoPurchaseDocumentReview,
   createCammarotoSampleReview,
+  uploadPurchaseDocument,
   updatePurchaseDocumentReview,
   type UpdateReviewInput,
 } from "@/lib/purchase-document-intake";
@@ -28,6 +29,46 @@ function getOptionalNumber(formData: FormData, key: string) {
 
   const numberValue = Number(value);
   return Number.isFinite(numberValue) ? numberValue : null;
+}
+
+export type UploadPurchaseDocumentActionState = {
+  status: "idle" | "error";
+  message: string;
+};
+
+export async function uploadPurchaseDocumentAction(
+  _previousState: UploadPurchaseDocumentActionState,
+  formData: FormData,
+): Promise<UploadPurchaseDocumentActionState> {
+  const fileValue = formData.get("purchase_document");
+
+  if (!(fileValue instanceof File)) {
+    return {
+      status: "error",
+      message: "Choose a PDF or image file before uploading.",
+    };
+  }
+
+  let result: Awaited<ReturnType<typeof uploadPurchaseDocument>>;
+
+  try {
+    result = await uploadPurchaseDocument(fileValue);
+  } catch (error) {
+    return {
+      status: "error",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Could not upload purchase document.",
+    };
+  }
+
+  revalidatePath("/purchase-documents");
+  redirect(
+    `/purchase-documents/${result.documentId}?upload=${
+      result.duplicate ? "duplicate" : "created"
+    }`,
+  );
 }
 
 export async function createCammarotoSampleReviewAction() {

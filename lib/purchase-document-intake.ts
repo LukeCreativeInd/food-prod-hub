@@ -1,5 +1,6 @@
 import { requirePermissionAccess } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { createHash, randomUUID } from "crypto";
 
 type SupplierRow = {
   id: string;
@@ -118,6 +119,10 @@ export type PurchaseDocumentLine = {
 export type PurchaseDocumentReview = {
   document: PurchaseDocumentSummary;
   lines: PurchaseDocumentLine[];
+  sourceFile: {
+    signedUrl: string | null;
+    error: string | null;
+  };
 };
 
 export type CommitPurchaseDocumentResult = {
@@ -179,6 +184,15 @@ const CAMMAROTO_SAMPLE = {
   supplierAccountNumberSource: "555",
 };
 
+const PURCHASE_DOCUMENT_BUCKET = "purchase-documents";
+const MAX_UPLOAD_BYTES = 20 * 1024 * 1024;
+const supportedUploadMimeTypes = new Map([
+  ["application/pdf", "PDF"],
+  ["image/jpeg", "JPEG image"],
+  ["image/png", "PNG image"],
+  ["image/webp", "WebP image"],
+  ["image/heic", "HEIC image"],
+]);
 const INTERNAL_ITEM_NAME_PREFIX = "Internal item name:";
 const stockLineClassifications = new Set([
   "ingredient",
@@ -186,6 +200,13 @@ const stockLineClassifications = new Set([
   "consumable",
   "equipment",
 ]);
+
+type SupabaseStorageError = {
+  statusCode?: string | number;
+  error?: string;
+  message?: string;
+  code?: string;
+};
 
 async function requirePurchaseDocumentPermission(permissionKey: string) {
   const authContext = await requirePermissionAccess(permissionKey);
@@ -225,6 +246,181 @@ function cleanText(value: string | null | undefined) {
   const trimmed = value?.trim();
   return trimmed ? trimmed : null;
 }
+
+function sanitiseFilename(filename: string) {
+  const cleanFilename = filename
+    .trim()
+    .replace(/[/\\]/g, "-")
+    .replace(/[^a-zA-Z0-9._ -]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .slice(0, 140);
+
+  return cleanFilename || "purchase-document";
+}
+
+function formatBytes(bytes: number | null) {
+  if (bytes === null) {
+    return "Unknown size";
+  }
+
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  const kilobytes = bytes / 1024;
+  if (kilobytes < 1024) {
+    return `${kilobytes.toFixed(1)} KB`;
+  }
+
+  return `${(kilobytes / 1024).toFixed(1)} MB`;
+}
+
+function isSupportedUploadMimeType(mimeType: string) {
+  return supportedUploadMimeTypes.has(mimeType);
+}
+
+function getSupportedUploadLabel() {
+  return Array.from(supportedUploadMimeTypes.values()).join(", ");
+}
+
+function isDevelopment() {
+  return process.env.NODE_ENV !== "production";
+}
+
+function getStorageUploadErrorMessage(error: SupabaseStorageError) {
+  const statusCode = String(error.statusCode ?? "");
+  const rawMessage = `${error.error ?? ""} ${error.message ?? ""} ${
+    error.code ?? ""
+  }`.toLowerCase();
+
+  if (statusCode === "404" || rawMessage.includes("bucket not found")) {
+    return "Storage bucket missing. Ask an admin to apply migration 019 for the private purchase-documents bucket.";
+  }
+
+  if (
+    statusCode === "403" ||
+    rawMessage.includes("row-level security") ||
+    rawMessage.includes("violates row-level security") ||
+    rawMessage.includes("not authorized") ||
+    rawMessage.includes("unauthorized") ||
+    rawMessage.includes("permission")
+  ) {
+    return "Storage policy rejected the upload. Confirm your role has purchase_documents.upload and the path is tenant-scoped.";
+  }
+
+  if (
+    statusCode === "400" &&
+    (rawMessage.includes("mime") ||
+      rawMessage.includes("content type") ||
+      rawMessage.includes("file type"))
+  ) {
+    return `Invalid MIME type for storage bucket. Accepted types: ${getSupportedUploadLabel()}.`;
+  }
+
+  if (
+    statusCode === "400" &&
+    (rawMessage.includes("size") || rawMessage.includes("too large"))
+  ) {
+    return `File is too large for storage. Maximum upload size is ${formatBytes(MAX_UPLOAD_BYTES)}.`;
+  }
+
+  if (statusCode === "409" || rawMessage.includes("already exists")) {
+    return "A storage object already exists for this upload path. Try uploading again or open the existing document if it was already created.";
+  }
+
+  return "Could not upload the source file. Check the server logs for the Supabase storage error details.";
+}
+
+function logUploadDebug(
+  stage: "attempt" | "storage_error" | "insert_error",
+  details: {
+    organisationId: string;
+    storagePath: string;
+    mimeType: string;
+    fileSize: number;
+    error?: unknown;
+  },
+) {
+  if (!isDevelopment()) {
+    return;
+  }
+
+  console.error("[purchase-document-upload]", {
+    stage,
+    organisationId: details.organisationId,
+    storagePath: details.storagePath,
+    mimeType: details.mimeType,
+    fileSize: details.fileSize,
+    error: details.error,
+  });
+}
+
+async function findDuplicatePurchaseDocument({
+  organisationId,
+  fileHash,
+  originalFilename,
+  fileSizeBytes,
+}: {
+  organisationId: string;
+  fileHash: string;
+  originalFilename: string;
+  fileSizeBytes: number;
+}) {
+  const supabase = await createClient();
+
+  const { data: hashDuplicate, error: hashError } = await supabase
+    .from("purchase_documents")
+    .select("id, original_filename, status")
+    .eq("organisation_id", organisationId)
+    .eq("file_hash", fileHash)
+    .order("uploaded_at", { ascending: false })
+    .limit(1);
+
+  if (hashError) {
+    throw new Error("Could not check for duplicate purchase documents.");
+  }
+
+  const hashDuplicateRow = (
+    (hashDuplicate as
+      | Pick<PurchaseDocumentRow, "id" | "original_filename" | "status">[]
+      | null) ?? []
+  )[0];
+
+  if (hashDuplicateRow) {
+    return hashDuplicateRow as Pick<
+      PurchaseDocumentRow,
+      "id" | "original_filename" | "status"
+    >;
+  }
+
+  const { data: filenameDuplicate, error: filenameError } = await supabase
+    .from("purchase_documents")
+    .select("id, original_filename, status")
+    .eq("organisation_id", organisationId)
+    .eq("original_filename", originalFilename)
+    .eq("file_size_bytes", fileSizeBytes)
+    .order("uploaded_at", { ascending: false })
+    .limit(1);
+
+  if (filenameError) {
+    throw new Error("Could not check filename duplicate purchase documents.");
+  }
+
+  return (
+    (filenameDuplicate as
+      | Pick<PurchaseDocumentRow, "id" | "original_filename" | "status">[]
+      | null) ?? []
+  )[0] ?? null;
+}
+
+export const purchaseDocumentUploadConfig = {
+  bucket: PURCHASE_DOCUMENT_BUCKET,
+  maxUploadBytes: MAX_UPLOAD_BYTES,
+  maxUploadLabel: formatBytes(MAX_UPLOAD_BYTES),
+  supportedMimeTypes: Array.from(supportedUploadMimeTypes.keys()),
+  supportedUploadLabel: getSupportedUploadLabel(),
+};
 
 export function getReviewedInternalItemName(line: Pick<PurchaseDocumentLine, "review_notes">) {
   const markerLine = line.review_notes
@@ -509,10 +705,134 @@ export async function getPurchaseDocumentReview(
     organisationId,
     document.supplier_id ? [document.supplier_id] : [],
   );
+  let signedUrl: string | null = null;
+  let signedUrlError: string | null = null;
+
+  if (document.storage_path) {
+    const { data: signedUrlData, error: signedUrlCreateError } =
+      await supabase.storage
+        .from(PURCHASE_DOCUMENT_BUCKET)
+        .createSignedUrl(document.storage_path, 60 * 10);
+
+    if (signedUrlCreateError) {
+      signedUrlError =
+        "Could not create a secure source document link. Check the private storage bucket and policies.";
+    } else {
+      signedUrl = signedUrlData.signedUrl;
+    }
+  }
 
   return {
     document: attachSupplierDisplayNames([document], suppliersById)[0],
     lines: (lineData as PurchaseDocumentLine[] | null) ?? [],
+    sourceFile: {
+      signedUrl,
+      error: signedUrlError,
+    },
+  };
+}
+
+export async function uploadPurchaseDocument(file: File) {
+  const authContext = await requirePurchaseDocumentPermission(
+    "purchase_documents.upload",
+  );
+  const supabase = await createClient();
+  const organisationId = authContext.organisation.id;
+  const originalFilename = sanitiseFilename(file.name);
+  const mimeType = file.type;
+
+  if (!file || file.size === 0) {
+    throw new Error("Choose a PDF or image file before uploading.");
+  }
+
+  if (!isSupportedUploadMimeType(mimeType)) {
+    throw new Error(
+      `Unsupported file type. Accepted types: ${getSupportedUploadLabel()}.`,
+    );
+  }
+
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new Error(
+      `File is too large. Maximum upload size is ${formatBytes(MAX_UPLOAD_BYTES)}.`,
+    );
+  }
+
+  const fileBuffer = Buffer.from(await file.arrayBuffer());
+  const fileHash = createHash("sha256").update(fileBuffer).digest("hex");
+  const duplicate = await findDuplicatePurchaseDocument({
+    organisationId,
+    fileHash,
+    originalFilename,
+    fileSizeBytes: file.size,
+  });
+
+  if (duplicate) {
+    return {
+      documentId: duplicate.id,
+      duplicate: true,
+      message: "This document appears to have already been uploaded.",
+    };
+  }
+
+  const documentId = randomUUID();
+  const storagePath = `${organisationId}/purchase-documents/${documentId}/${originalFilename}`;
+  logUploadDebug("attempt", {
+    organisationId,
+    storagePath,
+    mimeType,
+    fileSize: file.size,
+  });
+  const { error: uploadError } = await supabase.storage
+    .from(PURCHASE_DOCUMENT_BUCKET)
+    .upload(storagePath, fileBuffer, {
+      contentType: mimeType,
+      upsert: false,
+    });
+
+  if (uploadError) {
+    logUploadDebug("storage_error", {
+      organisationId,
+      storagePath,
+      mimeType,
+      fileSize: file.size,
+      error: uploadError,
+    });
+
+    throw new Error(getStorageUploadErrorMessage(uploadError));
+  }
+
+  const { error: insertError } = await supabase.from("purchase_documents").insert({
+    id: documentId,
+    organisation_id: organisationId,
+    document_type: "invoice",
+    status: "uploaded",
+    original_filename: originalFilename,
+    storage_path: storagePath,
+    file_hash: fileHash,
+    mime_type: mimeType,
+    file_size_bytes: file.size,
+    uploaded_by_profile_id: authContext.profile.id,
+  });
+
+  if (insertError) {
+    logUploadDebug("insert_error", {
+      organisationId,
+      storagePath,
+      mimeType,
+      fileSize: file.size,
+      error: insertError,
+    });
+
+    throw new Error(
+      "The file uploaded, but the purchase document record could not be created. Ask an admin to review storage for an orphaned upload.",
+    );
+  }
+
+  return {
+    documentId,
+    duplicate: false,
+    message:
+      "Document uploaded. Extraction is not connected yet, so review fields remain empty.",
   };
 }
 
