@@ -34,6 +34,8 @@ Once Clean Eats is live, normal day-to-day maintenance should happen in the corr
 - Costings -> Approved Prices / Price History
 - Purchasing / Goods Inwards later for live operational purchasing and receiving
 
+Step 079 starts this separation by showing committed Purchase Document Intake records in read-only Products and Costings views. The intake workflow remains review/commit oriented, while `/suppliers`, `/ingredients`, `/packaging`, `/ingredient-costs` and `/price-history` become the first places to inspect committed supplier, item and price records.
+
 ## Correct Role of Manual Work
 
 Manual work inside Purchase Document Intake should be review, correction and approval of extracted data.

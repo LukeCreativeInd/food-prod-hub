@@ -74,6 +74,10 @@ The current app includes the foundation for an internal operations hub: app shel
 - Purchase Document Intake now has a controlled Cammaroto sample commit flow for reviewed supplier/item/price reference records
 - Purchase Document Intake wording has been generalised and action/loading feedback has been added
 - Generic invoice extraction and commit planning has been added before building upload, OCR or generic commit automation
+- Purchase Document upload and extraction foundation has been added with private storage planning and reviewed upload flow
+- Cammaroto extraction now handles supplier-specific embedded PDF text decoding and remains review-first
+- Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
+- Products and Costings now include read-only real-data views for committed Purchase Document Intake supplier, item and price records
 
 ## Tech Stack
 
@@ -185,6 +189,10 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Cammaroto sample commit flow](docs/73-cammaroto-sample-commit-flow.md)
 - [Purchase Document Intake generalisation UX polish](docs/74-purchase-document-intake-generalisation-ux-polish.md)
 - [Generic invoice extraction and commit planning](docs/75-generic-invoice-extraction-and-commit-planning.md)
+- [Purchase Document upload and extraction foundation](docs/76-purchase-document-upload-extraction-foundation.md)
+- [Purchase Document extraction prototype](docs/77-purchase-document-extraction-prototype.md)
+- [Repeat invoice and price change behaviour](docs/78-repeat-invoice-price-change-behaviour.md)
+- [Products and Costings real data views](docs/79-products-costings-real-data-views.md)
 
 ## Database Migrations
 

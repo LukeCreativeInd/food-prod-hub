@@ -23,6 +23,10 @@ type ProductsWorkspacePageProps = {
   rows: Record<string, string>[];
   badgeColumns?: string[];
   reviewPrompts: string[];
+  dataBadge?: string;
+  dataNoticeTitle?: string;
+  dataNoticeDescription?: string;
+  emptyMessage?: string;
 };
 
 export async function ProductsWorkspacePage({
@@ -35,6 +39,10 @@ export async function ProductsWorkspacePage({
   rows,
   badgeColumns = [],
   reviewPrompts,
+  dataBadge = "Sample layout only",
+  dataNoticeTitle = "Placeholder data for staff review",
+  dataNoticeDescription = "These records are safe sample rows only. They are here to test layout, terminology and required fields before real Clean Eats product tables or imports are created.",
+  emptyMessage,
 }: ProductsWorkspacePageProps) {
   await requirePermissionAccess("products.view");
 
@@ -51,12 +59,13 @@ export async function ProductsWorkspacePage({
         <SectionCard
           title={tableTitle}
           description={tableDescription}
-          action={<StatusBadge tone="info">Sample layout only</StatusBadge>}
+          action={<StatusBadge tone="info">{dataBadge}</StatusBadge>}
         >
           <SampleDataTable
             columns={columns}
             rows={rows}
             badgeColumns={badgeColumns}
+            emptyMessage={emptyMessage}
           />
         </SectionCard>
 
@@ -84,12 +93,10 @@ export async function ProductsWorkspacePage({
           >
             <div className="rounded-md border border-green-200 bg-green-50/60 px-4 py-4">
               <p className="text-sm font-semibold text-clean-green-900">
-                Placeholder data for staff review
+                {dataNoticeTitle}
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                These records are safe sample rows only. They are here to test
-                layout, terminology and required fields before real Clean Eats
-                product tables or imports are created.
+                {dataNoticeDescription}
               </p>
             </div>
           </SectionCard>

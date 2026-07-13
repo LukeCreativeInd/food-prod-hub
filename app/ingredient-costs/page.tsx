@@ -1,115 +1,81 @@
 import { CostingsWorkspacePage } from "@/components/costings/costings-workspace-page";
+import { getIngredientCostData } from "@/lib/products-data";
 
-const rows = [
-  {
-    Ingredient: "Chicken Thigh",
-    Supplier: "Poultry Supplier",
-    Unit: "kg",
-    "Pack size": "10 kg carton",
-    "Current cost": "$8.75/kg",
-    "Cost status": "Review",
-    "Last reviewed": "15 Jul 2026",
-    Notes: "Static sample cost only",
-  },
-  {
-    Ingredient: "Basmati Rice",
-    Supplier: "Dry Goods Supplier",
-    Unit: "kg",
-    "Pack size": "20 kg bag",
-    "Current cost": "$2.55/kg",
-    "Cost status": "Ready",
-    "Last reviewed": "12 Jul 2026",
-    Notes: "Supplier price to confirm",
-  },
-  {
-    Ingredient: "Sweet Potato",
-    Supplier: "Fresh Produce Supplier",
-    Unit: "kg",
-    "Pack size": "15 kg crate",
-    "Current cost": "Missing",
-    "Cost status": "Missing cost",
-    "Last reviewed": "Not reviewed",
-    Notes: "Needs current produce price",
-  },
-  {
-    Ingredient: "Napoli Sauce",
-    Supplier: "Placeholder Supplier",
-    Unit: "kg",
-    "Pack size": "5 kg tub",
-    "Current cost": "$3.10/kg",
-    "Cost status": "Review",
-    "Last reviewed": "08 Jul 2026",
-    Notes: "May become component later",
-  },
-  {
-    Ingredient: "Roast Chicken Mix",
-    Supplier: "Dry Goods Supplier",
-    Unit: "kg",
-    "Pack size": "2 kg bag",
-    "Current cost": "$6.20/kg",
-    "Cost status": "Supplier review",
-    "Last reviewed": "10 Jul 2026",
-    Notes: "Sample seasoning record",
-  },
-];
+export default async function IngredientCostsPage() {
+  const ingredientCosts = await getIngredientCostData();
+  const currentCosts = ingredientCosts.filter(
+    (item) => item.costStatus === "Current",
+  ).length;
 
-export default function IngredientCostsPage() {
   return (
     <CostingsWorkspacePage
       title="Ingredient Costs"
-      description="Tracks ingredient cost status once real supplier and ingredient data exists."
+      description="Read-only current supplier costs for internal ingredient items."
       summaryCards={[
         {
-          label: "Ingredients costed",
-          value: "37",
-          helperText: "Sample ingredient records with current cost placeholders.",
-          badge: "Sample",
-          tone: "info",
+          label: "Ingredients",
+          value: String(ingredientCosts.length),
+          helperText: "Internal ingredient records available for costing review.",
+          badge: "Live",
+          tone: "success",
           icon: "IN",
         },
         {
-          label: "Missing cost",
-          value: "5",
-          helperText: "Static prompts for missing supplier prices.",
-          badge: "Review",
-          tone: "warning",
+          label: "Current costs",
+          value: String(currentCosts),
+          helperText: "Approved current supplier prices linked to ingredients.",
+          badge: "Approved",
+          tone: "success",
           icon: "$",
         },
         {
-          label: "Supplier review",
-          value: "8",
-          helperText: "Sample items needing supplier confirmation.",
-          badge: "To confirm",
+          label: "Missing costs",
+          value: String(ingredientCosts.length - currentCosts),
+          helperText: "Ingredient records without an approved supplier price yet.",
+          badge: "Review",
           tone: "warning",
-          icon: "SU",
+          icon: "!",
         },
         {
-          label: "Recent changes",
-          value: "4",
-          helperText: "Placeholder recent ingredient price movements.",
-          badge: "Demo",
+          label: "Mode",
+          value: "Read only",
+          helperText: "No costing formulas or meal costing calculations are added.",
+          badge: "Scoped",
           tone: "neutral",
-          icon: "UP",
+          icon: "RO",
         },
       ]}
-      tableTitle="Sample ingredient costs"
-      tableDescription="Placeholder ingredient cost records for staff review. No live supplier data is connected."
+      tableTitle="Current ingredient costs"
+      tableDescription="Approved supplier prices created through reviewed Purchase Document Intake commits. No costing formulas are calculated here."
       columns={[
         "Ingredient",
         "Supplier",
+        "Supplier code",
         "Unit",
-        "Pack size",
         "Current cost",
+        "Effective date",
+        "Supplier options",
         "Cost status",
-        "Last reviewed",
-        "Notes",
       ]}
-      rows={rows}
-      badgeColumns={["Cost status"]}
+      rows={ingredientCosts.map((item) => ({
+        Ingredient: item.displayName,
+        Supplier: item.supplierName,
+        "Supplier code": item.supplierItemCode ?? "Not recorded",
+        Unit: item.unit,
+        "Current cost": item.currentCost,
+        "Effective date": item.effectiveDate,
+        "Supplier options": String(item.mappedSupplierCount),
+        "Cost status": item.costStatus,
+      }))}
+      badgeColumns={["Current cost", "Cost status"]}
+      dataBadge="Live read-only"
+      dataNoticeTitle="Current supplier prices only"
+      dataNoticeDescription="This view exposes approved supplier prices for ingredient review. It does not create recipes, meal costings, formulas, margin calculations or stock movements."
+      emptyMessage="No ingredient cost records have been committed from Purchase Document Intake yet."
       reviewPrompts={[
-        "Which ingredient cost fields are needed before meal costing can start?",
-        "Should costs be stored by pack, unit, supplier price list or invoice?",
-        "Who should approve an updated ingredient cost?",
+        "Which approved supplier prices should be eligible for meal costing later?",
+        "Should ingredient costs prefer invoice date, effective date or approval date?",
+        "Who should approve a supplier price before it flows into costing formulas?",
       ]}
     />
   );

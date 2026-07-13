@@ -123,6 +123,19 @@ The Review Import page now shows lightweight repeat indicators:
 
 These indicators are stored temporarily as structured review notes, avoiding a schema migration for this prototype stage.
 
+## Downstream Read-Only Views
+
+Step 079 exposes committed supplier, internal item, mapping, price observation and approved price records through read-only Products and Costings pages.
+
+After a Cammaroto commit, staff can verify:
+
+- supplier records on `/suppliers`
+- `Chicken Thigh` on `/ingredients`
+- approved current ingredient cost on `/ingredient-costs`
+- invoice price traceability on `/price-history`
+
+Informational CTNS/CARTONS rows remain excluded from Products and Costings catalogue views.
+
 ## Known Limitations
 
 - Repeat enrichment is focused on the Cammaroto path.

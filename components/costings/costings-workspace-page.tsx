@@ -23,6 +23,10 @@ type CostingsWorkspacePageProps = {
   rows: Record<string, string>[];
   badgeColumns?: string[];
   reviewPrompts: string[];
+  dataBadge?: string;
+  dataNoticeTitle?: string;
+  dataNoticeDescription?: string;
+  emptyMessage?: string;
 };
 
 export async function CostingsWorkspacePage({
@@ -35,6 +39,10 @@ export async function CostingsWorkspacePage({
   rows,
   badgeColumns = [],
   reviewPrompts,
+  dataBadge = "Sample costing data",
+  dataNoticeTitle = "Placeholder costing data for staff review",
+  dataNoticeDescription = "These rows and numbers are static examples only. They are here to review layout, terminology and missing-data prompts before real Clean Eats costing tables or calculations are created.",
+  emptyMessage,
 }: CostingsWorkspacePageProps) {
   await requirePermissionAccess("costings.view");
 
@@ -51,12 +59,13 @@ export async function CostingsWorkspacePage({
         <SectionCard
           title={tableTitle}
           description={tableDescription}
-          action={<StatusBadge tone="info">Sample costing data</StatusBadge>}
+          action={<StatusBadge tone="info">{dataBadge}</StatusBadge>}
         >
           <SampleDataTable
             columns={columns}
             rows={rows}
             badgeColumns={badgeColumns}
+            emptyMessage={emptyMessage}
           />
         </SectionCard>
 
@@ -84,12 +93,10 @@ export async function CostingsWorkspacePage({
           >
             <div className="rounded-md border border-green-200 bg-green-50/60 px-4 py-4">
               <p className="text-sm font-semibold text-clean-green-900">
-                Placeholder costing data for staff review
+                {dataNoticeTitle}
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                These rows and numbers are static examples only. They are here
-                to review layout, terminology and missing-data prompts before
-                real Clean Eats costing tables or calculations are created.
+                {dataNoticeDescription}
               </p>
             </div>
           </SectionCard>

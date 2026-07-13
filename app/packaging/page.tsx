@@ -1,109 +1,96 @@
 import { ProductsWorkspacePage } from "@/components/products/products-workspace-page";
+import { getInternalItemData } from "@/lib/products-data";
 
-const rows = [
-  {
-    "Packaging item": "Meal Sleeve",
-    Type: "Sleeve",
-    Unit: "each",
-    Supplier: "Packaging Supplier",
-    "Cost status": "Linked",
-    "Used by": "Finished meals",
-    Status: "Active",
-  },
-  {
-    "Packaging item": "Meal Tray",
-    Type: "Tray",
-    Unit: "each",
-    Supplier: "Packaging Supplier",
-    "Cost status": "Linked",
-    "Used by": "Finished meals",
-    Status: "Active",
-  },
-  {
-    "Packaging item": "Carton",
-    Type: "Outer carton",
-    Unit: "each",
-    Supplier: "Packaging Supplier",
-    "Cost status": "Review",
-    "Used by": "Dispatch",
-    Status: "Review",
-  },
-  {
-    "Packaging item": "Label",
-    Type: "Label",
-    Unit: "roll",
-    Supplier: "Placeholder Supplier",
-    "Cost status": "Missing cost",
-    "Used by": "QA/pack-out",
-    Status: "Draft",
-  },
-  {
-    "Packaging item": "Sauce Container",
-    Type: "Container",
-    Unit: "each",
-    Supplier: "Packaging Supplier",
-    "Cost status": "Linked",
-    "Used by": "Components",
-    Status: "Active",
-  },
-];
+export default async function PackagingPage() {
+  const packagingItems = await getInternalItemData("packaging");
+  const rows = packagingItems.flatMap((item) => {
+    if (item.supplierOptions.length === 0) {
+      return [
+        {
+          "Packaging item": item.displayName,
+          Unit: item.baseUnit ?? "Not recorded",
+          Supplier: "No supplier mapping",
+          "Supplier code": "Not recorded",
+          "Supplier description": "Not recorded",
+          "Current price": "Missing",
+          "Price date": "Not reviewed",
+          Status: item.status,
+        },
+      ];
+    }
 
-export default function PackagingPage() {
+    return item.supplierOptions.map((option) => ({
+      "Packaging item": item.displayName,
+      Unit: item.baseUnit ?? option.purchaseUnit ?? "Not recorded",
+      Supplier: option.supplierName,
+      "Supplier code": option.supplierItemCode ?? "Not recorded",
+      "Supplier description": option.supplierDescription,
+      "Current price": option.currentPrice ?? "Missing",
+      "Price date": option.effectiveDate ?? "Not reviewed",
+      Status: item.status,
+    }));
+  });
+
   return (
     <ProductsWorkspacePage
       title="Packaging"
-      description="Packaging materials used across finished meals, components and dispatch."
+      description="Read-only packaging items created or mapped from reviewed supplier invoice lines."
       summaryCards={[
         {
           label: "Packaging items",
-          value: "9",
-          helperText: "Sample packaging item count.",
-          badge: "Sample",
-          tone: "info",
+          value: String(packagingItems.length),
+          helperText: "Canonical internal packaging records for this tenant.",
+          badge: "Live",
+          tone: packagingItems.length > 0 ? "success" : "neutral",
           icon: "PK",
         },
         {
-          label: "Missing cost",
-          value: "2",
-          helperText: "Placeholder costing prompts.",
-          badge: "Review",
-          tone: "warning",
-          icon: "$",
-        },
-        {
-          label: "Supplier linked",
-          value: "7",
-          helperText: "Sample supplier-linked packaging records.",
+          label: "Supplier options",
+          value: String(rows.length),
+          helperText: "Packaging supplier mappings created through reviewed intake.",
           badge: "Linked",
-          tone: "success",
+          tone: rows.length > 0 ? "info" : "neutral",
           icon: "SU",
         },
         {
-          label: "Stock relevance",
-          value: "5",
-          helperText: "Future inventory relevance placeholders.",
+          label: "Informational lines",
+          value: "Excluded",
+          helperText: "CTNS/CARTONS remains informational and is not packaging.",
+          badge: "Protected",
+          tone: "success",
+          icon: "CT",
+        },
+        {
+          label: "Edit mode",
+          value: "Read only",
+          helperText: "Packaging editing and stock rules remain future work.",
           badge: "Future",
           tone: "neutral",
-          icon: "ST",
+          icon: "RO",
         },
       ]}
-      tableTitle="Sample packaging items"
-      tableDescription="Placeholder packaging records for layout and field review."
+      tableTitle="Packaging supplier options"
+      tableDescription="Live packaging records from Purchase Document Intake where internal_items.item_type is packaging."
       columns={[
         "Packaging item",
-        "Type",
         "Unit",
         "Supplier",
-        "Cost status",
-        "Used by",
+        "Supplier code",
+        "Supplier description",
+        "Current price",
+        "Price date",
         "Status",
       ]}
       rows={rows}
-      badgeColumns={["Cost status", "Status"]}
+      badgeColumns={["Current price", "Status"]}
+      dataBadge="Live read-only"
+      dataNoticeTitle="Packaging excludes informational carton lines"
+      dataNoticeDescription="This view only shows internal packaging records. Supplier invoice lines classified as informational, including CTNS/CARTONS from Cammaroto, remain out of Products and Costings catalogues."
+      emptyMessage="No packaging items have been committed from Purchase Document Intake yet. Informational CTNS/CARTONS lines are intentionally excluded."
       reviewPrompts={[
-        "Which packaging items need stock tracking first?",
-        "Should labels and sleeves have separate QA/compliance fields?",
-        "What packaging links are required for meal setup?",
+        "Which packaging items should be tracked in inventory first?",
+        "Should cartons ever become packaging records, or stay informational by default?",
+        "Which packaging prices should flow into finished meal costing later?",
       ]}
     />
   );

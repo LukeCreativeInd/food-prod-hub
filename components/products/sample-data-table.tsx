@@ -4,6 +4,7 @@ type SampleDataTableProps = {
   columns: string[];
   rows: Record<string, string>[];
   badgeColumns?: string[];
+  emptyMessage?: string;
 };
 
 function badgeTone(value: string) {
@@ -36,6 +37,7 @@ export function SampleDataTable({
   columns,
   rows,
   badgeColumns = [],
+  emptyMessage = "No rows to display yet.",
 }: SampleDataTableProps) {
   return (
     <div className="overflow-x-auto rounded-md border border-slate-200">
@@ -50,28 +52,36 @@ export function SampleDataTable({
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100 bg-white">
-          {rows.map((row, index) => (
-            <tr key={`${row[columns[0]]}-${index}`}>
-              {columns.map((column, columnIndex) => (
-                <td
-                  key={column}
-                  className={
-                    columnIndex === 0
-                      ? "px-4 py-3 font-semibold text-slate-900"
-                      : "px-4 py-3 text-slate-600"
-                  }
-                >
-                  {badgeColumns.includes(column) ? (
-                    <StatusBadge tone={badgeTone(row[column])}>
-                      {row[column]}
-                    </StatusBadge>
-                  ) : (
-                    row[column]
-                  )}
-                </td>
-              ))}
+          {rows.length === 0 ? (
+            <tr>
+              <td className="px-4 py-8 text-center text-slate-500" colSpan={columns.length}>
+                {emptyMessage}
+              </td>
             </tr>
-          ))}
+          ) : (
+            rows.map((row, index) => (
+              <tr key={`${row[columns[0] ?? "row"]}-${index}`}>
+                {columns.map((column, columnIndex) => (
+                  <td
+                    key={column}
+                    className={
+                      columnIndex === 0
+                        ? "px-4 py-3 font-semibold text-slate-900"
+                        : "px-4 py-3 text-slate-600"
+                    }
+                  >
+                    {badgeColumns.includes(column) ? (
+                      <StatusBadge tone={badgeTone(row[column])}>
+                        {row[column]}
+                      </StatusBadge>
+                    ) : (
+                      row[column]
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

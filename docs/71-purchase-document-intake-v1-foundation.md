@@ -10,6 +10,8 @@ Step 072 introduced the first real saved purchase document list, Cammaroto sampl
 
 Step 073 introduced the first reviewed commit path for the Cammaroto sample. It can create or reuse supplier, alias, supplier item, internal item, mapping, price observation, approved supplier price and informational rule records after explicit commit. It still does not create stock movements, purchase orders, Goods Inwards records, OCR, storage upload or generic invoice automation.
 
+Step 079 connects selected Products and Costings pages to these committed records as read-only views. Suppliers, ingredients, packaging, ingredient costs and price history can now show tenant-scoped intake records for users with supplier price permissions.
+
 ## Business Purpose
 
 The goal is to reduce manual supplier/catalogue/price onboarding work by allowing Clean Eats supplier invoices to be uploaded, reviewed and committed through a staged workflow.
@@ -211,6 +213,8 @@ Other decisions:
 CTNS/CARTONS lines should be classifiable as `informational`.
 
 They should not pollute Ingredient or Packaging libraries unless a reviewer deliberately maps them. Supplier-specific ignored/informational handling can be stored in `ignored_line_rules`.
+
+The Products and Costings real-data views read canonical `internal_items`, so informational CTNS/CARTONS rows remain excluded from Ingredients, Packaging and Ingredient Costs.
 
 ## Tenant Isolation
 

@@ -1,109 +1,99 @@
 import { ProductsWorkspacePage } from "@/components/products/products-workspace-page";
+import { getInternalItemData } from "@/lib/products-data";
 
-const rows = [
-  {
-    Ingredient: "Chicken Thigh",
-    Category: "Protein",
-    Unit: "kg",
-    Supplier: "Poultry Supplier",
-    "Cost status": "Linked",
-    "QA/allergen status": "Review",
-    Status: "Active",
-  },
-  {
-    Ingredient: "Basmati Rice",
-    Category: "Dry goods",
-    Unit: "kg",
-    Supplier: "Dry Goods Supplier",
-    "Cost status": "Linked",
-    "QA/allergen status": "Ready",
-    Status: "Active",
-  },
-  {
-    Ingredient: "Sweet Potato",
-    Category: "Produce",
-    Unit: "kg",
-    Supplier: "Fresh Produce Supplier",
-    "Cost status": "Missing cost",
-    "QA/allergen status": "Ready",
-    Status: "Review",
-  },
-  {
-    Ingredient: "Napoli Sauce",
-    Category: "Prepared sauce",
-    Unit: "kg",
-    Supplier: "Placeholder Supplier",
-    "Cost status": "Review",
-    "QA/allergen status": "Flagged",
-    Status: "Sample",
-  },
-  {
-    Ingredient: "Roast Chicken Mix",
-    Category: "Seasoning",
-    Unit: "kg",
-    Supplier: "Dry Goods Supplier",
-    "Cost status": "Missing supplier",
-    "QA/allergen status": "Review",
-    Status: "Draft",
-  },
-];
+export default async function IngredientsPage() {
+  const ingredients = await getInternalItemData("ingredient");
+  const rows = ingredients.flatMap((ingredient) => {
+    if (ingredient.supplierOptions.length === 0) {
+      return [
+        {
+          Ingredient: ingredient.displayName,
+          Unit: ingredient.baseUnit ?? "Not recorded",
+          Supplier: "No supplier mapping",
+          "Supplier code": "Not recorded",
+          "Supplier description": "Not recorded",
+          "Current price": "Missing",
+          "Price date": "Not reviewed",
+          Status: ingredient.status,
+        },
+      ];
+    }
 
-export default function IngredientsPage() {
+    return ingredient.supplierOptions.map((option) => ({
+      Ingredient: ingredient.displayName,
+      Unit: ingredient.baseUnit ?? option.purchaseUnit ?? "Not recorded",
+      Supplier: option.supplierName,
+      "Supplier code": option.supplierItemCode ?? "Not recorded",
+      "Supplier description": option.supplierDescription,
+      "Current price": option.currentPrice ?? "Missing",
+      "Price date": option.effectiveDate ?? "Not reviewed",
+      Status: ingredient.status,
+    }));
+  });
+  const withCurrentPrice = rows.filter(
+    (row) => row["Current price"] !== "Missing",
+  ).length;
+
   return (
     <ProductsWorkspacePage
       title="Ingredients"
-      description="Raw materials used across meals, components and production."
+      description="Read-only internal ingredient items created or mapped from reviewed supplier invoice lines."
       summaryCards={[
         {
-          label: "Total ingredients",
-          value: "42",
-          helperText: "Sample ingredient count for screen review.",
-          badge: "Sample",
-          tone: "info",
+          label: "Ingredients",
+          value: String(ingredients.length),
+          helperText: "Canonical internal ingredient records for this tenant.",
+          badge: "Live",
+          tone: "success",
           icon: "IN",
         },
         {
-          label: "Missing supplier",
-          value: "3",
-          helperText: "Placeholder prompts for supplier linking.",
-          badge: "Review",
-          tone: "warning",
+          label: "Supplier options",
+          value: String(rows.length),
+          helperText: "Supplier item mappings available for ingredient purchasing.",
+          badge: "Linked",
+          tone: "info",
           icon: "SU",
         },
         {
-          label: "Missing cost",
-          value: "5",
-          helperText: "Costing readiness prompts for future setup.",
-          badge: "To confirm",
-          tone: "warning",
+          label: "Current prices",
+          value: String(withCurrentPrice),
+          helperText: "Supplier options with approved current pricing.",
+          badge: "Approved",
+          tone: "success",
           icon: "$",
         },
         {
-          label: "QA/allergen flagged",
-          value: "4",
-          helperText: "Future QA and allergen review prompts.",
-          badge: "Future",
-          tone: "neutral",
-          icon: "QA",
+          label: "Missing prices",
+          value: String(rows.length - withCurrentPrice),
+          helperText: "Mappings still missing an approved current supplier price.",
+          badge: "Review",
+          tone: "warning",
+          icon: "!",
         },
       ]}
-      tableTitle="Sample ingredients"
-      tableDescription="Placeholder ingredient records for staff terminology and field review."
+      tableTitle="Ingredient supplier options"
+      tableDescription="Live ingredient records from Purchase Document Intake. Supplier source descriptions remain separate from internal item names."
       columns={[
         "Ingredient",
-        "Category",
         "Unit",
         "Supplier",
-        "Cost status",
-        "QA/allergen status",
+        "Supplier code",
+        "Supplier description",
+        "Current price",
+        "Price date",
         "Status",
       ]}
       rows={rows}
-      badgeColumns={["Cost status", "QA/allergen status", "Status"]}
+      badgeColumns={["Current price", "Status"]}
+      dataBadge="Live read-only"
+      dataNoticeTitle="Supplier-derived ingredient view"
+      dataNoticeDescription="This page reads canonical internal ingredients and their reviewed supplier mappings. Informational invoice lines such as CTNS/CARTONS are excluded because they are not internal ingredients."
+      emptyMessage="No ingredient items have been committed from Purchase Document Intake yet."
       reviewPrompts={[
-        "Which ingredient categories should Tony/team use every day?",
-        "Which allergen or QA flags must appear before production planning?",
-        "What supplier and cost fields are required before importing data?",
+        "Which ingredient fields should become editable first?",
+        "Should supplier descriptions be visible beside internal item names on production screens?",
+        "Which users should approve a changed ingredient supplier price?",
       ]}
     />
   );
