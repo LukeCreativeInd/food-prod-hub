@@ -236,11 +236,9 @@ This audit now exists at [Auth Context and Navigation Query Audit](56-auth-conte
 
 The first app-level auth context optimisation pass now exists at [Auth Context Query Optimisation](57-auth-context-query-optimisation.md). This should be reviewed before making hosting migration decisions, because repeated helper work and region/cold-start effects should be separated where possible.
 
-This can be followed by:
+The manual hosting region and configuration checklist now exists at [Hosting Region and Vercel/Supabase Configuration Check](58-hosting-region-vercel-supabase-check.md). It should be used to record Vercel region, Supabase region, Fluid Compute status, deployment timing clues and route timings before deciding on hosting changes.
 
-**Hosting Region and Vercel/Supabase Configuration Check**
-
-These can also be combined into one performance audit if preferred.
+The next performance fact-gathering step is to complete the region/configuration checklist and compare route timings before changing hosting.
 
 ## Performance Testing Notes
 

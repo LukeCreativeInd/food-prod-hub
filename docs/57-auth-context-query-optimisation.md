@@ -147,6 +147,8 @@ Still worth reviewing:
 - RLS query plans under real usage
 - whether the temporary Auth Context card should stay on dashboard long-term
 
+The next performance step is a manual Vercel/Supabase region and configuration review, documented in [Hosting Region and Vercel/Supabase Configuration Check](58-hosting-region-vercel-supabase-check.md).
+
 ## Recommended Next Step
 
 Recommended next step:
