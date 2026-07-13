@@ -238,6 +238,8 @@ The first app-level auth context optimisation pass now exists at [Auth Context Q
 
 The manual hosting region and configuration checklist now exists at [Hosting Region and Vercel/Supabase Configuration Check](58-hosting-region-vercel-supabase-check.md). It should be used to record Vercel region, Supabase region, Fluid Compute status, deployment timing clues and route timings before deciding on hosting changes.
 
+Vercel Speed Insights instrumentation has been added in [Vercel Speed Insights](59-vercel-speed-insights.md). It should provide deployed user-facing performance metrics after real usage, but it does not replace region/configuration checks or manual timing notes.
+
 The next performance fact-gathering step is to complete the region/configuration checklist and compare route timings before changing hosting.
 
 ## Performance Testing Notes

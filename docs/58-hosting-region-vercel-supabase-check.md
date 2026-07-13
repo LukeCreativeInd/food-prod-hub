@@ -158,6 +158,8 @@ For Clean Eats, Australian latency matters. For future resale, tenant geography 
 
 Use this table for both Luke/platform_admin and the demo user where applicable.
 
+Vercel Speed Insights has been added in [Vercel Speed Insights](59-vercel-speed-insights.md). After deployment, use Speed Insights metrics to support route/user-facing observations in this table.
+
 | Route | User | First load after idle | Second/repeated load | Local timing | Vercel timing | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | `/login` | Luke/platform_admin |  |  |  |  |  |
