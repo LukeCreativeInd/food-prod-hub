@@ -6,6 +6,8 @@ Purchase Document Intake v1 foundation has been drafted for Clean Eats.
 
 This task creates reviewed SQL migrations and UI scaffolding only. It does not apply migrations, run Supabase CLI, create stock movements, integrate OCR, integrate Xero, expose service-role keys, import real Clean Eats data automatically, or write trusted master data from invoice upload.
 
+Step 072 introduced the first real saved purchase document list, Cammaroto sample creation action, saved review page and review-progress save action. Commit remains disabled, and no supplier, supplier item, internal item, mapping, price or stock records are created by those actions yet.
+
 ## Business Purpose
 
 The goal is to reduce manual supplier/catalogue/price onboarding work by allowing Clean Eats supplier invoices to be uploaded, reviewed and committed through a staged workflow.
@@ -292,13 +294,12 @@ This is the first planned integration test path, not a requirement to fully buil
 
 1. Manually review and apply migrations 017 and 018.
 2. Configure tenant-safe document storage.
-3. Add upload/server action with MIME validation and file metadata capture.
-4. Add editable review form state and server-side validation.
-5. Add safe commit action for reviewed supplier/items/mappings/prices.
-6. Add duplicate and no-change result screens.
-7. Add price change comparison from current approved supplier prices.
-8. Connect Supplier and Price History pages to reviewed data under RLS.
-9. Connect internal items into Components, Recipes, Costings, Production and Inventory.
+3. Add real upload handling with MIME validation and file metadata capture.
+4. Add safe commit action for reviewed supplier/items/mappings/prices.
+5. Add duplicate and no-change result screens.
+6. Add price change comparison from current approved supplier prices.
+7. Connect Supplier and Price History pages to reviewed data under RLS.
+8. Connect internal items into Components, Recipes, Costings, Production and Inventory.
 
 ## Manual Setup Required
 
@@ -313,4 +314,4 @@ Before live use:
 
 ## Short Summary
 
-Purchase Document Intake v1 creates the safe foundation for turning reviewed supplier invoices into supplier identities, supplier catalogue items, internal item mappings, price observations and approved supplier prices. The first UI is intentionally static and review-oriented so Clean Eats can validate the workflow before any trusted master-data writes are enabled.
+Purchase Document Intake v1 creates the safe foundation for turning reviewed supplier invoices into supplier identities, supplier catalogue items, internal item mappings, price observations and approved supplier prices. The first action layer is intentionally limited to saved document and line review records so Clean Eats can validate the workflow before any trusted master-data writes are enabled.
