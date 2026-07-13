@@ -79,6 +79,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
 - Products and Costings now include read-only real-data views for committed Purchase Document Intake supplier, item and price records
 - Vercel Web Analytics instrumentation has been added for deployed route/page-view analytics
+- Phase 1 demo real-data read access has been drafted so demo users can view Products/Costings supplier and price records after manual migration application
 
 ## Tech Stack
 
@@ -195,6 +196,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Repeat invoice and price change behaviour](docs/78-repeat-invoice-price-change-behaviour.md)
 - [Products and Costings real data views](docs/79-products-costings-real-data-views.md)
 - [Vercel Web Analytics](docs/80-vercel-web-analytics.md)
+- [Phase 1 demo real data read access](docs/81-phase-1-demo-real-data-read-access.md)
 
 ## Database Migrations
 

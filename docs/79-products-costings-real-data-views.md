@@ -6,6 +6,8 @@ Products and Costings now have the first read-only views over records created by
 
 This step does not add OCR, external extraction, stock movements, purchase orders, Goods Inwards, payment details, generic costing formulas, Platform Admin changes, RLS changes, service-role access or demo-user permissions.
 
+Step 081 later drafts a narrow permission migration so the Phase 1 demo role can view these read-only Products and Costings records without receiving Purchase Document Intake access.
+
 ## Views Connected
 
 The following pages now read tenant-scoped Supabase data:
@@ -37,14 +39,18 @@ All data is scoped through the current organisation context and the existing aut
 
 ## Permissions
 
-These real data views use stricter invoice-derived data permissions:
+These real data views use invoice-derived read permissions:
 
-- supplier and item catalogue views require `supplier_prices.view`
-- price history and ingredient cost views require `supplier_prices.view`
+- page helpers require `supplier_prices.view` for these real-data views
+- RLS uses `supplier_items.view` for supplier/item catalogue records
+- RLS uses `supplier_prices.view` for price observation and approved price records
 
-This keeps `phase_1_demo_user` out of real supplier and price data because that role has Phase 1 module view permissions but not `supplier_items.view` or `supplier_prices.view`.
+Migration 021 grants `phase_1_demo_user` only:
 
-No new permissions are granted in this step.
+- `supplier_items.view`
+- `supplier_prices.view`
+
+after manual Supabase review/application. It does not grant Purchase Document Intake or write/manage permissions.
 
 ## Expected Cammaroto Result
 

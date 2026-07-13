@@ -4,7 +4,9 @@
 
 Phase 3A demo-module foundation is complete.
 
-The demo user has been created and tested. Staff can now review Phase 1 demo modules using sample data. No real Clean Eats data is connected yet.
+The demo user has been created and tested. Staff can now review Phase 1 demo modules.
+
+Migration 021 has been drafted so the demo user can also view read-only real supplier, item and price records in Products and Costings after the migration is manually applied. Purchase Document Intake, admin and platform areas remain blocked.
 
 Feedback from this round will guide real database tables, future workflows and controlled data imports.
 
@@ -38,6 +40,8 @@ Confirmed access tests:
 
 - Demo user login works.
 - Phase 1 modules are visible.
+- Products and Costings real-data pages are visible after Migration 021 is applied.
+- Purchase Document Intake remains hidden and blocked.
 - Hidden modules are not visible.
 - Direct hidden/admin URLs go to no-access.
 - Sign out works.
@@ -189,7 +193,7 @@ Guidance:
 - Model database third.
 - Import/connect later.
 - Staff should fill what they know and leave blanks/notes where unsure.
-- Sample data in the HUB should not be treated as real data.
+- Products and Costings may now show reviewed real intake records, but Production and Inventory demo pages remain mostly scaffold/sample review surfaces.
 
 ## Review Timeline
 
