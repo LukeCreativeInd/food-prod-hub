@@ -84,6 +84,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Component and formula data model planning has been added before building formula schema or UI
 - Staff formula collection template planning has been added before creating CSV/XLSX collection files
 - Staff formula collection CSV templates have been added for Clean Eats component, product, method and area data capture
+- Component formula schema foundation has been drafted for reviewed `formula_versions` and `formula_lines` migration
 
 ## Tech Stack
 
@@ -205,6 +206,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Component and formula data model planning](docs/83-component-formula-data-model-planning.md)
 - [Staff formula collection template planning](docs/84-staff-formula-collection-template-planning.md)
 - [Staff formula collection templates](docs/85-staff-formula-collection-templates.md)
+- [Component formula schema foundation](docs/86-component-formula-schema-foundation.md)
 
 ## Database Migrations
 

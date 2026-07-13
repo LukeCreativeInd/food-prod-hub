@@ -165,8 +165,18 @@ Before anything becomes system data, Luke should review:
 - formulas that vary by production day or customer
 - example rows that need deleting or replacing
 
+## Mapping To Formula Schema
+
+Migration 022 drafts the future schema target:
+
+- component and finished product headers map to `formula_versions`
+- input rows map to `formula_lines`
+- item names will later be matched to `internal_items`
+
+No import has been built yet. The templates remain staff collection files until Luke reviews and cleans them.
+
 ## Next Recommended Task
 
-086 - Component Formula Schema Review / Migration.
+087 - Component Formula UI Scaffold.
 
-Only proceed after Luke and staff confirm the collection fields are good enough.
+Only proceed after Migration 022 is reviewed/applied and Luke/staff confirm the collection fields are good enough.

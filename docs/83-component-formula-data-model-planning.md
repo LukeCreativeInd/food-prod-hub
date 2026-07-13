@@ -8,6 +8,8 @@ No migrations, Supabase operations, RLS changes, permissions, UI, production rou
 
 The goal is to define the component and formula model before building component, recipe or finished product screens. The current invoice-derived internal item data is only the raw-item foundation: it proves that supplier invoice intake can create reviewed supplier, internal item and price records, but it does not define component formulas or production methods yet.
 
+Migration 022 now drafts the schema foundation for `formula_versions` and `formula_lines`; see [Component Formula Schema Foundation](86-component-formula-schema-foundation.md). Production methods/routes remain future work.
+
 ## Purpose
 
 The next major Clean Eats data layer is formulas.

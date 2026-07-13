@@ -12,6 +12,8 @@ This planning builds on the component and formula model in [Component and Formul
 
 Initial CSV template files have now been created in `data-collection/clean-eats/formula-collection/` and are documented in [Staff Formula Collection Templates](85-staff-formula-collection-templates.md).
 
+Migration 022 drafts `formula_versions` and `formula_lines` so the template fields have a future schema target. The templates still need staff review before any import or UI work.
+
 ## Purpose
 
 The next staff data collection should capture the operational recipe and formula knowledge that invoices cannot provide.
