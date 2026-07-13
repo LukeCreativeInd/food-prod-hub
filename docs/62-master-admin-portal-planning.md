@@ -220,6 +220,8 @@ Future master admin may manage:
 
 Payments/billing should be deferred until product value is proven with Clean Eats.
 
+Billing remains deferred, but the planning model is now captured in [Billing and Subscription Planning](66-billing-and-subscription-planning.md). Platform Admin v1 should keep billing read-only/placeholder-first before any payment provider or subscription enforcement work.
+
 ## Support And Audit Scope
 
 Master admin should eventually support:

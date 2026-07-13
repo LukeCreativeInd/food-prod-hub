@@ -64,6 +64,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Read-only Platform Admin skeleton has been added at `/platform`
 - Read-only Clean Eats tenant detail skeleton has been added at `/platform/tenants/cleaneats`
 - Tenant creation and provisioning planning has been added before any create/edit tenant flows are built
+- Billing and subscription planning has been added before any payment provider or billing UI work
 
 ## Tech Stack
 
@@ -165,6 +166,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Platform Admin read-only skeleton](docs/63-platform-admin-read-only-skeleton.md)
 - [Platform tenant detail read-only skeleton](docs/64-platform-tenant-detail-read-only-skeleton.md)
 - [Tenant creation and provisioning plan](docs/65-tenant-creation-and-provisioning-plan.md)
+- [Billing and subscription planning](docs/66-billing-and-subscription-planning.md)
 
 ## Database Migrations
 
@@ -277,6 +279,8 @@ The first read-only Platform Admin skeleton is documented in [Platform Admin rea
 The first read-only Platform Admin tenant detail skeleton is documented in [Platform tenant detail read-only skeleton](docs/64-platform-tenant-detail-read-only-skeleton.md).
 
 Future tenant creation and provisioning is planned in [Tenant creation and provisioning plan](docs/65-tenant-creation-and-provisioning-plan.md).
+
+Future billing and subscription handling is planned in [Billing and subscription planning](docs/66-billing-and-subscription-planning.md).
 
 ## Current Scope
 

@@ -245,6 +245,8 @@ This likely needs future tables:
 - `billing_accounts`
 - `subscriptions`
 
+Billing/subscription planning is now tracked separately in [Billing and Subscription Planning](66-billing-and-subscription-planning.md). Tenant provisioning should stay compatible with that plan, but early tenant setup can keep billing manual/pilot-only.
+
 ## Provisioning Security Requirements
 
 - only `platform_admin` or `platform.tenants.manage` can create tenants
