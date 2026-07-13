@@ -261,22 +261,18 @@ Master admin should eventually manage:
 
 ## Recommended Next Step
 
+The cleanup direction has now been planned in [Module Registry Cleanup Plan](61-module-registry-cleanup-plan.md). That plan recommends no immediate database change, treating Purchasing as an Inventory workspace, treating Wholesale as dormant pending CRM planning, and keeping Dashboard as a default app area.
+
 Recommended next step:
 
-**061 - Module Registry Alignment Migration / Cleanup Plan**
+**062 - Master Admin Portal Planning**
 
-Before writing a migration, review this document and decide:
+Before building actual master admin UI, use the cleanup plan to decide:
 
 - whether to deprecate Wholesale
 - whether to keep Purchasing as a database module or workspace only
 - whether Dashboard should be in the modules table
 - whether any permission keys need new naming later
-
-Alternative:
-
-**061 - Master Admin Portal Planning**
-
-Use this alternative only if no immediate database/module registry cleanup is required.
 
 ## Guardrails
 

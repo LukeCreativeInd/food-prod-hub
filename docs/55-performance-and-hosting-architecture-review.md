@@ -244,6 +244,8 @@ The next performance fact-gathering step is to complete the region/configuration
 
 While performance metrics are being gathered, module registry alignment is being reviewed as the next platform cleanup in [Module Registry Alignment Review](60-module-registry-alignment-review.md).
 
+Module registry cleanup planning is being handled separately before master admin planning in [Module Registry Cleanup Plan](61-module-registry-cleanup-plan.md).
+
 ## Performance Testing Notes
 
 Manual testing template:

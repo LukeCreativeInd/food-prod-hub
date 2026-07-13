@@ -59,6 +59,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Hosting region and Vercel/Supabase configuration checklist has been added before hosting decisions
 - Vercel Speed Insights instrumentation has been added for deployed performance metrics
 - Module registry alignment review has been added before master admin module controls
+- Module registry cleanup plan recommends no immediate DB cleanup before master admin planning
 
 ## Tech Stack
 
@@ -155,6 +156,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Hosting region and Vercel/Supabase configuration check](docs/58-hosting-region-vercel-supabase-check.md)
 - [Vercel Speed Insights](docs/59-vercel-speed-insights.md)
 - [Module registry alignment review](docs/60-module-registry-alignment-review.md)
+- [Module registry cleanup plan](docs/61-module-registry-cleanup-plan.md)
 
 ## Database Migrations
 
@@ -257,6 +259,8 @@ The hosting region and configuration checklist is documented in [Hosting region 
 Vercel Speed Insights instrumentation is documented in [Vercel Speed Insights](docs/59-vercel-speed-insights.md).
 
 Module registry alignment is documented in [Module registry alignment review](docs/60-module-registry-alignment-review.md).
+
+Module registry cleanup planning is documented in [Module registry cleanup plan](docs/61-module-registry-cleanup-plan.md).
 
 ## Current Scope
 
