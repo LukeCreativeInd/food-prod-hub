@@ -52,6 +52,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Demo/test user manual setup guide has been added for controlled Supabase setup
 - Staff demo review round has been documented for Phase 1 feedback
 - Staff feedback capture and Phase 1 review tracker has been added
+- Performance and hosting architecture review has been added for Vercel/Supabase planning
 
 ## Tech Stack
 
@@ -142,6 +143,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Demo/test user manual setup](docs/52-demo-test-user-manual-setup.md)
 - [Staff demo review round](docs/53-staff-demo-review-round.md)
 - [Staff feedback capture and Phase 1 review tracker](docs/54-staff-feedback-capture-phase-1-review-tracker.md)
+- [Performance and hosting architecture review](docs/55-performance-and-hosting-architecture-review.md)
 
 ## Database Migrations
 
@@ -232,6 +234,8 @@ The demo/test user manual setup guide is documented in [Demo/test user manual se
 The staff demo review round is documented in [Staff demo review round](docs/53-staff-demo-review-round.md).
 
 The staff feedback capture and Phase 1 review tracker is documented in [Staff feedback capture and Phase 1 review tracker](docs/54-staff-feedback-capture-phase-1-review-tracker.md).
+
+The performance and hosting architecture review is documented in [Performance and hosting architecture review](docs/55-performance-and-hosting-architecture-review.md).
 
 ## Current Scope
 

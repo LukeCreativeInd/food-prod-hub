@@ -6,6 +6,8 @@ This is a working feedback tracker for staff review of the Phase 1 demo modules.
 
 It does not change the app or database. Feedback should be captured here before real database tables, imports and workflows are finalised.
 
+While staff feedback is being collected, platform performance and hosting review is being tracked separately in [Performance and Hosting Architecture Review](55-performance-and-hosting-architecture-review.md).
+
 ## Review Scope
 
 Modules being reviewed:

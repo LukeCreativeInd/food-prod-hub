@@ -11,6 +11,8 @@ The first platform and security foundation is complete.
 - No business module data tables exist yet.
 - No production, costing, inventory or QA data is connected to the app yet.
 
+Update: after the Phase 3A demo foundation, a performance/hosting review has been opened at [Performance and Hosting Architecture Review](55-performance-and-hosting-architecture-review.md). It should guide auth/context query auditing and Vercel/Supabase region checks before any hosting migration is considered.
+
 ## Completed Foundation Phases
 
 | Phase | Scope | Status |
