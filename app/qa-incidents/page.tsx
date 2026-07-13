@@ -5,6 +5,7 @@ export default function QAIncidentsPage() {
     <PlaceholderPage
       title="QA Incidents"
       description="Placeholder for future quality incidents, issues, and corrective action workflows."
+      requiredPermission="qa.view"
     />
   );
 }

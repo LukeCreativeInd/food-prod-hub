@@ -5,6 +5,7 @@ export default function CRMPage() {
     <PlaceholderPage
       title="CRM"
       description="Placeholder for customer relationship management workflows."
+      requiredPermission="crm.view"
     />
   );
 }

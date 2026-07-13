@@ -2,7 +2,7 @@ import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { SampleDataTable } from "@/components/products/sample-data-table";
 import { AlertCard, SectionCard, StatCard, StatusBadge } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requirePermissionAccess } from "@/lib/auth";
 
 const summaryCards = [
   {
@@ -128,7 +128,7 @@ const rows = [
 ];
 
 export default async function BomTraceabilityPage() {
-  await requireAppAccess();
+  await requirePermissionAccess("inventory.view");
 
   return (
     <AppShell>

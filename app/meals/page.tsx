@@ -5,6 +5,7 @@ export default function MealsPage() {
     <PlaceholderPage
       title="Meals"
       description="Legacy placeholder. The current Products module review now uses Finished Products at /finished-products."
+      requiredPermission="products.view"
     />
   );
 }

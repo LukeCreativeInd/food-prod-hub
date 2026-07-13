@@ -5,6 +5,7 @@ export default function WholesalePage() {
     <PlaceholderPage
       title="Wholesale"
       description="Placeholder for wholesale customer and order workflows."
+      requiredPermission="wholesale.view"
     />
   );
 }

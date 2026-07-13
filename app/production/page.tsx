@@ -8,7 +8,7 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requirePermissionAccess } from "@/lib/auth";
 
 const summaryCards = [
   {
@@ -133,7 +133,7 @@ const productionAreas = [
 ];
 
 export default async function ProductionPage() {
-  await requireAppAccess();
+  await requirePermissionAccess("production.view");
 
   return (
     <AppShell>

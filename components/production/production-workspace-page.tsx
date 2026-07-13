@@ -2,7 +2,7 @@ import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { SampleDataTable } from "@/components/products/sample-data-table";
 import { AlertCard, SectionCard, StatCard, StatusBadge } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requirePermissionAccess } from "@/lib/auth";
 
 type SummaryCard = {
   label: string;
@@ -22,6 +22,7 @@ type ProductionWorkspacePageProps = {
   columns: string[];
   rows: Record<string, string>[];
   badgeColumns?: string[];
+  requiredPermission?: string;
   reviewPrompts: string[];
 };
 
@@ -34,9 +35,10 @@ export async function ProductionWorkspacePage({
   columns,
   rows,
   badgeColumns = [],
+  requiredPermission = "production.view",
   reviewPrompts,
 }: ProductionWorkspacePageProps) {
-  await requireAppAccess();
+  await requirePermissionAccess(requiredPermission);
 
   return (
     <AppShell>

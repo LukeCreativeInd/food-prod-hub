@@ -259,6 +259,8 @@ This should be a controlled code step that reduces duplicate helper calls while 
 - RLS behaviour
 - demo user restrictions
 
+This optimisation pass has now been implemented and documented in [Auth Context Query Optimisation](57-auth-context-query-optimisation.md). It adds request-level caching to the auth/context/navigation helpers and reuses cached permission keys for permission checks.
+
 ## Guardrails for Optimisation
 
 - Do not remove route guards to improve speed.

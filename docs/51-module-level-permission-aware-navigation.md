@@ -4,7 +4,7 @@
 
 Module-level permission-aware sidebar visibility has been added.
 
-This is a navigation UX change only. It does not create users, profiles, memberships, database migrations, RLS policies, route guards, live business queries or real Clean Eats data connections.
+This started as a navigation UX change only. A later 057 follow-up added matching route-level permission guards for non-admin module pages so direct URLs follow the same access model as the sidebar.
 
 ## What Changed
 
@@ -94,7 +94,9 @@ This matches the role seeded in `supabase/migrations/016_seed_phase_1_demo_user_
 
 Hidden sidebar links are UX only.
 
-This task does not add route-level permission guards to every non-admin module page. Route guards remain the stronger layer and module-level route guards can be reviewed later if needed.
+Route-level module permission guards have now been added after navigation filtering. Non-admin module pages use `requirePermissionAccess()` with the same seeded permission keys shown in the navigation mapping.
+
+This means a user without `qa.view`, `logistics.view`, `crm.view` or `reports.view` should not be able to load those routes by direct URL.
 
 ## Not Changed
 
@@ -105,7 +107,7 @@ This task does not add route-level permission guards to every non-admin module p
 - No migrations were created or applied.
 - No RLS policies were changed.
 - No enabled-module filtering logic was removed.
-- No auth or route protection behaviour was changed.
+- Route protection was hardened after the original navigation filtering step.
 - No module pages were connected to live Supabase business data.
 
 ## Next Step

@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 import { getCurrentOrganisation } from "@/lib/auth/get-current-organisation";
 import { createClient } from "@/lib/supabase/server";
 import type { ModuleKey } from "@/lib/tenant-types";
@@ -21,35 +23,37 @@ function getModuleKey(row: EnabledModuleRow) {
   return moduleRecord?.module_key;
 }
 
-export async function getCurrentEnabledModuleKeys(): Promise<ModuleKey[]> {
-  const organisation = await getCurrentOrganisation();
+export const getCurrentEnabledModuleKeys = cache(
+  async function getCurrentEnabledModuleKeys(): Promise<ModuleKey[]> {
+    const organisation = await getCurrentOrganisation();
 
-  if (!organisation) {
-    return [];
-  }
+    if (!organisation) {
+      return [];
+    }
 
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("organisation_modules")
-    .select(
-      `
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("organisation_modules")
+      .select(
+        `
         modules!inner (
           module_key,
           status,
           archived_at
         )
       `,
-    )
-    .eq("organisation_id", organisation.id)
-    .eq("enabled", true)
-    .eq("modules.status", "active")
-    .is("modules.archived_at", null);
+      )
+      .eq("organisation_id", organisation.id)
+      .eq("enabled", true)
+      .eq("modules.status", "active")
+      .is("modules.archived_at", null);
 
-  if (error) {
-    return [];
-  }
+    if (error) {
+      return [];
+    }
 
-  return ((data as unknown as EnabledModuleRow[] | null) ?? [])
-    .map((row) => getModuleKey(row))
-    .filter((moduleKey): moduleKey is ModuleKey => Boolean(moduleKey));
-}
+    return ((data as unknown as EnabledModuleRow[] | null) ?? [])
+      .map((row) => getModuleKey(row))
+      .filter((moduleKey): moduleKey is ModuleKey => Boolean(moduleKey));
+  },
+);

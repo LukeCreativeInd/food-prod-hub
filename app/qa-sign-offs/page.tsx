@@ -5,6 +5,7 @@ export default function QASignOffsPage() {
     <PlaceholderPage
       title="QA Sign-offs"
       description="Placeholder for future production and quality sign-off workflows."
+      requiredPermission="qa.view"
     />
   );
 }

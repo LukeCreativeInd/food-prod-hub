@@ -2,7 +2,7 @@ import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { SampleDataTable } from "@/components/products/sample-data-table";
 import { AlertCard, SectionCard, StatCard, StatusBadge } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requirePermissionAccess } from "@/lib/auth";
 
 type SummaryCard = {
   label: string;
@@ -36,7 +36,7 @@ export async function CostingsWorkspacePage({
   badgeColumns = [],
   reviewPrompts,
 }: CostingsWorkspacePageProps) {
-  await requireAppAccess();
+  await requirePermissionAccess("costings.view");
 
   return (
     <AppShell>

@@ -1,19 +1,22 @@
+import { cache } from "react";
+
 import { getCurrentProfile } from "@/lib/auth/get-current-profile";
 import type { CurrentMembership } from "@/lib/auth/types";
 import { createClient } from "@/lib/supabase/server";
 
-export async function getCurrentMembership(): Promise<CurrentMembership | null> {
-  const profile = await getCurrentProfile();
+export const getCurrentMembership = cache(
+  async function getCurrentMembership(): Promise<CurrentMembership | null> {
+    const profile = await getCurrentProfile();
 
-  if (!profile) {
-    return null;
-  }
+    if (!profile) {
+      return null;
+    }
 
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("organisation_memberships")
-    .select(
-      `
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("organisation_memberships")
+      .select(
+        `
         id,
         organisation_id,
         profile_id,
@@ -37,18 +40,19 @@ export async function getCurrentMembership(): Promise<CurrentMembership | null> 
           archived_at
         )
       `,
-    )
-    .eq("profile_id", profile.id)
-    .eq("status", "active")
-    .is("archived_at", null)
-    .eq("organisations.slug", "cleaneats")
-    .eq("organisations.status", "active")
-    .is("organisations.archived_at", null)
-    .maybeSingle();
+      )
+      .eq("profile_id", profile.id)
+      .eq("status", "active")
+      .is("archived_at", null)
+      .eq("organisations.slug", "cleaneats")
+      .eq("organisations.status", "active")
+      .is("organisations.archived_at", null)
+      .maybeSingle();
 
-  if (error) {
-    return null;
-  }
+    if (error) {
+      return null;
+    }
 
-  return (data as CurrentMembership | null) ?? null;
-}
+    return (data as CurrentMembership | null) ?? null;
+  },
+);

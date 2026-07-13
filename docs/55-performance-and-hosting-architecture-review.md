@@ -234,9 +234,11 @@ Before any hosting move, inspect and possibly optimise:
 
 This audit now exists at [Auth Context and Navigation Query Audit](56-auth-context-navigation-query-audit.md). It documents repeated helper calls, likely query waterfalls and the recommended next implementation step.
 
+The first app-level auth context optimisation pass now exists at [Auth Context Query Optimisation](57-auth-context-query-optimisation.md). This should be reviewed before making hosting migration decisions, because repeated helper work and region/cold-start effects should be separated where possible.
+
 This can be followed by:
 
-**057 - Hosting Region and Vercel/Supabase Configuration Check**
+**Hosting Region and Vercel/Supabase Configuration Check**
 
 These can also be combined into one performance audit if preferred.
 

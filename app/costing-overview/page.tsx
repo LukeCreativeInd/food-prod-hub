@@ -8,7 +8,7 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requirePermissionAccess } from "@/lib/auth";
 
 const summaryCards = [
   {
@@ -159,7 +159,7 @@ const costingAreas = [
 ];
 
 export default async function CostingOverviewPage() {
-  await requireAppAccess();
+  await requirePermissionAccess("costings.view");
 
   return (
     <AppShell>

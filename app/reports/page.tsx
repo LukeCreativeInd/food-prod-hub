@@ -5,6 +5,7 @@ export default function ReportsPage() {
     <PlaceholderPage
       title="Reports"
       description="Placeholder for cross-platform business reporting."
+      requiredPermission="reports.view"
     />
   );
 }

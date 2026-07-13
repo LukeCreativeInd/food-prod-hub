@@ -8,18 +8,24 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requireAppAccess, requirePermissionAccess } from "@/lib/auth";
 
 type PlaceholderPageProps = {
   title: string;
   description: string;
+  requiredPermission?: string;
 };
 
 export async function PlaceholderPage({
   title,
   description,
+  requiredPermission,
 }: PlaceholderPageProps) {
-  await requireAppAccess();
+  if (requiredPermission) {
+    await requirePermissionAccess(requiredPermission);
+  } else {
+    await requireAppAccess();
+  }
 
   const plannedWorkflows = [
     `${title} overview dashboard`,

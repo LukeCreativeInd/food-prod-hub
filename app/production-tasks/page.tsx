@@ -58,6 +58,7 @@ export default function ProductionTasksPage() {
     <ProductionWorkspacePage
       title="Production Tasks"
       description="Area-based production tasks previewing quantities, assignments, checks and completion status."
+      requiredPermission="production.tasks.view"
       summaryCards={[
         {
           label: "Open tasks",

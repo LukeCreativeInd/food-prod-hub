@@ -5,6 +5,7 @@ export default function QAPage() {
     <PlaceholderPage
       title="QA"
       description="Placeholder for quality assurance checks and review workflows."
+      requiredPermission="qa.view"
     />
   );
 }

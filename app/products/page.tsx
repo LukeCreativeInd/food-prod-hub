@@ -8,7 +8,7 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requirePermissionAccess } from "@/lib/auth";
 
 const summaryCards = [
   {
@@ -130,7 +130,7 @@ const recentUpdates = [
 ];
 
 export default async function ProductsPage() {
-  await requireAppAccess();
+  await requirePermissionAccess("products.view");
 
   return (
     <AppShell>

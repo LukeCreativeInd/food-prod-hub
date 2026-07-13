@@ -8,7 +8,7 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requirePermissionAccess } from "@/lib/auth";
 
 const summaryCards = [
   {
@@ -152,7 +152,7 @@ const inventoryAreas = [
 ];
 
 export default async function InventoryPage() {
-  await requireAppAccess();
+  await requirePermissionAccess("inventory.view");
 
   return (
     <AppShell>

@@ -1,9 +1,11 @@
+import { cache } from "react";
+
 import { getCurrentMembership } from "@/lib/auth/get-current-membership";
 import { getCurrentOrganisation } from "@/lib/auth/get-current-organisation";
 import { getCurrentProfile } from "@/lib/auth/get-current-profile";
 import { getCurrentUser } from "@/lib/auth/get-current-user";
 
-export async function getAuthContext() {
+export const getAuthContext = cache(async function getAuthContext() {
   const user = await getCurrentUser();
   const profile = user ? await getCurrentProfile() : null;
   const membership = profile ? await getCurrentMembership() : null;
@@ -18,4 +20,4 @@ export async function getAuthContext() {
     isAuthenticated: Boolean(user),
     hasMembership: Boolean(membership),
   };
-}
+});

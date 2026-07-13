@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 import { getCurrentMembership } from "@/lib/auth/get-current-membership";
 import { createClient } from "@/lib/supabase/server";
 
@@ -20,18 +22,19 @@ function getPermissionKey(row: PermissionRow) {
   return permission?.permission_key;
 }
 
-export async function getCurrentPermissionKeys(): Promise<string[]> {
-  const membership = await getCurrentMembership();
+export const getCurrentPermissionKeys = cache(
+  async function getCurrentPermissionKeys(): Promise<string[]> {
+    const membership = await getCurrentMembership();
 
-  if (!membership) {
-    return [];
-  }
+    if (!membership) {
+      return [];
+    }
 
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("role_permissions")
-    .select(
-      `
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("role_permissions")
+      .select(
+        `
         roles!inner (
           role_key,
           status,
@@ -43,63 +46,31 @@ export async function getCurrentPermissionKeys(): Promise<string[]> {
           archived_at
         )
       `,
-    )
-    .eq("roles.role_key", membership.role_key)
-    .eq("roles.status", "active")
-    .is("roles.archived_at", null)
-    .eq("permissions.status", "active")
-    .is("permissions.archived_at", null);
+      )
+      .eq("roles.role_key", membership.role_key)
+      .eq("roles.status", "active")
+      .is("roles.archived_at", null)
+      .eq("permissions.status", "active")
+      .is("permissions.archived_at", null);
 
-  if (error) {
-    return [];
-  }
+    if (error) {
+      return [];
+    }
 
-  return ((data as unknown as PermissionRow[] | null) ?? [])
-    .map((row) => getPermissionKey(row))
-    .filter((permissionKey): permissionKey is string => Boolean(permissionKey));
-}
+    return ((data as unknown as PermissionRow[] | null) ?? [])
+      .map((row) => getPermissionKey(row))
+      .filter((permissionKey): permissionKey is string =>
+        Boolean(permissionKey),
+      );
+  },
+);
 
 export async function userHasPermission(
   permissionKey: string,
 ): Promise<boolean> {
-  const membership = await getCurrentMembership();
+  const permissionKeys = await getCurrentPermissionKeys();
 
-  if (!membership) {
-    return false;
-  }
-
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("role_permissions")
-    .select(
-      `
-        id,
-        roles!inner (
-          role_key,
-          status,
-          archived_at
-        ),
-        permissions!inner (
-          permission_key,
-          status,
-          archived_at
-        )
-      `,
-    )
-    .eq("roles.role_key", membership.role_key)
-    .eq("roles.status", "active")
-    .is("roles.archived_at", null)
-    .eq("permissions.permission_key", permissionKey)
-    .eq("permissions.status", "active")
-    .is("permissions.archived_at", null)
-    .limit(1)
-    .maybeSingle();
-
-  if (error) {
-    return false;
-  }
-
-  return Boolean(data);
+  return permissionKeys.includes(permissionKey);
 }
 
 export async function requirePermission(

@@ -54,6 +54,7 @@ export default function GoodsInwardsPage() {
     <InventoryWorkspacePage
       title="Goods Inwards"
       description="Manage incoming supplier deliveries and receiving checks before stock is batched, located and made available to production."
+      requiredPermission="goods_inwards.view"
       summaryCards={[
         {
           label: "Deliveries due",

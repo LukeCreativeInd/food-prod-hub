@@ -2,7 +2,7 @@ import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { FacilityTaskCard } from "@/components/production/facility-task-card";
 import { AlertCard, SectionCard, StatCard, StatusBadge } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { requirePermissionAccess } from "@/lib/auth";
 
 const tasks = [
   {
@@ -35,7 +35,7 @@ const tasks = [
 ];
 
 export default async function FacilityTasksPage() {
-  await requireAppAccess();
+  await requirePermissionAccess("production.tasks.view");
 
   return (
     <AppShell>

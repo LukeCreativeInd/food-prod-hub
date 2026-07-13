@@ -49,11 +49,13 @@ The current app includes the foundation for an internal operations hub: app shel
 - Demo/test user access planning has been added before any staff demo user is created
 - Phase 1 demo user role seed migration has been drafted for review
 - Module-level permission-aware navigation has been added for non-admin modules
+- Module-level route permission guards now align direct URL access with sidebar visibility
 - Demo/test user manual setup guide has been added for controlled Supabase setup
 - Staff demo review round has been documented for Phase 1 feedback
 - Staff feedback capture and Phase 1 review tracker has been added
 - Performance and hosting architecture review has been added for Vercel/Supabase planning
 - Auth context and navigation query audit has been added for performance optimisation planning
+- Auth context query flow now uses request-level caching to reduce duplicate protected-route lookups
 
 ## Tech Stack
 
@@ -146,6 +148,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Staff feedback capture and Phase 1 review tracker](docs/54-staff-feedback-capture-phase-1-review-tracker.md)
 - [Performance and hosting architecture review](docs/55-performance-and-hosting-architecture-review.md)
 - [Auth context and navigation query audit](docs/56-auth-context-navigation-query-audit.md)
+- [Auth context query optimisation](docs/57-auth-context-query-optimisation.md)
 
 ## Database Migrations
 
@@ -240,6 +243,8 @@ The staff feedback capture and Phase 1 review tracker is documented in [Staff fe
 The performance and hosting architecture review is documented in [Performance and hosting architecture review](docs/55-performance-and-hosting-architecture-review.md).
 
 The auth context and navigation query audit is documented in [Auth context and navigation query audit](docs/56-auth-context-navigation-query-audit.md).
+
+The auth context query optimisation pass is documented in [Auth context query optimisation](docs/57-auth-context-query-optimisation.md).
 
 ## Current Scope
 

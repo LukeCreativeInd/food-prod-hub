@@ -69,6 +69,7 @@ export default function PurchasingPage() {
     <InventoryWorkspacePage
       title="Purchasing"
       description="Review low stock, supplier ordering needs and upcoming purchase prompts before purchase orders or supplier integrations exist."
+      requiredPermission="purchasing.view"
       summaryCards={[
         {
           label: "Items to review",
