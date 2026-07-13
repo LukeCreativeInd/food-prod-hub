@@ -211,6 +211,8 @@ The master admin portal should:
 - treat Wholesale as a future CRM/workspace planning item
 - keep Dashboard as default and not toggleable initially
 
+Update: the first `/platform` skeleton uses this cleaned module model and is documented in [Platform Admin Read-Only Skeleton](63-platform-admin-read-only-skeleton.md). Purchasing is presented as part of Inventory, Wholesale remains dormant, and Dashboard remains a default app area.
+
 ## Recommended Next Step
 
 Master Admin Portal planning now exists at [Master Admin Portal Planning](62-master-admin-portal-planning.md). It uses this cleanup direction and recommends a lightweight read-only `/platform` v1 before write/create flows.

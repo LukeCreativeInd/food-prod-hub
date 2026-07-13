@@ -61,6 +61,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Module registry alignment review has been added before master admin module controls
 - Module registry cleanup plan recommends no immediate DB cleanup before master admin planning
 - Master Admin Portal planning has been added for future platform/global tenant management
+- Read-only Platform Admin skeleton has been added at `/platform`
 
 ## Tech Stack
 
@@ -159,6 +160,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Module registry alignment review](docs/60-module-registry-alignment-review.md)
 - [Module registry cleanup plan](docs/61-module-registry-cleanup-plan.md)
 - [Master Admin Portal planning](docs/62-master-admin-portal-planning.md)
+- [Platform Admin read-only skeleton](docs/63-platform-admin-read-only-skeleton.md)
 
 ## Database Migrations
 
@@ -265,6 +267,8 @@ Module registry alignment is documented in [Module registry alignment review](do
 Module registry cleanup planning is documented in [Module registry cleanup plan](docs/61-module-registry-cleanup-plan.md).
 
 Master Admin Portal planning is documented in [Master Admin Portal planning](docs/62-master-admin-portal-planning.md).
+
+The first read-only Platform Admin skeleton is documented in [Platform Admin read-only skeleton](docs/63-platform-admin-read-only-skeleton.md).
 
 ## Current Scope
 

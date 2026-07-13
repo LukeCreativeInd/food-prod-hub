@@ -258,6 +258,14 @@ export const navigationGroups: NavigationGroup[] = [
     items: [],
   },
   {
+    label: "Platform",
+    href: "/platform",
+    isRoot: true,
+    requiredPermission: "platform.tenants.view",
+    iconKey: "admin",
+    items: [],
+  },
+  {
     label: "Admin",
     href: "/organisation-settings",
     requiredModuleKey: "admin",

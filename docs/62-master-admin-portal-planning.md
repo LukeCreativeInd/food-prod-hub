@@ -274,6 +274,8 @@ Purpose:
 - inspect tenants
 - avoid overbuilding billing/onboarding too early
 
+Update: the first `/platform` read-only skeleton has been implemented and documented in [Platform Admin Read-Only Skeleton](63-platform-admin-read-only-skeleton.md). It is guarded by `platform.tenants.view` and uses static foundation placeholders only.
+
 ## What Not To Build Yet
 
 - no billing/payment system yet
