@@ -270,7 +270,7 @@ Recommended next step:
 
 **054 - Staff Feedback Capture and Phase 1 Review Tracker**
 
-This could be a simple document/table to collect staff responses in one place while they review the demo.
+The feedback tracker now exists at [Staff Feedback Capture and Phase 1 Review Tracker](54-staff-feedback-capture-phase-1-review-tracker.md). Use it to collect staff responses in one place while they review the demo.
 
 Alternative after feedback:
 

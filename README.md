@@ -51,6 +51,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Module-level permission-aware navigation has been added for non-admin modules
 - Demo/test user manual setup guide has been added for controlled Supabase setup
 - Staff demo review round has been documented for Phase 1 feedback
+- Staff feedback capture and Phase 1 review tracker has been added
 
 ## Tech Stack
 
@@ -140,6 +141,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Module-level permission-aware navigation](docs/51-module-level-permission-aware-navigation.md)
 - [Demo/test user manual setup](docs/52-demo-test-user-manual-setup.md)
 - [Staff demo review round](docs/53-staff-demo-review-round.md)
+- [Staff feedback capture and Phase 1 review tracker](docs/54-staff-feedback-capture-phase-1-review-tracker.md)
 
 ## Database Migrations
 
@@ -228,6 +230,8 @@ Module-level permission-aware navigation is documented in [Module-level permissi
 The demo/test user manual setup guide is documented in [Demo/test user manual setup](docs/52-demo-test-user-manual-setup.md).
 
 The staff demo review round is documented in [Staff demo review round](docs/53-staff-demo-review-round.md).
+
+The staff feedback capture and Phase 1 review tracker is documented in [Staff feedback capture and Phase 1 review tracker](docs/54-staff-feedback-capture-phase-1-review-tracker.md).
 
 ## Current Scope
 

@@ -260,7 +260,15 @@ The manual setup guide now exists at [Demo/Test User Manual Setup](52-demo-test-
 
 The staff demo review round is now ready and documented in [Staff Demo Review Round](53-staff-demo-review-round.md). The demo user has been created and tested, with Dashboard, Products, Costings, Production and Inventory visible and Admin, QA, Logistics, CRM and Reports hidden.
 
-### 054 - Products/Inventory Data Model Planning
+### 054 - Staff Feedback Capture and Phase 1 Review Tracker
+
+- capture active staff feedback in one place
+- separate must-have requirements from later ideas
+- track terminology, fields, workflows, CSV status and open questions
+
+Active staff feedback should now be captured in [Staff Feedback Capture and Phase 1 Review Tracker](54-staff-feedback-capture-phase-1-review-tracker.md).
+
+### 055 - Products/Inventory Data Model Planning
 
 - use feedback and CSVs to plan real database tables
 
