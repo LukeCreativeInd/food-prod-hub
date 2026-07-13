@@ -139,6 +139,8 @@ Step 088 adds the matching read-only Finished Product Formula UI scaffold:
 
 Both UI workspaces use `formulas.view`, the authenticated server Supabase client and current organisation context. They do not add create/edit forms, imports, costing rollups, production routes or stock movement logic.
 
+Step 089 adds [Formula Import Planning](89-formula-import-planning.md). Future reviewed imports should create `formula_versions` and `formula_lines` only after staff template data has been parsed, matched, validated and approved.
+
 ## Known Limitations
 
 - No formula create/edit UI exists yet.

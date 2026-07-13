@@ -6,6 +6,8 @@ The first read-only Finished Product Formula UI scaffold has been added.
 
 This step does not add migrations, staff CSV/XLSX import, formula create/edit forms, costing rollups, production routes, stock movements, inventory consumption, purchase orders, Goods Inwards, Platform Admin changes or Purchase Document Intake changes.
 
+Step 089 adds [Formula Import Planning](89-formula-import-planning.md). The finished product workspace will later show imported formula records after staff collection data is reviewed, matched and committed.
+
 ## Routes Added Or Updated
 
 - `/finished-products`

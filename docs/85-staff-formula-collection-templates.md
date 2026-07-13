@@ -165,6 +165,8 @@ Before anything becomes system data, Luke should review:
 - formulas that vary by production day or customer
 - example rows that need deleting or replacing
 
+Formula import planning now exists in [Formula Import Planning](89-formula-import-planning.md). The planned import should treat these templates as reviewed collection inputs, not trusted database-ready data.
+
 ## Mapping To Formula Schema
 
 Migration 022 drafts the future schema target:

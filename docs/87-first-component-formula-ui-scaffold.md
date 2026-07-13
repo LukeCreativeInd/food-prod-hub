@@ -8,6 +8,8 @@ This step does not add migrations, staff CSV/XLSX import, formula create/edit fo
 
 Step 088 adds the matching read-only Finished Product Formula UI scaffold; see [First Finished Product Formula UI Scaffold](88-first-finished-product-formula-ui-scaffold.md).
 
+Step 089 adds [Formula Import Planning](89-formula-import-planning.md). The component formula workspace will later show imported formula records after staff collection data is reviewed, matched and committed.
+
 ## Routes Added Or Updated
 
 - `/components`
