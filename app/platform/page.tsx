@@ -1,5 +1,6 @@
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
+import Link from "next/link";
 import {
   AlertCard,
   SectionCard,
@@ -49,6 +50,7 @@ const tenants = [
     slug: "cleaneats",
     industry: "Food Manufacturing",
     status: "active",
+    href: "/platform/tenants/cleaneats",
     modules:
       "Products, Costings, Production, Inventory, QA, Logistics, CRM, Reports, Admin",
     notes: "Tenant 1 / pilot",
@@ -135,19 +137,20 @@ export default async function PlatformPage() {
           action={<StatusBadge tone="success">Tenant 1</StatusBadge>}
         >
           <div className="overflow-hidden rounded-lg border border-slate-200">
-            <div className="grid gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase text-slate-500 lg:grid-cols-[1.1fr_0.7fr_0.9fr_0.6fr_1.4fr_0.8fr]">
+            <div className="grid gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase text-slate-500 lg:grid-cols-[1.1fr_0.7fr_0.9fr_0.6fr_1.4fr_0.8fr_0.5fr]">
               <span>Organisation</span>
               <span>Slug</span>
               <span>Industry</span>
               <span>Status</span>
               <span>Modules</span>
               <span>Notes</span>
+              <span>Detail</span>
             </div>
             <div className="divide-y divide-slate-200 bg-white">
               {tenants.map((tenant) => (
                 <div
                   key={tenant.slug}
-                  className="grid gap-3 px-4 py-4 text-sm lg:grid-cols-[1.1fr_0.7fr_0.9fr_0.6fr_1.4fr_0.8fr] lg:items-start"
+                  className="grid gap-3 px-4 py-4 text-sm lg:grid-cols-[1.1fr_0.7fr_0.9fr_0.6fr_1.4fr_0.8fr_0.5fr] lg:items-start"
                 >
                   <div>
                     <p className="font-semibold text-slate-950">
@@ -164,6 +167,12 @@ export default async function PlatformPage() {
                   </div>
                   <p className="leading-6 text-slate-600">{tenant.modules}</p>
                   <p className="font-medium text-slate-700">{tenant.notes}</p>
+                  <Link
+                    href={tenant.href}
+                    className="font-semibold text-clean-green-800 hover:text-clean-green-950"
+                  >
+                    View
+                  </Link>
                 </div>
               ))}
             </div>

@@ -116,6 +116,12 @@ Future screens:
 - audit/support notes
 - billing placeholder later
 
+Implementation note:
+
+- The first read-only tenant detail skeleton for Clean Eats now exists at `/platform/tenants/cleaneats`.
+- It is protected by `platform.tenants.view`.
+- It uses static placeholders only and does not create tenant edit, create, billing, integration or module-management actions.
+
 ### Tenant Create Flow
 
 - organisation name

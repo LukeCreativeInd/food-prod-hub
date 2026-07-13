@@ -39,6 +39,8 @@ The read-only skeleton includes:
 - current top-level module model summary
 - future platform admin roadmap card
 
+The Clean Eats tenant row now links to the first read-only tenant detail skeleton at `/platform/tenants/cleaneats`.
+
 ## Data Source
 
 This first skeleton uses static foundation placeholders.
@@ -81,7 +83,7 @@ This means it should be visible to Luke/platform_admin and hidden from the demo 
 
 Recommended next step:
 
-**064 - Platform Tenant Detail Read-Only Skeleton**
+**Tenant Creation and Provisioning Plan**
 
 Alternative:
 
