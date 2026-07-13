@@ -430,6 +430,8 @@ For Phase 1 demo:
 
 Invoice intake reduces supplier, catalogue and price workload, but staff still need to provide formula and method data.
 
+Staff collection template planning is documented in [Staff Formula Collection Template Planning](84-staff-formula-collection-template-planning.md). That document defines the proposed collection tabs, staff-facing fields and instructions before final CSV/XLSX templates are created.
+
 Component formulas:
 
 - component name

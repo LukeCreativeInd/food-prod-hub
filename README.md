@@ -82,6 +82,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Phase 1 demo real-data read access has been drafted so demo users can view Products/Costings supplier and price records after manual migration application
 - Read-only supplier and internal item detail pages have been added for Purchase Document Intake records
 - Component and formula data model planning has been added before building formula schema or UI
+- Staff formula collection template planning has been added before creating CSV/XLSX collection files
 
 ## Tech Stack
 
@@ -201,6 +202,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Phase 1 demo real data read access](docs/81-phase-1-demo-real-data-read-access.md)
 - [Supplier and internal item detail pages](docs/82-supplier-internal-item-detail-pages.md)
 - [Component and formula data model planning](docs/83-component-formula-data-model-planning.md)
+- [Staff formula collection template planning](docs/84-staff-formula-collection-template-planning.md)
 
 ## Database Migrations
 
