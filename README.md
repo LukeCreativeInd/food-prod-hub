@@ -67,6 +67,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Billing and subscription planning has been added before any payment provider or billing UI work
 - Commercial platform architecture and domain model planning has been added before domain/routing changes
 - Naming and brand direction planning has been added before domain checks, logo work or public website branding
+- Platform Admin v1 build planning has been added before further Platform Admin functionality
 
 ## Tech Stack
 
@@ -171,6 +172,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Billing and subscription planning](docs/66-billing-and-subscription-planning.md)
 - [Commercial platform architecture and domain model](docs/67-commercial-platform-architecture-domain-model.md)
 - [Naming and brand direction planning](docs/68-naming-and-brand-direction-planning.md)
+- [Platform Admin v1 build plan](docs/69-platform-admin-v1-build-plan.md)
 
 ## Database Migrations
 
@@ -289,6 +291,8 @@ Future billing and subscription handling is planned in [Billing and subscription
 The future commercial platform/domain model is planned in [Commercial platform architecture and domain model](docs/67-commercial-platform-architecture-domain-model.md).
 
 Future naming and brand direction is planned in [Naming and brand direction planning](docs/68-naming-and-brand-direction-planning.md).
+
+Platform Admin v1 scope is planned in [Platform Admin v1 build plan](docs/69-platform-admin-v1-build-plan.md).
 
 ## Current Scope
 

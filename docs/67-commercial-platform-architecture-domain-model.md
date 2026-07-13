@@ -267,6 +267,8 @@ Future work should remember:
 - define read-only Platform Admin v1
 - plan eventual admin subdomain transition
 
+Platform Admin v1 planning now exists in [Platform Admin v1 Build Plan](69-platform-admin-v1-build-plan.md). It aligns the temporary `/platform` skeleton with the long-term three-layer commercial architecture while avoiding tenant creation, billing actions, support-mode switching and write flows.
+
 ### 070 - Tenant Routing/Subdomain Planning
 
 - technical plan for resolving tenant from subdomain

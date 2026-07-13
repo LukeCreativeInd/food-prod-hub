@@ -36,6 +36,10 @@ The product is:
 
 A modular operations platform for food manufacturers and production businesses.
 
+Strategic note:
+
+The platform direction may become an umbrella SaaS brand with vertical-specific products underneath, such as food production, automotive workshops and other operations-heavy industries. Naming should be revisited later with that broader structure in mind, so the commercial name does not overfit Clean Eats or food production if the platform expands.
+
 Core themes:
 
 - production control

@@ -248,6 +248,8 @@ The future commercial platform/domain model is defined in [Commercial Platform A
 
 The future admin/public/tenant domain model depends on final product naming. Naming and brand direction planning is tracked in [Naming and Brand Direction Planning](68-naming-and-brand-direction-planning.md).
 
+Platform Admin v1 build planning now exists in [Platform Admin v1 Build Plan](69-platform-admin-v1-build-plan.md). It defines the first practical read-only control-centre scope and what should remain out of v1.
+
 ## Data Model Readiness
 
 Existing foundation tables that support future master admin:
