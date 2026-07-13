@@ -48,7 +48,9 @@ After the migration is manually applied, the Phase 1 demo user should be able to
 - `/dashboard`
 - `/products`
 - `/suppliers`
+- `/suppliers/[id]`
 - `/ingredients`
+- `/internal-items/[id]`
 - `/packaging`
 - `/costing-overview`
 - `/ingredient-costs`
@@ -122,7 +124,9 @@ Phase 1 demo user:
 
 - can access `/dashboard`
 - can access `/suppliers`
+- can access `/suppliers/[id]`
 - can access `/ingredients`
+- can access `/internal-items/[id]`
 - can access `/packaging`
 - can access `/ingredient-costs`
 - can access `/price-history`

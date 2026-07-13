@@ -7,7 +7,10 @@ export default async function PackagingPage() {
     if (item.supplierOptions.length === 0) {
       return [
         {
-          "Packaging item": item.displayName,
+          "Packaging item": {
+            label: item.displayName,
+            href: `/internal-items/${item.id}`,
+          },
           Unit: item.baseUnit ?? "Not recorded",
           Supplier: "No supplier mapping",
           "Supplier code": "Not recorded",
@@ -20,7 +23,10 @@ export default async function PackagingPage() {
     }
 
     return item.supplierOptions.map((option) => ({
-      "Packaging item": item.displayName,
+      "Packaging item": {
+        label: item.displayName,
+        href: `/internal-items/${item.id}`,
+      },
       Unit: item.baseUnit ?? option.purchaseUnit ?? "Not recorded",
       Supplier: option.supplierName,
       "Supplier code": option.supplierItemCode ?? "Not recorded",

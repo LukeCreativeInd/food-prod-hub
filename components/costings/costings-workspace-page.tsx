@@ -1,6 +1,9 @@
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
-import { SampleDataTable } from "@/components/products/sample-data-table";
+import {
+  type DataTableCell,
+  SampleDataTable,
+} from "@/components/products/sample-data-table";
 import { AlertCard, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { requirePermissionAccess } from "@/lib/auth";
 
@@ -20,7 +23,7 @@ type CostingsWorkspacePageProps = {
   tableTitle: string;
   tableDescription: string;
   columns: string[];
-  rows: Record<string, string>[];
+  rows: Record<string, DataTableCell>[];
   badgeColumns?: string[];
   reviewPrompts: string[];
   dataBadge?: string;

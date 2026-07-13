@@ -80,6 +80,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Products and Costings now include read-only real-data views for committed Purchase Document Intake supplier, item and price records
 - Vercel Web Analytics instrumentation has been added for deployed route/page-view analytics
 - Phase 1 demo real-data read access has been drafted so demo users can view Products/Costings supplier and price records after manual migration application
+- Read-only supplier and internal item detail pages have been added for Purchase Document Intake records
 
 ## Tech Stack
 
@@ -197,6 +198,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Products and Costings real data views](docs/79-products-costings-real-data-views.md)
 - [Vercel Web Analytics](docs/80-vercel-web-analytics.md)
 - [Phase 1 demo real data read access](docs/81-phase-1-demo-real-data-read-access.md)
+- [Supplier and internal item detail pages](docs/82-supplier-internal-item-detail-pages.md)
 
 ## Database Migrations
 

@@ -72,7 +72,10 @@ export default async function SuppliersPage() {
         "Status",
       ]}
       rows={suppliers.map((supplier) => ({
-        Supplier: supplier.displayName,
+        Supplier: {
+          label: supplier.displayName,
+          href: `/suppliers/${supplier.id}`,
+        },
         "Legal name": supplier.legalName ?? "Not recorded",
         ABN: supplier.abn ?? "Not recorded",
         Type: supplier.supplierType ?? "Not recorded",

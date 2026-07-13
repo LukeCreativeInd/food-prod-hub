@@ -1,14 +1,32 @@
+import Link from "next/link";
+
 import { StatusBadge } from "@/components/ui";
+
+export type DataTableCell =
+  | string
+  | {
+      label: string;
+      href: string;
+    };
 
 type SampleDataTableProps = {
   columns: string[];
-  rows: Record<string, string>[];
+  rows: Record<string, DataTableCell>[];
   badgeColumns?: string[];
   emptyMessage?: string;
 };
 
-function badgeTone(value: string) {
-  const normalisedValue = value.toLowerCase();
+function getCellLabel(value: DataTableCell | undefined) {
+  if (!value) {
+    return "";
+  }
+
+  return typeof value === "string" ? value : value.label;
+}
+
+function badgeTone(value: DataTableCell | undefined) {
+  const label = getCellLabel(value);
+  const normalisedValue = label.toLowerCase();
 
   if (
     normalisedValue.includes("missing") ||
@@ -72,8 +90,15 @@ export function SampleDataTable({
                   >
                     {badgeColumns.includes(column) ? (
                       <StatusBadge tone={badgeTone(row[column])}>
-                        {row[column]}
+                        {getCellLabel(row[column])}
                       </StatusBadge>
+                    ) : typeof row[column] === "object" ? (
+                      <Link
+                        className="font-semibold text-clean-green-700 hover:text-clean-green-900"
+                        href={row[column].href}
+                      >
+                        {row[column].label}
+                      </Link>
                     ) : (
                       row[column]
                     )}

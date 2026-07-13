@@ -20,6 +20,11 @@ The following pages now read tenant-scoped Supabase data:
 
 The pages remain read-only. They do not create, update or delete supplier, item, mapping, document or price records.
 
+Step 082 adds read-only detail pages so supplier and internal item rows can be inspected in context:
+
+- `/suppliers/[id]`
+- `/internal-items/[id]`
+
 ## Data Source
 
 The views use `lib/products-data.ts`.
@@ -57,7 +62,9 @@ after manual Supabase review/application. It does not grant Purchase Document In
 After the Cammaroto invoice is extracted, reviewed and committed:
 
 - `/suppliers` should show Cammaroto Poultry / Surefire-linked supplier data
+- Cammaroto Poultry should link to `/suppliers/[id]`
 - `/ingredients` should show `Chicken Thigh`
+- `Chicken Thigh` should link to `/internal-items/[id]`
 - `/ingredient-costs` should show the approved current Cammaroto supplier price for Chicken Thigh
 - `/price-history` should show approved price and invoice observation traceability
 

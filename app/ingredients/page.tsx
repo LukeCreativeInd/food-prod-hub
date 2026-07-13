@@ -7,7 +7,10 @@ export default async function IngredientsPage() {
     if (ingredient.supplierOptions.length === 0) {
       return [
         {
-          Ingredient: ingredient.displayName,
+          Ingredient: {
+            label: ingredient.displayName,
+            href: `/internal-items/${ingredient.id}`,
+          },
           Unit: ingredient.baseUnit ?? "Not recorded",
           Supplier: "No supplier mapping",
           "Supplier code": "Not recorded",
@@ -20,7 +23,10 @@ export default async function IngredientsPage() {
     }
 
     return ingredient.supplierOptions.map((option) => ({
-      Ingredient: ingredient.displayName,
+      Ingredient: {
+        label: ingredient.displayName,
+        href: `/internal-items/${ingredient.id}`,
+      },
       Unit: ingredient.baseUnit ?? option.purchaseUnit ?? "Not recorded",
       Supplier: option.supplierName,
       "Supplier code": option.supplierItemCode ?? "Not recorded",
