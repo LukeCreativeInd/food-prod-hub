@@ -8,6 +8,8 @@ This step adds real saved document/review behaviour for the Cammaroto sample pat
 
 Step 073 adds the controlled Cammaroto sample commit flow. That commit path creates or reuses supplier, alias, supplier item, internal item, mapping, price observation, approved supplier price and informational rule records for the reviewed Cammaroto sample only.
 
+Step 074 adds action/loading feedback for creating the sample review, saving review progress and committing reviewed records. It also reframes the UI as a general Purchase Document Intake workspace while keeping the Cammaroto path as a sample/test invoice.
+
 ## Actions and Helpers Added
 
 New helper/action areas:

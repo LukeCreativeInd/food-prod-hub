@@ -6,6 +6,8 @@ The first controlled Purchase Document Intake commit flow has been added for the
 
 This is not a generic invoice automation engine. It is a narrow, reviewed path that commits the Cammaroto sample into trusted reference records for the current tenant only.
 
+Step 074 repositions this Cammaroto flow as the sample/test invoice path inside a general Purchase Document Intake workspace. The route and workflow remain the same, but the UI now presents Cammaroto as one controlled sample rather than the identity of the tool.
+
 ## Commit Purpose
 
 The commit flow turns reviewed purchase document data into reusable supplier, catalogue, mapping and price records after explicit user action.

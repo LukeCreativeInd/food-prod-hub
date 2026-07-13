@@ -72,6 +72,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Purchase Document Intake v1 foundation has been drafted for reviewed supplier invoice onboarding
 - Purchase Document Intake now has real saved document list, Cammaroto sample creation and review-progress save actions
 - Purchase Document Intake now has a controlled Cammaroto sample commit flow for reviewed supplier/item/price reference records
+- Purchase Document Intake wording has been generalised and action/loading feedback has been added
 
 ## Tech Stack
 
@@ -181,6 +182,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Purchase Document Intake v1 foundation](docs/71-purchase-document-intake-v1-foundation.md)
 - [Purchase Document upload and review actions](docs/72-purchase-document-upload-review-actions.md)
 - [Cammaroto sample commit flow](docs/73-cammaroto-sample-commit-flow.md)
+- [Purchase Document Intake generalisation UX polish](docs/74-purchase-document-intake-generalisation-ux-polish.md)
 
 ## Database Migrations
 
@@ -309,6 +311,8 @@ Purchase Document Intake v1 foundation is documented in [Purchase Document Intak
 Purchase Document upload and review actions are documented in [Purchase Document upload and review actions](docs/72-purchase-document-upload-review-actions.md).
 
 The controlled Cammaroto sample commit flow is documented in [Cammaroto sample commit flow](docs/73-cammaroto-sample-commit-flow.md).
+
+Purchase Document Intake generalisation and action feedback polish is documented in [Purchase Document Intake generalisation UX polish](docs/74-purchase-document-intake-generalisation-ux-polish.md).
 
 ## Current Scope
 

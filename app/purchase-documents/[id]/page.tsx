@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ActionSubmitButton } from "@/app/purchase-documents/action-submit-button";
 import {
   commitPurchaseDocumentReviewAction,
   savePurchaseDocumentReviewAction,
@@ -67,11 +68,11 @@ function formatStatus(status: string) {
 }
 
 function statusTone(status: string) {
-  if (status === "ready_to_commit" || status === "ready") {
+  if (status === "ready_to_commit" || status === "ready" || status === "committed") {
     return "success" as const;
   }
 
-  if (status === "failed" || status === "rejected") {
+  if (status === "failed" || status === "rejected" || status === "duplicate") {
     return "danger" as const;
   }
 
@@ -84,7 +85,7 @@ function statusTone(status: string) {
 
 function messageFor(commit?: string, sample?: string, saved?: string) {
   if (commit === "committed") {
-    return "Purchase document committed. Trusted supplier, item, mapping, price and informational-rule records were created or reused.";
+    return "Purchase document committed. Supplier, item, mapping, price and informational-rule records were created or reused.";
   }
 
   if (commit === "already_committed") {
@@ -318,13 +319,15 @@ export default async function PurchaseDocumentReviewPage({
     ["Approved supplier price", "$13.70/KG current"],
     ["Informational rule", "CTNS / CARTONS"],
     ["Stock movements", "None created"],
+    ["Supplier payment/bank details", "Not updated"],
+    ["Source descriptions", "Preserved"],
   ];
 
   return (
     <AppShell>
       <PageHeader
-        title="Review Purchase Document"
-        description="Review saved invoice data before supplier, item mapping and price records are committed in a future step."
+        title="Review Import"
+        description="Review supplier invoice data before committing supplier catalogue, internal item mapping and approved price records."
       />
 
       <form action={savePurchaseDocumentReviewAction}>
@@ -371,7 +374,7 @@ export default async function PurchaseDocumentReviewPage({
               <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
                 {isCommitted
                   ? "This document is committed. Re-running commit is disabled from the UI and the server action is idempotent."
-                  : "Commit will create/update supplier, supplier item, internal item, mapping, price observation, approved price and informational rule records for this tenant only. No stock movements are created."}
+                  : "Commit will create/update supplier, supplier item, internal item, mapping, price observation, approved price and informational rule records for this tenant only. No stock movements or supplier payment/bank detail updates are created."}
               </div>
             </div>
           </section>
@@ -379,7 +382,7 @@ export default async function PurchaseDocumentReviewPage({
           <section className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
             <aside className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-bold text-slate-950">
-                Original document
+                Source document
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
                 Document viewer placeholder. Future storage-backed uploads will
@@ -495,11 +498,11 @@ export default async function PurchaseDocumentReviewPage({
           <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
             <div className="border-b border-slate-200 px-5 py-4">
               <h2 className="text-lg font-bold text-slate-950">
-                Invoice line items
+                Invoice lines
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
-                Source and corrected values stay reviewable. Supplier
-                descriptions are not overwritten by internal names.
+                Supplier source descriptions, corrected supplier descriptions
+                and internal item names stay separate.
               </p>
             </div>
             <div className="divide-y divide-slate-200">
@@ -511,11 +514,11 @@ export default async function PurchaseDocumentReviewPage({
                     <input type="hidden" name="line_ids" value={line.id} />
                     <div className="grid gap-4 xl:grid-cols-[0.7fr_1.2fr_0.45fr_0.45fr_0.55fr_auto] xl:items-start">
                       <FieldPreview
-                        label="Source code"
+                        label="Supplier item code"
                         value={line.source_item_code ?? "No code"}
                       />
                       <FieldPreview
-                        label="Source description"
+                        label="Supplier source description"
                         value={line.source_description ?? "No description"}
                       />
                       <FieldPreview
@@ -562,12 +565,12 @@ export default async function PurchaseDocumentReviewPage({
                         options={lineStatusOptions}
                       />
                       <TextInput
-                        label="Corrected code"
+                        label="Corrected supplier code"
                         name={`line_${line.id}_corrected_item_code`}
                         defaultValue={defaults.itemCode}
                       />
                       <TextInput
-                        label="Corrected description"
+                        label="Corrected supplier description"
                         name={`line_${line.id}_corrected_description`}
                         defaultValue={defaults.description}
                       />
@@ -624,6 +627,14 @@ export default async function PurchaseDocumentReviewPage({
                           />
                         </label>
                       )}
+                      <FieldPreview
+                        label="Price decision"
+                        value={
+                          line.classification === "informational"
+                            ? "Informational / ignored"
+                            : "Update current price"
+                        }
+                      />
                       <label className="block md:col-span-2 xl:col-span-2">
                         <span className="text-xs font-semibold uppercase text-slate-500">
                           Review notes
@@ -645,7 +656,7 @@ export default async function PurchaseDocumentReviewPage({
           <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-bold text-slate-950">
-                {isCommitted ? "Created / linked records" : "Commit preview"}
+                {isCommitted ? "Commit result" : "Proposed commit actions"}
               </h2>
               {isCommitted ? (
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
@@ -665,6 +676,8 @@ export default async function PurchaseDocumentReviewPage({
                     "Create/update approved current price: $13.70/KG",
                     "Create/reuse CTNS/CARTONS informational rule",
                     "No stock movements are created",
+                    "No supplier payment/bank details are updated",
+                    "Supplier source descriptions are preserved",
                   ].map((action) => (
                     <div
                       key={action}
@@ -679,7 +692,7 @@ export default async function PurchaseDocumentReviewPage({
 
             <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-bold text-slate-950">
-                Validation panel
+                Validation and guardrails
               </h2>
               <div className="mt-5 space-y-3">
                 {[
@@ -704,29 +717,25 @@ export default async function PurchaseDocumentReviewPage({
                 ))}
               </div>
               <div className="mt-5 flex flex-wrap gap-3">
-                <button
-                  type="submit"
+                <ActionSubmitButton
+                  pendingLabel="Saving..."
                   disabled={isCommitted}
-                  className="inline-flex items-center rounded-md bg-clean-green-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-clean-green-900"
+                  variant="primary"
                 >
                   {isCommitted ? "Review locked after commit" : "Save review progress"}
-                </button>
-                <button
-                  type="submit"
+                </ActionSubmitButton>
+                <ActionSubmitButton
+                  pendingLabel="Committing..."
                   formAction={commitPurchaseDocumentReviewAction}
                   disabled={!canCommit || !commitReady}
-                  className={
-                    canCommit && commitReady
-                      ? "inline-flex items-center rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-                      : "inline-flex cursor-not-allowed items-center rounded-md border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-400"
-                  }
+                  variant="dark"
                 >
                   {isCommitted
                     ? "Already committed"
                     : canCommit
                       ? "Commit reviewed records"
                       : "Commit permission required"}
-                </button>
+                </ActionSubmitButton>
               </div>
             </div>
           </section>
