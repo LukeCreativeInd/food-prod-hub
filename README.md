@@ -83,6 +83,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Read-only supplier and internal item detail pages have been added for Purchase Document Intake records
 - Component and formula data model planning has been added before building formula schema or UI
 - Staff formula collection template planning has been added before creating CSV/XLSX collection files
+- Staff formula collection CSV templates have been added for Clean Eats component, product, method and area data capture
 
 ## Tech Stack
 
@@ -203,6 +204,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Supplier and internal item detail pages](docs/82-supplier-internal-item-detail-pages.md)
 - [Component and formula data model planning](docs/83-component-formula-data-model-planning.md)
 - [Staff formula collection template planning](docs/84-staff-formula-collection-template-planning.md)
+- [Staff formula collection templates](docs/85-staff-formula-collection-templates.md)
 
 ## Database Migrations
 

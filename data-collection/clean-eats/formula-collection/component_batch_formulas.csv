@@ -1,0 +1,6 @@
+Component name,Component category/type,Version/status,Standard batch output quantity,Output unit,Expected yield quantity,Expected yield unit,Input item name,Input type if known,Input quantity,Input unit,Preparation state,Loss/yield notes,Storage notes,Shelf-life notes,Staff notes,Not sure / needs review
+Italian Herb Chicken Breast,Cooked protein,Example only,10,kg,,,Chicken Thigh,Ingredient,10,kg,,,,,"Example only - confirm actual batch size and marinade inputs",Yes
+Italian Herb Chicken Breast,Cooked protein,Example only,10,kg,,,Italian herb marinade/spice/oil placeholder,Ingredient,1,kg,,,,,"Example only - replace with actual marinade, spice and oil items",Yes
+Cooked Rice,Cooked side,Example only,,kg,,,Rice,Ingredient,2,kg,,,,,"Example only - current tray method may use 2kg rice + 3kg water per tray",Yes
+Cooked Rice,Cooked side,Example only,,kg,,,Water,Ingredient,3,kg or L,,,,,"Example only - confirm whether water should be included for costing or production tracking",Yes
+Bolognese Sauce,Sauce,Example only,,kg,,,Beef mince / tomato / seasoning placeholder,Ingredient,,kg,,,,,"Example only - replace with actual ingredients and quantities",Yes

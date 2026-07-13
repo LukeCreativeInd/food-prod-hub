@@ -10,6 +10,8 @@ The goal is to confirm exactly what Clean Eats staff need to provide before gene
 
 This planning builds on the component and formula model in [Component and Formula Data Model Planning](83-component-formula-data-model-planning.md).
 
+Initial CSV template files have now been created in `data-collection/clean-eats/formula-collection/` and are documented in [Staff Formula Collection Templates](85-staff-formula-collection-templates.md).
+
 ## Purpose
 
 The next staff data collection should capture the operational recipe and formula knowledge that invoices cannot provide.

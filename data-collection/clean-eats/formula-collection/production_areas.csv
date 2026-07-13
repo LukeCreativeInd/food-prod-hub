@@ -1,0 +1,9 @@
+Area name,Area type,Description,Used for,Active yes/no,Notes,Not sure / needs review
+Raw Prep,raw_prep,Example production area,raw ingredients and prep,Yes,Example only - confirm name and usage,Yes
+Cooking,cooking,Example production area,cooked components sauces proteins,Yes,Example only - confirm name and usage,Yes
+Cooling,cooling,Example production area,cooling cooked items,Yes,Example only - confirm name and usage,Yes
+Portioning,portioning,Example production area,portioning components and meals,Yes,Example only - confirm name and usage,Yes
+Assembly,assembly,Example production area,meal assembly,Yes,Example only - confirm name and usage,Yes
+Packing,packing,Example production area,packing and labelling,Yes,Example only - confirm name and usage,Yes
+Cold Storage,cold_storage,Example production area,chilled storage,Yes,Example only - confirm name and usage,Yes
+Dispatch,dispatch,Example production area,dispatch and handoff,Yes,Example only - confirm name and usage,Yes

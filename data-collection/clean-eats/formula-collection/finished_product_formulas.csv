@@ -1,0 +1,11 @@
+Finished product name,Product/SKU type,Version/status,Selling unit,Output quantity,Input item/component/packaging name,Input type if known,Quantity per selling unit,Unit,Required yes/no,Optional garnish/label/packaging note,Staff notes,Not sure / needs review
+Moroccan Chicken,Ready meal,Example only,1 meal,1,Italian Herb Chicken Breast or Chicken Thigh placeholder,Component or Ingredient,,g,Yes,,"Example only - confirm actual chicken component and quantity",Yes
+Moroccan Chicken,Ready meal,Example only,1 meal,1,Side component placeholder,Component,,g,Yes,,"Example only - confirm side component and quantity",Yes
+Moroccan Chicken,Ready meal,Example only,1 meal,1,Sauce component placeholder,Component,,g,Yes,,"Example only - confirm sauce component and quantity",Yes
+Moroccan Chicken,Ready meal,Example only,1 meal,1,Tray,Packaging,1,each,Yes,Packaging,"Example only - confirm actual tray item name",Yes
+Moroccan Chicken,Ready meal,Example only,1 meal,1,Sleeve/label,Packaging,1,each,Yes,Packaging,"Example only - confirm actual sleeve or label item name",Yes
+Naked Chicken,Ready meal,Example only,1 meal,1,Italian Herb Chicken Breast,Component,100,g,Yes,,"Example only - confirm if this component and quantity are correct",Yes
+Naked Chicken,Ready meal,Example only,1 meal,1,Side/sauce/garnish placeholder,Component,,g,No,Optional garnish,"Example only - replace with actual sides, sauces or garnish",Yes
+Naked Chicken,Ready meal,Example only,1 meal,1,Tray,Packaging,1,each,Yes,Packaging,"Example only - confirm actual tray item name",Yes
+Naked Chicken,Ready meal,Example only,1 meal,1,Film/lid,Packaging,1,each,Yes,Packaging,"Example only - confirm actual film or lid item name",Yes
+Naked Chicken,Ready meal,Example only,1 meal,1,Sleeve/label,Packaging,1,each,Yes,Packaging,"Example only - confirm actual sleeve or label item name",Yes

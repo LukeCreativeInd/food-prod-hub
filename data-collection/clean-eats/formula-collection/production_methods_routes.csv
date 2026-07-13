@@ -1,0 +1,6 @@
+Item/component/product name,Method version/status,Step number,Step name,Facility area,Step instruction,Input/dependency,Expected output,Equipment used,Time guidance,Temperature/check guidance,Handoff/next area,Cleaning/changeover note,Staff notes,Not sure / needs review
+Italian Herb Chicken Breast,Example only,1,Raw prep,Raw Prep,Weigh chicken,Chicken Thigh,Weighed chicken,,,,Mixing/prep,,"Example only - confirm actual prep process",Yes
+Italian Herb Chicken Breast,Example only,2,Mixing/prep,Raw Prep,Mix with marinade/spice,Chicken plus marinade/spice,Prepared chicken,,,,Cooking,,"Example only - confirm actual marinade/spice process",Yes
+Italian Herb Chicken Breast,Example only,3,Cooking,Cooking,Cook to required standard,Prepared chicken,Cooked chicken,,,"Add actual temperature/check guidance later",Cooling,,"Example only - confirm cooking standard",Yes
+Italian Herb Chicken Breast,Example only,4,Cooling,Cooling,Cool product,Cooked chicken,Cooled chicken,,,"Add cooling check later",Portioning/assembly,,"Example only - confirm cooling method",Yes
+Italian Herb Chicken Breast,Example only,5,Portioning/assembly,Portioning,Send to assembly,Cooled chicken,Ready for assembly,,,,Assembly,,"Example only - confirm handoff",Yes
