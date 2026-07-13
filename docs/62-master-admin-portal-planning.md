@@ -244,6 +244,8 @@ Future tenant creation and provisioning is planned in:
 
 That plan defines the intended flow for creating future client HUBs with separate organisation data, settings, branding, enabled modules and first admin access, without creating client-specific code forks.
 
+The future commercial platform/domain model is defined in [Commercial Platform Architecture and Domain Model](67-commercial-platform-architecture-domain-model.md). That document clarifies that `/platform` is a useful temporary development route, while long-term Platform Admin should become a separate platform-owner environment such as an admin subdomain.
+
 ## Data Model Readiness
 
 Existing foundation tables that support future master admin:

@@ -188,6 +188,8 @@ Recommendation:
 
 Keep slug-based tenancy now. Plan subdomain routing later.
 
+Tenant provisioning should eventually align with the commercial domain model in [Commercial Platform Architecture and Domain Model](67-commercial-platform-architecture-domain-model.md), where tenant HUBs are expected to resolve from stable tenant subdomains such as `cleaneats.platformname.com.au`.
+
 ## Tenant Branding Strategy
 
 Branding should come from `organisation_branding` and `organisation_settings`.

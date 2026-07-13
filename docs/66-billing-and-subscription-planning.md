@@ -277,6 +277,8 @@ Tenant creation/provisioning should eventually ask:
 
 Early provisioning can leave billing as manual/pilot.
 
+Billing will eventually fit into the public-site/sign-up/provisioning model described in [Commercial Platform Architecture and Domain Model](67-commercial-platform-architecture-domain-model.md). Early versions should still keep billing manual while the product and packaging are validated.
+
 ## Recommended Early Implementation Approach
 
 ### Stage 1 - Planning only
