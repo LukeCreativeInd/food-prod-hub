@@ -6,6 +6,8 @@ Purchase Document Intake now has its first server-side action foundation.
 
 This step adds real saved document/review behaviour for the Cammaroto sample path only. It does not add OCR, storage-backed file upload, supplier/item/price commit logic, stock movements, Xero, purchase orders, bank/payment detail updates, service-role client code, Platform Admin changes, or demo-user access.
 
+Step 073 adds the controlled Cammaroto sample commit flow. That commit path creates or reuses supplier, alias, supplier item, internal item, mapping, price observation, approved supplier price and informational rule records for the reviewed Cammaroto sample only.
+
 ## Actions and Helpers Added
 
 New helper/action areas:

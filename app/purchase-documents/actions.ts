@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import {
+  commitCammarotoPurchaseDocumentReview,
   createCammarotoSampleReview,
   updatePurchaseDocumentReview,
   type UpdateReviewInput,
@@ -99,6 +100,10 @@ export async function savePurchaseDocumentReviewAction(formData: FormData) {
         formData,
         `line_${lineId}_corrected_line_total`,
       ),
+      internalItemName: getOptionalString(
+        formData,
+        `line_${lineId}_internal_item_name`,
+      ),
       reviewNotes: getOptionalString(formData, `line_${lineId}_review_notes`),
       status: getString(formData, `line_${lineId}_status`),
     })),
@@ -113,4 +118,13 @@ export async function savePurchaseDocumentReviewAction(formData: FormData) {
       result.saved ? "true" : "not-found"
     }`,
   );
+}
+
+export async function commitPurchaseDocumentReviewAction(formData: FormData) {
+  const documentId = getString(formData, "document_id");
+  const result = await commitCammarotoPurchaseDocumentReview(documentId);
+
+  revalidatePath("/purchase-documents");
+  revalidatePath(`/purchase-documents/${documentId}`);
+  redirect(`/purchase-documents/${result.documentId}?commit=${result.status}`);
 }

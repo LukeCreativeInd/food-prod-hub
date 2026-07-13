@@ -71,6 +71,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Platform Admin v1 design polish has been applied to `/platform` and `/platform/tenants/cleaneats`
 - Purchase Document Intake v1 foundation has been drafted for reviewed supplier invoice onboarding
 - Purchase Document Intake now has real saved document list, Cammaroto sample creation and review-progress save actions
+- Purchase Document Intake now has a controlled Cammaroto sample commit flow for reviewed supplier/item/price reference records
 
 ## Tech Stack
 
@@ -179,6 +180,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Platform Admin v1 design polish](docs/70-platform-admin-v1-design-polish.md)
 - [Purchase Document Intake v1 foundation](docs/71-purchase-document-intake-v1-foundation.md)
 - [Purchase Document upload and review actions](docs/72-purchase-document-upload-review-actions.md)
+- [Cammaroto sample commit flow](docs/73-cammaroto-sample-commit-flow.md)
 
 ## Database Migrations
 
@@ -306,6 +308,8 @@ Purchase Document Intake v1 foundation is documented in [Purchase Document Intak
 
 Purchase Document upload and review actions are documented in [Purchase Document upload and review actions](docs/72-purchase-document-upload-review-actions.md).
 
+The controlled Cammaroto sample commit flow is documented in [Cammaroto sample commit flow](docs/73-cammaroto-sample-commit-flow.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -323,5 +327,6 @@ Purchase Document upload and review actions are documented in [Purchase Document
 - Applied roles/permissions RLS SELECT policies for permission reference reads
 - Applied audit logs RLS SELECT policy for platform-admin traceability reads
 - Purchase Document Intake read/write actions for saved review records only
+- Controlled Cammaroto sample commit flow for reviewed supplier, item, mapping and price reference records
 
-No costing logic, broad production business logic, audit log write policies, OCR, storage-backed uploads, supplier/item/price commit flow, or stock movement behavior has been added.
+No costing calculations, broad production business logic, audit log write policies, OCR, storage-backed uploads, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

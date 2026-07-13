@@ -4,6 +4,43 @@ import { createClient } from "@/lib/supabase/server";
 type SupplierRow = {
   id: string;
   display_name: string;
+  legal_name?: string | null;
+  abn?: string | null;
+};
+
+type SupplierAliasRow = {
+  id: string;
+  supplier_id: string;
+};
+
+type SupplierItemRow = {
+  id: string;
+  supplier_description: string;
+  normalised_supplier_description: string | null;
+};
+
+type InternalItemRow = {
+  id: string;
+  display_name: string;
+};
+
+type SupplierItemMappingRow = {
+  id: string;
+};
+
+type PriceObservationRow = {
+  id: string;
+};
+
+type ApprovedSupplierPriceRow = {
+  id: string;
+  unit_price: number;
+  effective_date: string;
+  source_price_observation_id: string | null;
+};
+
+type IgnoredLineRuleRow = {
+  id: string;
 };
 
 type PurchaseDocumentRow = {
@@ -83,6 +120,24 @@ export type PurchaseDocumentReview = {
   lines: PurchaseDocumentLine[];
 };
 
+export type CommitPurchaseDocumentResult = {
+  documentId: string;
+  status: "committed" | "already_committed" | "validation_failed";
+  message: string;
+  summary?: {
+    supplier: string;
+    supplierAliases: string[];
+    supplierItem: string;
+    internalItem: string;
+    mapping: string;
+    priceObservation: string;
+    approvedSupplierPrice: string;
+    informationalRule: string;
+    stockMovements: "none";
+  };
+  errors?: string[];
+};
+
 export type UpdateReviewInput = {
   documentId: string;
   invoiceNumber: string | null;
@@ -105,6 +160,7 @@ export type UpdateReviewInput = {
     correctedUnitPrice: number | null;
     correctedTax: number | null;
     correctedLineTotal: number | null;
+    internalItemName: string | null;
     reviewNotes: string | null;
     status: string;
   }[];
@@ -122,6 +178,14 @@ const CAMMAROTO_SAMPLE = {
   supplierAbnSource: "84 870 751 768",
   supplierAccountNumberSource: "555",
 };
+
+const INTERNAL_ITEM_NAME_PREFIX = "Internal item name:";
+const stockLineClassifications = new Set([
+  "ingredient",
+  "packaging",
+  "consumable",
+  "equipment",
+]);
 
 async function requirePurchaseDocumentPermission(permissionKey: string) {
   const authContext = await requirePermissionAccess(permissionKey);
@@ -162,6 +226,68 @@ function cleanText(value: string | null | undefined) {
   return trimmed ? trimmed : null;
 }
 
+export function getReviewedInternalItemName(line: Pick<PurchaseDocumentLine, "review_notes">) {
+  const markerLine = line.review_notes
+    ?.split("\n")
+    .find((noteLine) => noteLine.startsWith(INTERNAL_ITEM_NAME_PREFIX));
+
+  return cleanText(markerLine?.slice(INTERNAL_ITEM_NAME_PREFIX.length));
+}
+
+export function getReviewNotesWithoutInternalItemName(
+  reviewNotes: string | null,
+) {
+  return cleanText(
+    reviewNotes
+      ?.split("\n")
+      .filter((noteLine) => !noteLine.startsWith(INTERNAL_ITEM_NAME_PREFIX))
+      .join("\n"),
+  );
+}
+
+function buildReviewNotesWithInternalItemName({
+  internalItemName,
+  reviewNotes,
+}: {
+  internalItemName: string | null;
+  reviewNotes: string | null;
+}) {
+  const cleanInternalItemName = cleanText(internalItemName);
+  const cleanReviewNotes = getReviewNotesWithoutInternalItemName(reviewNotes);
+  const notes = [
+    cleanInternalItemName
+      ? `${INTERNAL_ITEM_NAME_PREFIX} ${cleanInternalItemName}`
+      : null,
+    cleanReviewNotes,
+  ].filter((note): note is string => Boolean(note));
+
+  return notes.length > 0 ? notes.join("\n") : null;
+}
+
+function normaliseAliasValue(value: string) {
+  return value.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function normaliseCompactAliasValue(value: string) {
+  return value.trim().replace(/\s+/g, "").toLowerCase();
+}
+
+function sourceValue(
+  corrected: string | number | null,
+  normalised: string | number | null,
+  source: string | number | null,
+) {
+  return corrected ?? normalised ?? source ?? null;
+}
+
+function numericSourceValue(
+  corrected: number | null,
+  normalised: number | null,
+  source: number | null,
+) {
+  return corrected ?? normalised ?? source ?? null;
+}
+
 function normaliseLineClassification(value: string) {
   return lineClassifications.has(value) ? value : "unknown";
 }
@@ -178,6 +304,102 @@ function canMoveToReadyToCommit(input: UpdateReviewInput) {
       input.lines.length > 0 &&
       input.lines.every((line) => line.classification !== "unknown"),
   );
+}
+
+function validateCammarotoCommit(
+  document: PurchaseDocumentRow,
+  lines: PurchaseDocumentLine[],
+) {
+  const errors: string[] = [];
+  const stockLine = lines.find(
+    (line) =>
+      line.line_number === 1 ||
+      line.source_item_code === "T/F-DCE M-VA" ||
+      line.classification === "ingredient",
+  );
+  const informationalLine = lines.find(
+    (line) =>
+      line.line_number === 2 ||
+      line.source_item_code === "CTNS" ||
+      line.classification === "informational",
+  );
+  const internalItemName = stockLine
+    ? getReviewedInternalItemName(stockLine)
+    : null;
+
+  if (["duplicate", "rejected", "failed"].includes(document.status)) {
+    errors.push("Duplicate, rejected or failed documents cannot be committed.");
+  }
+
+  if (!document.invoice_number) {
+    errors.push("Invoice number is required.");
+  }
+
+  if (!document.invoice_date) {
+    errors.push("Invoice date is required.");
+  }
+
+  if (document.invoice_total === null) {
+    errors.push("Invoice total is required.");
+  }
+
+  if (!document.supplier_trading_name_source) {
+    errors.push("Supplier trading/display name is required.");
+  }
+
+  if (!document.supplier_legal_name_source) {
+    errors.push("Supplier legal/invoice name is required.");
+  }
+
+  if (!document.supplier_abn_source) {
+    errors.push("Supplier ABN is required.");
+  }
+
+  if (!stockLine) {
+    errors.push("The ingredient line is required for the Cammaroto commit.");
+  } else {
+    if (stockLine.classification !== "ingredient") {
+      errors.push("Line 1 must be classified as ingredient.");
+    }
+
+    if (!sourceValue(stockLine.corrected_item_code, stockLine.normalised_item_code, stockLine.source_item_code)) {
+      errors.push("Line 1 item code is required.");
+    }
+
+    if (!sourceValue(stockLine.corrected_description, stockLine.normalised_description, stockLine.source_description)) {
+      errors.push("Line 1 description is required.");
+    }
+
+    if (numericSourceValue(stockLine.corrected_quantity, stockLine.normalised_quantity, stockLine.source_quantity) === null) {
+      errors.push("Line 1 quantity is required.");
+    }
+
+    if (!sourceValue(stockLine.corrected_unit, stockLine.normalised_unit, stockLine.source_unit)) {
+      errors.push("Line 1 unit is required.");
+    }
+
+    if (numericSourceValue(stockLine.corrected_unit_price, stockLine.normalised_unit_price, stockLine.source_unit_price) === null) {
+      errors.push("Line 1 unit price is required.");
+    }
+
+    if (
+      stockLineClassifications.has(stockLine.classification) &&
+      !internalItemName
+    ) {
+      errors.push("Internal item name is required for stock/catalogue lines.");
+    }
+  }
+
+  if (informationalLine && informationalLine.classification !== "informational") {
+    errors.push("Line 2 should be informational for the Cammaroto sample.");
+  }
+
+  return {
+    errors,
+    stockLine,
+    informationalLine,
+    internalItemName,
+  };
 }
 
 async function getSupplierDisplayNames(
@@ -387,7 +609,10 @@ export async function createCammarotoSampleReview() {
         normalised_unit_price: 13.7,
         normalised_tax: 0,
         normalised_line_total: 548,
-        review_notes: "Suggested internal item: Chicken Thigh.",
+        review_notes: buildReviewNotesWithInternalItemName({
+          internalItemName: "Chicken Thigh",
+          reviewNotes: "Suggested internal item can be edited before commit.",
+        }),
       },
       {
         organisation_id: organisationId,
@@ -438,7 +663,7 @@ export async function updatePurchaseDocumentReview(input: UpdateReviewInput) {
 
   const { data: documentData, error: documentError } = await supabase
     .from("purchase_documents")
-    .select("id")
+    .select("id, status")
     .eq("organisation_id", organisationId)
     .eq("id", input.documentId)
     .maybeSingle();
@@ -452,6 +677,14 @@ export async function updatePurchaseDocumentReview(input: UpdateReviewInput) {
       documentId: input.documentId,
       saved: false,
       message: "Purchase document was not found or is not accessible.",
+    };
+  }
+
+  if ((documentData as { status: string }).status === "committed") {
+    return {
+      documentId: input.documentId,
+      saved: false,
+      message: "Committed purchase documents cannot be edited.",
     };
   }
 
@@ -491,7 +724,10 @@ export async function updatePurchaseDocumentReview(input: UpdateReviewInput) {
         corrected_unit_price: line.correctedUnitPrice,
         corrected_tax: line.correctedTax,
         corrected_line_total: line.correctedLineTotal,
-        review_notes: cleanText(line.reviewNotes),
+        review_notes: buildReviewNotesWithInternalItemName({
+          internalItemName: line.internalItemName,
+          reviewNotes: line.reviewNotes,
+        }),
         status: normaliseLineStatus(line.status),
         updated_at: new Date().toISOString(),
       })
@@ -511,5 +747,841 @@ export async function updatePurchaseDocumentReview(input: UpdateReviewInput) {
       nextStatus === "ready_to_commit"
         ? "Review progress saved. Document is ready for the future commit flow."
         : "Review progress saved. Required fields are still needed before ready-to-commit.",
+  };
+}
+
+async function findOrCreateSupplier({
+  organisationId,
+  document,
+}: {
+  organisationId: string;
+  document: PurchaseDocumentRow;
+}) {
+  const supabase = await createClient();
+  const displayName = document.supplier_trading_name_source ?? "Cammaroto Poultry";
+  const legalName =
+    document.supplier_legal_name_source ?? "Surefire Solutions Group Unit Trust";
+  const abn = document.supplier_abn_source ?? "84 870 751 768";
+  const aliasValues = [
+    normaliseAliasValue(displayName),
+    normaliseAliasValue(legalName),
+    normaliseCompactAliasValue(abn),
+  ];
+
+  const { data: aliasData, error: aliasError } = await supabase
+    .from("supplier_aliases")
+    .select("id, supplier_id")
+    .eq("organisation_id", organisationId)
+    .eq("is_active", true)
+    .in("normalised_alias_value", aliasValues);
+
+  if (aliasError) {
+    throw new Error("Could not check existing supplier aliases.");
+  }
+
+  const matchedAlias = (aliasData as SupplierAliasRow[] | null)?.[0];
+
+  if (matchedAlias) {
+    const { data: supplierData, error: supplierError } = await supabase
+      .from("suppliers")
+      .select("id, display_name, legal_name, abn")
+      .eq("organisation_id", organisationId)
+      .eq("id", matchedAlias.supplier_id)
+      .maybeSingle();
+
+    if (supplierError) {
+      throw new Error("Could not load supplier matched by alias.");
+    }
+
+    if (supplierData) {
+      return supplierData as SupplierRow;
+    }
+  }
+
+  const { data: displayMatch, error: displayMatchError } = await supabase
+    .from("suppliers")
+    .select("id, display_name, legal_name, abn")
+    .eq("organisation_id", organisationId)
+    .ilike("display_name", displayName)
+    .is("archived_at", null)
+    .maybeSingle();
+
+  if (displayMatchError) {
+    throw new Error("Could not check existing supplier.");
+  }
+
+  if (displayMatch) {
+    return displayMatch as SupplierRow;
+  }
+
+  const { data: insertedSupplier, error: insertSupplierError } = await supabase
+    .from("suppliers")
+    .insert({
+      organisation_id: organisationId,
+      display_name: displayName,
+      legal_name: legalName,
+      abn,
+      supplier_type: "food_supplier",
+      status: "active",
+      notes: `Created from purchase document ${document.invoice_number ?? document.id}.`,
+    })
+    .select("id, display_name, legal_name, abn")
+    .single();
+
+  if (insertSupplierError || !insertedSupplier) {
+    throw new Error("Could not create supplier.");
+  }
+
+  return insertedSupplier as SupplierRow;
+}
+
+async function ensureSupplierAlias({
+  organisationId,
+  supplierId,
+  aliasType,
+  aliasValue,
+  normalisedAliasValue,
+  sourceDocumentId,
+}: {
+  organisationId: string;
+  supplierId: string;
+  aliasType: string;
+  aliasValue: string;
+  normalisedAliasValue: string;
+  sourceDocumentId: string;
+}) {
+  const supabase = await createClient();
+  const { data: existingAlias, error: aliasLookupError } = await supabase
+    .from("supplier_aliases")
+    .select("id, supplier_id")
+    .eq("organisation_id", organisationId)
+    .eq("supplier_id", supplierId)
+    .eq("alias_type", aliasType)
+    .eq("normalised_alias_value", normalisedAliasValue)
+    .eq("is_active", true)
+    .maybeSingle();
+
+  if (aliasLookupError) {
+    throw new Error("Could not check supplier alias.");
+  }
+
+  if (existingAlias) {
+    return existingAlias as SupplierAliasRow;
+  }
+
+  const { data: insertedAlias, error: insertAliasError } = await supabase
+    .from("supplier_aliases")
+    .insert({
+      organisation_id: organisationId,
+      supplier_id: supplierId,
+      alias_type: aliasType,
+      alias_value: aliasValue,
+      normalised_alias_value: normalisedAliasValue,
+      source_document_id: sourceDocumentId,
+      is_active: true,
+    })
+    .select("id, supplier_id")
+    .single();
+
+  if (insertAliasError || !insertedAlias) {
+    throw new Error("Could not create supplier alias.");
+  }
+
+  return insertedAlias as SupplierAliasRow;
+}
+
+async function ensureSupplierAliases({
+  organisationId,
+  supplierId,
+  document,
+}: {
+  organisationId: string;
+  supplierId: string;
+  document: PurchaseDocumentRow;
+}) {
+  const legalName =
+    document.supplier_legal_name_source ?? "Surefire Solutions Group Unit Trust";
+  const tradingName = document.supplier_trading_name_source ?? "Cammaroto Poultry";
+  const abn = document.supplier_abn_source ?? "84 870 751 768";
+  const accountNumber = document.supplier_account_number_source ?? "555";
+  const aliasInputs = [
+    {
+      aliasType: "legal_name",
+      aliasValue: legalName,
+      normalisedAliasValue: normaliseAliasValue(legalName),
+    },
+    {
+      aliasType: "trading_name",
+      aliasValue: tradingName,
+      normalisedAliasValue: normaliseAliasValue(tradingName),
+    },
+    {
+      aliasType: "invoice_name",
+      aliasValue: legalName,
+      normalisedAliasValue: normaliseAliasValue(legalName),
+    },
+    {
+      aliasType: "abn",
+      aliasValue: abn,
+      normalisedAliasValue: normaliseCompactAliasValue(abn),
+    },
+    {
+      aliasType: "account_number",
+      aliasValue: accountNumber,
+      normalisedAliasValue: normaliseCompactAliasValue(accountNumber),
+    },
+  ];
+
+  for (const aliasInput of aliasInputs) {
+    await ensureSupplierAlias({
+      organisationId,
+      supplierId,
+      aliasType: aliasInput.aliasType,
+      aliasValue: aliasInput.aliasValue,
+      normalisedAliasValue: aliasInput.normalisedAliasValue,
+      sourceDocumentId: document.id,
+    });
+  }
+
+  return aliasInputs.map((aliasInput) => aliasInput.aliasValue);
+}
+
+async function findOrCreateSupplierItem({
+  organisationId,
+  supplierId,
+  line,
+}: {
+  organisationId: string;
+  supplierId: string;
+  line: PurchaseDocumentLine;
+}) {
+  const supabase = await createClient();
+  const supplierItemCode = String(
+    sourceValue(
+      line.corrected_item_code,
+      line.normalised_item_code,
+      line.source_item_code,
+    ),
+  );
+  const supplierDescription = String(
+    line.source_description ??
+      sourceValue(
+        line.corrected_description,
+        line.normalised_description,
+        line.source_description,
+      ),
+  );
+  const normalisedDescription = String(
+    sourceValue(
+      line.corrected_description,
+      line.normalised_description,
+      line.source_description,
+    ),
+  );
+  const purchaseUnit = String(
+    sourceValue(line.corrected_unit, line.normalised_unit, line.source_unit),
+  );
+
+  const { data: existingItem, error: itemLookupError } = await supabase
+    .from("supplier_items")
+    .select("id, supplier_description, normalised_supplier_description")
+    .eq("organisation_id", organisationId)
+    .eq("supplier_id", supplierId)
+    .eq("supplier_item_code", supplierItemCode)
+    .is("archived_at", null)
+    .maybeSingle();
+
+  if (itemLookupError) {
+    throw new Error("Could not check supplier item.");
+  }
+
+  if (existingItem) {
+    const supplierItem = existingItem as SupplierItemRow;
+
+    if (!supplierItem.normalised_supplier_description) {
+      await supabase
+        .from("supplier_items")
+        .update({
+          normalised_supplier_description: normalisedDescription,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("organisation_id", organisationId)
+        .eq("id", supplierItem.id);
+    }
+
+    return supplierItem;
+  }
+
+  const { data: insertedItem, error: insertItemError } = await supabase
+    .from("supplier_items")
+    .insert({
+      organisation_id: organisationId,
+      supplier_id: supplierId,
+      supplier_item_code: supplierItemCode,
+      supplier_description: supplierDescription,
+      normalised_supplier_description: normalisedDescription,
+      purchase_unit: purchaseUnit,
+      base_unit: purchaseUnit,
+      status: "active",
+      created_from_document_id: line.purchase_document_id,
+      created_from_line_id: line.id,
+    })
+    .select("id, supplier_description, normalised_supplier_description")
+    .single();
+
+  if (insertItemError || !insertedItem) {
+    throw new Error("Could not create supplier item.");
+  }
+
+  return insertedItem as SupplierItemRow;
+}
+
+async function findOrCreateInternalItem({
+  organisationId,
+  documentId,
+  internalItemName,
+}: {
+  organisationId: string;
+  documentId: string;
+  internalItemName: string;
+}) {
+  const supabase = await createClient();
+  const { data: existingItem, error: itemLookupError } = await supabase
+    .from("internal_items")
+    .select("id, display_name")
+    .eq("organisation_id", organisationId)
+    .eq("item_type", "ingredient")
+    .ilike("display_name", internalItemName)
+    .is("archived_at", null)
+    .maybeSingle();
+
+  if (itemLookupError) {
+    throw new Error("Could not check internal item.");
+  }
+
+  if (existingItem) {
+    return existingItem as InternalItemRow;
+  }
+
+  const { data: insertedItem, error: insertItemError } = await supabase
+    .from("internal_items")
+    .insert({
+      organisation_id: organisationId,
+      item_type: "ingredient",
+      display_name: internalItemName,
+      base_unit: "KG",
+      status: "active",
+      notes: `Created/mapped from Cammaroto sample purchase document ${documentId}.`,
+    })
+    .select("id, display_name")
+    .single();
+
+  if (insertItemError || !insertedItem) {
+    throw new Error("Could not create internal item.");
+  }
+
+  return insertedItem as InternalItemRow;
+}
+
+async function findOrCreateSupplierItemMapping({
+  organisationId,
+  supplierItemId,
+  internalItemId,
+  line,
+  profileId,
+}: {
+  organisationId: string;
+  supplierItemId: string;
+  internalItemId: string;
+  line: PurchaseDocumentLine;
+  profileId: string;
+}) {
+  const supabase = await createClient();
+  const { data: existingMapping, error: mappingLookupError } = await supabase
+    .from("supplier_item_mappings")
+    .select("id")
+    .eq("organisation_id", organisationId)
+    .eq("supplier_item_id", supplierItemId)
+    .eq("mapping_status", "confirmed")
+    .is("archived_at", null)
+    .maybeSingle();
+
+  if (mappingLookupError) {
+    throw new Error("Could not check supplier item mapping.");
+  }
+
+  if (existingMapping) {
+    return existingMapping as SupplierItemMappingRow;
+  }
+
+  const { data: insertedMapping, error: insertMappingError } = await supabase
+    .from("supplier_item_mappings")
+    .insert({
+      organisation_id: organisationId,
+      supplier_item_id: supplierItemId,
+      internal_item_id: internalItemId,
+      mapping_status: "confirmed",
+      created_from_document_id: line.purchase_document_id,
+      created_from_line_id: line.id,
+      confirmed_by_profile_id: profileId,
+      confirmed_at: new Date().toISOString(),
+      notes: "Confirmed from Cammaroto sample purchase document.",
+    })
+    .select("id")
+    .single();
+
+  if (insertMappingError || !insertedMapping) {
+    throw new Error("Could not create supplier item mapping.");
+  }
+
+  return insertedMapping as SupplierItemMappingRow;
+}
+
+async function findOrCreatePriceObservation({
+  organisationId,
+  supplierId,
+  supplierItemId,
+  internalItemId,
+  document,
+  line,
+  profileId,
+}: {
+  organisationId: string;
+  supplierId: string;
+  supplierItemId: string;
+  internalItemId: string;
+  document: PurchaseDocumentRow;
+  line: PurchaseDocumentLine;
+  profileId: string;
+}) {
+  const supabase = await createClient();
+  const { data: existingObservation, error: observationLookupError } =
+    await supabase
+      .from("price_observations")
+      .select("id")
+      .eq("organisation_id", organisationId)
+      .eq("purchase_document_id", document.id)
+      .eq("purchase_document_line_id", line.id)
+      .eq("supplier_item_id", supplierItemId)
+      .maybeSingle();
+
+  if (observationLookupError) {
+    throw new Error("Could not check price observation.");
+  }
+
+  if (existingObservation) {
+    return existingObservation as PriceObservationRow;
+  }
+
+  const { data: insertedObservation, error: insertObservationError } =
+    await supabase
+      .from("price_observations")
+      .insert({
+        organisation_id: organisationId,
+        supplier_id: supplierId,
+        supplier_item_id: supplierItemId,
+        internal_item_id: internalItemId,
+        purchase_document_id: document.id,
+        purchase_document_line_id: line.id,
+        observed_date: document.invoice_date,
+        unit_price: numericSourceValue(
+          line.corrected_unit_price,
+          line.normalised_unit_price,
+          line.source_unit_price,
+        ),
+        purchase_unit: sourceValue(
+          line.corrected_unit,
+          line.normalised_unit,
+          line.source_unit,
+        ),
+        quantity: numericSourceValue(
+          line.corrected_quantity,
+          line.normalised_quantity,
+          line.source_quantity,
+        ),
+        line_total: numericSourceValue(
+          line.corrected_line_total,
+          line.normalised_line_total,
+          line.source_line_total,
+        ),
+        tax_amount: numericSourceValue(
+          line.corrected_tax,
+          line.normalised_tax,
+          line.source_tax,
+        ),
+        currency: document.currency,
+        base_unit: sourceValue(
+          line.corrected_unit,
+          line.normalised_unit,
+          line.source_unit,
+        ),
+        base_unit_price: numericSourceValue(
+          line.corrected_unit_price,
+          line.normalised_unit_price,
+          line.source_unit_price,
+        ),
+        observation_type: "invoice",
+        approval_decision: "update_current_price",
+        reviewed_by_profile_id: profileId,
+        reviewed_at: new Date().toISOString(),
+      })
+      .select("id")
+      .single();
+
+  if (insertObservationError || !insertedObservation) {
+    throw new Error("Could not create price observation.");
+  }
+
+  return insertedObservation as PriceObservationRow;
+}
+
+async function ensureApprovedSupplierPrice({
+  organisationId,
+  supplierItemId,
+  internalItemId,
+  document,
+  line,
+  sourcePriceObservationId,
+  profileId,
+}: {
+  organisationId: string;
+  supplierItemId: string;
+  internalItemId: string;
+  document: PurchaseDocumentRow;
+  line: PurchaseDocumentLine;
+  sourcePriceObservationId: string;
+  profileId: string;
+}) {
+  const supabase = await createClient();
+  const unitPrice = numericSourceValue(
+    line.corrected_unit_price,
+    line.normalised_unit_price,
+    line.source_unit_price,
+  );
+  const purchaseUnit = String(
+    sourceValue(line.corrected_unit, line.normalised_unit, line.source_unit),
+  );
+
+  const { data: currentPrice, error: currentPriceError } = await supabase
+    .from("approved_supplier_prices")
+    .select("id, unit_price, effective_date, source_price_observation_id")
+    .eq("organisation_id", organisationId)
+    .eq("supplier_item_id", supplierItemId)
+    .eq("status", "current")
+    .maybeSingle();
+
+  if (currentPriceError) {
+    throw new Error("Could not check approved supplier price.");
+  }
+
+  if (currentPrice) {
+    const price = currentPrice as ApprovedSupplierPriceRow;
+    const isSamePrice =
+      Number(price.unit_price) === Number(unitPrice) &&
+      price.effective_date === document.invoice_date;
+
+    if (isSamePrice) {
+      if (price.source_price_observation_id !== sourcePriceObservationId) {
+        await supabase
+          .from("approved_supplier_prices")
+          .update({
+            source_price_observation_id: sourcePriceObservationId,
+            approved_by_profile_id: profileId,
+            approved_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          })
+          .eq("organisation_id", organisationId)
+          .eq("id", price.id);
+      }
+
+      return price;
+    }
+
+    await supabase
+      .from("approved_supplier_prices")
+      .update({
+        status: "superseded",
+        updated_at: new Date().toISOString(),
+      })
+      .eq("organisation_id", organisationId)
+      .eq("id", price.id);
+  }
+
+  const { data: insertedPrice, error: insertPriceError } = await supabase
+    .from("approved_supplier_prices")
+    .insert({
+      organisation_id: organisationId,
+      supplier_item_id: supplierItemId,
+      internal_item_id: internalItemId,
+      effective_date: document.invoice_date,
+      unit_price: unitPrice,
+      purchase_unit: purchaseUnit,
+      base_unit_price: unitPrice,
+      currency: document.currency,
+      source_price_observation_id: sourcePriceObservationId,
+      approved_by_profile_id: profileId,
+      approved_at: new Date().toISOString(),
+      status: "current",
+    })
+    .select("id, unit_price, effective_date, source_price_observation_id")
+    .single();
+
+  if (insertPriceError || !insertedPrice) {
+    throw new Error("Could not create approved supplier price.");
+  }
+
+  return insertedPrice as ApprovedSupplierPriceRow;
+}
+
+async function findOrCreateIgnoredLineRule({
+  organisationId,
+  supplierId,
+  document,
+  line,
+  profileId,
+}: {
+  organisationId: string;
+  supplierId: string;
+  document: PurchaseDocumentRow;
+  line: PurchaseDocumentLine;
+  profileId: string;
+}) {
+  const supabase = await createClient();
+  const supplierItemCode = String(line.source_item_code ?? "CTNS");
+  const descriptionPattern = String(line.source_description ?? "CARTONS");
+
+  const { data: existingRule, error: ruleLookupError } = await supabase
+    .from("ignored_line_rules")
+    .select("id")
+    .eq("organisation_id", organisationId)
+    .eq("supplier_id", supplierId)
+    .eq("match_type", "code_and_description")
+    .eq("supplier_item_code", supplierItemCode)
+    .eq("description_pattern", descriptionPattern)
+    .maybeSingle();
+
+  if (ruleLookupError) {
+    throw new Error("Could not check ignored line rule.");
+  }
+
+  if (existingRule) {
+    return existingRule as IgnoredLineRuleRow;
+  }
+
+  const { data: insertedRule, error: insertRuleError } = await supabase
+    .from("ignored_line_rules")
+    .insert({
+      organisation_id: organisationId,
+      supplier_id: supplierId,
+      match_type: "code_and_description",
+      supplier_item_code: supplierItemCode,
+      description_pattern: descriptionPattern,
+      classification: "informational",
+      default_action: "show_as_informational",
+      created_from_document_id: document.id,
+      created_from_line_id: line.id,
+      created_by_profile_id: profileId,
+    })
+    .select("id")
+    .single();
+
+  if (insertRuleError || !insertedRule) {
+    throw new Error("Could not create ignored line rule.");
+  }
+
+  return insertedRule as IgnoredLineRuleRow;
+}
+
+export async function commitCammarotoPurchaseDocumentReview(
+  documentId: string,
+): Promise<CommitPurchaseDocumentResult> {
+  const authContext = await requirePurchaseDocumentPermission(
+    "purchase_documents.commit",
+  );
+  const supabase = await createClient();
+  const organisationId = authContext.organisation.id;
+  const profileId = authContext.profile.id;
+  const review = await getPurchaseDocumentReview(documentId);
+
+  if (!review) {
+    return {
+      documentId,
+      status: "validation_failed",
+      message: "Purchase document was not found or is not accessible.",
+      errors: ["Purchase document was not found or is not accessible."],
+    };
+  }
+
+  const { document, lines } = review;
+
+  if (document.status === "committed") {
+    const committedStockLine = lines.find(
+      (line) =>
+        line.line_number === 1 ||
+        line.source_item_code === "T/F-DCE M-VA" ||
+        line.classification === "ingredient",
+    );
+    const committedInternalItemName = committedStockLine
+      ? getReviewedInternalItemName(committedStockLine) ?? "Reviewed internal item"
+      : "Reviewed internal item";
+
+    return {
+      documentId,
+      status: "already_committed",
+      message: "Purchase document is already committed. No duplicate records were created.",
+      summary: {
+        supplier: document.supplier_display_name ?? "Cammaroto Poultry",
+        supplierAliases: [
+          "Surefire Solutions Group Unit Trust",
+          "Cammaroto Poultry",
+          "84 870 751 768",
+          "555",
+        ],
+        supplierItem: "T/F-DCE M-VA",
+        internalItem: committedInternalItemName,
+        mapping: "Confirmed",
+        priceObservation: "$13.70/KG",
+        approvedSupplierPrice: "$13.70/KG current",
+        informationalRule: "CTNS / CARTONS",
+        stockMovements: "none",
+      },
+    };
+  }
+
+  const validation = validateCammarotoCommit(document, lines);
+
+  if (validation.errors.length > 0 || !validation.stockLine) {
+    return {
+      documentId,
+      status: "validation_failed",
+      message: "Purchase document needs review before it can be committed.",
+      errors: validation.errors,
+    };
+  }
+
+  const committedAt = new Date().toISOString();
+  const reviewedInternalItemName = validation.internalItemName;
+
+  if (!reviewedInternalItemName) {
+    return {
+      documentId,
+      status: "validation_failed",
+      message: "Purchase document needs review before it can be committed.",
+      errors: ["Internal item name is required for stock/catalogue lines."],
+    };
+  }
+
+  const supplier = await findOrCreateSupplier({
+    organisationId,
+    document,
+  });
+  const supplierAliases = await ensureSupplierAliases({
+    organisationId,
+    supplierId: supplier.id,
+    document,
+  });
+  const supplierItem = await findOrCreateSupplierItem({
+    organisationId,
+    supplierId: supplier.id,
+    line: validation.stockLine,
+  });
+  const internalItem = await findOrCreateInternalItem({
+    organisationId,
+    documentId: document.id,
+    internalItemName: reviewedInternalItemName,
+  });
+  const mapping = await findOrCreateSupplierItemMapping({
+    organisationId,
+    supplierItemId: supplierItem.id,
+    internalItemId: internalItem.id,
+    line: validation.stockLine,
+    profileId,
+  });
+  const priceObservation = await findOrCreatePriceObservation({
+    organisationId,
+    supplierId: supplier.id,
+    supplierItemId: supplierItem.id,
+    internalItemId: internalItem.id,
+    document,
+    line: validation.stockLine,
+    profileId,
+  });
+  await ensureApprovedSupplierPrice({
+    organisationId,
+    supplierItemId: supplierItem.id,
+    internalItemId: internalItem.id,
+    document,
+    line: validation.stockLine,
+    sourcePriceObservationId: priceObservation.id,
+    profileId,
+  });
+
+  await supabase
+    .from("purchase_document_lines")
+    .update({
+      supplier_item_id: supplierItem.id,
+      internal_item_id: internalItem.id,
+      mapping_id: mapping.id,
+      status: "committed",
+      updated_at: committedAt,
+    })
+    .eq("organisation_id", organisationId)
+    .eq("purchase_document_id", document.id)
+    .eq("id", validation.stockLine.id);
+
+  if (validation.informationalLine) {
+    await findOrCreateIgnoredLineRule({
+      organisationId,
+      supplierId: supplier.id,
+      document,
+      line: validation.informationalLine,
+      profileId,
+    });
+
+    await supabase
+      .from("purchase_document_lines")
+      .update({
+        classification: "informational",
+        status: "ignored",
+        updated_at: committedAt,
+      })
+      .eq("organisation_id", organisationId)
+      .eq("purchase_document_id", document.id)
+      .eq("id", validation.informationalLine.id);
+  }
+
+  const { error: documentUpdateError } = await supabase
+    .from("purchase_documents")
+    .update({
+      supplier_id: supplier.id,
+      status: "committed",
+      reviewed_by_profile_id: document.reviewed_by_profile_id ?? profileId,
+      reviewed_at: document.reviewed_at ?? committedAt,
+      committed_by_profile_id: profileId,
+      committed_at: committedAt,
+      updated_at: committedAt,
+    })
+    .eq("organisation_id", organisationId)
+    .eq("id", document.id);
+
+  if (documentUpdateError) {
+    throw new Error("Could not mark purchase document as committed.");
+  }
+
+  return {
+    documentId,
+    status: "committed",
+    message: "Purchase document committed.",
+    summary: {
+      supplier: supplier.display_name,
+      supplierAliases,
+      supplierItem: "T/F-DCE M-VA",
+      internalItem: internalItem.display_name,
+      mapping: "Confirmed",
+      priceObservation: "$13.70/KG",
+      approvedSupplierPrice: "$13.70/KG current",
+      informationalRule: "CTNS / CARTONS",
+      stockMovements: "none",
+    },
   };
 }

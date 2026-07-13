@@ -1,10 +1,16 @@
 import Link from "next/link";
 
-import { savePurchaseDocumentReviewAction } from "@/app/purchase-documents/actions";
+import {
+  commitPurchaseDocumentReviewAction,
+  savePurchaseDocumentReviewAction,
+} from "@/app/purchase-documents/actions";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState, StatusBadge } from "@/components/ui";
+import { userHasPermission } from "@/lib/auth";
 import {
+  getReviewedInternalItemName,
+  getReviewNotesWithoutInternalItemName,
   getPurchaseDocumentReview,
   type PurchaseDocumentLine,
 } from "@/lib/purchase-document-intake";
@@ -14,6 +20,7 @@ type PageProps = {
     id: string;
   }>;
   searchParams: Promise<{
+    commit?: string;
     sample?: string;
     saved?: string;
   }>;
@@ -34,6 +41,7 @@ const lineStatusOptions = [
   ["ready", "Ready"],
   ["deferred", "Deferred"],
   ["ignored", "Ignored"],
+  ["committed", "Committed"],
 ];
 
 function formatCurrency(value: number | null, currency: string) {
@@ -74,7 +82,19 @@ function statusTone(status: string) {
   return "warning" as const;
 }
 
-function messageFor(sample?: string, saved?: string) {
+function messageFor(commit?: string, sample?: string, saved?: string) {
+  if (commit === "committed") {
+    return "Purchase document committed. Trusted supplier, item, mapping, price and informational-rule records were created or reused.";
+  }
+
+  if (commit === "already_committed") {
+    return "Purchase document was already committed. No duplicate records were created.";
+  }
+
+  if (commit === "validation_failed") {
+    return "Purchase document needs more review before commit.";
+  }
+
   if (sample === "existing") {
     return "Existing Cammaroto sample review found. No duplicate was created.";
   }
@@ -170,6 +190,13 @@ function SelectInput({
 }
 
 function lineReviewDefaults(line: PurchaseDocumentLine) {
+  const isStockLine = [
+    "ingredient",
+    "packaging",
+    "consumable",
+    "equipment",
+  ].includes(line.classification);
+
   return {
     itemCode: defaultCorrectedValue(
       line.corrected_item_code,
@@ -206,6 +233,10 @@ function lineReviewDefaults(line: PurchaseDocumentLine) {
       line.normalised_line_total,
       line.source_line_total,
     ),
+    internalItemName:
+      getReviewedInternalItemName(line) ??
+      (isStockLine && line.line_number === 1 ? "Chicken Thigh" : ""),
+    reviewNotes: getReviewNotesWithoutInternalItemName(line.review_notes) ?? "",
   };
 }
 
@@ -242,7 +273,9 @@ export default async function PurchaseDocumentReviewPage({
   }
 
   const { document, lines } = review;
-  const message = messageFor(query.sample, query.saved);
+  const message = messageFor(query.commit, query.sample, query.saved);
+  const canCommit = await userHasPermission("purchase_documents.commit");
+  const isCommitted = document.status === "committed";
   const lineTotal = lines.reduce(
     (sum, line) =>
       sum +
@@ -260,6 +293,32 @@ export default async function PurchaseDocumentReviewPage({
   );
   const lineClassificationsReady =
     lines.length > 0 && lines.every((line) => line.classification !== "unknown");
+  const commitReady =
+    !isCommitted &&
+    !["duplicate", "rejected", "failed"].includes(document.status) &&
+    invoiceReady &&
+    lineClassificationsReady;
+  const reviewedStockLine = lines.find(
+    (line) =>
+      line.line_number === 1 ||
+      line.source_item_code === "T/F-DCE M-VA" ||
+      line.classification === "ingredient",
+  );
+  const reviewedInternalItemName =
+    reviewedStockLine ? getReviewedInternalItemName(reviewedStockLine) : null;
+  const previewInternalItemName =
+    reviewedInternalItemName ?? "reviewer-selected internal item";
+  const committedSummary = [
+    ["Supplier", document.supplier_display_name ?? "Cammaroto Poultry"],
+    ["Supplier alias", "Surefire Solutions Group Unit Trust"],
+    ["Supplier item", "T/F-DCE M-VA"],
+    ["Internal item", previewInternalItemName],
+    ["Mapping", "Confirmed"],
+    ["Price observation", "$13.70/KG"],
+    ["Approved supplier price", "$13.70/KG current"],
+    ["Informational rule", "CTNS / CARTONS"],
+    ["Stock movements", "None created"],
+  ];
 
   return (
     <AppShell>
@@ -292,6 +351,9 @@ export default async function PurchaseDocumentReviewPage({
                     {formatStatus(document.status)}
                   </StatusBadge>
                   <StatusBadge tone="info">Saved database record</StatusBadge>
+                  {isCommitted ? (
+                    <StatusBadge tone="success">Committed records linked</StatusBadge>
+                  ) : null}
                 </div>
                 <h2 className="mt-4 text-2xl font-bold text-slate-950">
                   {document.supplier_trading_name_source ??
@@ -307,9 +369,9 @@ export default async function PurchaseDocumentReviewPage({
                 </p>
               </div>
               <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
-                Commit disabled until commit flow is implemented. This page
-                does not create suppliers, supplier items, internal items,
-                mappings, stock movements, observations or approved prices.
+                {isCommitted
+                  ? "This document is committed. Re-running commit is disabled from the UI and the server action is idempotent."
+                  : "Commit will create/update supplier, supplier item, internal item, mapping, price observation, approved price and informational rule records for this tenant only. No stock movements are created."}
               </div>
             </div>
           </section>
@@ -413,13 +475,16 @@ export default async function PurchaseDocumentReviewPage({
                     label="Review status"
                     name="status"
                     defaultValue={
-                      document.status === "ready_to_commit"
+                      document.status === "committed"
+                        ? "committed"
+                        : document.status === "ready_to_commit"
                         ? "ready_to_commit"
                         : "needs_review"
                     }
                     options={[
                       ["needs_review", "Needs review"],
                       ["ready_to_commit", "Ready to commit"],
+                      ["committed", "Committed"],
                     ]}
                   />
                 </div>
@@ -535,13 +600,37 @@ export default async function PurchaseDocumentReviewPage({
                         type="number"
                         defaultValue={defaults.tax}
                       />
-                      <label className="block md:col-span-2 xl:col-span-3">
+                      {[
+                        "ingredient",
+                        "packaging",
+                        "consumable",
+                        "equipment",
+                      ].includes(line.classification) ? (
+                        <TextInput
+                          label="Internal item name"
+                          name={`line_${line.id}_internal_item_name`}
+                          defaultValue={defaults.internalItemName}
+                        />
+                      ) : (
+                        <label className="block">
+                          <span className="text-xs font-semibold uppercase text-slate-500">
+                            Internal item name
+                          </span>
+                          <input
+                            type="text"
+                            disabled
+                            value="Internal item not required"
+                            className="mt-2 w-full cursor-not-allowed rounded-md border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-500"
+                          />
+                        </label>
+                      )}
+                      <label className="block md:col-span-2 xl:col-span-2">
                         <span className="text-xs font-semibold uppercase text-slate-500">
                           Review notes
                         </span>
                         <textarea
                           name={`line_${line.id}_review_notes`}
-                          defaultValue={line.review_notes ?? ""}
+                          defaultValue={defaults.reviewNotes}
                           rows={3}
                           className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
                         />
@@ -556,25 +645,36 @@ export default async function PurchaseDocumentReviewPage({
           <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-bold text-slate-950">
-                Commit preview placeholder
+                {isCommitted ? "Created / linked records" : "Commit preview"}
               </h2>
-              <div className="mt-5 grid gap-3 md:grid-cols-2">
-                {[
-                  "Supplier create/confirm is planned for 073",
-                  "Supplier item creation is not active yet",
-                  "Internal item mapping is not active yet",
-                  "Price observations are not written yet",
-                  "Approved supplier prices are not updated yet",
-                  "No stock movements are created",
-                ].map((action) => (
-                  <div
-                    key={action}
-                    className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800"
-                  >
-                    {action}
-                  </div>
-                ))}
-              </div>
+              {isCommitted ? (
+                <div className="mt-5 grid gap-3 md:grid-cols-2">
+                  {committedSummary.map(([label, value]) => (
+                    <FieldPreview key={label} label={label} value={value} />
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-5 grid gap-3 md:grid-cols-2">
+                  {[
+                    "Create/reuse supplier: Cammaroto Poultry",
+                    "Create/reuse aliases: legal, trading, invoice, ABN and account",
+                    "Create/reuse supplier item: T/F-DCE M-VA",
+                    `Create/reuse internal item: ${previewInternalItemName}`,
+                    "Confirm supplier item mapping",
+                    "Create/reuse price observation: $13.70/KG",
+                    "Create/update approved current price: $13.70/KG",
+                    "Create/reuse CTNS/CARTONS informational rule",
+                    "No stock movements are created",
+                  ].map((action) => (
+                    <div
+                      key={action}
+                      className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800"
+                    >
+                      {action}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
@@ -587,7 +687,8 @@ export default async function PurchaseDocumentReviewPage({
                   ["Line classifications selected", lineClassificationsReady],
                   ["Totals reconcile", totalsReconcile],
                   ["Duplicate check handled in sample action", true],
-                  ["Commit flow implemented", false],
+                  ["Commit flow implemented", true],
+                  ["No stock movements created by commit", true],
                 ].map(([label, passed]) => (
                   <div
                     key={String(label)}
@@ -605,16 +706,26 @@ export default async function PurchaseDocumentReviewPage({
               <div className="mt-5 flex flex-wrap gap-3">
                 <button
                   type="submit"
+                  disabled={isCommitted}
                   className="inline-flex items-center rounded-md bg-clean-green-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-clean-green-900"
                 >
-                  Save review progress
+                  {isCommitted ? "Review locked after commit" : "Save review progress"}
                 </button>
                 <button
-                  type="button"
-                  disabled
-                  className="inline-flex cursor-not-allowed items-center rounded-md border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-400"
+                  type="submit"
+                  formAction={commitPurchaseDocumentReviewAction}
+                  disabled={!canCommit || !commitReady}
+                  className={
+                    canCommit && commitReady
+                      ? "inline-flex items-center rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                      : "inline-flex cursor-not-allowed items-center rounded-md border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-400"
+                  }
                 >
-                  Commit disabled until commit flow is implemented
+                  {isCommitted
+                    ? "Already committed"
+                    : canCommit
+                      ? "Commit reviewed records"
+                      : "Commit permission required"}
                 </button>
               </div>
             </div>

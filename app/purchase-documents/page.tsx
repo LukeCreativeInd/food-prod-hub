@@ -230,7 +230,7 @@ export default async function PurchaseDocumentsPage() {
                         href={`/purchase-documents/${document.id}`}
                         className="inline-flex w-fit items-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
                       >
-                        Review
+                        {document.status === "committed" ? "View" : "Review"}
                       </Link>
                     </div>
                   </article>

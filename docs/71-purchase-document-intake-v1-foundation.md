@@ -8,6 +8,8 @@ This task creates reviewed SQL migrations and UI scaffolding only. It does not a
 
 Step 072 introduced the first real saved purchase document list, Cammaroto sample creation action, saved review page and review-progress save action. Commit remains disabled, and no supplier, supplier item, internal item, mapping, price or stock records are created by those actions yet.
 
+Step 073 introduced the first reviewed commit path for the Cammaroto sample. It can create or reuse supplier, alias, supplier item, internal item, mapping, price observation, approved supplier price and informational rule records after explicit commit. It still does not create stock movements, purchase orders, Goods Inwards records, OCR, storage upload or generic invoice automation.
+
 ## Business Purpose
 
 The goal is to reduce manual supplier/catalogue/price onboarding work by allowing Clean Eats supplier invoices to be uploaded, reviewed and committed through a staged workflow.
