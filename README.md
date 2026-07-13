@@ -69,6 +69,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Naming and brand direction planning has been added before domain checks, logo work or public website branding
 - Platform Admin v1 build planning has been added before further Platform Admin functionality
 - Platform Admin v1 design polish has been applied to `/platform` and `/platform/tenants/cleaneats`
+- Purchase Document Intake v1 foundation has been drafted for reviewed supplier invoice onboarding
 
 ## Tech Stack
 
@@ -175,6 +176,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Naming and brand direction planning](docs/68-naming-and-brand-direction-planning.md)
 - [Platform Admin v1 build plan](docs/69-platform-admin-v1-build-plan.md)
 - [Platform Admin v1 design polish](docs/70-platform-admin-v1-design-polish.md)
+- [Purchase Document Intake v1 foundation](docs/71-purchase-document-intake-v1-foundation.md)
 
 ## Database Migrations
 
@@ -297,6 +299,8 @@ Future naming and brand direction is planned in [Naming and brand direction plan
 Platform Admin v1 scope is planned in [Platform Admin v1 build plan](docs/69-platform-admin-v1-build-plan.md).
 
 Platform Admin v1 design polish is documented in [Platform Admin v1 design polish](docs/70-platform-admin-v1-design-polish.md).
+
+Purchase Document Intake v1 foundation is documented in [Purchase Document Intake v1 foundation](docs/71-purchase-document-intake-v1-foundation.md).
 
 ## Current Scope
 
