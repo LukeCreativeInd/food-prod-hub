@@ -499,3 +499,9 @@ Purchase Document Intake should be a bulk onboarding accelerator for supplier in
 The upload/storage foundation has started in [Purchase Document Upload and Extraction Foundation](76-purchase-document-upload-extraction-foundation.md).
 
 That step adds tenant-scoped file upload, file metadata, SHA-256 duplicate detection and signed source document viewing. It still does not add OCR, generic extraction parsing or generic commit automation.
+
+## Step 077 Update
+
+The first extraction adapter/prototype now exists in [Purchase Document Extraction Prototype](77-purchase-document-extraction-prototype.md).
+
+It is review-first and limited to embedded PDF text plus the first known Cammaroto supplier pattern. It creates editable draft review data only and does not auto-commit master records.

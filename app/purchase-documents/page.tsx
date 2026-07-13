@@ -57,6 +57,10 @@ function formatCurrency(value: number | null, currency: string) {
 }
 
 function formatStatus(status: string) {
+  if (status === "uploaded") {
+    return "Uploaded / Extraction pending";
+  }
+
   return status
     .split("_")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))

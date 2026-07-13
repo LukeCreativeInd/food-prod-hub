@@ -175,12 +175,11 @@ Raw public URLs are not used.
 
 ## Extraction Status
 
-Extraction is not connected yet.
+Step 077 adds the first controlled extraction prototype for uploaded text-based PDF invoices. See [Purchase Document Extraction Prototype](77-purchase-document-extraction-prototype.md).
 
-Uploaded documents open on the existing Review Import page with an explicit message:
+Uploaded documents open on the existing Review Import page with an explicit extraction action when they have a source file and no review lines.
 
-- supplier and line extraction will be added in a follow-up
-- no invoice lines are created by upload alone
+Upload alone still does not create invoice lines. Lines are created only after the reviewer triggers extraction.
 
 This keeps manual work focused on future review/correction of extracted data, not full manual invoice keying.
 

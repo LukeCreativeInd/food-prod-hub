@@ -1,4 +1,9 @@
 import { requirePermissionAccess } from "@/lib/auth";
+import {
+  extractEmbeddedPdfText,
+  getExtractionTextCandidates,
+  parseKnownPurchaseDocumentText,
+} from "@/lib/purchase-document-extraction";
 import { createClient } from "@/lib/supabase/server";
 import { createHash, randomUUID } from "crypto";
 
@@ -141,6 +146,22 @@ export type CommitPurchaseDocumentResult = {
     stockMovements: "none";
   };
   errors?: string[];
+};
+
+export type ExtractPurchaseDocumentResult = {
+  documentId: string;
+  status:
+    | "success"
+    | "already_extracted"
+    | "not_found"
+    | "committed"
+    | "missing_source"
+    | "unsupported"
+    | "storage_error"
+    | "no_text"
+    | "unknown_pattern"
+    | "failed";
+  message: string;
 };
 
 export type UpdateReviewInput = {
@@ -441,7 +462,7 @@ export function getReviewNotesWithoutInternalItemName(
   );
 }
 
-function buildReviewNotesWithInternalItemName({
+export function buildReviewNotesWithInternalItemName({
   internalItemName,
   reviewNotes,
 }: {
@@ -833,6 +854,265 @@ export async function uploadPurchaseDocument(file: File) {
     duplicate: false,
     message:
       "Document uploaded. Extraction is not connected yet, so review fields remain empty.",
+  };
+}
+
+export async function extractPurchaseDocument(
+  documentId: string,
+): Promise<ExtractPurchaseDocumentResult> {
+  const authContext = await requirePurchaseDocumentPermission(
+    "purchase_documents.review",
+  );
+  const supabase = await createClient();
+  const organisationId = authContext.organisation.id;
+
+  const { data: documentData, error: documentError } = await supabase
+    .from("purchase_documents")
+    .select("*")
+    .eq("organisation_id", organisationId)
+    .eq("id", documentId)
+    .maybeSingle();
+
+  if (documentError) {
+    throw new Error("Could not load purchase document for extraction.");
+  }
+
+  const document = documentData as PurchaseDocumentRow | null;
+
+  if (!document) {
+    return {
+      documentId,
+      status: "not_found",
+      message: "Purchase document was not found for your organisation.",
+    };
+  }
+
+  if (document.status === "committed") {
+    return {
+      documentId,
+      status: "committed",
+      message: "Committed purchase documents cannot be extracted again.",
+    };
+  }
+
+  const { data: existingLines, error: existingLinesError } = await supabase
+    .from("purchase_document_lines")
+    .select("id")
+    .eq("organisation_id", organisationId)
+    .eq("purchase_document_id", documentId)
+    .limit(1);
+
+  if (existingLinesError) {
+    throw new Error("Could not check existing extraction lines.");
+  }
+
+  if (((existingLines as { id: string }[] | null) ?? []).length > 0) {
+    return {
+      documentId,
+      status: "already_extracted",
+      message:
+        "Extraction has already created review lines for this document. No duplicate lines were created.",
+    };
+  }
+
+  if (!document.storage_path) {
+    return {
+      documentId,
+      status: "missing_source",
+      message: "Source file is missing. Upload a source PDF before extraction.",
+    };
+  }
+
+  if (document.mime_type !== "application/pdf") {
+    return {
+      documentId,
+      status: "unsupported",
+      message: "Extraction for this file type is not connected yet.",
+    };
+  }
+
+  const now = new Date().toISOString();
+  await supabase
+    .from("purchase_documents")
+    .update({
+      status: "processing",
+      updated_at: now,
+    })
+    .eq("organisation_id", organisationId)
+    .eq("id", documentId);
+
+  const { data: fileData, error: downloadError } = await supabase.storage
+    .from(PURCHASE_DOCUMENT_BUCKET)
+    .download(document.storage_path);
+
+  if (downloadError || !fileData) {
+    await supabase
+      .from("purchase_documents")
+      .update({
+        status: "uploaded",
+        updated_at: new Date().toISOString(),
+      })
+      .eq("organisation_id", organisationId)
+      .eq("id", documentId);
+
+    if (isDevelopment()) {
+      console.error("[purchase-document-extraction]", {
+        stage: "download_error",
+        organisationId,
+        storagePath: document.storage_path,
+        error: downloadError,
+      });
+    }
+
+    return {
+      documentId,
+      status: "storage_error",
+      message:
+        "Could not read the source file from private storage. Confirm view permission and storage policies.",
+    };
+  }
+
+  const fileBuffer = Buffer.from(await fileData.arrayBuffer());
+  const rawText = extractEmbeddedPdfText(fileBuffer);
+
+  if (!rawText) {
+    await supabase
+      .from("purchase_documents")
+      .update({
+        status: "uploaded",
+        updated_at: new Date().toISOString(),
+      })
+      .eq("organisation_id", organisationId)
+      .eq("id", documentId);
+
+    return {
+      documentId,
+      status: "no_text",
+      message:
+        "No extractable embedded PDF text was found. OCR is not connected yet.",
+    };
+  }
+
+  const textCandidates = getExtractionTextCandidates(rawText);
+  const selectedTextCandidate = textCandidates[0];
+  const shiftedTextCandidate = textCandidates.find(
+    (candidate) => candidate.name === "shifted_font_plus_29",
+  );
+  const extraction = parseKnownPurchaseDocumentText(rawText);
+
+  if (!extraction) {
+    if (isDevelopment()) {
+      console.error("[purchase-document-extraction]", {
+        stage: "unknown_pattern",
+        organisationId,
+        documentId,
+        mimeType: document.mime_type,
+        extractedTextLength: rawText.length,
+        selectedCandidateName: selectedTextCandidate?.name ?? "none",
+        selectedCandidateScore: selectedTextCandidate?.score ?? 0,
+        selectedCandidateAnchors: selectedTextCandidate?.matchedAnchors ?? [],
+        extractedTextPreview: rawText
+          .replace(/\u0000/g, "")
+          .slice(0, 5000),
+        decodedCandidatePreview: shiftedTextCandidate?.text.slice(0, 5000),
+      });
+    }
+
+    await supabase
+      .from("purchase_documents")
+      .update({
+        status: "uploaded",
+        updated_at: new Date().toISOString(),
+      })
+      .eq("organisation_id", organisationId)
+      .eq("id", documentId);
+
+    return {
+      documentId,
+      status: "unknown_pattern",
+      message:
+        "Extracted text was found, but no known supplier parser recognised this invoice yet.",
+    };
+  }
+
+  const { error: updateDocumentError } = await supabase
+    .from("purchase_documents")
+    .update({
+      supplier_legal_name_source: extraction.supplierLegalName,
+      supplier_trading_name_source: extraction.supplierTradingName,
+      supplier_abn_source: extraction.supplierAbn,
+      supplier_account_number_source: extraction.supplierAccountNumber,
+      invoice_number: extraction.invoiceNumber,
+      invoice_date: extraction.invoiceDate,
+      invoice_total: extraction.invoiceTotal,
+      tax_total: extraction.taxTotal,
+      currency: extraction.currency,
+      status: "needs_review",
+      updated_at: new Date().toISOString(),
+    })
+    .eq("organisation_id", organisationId)
+    .eq("id", documentId);
+
+  if (updateDocumentError) {
+    throw new Error("Could not save extracted purchase document metadata.");
+  }
+
+  const { error: insertLinesError } = await supabase
+    .from("purchase_document_lines")
+    .insert(
+      extraction.lines.map((line) => ({
+        organisation_id: organisationId,
+        purchase_document_id: documentId,
+        line_number: line.lineNumber,
+        status: line.status,
+        classification: line.classification,
+        source_item_code: line.sourceItemCode,
+        source_description: line.sourceDescription,
+        source_quantity: line.sourceQuantity,
+        source_unit: line.sourceUnit,
+        source_unit_price: line.sourceUnitPrice,
+        source_tax: line.sourceTax,
+        source_line_total: line.sourceLineTotal,
+        normalised_item_code: line.normalisedItemCode,
+        normalised_description: line.normalisedDescription,
+        normalised_quantity: line.normalisedQuantity,
+        normalised_unit: line.normalisedUnit,
+        normalised_unit_price: line.normalisedUnitPrice,
+        normalised_tax: line.normalisedTax,
+        normalised_line_total: line.normalisedLineTotal,
+        corrected_item_code: line.normalisedItemCode,
+        corrected_description: line.normalisedDescription,
+        corrected_quantity: line.normalisedQuantity,
+        corrected_unit: line.normalisedUnit,
+        corrected_unit_price: line.normalisedUnitPrice,
+        corrected_tax: line.normalisedTax,
+        corrected_line_total: line.normalisedLineTotal,
+        confidence_score: line.confidenceScore,
+        review_notes: buildReviewNotesWithInternalItemName({
+          internalItemName: line.internalItemName,
+          reviewNotes: line.reviewNotes,
+        }),
+      })),
+    );
+
+  if (insertLinesError) {
+    await supabase
+      .from("purchase_documents")
+      .update({
+        status: "uploaded",
+        updated_at: new Date().toISOString(),
+      })
+      .eq("organisation_id", organisationId)
+      .eq("id", documentId);
+
+    throw new Error("Could not create extracted purchase document lines.");
+  }
+
+  return {
+    documentId,
+    status: "success",
+    message:
+      "Extraction completed. Review and correct the extracted values before committing.",
   };
 }
 

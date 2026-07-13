@@ -320,6 +320,8 @@ Generic invoice extraction and commit planning is documented in [Generic invoice
 
 Purchase Document upload and extraction foundation is documented in [Purchase Document upload and extraction foundation](docs/76-purchase-document-upload-extraction-foundation.md).
 
+Purchase Document extraction prototype is documented in [Purchase Document extraction prototype](docs/77-purchase-document-extraction-prototype.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -339,5 +341,6 @@ Purchase Document upload and extraction foundation is documented in [Purchase Do
 - Purchase Document Intake read/write actions for saved review records only
 - Controlled Cammaroto sample commit flow for reviewed supplier, item, mapping and price reference records
 - Tenant-scoped Purchase Document file upload foundation with private storage migration draft
+- Controlled Purchase Document extraction prototype for uploaded text-based Cammaroto PDFs
 
-No costing calculations, broad production business logic, audit log write policies, OCR, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.
+No costing calculations, broad production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

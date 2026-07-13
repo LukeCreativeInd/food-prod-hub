@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import {
   commitCammarotoPurchaseDocumentReview,
   createCammarotoSampleReview,
+  extractPurchaseDocument,
   uploadPurchaseDocument,
   updatePurchaseDocumentReview,
   type UpdateReviewInput,
@@ -80,6 +81,15 @@ export async function createCammarotoSampleReviewAction() {
       result.duplicate ? "existing" : "created"
     }`,
   );
+}
+
+export async function extractPurchaseDocumentAction(formData: FormData) {
+  const documentId = getString(formData, "document_id");
+  const result = await extractPurchaseDocument(documentId);
+
+  revalidatePath("/purchase-documents");
+  revalidatePath(`/purchase-documents/${documentId}`);
+  redirect(`/purchase-documents/${result.documentId}?extract=${result.status}`);
 }
 
 export async function savePurchaseDocumentReviewAction(formData: FormData) {

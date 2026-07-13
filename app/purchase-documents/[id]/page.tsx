@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ActionSubmitButton } from "@/app/purchase-documents/action-submit-button";
 import {
   commitPurchaseDocumentReviewAction,
+  extractPurchaseDocumentAction,
   savePurchaseDocumentReviewAction,
 } from "@/app/purchase-documents/actions";
 import { AppShell } from "@/components/app-shell";
@@ -25,6 +26,7 @@ type PageProps = {
     sample?: string;
     saved?: string;
     upload?: string;
+    extract?: string;
   }>;
 };
 
@@ -106,7 +108,44 @@ function messageFor(
   sample?: string,
   saved?: string,
   upload?: string,
+  extract?: string,
 ) {
+  if (extract === "success") {
+    return "Extraction completed. Review and correct the extracted values before committing.";
+  }
+
+  if (extract === "already_extracted") {
+    return "Extraction has already created review lines for this document. No duplicate lines were created.";
+  }
+
+  if (extract === "unsupported") {
+    return "Extraction for this file type is not connected yet.";
+  }
+
+  if (extract === "missing_source") {
+    return "Source file is missing. Upload a source PDF before extraction.";
+  }
+
+  if (extract === "storage_error") {
+    return "Could not read the source file from private storage. Confirm view permission and storage policies.";
+  }
+
+  if (extract === "no_text") {
+    return "No extractable embedded PDF text was found. OCR is not connected yet.";
+  }
+
+  if (extract === "unknown_pattern") {
+    return "Extracted text was found, but no known supplier parser recognised this invoice yet.";
+  }
+
+  if (extract === "committed") {
+    return "Committed purchase documents cannot be extracted again.";
+  }
+
+  if (extract === "failed") {
+    return "Unexpected extraction failure. No supplier, item or price records were committed.";
+  }
+
   if (upload === "created") {
     return "Purchase document uploaded. Extraction is not connected yet, so review fields can be filled after a future extraction step.";
   }
@@ -305,7 +344,13 @@ export default async function PurchaseDocumentReviewPage({
   }
 
   const { document, lines, sourceFile } = review;
-  const message = messageFor(query.commit, query.sample, query.saved, query.upload);
+  const message = messageFor(
+    query.commit,
+    query.sample,
+    query.saved,
+    query.upload,
+    query.extract,
+  );
   const canCommit = await userHasPermission("purchase_documents.commit");
   const isCommitted = document.status === "committed";
   const lineTotal = lines.reduce(
@@ -326,6 +371,8 @@ export default async function PurchaseDocumentReviewPage({
   const lineClassificationsReady =
     lines.length > 0 && lines.every((line) => line.classification !== "unknown");
   const hasLines = lines.length > 0;
+  const canExtract =
+    Boolean(document.storage_path) && !hasLines && !isCommitted;
   const commitReady =
     !isCommitted &&
     !["duplicate", "rejected", "failed"].includes(document.status) &&
@@ -479,10 +526,21 @@ export default async function PurchaseDocumentReviewPage({
                 ) : null}
                 {lines.length === 0 ? (
                   <p className="mt-4 text-sm leading-6 text-slate-600">
-                    Extraction is not connected yet. Supplier and line
-                    extraction will be added in a follow-up, so no invoice lines
-                    were created by this upload.
+                    Extraction has not created invoice lines yet. Use the
+                    extraction action for supported text-based PDF invoices, or
+                    wait for a future OCR/image extraction step.
                   </p>
+                ) : null}
+                {canExtract ? (
+                  <div className="mt-4">
+                    <ActionSubmitButton
+                      pendingLabel="Extracting..."
+                      formAction={extractPurchaseDocumentAction}
+                      variant="secondary"
+                    >
+                      Extract invoice data
+                    </ActionSubmitButton>
+                  </div>
                 ) : null}
               </div>
             </aside>
