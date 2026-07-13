@@ -100,6 +100,8 @@ Extraction does not create:
 
 Commit remains explicit and separate.
 
+Step 078 now enriches extracted Cammaroto lines with existing tenant supplier, supplier item, mapping, ignored-rule and approved-price data where available. See [Repeat Invoice and Price Change Behaviour](78-repeat-invoice-price-change-behaviour.md).
+
 ## Status Behaviour
 
 Before extraction:

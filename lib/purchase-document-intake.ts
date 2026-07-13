@@ -32,6 +32,17 @@ type InternalItemRow = {
 
 type SupplierItemMappingRow = {
   id: string;
+  internal_item_id?: string;
+  internal_items?:
+    | {
+        id: string;
+        display_name: string;
+      }
+    | {
+        id: string;
+        display_name: string;
+      }[]
+    | null;
 };
 
 type PriceObservationRow = {
@@ -43,6 +54,7 @@ type ApprovedSupplierPriceRow = {
   unit_price: number;
   effective_date: string;
   source_price_observation_id: string | null;
+  purchase_unit?: string | null;
 };
 
 type IgnoredLineRuleRow = {
@@ -215,6 +227,7 @@ const supportedUploadMimeTypes = new Map([
   ["image/heic", "HEIC image"],
 ]);
 const INTERNAL_ITEM_NAME_PREFIX = "Internal item name:";
+const REPEAT_MATCH_PREFIX = "Repeat match:";
 const stockLineClassifications = new Set([
   "ingredient",
   "packaging",
@@ -462,19 +475,45 @@ export function getReviewNotesWithoutInternalItemName(
   );
 }
 
+export function getReviewNotesWithoutStructuredMarkers(reviewNotes: string | null) {
+  return cleanText(
+    reviewNotes
+      ?.split("\n")
+      .filter(
+        (noteLine) =>
+          !noteLine.startsWith(INTERNAL_ITEM_NAME_PREFIX) &&
+          !noteLine.startsWith(REPEAT_MATCH_PREFIX),
+      )
+      .join("\n"),
+  );
+}
+
+export function getRepeatMatchNotes(line: Pick<PurchaseDocumentLine, "review_notes">) {
+  return (
+    line.review_notes
+      ?.split("\n")
+      .filter((noteLine) => noteLine.startsWith(REPEAT_MATCH_PREFIX))
+      .map((noteLine) => noteLine.slice(REPEAT_MATCH_PREFIX.length).trim())
+      .filter(Boolean) ?? []
+  );
+}
+
 export function buildReviewNotesWithInternalItemName({
   internalItemName,
   reviewNotes,
+  repeatMatchNotes = [],
 }: {
   internalItemName: string | null;
   reviewNotes: string | null;
+  repeatMatchNotes?: string[];
 }) {
   const cleanInternalItemName = cleanText(internalItemName);
-  const cleanReviewNotes = getReviewNotesWithoutInternalItemName(reviewNotes);
+  const cleanReviewNotes = getReviewNotesWithoutStructuredMarkers(reviewNotes);
   const notes = [
     cleanInternalItemName
       ? `${INTERNAL_ITEM_NAME_PREFIX} ${cleanInternalItemName}`
       : null,
+    ...repeatMatchNotes.map((note) => `${REPEAT_MATCH_PREFIX} ${note}`),
     cleanReviewNotes,
   ].filter((note): note is string => Boolean(note));
 
@@ -654,6 +693,316 @@ function attachSupplierDisplayNames(
       ? suppliersById.get(document.supplier_id) ?? null
       : null,
   }));
+}
+
+function lineUnitPrice(line: PurchaseDocumentLine) {
+  return numericSourceValue(
+    line.corrected_unit_price,
+    line.normalised_unit_price,
+    line.source_unit_price,
+  );
+}
+
+function priceChangeNotes({
+  currentPrice,
+  newPrice,
+  currency,
+}: {
+  currentPrice: ApprovedSupplierPriceRow;
+  newPrice: number | null;
+  currency: string;
+}) {
+  if (newPrice === null) {
+    return ["Approved price current, invoice price needs review"];
+  }
+
+  const previousPrice = Number(currentPrice.unit_price);
+  const absoluteChange = newPrice - previousPrice;
+  const percentageChange =
+    previousPrice === 0 ? null : (absoluteChange / previousPrice) * 100;
+
+  if (Math.abs(absoluteChange) < 0.0001) {
+    return [
+      `Price unchanged: approved ${currency} ${previousPrice.toFixed(2)}, invoice ${currency} ${newPrice.toFixed(2)}`,
+      "Price decision: observation only",
+    ];
+  }
+
+  return [
+    `Price change detected: approved ${currency} ${previousPrice.toFixed(2)}, invoice ${currency} ${newPrice.toFixed(2)}`,
+    `Price change amount: ${currency} ${absoluteChange.toFixed(2)}${
+      percentageChange === null ? "" : ` (${percentageChange.toFixed(1)}%)`
+    }`,
+    "Price decision required: update_current_price, one_off_transaction, or review_later",
+  ];
+}
+
+async function findSupplierForExtractedDocument({
+  organisationId,
+  document,
+}: {
+  organisationId: string;
+  document: PurchaseDocumentRow;
+}) {
+  const supabase = await createClient();
+  const supplierNames = [
+    document.supplier_trading_name_source,
+    document.supplier_legal_name_source,
+  ]
+    .map((value) => cleanText(value))
+    .filter((value): value is string => Boolean(value));
+
+  if (document.supplier_abn_source) {
+    const { data: supplierByAbn, error: supplierByAbnError } = await supabase
+      .from("suppliers")
+      .select("id, display_name, legal_name, abn")
+      .eq("organisation_id", organisationId)
+      .eq("abn", document.supplier_abn_source)
+      .is("archived_at", null)
+      .maybeSingle();
+
+    if (supplierByAbnError) {
+      throw new Error("Could not match supplier by ABN.");
+    }
+
+    if (supplierByAbn) {
+      return supplierByAbn as SupplierRow;
+    }
+  }
+
+  for (const supplierName of supplierNames) {
+    const { data: aliasData, error: aliasError } = await supabase
+      .from("supplier_aliases")
+      .select("supplier_id")
+      .eq("organisation_id", organisationId)
+      .eq("normalised_alias_value", normaliseAliasValue(supplierName))
+      .maybeSingle();
+
+    if (aliasError) {
+      throw new Error("Could not match supplier alias.");
+    }
+
+    if (aliasData) {
+      const { data: supplierData, error: supplierError } = await supabase
+        .from("suppliers")
+        .select("id, display_name, legal_name, abn")
+        .eq("organisation_id", organisationId)
+        .eq("id", (aliasData as { supplier_id: string }).supplier_id)
+        .is("archived_at", null)
+        .maybeSingle();
+
+      if (supplierError) {
+        throw new Error("Could not load matched supplier.");
+      }
+
+      if (supplierData) {
+        return supplierData as SupplierRow;
+      }
+    }
+
+    const { data: supplierByName, error: supplierByNameError } = await supabase
+      .from("suppliers")
+      .select("id, display_name, legal_name, abn")
+      .eq("organisation_id", organisationId)
+      .or(`display_name.ilike.${supplierName},legal_name.ilike.${supplierName}`)
+      .is("archived_at", null)
+      .maybeSingle();
+
+    if (supplierByNameError) {
+      throw new Error("Could not match supplier by name.");
+    }
+
+    if (supplierByName) {
+      return supplierByName as SupplierRow;
+    }
+  }
+
+  return null;
+}
+
+async function enrichExtractedPurchaseDocumentReview({
+  organisationId,
+  document,
+}: {
+  organisationId: string;
+  document: PurchaseDocumentRow;
+}) {
+  const supabase = await createClient();
+  const supplier = await findSupplierForExtractedDocument({
+    organisationId,
+    document,
+  });
+
+  if (supplier && document.supplier_id !== supplier.id) {
+    await supabase
+      .from("purchase_documents")
+      .update({
+        supplier_id: supplier.id,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("organisation_id", organisationId)
+      .eq("id", document.id);
+  }
+
+  const { data: lineData, error: lineError } = await supabase
+    .from("purchase_document_lines")
+    .select("*")
+    .eq("organisation_id", organisationId)
+    .eq("purchase_document_id", document.id)
+    .order("line_number", { ascending: true });
+
+  if (lineError) {
+    throw new Error("Could not load extracted lines for enrichment.");
+  }
+
+  for (const line of (lineData as PurchaseDocumentLine[] | null) ?? []) {
+    const notes: string[] = [];
+    let nextStatus = line.status;
+    let supplierItemId: string | null = line.supplier_item_id;
+    let internalItemId: string | null = line.internal_item_id;
+    let mappingId: string | null = line.mapping_id;
+    let internalItemName = getReviewedInternalItemName(line);
+
+    if (!supplier) {
+      notes.push("New supplier required");
+    } else {
+      notes.push(`Matched supplier: ${supplier.display_name}`);
+    }
+
+    if (supplier && stockLineClassifications.has(line.classification)) {
+      const supplierItemCode = sourceValue(
+        line.corrected_item_code,
+        line.normalised_item_code,
+        line.source_item_code,
+      );
+
+      if (supplierItemCode) {
+        const { data: supplierItemData, error: supplierItemError } =
+          await supabase
+            .from("supplier_items")
+            .select("id, supplier_description, normalised_supplier_description")
+            .eq("organisation_id", organisationId)
+            .eq("supplier_id", supplier.id)
+            .eq("supplier_item_code", String(supplierItemCode))
+            .is("archived_at", null)
+            .maybeSingle();
+
+        if (supplierItemError) {
+          throw new Error("Could not match supplier item.");
+        }
+
+        if (supplierItemData) {
+          const supplierItem = supplierItemData as SupplierItemRow;
+          supplierItemId = supplierItem.id;
+          notes.push("Known supplier item");
+
+          const { data: mappingData, error: mappingError } = await supabase
+            .from("supplier_item_mappings")
+            .select("id, internal_item_id, internal_items(id, display_name)")
+            .eq("organisation_id", organisationId)
+            .eq("supplier_item_id", supplierItem.id)
+            .eq("mapping_status", "confirmed")
+            .is("archived_at", null)
+            .maybeSingle();
+
+          if (mappingError) {
+            throw new Error("Could not match supplier item mapping.");
+          }
+
+          if (mappingData) {
+            const mapping = mappingData as SupplierItemMappingRow;
+            const mappedInternalItem = Array.isArray(mapping.internal_items)
+              ? mapping.internal_items[0]
+              : mapping.internal_items;
+            mappingId = mapping.id;
+            internalItemId = mapping.internal_item_id ?? null;
+            internalItemName =
+              mappedInternalItem?.display_name ?? internalItemName;
+            notes.push("Mapping found");
+          } else {
+            notes.push("New mapping required");
+          }
+
+          const { data: approvedPriceData, error: approvedPriceError } =
+            await supabase
+              .from("approved_supplier_prices")
+              .select(
+                "id, unit_price, effective_date, purchase_unit, source_price_observation_id",
+              )
+              .eq("organisation_id", organisationId)
+              .eq("supplier_item_id", supplierItem.id)
+              .eq("status", "current")
+              .maybeSingle();
+
+          if (approvedPriceError) {
+            throw new Error("Could not match approved supplier price.");
+          }
+
+          if (approvedPriceData) {
+            const currentPrice = approvedPriceData as ApprovedSupplierPriceRow;
+            notes.push("Approved price current");
+            notes.push(
+              ...priceChangeNotes({
+                currentPrice,
+                newPrice: lineUnitPrice(line),
+                currency: document.currency,
+              }),
+            );
+          } else {
+            notes.push("No current approved supplier price");
+          }
+
+          nextStatus = mappingId ? "matched" : "needs_review";
+        } else {
+          notes.push("New supplier item");
+        }
+      }
+    }
+
+    if (supplier && line.classification === "informational") {
+      const supplierItemCode = cleanText(line.source_item_code);
+      const description = cleanText(line.source_description);
+
+      const { data: ruleData, error: ruleError } = await supabase
+        .from("ignored_line_rules")
+        .select("id")
+        .eq("organisation_id", organisationId)
+        .eq("supplier_id", supplier.id)
+        .eq("match_type", "code_and_description")
+        .eq("supplier_item_code", supplierItemCode)
+        .eq("description_pattern", description)
+        .maybeSingle();
+
+      if (ruleError) {
+        throw new Error("Could not match ignored line rule.");
+      }
+
+      if (ruleData) {
+        notes.push("Informational rule matched");
+        nextStatus = "ignored";
+      } else {
+        notes.push("Informational rule not found");
+      }
+    }
+
+    await supabase
+      .from("purchase_document_lines")
+      .update({
+        supplier_item_id: supplierItemId,
+        internal_item_id: internalItemId,
+        mapping_id: mappingId,
+        status: nextStatus,
+        review_notes: buildReviewNotesWithInternalItemName({
+          internalItemName,
+          reviewNotes: line.review_notes,
+          repeatMatchNotes: notes,
+        }),
+        updated_at: new Date().toISOString(),
+      })
+      .eq("organisation_id", organisationId)
+      .eq("purchase_document_id", document.id)
+      .eq("id", line.id);
+  }
 }
 
 export async function getPurchaseDocumentsForCurrentOrganisation() {
@@ -1107,6 +1456,23 @@ export async function extractPurchaseDocument(
 
     throw new Error("Could not create extracted purchase document lines.");
   }
+
+  await enrichExtractedPurchaseDocumentReview({
+    organisationId,
+    document: {
+      ...document,
+      supplier_legal_name_source: extraction.supplierLegalName,
+      supplier_trading_name_source: extraction.supplierTradingName,
+      supplier_abn_source: extraction.supplierAbn,
+      supplier_account_number_source: extraction.supplierAccountNumber,
+      invoice_number: extraction.invoiceNumber,
+      invoice_date: extraction.invoiceDate,
+      invoice_total: extraction.invoiceTotal,
+      tax_total: extraction.taxTotal,
+      currency: extraction.currency,
+      status: "needs_review",
+    },
+  });
 
   return {
     documentId,
@@ -1755,6 +2121,31 @@ async function findOrCreatePriceObservation({
   profileId: string;
 }) {
   const supabase = await createClient();
+  const unitPrice = numericSourceValue(
+    line.corrected_unit_price,
+    line.normalised_unit_price,
+    line.source_unit_price,
+  );
+  const { data: currentApprovedPrice, error: currentApprovedPriceError } =
+    await supabase
+      .from("approved_supplier_prices")
+      .select("id, unit_price, effective_date, source_price_observation_id")
+      .eq("organisation_id", organisationId)
+      .eq("supplier_item_id", supplierItemId)
+      .eq("status", "current")
+      .maybeSingle();
+
+  if (currentApprovedPriceError) {
+    throw new Error("Could not check current approved supplier price.");
+  }
+
+  const approvalDecision =
+    currentApprovedPrice &&
+    Math.abs(Number((currentApprovedPrice as ApprovedSupplierPriceRow).unit_price) - Number(unitPrice)) <
+      0.0001
+      ? null
+      : "update_current_price";
+
   const { data: existingObservation, error: observationLookupError } =
     await supabase
       .from("price_observations")
@@ -1784,11 +2175,7 @@ async function findOrCreatePriceObservation({
         purchase_document_id: document.id,
         purchase_document_line_id: line.id,
         observed_date: document.invoice_date,
-        unit_price: numericSourceValue(
-          line.corrected_unit_price,
-          line.normalised_unit_price,
-          line.source_unit_price,
-        ),
+        unit_price: unitPrice,
         purchase_unit: sourceValue(
           line.corrected_unit,
           line.normalised_unit,
@@ -1821,7 +2208,7 @@ async function findOrCreatePriceObservation({
           line.source_unit_price,
         ),
         observation_type: "invoice",
-        approval_decision: "update_current_price",
+        approval_decision: approvalDecision,
         reviewed_by_profile_id: profileId,
         reviewed_at: new Date().toISOString(),
       })
@@ -1876,24 +2263,9 @@ async function ensureApprovedSupplierPrice({
 
   if (currentPrice) {
     const price = currentPrice as ApprovedSupplierPriceRow;
-    const isSamePrice =
-      Number(price.unit_price) === Number(unitPrice) &&
-      price.effective_date === document.invoice_date;
+    const isSamePrice = Math.abs(Number(price.unit_price) - Number(unitPrice)) < 0.0001;
 
     if (isSamePrice) {
-      if (price.source_price_observation_id !== sourcePriceObservationId) {
-        await supabase
-          .from("approved_supplier_prices")
-          .update({
-            source_price_observation_id: sourcePriceObservationId,
-            approved_by_profile_id: profileId,
-            approved_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          })
-          .eq("organisation_id", organisationId)
-          .eq("id", price.id);
-      }
-
       return price;
     }
 

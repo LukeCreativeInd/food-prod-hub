@@ -505,3 +505,9 @@ That step adds tenant-scoped file upload, file metadata, SHA-256 duplicate detec
 The first extraction adapter/prototype now exists in [Purchase Document Extraction Prototype](77-purchase-document-extraction-prototype.md).
 
 It is review-first and limited to embedded PDF text plus the first known Cammaroto supplier pattern. It creates editable draft review data only and does not auto-commit master records.
+
+## Step 078 Update
+
+The first repeat invoice and price change behaviour now exists in [Repeat Invoice and Price Change Behaviour](78-repeat-invoice-price-change-behaviour.md).
+
+It enriches extracted Cammaroto review lines with existing tenant supplier, supplier item, mapping, ignored-rule and approved-price records where available. Generic supplier parsing and generic price decision UI remain future work.

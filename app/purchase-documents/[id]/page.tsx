@@ -11,8 +11,9 @@ import { PageHeader } from "@/components/page-header";
 import { EmptyState, StatusBadge } from "@/components/ui";
 import { userHasPermission } from "@/lib/auth";
 import {
+  getRepeatMatchNotes,
   getReviewedInternalItemName,
-  getReviewNotesWithoutInternalItemName,
+  getReviewNotesWithoutStructuredMarkers,
   getPurchaseDocumentReview,
   type PurchaseDocumentLine,
 } from "@/lib/purchase-document-intake";
@@ -202,6 +203,42 @@ function FieldPreview({ label, value }: { label: string; value: string }) {
   );
 }
 
+function repeatNoteTone(note: string) {
+  if (
+    note.includes("Price change detected") ||
+    note.includes("required") ||
+    note.includes("New ")
+  ) {
+    return "warning" as const;
+  }
+
+  if (note.includes("not found")) {
+    return "warning" as const;
+  }
+
+  if (
+    note.includes("Matched") ||
+    note.includes("Known") ||
+    note.includes("found") ||
+    note.includes("unchanged") ||
+    note.includes("current")
+  ) {
+    return "success" as const;
+  }
+
+  return "info" as const;
+}
+
+function priceComparisonNotes(notes: string[]) {
+  return notes.filter(
+    (note) =>
+      note.includes("Price unchanged") ||
+      note.includes("Price change detected") ||
+      note.includes("Price change amount") ||
+      note.includes("Price decision"),
+  );
+}
+
 function TextInput({
   label,
   name,
@@ -307,7 +344,7 @@ function lineReviewDefaults(line: PurchaseDocumentLine) {
     internalItemName:
       getReviewedInternalItemName(line) ??
       (isStockLine && line.line_number === 1 ? "Chicken Thigh" : ""),
-    reviewNotes: getReviewNotesWithoutInternalItemName(line.review_notes) ?? "",
+    reviewNotes: getReviewNotesWithoutStructuredMarkers(line.review_notes) ?? "",
   };
 }
 
@@ -557,7 +594,14 @@ export default async function PurchaseDocumentReviewPage({
                       name.
                     </p>
                   </div>
-                  <StatusBadge tone="warning">Review source data</StatusBadge>
+                  <div className="flex flex-wrap gap-2">
+                    <StatusBadge tone="warning">Review source data</StatusBadge>
+                    {document.supplier_id ? (
+                      <StatusBadge tone="success">Matched supplier</StatusBadge>
+                    ) : (
+                      <StatusBadge tone="warning">New supplier required</StatusBadge>
+                    )}
+                  </div>
                 </div>
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
                   <TextInput
@@ -655,6 +699,8 @@ export default async function PurchaseDocumentReviewPage({
               <div className="divide-y divide-slate-200">
                 {lines.map((line) => {
                 const defaults = lineReviewDefaults(line);
+                const repeatNotes = getRepeatMatchNotes(line);
+                const priceNotes = priceComparisonNotes(repeatNotes);
 
                 return (
                   <article key={line.id} className="px-5 py-5">
@@ -692,6 +738,32 @@ export default async function PurchaseDocumentReviewPage({
                         {formatStatus(line.status)}
                       </StatusBadge>
                     </div>
+                    {repeatNotes.length > 0 ? (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {repeatNotes.map((note) => (
+                          <StatusBadge key={note} tone={repeatNoteTone(note)}>
+                            {note}
+                          </StatusBadge>
+                        ))}
+                      </div>
+                    ) : null}
+                    {priceNotes.length > 0 ? (
+                      <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3">
+                        <p className="text-xs font-semibold uppercase text-amber-800">
+                          Price comparison
+                        </p>
+                        <div className="mt-2 space-y-1">
+                          {priceNotes.map((note) => (
+                            <p
+                              key={note}
+                              className="text-sm font-semibold text-amber-950"
+                            >
+                              {note}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
                     <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                       <SelectInput
                         label="Classification"
@@ -777,9 +849,17 @@ export default async function PurchaseDocumentReviewPage({
                       <FieldPreview
                         label="Price decision"
                         value={
-                          line.classification === "informational"
-                            ? "Informational / ignored"
-                            : "Update current price"
+                          priceNotes.some((note) =>
+                            note.includes("Price unchanged"),
+                          )
+                            ? "Observation only"
+                            : priceNotes.some((note) =>
+                                note.includes("Price change detected"),
+                              )
+                              ? "Review price decision"
+                              : line.classification === "informational"
+                                ? "Informational / ignored"
+                                : "Update current price"
                         }
                       />
                       <label className="block md:col-span-2 xl:col-span-2">

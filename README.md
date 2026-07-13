@@ -322,6 +322,8 @@ Purchase Document upload and extraction foundation is documented in [Purchase Do
 
 Purchase Document extraction prototype is documented in [Purchase Document extraction prototype](docs/77-purchase-document-extraction-prototype.md).
 
+Repeat invoice and price change behaviour is documented in [Repeat Invoice and Price Change Behaviour](docs/78-repeat-invoice-price-change-behaviour.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -342,5 +344,6 @@ Purchase Document extraction prototype is documented in [Purchase Document extra
 - Controlled Cammaroto sample commit flow for reviewed supplier, item, mapping and price reference records
 - Tenant-scoped Purchase Document file upload foundation with private storage migration draft
 - Controlled Purchase Document extraction prototype for uploaded text-based Cammaroto PDFs
+- Repeat Cammaroto invoice matching and price-change indicators for reviewed intake lines
 
 No costing calculations, broad production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

@@ -83,7 +83,7 @@ The commit helper checks for existing records before inserting:
 - internal item matched by item type and display name
 - confirmed supplier item mapping matched by supplier item
 - price observation matched by source document, line and supplier item
-- current approved supplier price matched by supplier item
+- current approved supplier price matched by supplier item and reused when the invoice unit price is unchanged
 - ignored line rule matched by supplier, code and description
 
 If the document is already committed, the action returns an already-committed result and does not create duplicates.
@@ -118,7 +118,9 @@ Because the Cammaroto sample decision is `update_current_price`, the flow also c
 
 If an existing current price differs, it is marked `superseded` before the new current price is inserted.
 
-Future `one_off_transaction` or `review_later` decisions are not implemented in this step.
+If a repeat invoice has the same supplier item and same unit price, the existing current approved price is reused and no duplicate current row is created.
+
+Future `one_off_transaction` or `review_later` UI decisions are not implemented in this step.
 
 ## CTNS / CARTONS Handling
 
@@ -168,8 +170,7 @@ The commit flow uses ordered, idempotent writes so retries should not create dup
 Not included:
 
 - OCR
-- storage-backed upload
-- generic extraction
+- broad OCR/provider extraction
 - generic commit for arbitrary invoices
 - purchase orders
 - Goods Inwards receiving
