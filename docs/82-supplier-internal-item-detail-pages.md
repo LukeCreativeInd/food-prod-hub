@@ -48,6 +48,8 @@ The internal item detail page shows:
 - price observations/source references
 - future component/formula/production/inventory usage placeholder
 
+These detail pages now act as the inspection point before formula relationships are added. Staff can verify the canonical internal item, supplier mappings and approved prices before components, finished products and formulas start referencing those internal items.
+
 ## Source-Of-Truth Relationships
 
 Purchase Document Intake remains the source for reviewed supplier invoice onboarding.
@@ -112,4 +114,4 @@ Users without `purchase_documents.view`, including the Phase 1 demo user, see so
 
 ## Next Recommended Task
 
-Review the detail pages with the committed Cammaroto records, then decide which read-only fields should become editable in a controlled Products master-data task.
+Review the detail pages with the committed Cammaroto records, then use [Component and Formula Data Model Planning](83-component-formula-data-model-planning.md) to confirm the first component and finished product formula collection fields.

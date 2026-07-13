@@ -25,6 +25,8 @@ Step 082 adds read-only detail pages so supplier and internal item rows can be i
 - `/suppliers/[id]`
 - `/internal-items/[id]`
 
+Step 083 plans the next data layer: component and finished product formula modelling built on `internal_items`. The real-data views remain the inspection layer for supplier, raw ingredient and approved price foundations before formulas are created.
+
 ## Data Source
 
 The views use `lib/products-data.ts`.
