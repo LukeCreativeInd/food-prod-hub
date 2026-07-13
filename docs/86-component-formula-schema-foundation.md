@@ -131,7 +131,13 @@ Step 087 adds the first read-only Component Formulas UI scaffold:
 - `/components/[id]`
 - component links from `/internal-items/[id]`
 
-The UI uses `formulas.view`, the authenticated server Supabase client and current organisation context. It does not add create/edit forms, imports, costing rollups, production routes or stock movement logic.
+Step 088 adds the matching read-only Finished Product Formula UI scaffold:
+
+- `/finished-products`
+- `/finished-products/[id]`
+- finished product links from `/internal-items/[id]`
+
+Both UI workspaces use `formulas.view`, the authenticated server Supabase client and current organisation context. They do not add create/edit forms, imports, costing rollups, production routes or stock movement logic.
 
 ## Known Limitations
 

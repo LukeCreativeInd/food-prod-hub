@@ -86,6 +86,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Staff formula collection CSV templates have been added for Clean Eats component, product, method and area data capture
 - Component formula schema foundation has been drafted for reviewed `formula_versions` and `formula_lines` migration
 - First read-only Component Formula UI scaffold has been added at `/components` and `/components/[id]`
+- First read-only Finished Product Formula UI scaffold has been added at `/finished-products` and `/finished-products/[id]`
 
 ## Tech Stack
 
@@ -209,6 +210,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Staff formula collection templates](docs/85-staff-formula-collection-templates.md)
 - [Component formula schema foundation](docs/86-component-formula-schema-foundation.md)
 - [First Component Formula UI scaffold](docs/87-first-component-formula-ui-scaffold.md)
+- [First Finished Product Formula UI scaffold](docs/88-first-finished-product-formula-ui-scaffold.md)
 
 ## Database Migrations
 

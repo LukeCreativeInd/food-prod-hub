@@ -12,6 +12,8 @@ Migration 022 now drafts the schema foundation for `formula_versions` and `formu
 
 Step 087 adds the first read-only Component Formula UI scaffold for `/components` and `/components/[id]`; see [First Component Formula UI Scaffold](87-first-component-formula-ui-scaffold.md). This gives staff and demo users visibility of captured component formula data without adding formula write flows, imports or costing rollups.
 
+Step 088 adds the first read-only Finished Product Formula UI scaffold for `/finished-products` and `/finished-products/[id]`; see [First Finished Product Formula UI Scaffold](88-first-finished-product-formula-ui-scaffold.md). This prepares the app for per-selling-unit formulas that can combine raw ingredients, made components and packaging.
+
 ## Purpose
 
 The next major Clean Eats data layer is formulas.

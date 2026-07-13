@@ -141,23 +141,35 @@ export default async function InternalItemDetailPage({ params }: PageProps) {
   }
 
   const backHref =
-    detail.item.itemType === "component"
+    detail.item.itemType === "finished_product"
+      ? "/finished-products"
+      : detail.item.itemType === "component"
       ? "/components"
       : detail.item.itemType === "packaging"
         ? "/packaging"
         : "/ingredients";
   const futureUsageTitle =
-    detail.item.itemType === "component"
+    detail.item.itemType === "finished_product"
+      ? "Finished product formula workspace"
+      : detail.item.itemType === "component"
       ? "Component formula workspace"
       : detail.item.itemType === "ingredient"
         ? "Component formulas using this ingredient"
         : "Future item usage";
   const futureUsageDescription =
-    detail.item.itemType === "component"
+    detail.item.itemType === "finished_product"
+      ? "This finished product can now be reviewed in the read-only formula workspace. The formula page shows active/draft versions and per-selling-unit input lines when captured."
+      : detail.item.itemType === "component"
       ? "This component can now be reviewed in the read-only formula workspace. The formula page shows active/draft versions and input lines when captured."
       : detail.item.itemType === "ingredient"
         ? "Component formulas using this ingredient are coming later. Reverse formula usage is not queried in this first read-only scaffold."
         : "Component formulas, finished product formulas, production usage, inventory references and traceability links will be added later. This page only inspects reviewed internal item, supplier and price records.";
+  const formulaHref =
+    detail.item.itemType === "finished_product"
+      ? `/finished-products/${detail.item.id}`
+      : detail.item.itemType === "component"
+        ? `/components/${detail.item.id}`
+        : null;
 
   return (
     <AppShell>
@@ -268,8 +280,8 @@ export default async function InternalItemDetailPage({ params }: PageProps) {
           title="Future usage"
           description="These downstream relationships are planned, but no formula or stock logic is created here."
           action={
-            detail.item.itemType === "component" ? (
-              <PageActionButton href={`/components/${detail.item.id}`} variant="secondary">
+            formulaHref ? (
+              <PageActionButton href={formulaHref} variant="secondary">
                 View formula
               </PageActionButton>
             ) : null

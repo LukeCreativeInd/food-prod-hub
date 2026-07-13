@@ -72,6 +72,29 @@ export type ComponentFormulaOverview = {
   components: ComponentFormulaOverviewItem[];
 };
 
+export type FinishedProductFormulaOverviewItem = {
+  id: string;
+  displayName: string;
+  itemType: string;
+  baseUnit: string;
+  formulaStatus: string;
+  version: string;
+  outputQuantity: string;
+  inputCount: string;
+  expectedYield: string;
+  lastUpdated: string;
+};
+
+export type FinishedProductFormulaOverview = {
+  summary: {
+    finishedProductCount: number;
+    activeFormulaCount: number;
+    draftFormulaCount: number;
+    inputsRequiringReviewCount: number;
+  };
+  finishedProducts: FinishedProductFormulaOverviewItem[];
+};
+
 export type ComponentFormulaDetail = {
   component: {
     id: string;
@@ -117,6 +140,59 @@ export type ComponentFormulaDetail = {
     costHint: string;
     notes: string;
   }[];
+};
+
+export type FinishedProductFormulaDetail = {
+  finishedProduct: {
+    id: string;
+    displayName: string;
+    itemType: string;
+    baseUnit: string;
+    status: string;
+    notes: string;
+    updatedAt: string;
+  };
+  versions: {
+    id: string;
+    versionName: string;
+    versionNumber: string;
+    status: string;
+    outputQuantity: string;
+    expectedYield: string;
+    effectiveFrom: string;
+    notes: string;
+    updatedAt: string;
+  }[];
+  selectedVersion: {
+    id: string;
+    versionName: string;
+    versionNumber: string;
+    status: string;
+    formulaType: string;
+    outputQuantity: string;
+    expectedYield: string;
+    effectiveFrom: string;
+    notes: string;
+    updatedAt: string;
+  } | null;
+  lines: {
+    id: string;
+    inputItemName: string;
+    inputItemHref: string;
+    inputItemType: string;
+    quantity: string;
+    unit: string;
+    preparationState: string;
+    lossNote: string;
+    costHint: string;
+    notes: string;
+  }[];
+  composition: {
+    ingredients: number;
+    components: number;
+    packaging: number;
+    other: number;
+  };
 };
 
 async function requireFormulaViewOrganisationId() {
@@ -232,24 +308,24 @@ function sortFormulaVersions(versions: FormulaVersionRow[]) {
   });
 }
 
-async function getComponentInternalItems(organisationId: string) {
+async function getInternalItemsByType(organisationId: string, itemType: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("internal_items")
     .select("id, item_type, display_name, base_unit, status, notes, created_at, updated_at")
     .eq("organisation_id", organisationId)
-    .eq("item_type", "component")
+    .eq("item_type", itemType)
     .is("archived_at", null)
     .order("display_name", { ascending: true });
 
   if (error) {
-    throw new Error("Could not load component internal items.");
+    throw new Error("Could not load formula internal items.");
   }
 
   return (data ?? []) as InternalItemRow[];
 }
 
-async function getComponentFormulaVersions(organisationId: string) {
+async function getFormulaVersionsByType(organisationId: string, formulaType: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("formula_versions")
@@ -257,12 +333,12 @@ async function getComponentFormulaVersions(organisationId: string) {
       "id, output_internal_item_id, formula_type, version_name, version_number, status, output_quantity, output_unit, expected_yield_quantity, expected_yield_unit, effective_from, notes, updated_at",
     )
     .eq("organisation_id", organisationId)
-    .eq("formula_type", "component")
+    .eq("formula_type", formulaType)
     .is("archived_at", null)
     .order("updated_at", { ascending: false });
 
   if (error) {
-    throw new Error("Could not load component formula versions.");
+    throw new Error("Could not load formula versions.");
   }
 
   return (data ?? []) as FormulaVersionRow[];
@@ -313,8 +389,8 @@ async function getApprovedPriceHints(
 export async function getComponentFormulaOverviewForCurrentOrganisation(): Promise<ComponentFormulaOverview> {
   const organisationId = await requireFormulaViewOrganisationId();
   const [components, versions, lines] = await Promise.all([
-    getComponentInternalItems(organisationId),
-    getComponentFormulaVersions(organisationId),
+    getInternalItemsByType(organisationId, "component"),
+    getFormulaVersionsByType(organisationId, "component"),
     getFormulaLinesForOrganisation(organisationId),
   ]);
 
@@ -396,8 +472,8 @@ export async function getComponentFormulaDetailForCurrentOrganisation(
 ): Promise<ComponentFormulaDetail | null> {
   const organisationId = await requireFormulaViewOrganisationId();
   const [components, versions, allLines] = await Promise.all([
-    getComponentInternalItems(organisationId),
-    getComponentFormulaVersions(organisationId),
+    getInternalItemsByType(organisationId, "component"),
+    getFormulaVersionsByType(organisationId, "component"),
     getFormulaLinesForOrganisation(organisationId),
   ]);
 
@@ -511,5 +587,224 @@ export async function getComponentFormulaDetailForCurrentOrganisation(
         notes: line.notes ?? "No notes recorded",
       };
     }),
+  };
+}
+
+export async function getFinishedProductFormulaOverviewForCurrentOrganisation(): Promise<FinishedProductFormulaOverview> {
+  const organisationId = await requireFormulaViewOrganisationId();
+  const [finishedProducts, versions, lines] = await Promise.all([
+    getInternalItemsByType(organisationId, "finished_product"),
+    getFormulaVersionsByType(organisationId, "finished_product"),
+    getFormulaLinesForOrganisation(organisationId),
+  ]);
+
+  const versionsByOutputItemId = new Map<string, FormulaVersionRow[]>();
+  const lineCountsByFormulaVersionId = new Map<string, number>();
+
+  versions.forEach((version) => {
+    const existing = versionsByOutputItemId.get(version.output_internal_item_id) ?? [];
+    existing.push(version);
+    versionsByOutputItemId.set(version.output_internal_item_id, existing);
+  });
+
+  lines.forEach((line) => {
+    lineCountsByFormulaVersionId.set(
+      line.formula_version_id,
+      (lineCountsByFormulaVersionId.get(line.formula_version_id) ?? 0) + 1,
+    );
+  });
+
+  const activeFormulaCount = versions.filter(
+    (version) => version.status === "active",
+  ).length;
+  const draftFormulaCount = versions.filter(
+    (version) => version.status === "draft",
+  ).length;
+
+  const overviewItems = finishedProducts.map<FinishedProductFormulaOverviewItem>(
+    (finishedProduct) => {
+      const productVersions = sortFormulaVersions(
+        versionsByOutputItemId.get(finishedProduct.id) ?? [],
+      );
+      const displayFormula = findDisplayFormula(productVersions);
+      const inputCount = displayFormula
+        ? lineCountsByFormulaVersionId.get(displayFormula.id) ?? 0
+        : 0;
+
+      return {
+        id: finishedProduct.id,
+        displayName: finishedProduct.display_name,
+        itemType: finishedProduct.item_type,
+        baseUnit: finishedProduct.base_unit ?? "Not recorded",
+        formulaStatus: displayFormula?.status ?? "Formula not captured",
+        version: displayFormula ? formatVersionName(displayFormula) : "Not captured",
+        outputQuantity: displayFormula
+          ? formatQuantityUnit(displayFormula.output_quantity, displayFormula.output_unit)
+          : "Not captured",
+        inputCount: displayFormula ? String(inputCount) : "Not captured",
+        expectedYield: displayFormula
+          ? formatQuantityUnit(
+              displayFormula.expected_yield_quantity,
+              displayFormula.expected_yield_unit,
+            )
+          : "Not captured",
+        lastUpdated: displayFormula
+          ? formatDateTime(displayFormula.updated_at)
+          : formatDateTime(finishedProduct.updated_at),
+      };
+    },
+  );
+
+  const inputsRequiringReviewCount = overviewItems.filter(
+    (item) =>
+      item.formulaStatus !== "active" ||
+      item.inputCount === "0" ||
+      item.inputCount === "Not captured",
+  ).length;
+
+  return {
+    summary: {
+      finishedProductCount: finishedProducts.length,
+      activeFormulaCount,
+      draftFormulaCount,
+      inputsRequiringReviewCount,
+    },
+    finishedProducts: overviewItems,
+  };
+}
+
+export async function getFinishedProductFormulaDetailForCurrentOrganisation(
+  finishedProductInternalItemId: string,
+): Promise<FinishedProductFormulaDetail | null> {
+  const organisationId = await requireFormulaViewOrganisationId();
+  const [finishedProducts, versions, allLines] = await Promise.all([
+    getInternalItemsByType(organisationId, "finished_product"),
+    getFormulaVersionsByType(organisationId, "finished_product"),
+    getFormulaLinesForOrganisation(organisationId),
+  ]);
+
+  const finishedProduct = finishedProducts.find(
+    (item) => item.id === finishedProductInternalItemId,
+  );
+
+  if (!finishedProduct) {
+    return null;
+  }
+
+  const productVersions = sortFormulaVersions(
+    versions.filter((version) => version.output_internal_item_id === finishedProduct.id),
+  );
+  const selectedVersion = findDisplayFormula(productVersions);
+  const selectedLines = selectedVersion
+    ? allLines.filter((line) => line.formula_version_id === selectedVersion.id)
+    : [];
+  const inputItemIds = Array.from(
+    new Set(selectedLines.map((line) => line.input_internal_item_id)),
+  );
+  const supabase = await createClient();
+  const { data: inputItems, error: inputItemsError } = inputItemIds.length
+    ? await supabase
+        .from("internal_items")
+        .select("id, item_type, display_name, base_unit, status")
+        .eq("organisation_id", organisationId)
+        .in("id", inputItemIds)
+        .is("archived_at", null)
+    : { data: [], error: null };
+
+  if (inputItemsError) {
+    throw new Error("Could not load finished product formula input items.");
+  }
+
+  const approvedPrices = await getApprovedPriceHints(organisationId, inputItemIds);
+  const inputItemById = new Map(
+    ((inputItems ?? []) as InternalItemRow[]).map((item) => [item.id, item]),
+  );
+  const approvedPriceByInputItemId = new Map<string, ApprovedSupplierPriceRow>();
+
+  approvedPrices.forEach((price) => {
+    if (price.internal_item_id && !approvedPriceByInputItemId.has(price.internal_item_id)) {
+      approvedPriceByInputItemId.set(price.internal_item_id, price);
+    }
+  });
+
+  const lines = selectedLines.map((line) => {
+    const inputItem = inputItemById.get(line.input_internal_item_id);
+    const approvedPrice = approvedPriceByInputItemId.get(line.input_internal_item_id);
+    const costHint = approvedPrice
+      ? `${formatCurrency(approvedPrice.unit_price, approvedPrice.currency)} / ${
+          approvedPrice.purchase_unit ?? inputItem?.base_unit ?? line.unit
+        }`
+      : "No approved price visible";
+
+    return {
+      id: line.id,
+      inputItemName: inputItem?.display_name ?? "Unknown internal item",
+      inputItemHref: `/internal-items/${line.input_internal_item_id}`,
+      inputItemType: inputItem?.item_type ?? "unknown",
+      quantity: formatNumber(line.quantity),
+      unit: line.unit,
+      preparationState: line.preparation_state ?? "Not recorded",
+      lossNote: line.loss_note ?? "Not recorded",
+      costHint,
+      notes: line.notes ?? "No notes recorded",
+    };
+  });
+
+  return {
+    finishedProduct: {
+      id: finishedProduct.id,
+      displayName: finishedProduct.display_name,
+      itemType: finishedProduct.item_type,
+      baseUnit: finishedProduct.base_unit ?? "Not recorded",
+      status: finishedProduct.status,
+      notes: finishedProduct.notes ?? "No notes recorded",
+      updatedAt: formatDateTime(finishedProduct.updated_at),
+    },
+    versions: productVersions.map((version) => ({
+      id: version.id,
+      versionName: version.version_name,
+      versionNumber: version.version_number ? `v${version.version_number}` : "Not recorded",
+      status: version.status,
+      outputQuantity: formatQuantityUnit(version.output_quantity, version.output_unit),
+      expectedYield: formatQuantityUnit(
+        version.expected_yield_quantity,
+        version.expected_yield_unit,
+      ),
+      effectiveFrom: formatDate(version.effective_from),
+      notes: version.notes ?? "No notes recorded",
+      updatedAt: formatDateTime(version.updated_at),
+    })),
+    selectedVersion: selectedVersion
+      ? {
+          id: selectedVersion.id,
+          versionName: selectedVersion.version_name,
+          versionNumber: selectedVersion.version_number
+            ? `v${selectedVersion.version_number}`
+            : "Not recorded",
+          status: selectedVersion.status,
+          formulaType: selectedVersion.formula_type,
+          outputQuantity: formatQuantityUnit(
+            selectedVersion.output_quantity,
+            selectedVersion.output_unit,
+          ),
+          expectedYield: formatQuantityUnit(
+            selectedVersion.expected_yield_quantity,
+            selectedVersion.expected_yield_unit,
+          ),
+          effectiveFrom: formatDate(selectedVersion.effective_from),
+          notes: selectedVersion.notes ?? "No notes recorded",
+          updatedAt: formatDateTime(selectedVersion.updated_at),
+        }
+      : null,
+    lines,
+    composition: {
+      ingredients: lines.filter((line) => line.inputItemType === "ingredient").length,
+      components: lines.filter((line) => line.inputItemType === "component").length,
+      packaging: lines.filter((line) => line.inputItemType === "packaging").length,
+      other: lines.filter(
+        (line) =>
+          !["ingredient", "component", "packaging"].includes(line.inputItemType),
+      ).length,
+    },
   };
 }

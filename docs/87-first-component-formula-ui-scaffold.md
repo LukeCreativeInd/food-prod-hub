@@ -6,6 +6,8 @@ The first read-only Component Formulas UI scaffold has been added.
 
 This step does not add migrations, staff CSV/XLSX import, formula create/edit forms, costing rollups, production routes, stock movements, purchasing flows, Goods Inwards, Platform Admin changes or Purchase Document Intake changes.
 
+Step 088 adds the matching read-only Finished Product Formula UI scaffold; see [First Finished Product Formula UI Scaffold](88-first-finished-product-formula-ui-scaffold.md).
+
 ## Routes Added Or Updated
 
 - `/components`
