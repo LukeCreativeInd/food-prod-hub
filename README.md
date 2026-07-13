@@ -78,6 +78,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Cammaroto extraction now handles supplier-specific embedded PDF text decoding and remains review-first
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
 - Products and Costings now include read-only real-data views for committed Purchase Document Intake supplier, item and price records
+- Vercel Web Analytics instrumentation has been added for deployed route/page-view analytics
 
 ## Tech Stack
 
@@ -193,6 +194,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Purchase Document extraction prototype](docs/77-purchase-document-extraction-prototype.md)
 - [Repeat invoice and price change behaviour](docs/78-repeat-invoice-price-change-behaviour.md)
 - [Products and Costings real data views](docs/79-products-costings-real-data-views.md)
+- [Vercel Web Analytics](docs/80-vercel-web-analytics.md)
 
 ## Database Migrations
 
