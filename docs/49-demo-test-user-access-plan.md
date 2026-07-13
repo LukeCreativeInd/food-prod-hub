@@ -136,6 +136,8 @@ Before creating the test user, confirm or implement module-level view-permission
 
 This access gap has now been addressed at the sidebar/navigation level in [Module-Level Permission-Aware Navigation](51-module-level-permission-aware-navigation.md). Non-admin module links now declare view permissions so the sidebar can filter by both enabled modules and user permissions.
 
+Future demo/client access depends on keeping database modules, TypeScript module registry entries, permissions, navigation metadata and route guards aligned. The current alignment review is documented in [Module Registry Alignment Review](60-module-registry-alignment-review.md).
+
 ## Recommended Implementation Sequence
 
 ### 050 - Demo Role and Permission Seed Planning / Migration

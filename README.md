@@ -58,6 +58,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Auth context query flow now uses request-level caching to reduce duplicate protected-route lookups
 - Hosting region and Vercel/Supabase configuration checklist has been added before hosting decisions
 - Vercel Speed Insights instrumentation has been added for deployed performance metrics
+- Module registry alignment review has been added before master admin module controls
 
 ## Tech Stack
 
@@ -153,6 +154,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Auth context query optimisation](docs/57-auth-context-query-optimisation.md)
 - [Hosting region and Vercel/Supabase configuration check](docs/58-hosting-region-vercel-supabase-check.md)
 - [Vercel Speed Insights](docs/59-vercel-speed-insights.md)
+- [Module registry alignment review](docs/60-module-registry-alignment-review.md)
 
 ## Database Migrations
 
@@ -253,6 +255,8 @@ The auth context query optimisation pass is documented in [Auth context query op
 The hosting region and configuration checklist is documented in [Hosting region and Vercel/Supabase configuration check](docs/58-hosting-region-vercel-supabase-check.md).
 
 Vercel Speed Insights instrumentation is documented in [Vercel Speed Insights](docs/59-vercel-speed-insights.md).
+
+Module registry alignment is documented in [Module registry alignment review](docs/60-module-registry-alignment-review.md).
 
 ## Current Scope
 

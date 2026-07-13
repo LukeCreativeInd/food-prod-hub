@@ -242,6 +242,8 @@ Vercel Speed Insights instrumentation has been added in [Vercel Speed Insights](
 
 The next performance fact-gathering step is to complete the region/configuration checklist and compare route timings before changing hosting.
 
+While performance metrics are being gathered, module registry alignment is being reviewed as the next platform cleanup in [Module Registry Alignment Review](60-module-registry-alignment-review.md).
+
 ## Performance Testing Notes
 
 Manual testing template:

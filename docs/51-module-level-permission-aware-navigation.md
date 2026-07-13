@@ -112,6 +112,8 @@ This means a user without `qa.view`, `logistics.view`, `crm.view` or `reports.vi
 
 ## Next Step
 
+Module registry alignment is now being reviewed in [Module Registry Alignment Review](60-module-registry-alignment-review.md). That review checks the database modules, TypeScript registry, permissions, navigation and route guards before future master admin module controls are built.
+
 Recommended next step:
 
 **052 - Create Demo/Test User Manual Setup**
