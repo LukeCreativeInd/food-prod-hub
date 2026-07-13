@@ -234,6 +234,14 @@ Master admin should eventually support:
 
 No audit UI exists yet.
 
+## Tenant Creation And Provisioning Planning
+
+Future tenant creation and provisioning is planned in:
+
+- [Tenant Creation and Provisioning Plan](65-tenant-creation-and-provisioning-plan.md)
+
+That plan defines the intended flow for creating future client HUBs with separate organisation data, settings, branding, enabled modules and first admin access, without creating client-specific code forks.
+
 ## Data Model Readiness
 
 Existing foundation tables that support future master admin:

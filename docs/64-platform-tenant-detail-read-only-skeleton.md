@@ -71,6 +71,12 @@ The `/platform` tenant list now links the Clean Eats row to:
 
 This is a simple static link only, not a dynamic tenant list implementation.
 
+## Future Provisioning Model
+
+Future tenant detail pages should connect to the provisioning model described in [Tenant Creation and Provisioning Plan](65-tenant-creation-and-provisioning-plan.md).
+
+That model should define how tenant profile data, settings, branding, enabled modules, first admin access, billing placeholders and audit records are created before any tenant edit/create flows are implemented.
+
 ## Behaviour Preserved
 
 - Auth logic is unchanged.

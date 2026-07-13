@@ -63,6 +63,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Master Admin Portal planning has been added for future platform/global tenant management
 - Read-only Platform Admin skeleton has been added at `/platform`
 - Read-only Clean Eats tenant detail skeleton has been added at `/platform/tenants/cleaneats`
+- Tenant creation and provisioning planning has been added before any create/edit tenant flows are built
 
 ## Tech Stack
 
@@ -163,6 +164,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Master Admin Portal planning](docs/62-master-admin-portal-planning.md)
 - [Platform Admin read-only skeleton](docs/63-platform-admin-read-only-skeleton.md)
 - [Platform tenant detail read-only skeleton](docs/64-platform-tenant-detail-read-only-skeleton.md)
+- [Tenant creation and provisioning plan](docs/65-tenant-creation-and-provisioning-plan.md)
 
 ## Database Migrations
 
@@ -273,6 +275,8 @@ Master Admin Portal planning is documented in [Master Admin Portal planning](doc
 The first read-only Platform Admin skeleton is documented in [Platform Admin read-only skeleton](docs/63-platform-admin-read-only-skeleton.md).
 
 The first read-only Platform Admin tenant detail skeleton is documented in [Platform tenant detail read-only skeleton](docs/64-platform-tenant-detail-read-only-skeleton.md).
+
+Future tenant creation and provisioning is planned in [Tenant creation and provisioning plan](docs/65-tenant-creation-and-provisioning-plan.md).
 
 ## Current Scope
 
