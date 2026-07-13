@@ -60,6 +60,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Vercel Speed Insights instrumentation has been added for deployed performance metrics
 - Module registry alignment review has been added before master admin module controls
 - Module registry cleanup plan recommends no immediate DB cleanup before master admin planning
+- Master Admin Portal planning has been added for future platform/global tenant management
 
 ## Tech Stack
 
@@ -157,6 +158,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Vercel Speed Insights](docs/59-vercel-speed-insights.md)
 - [Module registry alignment review](docs/60-module-registry-alignment-review.md)
 - [Module registry cleanup plan](docs/61-module-registry-cleanup-plan.md)
+- [Master Admin Portal planning](docs/62-master-admin-portal-planning.md)
 
 ## Database Migrations
 
@@ -261,6 +263,8 @@ Vercel Speed Insights instrumentation is documented in [Vercel Speed Insights](d
 Module registry alignment is documented in [Module registry alignment review](docs/60-module-registry-alignment-review.md).
 
 Module registry cleanup planning is documented in [Module registry cleanup plan](docs/61-module-registry-cleanup-plan.md).
+
+Master Admin Portal planning is documented in [Master Admin Portal planning](docs/62-master-admin-portal-planning.md).
 
 ## Current Scope
 

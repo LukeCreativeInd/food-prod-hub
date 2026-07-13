@@ -13,6 +13,8 @@ The first platform and security foundation is complete.
 
 Update: after the Phase 3A demo foundation, a performance/hosting review has been opened at [Performance and Hosting Architecture Review](55-performance-and-hosting-architecture-review.md). It should guide auth/context query auditing and Vercel/Supabase region checks before any hosting migration is considered.
 
+Update: global/master admin planning has started after the Phase 3A demo foundation. The future platform-owner control centre is planned in [Master Admin Portal Planning](62-master-admin-portal-planning.md), with a recommended lightweight read-only first version.
+
 ## Completed Foundation Phases
 
 | Phase | Scope | Status |

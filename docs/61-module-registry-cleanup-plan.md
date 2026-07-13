@@ -213,11 +213,13 @@ The master admin portal should:
 
 ## Recommended Next Step
 
+Master Admin Portal planning now exists at [Master Admin Portal Planning](62-master-admin-portal-planning.md). It uses this cleanup direction and recommends a lightweight read-only `/platform` v1 before write/create flows.
+
 Recommended next step:
 
-**062 - Master Admin Portal Planning**
+**063 - Platform Admin Route And Read-Only Skeleton**
 
-Proceed to master admin planning using this module registry direction, without requiring immediate database cleanup.
+Proceed to a lightweight read-only platform admin skeleton using this module registry direction, without requiring immediate database cleanup.
 
 Before building actual master admin UI, a later step can revisit:
 
