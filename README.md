@@ -53,6 +53,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Staff demo review round has been documented for Phase 1 feedback
 - Staff feedback capture and Phase 1 review tracker has been added
 - Performance and hosting architecture review has been added for Vercel/Supabase planning
+- Auth context and navigation query audit has been added for performance optimisation planning
 
 ## Tech Stack
 
@@ -144,6 +145,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Staff demo review round](docs/53-staff-demo-review-round.md)
 - [Staff feedback capture and Phase 1 review tracker](docs/54-staff-feedback-capture-phase-1-review-tracker.md)
 - [Performance and hosting architecture review](docs/55-performance-and-hosting-architecture-review.md)
+- [Auth context and navigation query audit](docs/56-auth-context-navigation-query-audit.md)
 
 ## Database Migrations
 
@@ -236,6 +238,8 @@ The staff demo review round is documented in [Staff demo review round](docs/53-s
 The staff feedback capture and Phase 1 review tracker is documented in [Staff feedback capture and Phase 1 review tracker](docs/54-staff-feedback-capture-phase-1-review-tracker.md).
 
 The performance and hosting architecture review is documented in [Performance and hosting architecture review](docs/55-performance-and-hosting-architecture-review.md).
+
+The auth context and navigation query audit is documented in [Auth context and navigation query audit](docs/56-auth-context-navigation-query-audit.md).
 
 ## Current Scope
 

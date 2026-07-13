@@ -232,6 +232,8 @@ Before any hosting move, inspect and possibly optimise:
 - AppShell server work
 - route guard waterfalls
 
+This audit now exists at [Auth Context and Navigation Query Audit](56-auth-context-navigation-query-audit.md). It documents repeated helper calls, likely query waterfalls and the recommended next implementation step.
+
 This can be followed by:
 
 **057 - Hosting Region and Vercel/Supabase Configuration Check**

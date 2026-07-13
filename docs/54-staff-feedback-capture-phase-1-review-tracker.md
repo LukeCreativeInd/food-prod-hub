@@ -8,6 +8,8 @@ It does not change the app or database. Feedback should be captured here before 
 
 While staff feedback is being collected, platform performance and hosting review is being tracked separately in [Performance and Hosting Architecture Review](55-performance-and-hosting-architecture-review.md).
 
+Performance audit work is also progressing in [Auth Context and Navigation Query Audit](56-auth-context-navigation-query-audit.md), focused on auth/context helper duplication and navigation query flow.
+
 ## Review Scope
 
 Modules being reviewed:
