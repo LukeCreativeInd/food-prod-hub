@@ -123,9 +123,19 @@ It does not receive:
 
 This supports future read-only formula review screens without giving the demo user write access.
 
+## First UI Scaffold
+
+Step 087 adds the first read-only Component Formulas UI scaffold:
+
+- `/components`
+- `/components/[id]`
+- component links from `/internal-items/[id]`
+
+The UI uses `formulas.view`, the authenticated server Supabase client and current organisation context. It does not add create/edit forms, imports, costing rollups, production routes or stock movement logic.
+
 ## Known Limitations
 
-- No formula UI exists yet.
+- No formula create/edit UI exists yet.
 - No staff template import exists yet.
 - No cost rollup calculations exist yet.
 - No production route/method schema exists yet.

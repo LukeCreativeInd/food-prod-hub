@@ -10,6 +10,8 @@ The goal is to define the component and formula model before building component,
 
 Migration 022 now drafts the schema foundation for `formula_versions` and `formula_lines`; see [Component Formula Schema Foundation](86-component-formula-schema-foundation.md). Production methods/routes remain future work.
 
+Step 087 adds the first read-only Component Formula UI scaffold for `/components` and `/components/[id]`; see [First Component Formula UI Scaffold](87-first-component-formula-ui-scaffold.md). This gives staff and demo users visibility of captured component formula data without adding formula write flows, imports or costing rollups.
+
 ## Purpose
 
 The next major Clean Eats data layer is formulas.

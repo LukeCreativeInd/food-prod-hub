@@ -141,7 +141,23 @@ export default async function InternalItemDetailPage({ params }: PageProps) {
   }
 
   const backHref =
-    detail.item.itemType === "packaging" ? "/packaging" : "/ingredients";
+    detail.item.itemType === "component"
+      ? "/components"
+      : detail.item.itemType === "packaging"
+        ? "/packaging"
+        : "/ingredients";
+  const futureUsageTitle =
+    detail.item.itemType === "component"
+      ? "Component formula workspace"
+      : detail.item.itemType === "ingredient"
+        ? "Component formulas using this ingredient"
+        : "Future item usage";
+  const futureUsageDescription =
+    detail.item.itemType === "component"
+      ? "This component can now be reviewed in the read-only formula workspace. The formula page shows active/draft versions and input lines when captured."
+      : detail.item.itemType === "ingredient"
+        ? "Component formulas using this ingredient are coming later. Reverse formula usage is not queried in this first read-only scaffold."
+        : "Component formulas, finished product formulas, production usage, inventory references and traceability links will be added later. This page only inspects reviewed internal item, supplier and price records.";
 
   return (
     <AppShell>
@@ -251,10 +267,17 @@ export default async function InternalItemDetailPage({ params }: PageProps) {
         <SectionCard
           title="Future usage"
           description="These downstream relationships are planned, but no formula or stock logic is created here."
+          action={
+            detail.item.itemType === "component" ? (
+              <PageActionButton href={`/components/${detail.item.id}`} variant="secondary">
+                View formula
+              </PageActionButton>
+            ) : null
+          }
         >
           <EmptyState
-            title="Future item usage"
-            description="Component formulas, finished product formulas, production usage, inventory references and traceability links will be added later. This page only inspects reviewed internal item, supplier and price records."
+            title={futureUsageTitle}
+            description={futureUsageDescription}
           />
         </SectionCard>
       </div>
