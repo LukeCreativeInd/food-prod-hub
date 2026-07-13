@@ -8,6 +8,8 @@ This is not a generic invoice automation engine. It is a narrow, reviewed path t
 
 Step 074 repositions this Cammaroto flow as the sample/test invoice path inside a general Purchase Document Intake workspace. The route and workflow remain the same, but the UI now presents Cammaroto as one controlled sample rather than the identity of the tool.
 
+Generic invoice extraction and commit planning is documented separately in [Generic Invoice Extraction and Commit Planning](75-generic-invoice-extraction-and-commit-planning.md). Cammaroto remains the sample path until generic upload, extraction and commit architecture is reviewed and implemented.
+
 ## Commit Purpose
 
 The commit flow turns reviewed purchase document data into reusable supplier, catalogue, mapping and price records after explicit user action.

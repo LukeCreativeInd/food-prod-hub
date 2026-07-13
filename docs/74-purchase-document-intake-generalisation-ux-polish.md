@@ -110,3 +110,5 @@ The following behaviour remains in place:
 Next recommended task: Generic Invoice Review and Commit Planning.
 
 That planning step should decide how to move from the controlled Cammaroto path to a generic reviewed invoice model without weakening tenant isolation, RLS or review/commit guardrails.
+
+This planning now exists in [Generic Invoice Extraction and Commit Planning](75-generic-invoice-extraction-and-commit-planning.md).
