@@ -99,6 +99,8 @@ V1 should focus on invoices only.
 
 Extraction should be layered and review-first.
 
+Step 090 adds the first parser registry and unknown-invoice diagnostics layer; see [Multi-Supplier Parser Registry and Unknown Invoice Diagnostics](90-multi-supplier-parser-registry-diagnostics.md). The current registry contains Cammaroto Poultry only, but the adapter structure is ready for future supplier-specific parsers.
+
 ### File Parsing
 
 - PDF text extraction where embedded text exists

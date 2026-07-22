@@ -12,6 +12,7 @@ import { EmptyState, StatusBadge } from "@/components/ui";
 import { userHasPermission } from "@/lib/auth";
 import {
   getRepeatMatchNotes,
+  getPurchaseDocumentUnknownParserDiagnostics,
   getReviewedInternalItemName,
   getReviewNotesWithoutStructuredMarkers,
   getPurchaseDocumentReview,
@@ -135,8 +136,8 @@ function messageFor(
     return "No extractable embedded PDF text was found. OCR is not connected yet.";
   }
 
-  if (extract === "unknown_pattern") {
-    return "Extracted text was found, but no known supplier parser recognised this invoice yet.";
+  if (extract === "unknown_parser" || extract === "unknown_pattern") {
+    return "This invoice was uploaded and text was extracted, but no supplier parser recognises this layout yet.";
   }
 
   if (extract === "committed") {
@@ -389,6 +390,12 @@ export default async function PurchaseDocumentReviewPage({
     query.extract,
   );
   const canCommit = await userHasPermission("purchase_documents.commit");
+  const canReview = await userHasPermission("purchase_documents.review");
+  const unknownParserDiagnostics =
+    canReview &&
+    (query.extract === "unknown_parser" || query.extract === "unknown_pattern")
+      ? await getPurchaseDocumentUnknownParserDiagnostics(document.id)
+      : null;
   const isCommitted = document.status === "committed";
   const lineTotal = lines.reduce(
     (sum, line) =>
@@ -454,6 +461,95 @@ export default async function PurchaseDocumentReviewPage({
             <div className="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800">
               {message}
             </div>
+          ) : null}
+
+          {unknownParserDiagnostics ? (
+            <section className="rounded-lg border border-amber-200 bg-amber-50 p-5 shadow-sm">
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                <div>
+                  <div className="flex flex-wrap gap-2">
+                    <StatusBadge tone="warning">Parser needed</StatusBadge>
+                    <StatusBadge tone="info">Source file saved</StatusBadge>
+                    <StatusBadge tone="neutral">No lines created</StatusBadge>
+                  </div>
+                  <h2 className="mt-4 text-lg font-bold text-amber-950">
+                    Unknown invoice layout
+                  </h2>
+                  <p className="mt-2 text-sm leading-6 text-amber-900">
+                    The source file remains saved in private tenant storage, but no
+                    supplier, item, price or stock records were created. Use these
+                    diagnostics to add the next supplier parser.
+                  </p>
+                </div>
+                <div className="rounded-md border border-amber-300 bg-white/70 px-4 py-3 text-sm font-semibold text-amber-950">
+                  {unknownParserDiagnostics.reason}
+                </div>
+              </div>
+
+              <details className="mt-5 rounded-md border border-amber-300 bg-white">
+                <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-amber-950">
+                  Parser diagnostics
+                </summary>
+                <div className="space-y-4 border-t border-amber-100 p-4">
+                  <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                    <FieldPreview
+                      label="Extracted text length"
+                      value={String(unknownParserDiagnostics.extractedTextLength)}
+                    />
+                    <FieldPreview
+                      label="Best candidate"
+                      value={unknownParserDiagnostics.bestCandidateName}
+                    />
+                    <FieldPreview
+                      label="Best candidate score"
+                      value={String(unknownParserDiagnostics.bestCandidateScore)}
+                    />
+                    <FieldPreview
+                      label="Matched anchors"
+                      value={
+                        unknownParserDiagnostics.bestCandidateMatchedAnchors.length > 0
+                          ? unknownParserDiagnostics.bestCandidateMatchedAnchors.join(", ")
+                          : "None"
+                      }
+                    />
+                  </div>
+                  <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                    <p className="text-xs font-semibold uppercase text-slate-500">
+                      Parsers checked
+                    </p>
+                    <div className="mt-3 space-y-2">
+                      {unknownParserDiagnostics.parserCandidatesChecked.map(
+                        (parser) => (
+                          <div
+                            key={parser.parserKey}
+                            className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
+                          >
+                            <span className="font-semibold text-slate-950">
+                              {parser.parserLabel}
+                            </span>{" "}
+                            score {parser.score}. {parser.reason}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                  <div className="rounded-md border border-slate-200 bg-slate-950 p-4">
+                    <p className="text-xs font-semibold uppercase text-slate-300">
+                      Extracted text preview
+                    </p>
+                    <pre className="mt-3 max-h-96 overflow-auto whitespace-pre-wrap text-xs leading-5 text-slate-100">
+                      {unknownParserDiagnostics.safeTextPreview}
+                    </pre>
+                  </div>
+                </div>
+              </details>
+            </section>
+          ) : query.extract === "unknown_parser" || query.extract === "unknown_pattern" ? (
+            <section className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
+              Parser diagnostics require purchase document review permission and
+              an accessible text-based PDF source file. No review lines or committed
+              records were created.
+            </section>
           ) : null}
 
           <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:p-6">

@@ -25,6 +25,8 @@ Supported now:
 - uploaded PDFs with extractable embedded text
 - first known supplier pattern: Cammaroto Poultry / Surefire Solutions Group Unit Trust
 
+Step 090 moves the Cammaroto parser into a registry/adapter model so future supplier parsers can be added one at a time. See [Multi-Supplier Parser Registry and Unknown Invoice Diagnostics](90-multi-supplier-parser-registry-diagnostics.md).
+
 Not supported yet:
 
 - image OCR
@@ -122,6 +124,7 @@ Unsupported/no-text/unknown parser:
 - document returns to `uploaded`
 - no lines are created
 - the review page shows a clear message
+- unknown parser diagnostics show safe text previews and parser scores for authorised review users
 
 Committed documents are not extracted again.
 

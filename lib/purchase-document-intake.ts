@@ -1,8 +1,9 @@
 import { requirePermissionAccess } from "@/lib/auth";
 import {
   extractEmbeddedPdfText,
-  getExtractionTextCandidates,
-  parseKnownPurchaseDocumentText,
+  getUnknownPurchaseDocumentDiagnostics,
+  parsePurchaseDocumentText,
+  type UnknownPurchaseDocumentDiagnostics,
 } from "@/lib/purchase-document-extraction";
 import { createClient } from "@/lib/supabase/server";
 import { createHash, randomUUID } from "crypto";
@@ -140,6 +141,7 @@ export type PurchaseDocumentReview = {
     signedUrl: string | null;
     error: string | null;
   };
+  unknownParserDiagnostics: UnknownPurchaseDocumentDiagnostics | null;
 };
 
 export type CommitPurchaseDocumentResult = {
@@ -171,6 +173,7 @@ export type ExtractPurchaseDocumentResult = {
     | "unsupported"
     | "storage_error"
     | "no_text"
+    | "unknown_parser"
     | "unknown_pattern"
     | "failed";
   message: string;
@@ -1099,7 +1102,70 @@ export async function getPurchaseDocumentReview(
       signedUrl,
       error: signedUrlError,
     },
+    unknownParserDiagnostics: null,
   };
+}
+
+export async function getPurchaseDocumentUnknownParserDiagnostics(
+  documentId: string,
+): Promise<UnknownPurchaseDocumentDiagnostics | null> {
+  const authContext = await requirePurchaseDocumentPermission(
+    "purchase_documents.review",
+  );
+  const supabase = await createClient();
+  const organisationId = authContext.organisation.id;
+
+  const { data: documentData, error: documentError } = await supabase
+    .from("purchase_documents")
+    .select("id, storage_path, mime_type")
+    .eq("organisation_id", organisationId)
+    .eq("id", documentId)
+    .maybeSingle();
+
+  if (documentError) {
+    throw new Error("Could not load purchase document diagnostics.");
+  }
+
+  const document = documentData as
+    | Pick<PurchaseDocumentRow, "id" | "storage_path" | "mime_type">
+    | null;
+
+  if (!document?.storage_path || document.mime_type !== "application/pdf") {
+    return null;
+  }
+
+  const { data: existingLines, error: existingLinesError } = await supabase
+    .from("purchase_document_lines")
+    .select("id")
+    .eq("organisation_id", organisationId)
+    .eq("purchase_document_id", documentId)
+    .limit(1);
+
+  if (existingLinesError) {
+    throw new Error("Could not check diagnostic line state.");
+  }
+
+  if (((existingLines as { id: string }[] | null) ?? []).length > 0) {
+    return null;
+  }
+
+  const { data: fileData, error: downloadError } = await supabase.storage
+    .from(PURCHASE_DOCUMENT_BUCKET)
+    .download(document.storage_path);
+
+  if (downloadError || !fileData) {
+    return null;
+  }
+
+  const rawText = extractEmbeddedPdfText(
+    Buffer.from(await fileData.arrayBuffer()),
+  );
+
+  if (!rawText) {
+    return null;
+  }
+
+  return getUnknownPurchaseDocumentDiagnostics(rawText);
 }
 
 export async function uploadPurchaseDocument(file: File) {
@@ -1342,28 +1408,16 @@ export async function extractPurchaseDocument(
     };
   }
 
-  const textCandidates = getExtractionTextCandidates(rawText);
-  const selectedTextCandidate = textCandidates[0];
-  const shiftedTextCandidate = textCandidates.find(
-    (candidate) => candidate.name === "shifted_font_plus_29",
-  );
-  const extraction = parseKnownPurchaseDocumentText(rawText);
+  const parseResult = parsePurchaseDocumentText(rawText);
 
-  if (!extraction) {
+  if (parseResult.status === "unknown_parser") {
     if (isDevelopment()) {
       console.error("[purchase-document-extraction]", {
-        stage: "unknown_pattern",
+        stage: "unknown_parser",
         organisationId,
         documentId,
         mimeType: document.mime_type,
-        extractedTextLength: rawText.length,
-        selectedCandidateName: selectedTextCandidate?.name ?? "none",
-        selectedCandidateScore: selectedTextCandidate?.score ?? 0,
-        selectedCandidateAnchors: selectedTextCandidate?.matchedAnchors ?? [],
-        extractedTextPreview: rawText
-          .replace(/\u0000/g, "")
-          .slice(0, 5000),
-        decodedCandidatePreview: shiftedTextCandidate?.text.slice(0, 5000),
+        diagnostics: parseResult.diagnostics,
       });
     }
 
@@ -1378,10 +1432,28 @@ export async function extractPurchaseDocument(
 
     return {
       documentId,
-      status: "unknown_pattern",
+      status: "unknown_parser",
       message:
         "Extracted text was found, but no known supplier parser recognised this invoice yet.",
     };
+  }
+
+  const extraction = parseResult.document;
+
+  if (isDevelopment()) {
+    console.error("[purchase-document-extraction]", {
+      stage: "parser_matched",
+      organisationId,
+      documentId,
+      parserKey: parseResult.parserKey,
+      parserLabel: parseResult.parserLabel,
+      selectedCandidateName: parseResult.selectedCandidate.name,
+      selectedCandidateScore: parseResult.selectedCandidate.score,
+      selectedCandidateAnchors: parseResult.selectedCandidate.matchedAnchors,
+      parserDiagnostics: parseResult.parserDiagnostics,
+      rawTextPreview: rawText.replace(/\u0000/g, "").slice(0, 3000),
+      selectedCandidatePreview: parseResult.selectedCandidate.text.slice(0, 3000),
+    });
   }
 
   const { error: updateDocumentError } = await supabase

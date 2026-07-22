@@ -50,6 +50,60 @@ export type ExtractionTextCandidate = {
   matchedAnchors: string[];
 };
 
+export type ParserDetectionResult = {
+  matched: boolean;
+  score: number;
+  matchedAnchors: string[];
+  reason: string;
+};
+
+export type PurchaseDocumentParserContext = {
+  rawText: string;
+  candidates: ExtractionTextCandidate[];
+  selectedCandidate: ExtractionTextCandidate;
+};
+
+export type PurchaseDocumentParser = {
+  key: string;
+  label: string;
+  supplierHint?: string;
+  detect: (context: PurchaseDocumentParserContext) => ParserDetectionResult;
+  parse: (context: PurchaseDocumentParserContext) => ExtractedPurchaseDocument | null;
+};
+
+export type ParserDiagnosticSummary = {
+  parserKey: string;
+  parserLabel: string;
+  matched: boolean;
+  score: number;
+  matchedAnchors: string[];
+  reason: string;
+};
+
+export type UnknownPurchaseDocumentDiagnostics = {
+  reason: string;
+  extractedTextLength: number;
+  bestCandidateName: ExtractionTextCandidate["name"] | "none";
+  bestCandidateScore: number;
+  bestCandidateMatchedAnchors: string[];
+  parserCandidatesChecked: ParserDiagnosticSummary[];
+  safeTextPreview: string;
+};
+
+export type PurchaseDocumentParseResult =
+  | {
+      status: "parsed";
+      parserKey: string;
+      parserLabel: string;
+      selectedCandidate: ExtractionTextCandidate;
+      parserDiagnostics: ParserDiagnosticSummary[];
+      document: ExtractedPurchaseDocument;
+    }
+  | {
+      status: "unknown_parser";
+      diagnostics: UnknownPurchaseDocumentDiagnostics;
+    };
+
 const cammarotoAnchors = [
   { label: "Cammaroto", compact: "CAMMAROTO" },
   { label: "Cammaroto Poultry", compact: "CAMMAROTOPOULTRY" },
@@ -219,6 +273,10 @@ function scoreCammarotoCandidate(rawText: string) {
   };
 }
 
+function safeTextPreview(rawText: string, length = 5000) {
+  return rawText.replace(/\u0000/g, "").slice(0, length);
+}
+
 export function getExtractionTextCandidates(
   rawText: string,
 ): ExtractionTextCandidate[] {
@@ -247,11 +305,13 @@ export function selectBestExtractionTextCandidate(rawText: string) {
   return getExtractionTextCandidates(rawText)[0];
 }
 
-export function detectKnownSupplierPattern(rawText: string) {
-  const selectedCandidate = selectBestExtractionTextCandidate(rawText);
-  const candidateText = selectedCandidate?.text ?? rawText;
+function detectCammarotoParser(
+  context: PurchaseDocumentParserContext,
+): ParserDetectionResult {
+  const selectedCandidate = context.selectedCandidate;
+  const candidateText = selectedCandidate?.text ?? context.rawText;
   const candidateScore = selectedCandidate?.score ?? 0;
-  const normalisedText = normaliseInvoiceText(rawText).toUpperCase();
+  const normalisedText = normaliseInvoiceText(context.rawText).toUpperCase();
   const compactText = compactInvoiceText(candidateText);
   const hasSupplierAnchor =
     compactText.includes("CAMMAROTO") ||
@@ -262,8 +322,7 @@ export function detectKnownSupplierPattern(rawText: string) {
     compactText.includes("THIGHFILLET") ||
     compactText.includes("CTNS") ||
     compactText.includes("CARTONS");
-
-  if (
+  const matched =
     normaliseInvoiceText(candidateText)
       .toUpperCase()
       .includes("CAMMAROTO POULTRY") ||
@@ -273,7 +332,29 @@ export function detectKnownSupplierPattern(rawText: string) {
     normalisedText.includes("CAMMAROTO POULTRY") ||
     (hasSupplierAnchor && hasInvoiceAnchor) ||
     (hasInvoiceAnchor && hasLineAnchor) ||
-    candidateScore >= 3
+    candidateScore >= 3;
+
+  return {
+    matched,
+    score: candidateScore,
+    matchedAnchors: selectedCandidate?.matchedAnchors ?? [],
+    reason: matched
+      ? "Cammaroto supplier/invoice anchors matched."
+      : "Cammaroto anchors were not strong enough for this parser.",
+  };
+}
+
+export function detectKnownSupplierPattern(rawText: string) {
+  const candidates = getExtractionTextCandidates(rawText);
+  const selectedCandidate = candidates[0];
+
+  if (
+    selectedCandidate &&
+    detectCammarotoParser({
+      rawText,
+      candidates,
+      selectedCandidate,
+    }).matched
   ) {
     return "cammaroto" as const;
   }
@@ -281,18 +362,7 @@ export function detectKnownSupplierPattern(rawText: string) {
   return "unknown" as const;
 }
 
-export function parseCammarotoInvoiceText(
-  rawText: string,
-): ExtractedPurchaseDocument | null {
-  const selectedCandidate = selectBestExtractionTextCandidate(rawText);
-
-  if (
-    !selectedCandidate ||
-    detectKnownSupplierPattern(selectedCandidate.text) !== "cammaroto"
-  ) {
-    return null;
-  }
-
+function parseCammarotoParser(): ExtractedPurchaseDocument {
   return {
     supplierLegalName: "Surefire Solutions Group Unit Trust",
     supplierTradingName: "Cammaroto Poultry",
@@ -358,6 +428,132 @@ export function parseCammarotoInvoiceText(
   };
 }
 
+export function parseCammarotoInvoiceText(
+  rawText: string,
+): ExtractedPurchaseDocument | null {
+  const candidates = getExtractionTextCandidates(rawText);
+  const selectedCandidate = candidates[0];
+
+  if (
+    !selectedCandidate ||
+    !detectCammarotoParser({
+      rawText,
+      candidates,
+      selectedCandidate,
+    }).matched
+  ) {
+    return null;
+  }
+
+  return parseCammarotoParser();
+}
+
+export const PURCHASE_DOCUMENT_PARSERS: PurchaseDocumentParser[] = [
+  {
+    key: "cammaroto_poultry",
+    label: "Cammaroto Poultry",
+    supplierHint: "Cammaroto Poultry / Surefire Solutions Group Unit Trust",
+    detect: detectCammarotoParser,
+    parse: () => parseCammarotoParser(),
+  },
+];
+
+export function detectPurchaseDocumentParser(rawText: string) {
+  const candidates = getExtractionTextCandidates(rawText);
+  const selectedCandidate = candidates[0];
+
+  if (!selectedCandidate) {
+    return {
+      candidates,
+      selectedCandidate: null,
+      parserDiagnostics: [],
+      detectedParser: null,
+    };
+  }
+
+  const context: PurchaseDocumentParserContext = {
+    rawText,
+    candidates,
+    selectedCandidate,
+  };
+  const parserDiagnostics = PURCHASE_DOCUMENT_PARSERS.map((parser) => ({
+    parser,
+    detection: parser.detect(context),
+  }));
+  const detectedParser =
+    parserDiagnostics
+      .filter((diagnostic) => diagnostic.detection.matched)
+      .sort((left, right) => right.detection.score - left.detection.score)[0]
+      ?.parser ?? null;
+
+  return {
+    candidates,
+    selectedCandidate,
+    parserDiagnostics: parserDiagnostics.map(({ parser, detection }) => ({
+      parserKey: parser.key,
+      parserLabel: parser.label,
+      matched: detection.matched,
+      score: detection.score,
+      matchedAnchors: detection.matchedAnchors,
+      reason: detection.reason,
+    })),
+    detectedParser,
+  };
+}
+
+export function getUnknownPurchaseDocumentDiagnostics(
+  rawText: string,
+): UnknownPurchaseDocumentDiagnostics {
+  const detection = detectPurchaseDocumentParser(rawText);
+  const selectedCandidate = detection.selectedCandidate;
+
+  return {
+    reason: "No known supplier parser recognised this invoice layout.",
+    extractedTextLength: rawText.length,
+    bestCandidateName: selectedCandidate?.name ?? "none",
+    bestCandidateScore: selectedCandidate?.score ?? 0,
+    bestCandidateMatchedAnchors: selectedCandidate?.matchedAnchors ?? [],
+    parserCandidatesChecked: detection.parserDiagnostics,
+    safeTextPreview: safeTextPreview(selectedCandidate?.text ?? rawText),
+  };
+}
+
+export function parsePurchaseDocumentText(rawText: string): PurchaseDocumentParseResult {
+  const detection = detectPurchaseDocumentParser(rawText);
+
+  if (!detection.selectedCandidate || !detection.detectedParser) {
+    return {
+      status: "unknown_parser",
+      diagnostics: getUnknownPurchaseDocumentDiagnostics(rawText),
+    };
+  }
+
+  const context: PurchaseDocumentParserContext = {
+    rawText,
+    candidates: detection.candidates,
+    selectedCandidate: detection.selectedCandidate,
+  };
+  const document = detection.detectedParser.parse(context);
+
+  if (!document) {
+    return {
+      status: "unknown_parser",
+      diagnostics: getUnknownPurchaseDocumentDiagnostics(rawText),
+    };
+  }
+
+  return {
+    status: "parsed",
+    parserKey: detection.detectedParser.key,
+    parserLabel: detection.detectedParser.label,
+    selectedCandidate: detection.selectedCandidate,
+    parserDiagnostics: detection.parserDiagnostics,
+    document,
+  };
+}
+
 export function parseKnownPurchaseDocumentText(rawText: string) {
-  return parseCammarotoInvoiceText(rawText);
+  const result = parsePurchaseDocumentText(rawText);
+
+  return result.status === "parsed" ? result.document : null;
 }
