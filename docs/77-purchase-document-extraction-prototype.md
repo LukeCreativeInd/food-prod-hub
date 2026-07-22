@@ -24,6 +24,7 @@ Supported now:
 
 - uploaded PDFs with extractable embedded text
 - first known supplier pattern: Cammaroto Poultry / Surefire Solutions Group Unit Trust
+- second known supplier pattern: Melbourne Produce Merchants / Fresho invoice `F56088214`
 
 Step 090 moves the Cammaroto parser into a registry/adapter model so future supplier parsers can be added one at a time. See [Multi-Supplier Parser Registry and Unknown Invoice Diagnostics](90-multi-supplier-parser-registry-diagnostics.md).
 
@@ -168,7 +169,9 @@ After extraction, the existing Review Import form displays editable supplier, in
 - Text extraction is intentionally minimal.
 - Some PDFs may contain text in encodings this prototype cannot decode.
 - Scanned PDFs and image uploads require future OCR/provider work.
-- Only the Cammaroto known supplier pattern is implemented, with a temporary supplier-specific fallback for the first uploaded sample invoice.
+- Only known supplier-specific parser patterns are implemented; this is not a generic invoice parser.
+- Cammaroto remains a supplier-specific parser with a temporary fallback for the first uploaded sample invoice.
+- Melbourne Produce Merchants is implemented as a second supplier-specific parser for a known Fresho invoice layout, with a temporary glyph-encoded fallback.
 - The shifted-font decoder exists for the known uploaded Cammaroto PDF pattern and should not be treated as a generic PDF text engine.
 - The generic commit engine remains future work.
 

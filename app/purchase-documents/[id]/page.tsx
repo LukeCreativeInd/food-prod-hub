@@ -417,7 +417,12 @@ export default async function PurchaseDocumentReviewPage({
   const hasLines = lines.length > 0;
   const canExtract =
     Boolean(document.storage_path) && !hasLines && !isCommitted;
+  const usesCammarotoCommitFlow =
+    document.supplier_trading_name_source === "Cammaroto Poultry" ||
+    document.supplier_legal_name_source === "Surefire Solutions Group Unit Trust" ||
+    document.invoice_number === "SI-00025954";
   const commitReady =
+    usesCammarotoCommitFlow &&
     !isCommitted &&
     !["duplicate", "rejected", "failed"].includes(document.status) &&
     invoiceReady &&
@@ -589,7 +594,9 @@ export default async function PurchaseDocumentReviewPage({
               <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
                 {isCommitted
                   ? "This document is committed. Re-running commit is disabled from the UI and the server action is idempotent."
-                  : "Commit will create/update supplier, supplier item, internal item, mapping, price observation, approved price and informational rule records for this tenant only. No stock movements or supplier payment/bank detail updates are created."}
+                  : usesCammarotoCommitFlow
+                    ? "Commit will create/update supplier, supplier item, internal item, mapping, price observation, approved price and informational rule records for this tenant only. No stock movements or supplier payment/bank detail updates are created."
+                    : "Extraction for this supplier is review-first only. The generic multi-line commit flow is not connected yet, so no supplier, item, price or stock records can be committed from this page."}
               </div>
             </div>
           </section>
@@ -1001,6 +1008,13 @@ export default async function PurchaseDocumentReviewPage({
                   stock records can be committed until reviewed invoice lines
                   exist.
                 </div>
+              ) : !usesCammarotoCommitFlow ? (
+                <div className="mt-5 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
+                  Review lines have been extracted for this supplier, but the
+                  generic commit flow is not connected yet. Save review progress
+                  only; no supplier, item, mapping, price or stock records are
+                  created by extraction.
+                </div>
               ) : (
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
                   {[
@@ -1037,7 +1051,7 @@ export default async function PurchaseDocumentReviewPage({
                   ["Line classifications selected", lineClassificationsReady],
                   ["Totals reconcile", totalsReconcile],
                   ["Duplicate check handled in sample action", true],
-                  ["Commit flow implemented", true],
+                  ["Commit flow implemented", usesCammarotoCommitFlow],
                   ["No stock movements created by commit", true],
                 ].map(([label, passed]) => (
                   <div
@@ -1069,7 +1083,9 @@ export default async function PurchaseDocumentReviewPage({
                 >
                   {isCommitted
                     ? "Already committed"
-                    : canCommit
+                    : !usesCammarotoCommitFlow
+                      ? "Generic commit not connected"
+                      : canCommit
                       ? "Commit reviewed records"
                       : "Commit permission required"}
                 </ActionSubmitButton>

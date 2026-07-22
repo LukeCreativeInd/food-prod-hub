@@ -661,6 +661,14 @@ function validateCammarotoCommit(
   };
 }
 
+function isCammarotoPurchaseDocument(document: PurchaseDocumentRow) {
+  return (
+    document.supplier_trading_name_source === "Cammaroto Poultry" ||
+    document.supplier_legal_name_source === "Surefire Solutions Group Unit Trust" ||
+    document.invoice_number === "SI-00025954"
+  );
+}
+
 async function getSupplierDisplayNames(
   organisationId: string,
   supplierIds: string[],
@@ -1117,7 +1125,7 @@ export async function getPurchaseDocumentUnknownParserDiagnostics(
 
   const { data: documentData, error: documentError } = await supabase
     .from("purchase_documents")
-    .select("id, storage_path, mime_type")
+    .select("id, storage_path, mime_type, original_filename")
     .eq("organisation_id", organisationId)
     .eq("id", documentId)
     .maybeSingle();
@@ -1127,7 +1135,10 @@ export async function getPurchaseDocumentUnknownParserDiagnostics(
   }
 
   const document = documentData as
-    | Pick<PurchaseDocumentRow, "id" | "storage_path" | "mime_type">
+    | Pick<
+        PurchaseDocumentRow,
+        "id" | "storage_path" | "mime_type" | "original_filename"
+      >
     | null;
 
   if (!document?.storage_path || document.mime_type !== "application/pdf") {
@@ -1165,7 +1176,9 @@ export async function getPurchaseDocumentUnknownParserDiagnostics(
     return null;
   }
 
-  return getUnknownPurchaseDocumentDiagnostics(rawText);
+  return getUnknownPurchaseDocumentDiagnostics(rawText, {
+    sourceFilename: document.original_filename,
+  });
 }
 
 export async function uploadPurchaseDocument(file: File) {
@@ -1408,7 +1421,9 @@ export async function extractPurchaseDocument(
     };
   }
 
-  const parseResult = parsePurchaseDocumentText(rawText);
+  const parseResult = parsePurchaseDocumentText(rawText, {
+    sourceFilename: document.original_filename,
+  });
 
   if (parseResult.status === "unknown_parser") {
     if (isDevelopment()) {
@@ -2457,6 +2472,17 @@ export async function commitCammarotoPurchaseDocumentReview(
   }
 
   const { document, lines } = review;
+
+  if (!isCammarotoPurchaseDocument(document)) {
+    return {
+      documentId,
+      status: "validation_failed",
+      message: "This document can be reviewed, but the generic commit flow is not connected yet.",
+      errors: [
+        "Only the controlled Cammaroto commit flow is connected. Review-first extraction for this supplier does not create committed records yet.",
+      ],
+    };
+  }
 
   if (document.status === "committed") {
     const committedStockLine = lines.find(

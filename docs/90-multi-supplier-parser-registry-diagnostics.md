@@ -38,8 +38,11 @@ Parsing remains review-first. A parser can create draft review metadata and `pur
 Current parser registry:
 
 - `cammaroto_poultry` - Cammaroto Poultry
+- `melbourne_produce_merchants` - Melbourne Produce Merchants
 
 The Cammaroto parser still supports the uploaded invoice with shifted-font embedded PDF text. It remains supplier-specific and intentionally narrow.
+
+Step 091 adds the Melbourne Produce Merchants parser for the known Fresho invoice `F56088214`; see [Melbourne Produce Merchants Parser](91-melbourne-produce-parser.md). It is also supplier-specific and review-first.
 
 ## Candidate Text Flow
 
