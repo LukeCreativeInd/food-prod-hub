@@ -1,247 +1,386 @@
+import Link from "next/link";
+
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
   AlertCard,
+  EmptyState,
   ModuleCard,
   PageActionButton,
   SectionCard,
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { requirePermissionAccess } from "@/lib/auth";
+import { getCostingsDashboardData } from "@/lib/costings-dashboard-data";
 
-const summaryCards = [
-  {
-    label: "Ingredients with cost",
-    value: "37",
-    helperText: "Sample ingredient cost readiness count.",
-    badge: "Sample",
-    tone: "info" as const,
-    icon: "IN",
-  },
-  {
-    label: "Packaging with cost",
-    value: "7",
-    helperText: "Placeholder packaging cost coverage.",
-    badge: "Linked",
-    tone: "success" as const,
-    icon: "PK",
-  },
-  {
-    label: "Components costed",
-    value: "8",
-    helperText: "Static component costing readiness example.",
-    badge: "Review",
-    tone: "warning" as const,
-    icon: "CP",
-  },
-  {
-    label: "Meals needing review",
-    value: "6",
-    helperText: "Sample meals with missing inputs or margin prompts.",
-    badge: "Action",
-    tone: "warning" as const,
-    icon: "ML",
-  },
-  {
-    label: "Margin alerts",
-    value: "4",
-    helperText: "Static examples only; no live margin logic yet.",
-    badge: "Demo",
-    tone: "neutral" as const,
-    icon: "%",
-  },
-];
-
-const readinessItems = [
-  {
-    title: "Ingredients ready",
-    description: "Most sample ingredient costs are linked for review.",
-    meta: "37 / 42",
-    tone: "success" as const,
-  },
-  {
-    title: "Packaging ready",
-    description: "Packaging cost status is visible but not calculated live.",
-    meta: "7 / 9",
-    tone: "success" as const,
-  },
-  {
-    title: "Components waiting",
-    description: "Yield and batch-size data needs staff confirmation.",
-    meta: "6 prompts",
-    tone: "warning" as const,
-  },
-  {
-    title: "Finished product costing pending",
-    description: "Meal costing depends on upstream ingredient and packaging data.",
-    meta: "Future",
-    tone: "neutral" as const,
-  },
-];
-
-const costingPrompts = [
-  {
-    title: "Missing ingredient costs",
-    description: "Placeholder prompt for ingredients that need current supplier cost.",
-    meta: "Review",
-    tone: "warning" as const,
-  },
-  {
-    title: "Packaging cost review",
-    description: "Sample alert for sleeves, trays and labels needing confirmation.",
-    meta: "Sample",
-    tone: "info" as const,
-  },
-  {
-    title: "Component yield missing",
-    description: "Batch yield needs to be confirmed before component costs are useful.",
-    meta: "Missing",
-    tone: "warning" as const,
-  },
-  {
-    title: "Meal margin below target",
-    description: "Static demo alert only; no real margin calculation has been added.",
-    meta: "Demo",
-    tone: "danger" as const,
-  },
-];
-
-const quickActions = [
-  {
-    label: "Review missing costs",
-    href: "/ingredient-costs",
-  },
-  {
-    label: "Open meal margins",
-    href: "/meal-margins",
-  },
-  {
-    label: "Review price history",
-    href: "/price-history",
-  },
-  {
-    label: "Export costing review",
-  },
-];
-
-const costingAreas = [
+const quickLinks = [
   {
     title: "Ingredient Costs",
-    description: "Review supplier, pack size and current cost placeholders.",
+    description: "Review current approved supplier prices for ingredients.",
     href: "/ingredient-costs",
     eyebrow: "Costings",
   },
   {
     title: "Packaging Costs",
-    description: "Review tray, sleeve, label and dispatch packaging costs.",
+    description: "Review approved supplier prices for packaging items.",
     href: "/packaging-costs",
     eyebrow: "Costings",
   },
   {
     title: "Component Costs",
-    description: "Review batch recipe, yield and prepared component costs.",
+    description: "Review component formula readiness before rollups exist.",
     href: "/component-costs",
     eyebrow: "Costings",
   },
   {
     title: "Meal Margins",
-    description: "Review sample finished product cost and margin layouts.",
+    description: "Preview margin workspace structure without live calculations.",
     href: "/meal-margins",
-    eyebrow: "Costings",
+    eyebrow: "Future",
   },
   {
     title: "Price History",
-    description: "Review sample price movement and impact tracking.",
+    description: "Review invoice observations and approved current prices.",
     href: "/price-history",
-    eyebrow: "Costings",
+    eyebrow: "Traceability",
   },
 ];
 
+function coverageTone(value: number, total: number) {
+  if (total === 0) {
+    return "neutral" as const;
+  }
+
+  if (value === 0) {
+    return "success" as const;
+  }
+
+  return "warning" as const;
+}
+
+function RecentPriceTable({
+  title,
+  rows,
+  type,
+}: {
+  title: string;
+  rows: {
+    id: string;
+    itemName: string;
+    supplierName: string;
+    price: string;
+    unit: string;
+    observedDate?: string;
+    effectiveDate?: string;
+    decision?: string;
+    status?: string;
+  }[];
+  type: "observation" | "approved";
+}) {
+  if (rows.length === 0) {
+    return (
+      <EmptyState
+        title={`No ${title.toLowerCase()} yet`}
+        description="Use Tools -> Supplier Invoice Intake to review supplier invoices and approve current prices."
+      />
+    );
+  }
+
+  return (
+    <div className="overflow-x-auto rounded-md border border-slate-200">
+      <table className="min-w-full divide-y divide-slate-200 text-sm">
+        <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
+          <tr>
+            {["Item", "Supplier", "Price", "Unit", "Date", "Status"].map(
+              (column) => (
+                <th key={column} className="px-4 py-3">
+                  {column}
+                </th>
+              ),
+            )}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-slate-100 bg-white">
+          {rows.map((row) => (
+            <tr key={row.id}>
+              <td className="px-4 py-3 font-semibold text-slate-900">
+                {row.itemName}
+              </td>
+              <td className="px-4 py-3 text-slate-600">{row.supplierName}</td>
+              <td className="px-4 py-3 font-semibold text-slate-900">
+                {row.price}
+              </td>
+              <td className="px-4 py-3 text-slate-600">{row.unit}</td>
+              <td className="px-4 py-3 text-slate-600">
+                {type === "observation" ? row.observedDate : row.effectiveDate}
+              </td>
+              <td className="px-4 py-3">
+                <StatusBadge
+                  tone={
+                    type === "approved" || row.decision === "Update Current Price"
+                      ? "success"
+                      : "neutral"
+                  }
+                >
+                  {type === "observation"
+                    ? row.decision ?? "Not reviewed"
+                    : row.status ?? "Current"}
+                </StatusBadge>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default async function CostingOverviewPage() {
-  await requirePermissionAccess("costings.view");
+  const data = await getCostingsDashboardData();
 
   return (
     <AppShell>
       <PageHeader
         title="Costings"
-        description="Costing workspace for ingredients, packaging, components, recipes and finished products."
+        description="Review supplier price coverage, approved costs and costing readiness for Clean Eats products."
       />
       <div className="space-y-6 px-5 py-6 md:px-8">
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-          {summaryCards.map((card) => (
-            <StatCard key={card.label} {...card} />
-          ))}
+        <div className="flex flex-wrap items-center gap-3">
+          <StatusBadge tone={data.canManagePrices ? "success" : "info"}>
+            {data.canManagePrices ? "Price management available" : "Read only"}
+          </StatusBadge>
+          <StatusBadge tone="neutral">No costing engine yet</StatusBadge>
+        </div>
+
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <StatCard
+            label="Approved prices"
+            value={String(data.counts.approvedSupplierPriceCount)}
+            helperText="Current approved supplier prices available to cost review."
+            badge="Current"
+            tone="success"
+            icon="$"
+          />
+          <StatCard
+            label="Price observations"
+            value={String(data.counts.priceObservationCount)}
+            helperText="Recent invoice-sourced price observations retained for traceability."
+            badge="Invoice"
+            tone="info"
+            icon="OB"
+          />
+          <StatCard
+            label="Items with prices"
+            value={String(data.counts.internalItemsWithApprovedPriceCount)}
+            helperText={`${data.counts.priceableInternalItemCount} priceable internal item(s) checked.`}
+            badge="Coverage"
+            tone="success"
+            icon="IN"
+          />
+          <StatCard
+            label="Missing prices"
+            value={String(data.counts.internalItemsWithoutApprovedPriceCount)}
+            helperText="Ingredients, packaging and other priceable items without a current approved price."
+            badge="Review"
+            tone={
+              data.counts.internalItemsWithoutApprovedPriceCount > 0
+                ? "warning"
+                : "success"
+            }
+            icon="!"
+          />
         </section>
 
         <section className="grid gap-6 xl:grid-cols-3">
           <SectionCard
-            title="Cost readiness"
-            description="Static readiness indicators for staff review."
-            action={<StatusBadge tone="info">Sample layout only</StatusBadge>}
+            title="Price coverage"
+            description="Current approved supplier price coverage by internal item type."
+            action={<StatusBadge tone="info">Real tenant data</StatusBadge>}
+          >
+            {data.coverageByItemType.length > 0 ? (
+              <div className="space-y-3">
+                {data.coverageByItemType.map((item) => (
+                  <AlertCard
+                    key={item.key}
+                    title={item.label}
+                    description={`${item.withApprovedPrice} of ${item.total} item(s) have a current approved supplier price.`}
+                    meta={`${item.missingApprovedPrice} missing`}
+                    tone={coverageTone(item.missingApprovedPrice, item.total)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                title="No priceable internal items yet"
+                description="Ingredients, packaging, consumables or equipment will appear here once they exist for the tenant."
+              />
+            )}
+          </SectionCard>
+
+          <SectionCard
+            title="Attention needed"
+            description="Price readiness gaps that should be reviewed before formulas and meal margins are trusted."
+            action={<StatusBadge tone="warning">Readiness only</StatusBadge>}
           >
             <div className="space-y-3">
-              {readinessItems.map((item) => (
-                <AlertCard key={item.title} {...item} />
-              ))}
+              <AlertCard
+                title="Internal items missing approved price"
+                description="Priceable internal catalogue items without a current approved supplier price."
+                meta={String(data.counts.internalItemsWithoutApprovedPriceCount)}
+                tone={
+                  data.counts.internalItemsWithoutApprovedPriceCount > 0
+                    ? "warning"
+                    : "success"
+                }
+              />
+              <AlertCard
+                title="Supplier items without current price"
+                description="Supplier catalogue items that do not currently have an approved current price."
+                meta={String(data.counts.supplierItemsWithoutApprovedPriceCount)}
+                tone={
+                  data.counts.supplierItemsWithoutApprovedPriceCount > 0
+                    ? "warning"
+                    : "success"
+                }
+              />
+              <AlertCard
+                title="Formula inputs missing approved prices"
+                description="Distinct formula input items without current approved supplier price coverage."
+                meta={String(data.counts.formulaInputsWithoutApprovedPriceCount)}
+                tone={
+                  data.counts.formulaInputsWithoutApprovedPriceCount > 0
+                    ? "warning"
+                    : "neutral"
+                }
+              />
             </div>
           </SectionCard>
 
           <SectionCard
-            title="Alerts and prompts"
-            description="Example missing-data and margin prompts."
-            action={<StatusBadge tone="warning">No live calculations</StatusBadge>}
+            title="Formula readiness"
+            description="Formula data is visible for readiness only. No recipe, component or meal cost rollups are calculated here."
+            action={<StatusBadge tone="neutral">Future engine</StatusBadge>}
           >
             <div className="space-y-3">
-              {costingPrompts.map((item) => (
-                <AlertCard key={item.title} {...item} />
-              ))}
-            </div>
-          </SectionCard>
-
-          <SectionCard
-            title="Quick actions"
-            description="Visual placeholders only. These actions do not save or calculate data yet."
-          >
-            <div className="grid gap-3">
-              {quickActions.map((action) => (
-                <PageActionButton
-                  key={action.label}
-                  href={action.href}
-                  variant="secondary"
-                >
-                  {action.label}
-                </PageActionButton>
-              ))}
+              <AlertCard
+                title="Formula versions"
+                description="Component and finished product formula records available for future rollups."
+                meta={String(data.counts.formulaVersionCount)}
+                tone={data.counts.formulaVersionCount > 0 ? "info" : "neutral"}
+              />
+              <AlertCard
+                title="Formulas with no lines"
+                description="Formula versions that cannot support costing until input lines are added."
+                meta={String(data.counts.formulasWithNoLinesCount)}
+                tone={
+                  data.counts.formulasWithNoLinesCount > 0
+                    ? "warning"
+                    : "success"
+                }
+              />
+              <div className="rounded-md border border-slate-200 bg-slate-50/70 px-4 py-4">
+                <p className="text-sm font-semibold text-slate-900">
+                  Formula costing is not active yet
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Formula costing will become available once component and
+                  finished product formulas are entered and a reviewed rollup
+                  engine is built.
+                </p>
+              </div>
             </div>
           </SectionCard>
         </section>
 
+        <section className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+          <SectionCard
+            title="Items missing approved price"
+            description="A short sample of priceable internal items that need current supplier price coverage."
+            action={
+              <PageActionButton href="/ingredient-costs" variant="secondary">
+                Review ingredient costs
+              </PageActionButton>
+            }
+          >
+            {data.missingApprovedPriceItems.length > 0 ? (
+              <div className="overflow-x-auto rounded-md border border-slate-200">
+                <table className="min-w-full divide-y divide-slate-200 text-sm">
+                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
+                    <tr>
+                      {["Item", "Type", "Base unit", "Status"].map((column) => (
+                        <th key={column} className="px-4 py-3">
+                          {column}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 bg-white">
+                    {data.missingApprovedPriceItems.map((item) => (
+                      <tr key={item.id}>
+                        <td className="px-4 py-3">
+                          <Link
+                            href={`/internal-items/${item.id}`}
+                            className="font-semibold text-clean-green-700 hover:text-clean-green-900"
+                          >
+                            {item.displayName}
+                          </Link>
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {item.itemType}
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {item.baseUnit}
+                        </td>
+                        <td className="px-4 py-3">
+                          <StatusBadge tone="warning">{item.status}</StatusBadge>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <EmptyState
+                title="No missing approved prices"
+                description="Every current priceable internal item has an approved supplier price."
+              />
+            )}
+          </SectionCard>
+
+          <SectionCard
+            title="Recent approved prices"
+            description="Current approved supplier prices created through reviewed supplier invoice workflows."
+            action={<StatusBadge tone="success">Current prices</StatusBadge>}
+          >
+            <RecentPriceTable
+              title="Approved prices"
+              rows={data.recentApprovedPrices}
+              type="approved"
+            />
+          </SectionCard>
+        </section>
+
         <SectionCard
-          title="Costing areas"
-          description="Demo workspaces for reviewing how costs flow from inputs to finished meals."
-          action={<StatusBadge tone="info">Demo navigation</StatusBadge>}
+          title="Recent invoice price observations"
+          description="Invoice-sourced observations are retained for traceability and review. They do not automatically update costs unless committed as current prices."
+          action={<PageActionButton href="/price-history" variant="secondary">Open price history</PageActionButton>}
         >
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {costingAreas.map((area) => (
-              <ModuleCard key={area.href} {...area} />
-            ))}
-          </div>
+          <RecentPriceTable
+            title="Price observations"
+            rows={data.recentPriceObservations}
+            type="observation"
+          />
         </SectionCard>
 
         <SectionCard
-          title="Sample data notice"
-          description="This module is not connected to live costing data."
+          title="Costings workspaces"
+          description="Open existing read-only Costings views. These routes remain separate from any future costing engine."
+          action={<StatusBadge tone="info">Quick links</StatusBadge>}
         >
-          <div className="rounded-md border border-green-200 bg-green-50/60 px-4 py-4">
-            <p className="text-sm font-semibold text-clean-green-900">
-              Placeholder layout only
-            </p>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              These cards and prompts are static examples for staff review. No
-              real Clean Eats cost data, margin calculations, price history or
-              Supabase costing queries have been added.
-            </p>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {quickLinks.map((area) => (
+              <ModuleCard key={area.href} {...area} />
+            ))}
           </div>
         </SectionCard>
       </div>

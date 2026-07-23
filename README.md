@@ -90,6 +90,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Suppliers now support basic manual create/edit for authorised users while demo users remain read-only
 - Ingredients and Packaging now support basic manual internal item create/edit for authorised users while demo users remain read-only
 - Inventory Locations foundation has been drafted with tenant-scoped location records and real Stock Locations list/create/detail UI
+- Costings dashboard now shows real read-only price coverage, recent price records and formula readiness summaries
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -245,6 +246,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Suppliers manual create/edit foundation](docs/104-suppliers-manual-create-edit-foundation.md)
 - [Internal items manual create/edit foundation](docs/105-internal-items-manual-create-edit-foundation.md)
 - [Inventory locations foundation](docs/106-inventory-locations-foundation.md)
+- [Costings dashboard real data summary](docs/107-costings-dashboard-real-data-summary.md)
 
 ## Database Migrations
 
@@ -406,5 +408,6 @@ Repeat invoice and price change behaviour is documented in [Repeat Invoice and P
 - Controlled Purchase Document extraction prototype for uploaded text-based Cammaroto PDFs
 - Repeat Cammaroto invoice matching and price-change indicators for reviewed intake lines
 - Tenant-scoped inventory location master records with read/create/edit UI only
+- Read-only Costings dashboard summary using approved supplier prices, price observations and formula readiness indicators
 
 No costing calculations, broad production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.
