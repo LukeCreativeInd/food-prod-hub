@@ -91,6 +91,19 @@ type PriceObservationRow = {
   approval_decision: string | null;
 };
 
+type FormulaVersionUsageRow = {
+  id: string;
+  output_internal_item_id: string;
+  formula_type: string;
+  status: string;
+};
+
+type FormulaLineUsageRow = {
+  id: string;
+  formula_version_id: string;
+  input_internal_item_id: string;
+};
+
 export type SupplierListItem = {
   id: string;
   displayName: string;
@@ -110,6 +123,12 @@ export type InternalItemListItem = {
   itemType: string;
   baseUnit: string | null;
   status: string;
+  notes: string | null;
+  createdAt: string;
+  updatedAt: string;
+  mappedSupplierItemCount: number;
+  approvedPriceCount: number;
+  formulaUsageCount: number;
   supplierOptions: {
     supplierName: string;
     supplierItemCode: string | null;
@@ -119,6 +138,11 @@ export type InternalItemListItem = {
     effectiveDate: string | null;
     mappingStatus: string;
   }[];
+};
+
+export type InternalItemPageData = {
+  items: InternalItemListItem[];
+  canManageInternalItems: boolean;
 };
 
 export type SupplierPriceHistoryItem = {
@@ -213,6 +237,7 @@ export type InternalItemDetail = {
     updatedAt: string;
   };
   canViewPurchaseDocuments: boolean;
+  canManageInternalItems: boolean;
   supplierOptions: {
     supplierName: string;
     supplierHref: string;
@@ -234,6 +259,12 @@ export type InternalItemDetail = {
     sourceInvoice: string;
     sourceInvoiceHref: string | null;
     status: string;
+  }[];
+  formulaUsage: {
+    id: string;
+    usageType: string;
+    status: string;
+    href: string | null;
   }[];
 };
 
@@ -319,6 +350,22 @@ async function requireSupplierDirectoryAccess() {
   };
 }
 
+async function requireInternalItemAccess() {
+  const authContext = await requirePermissionAccess("supplier_items.view");
+
+  if (!authContext.organisation) {
+    throw new Error("Current organisation is required.");
+  }
+
+  const permissionKeys = await getCurrentPermissionKeys();
+
+  return {
+    organisationId: authContext.organisation.id,
+    canManageInternalItems: permissionKeys.includes("supplier_items.manage"),
+    canViewPurchaseDocuments: permissionKeys.includes("purchase_documents.view"),
+  };
+}
+
 async function getSuppliersForOrganisation(organisationId: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -377,7 +424,7 @@ async function getInternalItemsForOrganisation(
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("internal_items")
-    .select("id, item_type, display_name, base_unit, status")
+    .select("id, item_type, display_name, base_unit, status, notes, created_at, updated_at")
     .eq("organisation_id", organisationId)
     .eq("item_type", itemType)
     .is("archived_at", null)
@@ -403,6 +450,36 @@ async function getAllInternalItemsForOrganisation(organisationId: string) {
   }
 
   return (data ?? []) as InternalItemRow[];
+}
+
+async function getFormulaVersionsForOrganisation(organisationId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("formula_versions")
+    .select("id, output_internal_item_id, formula_type, status")
+    .eq("organisation_id", organisationId)
+    .is("archived_at", null);
+
+  if (error) {
+    throw new Error("Could not load formula versions.");
+  }
+
+  return (data ?? []) as FormulaVersionUsageRow[];
+}
+
+async function getFormulaLinesForOrganisation(organisationId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("formula_lines")
+    .select("id, formula_version_id, input_internal_item_id")
+    .eq("organisation_id", organisationId)
+    .is("archived_at", null);
+
+  if (error) {
+    throw new Error("Could not load formula lines.");
+  }
+
+  return (data ?? []) as FormulaLineUsageRow[];
 }
 
 async function getMappingsForOrganisation(organisationId: string) {
@@ -579,15 +656,27 @@ export async function getSupplierDirectoryData() {
 }
 
 export async function getInternalItemData(itemType: "ingredient" | "packaging") {
-  const organisationId = await requireSupplierPriceViewAccess();
+  const { items } = await getInternalItemPageData(itemType);
 
-  const [items, suppliers, supplierItems, mappings, currentPrices] =
+  return items;
+}
+
+export async function getInternalItemPageData(
+  itemType: "ingredient" | "packaging",
+): Promise<InternalItemPageData> {
+  const timingStartedAt = Date.now();
+  const { organisationId, canManageInternalItems } =
+    await requireInternalItemAccess();
+
+  const [items, suppliers, supplierItems, mappings, currentPrices, formulaVersions, formulaLines] =
     await Promise.all([
       getInternalItemsForOrganisation(organisationId, itemType),
       getSuppliersForOrganisation(organisationId),
       getSupplierItemsForOrganisation(organisationId),
       getMappingsForOrganisation(organisationId),
       getCurrentApprovedPricesForOrganisation(organisationId),
+      getFormulaVersionsForOrganisation(organisationId),
+      getFormulaLinesForOrganisation(organisationId),
     ]);
 
   const supplierById = new Map(suppliers.map((supplier) => [supplier.id, supplier]));
@@ -595,10 +684,34 @@ export async function getInternalItemData(itemType: "ingredient" | "packaging") 
   const currentPriceBySupplierItemId = new Map(
     currentPrices.map((price) => [price.supplier_item_id, price]),
   );
+  const currentPricesByInternalItemId = new Map<string, ApprovedSupplierPriceRow[]>();
+  const mappingsByInternalItemId = new Map<string, SupplierItemMappingRow[]>();
+  const outputFormulaCountByItemId = countBy(
+    formulaVersions.map((formula) => formula.output_internal_item_id),
+  );
+  const inputFormulaCountByItemId = countBy(
+    formulaLines.map((line) => line.input_internal_item_id),
+  );
 
-  return items.map<InternalItemListItem>((item) => {
-    const supplierOptions = mappings
-      .filter((mapping) => mapping.internal_item_id === item.id)
+  currentPrices.forEach((price) => {
+    if (!price.internal_item_id) {
+      return;
+    }
+
+    const existing = currentPricesByInternalItemId.get(price.internal_item_id) ?? [];
+    existing.push(price);
+    currentPricesByInternalItemId.set(price.internal_item_id, existing);
+  });
+
+  mappings.forEach((mapping) => {
+    const existing = mappingsByInternalItemId.get(mapping.internal_item_id) ?? [];
+    existing.push(mapping);
+    mappingsByInternalItemId.set(mapping.internal_item_id, existing);
+  });
+
+  const internalItems = items.map<InternalItemListItem>((item) => {
+    const mappingsForItem = mappingsByInternalItemId.get(item.id) ?? [];
+    const supplierOptions = mappingsForItem
       .map((mapping) => {
         const supplierItem = supplierItemById.get(mapping.supplier_item_id);
         const supplier = supplierItem
@@ -628,9 +741,29 @@ export async function getInternalItemData(itemType: "ingredient" | "packaging") 
       itemType: item.item_type,
       baseUnit: item.base_unit,
       status: item.status,
+      notes: item.notes ?? null,
+      createdAt: formatDateTime(item.created_at),
+      updatedAt: formatDateTime(item.updated_at),
+      mappedSupplierItemCount: mappingsForItem.length,
+      approvedPriceCount: currentPricesByInternalItemId.get(item.id)?.length ?? 0,
+      formulaUsageCount:
+        (outputFormulaCountByItemId[item.id] ?? 0) +
+        (inputFormulaCountByItemId[item.id] ?? 0),
       supplierOptions,
     };
   });
+
+  logDevRouteTiming(`internal-items.${itemType}-list`, timingStartedAt, {
+    itemCount: internalItems.length,
+    mappingCount: mappings.length,
+    approvedPriceCount: currentPrices.length,
+    formulaVersionCount: formulaVersions.length,
+  });
+
+  return {
+    items: internalItems,
+    canManageInternalItems,
+  };
 }
 
 export async function getIngredientCostData() {
@@ -990,11 +1123,12 @@ export async function getSupplierDetailForCurrentOrganisation(
 export async function getInternalItemDetailForCurrentOrganisation(
   internalItemId: string,
 ): Promise<InternalItemDetail | null> {
-  const organisationId = await requireSupplierPriceViewAccess();
-  const permissionKeys = await getCurrentPermissionKeys();
-  const canViewPurchaseDocuments = permissionKeys.includes(
-    "purchase_documents.view",
-  );
+  const timingStartedAt = Date.now();
+  const {
+    organisationId,
+    canManageInternalItems,
+    canViewPurchaseDocuments,
+  } = await requireInternalItemAccess();
 
   const [
     item,
@@ -1004,6 +1138,8 @@ export async function getInternalItemDetailForCurrentOrganisation(
     documents,
     observations,
     currentPrices,
+    formulaVersions,
+    formulaLines,
   ] = await Promise.all([
     getInternalItemForOrganisation(organisationId, internalItemId),
     getSuppliersForOrganisation(organisationId),
@@ -1012,9 +1148,15 @@ export async function getInternalItemDetailForCurrentOrganisation(
     getPurchaseDocumentsForOrganisation(organisationId),
     getPriceObservationsForOrganisation(organisationId),
     getCurrentApprovedPricesForOrganisation(organisationId),
+    getFormulaVersionsForOrganisation(organisationId),
+    getFormulaLinesForOrganisation(organisationId),
   ]);
 
   if (!item) {
+    logDevRouteTiming("internal-items.detail", timingStartedAt, {
+      itemFound: false,
+    });
+
     return null;
   }
 
@@ -1028,7 +1170,7 @@ export async function getInternalItemDetailForCurrentOrganisation(
     (mapping) => mapping.internal_item_id === item.id,
   );
 
-  return {
+  const detail = {
     item: {
       id: item.id,
       displayName: item.display_name,
@@ -1040,6 +1182,7 @@ export async function getInternalItemDetailForCurrentOrganisation(
       updatedAt: formatDateTime(item.updated_at),
     },
     canViewPurchaseDocuments,
+    canManageInternalItems,
     supplierOptions: mappingsForItem.map((mapping) => {
       const supplierItem = supplierItemById.get(mapping.supplier_item_id);
       const supplier = supplierItem
@@ -1135,5 +1278,45 @@ export async function getInternalItemDetailForCurrentOrganisation(
             };
           }),
       ),
+    formulaUsage: formulaVersions
+      .filter((formula) => formula.output_internal_item_id === item.id)
+      .map((formula) => ({
+        id: formula.id,
+        usageType: `${formula.formula_type} output`,
+        status: formula.status,
+        href:
+          formula.formula_type === "component"
+            ? `/components/${item.id}`
+            : formula.formula_type === "finished_product"
+              ? `/finished-products/${item.id}`
+              : null,
+      }))
+      .concat(
+        formulaLines
+          .filter((line) => line.input_internal_item_id === item.id)
+          .map((line) => {
+            const formula = formulaVersions.find(
+              (version) => version.id === line.formula_version_id,
+            );
+
+            return {
+              id: line.id,
+              usageType: formula
+                ? `${formula.formula_type} input`
+                : "Formula input",
+              status: formula?.status ?? "Referenced",
+              href: null,
+            };
+          }),
+      ),
   };
+
+  logDevRouteTiming("internal-items.detail", timingStartedAt, {
+    itemFound: true,
+    supplierOptionCount: detail.supplierOptions.length,
+    priceHistoryCount: detail.priceHistory.length,
+    formulaUsageCount: detail.formulaUsage.length,
+  });
+
+  return detail;
 }
