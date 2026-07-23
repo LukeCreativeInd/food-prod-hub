@@ -41,6 +41,7 @@ Current parser registry:
 - `melbourne_produce_merchants` - Melbourne Produce Merchants
 - `del_re_national_food_group` - Del-Re National Food Group
 - `pacific_meat_sales` - Pacific Meat Sales
+- `alba_cheese` - Alba Cheese
 
 The Cammaroto parser still supports the uploaded invoice with shifted-font embedded PDF text. It remains supplier-specific and intentionally narrow.
 
@@ -49,6 +50,8 @@ Step 091 adds the Melbourne Produce Merchants parser for known Fresho invoices i
 Step 093 adds the Del-Re National Food Group parser for known invoice `1354283`; see [Del-Re National Food Group Parser](93-del-re-parser.md). It is also supplier-specific, review-first and excludes Fuel Levy from item-line extraction.
 
 Step 097 adds the Pacific Meat Sales parser for known invoice `928733`; see [Pacific Meat Sales Parser](97-pacific-meats-parser.md). The uploaded Pacific PDF has no usable embedded text, so this parser includes a narrow filename/invoice-number fallback until OCR is planned.
+
+Step 098 adds the Alba Cheese parser for known invoice `SO148136`; see [Alba Cheese Parser](98-alba-cheese-parser.md). It is supplier-specific, review-first and preserves the supplier unit `Box` without automatic pack conversion.
 
 ## Candidate Text Flow
 
@@ -134,7 +137,7 @@ The extraction flow:
 
 ## Limitations
 
-- Only Cammaroto Poultry, Melbourne Produce Merchants, Del-Re National Food Group and Pacific Meat Sales have supplier-specific parsers today.
+- Only Cammaroto Poultry, Melbourne Produce Merchants, Del-Re National Food Group, Pacific Meat Sales and Alba Cheese have supplier-specific parsers today.
 - Scanned PDFs still require future OCR/provider planning.
 - Unknown diagnostics are for parser development and review, not a substitute for a parser.
 - Unknown invoices do not create review lines until a supplier parser is added.

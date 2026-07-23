@@ -176,6 +176,21 @@ const pacificMeatAnchors = [
   { label: "Pretax Total", compact: "PRETAXTOTAL" },
 ];
 
+const albaCheeseAnchors = [
+  { label: "Alba Cheese", compact: "ALBACHEESE" },
+  {
+    label: "Alba Cheese Manufacturing Pty Ltd",
+    compact: "ALBACHEESEMANUFACTURINGPTYLTD",
+  },
+  { label: "ABN 44 619 302 420", compact: "ABN44619302420" },
+  { label: "SO148136", compact: "SO148136" },
+  { label: "Shredded Mozzarella 2kg", compact: "SHREDDEDMOZZARELLA2KG" },
+  {
+    label: "QTY UNIT ITEM BATCH CODE PRICE TAX BALANCE",
+    compact: "QTYUNITITEMBATCHCODEPRICETAXBALANCE",
+  },
+];
+
 const melbourneProduceLines = [
   {
     lineNumber: 1,
@@ -501,6 +516,22 @@ const pacificMeatLines = [
   },
 ];
 
+const albaCheeseLines = [
+  {
+    lineNumber: 1,
+    sourceQuantity: 8,
+    sourceItemCode: "129",
+    sourceDescription: "Shredded Mozzarella 2kg",
+    sourceUnit: "Box",
+    sourceUnitPrice: 123,
+    sourceLineTotal: 984,
+    normalisedDescription: "Shredded Mozzarella 2kg",
+    internalItemName: "Shredded Mozzarella",
+    reviewNotes:
+      "Supplier unit Box is preserved. Batch 07/11/26 is from the invoice table and should be reviewed before commit. No automatic box-to-kg conversion is applied.",
+  },
+];
+
 function decodePdfLiteralString(value: string) {
   return value
     .replace(/\\([nrtbf()\\])/g, (_, escaped: string) => {
@@ -689,12 +720,25 @@ function scorePacificMeatCandidate(rawText: string) {
   };
 }
 
+function scoreAlbaCheeseCandidate(rawText: string) {
+  const compactText = compactInvoiceText(rawText);
+  const matchedAnchors = albaCheeseAnchors
+    .filter((anchor) => compactText.includes(anchor.compact))
+    .map((anchor) => anchor.label);
+
+  return {
+    score: matchedAnchors.length,
+    matchedAnchors,
+  };
+}
+
 function scoreExtractionCandidate(rawText: string) {
   const candidateScores = [
     scoreCammarotoCandidate(rawText),
     scoreMelbourneProduceCandidate(rawText),
     scoreDelReCandidate(rawText),
     scorePacificMeatCandidate(rawText),
+    scoreAlbaCheeseCandidate(rawText),
   ];
   const matchedAnchors = Array.from(
     new Set(candidateScores.flatMap((score) => score.matchedAnchors)),
@@ -747,6 +791,12 @@ function hasPacificMeatFilename(sourceFilename: string | null | undefined) {
     (filename.includes("meat") || filename.includes("meats")) &&
     filename.includes("928733")
   );
+}
+
+function hasAlbaCheeseFilename(sourceFilename: string | null | undefined) {
+  const filename = sourceFilename?.toLowerCase() ?? "";
+
+  return filename.includes("so148136") || filename.includes("alba");
 }
 
 function hasGlyphEncodedMelbourneProduceShape(rawText: string) {
@@ -941,6 +991,43 @@ function detectPacificMeatParser(
         ? "Pacific Meat readable supplier/invoice anchors matched."
         : "Pacific Meat fallback matched a known invoice filename/number pattern."
       : "Pacific Meat anchors were not strong enough for this parser.",
+  };
+}
+
+function detectAlbaCheeseParser(
+  context: PurchaseDocumentParserContext,
+): ParserDetectionResult {
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const readableScore = scoreAlbaCheeseCandidate(candidateText);
+  const filenameMatched = hasAlbaCheeseFilename(context.sourceFilename);
+  const compactText = compactInvoiceText(candidateText);
+  const hasSupplierAnchor =
+    compactText.includes("ALBACHEESE") ||
+    compactText.includes("ALBACHEESEMANUFACTURINGPTYLTD");
+  const hasInvoiceAnchor = compactText.includes("SO148136");
+  const hasLineAnchor =
+    compactText.includes("SHREDDEDMOZZARELLA2KG") ||
+    compactText.includes("QTYUNITITEMBATCHCODEPRICETAXBALANCE");
+  const matched =
+    readableScore.score >= 3 ||
+    (hasSupplierAnchor && hasInvoiceAnchor) ||
+    (filenameMatched && hasInvoiceAnchor && hasLineAnchor);
+
+  return {
+    matched,
+    score:
+      readableScore.score +
+      (filenameMatched ? 2 : 0) +
+      (hasSupplierAnchor ? 2 : 0) +
+      (hasInvoiceAnchor ? 2 : 0) +
+      (hasLineAnchor ? 1 : 0),
+    matchedAnchors: [
+      ...readableScore.matchedAnchors,
+      ...(filenameMatched ? ["Alba Cheese filename"] : []),
+    ],
+    reason: matched
+      ? "Alba Cheese supplier, invoice and line anchors matched."
+      : "Alba Cheese anchors were not strong enough for this parser.",
   };
 }
 
@@ -1248,6 +1335,64 @@ function parsePacificMeatParser(
   };
 }
 
+function parseAlbaCheeseParser(
+  context: PurchaseDocumentParserContext,
+): ExtractedPurchaseDocument | null {
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const compactText = compactInvoiceText(candidateText);
+  const filenameMatched = hasAlbaCheeseFilename(context.sourceFilename);
+  const hasKnownInvoice =
+    compactText.includes("SO148136") ||
+    (filenameMatched && compactText.includes("ALBACHEESE"));
+
+  if (!hasKnownInvoice) {
+    return null;
+  }
+
+  return {
+    supplierLegalName: "Alba Cheese Manufacturing Pty Ltd",
+    supplierTradingName: "Alba Cheese",
+    supplierAbn: "44 619 302 420",
+    supplierAccountNumber: "",
+    invoiceNumber: "SO148136",
+    invoiceDate: "2026-07-20",
+    invoiceTotal: 984,
+    taxTotal: 0,
+    currency: "AUD",
+    lines: albaCheeseLines.map((line) => ({
+      lineNumber: line.lineNumber,
+      status: "needs_review",
+      classification: "ingredient",
+      sourceItemCode: line.sourceItemCode,
+      sourceDescription: line.sourceDescription,
+      sourceQuantity: line.sourceQuantity,
+      sourceUnit: line.sourceUnit,
+      sourceUnitPrice: line.sourceUnitPrice,
+      sourceTax: 0,
+      sourceLineTotal: line.sourceLineTotal,
+      normalisedItemCode: line.sourceItemCode,
+      normalisedDescription: line.normalisedDescription,
+      normalisedQuantity: line.sourceQuantity,
+      normalisedUnit: line.sourceUnit,
+      normalisedUnitPrice: line.sourceUnitPrice,
+      normalisedTax: 0,
+      normalisedLineTotal: line.sourceLineTotal,
+      internalItemName: line.internalItemName,
+      reviewNotes: line.reviewNotes,
+      confidenceScore: 0.86,
+    })),
+    extractionWarnings: [
+      "Alba Cheese is a supplier-specific parser, not a generic dairy invoice parser.",
+      "Batch, delivery date, terms and freight are not stored in dedicated purchase document fields yet.",
+      "Payment options, EFT details, terms, footer and supplier contact blocks are intentionally excluded.",
+    ],
+    confidenceNotes: [
+      "Values are populated from a controlled known-supplier adapter and must be reviewed before commit.",
+      "Supplier unit Box is preserved exactly; no box-to-kg conversion is applied.",
+    ],
+  };
+}
+
 export function parseCammarotoInvoiceText(
   rawText: string,
 ): ExtractedPurchaseDocument | null {
@@ -1296,6 +1441,13 @@ export const PURCHASE_DOCUMENT_PARSERS: PurchaseDocumentParser[] = [
     supplierHint: "Pacific Meat Sales",
     detect: detectPacificMeatParser,
     parse: parsePacificMeatParser,
+  },
+  {
+    key: "alba_cheese",
+    label: "Alba Cheese",
+    supplierHint: "Alba Cheese Manufacturing Pty Ltd",
+    detect: detectAlbaCheeseParser,
+    parse: parseAlbaCheeseParser,
   },
 ];
 
