@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { updateSupplierAction } from "@/app/suppliers/actions";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState, PageActionButton, SectionCard, StatusBadge } from "@/components/ui";
@@ -9,6 +10,9 @@ import { getSupplierDetailForCurrentOrganisation } from "@/lib/products-data";
 type PageProps = {
   params: Promise<{
     id: string;
+  }>;
+  searchParams: Promise<{
+    supplier?: string;
   }>;
 };
 
@@ -26,6 +30,10 @@ type TableCell =
 
 function statusTone(value: string) {
   const normalisedValue = value.toLowerCase();
+
+  if (normalisedValue.includes("inactive")) {
+    return "warning" as const;
+  }
 
   if (
     normalisedValue.includes("missing") ||
@@ -58,6 +66,127 @@ function DetailGrid({ rows }: { rows: DetailRow[] }) {
         </div>
       ))}
     </dl>
+  );
+}
+
+function messageForSupplier(status?: string) {
+  if (status === "created") {
+    return "Supplier created.";
+  }
+
+  if (status === "updated") {
+    return "Supplier details updated.";
+  }
+
+  if (status === "duplicate") {
+    return "A supplier with that display name already exists for this organisation.";
+  }
+
+  if (status === "missing_name") {
+    return "Supplier display name is required.";
+  }
+
+  if (status === "not_found") {
+    return "Supplier was not found for this organisation.";
+  }
+
+  if (status === "error") {
+    return "Supplier could not be saved. Check the details and try again.";
+  }
+
+  return null;
+}
+
+function SupplierEditForm({
+  supplier,
+}: {
+  supplier: {
+    id: string;
+    displayName: string;
+    legalName: string | null;
+    abn: string | null;
+    supplierType: string | null;
+    status: string;
+    notes: string | null;
+  };
+}) {
+  return (
+    <form action={updateSupplierAction} className="space-y-4">
+      <input type="hidden" name="supplier_id" value={supplier.id} />
+      <label className="block">
+        <span className="text-xs font-semibold uppercase text-slate-500">
+          Display name
+        </span>
+        <input
+          name="display_name"
+          required
+          defaultValue={supplier.displayName}
+          className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+        />
+      </label>
+      <label className="block">
+        <span className="text-xs font-semibold uppercase text-slate-500">
+          Legal name
+        </span>
+        <input
+          name="legal_name"
+          defaultValue={supplier.legalName ?? ""}
+          className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+        />
+      </label>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block">
+          <span className="text-xs font-semibold uppercase text-slate-500">
+            ABN
+          </span>
+          <input
+            name="abn"
+            defaultValue={supplier.abn ?? ""}
+            className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+          />
+        </label>
+        <label className="block">
+          <span className="text-xs font-semibold uppercase text-slate-500">
+            Type
+          </span>
+          <input
+            name="supplier_type"
+            defaultValue={supplier.supplierType ?? ""}
+            className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+          />
+        </label>
+      </div>
+      <label className="block">
+        <span className="text-xs font-semibold uppercase text-slate-500">
+          Status
+        </span>
+        <select
+          name="status"
+          defaultValue={supplier.status === "inactive" ? "inactive" : "active"}
+          className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+        >
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </label>
+      <label className="block">
+        <span className="text-xs font-semibold uppercase text-slate-500">
+          Notes
+        </span>
+        <textarea
+          name="notes"
+          rows={4}
+          defaultValue={supplier.notes ?? ""}
+          className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+        />
+      </label>
+      <button
+        type="submit"
+        className="inline-flex items-center justify-center rounded-md bg-clean-green-700 px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-clean-green-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clean-green-700"
+      >
+        Save supplier
+      </button>
+    </form>
   );
 }
 
@@ -131,21 +260,35 @@ function ReadOnlyTable({
   );
 }
 
-export default async function SupplierDetailPage({ params }: PageProps) {
-  const { id } = await params;
+export default async function SupplierDetailPage({
+  params,
+  searchParams,
+}: PageProps) {
+  const [{ id }, query] = await Promise.all([
+    params,
+    searchParams,
+  ]);
   const detail = await getSupplierDetailForCurrentOrganisation(id);
 
   if (!detail) {
     notFound();
   }
 
+  const supplierMessage = messageForSupplier(query.supplier);
+
   return (
     <AppShell>
       <PageHeader
         title={detail.supplier.displayName}
-        description="Read-only supplier detail showing reviewed intake records, catalogue mappings and price traceability."
+        description="Supplier detail showing basic supplier management, reviewed intake records, catalogue mappings and price traceability."
       />
       <div className="space-y-6 px-5 py-6 md:px-8">
+        {supplierMessage ? (
+          <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-clean-green-900">
+            {supplierMessage}
+          </div>
+        ) : null}
+
         <div className="flex flex-wrap items-center gap-3">
           <PageActionButton href="/suppliers" variant="secondary">
             Back to suppliers
@@ -153,25 +296,52 @@ export default async function SupplierDetailPage({ params }: PageProps) {
           <StatusBadge tone={statusTone(detail.supplier.status)}>
             {detail.supplier.status}
           </StatusBadge>
-          <StatusBadge tone="info">Read only</StatusBadge>
+          <StatusBadge tone={detail.canManageSuppliers ? "success" : "info"}>
+            {detail.canManageSuppliers ? "Manage enabled" : "Read only"}
+          </StatusBadge>
         </div>
 
-        <SectionCard
-          title="Supplier identity"
-          description="Tenant supplier master data created or reused during reviewed Purchase Document Intake commits."
-        >
-          <DetailGrid
-            rows={[
-              { label: "Display name", value: detail.supplier.displayName },
-              { label: "Legal name", value: detail.supplier.legalName ?? "Not recorded" },
-              { label: "ABN", value: detail.supplier.abn ?? "Not recorded" },
-              { label: "Supplier type", value: detail.supplier.supplierType ?? "Not recorded" },
-              { label: "Notes", value: detail.supplier.notes ?? "No notes recorded" },
-              { label: "Created", value: detail.supplier.createdAt },
-              { label: "Updated", value: detail.supplier.updatedAt },
-            ]}
-          />
-        </SectionCard>
+        <section className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
+          <SectionCard
+            title="Supplier identity"
+            description="Tenant supplier master data created manually or reused during reviewed Supplier Invoice Intake commits."
+          >
+            <DetailGrid
+              rows={[
+                { label: "Display name", value: detail.supplier.displayName },
+                { label: "Legal name", value: detail.supplier.legalName ?? "Not recorded" },
+                { label: "ABN", value: detail.supplier.abn ?? "Not recorded" },
+                { label: "Supplier type", value: detail.supplier.supplierType ?? "Not recorded" },
+                { label: "Notes", value: detail.supplier.notes ?? "No notes recorded" },
+                { label: "Created", value: detail.supplier.createdAt },
+                { label: "Updated", value: detail.supplier.updatedAt },
+              ]}
+            />
+          </SectionCard>
+
+          <SectionCard
+            title="Edit supplier"
+            description={
+              detail.canManageSuppliers
+                ? "Update basic supplier fields only. Catalogue items, mappings and prices are managed separately."
+                : "Supplier editing is restricted for this role."
+            }
+            action={
+              <StatusBadge tone={detail.canManageSuppliers ? "success" : "warning"}>
+                {detail.canManageSuppliers ? "supplier_items.manage" : "Read only"}
+              </StatusBadge>
+            }
+          >
+            {detail.canManageSuppliers ? (
+              <SupplierEditForm supplier={detail.supplier} />
+            ) : (
+              <EmptyState
+                title="Supplier editing is restricted"
+                description="You can view this supplier, but editing basic supplier details requires supplier_items.manage."
+              />
+            )}
+          </SectionCard>
+        </section>
 
         <SectionCard
           title="Aliases"

@@ -1,4 +1,8 @@
-import { requirePermissionAccess, userHasPermission } from "@/lib/auth";
+import {
+  getCurrentPermissionKeys,
+  requirePermissionAccess,
+} from "@/lib/auth";
+import { logDevRouteTiming } from "@/lib/dev-performance";
 import { createClient } from "@/lib/supabase/server";
 
 type SupplierRow = {
@@ -156,6 +160,7 @@ export type SupplierDetail = {
     updatedAt: string;
   };
   canViewPurchaseDocuments: boolean;
+  canManageSuppliers: boolean;
   aliases: {
     aliasType: string;
     aliasValue: string;
@@ -296,6 +301,22 @@ async function requireSupplierPriceViewAccess() {
   }
 
   return authContext.organisation.id;
+}
+
+async function requireSupplierDirectoryAccess() {
+  const authContext = await requirePermissionAccess("supplier_items.view");
+
+  if (!authContext.organisation) {
+    throw new Error("Current organisation is required.");
+  }
+
+  const permissionKeys = await getCurrentPermissionKeys();
+
+  return {
+    organisationId: authContext.organisation.id,
+    canManageSuppliers: permissionKeys.includes("supplier_items.manage"),
+    canViewPurchaseDocuments: permissionKeys.includes("purchase_documents.view"),
+  };
 }
 
 async function getSuppliersForOrganisation(organisationId: string) {
@@ -486,8 +507,10 @@ async function getAliasesForOrganisation(organisationId: string) {
   return (data ?? []) as SupplierAliasRow[];
 }
 
-export async function getSupplierDirectoryData() {
-  const organisationId = await requireSupplierPriceViewAccess();
+export async function getSupplierDirectoryPageData() {
+  const timingStartedAt = Date.now();
+  const { organisationId, canManageSuppliers } =
+    await requireSupplierDirectoryAccess();
   const supabase = await createClient();
 
   const [suppliers, supplierItems, approvedPrices, documents] =
@@ -524,7 +547,7 @@ export async function getSupplierDirectoryData() {
       .filter((supplierId): supplierId is string => Boolean(supplierId)),
   );
 
-  return suppliers.map<SupplierListItem>((supplier) => ({
+  const supplierDirectory = suppliers.map<SupplierListItem>((supplier) => ({
     id: supplier.id,
     displayName: supplier.display_name,
     legalName: supplier.legal_name,
@@ -536,6 +559,23 @@ export async function getSupplierDirectoryData() {
     documentCount: documentCounts[supplier.id] ?? 0,
     currentPriceCount: currentPriceCounts[supplier.id] ?? 0,
   }));
+
+  logDevRouteTiming("suppliers.list", timingStartedAt, {
+    supplierCount: supplierDirectory.length,
+    supplierItemCount: supplierItems.length,
+    documentCount: documents.length,
+  });
+
+  return {
+    suppliers: supplierDirectory,
+    canManageSuppliers,
+  };
+}
+
+export async function getSupplierDirectoryData() {
+  const { suppliers } = await getSupplierDirectoryPageData();
+
+  return suppliers;
 }
 
 export async function getInternalItemData(itemType: "ingredient" | "packaging") {
@@ -740,8 +780,12 @@ export async function getSupplierPriceHistoryData() {
 export async function getSupplierDetailForCurrentOrganisation(
   supplierId: string,
 ): Promise<SupplierDetail | null> {
-  const organisationId = await requireSupplierPriceViewAccess();
-  const canViewPurchaseDocuments = await userHasPermission("purchase_documents.view");
+  const timingStartedAt = Date.now();
+  const {
+    organisationId,
+    canManageSuppliers,
+    canViewPurchaseDocuments,
+  } = await requireSupplierDirectoryAccess();
 
   const [
     supplier,
@@ -764,6 +808,10 @@ export async function getSupplierDetailForCurrentOrganisation(
   ]);
 
   if (!supplier) {
+    logDevRouteTiming("suppliers.detail", timingStartedAt, {
+      supplierFound: false,
+    });
+
     return null;
   }
 
@@ -781,7 +829,7 @@ export async function getSupplierDetailForCurrentOrganisation(
   );
   const supplierItemIds = new Set(supplierItemsForSupplier.map((item) => item.id));
 
-  return {
+  const supplierDetail = {
     supplier: {
       id: supplier.id,
       displayName: supplier.display_name,
@@ -794,6 +842,7 @@ export async function getSupplierDetailForCurrentOrganisation(
       updatedAt: formatDateTime(supplier.updated_at),
     },
     canViewPurchaseDocuments,
+    canManageSuppliers,
     aliases: aliases
       .filter((alias) => alias.supplier_id === supplier.id)
       .map((alias) => {
@@ -927,13 +976,25 @@ export async function getSupplierDetailForCurrentOrganisation(
           }),
       ),
   };
+
+  logDevRouteTiming("suppliers.detail", timingStartedAt, {
+    supplierFound: true,
+    supplierItemCount: supplierDetail.catalogueItems.length,
+    aliasCount: supplierDetail.aliases.length,
+    sourceDocumentCount: supplierDetail.sourceDocuments.length,
+  });
+
+  return supplierDetail;
 }
 
 export async function getInternalItemDetailForCurrentOrganisation(
   internalItemId: string,
 ): Promise<InternalItemDetail | null> {
   const organisationId = await requireSupplierPriceViewAccess();
-  const canViewPurchaseDocuments = await userHasPermission("purchase_documents.view");
+  const permissionKeys = await getCurrentPermissionKeys();
+  const canViewPurchaseDocuments = permissionKeys.includes(
+    "purchase_documents.view",
+  );
 
   const [
     item,

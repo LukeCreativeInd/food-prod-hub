@@ -87,6 +87,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Supplier Invoice Intake now lives under the new Tools module while keeping the `/purchase-documents` route
 - Performance route loading skeletons and deferred Purchase Document source PDF preview loading have been added for `/dashboard`, `/inventory` and Supplier Invoice Intake routes
 - Products now has a real read-only operational dashboard using tenant supplier, catalogue, internal item, price and formula data
+- Suppliers now support basic manual create/edit for authorised users while demo users remain read-only
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -239,6 +240,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Tools module and Supplier Invoice Intake](docs/101-tools-module-supplier-invoice-intake.md)
 - [Performance audit and route load optimisation](docs/102-performance-audit-route-load-optimisation.md)
 - [Products module real dashboard](docs/103-products-module-real-dashboard.md)
+- [Suppliers manual create/edit foundation](docs/104-suppliers-manual-create-edit-foundation.md)
 
 ## Database Migrations
 
