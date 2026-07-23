@@ -191,6 +191,22 @@ const albaCheeseAnchors = [
   },
 ];
 
+const grangeMeatAnchors = [
+  { label: "Grange Meat Co", compact: "GRANGEMEATCO" },
+  { label: "GRANGE MEAT CO. PTY. LTD.", compact: "GRANGEMEATCOPTYLTD" },
+  { label: "ABN 69 650 005 619", compact: "ABN69650005619" },
+  { label: "Invoice 349708", compact: "349708" },
+  { label: "LMB020", compact: "LMB020" },
+  { label: "LAMB LEG BONELESS", compact: "LAMBLEGBONELESS" },
+  { label: "DELIVERYCHARGE", compact: "DELIVERYCHARGE" },
+  { label: "COMMENT", compact: "COMMENT" },
+  {
+    label: "QTY SHIPPED ITEM NO DESCRIPTION UNIT PRICE DISC EXTENDED PRICE TAX",
+    compact: "QTYSHIPPEDITEMNODESCRIPTIONUNITPRICEDISCEXTENDEDPRICETAX",
+  },
+  { label: "Total Incl GST", compact: "TOTALINCLGST" },
+];
+
 const melbourneProduceLines = [
   {
     lineNumber: 1,
@@ -532,6 +548,58 @@ const albaCheeseLines = [
   },
 ];
 
+const grangeMeatLines = [
+  {
+    lineNumber: 1,
+    status: "needs_review" as const,
+    classification: "ingredient" as const,
+    sourceQuantity: 201.9,
+    sourceItemCode: "LMB020",
+    sourceDescription: "LAMB LEG BONELESS - ORDER BY KG",
+    sourceUnit: "KG",
+    sourceUnitPrice: 20,
+    sourceTax: 0,
+    sourceLineTotal: 4038,
+    normalisedDescription: "LAMB LEG BONELESS - ORDER BY KG",
+    internalItemName: "Lamb Leg Boneless",
+    reviewNotes: "Tax: GST Free. Source unit is KG. Price decision: update_current_price.",
+  },
+  {
+    lineNumber: 2,
+    status: "ignored" as const,
+    classification: "informational" as const,
+    sourceQuantity: 1,
+    sourceItemCode: "DELIVERYCHARGE",
+    sourceDescription: "Delivery Charge",
+    sourceUnit: "each",
+    sourceUnitPrice: 5,
+    sourceTax: 0.5,
+    sourceLineTotal: 5,
+    normalisedDescription: "Delivery Charge",
+    internalItemName: null,
+    reviewNotes:
+      "Delivery/fuel charge. Excluded from ingredient costing and stock. Price decision: ignored.",
+  },
+  {
+    lineNumber: 3,
+    status: "ignored" as const,
+    classification: "informational" as const,
+    sourceQuantity: 1,
+    sourceItemCode: "COMMENT",
+    sourceDescription:
+      "Lamb Leg B/L is on Thermoformer. Ensure labelled on Thermoformer with pack date and use by date. 1 PALLET.",
+    sourceUnit: "note",
+    sourceUnitPrice: 0,
+    sourceTax: 0,
+    sourceLineTotal: 0,
+    normalisedDescription:
+      "Lamb Leg B/L is on Thermoformer. Ensure labelled on Thermoformer with pack date and use by date. 1 PALLET.",
+    internalItemName: null,
+    reviewNotes:
+      "Operational delivery/packing note only. No ingredient or price record. Price decision: ignored.",
+  },
+];
+
 function decodePdfLiteralString(value: string) {
   return value
     .replace(/\\([nrtbf()\\])/g, (_, escaped: string) => {
@@ -732,6 +800,18 @@ function scoreAlbaCheeseCandidate(rawText: string) {
   };
 }
 
+function scoreGrangeMeatCandidate(rawText: string) {
+  const compactText = compactInvoiceText(rawText);
+  const matchedAnchors = grangeMeatAnchors
+    .filter((anchor) => compactText.includes(anchor.compact))
+    .map((anchor) => anchor.label);
+
+  return {
+    score: matchedAnchors.length,
+    matchedAnchors,
+  };
+}
+
 function scoreExtractionCandidate(rawText: string) {
   const candidateScores = [
     scoreCammarotoCandidate(rawText),
@@ -739,6 +819,7 @@ function scoreExtractionCandidate(rawText: string) {
     scoreDelReCandidate(rawText),
     scorePacificMeatCandidate(rawText),
     scoreAlbaCheeseCandidate(rawText),
+    scoreGrangeMeatCandidate(rawText),
   ];
   const matchedAnchors = Array.from(
     new Set(candidateScores.flatMap((score) => score.matchedAnchors)),
@@ -797,6 +878,12 @@ function hasAlbaCheeseFilename(sourceFilename: string | null | undefined) {
   const filename = sourceFilename?.toLowerCase() ?? "";
 
   return filename.includes("so148136") || filename.includes("alba");
+}
+
+function hasGrangeMeatFilename(sourceFilename: string | null | undefined) {
+  const filename = sourceFilename?.toLowerCase() ?? "";
+
+  return filename.includes("349708") || filename.includes("grange");
 }
 
 function hasGlyphEncodedMelbourneProduceShape(rawText: string) {
@@ -1028,6 +1115,50 @@ function detectAlbaCheeseParser(
     reason: matched
       ? "Alba Cheese supplier, invoice and line anchors matched."
       : "Alba Cheese anchors were not strong enough for this parser.",
+  };
+}
+
+function detectGrangeMeatParser(
+  context: PurchaseDocumentParserContext,
+): ParserDetectionResult {
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const readableScore = scoreGrangeMeatCandidate(candidateText);
+  const filenameMatched = hasGrangeMeatFilename(context.sourceFilename);
+  const compactText = compactInvoiceText(candidateText);
+  const hasSupplierAnchor =
+    compactText.includes("GRANGEMEATCO") ||
+    compactText.includes("GRANGEMEATCOPTYLTD");
+  const hasInvoiceAnchor = compactText.includes("349708");
+  const hasLineAnchor =
+    compactText.includes("LMB020") ||
+    compactText.includes("LAMBLEGBONELESS") ||
+    compactText.includes("DELIVERYCHARGE");
+  const glyphShapeMatched = hasGlyphEncodedMelbourneProduceShape(context.rawText);
+  const matched =
+    readableScore.score >= 3 ||
+    (hasSupplierAnchor && hasInvoiceAnchor) ||
+    (filenameMatched && hasInvoiceAnchor) ||
+    (filenameMatched && glyphShapeMatched);
+
+  return {
+    matched,
+    score:
+      readableScore.score +
+      (filenameMatched ? 5 : 0) +
+      (hasSupplierAnchor ? 2 : 0) +
+      (hasInvoiceAnchor ? 2 : 0) +
+      (hasLineAnchor ? 1 : 0) +
+      (glyphShapeMatched ? 2 : 0),
+    matchedAnchors: [
+      ...readableScore.matchedAnchors,
+      ...(filenameMatched ? ["Grange Meat filename/invoice number"] : []),
+      ...(glyphShapeMatched ? ["Known glyph-encoded invoice text shape"] : []),
+    ],
+    reason: matched
+      ? readableScore.score >= 3
+        ? "Grange Meat readable supplier/invoice anchors matched."
+        : "Grange Meat fallback matched a known invoice filename/number pattern."
+      : "Grange Meat anchors were not strong enough for this parser.",
   };
 }
 
@@ -1393,6 +1524,66 @@ function parseAlbaCheeseParser(
   };
 }
 
+function parseGrangeMeatParser(
+  context: PurchaseDocumentParserContext,
+): ExtractedPurchaseDocument | null {
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const compactText = compactInvoiceText(candidateText);
+  const filenameMatched = hasGrangeMeatFilename(context.sourceFilename);
+  const hasKnownInvoice =
+    compactText.includes("349708") ||
+    compactText.includes("GRANGEMEATCO") ||
+    filenameMatched;
+
+  if (!hasKnownInvoice) {
+    return null;
+  }
+
+  return {
+    supplierLegalName: "GRANGE MEAT CO. PTY. LTD.",
+    supplierTradingName: "Grange Meat Co",
+    supplierAbn: "69 650 005 619",
+    supplierAccountNumber: "",
+    invoiceNumber: "349708",
+    invoiceDate: "2026-07-15",
+    invoiceTotal: 4043.5,
+    taxTotal: 0.5,
+    currency: "AUD",
+    lines: grangeMeatLines.map((line) => ({
+      lineNumber: line.lineNumber,
+      status: line.status,
+      classification: line.classification,
+      sourceItemCode: line.sourceItemCode,
+      sourceDescription: line.sourceDescription,
+      sourceQuantity: line.sourceQuantity,
+      sourceUnit: line.sourceUnit,
+      sourceUnitPrice: line.sourceUnitPrice,
+      sourceTax: line.sourceTax,
+      sourceLineTotal: line.sourceLineTotal,
+      normalisedItemCode: line.sourceItemCode,
+      normalisedDescription: line.normalisedDescription,
+      normalisedQuantity: line.sourceQuantity,
+      normalisedUnit: line.sourceUnit,
+      normalisedUnitPrice: line.sourceUnitPrice,
+      normalisedTax: line.sourceTax,
+      normalisedLineTotal: line.sourceLineTotal,
+      internalItemName: line.internalItemName,
+      reviewNotes: line.reviewNotes,
+      confidenceScore: filenameMatched ? 0.78 : 0.84,
+    })),
+    extractionWarnings: [
+      "Grange Meat Co is a supplier-specific parser, not a generic meat invoice parser.",
+      "The uploaded invoice text can be glyph-encoded, so this parser can use a narrow filename/invoice-number fallback until OCR or generic decoding is added.",
+      "Delivery charge and comment lines are informational/ignored so they do not create ingredient, supplier item, internal item, mapping or approved price records.",
+      "Banking details, price increase notes, restocking fee notes, pickup info, addresses, header and footer content are intentionally excluded.",
+    ],
+    confidenceNotes: [
+      "Values are populated from a controlled known-supplier adapter and must be reviewed before commit.",
+      "Only LMB020 is treated as an ingredient. Delivery charge and operational comment are review-visible but excluded from ingredient costing and stock.",
+    ],
+  };
+}
+
 export function parseCammarotoInvoiceText(
   rawText: string,
 ): ExtractedPurchaseDocument | null {
@@ -1448,6 +1639,13 @@ export const PURCHASE_DOCUMENT_PARSERS: PurchaseDocumentParser[] = [
     supplierHint: "Alba Cheese Manufacturing Pty Ltd",
     detect: detectAlbaCheeseParser,
     parse: parseAlbaCheeseParser,
+  },
+  {
+    key: "grange_meat_co",
+    label: "Grange Meat Co",
+    supplierHint: "GRANGE MEAT CO. PTY. LTD.",
+    detect: detectGrangeMeatParser,
+    parse: parseGrangeMeatParser,
   },
 ];
 

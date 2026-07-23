@@ -82,6 +82,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Del-Re National Food Group invoice extraction has been added as the third supplier-specific parser
 - Pacific Meat Sales invoice extraction has been added with a narrow no-text PDF filename fallback for known invoice `928733`
 - Alba Cheese invoice extraction has been added as a supplier-specific parser for known invoice `SO148136`
+- Grange Meat Co invoice extraction has been added for known invoice `349708`, with delivery/comment lines excluded from ingredient costing
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -229,6 +230,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Purchase Document commit performance feedback](docs/95-purchase-document-commit-performance-feedback.md)
 - [Pacific Meat Sales parser](docs/97-pacific-meats-parser.md)
 - [Alba Cheese parser](docs/98-alba-cheese-parser.md)
+- [Grange Meat Co parser](docs/99-grange-meat-parser.md)
 
 ## Database Migrations
 
