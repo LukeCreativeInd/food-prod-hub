@@ -89,6 +89,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Products now has a real read-only operational dashboard using tenant supplier, catalogue, internal item, price and formula data
 - Suppliers now support basic manual create/edit for authorised users while demo users remain read-only
 - Ingredients and Packaging now support basic manual internal item create/edit for authorised users while demo users remain read-only
+- Inventory Locations foundation has been drafted with tenant-scoped location records and real Stock Locations list/create/detail UI
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -243,6 +244,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Products module real dashboard](docs/103-products-module-real-dashboard.md)
 - [Suppliers manual create/edit foundation](docs/104-suppliers-manual-create-edit-foundation.md)
 - [Internal items manual create/edit foundation](docs/105-internal-items-manual-create-edit-foundation.md)
+- [Inventory locations foundation](docs/106-inventory-locations-foundation.md)
 
 ## Database Migrations
 
@@ -403,5 +405,6 @@ Repeat invoice and price change behaviour is documented in [Repeat Invoice and P
 - Tenant-scoped Purchase Document file upload foundation with private storage migration draft
 - Controlled Purchase Document extraction prototype for uploaded text-based Cammaroto PDFs
 - Repeat Cammaroto invoice matching and price-change indicators for reviewed intake lines
+- Tenant-scoped inventory location master records with read/create/edit UI only
 
 No costing calculations, broad production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.
