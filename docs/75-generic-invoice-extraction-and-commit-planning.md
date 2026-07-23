@@ -14,6 +14,8 @@ The current Cammaroto flow remains the controlled sample/test path inside the br
 
 Purchase Document Intake is a bulk onboarding accelerator.
 
+Step 101 moves the visible workspace into the new Tools module as Supplier Invoice Intake. The route remains `/purchase-documents`, but the workflow is now positioned as a utility/onboarding tool rather than an Inventory child page.
+
 It should help Clean Eats turn historical supplier invoices into:
 
 - suppliers

@@ -275,7 +275,7 @@ export default async function PurchaseDocumentReviewPage({
     return (
       <AppShell>
         <PageHeader
-          title="Review Purchase Document"
+          title="Review Supplier Invoice"
           description="The requested document could not be found for your current organisation."
         />
         <div className="px-5 py-6 md:px-8">
@@ -287,7 +287,7 @@ export default async function PurchaseDocumentReviewPage({
                 href="/purchase-documents"
                 className="inline-flex items-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
               >
-                Back to Purchase Documents
+                Back to Supplier Invoice Intake
               </Link>
             }
           />
@@ -488,7 +488,7 @@ export default async function PurchaseDocumentReviewPage({
               href="/purchase-documents"
               className="inline-flex w-fit items-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
             >
-              Back to Purchase Documents
+              Back to Supplier Invoice Intake
             </Link>
             <div className="mt-5 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               <div>

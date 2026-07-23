@@ -21,6 +21,7 @@ const iconPaths: Record<NavigationGroup["iconKey"], string[]> = {
   costings: ["M12 2v20", "M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6"],
   production: ["M4 17h16", "M6 17V7h4v10", "M14 17V4h4v13"],
   inventory: ["M4 7h16", "M4 12h16", "M4 17h16", "M7 7v10", "M17 7v10"],
+  tools: ["M14.7 6.3a4 4 0 0 0-5 5L4 17v3h3l5.7-5.7a4 4 0 0 0 5-5", "M15 5l4 4", "M7 17l-1 1"],
   qa: ["M12 3 20 7v6c0 5-3.5 7.5-8 8-4.5-.5-8-3-8-8V7l8-4Z", "m9 12 2 2 4-5"],
   logistics: ["M3 7h11v10H3V7Z", "M14 11h4l3 3v3h-7v-6Z", "M7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z", "M17 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"],
   crm: ["M16 11a4 4 0 1 0-8 0", "M4 21a8 8 0 0 1 16 0", "M19 8v4", "M21 10h-4"],

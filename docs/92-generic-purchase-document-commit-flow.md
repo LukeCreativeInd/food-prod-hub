@@ -4,6 +4,8 @@
 
 The Purchase Document Intake commit flow now supports reviewed documents from supported supplier parsers instead of only the original Cammaroto sample.
 
+Step 101 moves the visible workspace into the new Tools module as Supplier Invoice Intake. The route remains `/purchase-documents`, and commit behaviour is unchanged.
+
 The flow remains review-first. Extraction creates editable review records, and commit only runs after a reviewer confirms classifications, corrected values and internal item names.
 
 ## Generic Commit Flow

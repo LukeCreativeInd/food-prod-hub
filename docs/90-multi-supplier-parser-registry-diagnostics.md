@@ -4,6 +4,8 @@
 
 The Purchase Document extraction prototype now has a parser registry and unknown-invoice diagnostics.
 
+Step 101 moves the visible workspace into the new Tools module as Supplier Invoice Intake. Parser keys, routes and extraction behaviour are unchanged.
+
 This step does not add a second supplier parser, external OCR, AI extraction, generic all-supplier invoice parsing, auto-commit, stock movements, purchase orders, Goods Inwards, Xero integration, Platform Admin changes, RLS changes, service-role usage or demo-user Purchase Document access.
 
 ## Why This Exists

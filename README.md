@@ -84,6 +84,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Alba Cheese invoice extraction has been added as a supplier-specific parser for known invoice `SO148136`
 - Grange Meat Co invoice extraction has been added for known invoice `349708`, with delivery/comment lines excluded from ingredient costing
 - Il Nonno invoice extraction has been added for known invoice `INV-6136`, with delivery-note duplicate lines excluded
+- Supplier Invoice Intake now lives under the new Tools module while keeping the `/purchase-documents` route
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -233,6 +234,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Alba Cheese parser](docs/98-alba-cheese-parser.md)
 - [Grange Meat Co parser](docs/99-grange-meat-parser.md)
 - [Il Nonno parser](docs/100-il-nonno-parser.md)
+- [Tools module and Supplier Invoice Intake](docs/101-tools-module-supplier-invoice-intake.md)
 
 ## Database Migrations
 

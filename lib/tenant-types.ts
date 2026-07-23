@@ -4,6 +4,7 @@ export type ModuleKey =
   | "production"
   | "inventory"
   | "purchasing"
+  | "tools"
   | "qa"
   | "logistics"
   | "wholesale"

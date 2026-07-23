@@ -54,6 +54,13 @@ export const availableModules: ModuleRegistryItem[] = [
     phase: "Phase 2",
   },
   {
+    key: "tools",
+    label: "Tools",
+    description: "Data tools, imports, exports, and bulk operational utilities.",
+    group: "Platform",
+    phase: "Platform",
+  },
+  {
     key: "qa",
     label: "QA",
     description: "Quality checks, sign-offs, temperature logs, and corrective actions.",

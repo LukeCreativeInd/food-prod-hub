@@ -12,8 +12,8 @@ import {
 } from "@/lib/purchase-document-intake";
 
 const workflowSteps = [
-  "Upload Document",
-  "Extract / Enter Document Data",
+  "Upload Supplier Invoice",
+  "Extract / Enter Invoice Data",
   "Review Import",
   "Commit Approved Records",
   "Show Import Result",
@@ -95,8 +95,8 @@ export default async function PurchaseDocumentsPage() {
   return (
     <AppShell>
       <PageHeader
-        title="Purchase Documents"
-        description="Review supplier invoices and purchase documents before committing supplier catalogue, internal item mappings and approved prices."
+        title="Supplier Invoice Intake"
+        description="Upload, extract and review supplier invoices before committing supplier catalogue, internal item mappings and approved prices."
       />
 
       <div className="space-y-6 px-5 py-6 md:px-8">

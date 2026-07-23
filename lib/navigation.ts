@@ -19,6 +19,7 @@ export type NavigationGroup = {
     | "costings"
     | "production"
     | "inventory"
+    | "tools"
     | "qa"
     | "logistics"
     | "crm"
@@ -196,16 +197,25 @@ export const navigationGroups: NavigationGroup[] = [
         requiredModuleKey: "inventory",
       },
       {
-        label: "Purchase Documents",
-        href: "/purchase-documents",
-        requiredPermission: "purchase_documents.view",
-        requiredModuleKey: "inventory",
-      },
-      {
         label: "BOM / Traceability",
         href: "/bom-traceability",
         requiredPermission: "inventory.view",
         requiredModuleKey: "inventory",
+      },
+    ],
+  },
+  {
+    label: "Tools",
+    href: "/purchase-documents",
+    requiredPermission: "purchase_documents.view",
+    requiredModuleKey: "tools",
+    iconKey: "tools",
+    items: [
+      {
+        label: "Supplier Invoice Intake",
+        href: "/purchase-documents",
+        requiredPermission: "purchase_documents.view",
+        requiredModuleKey: "tools",
       },
     ],
   },
