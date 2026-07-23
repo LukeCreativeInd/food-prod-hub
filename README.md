@@ -77,7 +77,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Purchase Document upload and extraction foundation has been added with private storage planning and reviewed upload flow
 - Cammaroto extraction now handles supplier-specific embedded PDF text decoding and remains review-first
 - Purchase Document extraction now has a parser registry and unknown-invoice diagnostics for future supplier parsers
-- Melbourne Produce Merchants invoice extraction has been added as the second supplier-specific parser
+- Melbourne Produce Merchants invoice extraction has been added as the second supplier-specific parser, with repeat Fresho invoice support for `F56478121`
 - Generic Purchase Document commit now supports reviewed supported-parser documents, including Cammaroto and Melbourne Produce, without creating stock movements
 - Del-Re National Food Group invoice extraction has been added as the third supplier-specific parser
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details

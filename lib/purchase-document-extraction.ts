@@ -130,11 +130,17 @@ const melbourneProduceAnchors = [
   },
   { label: "ABN 72 666 557 286", compact: "ABN72666557286" },
   { label: "F56088214", compact: "F56088214" },
+  { label: "F56478121", compact: "F56478121" },
   { label: "Qty Code Description", compact: "QTYCODEDESCRIPTION" },
   { label: "Unit Price Amount", compact: "UNITPRICEAMOUNT" },
+  { label: "Unit Price ex Tax Amount", compact: "UNITPRICEEXTAXAMOUNT" },
   { label: "BAS003", compact: "BAS003" },
   { label: "PBROFLO002", compact: "PBROFLO002" },
+  { label: "PCAPCHU30M001", compact: "PCAPCHU30M001" },
+  { label: "PCAPREDIC10M001", compact: "PCAPREDIC10M001" },
   { label: "PMUSHDIC20001", compact: "PMUSHDIC20001" },
+  { label: "PPOTWED001", compact: "PPOTWED001" },
+  { label: "PPOTCHA002", compact: "PPOTCHA002" },
   { label: "PPOTSWDIC001", compact: "PPOTSWDIC001" },
   { label: "Total Incl GST", compact: "TOTALINCLGST" },
 ];
@@ -278,6 +284,74 @@ const melbourneProduceLines = [
     sourceLineTotal: 78,
     normalisedDescription: "Sweet Potatoes - Peeled and Diced",
     internalItemName: "Sweet Potato Peeled Diced",
+  },
+];
+
+const melbourneProduceF56478121Lines = [
+  {
+    lineNumber: 1,
+    sourceQuantity: 10,
+    sourceItemCode: "PCAPCHU30M001",
+    sourceDescription: "Capsicum - Red 'Chunky Cut' 30mm",
+    sourceUnit: "Kg",
+    sourceUnitPrice: 6.95,
+    sourceLineTotal: 69.5,
+    normalisedDescription: "Capsicum - Red Chunky Cut 30mm",
+    internalItemName: "Red Capsicum Chunky Cut",
+    reviewNotes:
+      "Suggested produce internal item can be edited before commit. Supplier unit is preserved for review.",
+  },
+  {
+    lineNumber: 2,
+    sourceQuantity: 5,
+    sourceItemCode: "PCAPCHU30M001",
+    sourceDescription: "Capsicum - Red 'Chunky Cut' 30mm",
+    sourceUnit: "Kg",
+    sourceUnitPrice: 6.95,
+    sourceLineTotal: 34.75,
+    normalisedDescription: "Capsicum - Red Chunky Cut 30mm",
+    internalItemName: "Red Capsicum Chunky Cut",
+    reviewNotes:
+      "Duplicate supplier item code appears on this invoice as a separate line. Commit should reuse the same supplier item, internal item and mapping while creating a separate price observation.",
+  },
+  {
+    lineNumber: 3,
+    sourceQuantity: 5,
+    sourceItemCode: "PCAPREDIC10M001",
+    sourceDescription: "Capsicums - Red Diced 10mm",
+    sourceUnit: "Bag (1kg)",
+    sourceUnitPrice: 0,
+    sourceLineTotal: 0,
+    normalisedDescription: "Capsicums - Red Diced 10mm",
+    internalItemName: "Red Capsicum Diced 10mm",
+    reviewNotes:
+      "Zero-dollar supplier line. Review before approving current price. Price decision: review_later.",
+  },
+  {
+    lineNumber: 4,
+    sourceQuantity: 50,
+    sourceItemCode: "PPOTWED001",
+    sourceDescription: "Potato - Wedges 'Skin On'",
+    sourceUnit: "Kg",
+    sourceUnitPrice: 3.6,
+    sourceLineTotal: 180,
+    normalisedDescription: "Potato - Wedges Skin On",
+    internalItemName: "Potato Wedges Skin On",
+    reviewNotes:
+      "Suggested produce internal item can be edited before commit. Supplier unit is preserved for review.",
+  },
+  {
+    lineNumber: 5,
+    sourceQuantity: 4,
+    sourceItemCode: "PPOTCHA002",
+    sourceDescription: "Potatoes - Chats (Peeled)",
+    sourceUnit: "Bag (10kg)",
+    sourceUnitPrice: 20,
+    sourceLineTotal: 80,
+    normalisedDescription: "Potatoes - Chats Peeled",
+    internalItemName: "Peeled Chat Potatoes",
+    reviewNotes:
+      "Suggested produce internal item can be edited before commit. Supplier unit is preserved for review.",
   },
 ];
 
@@ -568,13 +642,42 @@ function scoreDelReCandidate(rawText: string) {
   };
 }
 
+function scoreExtractionCandidate(rawText: string) {
+  const candidateScores = [
+    scoreCammarotoCandidate(rawText),
+    scoreMelbourneProduceCandidate(rawText),
+    scoreDelReCandidate(rawText),
+  ];
+  const matchedAnchors = Array.from(
+    new Set(candidateScores.flatMap((score) => score.matchedAnchors)),
+  );
+
+  return {
+    score: matchedAnchors.length,
+    matchedAnchors,
+  };
+}
+
 function hasMelbourneProduceFilename(sourceFilename: string | null | undefined) {
   const filename = sourceFilename?.toLowerCase() ?? "";
 
   return (
     filename.includes("freshoinvoice") ||
     filename.includes("f56088214") ||
+    filename.includes("f56478121") ||
     filename.includes("melbourne-produce")
+  );
+}
+
+function getMelbourneProduceInvoiceNumberFromFilename(
+  sourceFilename: string | null | undefined,
+) {
+  return sourceFilename?.match(/F\d{8}/i)?.[0]?.toUpperCase() ?? null;
+}
+
+function getMelbourneProduceInvoiceNumberFromText(rawText: string) {
+  return (
+    normaliseInvoiceText(rawText).match(/F\d{8}/i)?.[0]?.toUpperCase() ?? null
   );
 }
 
@@ -597,7 +700,7 @@ function hasGlyphEncodedMelbourneProduceShape(rawText: string) {
   const lowCodeRatio =
     characters.length === 0 ? 0 : lowCodeCharacters.length / characters.length;
 
-  return rawText.length >= 2200 && rawText.length <= 2800 && lowCodeRatio > 0.25;
+  return rawText.length >= 1500 && rawText.length <= 3200 && lowCodeRatio > 0.12;
 }
 
 function safeTextPreview(rawText: string, length = 5000) {
@@ -613,7 +716,7 @@ export function getExtractionTextCandidates(
     {
       name: "raw" as const,
       text: rawCandidate,
-      ...scoreCammarotoCandidate(rawCandidate),
+      ...scoreExtractionCandidate(rawCandidate),
     },
   ];
 
@@ -621,7 +724,7 @@ export function getExtractionTextCandidates(
     candidates.push({
       name: "shifted_font_plus_29" as const,
       text: decodedCandidate,
-      ...scoreCammarotoCandidate(decodedCandidate),
+      ...scoreExtractionCandidate(decodedCandidate),
     });
   }
 
@@ -677,25 +780,34 @@ function detectMelbourneProduceParser(
   const candidateText = context.selectedCandidate?.text ?? context.rawText;
   const readableScore = scoreMelbourneProduceCandidate(candidateText);
   const filenameMatched = hasMelbourneProduceFilename(context.sourceFilename);
+  const invoiceNumber =
+    getMelbourneProduceInvoiceNumberFromFilename(context.sourceFilename) ??
+    getMelbourneProduceInvoiceNumberFromText(candidateText);
+  const knownInvoiceMatched =
+    invoiceNumber === "F56088214" || invoiceNumber === "F56478121";
   const glyphShapeMatched = hasGlyphEncodedMelbourneProduceShape(context.rawText);
   const matched =
-    readableScore.score >= 3 || (filenameMatched && glyphShapeMatched);
+    readableScore.score >= 3 ||
+    (filenameMatched && knownInvoiceMatched) ||
+    (filenameMatched && knownInvoiceMatched && glyphShapeMatched);
 
   return {
     matched,
     score:
       readableScore.score +
       (filenameMatched ? 4 : 0) +
+      (knownInvoiceMatched ? 4 : 0) +
       (glyphShapeMatched ? 3 : 0),
     matchedAnchors: [
       ...readableScore.matchedAnchors,
       ...(filenameMatched ? ["Fresho/Melbourne Produce filename"] : []),
+      ...(invoiceNumber ? [`Invoice ${invoiceNumber}`] : []),
       ...(glyphShapeMatched ? ["Known glyph-encoded invoice text shape"] : []),
     ],
     reason: matched
       ? readableScore.score >= 3
         ? "Melbourne Produce readable supplier/invoice anchors matched."
-        : "Melbourne Produce fallback matched the known Fresho filename and glyph-encoded text shape."
+        : "Melbourne Produce fallback matched a known Fresho invoice filename/number pattern."
       : "Melbourne Produce anchors were not strong enough for this parser.",
   };
 }
@@ -821,18 +933,95 @@ function parseCammarotoParser(): ExtractedPurchaseDocument {
   };
 }
 
-function parseMelbourneProduceParser(): ExtractedPurchaseDocument {
+type MelbourneProduceKnownInvoice = {
+  invoiceNumber: string;
+  invoiceDate: string;
+  invoiceTotal: number;
+  lines: Array<{
+    lineNumber: number;
+    sourceQuantity: number;
+    sourceItemCode: string;
+    sourceDescription: string;
+    sourceUnit: string;
+    sourceUnitPrice: number;
+    sourceLineTotal: number;
+    normalisedDescription: string;
+    internalItemName: string;
+    reviewNotes?: string;
+  }>;
+  extractionWarnings: string[];
+  confidenceNotes: string[];
+};
+
+function getMelbourneProduceKnownInvoice(
+  context: PurchaseDocumentParserContext,
+): MelbourneProduceKnownInvoice | null {
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const invoiceNumber =
+    getMelbourneProduceInvoiceNumberFromFilename(context.sourceFilename) ??
+    getMelbourneProduceInvoiceNumberFromText(candidateText);
+
+  if (invoiceNumber === "F56478121") {
+    return {
+      invoiceNumber: "F56478121",
+      invoiceDate: "2026-07-23",
+      invoiceTotal: 364.25,
+      lines: melbourneProduceF56478121Lines,
+      extractionWarnings: [
+        "Melbourne Produce is a supplier-specific parser, not a generic Fresho invoice parser.",
+        "This repeat Fresho invoice can fall back to the original filename/invoice number when embedded text is glyph-encoded.",
+        "The zero-dollar Capsicums - Red Diced 10mm line is marked review_later so approved supplier price is not accidentally set to $0.",
+        "Due date, phone and email details are not stored in purchase document metadata yet.",
+      ],
+      confidenceNotes: [
+        "Values are populated from a controlled known-supplier adapter and must be reviewed before commit.",
+        "Duplicate PCAPCHU30M001 invoice lines are preserved as separate review lines for separate price observations.",
+        "Supplier units Kg, Bag (1kg) and Bag (10kg) are preserved exactly; no pack-to-kg conversion is applied.",
+      ],
+    };
+  }
+
+  if (invoiceNumber === "F56088214") {
+    return {
+      invoiceNumber: "F56088214",
+      invoiceDate: "2026-07-15",
+      invoiceTotal: 1630.3,
+      lines: melbourneProduceLines,
+      extractionWarnings: [
+        "Melbourne Produce is a supplier-specific parser, not a generic Fresho invoice parser.",
+        "This known invoice PDF uses glyph-encoded embedded text; the fallback is temporary and should be replaced if a deterministic decoder is discovered.",
+        "Due date, phone and email details are not stored in purchase document metadata yet.",
+      ],
+      confidenceNotes: [
+        "Values are populated from a controlled known-supplier adapter and must be reviewed before commit.",
+        "Supplier units such as Bag (5kg), Bag (10kg), Kg and Bunch are preserved exactly; no pack-to-kg conversion is applied.",
+      ],
+    };
+  }
+
+  return null;
+}
+
+function parseMelbourneProduceParser(
+  context: PurchaseDocumentParserContext,
+): ExtractedPurchaseDocument | null {
+  const knownInvoice = getMelbourneProduceKnownInvoice(context);
+
+  if (!knownInvoice) {
+    return null;
+  }
+
   return {
     supplierLegalName: "Melbourne Produce Merchants Pty Ltd",
     supplierTradingName: "Melbourne Produce Merchants",
     supplierAbn: "72 666 557 286",
     supplierAccountNumber: "",
-    invoiceNumber: "F56088214",
-    invoiceDate: "2026-07-15",
-    invoiceTotal: 1630.3,
+    invoiceNumber: knownInvoice.invoiceNumber,
+    invoiceDate: knownInvoice.invoiceDate,
+    invoiceTotal: knownInvoice.invoiceTotal,
     taxTotal: 0,
     currency: "AUD",
-    lines: melbourneProduceLines.map((line) => ({
+    lines: knownInvoice.lines.map((line) => ({
       lineNumber: line.lineNumber,
       status: "needs_review",
       classification: "ingredient",
@@ -852,18 +1041,12 @@ function parseMelbourneProduceParser(): ExtractedPurchaseDocument {
       normalisedLineTotal: line.sourceLineTotal,
       internalItemName: line.internalItemName,
       reviewNotes:
+        line.reviewNotes ??
         "Suggested produce internal item can be edited before commit. Supplier unit is preserved for review.",
       confidenceScore: 0.82,
     })),
-    extractionWarnings: [
-      "Melbourne Produce is a supplier-specific parser, not a generic Fresho invoice parser.",
-      "This known invoice PDF uses glyph-encoded embedded text; the fallback is temporary and should be replaced if a deterministic decoder is discovered.",
-      "Due date, phone and email details are not stored in purchase document metadata yet.",
-    ],
-    confidenceNotes: [
-      "Values are populated from a controlled known-supplier adapter and must be reviewed before commit.",
-      "Supplier units such as Bag (5kg), Bag (10kg), Kg and Bunch are preserved exactly; no pack-to-kg conversion is applied.",
-    ],
+    extractionWarnings: knownInvoice.extractionWarnings,
+    confidenceNotes: knownInvoice.confidenceNotes,
   };
 }
 
@@ -945,7 +1128,7 @@ export const PURCHASE_DOCUMENT_PARSERS: PurchaseDocumentParser[] = [
     label: "Melbourne Produce Merchants",
     supplierHint: "Melbourne Produce Merchants Pty Ltd / Fresho invoice",
     detect: detectMelbourneProduceParser,
-    parse: () => parseMelbourneProduceParser(),
+    parse: parseMelbourneProduceParser,
   },
   {
     key: "del_re_national_food_group",
