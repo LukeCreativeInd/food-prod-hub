@@ -163,6 +163,19 @@ const delReAnchors = [
   { label: "Total Incl GST", compact: "TOTALINCLGST" },
 ];
 
+const pacificMeatAnchors = [
+  { label: "Pacific Meat Sales", compact: "PACIFICMEATSALES" },
+  { label: "ABN 60 121 494 791", compact: "ABN60121494791" },
+  { label: "Invoice No 928733", compact: "INVOICENO928733" },
+  {
+    label: "Item Code Item Description Qty Type Weight",
+    compact: "ITEMCODEITEMDESCRIPTIONQTYTYPEWEIGHT",
+  },
+  { label: "BEEF TRIM", compact: "BEEFTRIM" },
+  { label: "00450", compact: "00450" },
+  { label: "Pretax Total", compact: "PRETAXTOTAL" },
+];
+
 const melbourneProduceLines = [
   {
     lineNumber: 1,
@@ -466,6 +479,28 @@ const delReLines = [
   },
 ];
 
+const pacificMeatLines = [
+  {
+    lineNumber: 1,
+    sourceQuantity: 1,
+    sourceItemCode: "00450",
+    sourceDescription:
+      "BEEF TRIM 80cl VAC BULK BIN HALAL (D) Best Before 30 Day",
+    sourceUnit: "BIN",
+    sourceUnitPrice: 10.5,
+    sourceLineTotal: 4189.5,
+    normalisedDescription:
+      "BEEF TRIM 80cl VAC BULK BIN HALAL (D) Best Before 30 Day",
+    normalisedQuantity: 399,
+    normalisedUnit: "KG",
+    normalisedUnitPrice: 10.5,
+    normalisedLineTotal: 4189.5,
+    internalItemName: "Beef Trim 80cl",
+    reviewNotes:
+      "Source invoice line is 1 BIN / 399kg. Corrected review quantity uses 399kg at $10.50/kg. Confirm before commit. Price decision: update_current_price.",
+  },
+];
+
 function decodePdfLiteralString(value: string) {
   return value
     .replace(/\\([nrtbf()\\])/g, (_, escaped: string) => {
@@ -642,11 +677,24 @@ function scoreDelReCandidate(rawText: string) {
   };
 }
 
+function scorePacificMeatCandidate(rawText: string) {
+  const compactText = compactInvoiceText(rawText);
+  const matchedAnchors = pacificMeatAnchors
+    .filter((anchor) => compactText.includes(anchor.compact))
+    .map((anchor) => anchor.label);
+
+  return {
+    score: matchedAnchors.length,
+    matchedAnchors,
+  };
+}
+
 function scoreExtractionCandidate(rawText: string) {
   const candidateScores = [
     scoreCammarotoCandidate(rawText),
     scoreMelbourneProduceCandidate(rawText),
     scoreDelReCandidate(rawText),
+    scorePacificMeatCandidate(rawText),
   ];
   const matchedAnchors = Array.from(
     new Set(candidateScores.flatMap((score) => score.matchedAnchors)),
@@ -688,6 +736,16 @@ function hasDelReFilename(sourceFilename: string | null | undefined) {
     filename.includes("del-re") ||
     filename.includes("delre") ||
     filename.includes("1354283")
+  );
+}
+
+function hasPacificMeatFilename(sourceFilename: string | null | undefined) {
+  const filename = sourceFilename?.toLowerCase() ?? "";
+
+  return (
+    filename.includes("pacific") &&
+    (filename.includes("meat") || filename.includes("meats")) &&
+    filename.includes("928733")
   );
 }
 
@@ -846,6 +904,43 @@ function detectDelReParser(
     reason: matched
       ? "Del-Re supplier, invoice and item anchors matched."
       : "Del-Re anchors were not strong enough for this parser.",
+  };
+}
+
+function detectPacificMeatParser(
+  context: PurchaseDocumentParserContext,
+): ParserDetectionResult {
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const readableScore = scorePacificMeatCandidate(candidateText);
+  const filenameMatched = hasPacificMeatFilename(context.sourceFilename);
+  const compactText = compactInvoiceText(candidateText);
+  const hasSupplierAnchor = compactText.includes("PACIFICMEATSALES");
+  const hasInvoiceAnchor = compactText.includes("928733");
+  const hasLineAnchor =
+    compactText.includes("BEEFTRIM") || compactText.includes("00450");
+  const matched =
+    readableScore.score >= 3 ||
+    (hasSupplierAnchor && hasInvoiceAnchor) ||
+    (filenameMatched && hasInvoiceAnchor) ||
+    filenameMatched;
+
+  return {
+    matched,
+    score:
+      readableScore.score +
+      (filenameMatched ? 5 : 0) +
+      (hasSupplierAnchor ? 2 : 0) +
+      (hasInvoiceAnchor ? 2 : 0) +
+      (hasLineAnchor ? 1 : 0),
+    matchedAnchors: [
+      ...readableScore.matchedAnchors,
+      ...(filenameMatched ? ["Pacific Meat filename/invoice number"] : []),
+    ],
+    reason: matched
+      ? readableScore.score >= 3
+        ? "Pacific Meat readable supplier/invoice anchors matched."
+        : "Pacific Meat fallback matched a known invoice filename/number pattern."
+      : "Pacific Meat anchors were not strong enough for this parser.",
   };
 }
 
@@ -1095,6 +1190,64 @@ function parseDelReParser(): ExtractedPurchaseDocument {
   };
 }
 
+function parsePacificMeatParser(
+  context: PurchaseDocumentParserContext,
+): ExtractedPurchaseDocument | null {
+  const filenameMatched = hasPacificMeatFilename(context.sourceFilename);
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const compactText = compactInvoiceText(candidateText);
+  const hasKnownInvoice =
+    filenameMatched ||
+    (compactText.includes("PACIFICMEATSALES") && compactText.includes("928733"));
+
+  if (!hasKnownInvoice) {
+    return null;
+  }
+
+  return {
+    supplierLegalName: "Pacific Meat Sales",
+    supplierTradingName: "Pacific Meat Sales",
+    supplierAbn: "60 121 494 791",
+    supplierAccountNumber: "CLEAN",
+    invoiceNumber: "928733",
+    invoiceDate: "2026-07-14",
+    invoiceTotal: 4189.5,
+    taxTotal: 0,
+    currency: "AUD",
+    lines: pacificMeatLines.map((line) => ({
+      lineNumber: line.lineNumber,
+      status: "needs_review",
+      classification: "ingredient",
+      sourceItemCode: line.sourceItemCode,
+      sourceDescription: line.sourceDescription,
+      sourceQuantity: line.sourceQuantity,
+      sourceUnit: line.sourceUnit,
+      sourceUnitPrice: line.sourceUnitPrice,
+      sourceTax: 0,
+      sourceLineTotal: line.sourceLineTotal,
+      normalisedItemCode: line.sourceItemCode,
+      normalisedDescription: line.normalisedDescription,
+      normalisedQuantity: line.normalisedQuantity,
+      normalisedUnit: line.normalisedUnit,
+      normalisedUnitPrice: line.normalisedUnitPrice,
+      normalisedTax: 0,
+      normalisedLineTotal: line.normalisedLineTotal,
+      internalItemName: line.internalItemName,
+      reviewNotes: line.reviewNotes,
+      confidenceScore: filenameMatched ? 0.78 : 0.84,
+    })),
+    extractionWarnings: [
+      "Pacific Meat Sales is a supplier-specific parser, not a generic meat invoice parser.",
+      "The known uploaded PDF has no usable embedded text, so this parser can use a narrow filename/invoice-number fallback until OCR is added.",
+      "Bank/payment details, order reference, rep, delivery address and supplier contact details are not stored as supplier payment or master data.",
+    ],
+    confidenceNotes: [
+      "Values are populated from a controlled known-supplier adapter and must be reviewed before commit.",
+      "The supplier source line is preserved as 1 BIN, while corrected review quantity uses 399 KG at $10.50/kg to avoid treating the bin as a $4,189.50 unit.",
+    ],
+  };
+}
+
 export function parseCammarotoInvoiceText(
   rawText: string,
 ): ExtractedPurchaseDocument | null {
@@ -1136,6 +1289,13 @@ export const PURCHASE_DOCUMENT_PARSERS: PurchaseDocumentParser[] = [
     supplierHint: "DEL-RE National Food Group",
     detect: detectDelReParser,
     parse: () => parseDelReParser(),
+  },
+  {
+    key: "pacific_meat_sales",
+    label: "Pacific Meat Sales",
+    supplierHint: "Pacific Meat Sales",
+    detect: detectPacificMeatParser,
+    parse: parsePacificMeatParser,
   },
 ];
 

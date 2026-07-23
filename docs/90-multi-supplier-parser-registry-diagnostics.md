@@ -40,6 +40,7 @@ Current parser registry:
 - `cammaroto_poultry` - Cammaroto Poultry
 - `melbourne_produce_merchants` - Melbourne Produce Merchants
 - `del_re_national_food_group` - Del-Re National Food Group
+- `pacific_meat_sales` - Pacific Meat Sales
 
 The Cammaroto parser still supports the uploaded invoice with shifted-font embedded PDF text. It remains supplier-specific and intentionally narrow.
 
@@ -47,12 +48,15 @@ Step 091 adds the Melbourne Produce Merchants parser for known Fresho invoices i
 
 Step 093 adds the Del-Re National Food Group parser for known invoice `1354283`; see [Del-Re National Food Group Parser](93-del-re-parser.md). It is also supplier-specific, review-first and excludes Fuel Levy from item-line extraction.
 
+Step 097 adds the Pacific Meat Sales parser for known invoice `928733`; see [Pacific Meat Sales Parser](97-pacific-meats-parser.md). The uploaded Pacific PDF has no usable embedded text, so this parser includes a narrow filename/invoice-number fallback until OCR is planned.
+
 ## Candidate Text Flow
 
 Extraction builds text candidates before parser detection:
 
 - raw embedded PDF text
 - shifted-font decoded text where the PDF glyph encoding requires it
+- narrow filename/invoice-number fallback for explicitly supported no-text PDFs
 
 Parsers run detection against the selected best candidate. The best parser match is chosen by score.
 
@@ -68,6 +72,14 @@ When no parser matches:
 - no stock records are created
 - the document returns to `uploaded`
 - the review page shows a parser-needed message
+
+When a PDF has no usable embedded text and no supported filename fallback:
+
+- no parser runs from OCR
+- no `purchase_document_lines` are created
+- no supplier, item, price or stock records are created
+- the document returns to `uploaded`
+- the review page explains that OCR is not connected yet
 
 Diagnostics include:
 
@@ -122,7 +134,7 @@ The extraction flow:
 
 ## Limitations
 
-- Only Cammaroto Poultry, Melbourne Produce Merchants and Del-Re National Food Group have supplier-specific parsers today.
+- Only Cammaroto Poultry, Melbourne Produce Merchants, Del-Re National Food Group and Pacific Meat Sales have supplier-specific parsers today.
 - Scanned PDFs still require future OCR/provider planning.
 - Unknown diagnostics are for parser development and review, not a substitute for a parser.
 - Unknown invoices do not create review lines until a supplier parser is added.

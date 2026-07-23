@@ -123,7 +123,7 @@ function messageFor(
   }
 
   if (extract === "no_text") {
-    return "No extractable embedded PDF text was found. OCR is not connected yet.";
+    return "The file uploaded successfully, but no embedded PDF text was found. OCR is not connected yet, so no review lines or supplier/item/price records were created.";
   }
 
   if (extract === "unknown_parser" || extract === "unknown_pattern") {

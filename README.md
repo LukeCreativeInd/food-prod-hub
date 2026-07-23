@@ -80,6 +80,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Melbourne Produce Merchants invoice extraction has been added as the second supplier-specific parser, with repeat Fresho invoice support for `F56478121`
 - Generic Purchase Document commit now supports reviewed supported-parser documents, including Cammaroto and Melbourne Produce, without creating stock movements
 - Del-Re National Food Group invoice extraction has been added as the third supplier-specific parser
+- Pacific Meat Sales invoice extraction has been added with a narrow no-text PDF filename fallback for known invoice `928733`
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -225,6 +226,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Del-Re National Food Group parser](docs/93-del-re-parser.md)
 - [Purchase Document Review UI compaction](docs/94-purchase-document-review-ui-compaction.md)
 - [Purchase Document commit performance feedback](docs/95-purchase-document-commit-performance-feedback.md)
+- [Pacific Meat Sales parser](docs/97-pacific-meats-parser.md)
 
 ## Database Migrations
 

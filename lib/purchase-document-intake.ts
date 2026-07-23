@@ -1444,8 +1444,23 @@ export async function extractPurchaseDocument(
 
   const fileBuffer = Buffer.from(await fileData.arrayBuffer());
   const rawText = extractEmbeddedPdfText(fileBuffer);
+  const parseResult = parsePurchaseDocumentText(rawText, {
+    sourceFilename: document.original_filename,
+  });
 
-  if (!rawText) {
+  if (!rawText && parseResult.status !== "parsed") {
+    if (isDevelopment()) {
+      console.error("[purchase-document-extraction]", {
+        stage: "no_text",
+        organisationId,
+        documentId,
+        mimeType: document.mime_type,
+        originalFilename: document.original_filename,
+        message:
+          "No usable embedded PDF text was found and no supplier-specific filename fallback matched.",
+      });
+    }
+
     await supabase
       .from("purchase_documents")
       .update({
@@ -1459,13 +1474,9 @@ export async function extractPurchaseDocument(
       documentId,
       status: "no_text",
       message:
-        "No extractable embedded PDF text was found. OCR is not connected yet.",
+        "The file uploaded successfully, but no embedded PDF text was found. OCR is not connected yet, so no lines or supplier/item/price records were created.",
     };
   }
-
-  const parseResult = parsePurchaseDocumentText(rawText, {
-    sourceFilename: document.original_filename,
-  });
 
   if (parseResult.status === "unknown_parser") {
     if (isDevelopment()) {
