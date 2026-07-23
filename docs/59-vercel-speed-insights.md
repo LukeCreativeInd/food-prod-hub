@@ -53,8 +53,11 @@ Review Speed Insights alongside:
 - [Auth Context and Navigation Query Audit](56-auth-context-navigation-query-audit.md)
 - [Auth Context Query Optimisation](57-auth-context-query-optimisation.md)
 - [Hosting Region and Vercel/Supabase Configuration Check](58-hosting-region-vercel-supabase-check.md)
+- [Performance Audit and Route Load Optimisation](102-performance-audit-route-load-optimisation.md)
 
 Speed Insights should support, not replace, manual route timing observations and Vercel/Supabase region checks.
+
+The route load optimisation pass added skeleton loading states and deferred the Purchase Document source PDF preview until requested. Speed Insights should be used after deployment to check whether the perceived route improvements line up with real user-facing metrics.
 
 ## Behaviour Preserved
 

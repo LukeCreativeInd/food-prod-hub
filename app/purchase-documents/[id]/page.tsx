@@ -29,6 +29,7 @@ type PageProps = {
     saved?: string;
     upload?: string;
     extract?: string;
+    preview?: string;
   }>;
 };
 
@@ -269,7 +270,8 @@ export default async function PurchaseDocumentReviewPage({
   searchParams,
 }: PageProps) {
   const [{ id }, query] = await Promise.all([params, searchParams]);
-  const review = await getPurchaseDocumentReview(id);
+  const includeSourcePreview = query.preview === "source";
+  const review = await getPurchaseDocumentReview(id, { includeSourcePreview });
 
   if (!review) {
     return (
@@ -534,7 +536,8 @@ export default async function PurchaseDocumentReviewPage({
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
                 Source files are loaded through short-lived signed URLs for
-                authorised users. Extraction is not connected yet.
+                authorised users. Preview is opened on request so the review
+                page can load quickly.
               </p>
               <div className="mt-5 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-5">
                 <p className="text-sm font-semibold text-slate-950">
@@ -588,6 +591,19 @@ export default async function PurchaseDocumentReviewPage({
                       src={sourceFile.signedUrl}
                       className="h-96 w-full rounded-md border border-slate-200 bg-white"
                     />
+                  </div>
+                ) : document.storage_path ? (
+                  <div className="mt-4 space-y-3">
+                    <Link
+                      href={`/purchase-documents/${document.id}?preview=source`}
+                      className="inline-flex items-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
+                    >
+                      Show source preview
+                    </Link>
+                    <p className="text-xs leading-5 text-slate-500">
+                      The PDF preview and Open source document link load only
+                      after this step creates a short-lived signed URL.
+                    </p>
                   </div>
                 ) : null}
                 {lines.length === 0 ? (

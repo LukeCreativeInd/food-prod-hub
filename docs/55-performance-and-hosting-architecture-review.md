@@ -240,6 +240,8 @@ The manual hosting region and configuration checklist now exists at [Hosting Reg
 
 Vercel Speed Insights instrumentation has been added in [Vercel Speed Insights](59-vercel-speed-insights.md). It should provide deployed user-facing performance metrics after real usage, but it does not replace region/configuration checks or manual timing notes.
 
+Route loading skeletons, dev-only route timing diagnostics and deferred Purchase Document source PDF preview loading have been added in [Performance Audit and Route Load Optimisation](102-performance-audit-route-load-optimisation.md). This improves perceived route transitions and gives safer timing clues without changing auth, RLS, permissions or business workflows.
+
 The next performance fact-gathering step is to complete the region/configuration checklist and compare route timings before changing hosting.
 
 While performance metrics are being gathered, module registry alignment is being reviewed as the next platform cleanup in [Module Registry Alignment Review](60-module-registry-alignment-review.md).

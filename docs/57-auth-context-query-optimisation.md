@@ -138,6 +138,8 @@ Demo user:
 
 This optimisation reduces avoidable repeated server helper work, but it does not prove or solve every navigation latency source.
 
+Follow-up route-load work has added structured loading skeletons and development-only route timing diagnostics in [Performance Audit and Route Load Optimisation](102-performance-audit-route-load-optimisation.md). The app shell now logs safe navigation-context timing in development so route guard/navigation cost can be compared with page-specific data loading.
+
 Still worth reviewing:
 
 - Vercel execution region

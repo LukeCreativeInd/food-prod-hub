@@ -6,6 +6,7 @@ import {
   getCurrentEnabledModuleKeys,
   getCurrentPermissionKeys,
 } from "@/lib/auth";
+import { logDevRouteTiming } from "@/lib/dev-performance";
 import { navigationGroups } from "@/lib/navigation";
 
 type AppShellProps = {
@@ -13,6 +14,7 @@ type AppShellProps = {
 };
 
 export async function AppShell({ children }: AppShellProps) {
+  const navigationTimingStartedAt = Date.now();
   const [permissionKeys, enabledModuleKeys] = await Promise.all([
     getCurrentPermissionKeys(),
     getCurrentEnabledModuleKeys(),
@@ -38,6 +40,12 @@ export async function AppShell({ children }: AppShellProps) {
       ),
     }))
     .filter((group) => group.isRoot || group.items.length > 0);
+
+  logDevRouteTiming("app-shell.navigation-context", navigationTimingStartedAt, {
+    permissionCount: permissionKeys.length,
+    enabledModuleCount: enabledModuleKeys.length,
+    visibleGroupCount: visibleNavigationGroups.length,
+  });
 
   return (
     <div className="flex min-h-screen flex-col bg-[#f5f7f4] md:flex-row">

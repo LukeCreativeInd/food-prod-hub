@@ -1,4 +1,5 @@
 import { requirePermissionAccess } from "@/lib/auth";
+import { logDevRouteTiming } from "@/lib/dev-performance";
 import {
   extractEmbeddedPdfText,
   getUnknownPurchaseDocumentDiagnostics,
@@ -143,6 +144,10 @@ export type PurchaseDocumentReview = {
     error: string | null;
   };
   unknownParserDiagnostics: UnknownPurchaseDocumentDiagnostics | null;
+};
+
+type PurchaseDocumentReviewOptions = {
+  includeSourcePreview?: boolean;
 };
 
 export type CommitPurchaseDocumentResult = {
@@ -1059,6 +1064,9 @@ async function enrichExtractedPurchaseDocumentReview({
 }
 
 export async function getPurchaseDocumentsForCurrentOrganisation() {
+  const timingStartedAt = Date.now();
+  let documentCount = 0;
+
   const authContext = await requirePurchaseDocumentPermission(
     "purchase_documents.view",
   );
@@ -1077,6 +1085,7 @@ export async function getPurchaseDocumentsForCurrentOrganisation() {
   }
 
   const documents = (data as PurchaseDocumentRow[] | null) ?? [];
+  documentCount = documents.length;
   const suppliersById = await getSupplierDisplayNames(
     organisationId,
     documents
@@ -1084,12 +1093,27 @@ export async function getPurchaseDocumentsForCurrentOrganisation() {
       .filter((supplierId): supplierId is string => Boolean(supplierId)),
   );
 
-  return attachSupplierDisplayNames(documents, suppliersById);
+  const documentsWithSupplierNames = attachSupplierDisplayNames(
+    documents,
+    suppliersById,
+  );
+
+  logDevRouteTiming("purchase-documents.list", timingStartedAt, {
+    documentCount,
+    supplierLookupCount: suppliersById.size,
+  });
+
+  return documentsWithSupplierNames;
 }
 
 export async function getPurchaseDocumentReview(
   documentId: string,
+  options: PurchaseDocumentReviewOptions = { includeSourcePreview: true },
 ): Promise<PurchaseDocumentReview | null> {
+  const timingStartedAt = Date.now();
+  let lineCount = 0;
+  let documentFound = false;
+  const includeSourcePreview = options.includeSourcePreview ?? true;
   const authContext = await requirePurchaseDocumentPermission(
     "purchase_documents.view",
   );
@@ -1110,8 +1134,17 @@ export async function getPurchaseDocumentReview(
   const document = documentData as PurchaseDocumentRow | null;
 
   if (!document) {
+    logDevRouteTiming("purchase-documents.review", timingStartedAt, {
+      documentFound,
+      includeSourcePreview,
+      lineCount,
+      signedUrlRequested: false,
+    });
+
     return null;
   }
+
+  documentFound = true;
 
   const { data: lineData, error: lineError } = await supabase
     .from("purchase_document_lines")
@@ -1124,6 +1157,8 @@ export async function getPurchaseDocumentReview(
     throw new Error("Could not load purchase document lines.");
   }
 
+  lineCount = ((lineData as PurchaseDocumentLine[] | null) ?? []).length;
+
   const suppliersById = await getSupplierDisplayNames(
     organisationId,
     document.supplier_id ? [document.supplier_id] : [],
@@ -1131,7 +1166,7 @@ export async function getPurchaseDocumentReview(
   let signedUrl: string | null = null;
   let signedUrlError: string | null = null;
 
-  if (document.storage_path) {
+  if (includeSourcePreview && document.storage_path) {
     const { data: signedUrlData, error: signedUrlCreateError } =
       await supabase.storage
         .from(PURCHASE_DOCUMENT_BUCKET)
@@ -1145,7 +1180,7 @@ export async function getPurchaseDocumentReview(
     }
   }
 
-  return {
+  const review = {
     document: attachSupplierDisplayNames([document], suppliersById)[0],
     lines: (lineData as PurchaseDocumentLine[] | null) ?? [],
     sourceFile: {
@@ -1154,6 +1189,15 @@ export async function getPurchaseDocumentReview(
     },
     unknownParserDiagnostics: null,
   };
+
+  logDevRouteTiming("purchase-documents.review", timingStartedAt, {
+    documentFound,
+    includeSourcePreview,
+    lineCount,
+    signedUrlRequested: includeSourcePreview && Boolean(document.storage_path),
+  });
+
+  return review;
 }
 
 export async function getPurchaseDocumentUnknownParserDiagnostics(
