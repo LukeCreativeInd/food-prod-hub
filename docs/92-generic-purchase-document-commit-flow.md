@@ -131,6 +131,12 @@ Cammaroto now uses the same generic reviewed commit flow.
 
 The Cammaroto CTNS/CARTONS row remains informational and creates or reuses an ignored-line rule instead of polluting supplier or internal item catalogues.
 
+## Step 094 Update
+
+The Purchase Document Review UI has been compacted for larger invoices in [Purchase Document Review UI Compaction](94-purchase-document-review-ui-compaction.md).
+
+The UI now shows compact line rows by default, with expandable details for editing. Commit behaviour is unchanged.
+
 ## Non-Goals
 
 This step does not add:

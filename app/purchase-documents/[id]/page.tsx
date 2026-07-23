@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ActionSubmitButton } from "@/app/purchase-documents/action-submit-button";
+import { InvoiceLinesReview } from "@/app/purchase-documents/[id]/invoice-lines-review";
 import {
   commitPurchaseDocumentReviewAction,
   extractPurchaseDocumentAction,
@@ -11,12 +12,9 @@ import { PageHeader } from "@/components/page-header";
 import { EmptyState, StatusBadge } from "@/components/ui";
 import { userHasPermission } from "@/lib/auth";
 import {
-  getRepeatMatchNotes,
   getPurchaseDocumentUnknownParserDiagnostics,
   getReviewedInternalItemName,
-  getReviewNotesWithoutStructuredMarkers,
   getPurchaseDocumentReview,
-  type PurchaseDocumentLine,
 } from "@/lib/purchase-document-intake";
 
 type PageProps = {
@@ -31,24 +29,6 @@ type PageProps = {
     extract?: string;
   }>;
 };
-
-const classificationOptions = [
-  ["ingredient", "Ingredient"],
-  ["packaging", "Packaging"],
-  ["consumable", "Consumable"],
-  ["equipment", "Equipment"],
-  ["non_stock_charge", "Non-stock charge"],
-  ["informational", "Informational"],
-  ["unknown", "Unknown"],
-];
-
-const lineStatusOptions = [
-  ["needs_review", "Needs review"],
-  ["ready", "Ready"],
-  ["deferred", "Deferred"],
-  ["ignored", "Ignored"],
-  ["committed", "Committed"],
-];
 
 const stockLineClassifications = [
   "ingredient",
@@ -194,56 +174,12 @@ function messageFor(
   return null;
 }
 
-function defaultCorrectedValue(
-  corrected: string | number | null,
-  normalised: string | number | null,
-  source: string | number | null,
-) {
-  return corrected ?? normalised ?? source ?? "";
-}
-
 function FieldPreview({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-md border border-slate-200 bg-white px-4 py-3">
       <p className="text-xs font-semibold uppercase text-slate-500">{label}</p>
       <p className="mt-2 text-sm font-semibold text-slate-950">{value}</p>
     </div>
-  );
-}
-
-function repeatNoteTone(note: string) {
-  if (
-    note.includes("Price change detected") ||
-    note.includes("required") ||
-    note.includes("New ")
-  ) {
-    return "warning" as const;
-  }
-
-  if (note.includes("not found")) {
-    return "warning" as const;
-  }
-
-  if (
-    note.includes("Matched") ||
-    note.includes("Known") ||
-    note.includes("found") ||
-    note.includes("unchanged") ||
-    note.includes("current")
-  ) {
-    return "success" as const;
-  }
-
-  return "info" as const;
-}
-
-function priceComparisonNotes(notes: string[]) {
-  return notes.filter(
-    (note) =>
-      note.includes("Price unchanged") ||
-      note.includes("Price change detected") ||
-      note.includes("Price change amount") ||
-      note.includes("Price decision"),
   );
 }
 
@@ -303,57 +239,6 @@ function SelectInput({
       </select>
     </label>
   );
-}
-
-function lineReviewDefaults(line: PurchaseDocumentLine) {
-  const isStockLine = [
-    "ingredient",
-    "packaging",
-    "consumable",
-    "equipment",
-  ].includes(line.classification);
-
-  return {
-    itemCode: defaultCorrectedValue(
-      line.corrected_item_code,
-      line.normalised_item_code,
-      line.source_item_code,
-    ),
-    description: defaultCorrectedValue(
-      line.corrected_description,
-      line.normalised_description,
-      line.source_description,
-    ),
-    quantity: defaultCorrectedValue(
-      line.corrected_quantity,
-      line.normalised_quantity,
-      line.source_quantity,
-    ),
-    unit: defaultCorrectedValue(
-      line.corrected_unit,
-      line.normalised_unit,
-      line.source_unit,
-    ),
-    unitPrice: defaultCorrectedValue(
-      line.corrected_unit_price,
-      line.normalised_unit_price,
-      line.source_unit_price,
-    ),
-    tax: defaultCorrectedValue(
-      line.corrected_tax,
-      line.normalised_tax,
-      line.source_tax,
-    ),
-    lineTotal: defaultCorrectedValue(
-      line.corrected_line_total,
-      line.normalised_line_total,
-      line.source_line_total,
-    ),
-    internalItemName:
-      getReviewedInternalItemName(line) ??
-      (isStockLine && line.line_number === 1 ? "Chicken Thigh" : ""),
-    reviewNotes: getReviewNotesWithoutStructuredMarkers(line.review_notes) ?? "",
-  };
 }
 
 export default async function PurchaseDocumentReviewPage({
@@ -805,208 +690,31 @@ export default async function PurchaseDocumentReviewPage({
             </div>
           </section>
 
-          <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
-            <div className="border-b border-slate-200 px-5 py-4">
-              <h2 className="text-lg font-bold text-slate-950">
-                Invoice lines
-              </h2>
-              <p className="mt-1 text-sm leading-6 text-slate-600">
-                Supplier source descriptions, corrected supplier descriptions
-                and internal item names stay separate.
-              </p>
-            </div>
-            {hasLines ? (
-              <div className="divide-y divide-slate-200">
-                {lines.map((line) => {
-                const defaults = lineReviewDefaults(line);
-                const repeatNotes = getRepeatMatchNotes(line);
-                const priceNotes = priceComparisonNotes(repeatNotes);
-
-                return (
-                  <article key={line.id} className="px-5 py-5">
-                    <input type="hidden" name="line_ids" value={line.id} />
-                    <div className="grid gap-4 xl:grid-cols-[0.7fr_1.2fr_0.45fr_0.45fr_0.55fr_auto] xl:items-start">
-                      <FieldPreview
-                        label="Supplier item code"
-                        value={line.source_item_code ?? "No code"}
-                      />
-                      <FieldPreview
-                        label="Supplier source description"
-                        value={line.source_description ?? "No description"}
-                      />
-                      <FieldPreview
-                        label="Source qty"
-                        value={`${line.source_quantity ?? ""} ${
-                          line.source_unit ?? ""
-                        }`.trim()}
-                      />
-                      <FieldPreview
-                        label="Source unit price"
-                        value={formatCurrency(
-                          line.source_unit_price,
-                          document.currency,
-                        )}
-                      />
-                      <FieldPreview
-                        label="Source total"
-                        value={formatCurrency(
-                          line.source_line_total,
-                          document.currency,
-                        )}
-                      />
-                      <StatusBadge tone={statusTone(line.status)}>
-                        {formatStatus(line.status)}
-                      </StatusBadge>
-                    </div>
-                    {repeatNotes.length > 0 ? (
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {repeatNotes.map((note) => (
-                          <StatusBadge key={note} tone={repeatNoteTone(note)}>
-                            {note}
-                          </StatusBadge>
-                        ))}
-                      </div>
-                    ) : null}
-                    {priceNotes.length > 0 ? (
-                      <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3">
-                        <p className="text-xs font-semibold uppercase text-amber-800">
-                          Price comparison
-                        </p>
-                        <div className="mt-2 space-y-1">
-                          {priceNotes.map((note) => (
-                            <p
-                              key={note}
-                              className="text-sm font-semibold text-amber-950"
-                            >
-                              {note}
-                            </p>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
-                    <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-                      <SelectInput
-                        label="Classification"
-                        name={`line_${line.id}_classification`}
-                        defaultValue={line.classification}
-                        options={classificationOptions}
-                      />
-                      <SelectInput
-                        label="Line status"
-                        name={`line_${line.id}_status`}
-                        defaultValue={
-                          lineStatusOptions.some(
-                            ([value]) => value === line.status,
-                          )
-                            ? line.status
-                            : "needs_review"
-                        }
-                        options={lineStatusOptions}
-                      />
-                      <TextInput
-                        label="Corrected supplier code"
-                        name={`line_${line.id}_corrected_item_code`}
-                        defaultValue={defaults.itemCode}
-                      />
-                      <TextInput
-                        label="Corrected supplier description"
-                        name={`line_${line.id}_corrected_description`}
-                        defaultValue={defaults.description}
-                      />
-                      <TextInput
-                        label="Corrected qty"
-                        name={`line_${line.id}_corrected_quantity`}
-                        type="number"
-                        defaultValue={defaults.quantity}
-                      />
-                      <TextInput
-                        label="Corrected unit"
-                        name={`line_${line.id}_corrected_unit`}
-                        defaultValue={defaults.unit}
-                      />
-                      <TextInput
-                        label="Corrected unit price"
-                        name={`line_${line.id}_corrected_unit_price`}
-                        type="number"
-                        defaultValue={defaults.unitPrice}
-                      />
-                      <TextInput
-                        label="Corrected line total"
-                        name={`line_${line.id}_corrected_line_total`}
-                        type="number"
-                        defaultValue={defaults.lineTotal}
-                      />
-                      <TextInput
-                        label="Corrected tax"
-                        name={`line_${line.id}_corrected_tax`}
-                        type="number"
-                        defaultValue={defaults.tax}
-                      />
-                      {[
-                        "ingredient",
-                        "packaging",
-                        "consumable",
-                        "equipment",
-                      ].includes(line.classification) ? (
-                        <TextInput
-                          label="Internal item name"
-                          name={`line_${line.id}_internal_item_name`}
-                          defaultValue={defaults.internalItemName}
-                        />
-                      ) : (
-                        <label className="block">
-                          <span className="text-xs font-semibold uppercase text-slate-500">
-                            Internal item name
-                          </span>
-                          <input
-                            type="text"
-                            disabled
-                            value="Internal item not required"
-                            className="mt-2 w-full cursor-not-allowed rounded-md border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-500"
-                          />
-                        </label>
-                      )}
-                      <FieldPreview
-                        label="Price decision"
-                        value={
-                          priceNotes.some((note) =>
-                            note.includes("Price unchanged"),
-                          )
-                            ? "Observation only"
-                            : priceNotes.some((note) =>
-                                note.includes("Price change detected"),
-                              )
-                              ? "Review price decision"
-                              : line.classification === "informational"
-                                ? "Informational / ignored"
-                                : "Update current price"
-                        }
-                      />
-                      <label className="block md:col-span-2 xl:col-span-2">
-                        <span className="text-xs font-semibold uppercase text-slate-500">
-                          Review notes
-                        </span>
-                        <textarea
-                          name={`line_${line.id}_review_notes`}
-                          defaultValue={defaults.reviewNotes}
-                          rows={3}
-                          className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
-                        />
-                      </label>
-                    </div>
-                  </article>
-                );
-                })}
+          {hasLines ? (
+            <InvoiceLinesReview
+              lines={lines}
+              currency={document.currency}
+              isCommitted={isCommitted}
+            />
+          ) : (
+            <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
+              <div className="border-b border-slate-200 px-5 py-4">
+                <h2 className="text-lg font-bold text-slate-950">
+                  Invoice lines
+                </h2>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  Supplier source descriptions, corrected supplier descriptions
+                  and internal item names stay separate.
+                </p>
               </div>
-            ) : (
               <div className="p-5">
                 <EmptyState
                   title="No extracted invoice lines yet"
                   description="The source document is uploaded, but extraction is not connected yet. A follow-up will create reviewed draft lines from the uploaded invoice."
                 />
               </div>
-            )}
-          </section>
+            </section>
+          )}
 
           <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">

@@ -80,6 +80,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Melbourne Produce Merchants invoice extraction has been added as the second supplier-specific parser
 - Generic Purchase Document commit now supports reviewed supported-parser documents, including Cammaroto and Melbourne Produce, without creating stock movements
 - Del-Re National Food Group invoice extraction has been added as the third supplier-specific parser
+- Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
 - Products and Costings now include read-only real-data views for committed Purchase Document Intake supplier, item and price records
 - Vercel Web Analytics instrumentation has been added for deployed route/page-view analytics
@@ -221,6 +222,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Melbourne Produce Merchants parser](docs/91-melbourne-produce-parser.md)
 - [Generic Purchase Document commit flow](docs/92-generic-purchase-document-commit-flow.md)
 - [Del-Re National Food Group parser](docs/93-del-re-parser.md)
+- [Purchase Document Review UI compaction](docs/94-purchase-document-review-ui-compaction.md)
 
 ## Database Migrations
 
