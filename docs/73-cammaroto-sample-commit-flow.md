@@ -10,6 +10,12 @@ Step 074 repositions this Cammaroto flow as the sample/test invoice path inside 
 
 Generic invoice extraction and commit planning is documented separately in [Generic Invoice Extraction and Commit Planning](75-generic-invoice-extraction-and-commit-planning.md). Cammaroto remains the sample path until generic upload, extraction and commit architecture is reviewed and implemented.
 
+## Step 092 Update
+
+Cammaroto commit is now compatible with the generic reviewed Purchase Document commit flow documented in [Generic Purchase Document Commit Flow](92-generic-purchase-document-commit-flow.md).
+
+The Cammaroto-specific helper remains as a thin compatibility wrapper, but committed records are now created through the generic line-by-line flow. The CTNS/CARTONS row still remains informational and ignored for supplier/internal item catalogues.
+
 ## Commit Purpose
 
 The commit flow turns reviewed purchase document data into reusable supplier, catalogue, mapping and price records after explicit user action.

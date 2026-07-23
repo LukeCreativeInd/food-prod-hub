@@ -48,6 +48,7 @@ type SupplierItemMappingRow = {
 
 type PriceObservationRow = {
   id: string;
+  approval_decision: string | null;
 };
 
 type ApprovedSupplierPriceRow = {
@@ -151,12 +152,18 @@ export type CommitPurchaseDocumentResult = {
   summary?: {
     supplier: string;
     supplierAliases: string[];
-    supplierItem: string;
-    internalItem: string;
-    mapping: string;
-    priceObservation: string;
-    approvedSupplierPrice: string;
-    informationalRule: string;
+    supplierItem?: string;
+    internalItem?: string;
+    mapping?: string;
+    priceObservation?: string;
+    approvedSupplierPrice?: string;
+    informationalRule?: string;
+    supplierItems?: string[];
+    internalItems?: string[];
+    mappings?: string[];
+    priceObservations?: string[];
+    approvedSupplierPrices?: string[];
+    informationalRules?: string[];
     stockMovements: "none";
   };
   errors?: string[];
@@ -565,26 +572,47 @@ function canMoveToReadyToCommit(input: UpdateReviewInput) {
   );
 }
 
-function validateCammarotoCommit(
+function lineDisplayName(line: PurchaseDocumentLine) {
+  return `Line ${line.line_number}`;
+}
+
+function hasSupplierIdentity(document: PurchaseDocumentRow) {
+  return Boolean(
+    document.supplier_trading_name_source ||
+      document.supplier_legal_name_source ||
+      document.supplier_abn_source,
+  );
+}
+
+function isStockLine(line: PurchaseDocumentLine) {
+  return stockLineClassifications.has(line.classification);
+}
+
+function lineFieldValue(line: PurchaseDocumentLine, field: "code" | "description" | "unit") {
+  if (field === "code") {
+    return sourceValue(
+      line.corrected_item_code,
+      line.normalised_item_code,
+      line.source_item_code,
+    );
+  }
+
+  if (field === "description") {
+    return sourceValue(
+      line.corrected_description,
+      line.normalised_description,
+      line.source_description,
+    );
+  }
+
+  return sourceValue(line.corrected_unit, line.normalised_unit, line.source_unit);
+}
+
+function validatePurchaseDocumentCommit(
   document: PurchaseDocumentRow,
   lines: PurchaseDocumentLine[],
 ) {
   const errors: string[] = [];
-  const stockLine = lines.find(
-    (line) =>
-      line.line_number === 1 ||
-      line.source_item_code === "T/F-DCE M-VA" ||
-      line.classification === "ingredient",
-  );
-  const informationalLine = lines.find(
-    (line) =>
-      line.line_number === 2 ||
-      line.source_item_code === "CTNS" ||
-      line.classification === "informational",
-  );
-  const internalItemName = stockLine
-    ? getReviewedInternalItemName(stockLine)
-    : null;
 
   if (["duplicate", "rejected", "failed"].includes(document.status)) {
     errors.push("Duplicate, rejected or failed documents cannot be committed.");
@@ -602,71 +630,56 @@ function validateCammarotoCommit(
     errors.push("Invoice total is required.");
   }
 
-  if (!document.supplier_trading_name_source) {
-    errors.push("Supplier trading/display name is required.");
+  if (!hasSupplierIdentity(document)) {
+    errors.push("Supplier name or ABN is required.");
   }
 
-  if (!document.supplier_legal_name_source) {
-    errors.push("Supplier legal/invoice name is required.");
+  if (lines.length === 0) {
+    errors.push("At least one reviewed invoice line is required.");
   }
 
-  if (!document.supplier_abn_source) {
-    errors.push("Supplier ABN is required.");
-  }
+  for (const line of lines) {
+    const label = lineDisplayName(line);
 
-  if (!stockLine) {
-    errors.push("The ingredient line is required for the Cammaroto commit.");
-  } else {
-    if (stockLine.classification !== "ingredient") {
-      errors.push("Line 1 must be classified as ingredient.");
+    if (line.classification === "unknown") {
+      errors.push(`${label} must be classified before commit.`);
+      continue;
     }
 
-    if (!sourceValue(stockLine.corrected_item_code, stockLine.normalised_item_code, stockLine.source_item_code)) {
-      errors.push("Line 1 item code is required.");
+    if (line.status === "deferred") {
+      errors.push(`${label} is deferred and must be resolved before commit.`);
+      continue;
     }
 
-    if (!sourceValue(stockLine.corrected_description, stockLine.normalised_description, stockLine.source_description)) {
-      errors.push("Line 1 description is required.");
-    }
+    if (isStockLine(line)) {
+      if (!lineFieldValue(line, "code") && !lineFieldValue(line, "description")) {
+        errors.push(`${label} needs a supplier code or description.`);
+      }
 
-    if (numericSourceValue(stockLine.corrected_quantity, stockLine.normalised_quantity, stockLine.source_quantity) === null) {
-      errors.push("Line 1 quantity is required.");
-    }
+      if (numericSourceValue(line.corrected_quantity, line.normalised_quantity, line.source_quantity) === null) {
+        errors.push(`${label} quantity is required.`);
+      }
 
-    if (!sourceValue(stockLine.corrected_unit, stockLine.normalised_unit, stockLine.source_unit)) {
-      errors.push("Line 1 unit is required.");
-    }
+      if (!lineFieldValue(line, "unit")) {
+        errors.push(`${label} unit is required.`);
+      }
 
-    if (numericSourceValue(stockLine.corrected_unit_price, stockLine.normalised_unit_price, stockLine.source_unit_price) === null) {
-      errors.push("Line 1 unit price is required.");
-    }
+      if (lineUnitPrice(line) === null) {
+        errors.push(`${label} unit price is required.`);
+      }
 
-    if (
-      stockLineClassifications.has(stockLine.classification) &&
-      !internalItemName
-    ) {
-      errors.push("Internal item name is required for stock/catalogue lines.");
+      if (!getReviewedInternalItemName(line)) {
+        errors.push(`${label} needs a reviewed internal item name.`);
+      }
     }
-  }
-
-  if (informationalLine && informationalLine.classification !== "informational") {
-    errors.push("Line 2 should be informational for the Cammaroto sample.");
   }
 
   return {
     errors,
-    stockLine,
-    informationalLine,
-    internalItemName,
+    stockLines: lines.filter(isStockLine),
+    informationalLines: lines.filter((line) => line.classification === "informational"),
+    nonStockChargeLines: lines.filter((line) => line.classification === "non_stock_charge"),
   };
-}
-
-function isCammarotoPurchaseDocument(document: PurchaseDocumentRow) {
-  return (
-    document.supplier_trading_name_source === "Cammaroto Poultry" ||
-    document.supplier_legal_name_source === "Surefire Solutions Group Unit Trust" ||
-    document.invoice_number === "SI-00025954"
-  );
 }
 
 async function getSupplierDisplayNames(
@@ -1811,15 +1824,17 @@ async function findOrCreateSupplier({
   document: PurchaseDocumentRow;
 }) {
   const supabase = await createClient();
-  const displayName = document.supplier_trading_name_source ?? "Cammaroto Poultry";
-  const legalName =
-    document.supplier_legal_name_source ?? "Surefire Solutions Group Unit Trust";
-  const abn = document.supplier_abn_source ?? "84 870 751 768";
+  const displayName =
+    document.supplier_trading_name_source ??
+    document.supplier_legal_name_source ??
+    "Supplier from purchase document";
+  const legalName = document.supplier_legal_name_source;
+  const abn = document.supplier_abn_source;
   const aliasValues = [
     normaliseAliasValue(displayName),
-    normaliseAliasValue(legalName),
-    normaliseCompactAliasValue(abn),
-  ];
+    legalName ? normaliseAliasValue(legalName) : null,
+    abn ? normaliseCompactAliasValue(abn) : null,
+  ].filter((value): value is string => Boolean(value));
 
   const { data: aliasData, error: aliasError } = await supabase
     .from("supplier_aliases")
@@ -1848,6 +1863,24 @@ async function findOrCreateSupplier({
 
     if (supplierData) {
       return supplierData as SupplierRow;
+    }
+  }
+
+  if (abn) {
+    const { data: abnMatch, error: abnMatchError } = await supabase
+      .from("suppliers")
+      .select("id, display_name, legal_name, abn")
+      .eq("organisation_id", organisationId)
+      .eq("abn", abn)
+      .is("archived_at", null)
+      .maybeSingle();
+
+    if (abnMatchError) {
+      throw new Error("Could not check existing supplier ABN.");
+    }
+
+    if (abnMatch) {
+      return abnMatch as SupplierRow;
     }
   }
 
@@ -1952,38 +1985,55 @@ async function ensureSupplierAliases({
   supplierId: string;
   document: PurchaseDocumentRow;
 }) {
-  const legalName =
-    document.supplier_legal_name_source ?? "Surefire Solutions Group Unit Trust";
-  const tradingName = document.supplier_trading_name_source ?? "Cammaroto Poultry";
-  const abn = document.supplier_abn_source ?? "84 870 751 768";
-  const accountNumber = document.supplier_account_number_source ?? "555";
+  const legalName = document.supplier_legal_name_source;
+  const tradingName = document.supplier_trading_name_source;
+  const abn = document.supplier_abn_source;
+  const accountNumber = document.supplier_account_number_source;
   const aliasInputs = [
-    {
+    legalName
+      ? {
       aliasType: "legal_name",
       aliasValue: legalName,
       normalisedAliasValue: normaliseAliasValue(legalName),
-    },
-    {
+        }
+      : null,
+    tradingName
+      ? {
       aliasType: "trading_name",
       aliasValue: tradingName,
       normalisedAliasValue: normaliseAliasValue(tradingName),
-    },
-    {
+        }
+      : null,
+    legalName
+      ? {
       aliasType: "invoice_name",
       aliasValue: legalName,
       normalisedAliasValue: normaliseAliasValue(legalName),
-    },
-    {
+        }
+      : null,
+    abn
+      ? {
       aliasType: "abn",
       aliasValue: abn,
       normalisedAliasValue: normaliseCompactAliasValue(abn),
-    },
-    {
+        }
+      : null,
+    accountNumber
+      ? {
       aliasType: "account_number",
       aliasValue: accountNumber,
       normalisedAliasValue: normaliseCompactAliasValue(accountNumber),
-    },
-  ];
+        }
+      : null,
+  ].filter(
+    (
+      aliasInput,
+    ): aliasInput is {
+      aliasType: string;
+      aliasValue: string;
+      normalisedAliasValue: string;
+    } => Boolean(aliasInput),
+  );
 
   for (const aliasInput of aliasInputs) {
     await ensureSupplierAlias({
@@ -2009,13 +2059,13 @@ async function findOrCreateSupplierItem({
   line: PurchaseDocumentLine;
 }) {
   const supabase = await createClient();
-  const supplierItemCode = String(
-    sourceValue(
-      line.corrected_item_code,
-      line.normalised_item_code,
-      line.source_item_code,
-    ),
+  const rawSupplierItemCode = sourceValue(
+    line.corrected_item_code,
+    line.normalised_item_code,
+    line.source_item_code,
   );
+  const supplierItemCode =
+    rawSupplierItemCode === null ? null : cleanText(String(rawSupplierItemCode));
   const supplierDescription = String(
     line.source_description ??
       sourceValue(
@@ -2035,14 +2085,18 @@ async function findOrCreateSupplierItem({
     sourceValue(line.corrected_unit, line.normalised_unit, line.source_unit),
   );
 
-  const { data: existingItem, error: itemLookupError } = await supabase
+  const itemLookupQuery = supabase
     .from("supplier_items")
     .select("id, supplier_description, normalised_supplier_description")
     .eq("organisation_id", organisationId)
     .eq("supplier_id", supplierId)
-    .eq("supplier_item_code", supplierItemCode)
-    .is("archived_at", null)
-    .maybeSingle();
+    .is("archived_at", null);
+
+  const { data: existingItem, error: itemLookupError } = supplierItemCode
+    ? await itemLookupQuery.eq("supplier_item_code", supplierItemCode).maybeSingle()
+    : await itemLookupQuery
+        .eq("normalised_supplier_description", normalisedDescription)
+        .maybeSingle();
 
   if (itemLookupError) {
     throw new Error("Could not check supplier item.");
@@ -2093,17 +2147,21 @@ async function findOrCreateInternalItem({
   organisationId,
   documentId,
   internalItemName,
+  itemType,
+  baseUnit,
 }: {
   organisationId: string;
   documentId: string;
   internalItemName: string;
+  itemType: string;
+  baseUnit: string | null;
 }) {
   const supabase = await createClient();
   const { data: existingItem, error: itemLookupError } = await supabase
     .from("internal_items")
     .select("id, display_name")
     .eq("organisation_id", organisationId)
-    .eq("item_type", "ingredient")
+    .eq("item_type", itemType)
     .ilike("display_name", internalItemName)
     .is("archived_at", null)
     .maybeSingle();
@@ -2120,11 +2178,11 @@ async function findOrCreateInternalItem({
     .from("internal_items")
     .insert({
       organisation_id: organisationId,
-      item_type: "ingredient",
+      item_type: itemType,
       display_name: internalItemName,
-      base_unit: "KG",
+      base_unit: baseUnit,
       status: "active",
-      notes: `Created/mapped from Cammaroto sample purchase document ${documentId}.`,
+      notes: `Created/mapped from purchase document ${documentId}.`,
     })
     .select("id, display_name")
     .single();
@@ -2178,7 +2236,7 @@ async function findOrCreateSupplierItemMapping({
       created_from_line_id: line.id,
       confirmed_by_profile_id: profileId,
       confirmed_at: new Date().toISOString(),
-      notes: "Confirmed from Cammaroto sample purchase document.",
+      notes: "Confirmed from reviewed purchase document commit.",
     })
     .select("id")
     .single();
@@ -2188,6 +2246,39 @@ async function findOrCreateSupplierItemMapping({
   }
 
   return insertedMapping as SupplierItemMappingRow;
+}
+
+function getReviewedPriceDecision({
+  line,
+  currentApprovedPrice,
+}: {
+  line: PurchaseDocumentLine;
+  currentApprovedPrice: ApprovedSupplierPriceRow | null;
+}) {
+  const notes = line.review_notes?.toLowerCase() ?? "";
+  const unitPrice = lineUnitPrice(line);
+
+  if (notes.includes("one_off_transaction") || notes.includes("one-off")) {
+    return "one_off_transaction";
+  }
+
+  if (notes.includes("review_later") || notes.includes("review later")) {
+    return "review_later";
+  }
+
+  if (notes.includes("ignored")) {
+    return "ignored";
+  }
+
+  if (
+    currentApprovedPrice &&
+    unitPrice !== null &&
+    Math.abs(Number(currentApprovedPrice.unit_price) - Number(unitPrice)) < 0.0001
+  ) {
+    return null;
+  }
+
+  return "update_current_price";
 }
 
 async function findOrCreatePriceObservation({
@@ -2226,17 +2317,15 @@ async function findOrCreatePriceObservation({
     throw new Error("Could not check current approved supplier price.");
   }
 
-  const approvalDecision =
-    currentApprovedPrice &&
-    Math.abs(Number((currentApprovedPrice as ApprovedSupplierPriceRow).unit_price) - Number(unitPrice)) <
-      0.0001
-      ? null
-      : "update_current_price";
+  const approvalDecision = getReviewedPriceDecision({
+    line,
+    currentApprovedPrice: (currentApprovedPrice as ApprovedSupplierPriceRow | null) ?? null,
+  });
 
   const { data: existingObservation, error: observationLookupError } =
     await supabase
       .from("price_observations")
-      .select("id")
+      .select("id, approval_decision")
       .eq("organisation_id", organisationId)
       .eq("purchase_document_id", document.id)
       .eq("purchase_document_line_id", line.id)
@@ -2299,7 +2388,7 @@ async function findOrCreatePriceObservation({
         reviewed_by_profile_id: profileId,
         reviewed_at: new Date().toISOString(),
       })
-      .select("id")
+      .select("id, approval_decision")
       .single();
 
   if (insertObservationError || !insertedObservation) {
@@ -2451,7 +2540,7 @@ async function findOrCreateIgnoredLineRule({
   return insertedRule as IgnoredLineRuleRow;
 }
 
-export async function commitCammarotoPurchaseDocumentReview(
+export async function commitPurchaseDocumentReview(
   documentId: string,
 ): Promise<CommitPurchaseDocumentResult> {
   const authContext = await requirePurchaseDocumentPermission(
@@ -2473,54 +2562,47 @@ export async function commitCammarotoPurchaseDocumentReview(
 
   const { document, lines } = review;
 
-  if (!isCammarotoPurchaseDocument(document)) {
-    return {
-      documentId,
-      status: "validation_failed",
-      message: "This document can be reviewed, but the generic commit flow is not connected yet.",
-      errors: [
-        "Only the controlled Cammaroto commit flow is connected. Review-first extraction for this supplier does not create committed records yet.",
-      ],
-    };
-  }
-
   if (document.status === "committed") {
-    const committedStockLine = lines.find(
-      (line) =>
-        line.line_number === 1 ||
-        line.source_item_code === "T/F-DCE M-VA" ||
-        line.classification === "ingredient",
-    );
-    const committedInternalItemName = committedStockLine
-      ? getReviewedInternalItemName(committedStockLine) ?? "Reviewed internal item"
-      : "Reviewed internal item";
-
     return {
       documentId,
       status: "already_committed",
       message: "Purchase document is already committed. No duplicate records were created.",
       summary: {
-        supplier: document.supplier_display_name ?? "Cammaroto Poultry",
+        supplier:
+          document.supplier_display_name ??
+          document.supplier_trading_name_source ??
+          document.supplier_legal_name_source ??
+          "Committed supplier",
         supplierAliases: [
-          "Surefire Solutions Group Unit Trust",
-          "Cammaroto Poultry",
-          "84 870 751 768",
-          "555",
-        ],
-        supplierItem: "T/F-DCE M-VA",
-        internalItem: committedInternalItemName,
-        mapping: "Confirmed",
-        priceObservation: "$13.70/KG",
-        approvedSupplierPrice: "$13.70/KG current",
-        informationalRule: "CTNS / CARTONS",
+          document.supplier_legal_name_source,
+          document.supplier_trading_name_source,
+          document.supplier_abn_source,
+          document.supplier_account_number_source,
+        ].filter((value): value is string => Boolean(value)),
+        supplierItems: lines
+          .filter(isStockLine)
+          .map((line) => String(lineFieldValue(line, "code") ?? lineFieldValue(line, "description") ?? lineDisplayName(line))),
+        internalItems: lines
+          .filter(isStockLine)
+          .map((line) => getReviewedInternalItemName(line) ?? "Reviewed internal item"),
+        mappings: lines.filter(isStockLine).map(() => "Confirmed"),
+        priceObservations: lines.filter(isStockLine).map((line) => {
+          const unitPrice = lineUnitPrice(line);
+          const unit = lineFieldValue(line, "unit") ?? "unit";
+          return unitPrice === null ? "Observation exists" : `${document.currency} ${unitPrice.toFixed(2)}/${unit}`;
+        }),
+        approvedSupplierPrices: lines.filter(isStockLine).map(() => "Current price unchanged or previously updated"),
+        informationalRules: lines
+          .filter((line) => line.classification === "informational")
+          .map((line) => String(lineFieldValue(line, "code") ?? lineFieldValue(line, "description") ?? lineDisplayName(line))),
         stockMovements: "none",
       },
     };
   }
 
-  const validation = validateCammarotoCommit(document, lines);
+  const validation = validatePurchaseDocumentCommit(document, lines);
 
-  if (validation.errors.length > 0 || !validation.stockLine) {
+  if (validation.errors.length > 0) {
     return {
       documentId,
       status: "validation_failed",
@@ -2530,17 +2612,6 @@ export async function commitCammarotoPurchaseDocumentReview(
   }
 
   const committedAt = new Date().toISOString();
-  const reviewedInternalItemName = validation.internalItemName;
-
-  if (!reviewedInternalItemName) {
-    return {
-      documentId,
-      status: "validation_failed",
-      message: "Purchase document needs review before it can be committed.",
-      errors: ["Internal item name is required for stock/catalogue lines."],
-    };
-  }
-
   const supplier = await findOrCreateSupplier({
     organisationId,
     document,
@@ -2550,63 +2621,119 @@ export async function commitCammarotoPurchaseDocumentReview(
     supplierId: supplier.id,
     document,
   });
-  const supplierItem = await findOrCreateSupplierItem({
-    organisationId,
-    supplierId: supplier.id,
-    line: validation.stockLine,
-  });
-  const internalItem = await findOrCreateInternalItem({
-    organisationId,
-    documentId: document.id,
-    internalItemName: reviewedInternalItemName,
-  });
-  const mapping = await findOrCreateSupplierItemMapping({
-    organisationId,
-    supplierItemId: supplierItem.id,
-    internalItemId: internalItem.id,
-    line: validation.stockLine,
-    profileId,
-  });
-  const priceObservation = await findOrCreatePriceObservation({
-    organisationId,
-    supplierId: supplier.id,
-    supplierItemId: supplierItem.id,
-    internalItemId: internalItem.id,
-    document,
-    line: validation.stockLine,
-    profileId,
-  });
-  await ensureApprovedSupplierPrice({
-    organisationId,
-    supplierItemId: supplierItem.id,
-    internalItemId: internalItem.id,
-    document,
-    line: validation.stockLine,
-    sourcePriceObservationId: priceObservation.id,
-    profileId,
-  });
 
-  await supabase
-    .from("purchase_document_lines")
-    .update({
-      supplier_item_id: supplierItem.id,
-      internal_item_id: internalItem.id,
-      mapping_id: mapping.id,
-      status: "committed",
-      updated_at: committedAt,
-    })
-    .eq("organisation_id", organisationId)
-    .eq("purchase_document_id", document.id)
-    .eq("id", validation.stockLine.id);
+  const supplierItems: string[] = [];
+  const internalItems: string[] = [];
+  const mappings: string[] = [];
+  const priceObservations: string[] = [];
+  const approvedSupplierPrices: string[] = [];
+  const informationalRules: string[] = [];
 
-  if (validation.informationalLine) {
-    await findOrCreateIgnoredLineRule({
+  for (const line of validation.stockLines) {
+    const reviewedInternalItemName = getReviewedInternalItemName(line);
+    const purchaseUnit = cleanText(String(lineFieldValue(line, "unit") ?? ""));
+
+    if (!reviewedInternalItemName) {
+      return {
+        documentId,
+        status: "validation_failed",
+        message: "Purchase document needs review before it can be committed.",
+        errors: [`${lineDisplayName(line)} needs a reviewed internal item name.`],
+      };
+    }
+
+    const supplierItem = await findOrCreateSupplierItem({
+      organisationId,
+      supplierId: supplier.id,
+      line,
+    });
+    const internalItem = await findOrCreateInternalItem({
+      organisationId,
+      documentId: document.id,
+      internalItemName: reviewedInternalItemName,
+      itemType: line.classification,
+      baseUnit: purchaseUnit,
+    });
+    const mapping = await findOrCreateSupplierItemMapping({
+      organisationId,
+      supplierItemId: supplierItem.id,
+      internalItemId: internalItem.id,
+      line,
+      profileId,
+    });
+    const priceObservation = await findOrCreatePriceObservation({
+      organisationId,
+      supplierId: supplier.id,
+      supplierItemId: supplierItem.id,
+      internalItemId: internalItem.id,
+      document,
+      line,
+      profileId,
+    });
+
+    supplierItems.push(
+      String(lineFieldValue(line, "code") ?? lineFieldValue(line, "description") ?? supplierItem.supplier_description),
+    );
+    internalItems.push(internalItem.display_name);
+    mappings.push("Confirmed");
+
+    const unitPrice = lineUnitPrice(line);
+    const unit = lineFieldValue(line, "unit") ?? "unit";
+    priceObservations.push(
+      unitPrice === null
+        ? "Observation created/reused"
+        : `${document.currency} ${unitPrice.toFixed(2)}/${unit}`,
+    );
+
+    if (priceObservation.approval_decision === "update_current_price") {
+      const approvedPrice = await ensureApprovedSupplierPrice({
+        organisationId,
+        supplierItemId: supplierItem.id,
+        internalItemId: internalItem.id,
+        document,
+        line,
+        sourcePriceObservationId: priceObservation.id,
+        profileId,
+      });
+      approvedSupplierPrices.push(
+        `${document.currency} ${Number(approvedPrice.unit_price).toFixed(2)}/${approvedPrice.purchase_unit ?? unit}`,
+      );
+    } else if (priceObservation.approval_decision === "one_off_transaction") {
+      approvedSupplierPrices.push("Observation only - one-off transaction");
+    } else if (priceObservation.approval_decision === "review_later") {
+      approvedSupplierPrices.push("Observation only - review later");
+    } else if (priceObservation.approval_decision === "ignored") {
+      approvedSupplierPrices.push("Ignored price decision");
+    } else {
+      approvedSupplierPrices.push("Current price unchanged");
+    }
+
+    await supabase
+      .from("purchase_document_lines")
+      .update({
+        supplier_item_id: supplierItem.id,
+        internal_item_id: internalItem.id,
+        mapping_id: mapping.id,
+        status: "committed",
+        updated_at: committedAt,
+      })
+      .eq("organisation_id", organisationId)
+      .eq("purchase_document_id", document.id)
+      .eq("id", line.id);
+  }
+
+  for (const line of validation.informationalLines) {
+    const ignoredRule = await findOrCreateIgnoredLineRule({
       organisationId,
       supplierId: supplier.id,
       document,
-      line: validation.informationalLine,
+      line,
       profileId,
     });
+
+    informationalRules.push(
+      String(lineFieldValue(line, "code") ?? lineFieldValue(line, "description") ?? ignoredRule.id),
+    );
 
     await supabase
       .from("purchase_document_lines")
@@ -2617,7 +2744,19 @@ export async function commitCammarotoPurchaseDocumentReview(
       })
       .eq("organisation_id", organisationId)
       .eq("purchase_document_id", document.id)
-      .eq("id", validation.informationalLine.id);
+      .eq("id", line.id);
+  }
+
+  for (const line of validation.nonStockChargeLines) {
+    await supabase
+      .from("purchase_document_lines")
+      .update({
+        status: "committed",
+        updated_at: committedAt,
+      })
+      .eq("organisation_id", organisationId)
+      .eq("purchase_document_id", document.id)
+      .eq("id", line.id);
   }
 
   const { error: documentUpdateError } = await supabase
@@ -2645,13 +2784,25 @@ export async function commitCammarotoPurchaseDocumentReview(
     summary: {
       supplier: supplier.display_name,
       supplierAliases,
-      supplierItem: "T/F-DCE M-VA",
-      internalItem: internalItem.display_name,
-      mapping: "Confirmed",
-      priceObservation: "$13.70/KG",
-      approvedSupplierPrice: "$13.70/KG current",
-      informationalRule: "CTNS / CARTONS",
+      supplierItem: supplierItems[0],
+      internalItem: internalItems[0],
+      mapping: mappings[0],
+      priceObservation: priceObservations[0],
+      approvedSupplierPrice: approvedSupplierPrices[0],
+      informationalRule: informationalRules[0],
+      supplierItems,
+      internalItems,
+      mappings,
+      priceObservations,
+      approvedSupplierPrices,
+      informationalRules,
       stockMovements: "none",
     },
   };
+}
+
+export async function commitCammarotoPurchaseDocumentReview(
+  documentId: string,
+): Promise<CommitPurchaseDocumentResult> {
+  return commitPurchaseDocumentReview(documentId);
 }

@@ -50,6 +50,13 @@ const lineStatusOptions = [
   ["committed", "Committed"],
 ];
 
+const stockLineClassifications = [
+  "ingredient",
+  "packaging",
+  "consumable",
+  "equipment",
+];
+
 function formatCurrency(value: number | null, currency: string) {
   if (value === null) {
     return "Not set";
@@ -417,35 +424,45 @@ export default async function PurchaseDocumentReviewPage({
   const hasLines = lines.length > 0;
   const canExtract =
     Boolean(document.storage_path) && !hasLines && !isCommitted;
-  const usesCammarotoCommitFlow =
-    document.supplier_trading_name_source === "Cammaroto Poultry" ||
-    document.supplier_legal_name_source === "Surefire Solutions Group Unit Trust" ||
-    document.invoice_number === "SI-00025954";
+  const unresolvedLines = lines.some((line) => line.status === "deferred");
+  const stockLines = lines.filter((line) =>
+    stockLineClassifications.includes(line.classification),
+  );
+  const internalItemNamesReady =
+    stockLines.length === 0 ||
+    stockLines.every((line) => Boolean(getReviewedInternalItemName(line)));
+  const supportedCommitFlow = hasLines && lineClassificationsReady;
   const commitReady =
-    usesCammarotoCommitFlow &&
+    supportedCommitFlow &&
     !isCommitted &&
     !["duplicate", "rejected", "failed"].includes(document.status) &&
     invoiceReady &&
-    lineClassificationsReady;
-  const reviewedStockLine = lines.find(
-    (line) =>
-      line.line_number === 1 ||
-      line.source_item_code === "T/F-DCE M-VA" ||
-      line.classification === "ingredient",
-  );
+    lineClassificationsReady &&
+    internalItemNamesReady &&
+    !unresolvedLines;
+  const reviewedStockLine = stockLines[0];
   const reviewedInternalItemName =
     reviewedStockLine ? getReviewedInternalItemName(reviewedStockLine) : null;
   const previewInternalItemName =
     reviewedInternalItemName ?? "reviewer-selected internal item";
+  const supplierPreview =
+    document.supplier_trading_name_source ??
+    document.supplier_legal_name_source ??
+    document.supplier_display_name ??
+    "Reviewed supplier";
+  const stockLineCount = stockLines.length;
+  const informationalLineCount = lines.filter(
+    (line) => line.classification === "informational",
+  ).length;
   const committedSummary = [
-    ["Supplier", document.supplier_display_name ?? "Cammaroto Poultry"],
-    ["Supplier alias", "Surefire Solutions Group Unit Trust"],
-    ["Supplier item", "T/F-DCE M-VA"],
-    ["Internal item", previewInternalItemName],
-    ["Mapping", "Confirmed"],
-    ["Price observation", "$13.70/KG"],
-    ["Approved supplier price", "$13.70/KG current"],
-    ["Informational rule", "CTNS / CARTONS"],
+    ["Supplier", document.supplier_display_name ?? supplierPreview],
+    ["Supplier aliases", "Legal, trading, invoice, ABN and account where present"],
+    ["Supplier items", `${stockLineCount} stock/catalogue line(s) linked`],
+    ["Internal items", `${stockLineCount} reviewed item name(s) linked`],
+    ["Mappings", `${stockLineCount} confirmed mapping(s)`],
+    ["Price observations", `${stockLineCount} stock/catalogue price observation(s)`],
+    ["Approved supplier prices", "Updated only when price decision is update current price"],
+    ["Informational rules", `${informationalLineCount} informational line rule(s)`],
     ["Stock movements", "None created"],
     ["Supplier payment/bank details", "Not updated"],
     ["Source descriptions", "Preserved"],
@@ -594,9 +611,9 @@ export default async function PurchaseDocumentReviewPage({
               <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
                 {isCommitted
                   ? "This document is committed. Re-running commit is disabled from the UI and the server action is idempotent."
-                  : usesCammarotoCommitFlow
-                    ? "Commit will create/update supplier, supplier item, internal item, mapping, price observation, approved price and informational rule records for this tenant only. No stock movements or supplier payment/bank detail updates are created."
-                    : "Extraction for this supplier is review-first only. The generic multi-line commit flow is not connected yet, so no supplier, item, price or stock records can be committed from this page."}
+                  : hasLines
+                    ? "Commit will create/reuse supplier, aliases, supplier items, internal items, mappings, price observations, approved prices and informational rules for this tenant only. No stock movements or supplier payment/bank detail updates are created."
+                    : "Extraction is review-first. Commit becomes available after supported parser lines are extracted and reviewed."}
               </div>
             </div>
           </section>
@@ -1008,24 +1025,17 @@ export default async function PurchaseDocumentReviewPage({
                   stock records can be committed until reviewed invoice lines
                   exist.
                 </div>
-              ) : !usesCammarotoCommitFlow ? (
-                <div className="mt-5 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900">
-                  Review lines have been extracted for this supplier, but the
-                  generic commit flow is not connected yet. Save review progress
-                  only; no supplier, item, mapping, price or stock records are
-                  created by extraction.
-                </div>
               ) : (
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
                   {[
-                    "Create/reuse supplier: Cammaroto Poultry",
+                    `Create/reuse supplier: ${supplierPreview}`,
                     "Create/reuse aliases: legal, trading, invoice, ABN and account",
-                    "Create/reuse supplier item: T/F-DCE M-VA",
-                    `Create/reuse internal item: ${previewInternalItemName}`,
-                    "Confirm supplier item mapping",
-                    "Create/reuse price observation: $13.70/KG",
-                    "Create/update approved current price: $13.70/KG",
-                    "Create/reuse CTNS/CARTONS informational rule",
+                    `Create/reuse supplier items: ${stockLineCount} stock/catalogue line(s)`,
+                    `Create/reuse internal items: ${stockLineCount === 1 ? previewInternalItemName : `${stockLineCount} reviewed item names`}`,
+                    `Confirm supplier item mappings: ${stockLineCount}`,
+                    `Create/reuse price observations: ${stockLineCount}`,
+                    "Create/update approved current prices where decision is update_current_price",
+                    `Create/reuse informational ignored rules: ${informationalLineCount}`,
                     "No stock movements are created",
                     "No supplier payment/bank details are updated",
                     "Supplier source descriptions are preserved",
@@ -1049,9 +1059,11 @@ export default async function PurchaseDocumentReviewPage({
                 {[
                   ["Invoice number/date/total present", invoiceReady],
                   ["Line classifications selected", lineClassificationsReady],
+                  ["Internal item names present for stock/catalogue lines", internalItemNamesReady],
+                  ["Price decisions selected or defaulted", hasLines],
                   ["Totals reconcile", totalsReconcile],
-                  ["Duplicate check handled in sample action", true],
-                  ["Commit flow implemented", usesCammarotoCommitFlow],
+                  ["Unknown/deferred lines resolved", !unresolvedLines],
+                  ["Generic commit flow implemented", supportedCommitFlow],
                   ["No stock movements created by commit", true],
                 ].map(([label, passed]) => (
                   <div
@@ -1083,9 +1095,7 @@ export default async function PurchaseDocumentReviewPage({
                 >
                   {isCommitted
                     ? "Already committed"
-                    : !usesCammarotoCommitFlow
-                      ? "Generic commit not connected"
-                      : canCommit
+                    : canCommit
                       ? "Commit reviewed records"
                       : "Commit permission required"}
                 </ActionSubmitButton>

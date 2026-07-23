@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import {
-  commitCammarotoPurchaseDocumentReview,
+  commitPurchaseDocumentReview,
   createCammarotoSampleReview,
   extractPurchaseDocument,
   uploadPurchaseDocument,
@@ -173,7 +173,7 @@ export async function savePurchaseDocumentReviewAction(formData: FormData) {
 
 export async function commitPurchaseDocumentReviewAction(formData: FormData) {
   const documentId = getString(formData, "document_id");
-  const result = await commitCammarotoPurchaseDocumentReview(documentId);
+  const result = await commitPurchaseDocumentReview(documentId);
 
   revalidatePath("/purchase-documents");
   revalidatePath(`/purchase-documents/${documentId}`);

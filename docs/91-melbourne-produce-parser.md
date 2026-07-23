@@ -134,7 +134,13 @@ Extraction does not create:
 - approved supplier prices
 - stock records
 
-The existing Cammaroto commit flow is intentionally not used for Melbourne Produce. A generic multi-line commit flow must be planned and built separately.
+## Step 092 Update
+
+Melbourne Produce extracted reviews can now commit through the generic reviewed Purchase Document commit flow documented in [Generic Purchase Document Commit Flow](92-generic-purchase-document-commit-flow.md).
+
+For the known `F56088214` invoice, commit creates or reuses the Melbourne Produce supplier, aliases, 11 supplier items, 11 reviewed internal ingredient items, 11 mappings, 11 price observations and approved supplier prices according to the current default price-decision behaviour.
+
+Extraction still does not auto-commit. A reviewer must save/confirm the review and choose the commit action.
 
 ## Limitations
 
@@ -157,4 +163,4 @@ The existing Cammaroto commit flow is intentionally not used for Melbourne Produ
 
 ## No Auto-Commit Rule
 
-This parser is extraction/review only. It prepares data for reviewer correction and later commit planning, but it does not create trusted supplier, item, price or stock records.
+This parser is extraction/review only. It prepares data for reviewer correction and the generic commit action, but it does not create trusted supplier, item, price or stock records by itself.

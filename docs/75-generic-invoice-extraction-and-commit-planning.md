@@ -515,3 +515,11 @@ It is review-first and limited to embedded PDF text plus the first known Cammaro
 The first repeat invoice and price change behaviour now exists in [Repeat Invoice and Price Change Behaviour](78-repeat-invoice-price-change-behaviour.md).
 
 It enriches extracted Cammaroto review lines with existing tenant supplier, supplier item, mapping, ignored-rule and approved-price records where available. Generic supplier parsing and generic price decision UI remain future work.
+
+## Step 092 Update
+
+The first generic reviewed commit flow has started in [Generic Purchase Document Commit Flow](92-generic-purchase-document-commit-flow.md).
+
+Supported parser outputs, including Cammaroto and Melbourne Produce, can now be committed line-by-line after review. The flow creates or reuses supplier, alias, supplier item, internal item, mapping, price observation, approved price and informational-rule records without creating stock movements or supplier payment updates.
+
+The current implementation remains idempotent ordered writes rather than a database transaction/RPC. A dedicated per-line price-decision UI also remains future work.
