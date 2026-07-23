@@ -43,6 +43,7 @@ Current parser registry:
 - `pacific_meat_sales` - Pacific Meat Sales
 - `alba_cheese` - Alba Cheese
 - `grange_meat_co` - Grange Meat Co
+- `il_nonno` - Il Nonno
 
 The Cammaroto parser still supports the uploaded invoice with shifted-font embedded PDF text. It remains supplier-specific and intentionally narrow.
 
@@ -55,6 +56,8 @@ Step 097 adds the Pacific Meat Sales parser for known invoice `928733`; see [Pac
 Step 098 adds the Alba Cheese parser for known invoice `SO148136`; see [Alba Cheese Parser](98-alba-cheese-parser.md). It is supplier-specific, review-first and preserves the supplier unit `Box` without automatic pack conversion.
 
 Step 099 adds the Grange Meat Co parser for known invoice `349708`; see [Grange Meat Co Parser](99-grange-meat-parser.md). It is supplier-specific, review-first and treats delivery/comment lines as informational/ignored so only the lamb line becomes ingredient data.
+
+Step 100 adds the Il Nonno parser for known invoice `INV-6136`; see [Il Nonno Parser](100-il-nonno-parser.md). It is supplier-specific, review-first and imports only the tax invoice product line so the delivery note page does not duplicate the item.
 
 ## Candidate Text Flow
 
@@ -140,7 +143,7 @@ The extraction flow:
 
 ## Limitations
 
-- Only Cammaroto Poultry, Melbourne Produce Merchants, Del-Re National Food Group, Pacific Meat Sales, Alba Cheese and Grange Meat Co have supplier-specific parsers today.
+- Only Cammaroto Poultry, Melbourne Produce Merchants, Del-Re National Food Group, Pacific Meat Sales, Alba Cheese, Grange Meat Co and Il Nonno have supplier-specific parsers today.
 - Scanned PDFs still require future OCR/provider planning.
 - Unknown diagnostics are for parser development and review, not a substitute for a parser.
 - Unknown invoices do not create review lines until a supplier parser is added.

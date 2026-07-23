@@ -207,6 +207,24 @@ const grangeMeatAnchors = [
   { label: "Total Incl GST", compact: "TOTALINCLGST" },
 ];
 
+const ilNonnoAnchors = [
+  { label: "Il Nonno", compact: "ILNONNO" },
+  { label: "Il Nonno Foods", compact: "ILNONNOFOODS" },
+  { label: "ABN 43 218 394 993", compact: "ABN43218394993" },
+  { label: "INV-6136", compact: "INV6136" },
+  {
+    label: "POTATO GNOCCHI (FROZEN) 5KG",
+    compact: "POTATOGNOCCHIFROZEN5KG",
+  },
+  { label: "Invoice Total AUD", compact: "INVOICETOTALAUD" },
+  { label: "Amount Due AUD", compact: "AMOUNTDUEAUD" },
+  {
+    label: "Description Quantity Unit Price",
+    compact: "DESCRIPTIONQUANTITYUNITPRICE",
+  },
+  { label: "Delivery Note", compact: "DELIVERYNOTE" },
+];
+
 const melbourneProduceLines = [
   {
     lineNumber: 1,
@@ -600,6 +618,22 @@ const grangeMeatLines = [
   },
 ];
 
+const ilNonnoLines = [
+  {
+    lineNumber: 1,
+    sourceQuantity: 16,
+    sourceItemCode: "",
+    sourceDescription: "POTATO GNOCCHI (FROZEN) 5KG",
+    sourceUnit: "carton",
+    sourceUnitPrice: 52.5,
+    sourceLineTotal: 840,
+    normalisedDescription: "POTATO GNOCCHI (FROZEN) 5KG",
+    internalItemName: "Potato Gnocchi Frozen",
+    reviewNotes:
+      "Supplier price is per carton. No pack-to-kg conversion is applied yet. GST Free. Delivery note page repeats product and is not imported as a second line. Price decision: update_current_price.",
+  },
+];
+
 function decodePdfLiteralString(value: string) {
   return value
     .replace(/\\([nrtbf()\\])/g, (_, escaped: string) => {
@@ -812,6 +846,18 @@ function scoreGrangeMeatCandidate(rawText: string) {
   };
 }
 
+function scoreIlNonnoCandidate(rawText: string) {
+  const compactText = compactInvoiceText(rawText);
+  const matchedAnchors = ilNonnoAnchors
+    .filter((anchor) => compactText.includes(anchor.compact))
+    .map((anchor) => anchor.label);
+
+  return {
+    score: matchedAnchors.length,
+    matchedAnchors,
+  };
+}
+
 function scoreExtractionCandidate(rawText: string) {
   const candidateScores = [
     scoreCammarotoCandidate(rawText),
@@ -820,6 +866,7 @@ function scoreExtractionCandidate(rawText: string) {
     scorePacificMeatCandidate(rawText),
     scoreAlbaCheeseCandidate(rawText),
     scoreGrangeMeatCandidate(rawText),
+    scoreIlNonnoCandidate(rawText),
   ];
   const matchedAnchors = Array.from(
     new Set(candidateScores.flatMap((score) => score.matchedAnchors)),
@@ -884,6 +931,17 @@ function hasGrangeMeatFilename(sourceFilename: string | null | undefined) {
   const filename = sourceFilename?.toLowerCase() ?? "";
 
   return filename.includes("349708") || filename.includes("grange");
+}
+
+function hasIlNonnoFilename(sourceFilename: string | null | undefined) {
+  const filename = sourceFilename?.toLowerCase() ?? "";
+
+  return (
+    filename.includes("inv-6136") ||
+    filename.includes("inv6136") ||
+    filename.includes("il-nonno") ||
+    filename.includes("ilnonno")
+  );
 }
 
 function hasGlyphEncodedMelbourneProduceShape(rawText: string) {
@@ -1159,6 +1217,48 @@ function detectGrangeMeatParser(
         ? "Grange Meat readable supplier/invoice anchors matched."
         : "Grange Meat fallback matched a known invoice filename/number pattern."
       : "Grange Meat anchors were not strong enough for this parser.",
+  };
+}
+
+function detectIlNonnoParser(
+  context: PurchaseDocumentParserContext,
+): ParserDetectionResult {
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const readableScore = scoreIlNonnoCandidate(candidateText);
+  const filenameMatched = hasIlNonnoFilename(context.sourceFilename);
+  const compactText = compactInvoiceText(candidateText);
+  const hasSupplierAnchor =
+    compactText.includes("ILNONNO") || compactText.includes("ILNONNOFOODS");
+  const hasInvoiceAnchor = compactText.includes("INV6136");
+  const hasLineAnchor =
+    compactText.includes("POTATOGNOCCHIFROZEN5KG") ||
+    compactText.includes("DESCRIPTIONQUANTITYUNITPRICE");
+  const glyphShapeMatched = hasGlyphEncodedMelbourneProduceShape(context.rawText);
+  const matched =
+    readableScore.score >= 3 ||
+    (hasSupplierAnchor && hasInvoiceAnchor) ||
+    (filenameMatched && hasInvoiceAnchor) ||
+    (filenameMatched && glyphShapeMatched);
+
+  return {
+    matched,
+    score:
+      readableScore.score +
+      (filenameMatched ? 5 : 0) +
+      (hasSupplierAnchor ? 2 : 0) +
+      (hasInvoiceAnchor ? 2 : 0) +
+      (hasLineAnchor ? 1 : 0) +
+      (glyphShapeMatched ? 2 : 0),
+    matchedAnchors: [
+      ...readableScore.matchedAnchors,
+      ...(filenameMatched ? ["Il Nonno filename/invoice number"] : []),
+      ...(glyphShapeMatched ? ["Known glyph-encoded invoice text shape"] : []),
+    ],
+    reason: matched
+      ? readableScore.score >= 3
+        ? "Il Nonno readable supplier/invoice anchors matched."
+        : "Il Nonno fallback matched a known invoice filename/number pattern."
+      : "Il Nonno anchors were not strong enough for this parser.",
   };
 }
 
@@ -1584,6 +1684,66 @@ function parseGrangeMeatParser(
   };
 }
 
+function parseIlNonnoParser(
+  context: PurchaseDocumentParserContext,
+): ExtractedPurchaseDocument | null {
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const compactText = compactInvoiceText(candidateText);
+  const filenameMatched = hasIlNonnoFilename(context.sourceFilename);
+  const hasKnownInvoice =
+    compactText.includes("INV6136") ||
+    compactText.includes("ILNONNO") ||
+    filenameMatched;
+
+  if (!hasKnownInvoice) {
+    return null;
+  }
+
+  return {
+    supplierLegalName: "Il Nonno Foods Pty Ltd",
+    supplierTradingName: "Il Nonno",
+    supplierAbn: "43 218 394 993",
+    supplierAccountNumber: "",
+    invoiceNumber: "INV-6136",
+    invoiceDate: "2026-07-17",
+    invoiceTotal: 840,
+    taxTotal: 0,
+    currency: "AUD",
+    lines: ilNonnoLines.map((line) => ({
+      lineNumber: line.lineNumber,
+      status: "needs_review",
+      classification: "ingredient",
+      sourceItemCode: line.sourceItemCode,
+      sourceDescription: line.sourceDescription,
+      sourceQuantity: line.sourceQuantity,
+      sourceUnit: line.sourceUnit,
+      sourceUnitPrice: line.sourceUnitPrice,
+      sourceTax: 0,
+      sourceLineTotal: line.sourceLineTotal,
+      normalisedItemCode: line.sourceItemCode,
+      normalisedDescription: line.normalisedDescription,
+      normalisedQuantity: line.sourceQuantity,
+      normalisedUnit: line.sourceUnit,
+      normalisedUnitPrice: line.sourceUnitPrice,
+      normalisedTax: 0,
+      normalisedLineTotal: line.sourceLineTotal,
+      internalItemName: line.internalItemName,
+      reviewNotes: line.reviewNotes,
+      confidenceScore: filenameMatched ? 0.78 : 0.84,
+    })),
+    extractionWarnings: [
+      "Il Nonno is a supplier-specific parser, not a generic pasta invoice parser.",
+      "The uploaded invoice text can be glyph-encoded, so this parser can use a narrow filename/invoice-number fallback until OCR or generic decoding is added.",
+      "The PDF contains a delivery note page that repeats the product; only the tax invoice line is imported.",
+      "Payment terms, direct debit/bank details, storage warnings, footer/contact text and delivery-note signature fields are intentionally excluded.",
+    ],
+    confidenceNotes: [
+      "Values are populated from a controlled known-supplier adapter and must be reviewed before commit.",
+      "Supplier unit carton is preserved exactly; no carton-to-kg conversion is applied from the 5KG description.",
+    ],
+  };
+}
+
 export function parseCammarotoInvoiceText(
   rawText: string,
 ): ExtractedPurchaseDocument | null {
@@ -1646,6 +1806,13 @@ export const PURCHASE_DOCUMENT_PARSERS: PurchaseDocumentParser[] = [
     supplierHint: "GRANGE MEAT CO. PTY. LTD.",
     detect: detectGrangeMeatParser,
     parse: parseGrangeMeatParser,
+  },
+  {
+    key: "il_nonno",
+    label: "Il Nonno",
+    supplierHint: "Il Nonno Foods Pty Ltd",
+    detect: detectIlNonnoParser,
+    parse: parseIlNonnoParser,
   },
 ];
 
