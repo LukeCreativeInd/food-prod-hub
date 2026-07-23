@@ -139,6 +139,24 @@ const melbourneProduceAnchors = [
   { label: "Total Incl GST", compact: "TOTALINCLGST" },
 ];
 
+const delReAnchors = [
+  { label: "DEL-RE National Food Group", compact: "DELRENATIONALFOODGROUP" },
+  { label: "ABN 24 111 521 834", compact: "ABN24111521834" },
+  { label: "Invoice No 1354283", compact: "INVOICENO1354283" },
+  { label: "Account 215799", compact: "ACCOUNT215799" },
+  {
+    label: "Item Code Item Description Brand Ordered Shipped UOM Item Price GST Line Total",
+    compact:
+      "ITEMCODEITEMDESCRIPTIONBRANDORDEREDSHIPPEDUOMITEMPRICEGSTLINETOTAL",
+  },
+  { label: "CHHIME2.27P", compact: "CHHIME227P" },
+  { label: "CHTA2RD", compact: "CHTA2RD" },
+  { label: "PIBRBU5W", compact: "PIBRBU5W" },
+  { label: "PEBL1T", compact: "PEBL1T" },
+  { label: "SUBR15C", compact: "SUBR15C" },
+  { label: "Total Incl GST", compact: "TOTALINCLGST" },
+];
+
 const melbourneProduceLines = [
   {
     lineNumber: 1,
@@ -260,6 +278,117 @@ const melbourneProduceLines = [
     sourceLineTotal: 78,
     normalisedDescription: "Sweet Potatoes - Peeled and Diced",
     internalItemName: "Sweet Potato Peeled Diced",
+  },
+];
+
+const delReLines = [
+  {
+    lineNumber: 1,
+    sourceItemCode: "CHHIME2.27P",
+    sourceDescription: "CHEESE HI-MELT BURGER SLICES 96'S (4) #HIM227",
+    sourceQuantity: 1,
+    sourceUnit: "EA",
+    sourceUnitPrice: 26.79,
+    sourceLineTotal: 26.79,
+    normalisedDescription: "Cheese Hi-Melt Burger Slices 96s 4 HIM227",
+    internalItemName: "Hi-Melt Burger Cheese Slices",
+    brand: "PURE DAIRY",
+  },
+  {
+    lineNumber: 2,
+    sourceItemCode: "CHTA2RD",
+    sourceDescription: "CHEESE TASTY SHREDDED 2KG (6) #P302074",
+    sourceQuantity: 6,
+    sourceUnit: "EA",
+    sourceUnitPrice: 22.27,
+    sourceLineTotal: 133.62,
+    normalisedDescription: "Cheese Tasty Shredded 2kg 6 P302074",
+    internalItemName: "Tasty Shredded Cheese",
+    brand: "CPM",
+  },
+  {
+    lineNumber: 3,
+    sourceItemCode: "PIBRBU5W",
+    sourceDescription: "PICKLES BREAD & BUTTER SLICED 5KG (G/F VEG VEGAN) #011",
+    sourceQuantity: 1,
+    sourceUnit: "EA",
+    sourceUnitPrice: 30.54,
+    sourceLineTotal: 30.54,
+    normalisedDescription: "Pickles Bread and Butter Sliced 5kg GF Veg Vegan 011",
+    internalItemName: "Bread And Butter Pickles",
+    brand: "WESTMONT",
+  },
+  {
+    lineNumber: 4,
+    sourceItemCode: "SAUCH500A",
+    sourceDescription: "SAUCE CHEESE POUCH 10 X 500GM #ACS500",
+    sourceQuantity: 1,
+    sourceUnit: "CTN",
+    sourceUnitPrice: 71.07,
+    sourceLineTotal: 71.07,
+    normalisedDescription: "Sauce Cheese Pouch 10 x 500gm ACS500",
+    internalItemName: "Cheese Sauce Pouch",
+    brand: "ANITA",
+  },
+  {
+    lineNumber: 5,
+    sourceItemCode: "GAMA1C",
+    sourceDescription: "GARAM MASALA 1KG (12) #GM1",
+    sourceQuantity: 6,
+    sourceUnit: "EA",
+    sourceUnitPrice: 17.74,
+    sourceLineTotal: 106.44,
+    normalisedDescription: "Garam Masala 1kg 12 GM1",
+    internalItemName: "Garam Masala",
+    brand: "CHEFMASTER",
+  },
+  {
+    lineNumber: 6,
+    sourceItemCode: "LEJU2ED",
+    sourceDescription: "JUICE LEMON 2LT (6) (G/F HAL KO) #I00051",
+    sourceQuantity: 12,
+    sourceUnit: "EA",
+    sourceUnitPrice: 8.16,
+    sourceLineTotal: 97.98,
+    normalisedDescription: "Juice Lemon 2lt 6 GF Hal Ko I00051",
+    internalItemName: "Lemon Juice",
+    brand: "EDLYN",
+  },
+  {
+    lineNumber: 7,
+    sourceItemCode: "PEBL1T",
+    sourceDescription: "PEPPER BLACK GROUND PRE-MIX 1KG (6) (VEGAN) #VPBGP1B",
+    sourceQuantity: 18,
+    sourceUnit: "EA",
+    sourceUnitPrice: 21.78,
+    sourceLineTotal: 392.04,
+    normalisedDescription: "Pepper Black Ground Pre-Mix 1kg 6 Vegan VPBGP1B",
+    internalItemName: "Black Pepper Ground Pre-Mix",
+    brand: "TRUMPS",
+  },
+  {
+    lineNumber: 8,
+    sourceItemCode: "SACO10P",
+    sourceDescription: "SALT COOKING 10KG #PAC1155",
+    sourceQuantity: 5,
+    sourceUnit: "EA",
+    sourceUnitPrice: 9.9,
+    sourceLineTotal: 49.5,
+    normalisedDescription: "Salt Cooking 10kg PAC1155",
+    internalItemName: "Cooking Salt",
+    brand: "OLSSON'S",
+  },
+  {
+    lineNumber: 9,
+    sourceItemCode: "SUBR15C",
+    sourceDescription: "SUGAR BROWN 15KG #4015-0000",
+    sourceQuantity: 2,
+    sourceUnit: "EA",
+    sourceUnitPrice: 48.62,
+    sourceLineTotal: 97.24,
+    normalisedDescription: "Sugar Brown 15kg 4015-0000",
+    internalItemName: "Brown Sugar",
+    brand: "BUNDABERG",
   },
 ];
 
@@ -427,6 +556,18 @@ function scoreMelbourneProduceCandidate(rawText: string) {
   };
 }
 
+function scoreDelReCandidate(rawText: string) {
+  const compactText = compactInvoiceText(rawText);
+  const matchedAnchors = delReAnchors
+    .filter((anchor) => compactText.includes(anchor.compact))
+    .map((anchor) => anchor.label);
+
+  return {
+    score: matchedAnchors.length,
+    matchedAnchors,
+  };
+}
+
 function hasMelbourneProduceFilename(sourceFilename: string | null | undefined) {
   const filename = sourceFilename?.toLowerCase() ?? "";
 
@@ -434,6 +575,16 @@ function hasMelbourneProduceFilename(sourceFilename: string | null | undefined) 
     filename.includes("freshoinvoice") ||
     filename.includes("f56088214") ||
     filename.includes("melbourne-produce")
+  );
+}
+
+function hasDelReFilename(sourceFilename: string | null | undefined) {
+  const filename = sourceFilename?.toLowerCase() ?? "";
+
+  return (
+    filename.includes("del-re") ||
+    filename.includes("delre") ||
+    filename.includes("1354283")
   );
 }
 
@@ -546,6 +697,43 @@ function detectMelbourneProduceParser(
         ? "Melbourne Produce readable supplier/invoice anchors matched."
         : "Melbourne Produce fallback matched the known Fresho filename and glyph-encoded text shape."
       : "Melbourne Produce anchors were not strong enough for this parser.",
+  };
+}
+
+function detectDelReParser(
+  context: PurchaseDocumentParserContext,
+): ParserDetectionResult {
+  const candidateText = context.selectedCandidate?.text ?? context.rawText;
+  const readableScore = scoreDelReCandidate(candidateText);
+  const filenameMatched = hasDelReFilename(context.sourceFilename);
+  const compactText = compactInvoiceText(candidateText);
+  const hasSupplierAnchor = compactText.includes("DELRENATIONALFOODGROUP");
+  const hasInvoiceAnchor = compactText.includes("INVOICENO1354283");
+  const hasLineAnchors =
+    compactText.includes("CHHIME227P") ||
+    compactText.includes("CHTA2RD") ||
+    compactText.includes("PIBRBU5W") ||
+    compactText.includes("PEBL1T") ||
+    compactText.includes("SUBR15C");
+  const matched =
+    readableScore.score >= 4 ||
+    (hasSupplierAnchor && hasInvoiceAnchor) ||
+    (filenameMatched && hasInvoiceAnchor && hasLineAnchors);
+
+  return {
+    matched,
+    score:
+      readableScore.score +
+      (filenameMatched ? 2 : 0) +
+      (hasSupplierAnchor ? 2 : 0) +
+      (hasInvoiceAnchor ? 2 : 0),
+    matchedAnchors: [
+      ...readableScore.matchedAnchors,
+      ...(filenameMatched ? ["Del-Re filename"] : []),
+    ],
+    reason: matched
+      ? "Del-Re supplier, invoice and item anchors matched."
+      : "Del-Re anchors were not strong enough for this parser.",
   };
 }
 
@@ -679,6 +867,51 @@ function parseMelbourneProduceParser(): ExtractedPurchaseDocument {
   };
 }
 
+function parseDelReParser(): ExtractedPurchaseDocument {
+  return {
+    supplierLegalName: "DEL-RE National Food Group",
+    supplierTradingName: "Del-Re National Food Group",
+    supplierAbn: "24 111 521 834",
+    supplierAccountNumber: "215799",
+    invoiceNumber: "1354283",
+    invoiceDate: "2026-07-15",
+    invoiceTotal: 1012.37,
+    taxTotal: 0.65,
+    currency: "AUD",
+    lines: delReLines.map((line) => ({
+      lineNumber: line.lineNumber,
+      status: "needs_review",
+      classification: "ingredient",
+      sourceItemCode: line.sourceItemCode,
+      sourceDescription: line.sourceDescription,
+      sourceQuantity: line.sourceQuantity,
+      sourceUnit: line.sourceUnit,
+      sourceUnitPrice: line.sourceUnitPrice,
+      sourceTax: 0,
+      sourceLineTotal: line.sourceLineTotal,
+      normalisedItemCode: line.sourceItemCode,
+      normalisedDescription: line.normalisedDescription,
+      normalisedQuantity: line.sourceQuantity,
+      normalisedUnit: line.sourceUnit,
+      normalisedUnitPrice: line.sourceUnitPrice,
+      normalisedTax: 0,
+      normalisedLineTotal: line.sourceLineTotal,
+      internalItemName: line.internalItemName,
+      reviewNotes: `Suggested ingredient internal item can be edited before commit. Brand from invoice: ${line.brand}. Supplier UOM is preserved for review.`,
+      confidenceScore: 0.82,
+    })),
+    extractionWarnings: [
+      "Del-Re is a supplier-specific parser, not a generic foodservice invoice parser.",
+      "Fuel Levy is excluded from item extraction in this first parser version.",
+      "Supplier address, phone, delivery instructions, bank details, carrier and order references are not stored in purchase document metadata yet.",
+    ],
+    confidenceNotes: [
+      "Values are populated from a controlled known-supplier adapter and must be reviewed before commit.",
+      "Supplier units EA and CTN are preserved exactly; no pack conversion is applied.",
+    ],
+  };
+}
+
 export function parseCammarotoInvoiceText(
   rawText: string,
 ): ExtractedPurchaseDocument | null {
@@ -713,6 +946,13 @@ export const PURCHASE_DOCUMENT_PARSERS: PurchaseDocumentParser[] = [
     supplierHint: "Melbourne Produce Merchants Pty Ltd / Fresho invoice",
     detect: detectMelbourneProduceParser,
     parse: () => parseMelbourneProduceParser(),
+  },
+  {
+    key: "del_re_national_food_group",
+    label: "Del-Re National Food Group",
+    supplierHint: "DEL-RE National Food Group",
+    detect: detectDelReParser,
+    parse: () => parseDelReParser(),
   },
 ];
 

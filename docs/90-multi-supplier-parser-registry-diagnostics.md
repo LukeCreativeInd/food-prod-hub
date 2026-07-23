@@ -39,10 +39,13 @@ Current parser registry:
 
 - `cammaroto_poultry` - Cammaroto Poultry
 - `melbourne_produce_merchants` - Melbourne Produce Merchants
+- `del_re_national_food_group` - Del-Re National Food Group
 
 The Cammaroto parser still supports the uploaded invoice with shifted-font embedded PDF text. It remains supplier-specific and intentionally narrow.
 
 Step 091 adds the Melbourne Produce Merchants parser for the known Fresho invoice `F56088214`; see [Melbourne Produce Merchants Parser](91-melbourne-produce-parser.md). It is also supplier-specific and review-first.
+
+Step 093 adds the Del-Re National Food Group parser for known invoice `1354283`; see [Del-Re National Food Group Parser](93-del-re-parser.md). It is also supplier-specific, review-first and excludes Fuel Levy from item-line extraction.
 
 ## Candidate Text Flow
 
