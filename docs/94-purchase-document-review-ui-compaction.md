@@ -83,6 +83,12 @@ Commit wording continues to make clear that commit creates/reuses supplier, supp
 
 Commit still does not create stock movements or update supplier payment/bank details.
 
+## Step 095 Update
+
+Commit UX was improved after the compaction pass in [Purchase Document Commit Performance Feedback](95-purchase-document-commit-performance-feedback.md).
+
+The compact review UI remains unchanged, but the commit action now shows clearer pending feedback, disables conflicting actions while pending and logs development timing diagnostics.
+
 ## Non-Goals
 
 This step does not add:

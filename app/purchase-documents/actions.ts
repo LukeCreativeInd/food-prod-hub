@@ -173,9 +173,28 @@ export async function savePurchaseDocumentReviewAction(formData: FormData) {
 
 export async function commitPurchaseDocumentReviewAction(formData: FormData) {
   const documentId = getString(formData, "document_id");
-  const result = await commitPurchaseDocumentReview(documentId);
+  let result: Awaited<ReturnType<typeof commitPurchaseDocumentReview>>;
+
+  try {
+    result = await commitPurchaseDocumentReview(documentId);
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error("[purchase-document-commit-action]", {
+        documentId,
+        error,
+      });
+    }
+
+    revalidatePath("/purchase-documents");
+    revalidatePath(`/purchase-documents/${documentId}`);
+    redirect(`/purchase-documents/${documentId}?commit=error`);
+  }
 
   revalidatePath("/purchase-documents");
   revalidatePath(`/purchase-documents/${documentId}`);
-  redirect(`/purchase-documents/${result.documentId}?commit=${result.status}`);
+  redirect(
+    `/purchase-documents/${result.documentId}?commit=${result.status}${
+      result.durationMs ? `&durationMs=${result.durationMs}` : ""
+    }`,
+  );
 }

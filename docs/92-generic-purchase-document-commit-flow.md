@@ -137,6 +137,12 @@ The Purchase Document Review UI has been compacted for larger invoices in [Purch
 
 The UI now shows compact line rows by default, with expandable details for editing. Commit behaviour is unchanged.
 
+## Step 095 Update
+
+Commit feedback and development timing diagnostics have been added in [Purchase Document Commit Performance Feedback](95-purchase-document-commit-performance-feedback.md).
+
+The commit flow remains idempotent ordered application writes, but the UI now gives clearer pending feedback and local development logs show where commit time is being spent.
+
 ## Non-Goals
 
 This step does not add:

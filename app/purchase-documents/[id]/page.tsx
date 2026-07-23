@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { ActionSubmitButton } from "@/app/purchase-documents/action-submit-button";
 import { InvoiceLinesReview } from "@/app/purchase-documents/[id]/invoice-lines-review";
+import { ReviewActionPanel } from "@/app/purchase-documents/[id]/review-action-panel";
 import {
   commitPurchaseDocumentReviewAction,
   extractPurchaseDocumentAction,
@@ -23,6 +24,7 @@ type PageProps = {
   }>;
   searchParams: Promise<{
     commit?: string;
+    durationMs?: string;
     sample?: string;
     saved?: string;
     upload?: string;
@@ -94,6 +96,7 @@ function statusTone(status: string) {
 
 function messageFor(
   commit?: string,
+  durationMs?: string,
   sample?: string,
   saved?: string,
   upload?: string,
@@ -144,15 +147,21 @@ function messageFor(
   }
 
   if (commit === "committed") {
-    return "Purchase document committed. Supplier, item, mapping, price and informational-rule records were created or reused.";
+    const duration = formatDuration(durationMs);
+    return `Purchase document committed. Supplier, item, mapping, price and informational-rule records were created or reused.${duration ? ` Finished in about ${duration}.` : ""}`;
   }
 
   if (commit === "already_committed") {
-    return "Purchase document was already committed. No duplicate records were created.";
+    const duration = formatDuration(durationMs);
+    return `Purchase document was already committed. No duplicate records were created.${duration ? ` Checked in about ${duration}.` : ""}`;
   }
 
   if (commit === "validation_failed") {
     return "Purchase document needs more review before commit.";
+  }
+
+  if (commit === "error") {
+    return "Commit failed before completion. Review data is still available; no stock movements or supplier bank/payment details were changed. Check the server log before trying again.";
   }
 
   if (sample === "existing") {
@@ -172,6 +181,20 @@ function messageFor(
   }
 
   return null;
+}
+
+function formatDuration(durationMs?: string) {
+  const numericDuration = Number(durationMs);
+
+  if (!Number.isFinite(numericDuration) || numericDuration <= 0) {
+    return null;
+  }
+
+  if (numericDuration < 1000) {
+    return `${Math.round(numericDuration)}ms`;
+  }
+
+  return `${(numericDuration / 1000).toFixed(1)}s`;
 }
 
 function FieldPreview({ label, value }: { label: string; value: string }) {
@@ -276,6 +299,7 @@ export default async function PurchaseDocumentReviewPage({
   const { document, lines, sourceFile } = review;
   const message = messageFor(
     query.commit,
+    query.durationMs,
     query.sample,
     query.saved,
     query.upload,
@@ -787,27 +811,12 @@ export default async function PurchaseDocumentReviewPage({
                   </div>
                 ))}
               </div>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <ActionSubmitButton
-                  pendingLabel="Saving..."
-                  disabled={isCommitted}
-                  variant="primary"
-                >
-                  {isCommitted ? "Review locked after commit" : "Save review progress"}
-                </ActionSubmitButton>
-                <ActionSubmitButton
-                  pendingLabel="Committing..."
-                  formAction={commitPurchaseDocumentReviewAction}
-                  disabled={!canCommit || !commitReady}
-                  variant="dark"
-                >
-                  {isCommitted
-                    ? "Already committed"
-                    : canCommit
-                      ? "Commit reviewed records"
-                      : "Commit permission required"}
-                </ActionSubmitButton>
-              </div>
+              <ReviewActionPanel
+                canCommit={canCommit}
+                commitReady={commitReady}
+                isCommitted={isCommitted}
+                commitAction={commitPurchaseDocumentReviewAction}
+              />
             </div>
           </section>
         </div>

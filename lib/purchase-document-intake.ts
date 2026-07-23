@@ -149,6 +149,7 @@ export type CommitPurchaseDocumentResult = {
   documentId: string;
   status: "committed" | "already_committed" | "validation_failed";
   message: string;
+  durationMs?: number;
   summary?: {
     supplier: string;
     supplierAliases: string[];
@@ -330,6 +331,34 @@ function getSupportedUploadLabel() {
 
 function isDevelopment() {
   return process.env.NODE_ENV !== "production";
+}
+
+function createCommitTimingLogger(documentId: string) {
+  const startedAt = Date.now();
+  let previousAt = startedAt;
+
+  return {
+    mark(stage: string, details: Record<string, unknown> = {}) {
+      if (!isDevelopment()) {
+        return;
+      }
+
+      const now = Date.now();
+
+      console.error("[purchase-document-commit]", {
+        stage,
+        documentId,
+        stageMs: now - previousAt,
+        totalMs: now - startedAt,
+        ...details,
+      });
+
+      previousAt = now;
+    },
+    totalMs() {
+      return Date.now() - startedAt;
+    },
+  };
 }
 
 function getStorageUploadErrorMessage(error: SupabaseStorageError) {
@@ -2543,19 +2572,26 @@ async function findOrCreateIgnoredLineRule({
 export async function commitPurchaseDocumentReview(
   documentId: string,
 ): Promise<CommitPurchaseDocumentResult> {
+  const timing = createCommitTimingLogger(documentId);
   const authContext = await requirePurchaseDocumentPermission(
     "purchase_documents.commit",
   );
+  timing.mark("auth_context");
   const supabase = await createClient();
   const organisationId = authContext.organisation.id;
   const profileId = authContext.profile.id;
   const review = await getPurchaseDocumentReview(documentId);
+  timing.mark("load_document_and_lines", {
+    organisationId,
+    lineCount: review?.lines.length ?? 0,
+  });
 
   if (!review) {
     return {
       documentId,
       status: "validation_failed",
       message: "Purchase document was not found or is not accessible.",
+      durationMs: timing.totalMs(),
       errors: ["Purchase document was not found or is not accessible."],
     };
   }
@@ -2567,6 +2603,7 @@ export async function commitPurchaseDocumentReview(
       documentId,
       status: "already_committed",
       message: "Purchase document is already committed. No duplicate records were created.",
+      durationMs: timing.totalMs(),
       summary: {
         supplier:
           document.supplier_display_name ??
@@ -2601,12 +2638,19 @@ export async function commitPurchaseDocumentReview(
   }
 
   const validation = validatePurchaseDocumentCommit(document, lines);
+  timing.mark("validate_document", {
+    stockLines: validation.stockLines.length,
+    informationalLines: validation.informationalLines.length,
+    nonStockChargeLines: validation.nonStockChargeLines.length,
+    errors: validation.errors.length,
+  });
 
   if (validation.errors.length > 0) {
     return {
       documentId,
       status: "validation_failed",
       message: "Purchase document needs review before it can be committed.",
+      durationMs: timing.totalMs(),
       errors: validation.errors,
     };
   }
@@ -2616,10 +2660,17 @@ export async function commitPurchaseDocumentReview(
     organisationId,
     document,
   });
+  timing.mark("supplier_find_or_create", {
+    supplierId: supplier.id,
+    supplier: supplier.display_name,
+  });
   const supplierAliases = await ensureSupplierAliases({
     organisationId,
     supplierId: supplier.id,
     document,
+  });
+  timing.mark("supplier_aliases_find_or_create", {
+    aliasCount: supplierAliases.length,
   });
 
   const supplierItems: string[] = [];
@@ -2638,6 +2689,7 @@ export async function commitPurchaseDocumentReview(
         documentId,
         status: "validation_failed",
         message: "Purchase document needs review before it can be committed.",
+        durationMs: timing.totalMs(),
         errors: [`${lineDisplayName(line)} needs a reviewed internal item name.`],
       };
     }
@@ -2647,6 +2699,10 @@ export async function commitPurchaseDocumentReview(
       supplierId: supplier.id,
       line,
     });
+    timing.mark("line_supplier_item", {
+      lineNumber: line.line_number,
+      supplierItemId: supplierItem.id,
+    });
     const internalItem = await findOrCreateInternalItem({
       organisationId,
       documentId: document.id,
@@ -2654,12 +2710,20 @@ export async function commitPurchaseDocumentReview(
       itemType: line.classification,
       baseUnit: purchaseUnit,
     });
+    timing.mark("line_internal_item", {
+      lineNumber: line.line_number,
+      internalItemId: internalItem.id,
+    });
     const mapping = await findOrCreateSupplierItemMapping({
       organisationId,
       supplierItemId: supplierItem.id,
       internalItemId: internalItem.id,
       line,
       profileId,
+    });
+    timing.mark("line_mapping", {
+      lineNumber: line.line_number,
+      mappingId: mapping.id,
     });
     const priceObservation = await findOrCreatePriceObservation({
       organisationId,
@@ -2669,6 +2733,11 @@ export async function commitPurchaseDocumentReview(
       document,
       line,
       profileId,
+    });
+    timing.mark("line_price_observation", {
+      lineNumber: line.line_number,
+      priceObservationId: priceObservation.id,
+      approvalDecision: priceObservation.approval_decision,
     });
 
     supplierItems.push(
@@ -2698,6 +2767,10 @@ export async function commitPurchaseDocumentReview(
       approvedSupplierPrices.push(
         `${document.currency} ${Number(approvedPrice.unit_price).toFixed(2)}/${approvedPrice.purchase_unit ?? unit}`,
       );
+      timing.mark("line_approved_price", {
+        lineNumber: line.line_number,
+        approvedSupplierPriceId: approvedPrice.id,
+      });
     } else if (priceObservation.approval_decision === "one_off_transaction") {
       approvedSupplierPrices.push("Observation only - one-off transaction");
     } else if (priceObservation.approval_decision === "review_later") {
@@ -2720,6 +2793,10 @@ export async function commitPurchaseDocumentReview(
       .eq("organisation_id", organisationId)
       .eq("purchase_document_id", document.id)
       .eq("id", line.id);
+    timing.mark("line_status_update", {
+      lineNumber: line.line_number,
+      status: "committed",
+    });
   }
 
   for (const line of validation.informationalLines) {
@@ -2729,6 +2806,10 @@ export async function commitPurchaseDocumentReview(
       document,
       line,
       profileId,
+    });
+    timing.mark("informational_rule", {
+      lineNumber: line.line_number,
+      ignoredRuleId: ignoredRule.id,
     });
 
     informationalRules.push(
@@ -2745,6 +2826,10 @@ export async function commitPurchaseDocumentReview(
       .eq("organisation_id", organisationId)
       .eq("purchase_document_id", document.id)
       .eq("id", line.id);
+    timing.mark("informational_line_status_update", {
+      lineNumber: line.line_number,
+      status: "ignored",
+    });
   }
 
   for (const line of validation.nonStockChargeLines) {
@@ -2757,6 +2842,10 @@ export async function commitPurchaseDocumentReview(
       .eq("organisation_id", organisationId)
       .eq("purchase_document_id", document.id)
       .eq("id", line.id);
+    timing.mark("non_stock_line_status_update", {
+      lineNumber: line.line_number,
+      status: "committed",
+    });
   }
 
   const { error: documentUpdateError } = await supabase
@@ -2776,11 +2865,18 @@ export async function commitPurchaseDocumentReview(
   if (documentUpdateError) {
     throw new Error("Could not mark purchase document as committed.");
   }
+  timing.mark("final_document_status_update", {
+    status: "committed",
+  });
+  timing.mark("total_commit_duration", {
+    status: "committed",
+  });
 
   return {
     documentId,
     status: "committed",
     message: "Purchase document committed.",
+    durationMs: timing.totalMs(),
     summary: {
       supplier: supplier.display_name,
       supplierAliases,
