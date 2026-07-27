@@ -67,6 +67,8 @@ The app shell reads existing organisation branding where available:
 
 If no logo exists, the sidebar falls back to a clean logo placeholder labelled `Client Logo` instead of showing tenant metadata as a stacked brand block. 109C adds logo URL management and theme colour controls; 109D completes tenant-safe logo upload/storage.
 
+Future user-facing platform branding should align with EveryBatch. Tenant workspace branding should remain workspace-specific, so the Clean Eats tenant shell can keep Clean Eats logo/name treatment while EveryBatch appears only as the platform/trust layer where appropriate.
+
 ## Top Header
 
 The top header now uses tenant context for the organisation label and includes:
@@ -105,3 +107,7 @@ This pass adds a lightweight tenant branding lookup through the existing request
 - Status colour settings are not included in 109A.
 - Search and notifications remain placeholders.
 - Platform Admin remains inside the current app for now, with existing visibility guards.
+
+## EveryBatch Brand Follow-Up
+
+Task 113 documents EveryBatch as the real platform/product brand and plans the future domain architecture. This 109A shell work remains tenant-workspace UI; no domain or platform-brand implementation is added here.

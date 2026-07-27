@@ -30,6 +30,8 @@ If `organisation_branding.logo_url` exists, the app shell/sidebar displays the l
 
 Part D completes this foundation with tenant-safe logo upload to private Supabase Storage. New uploads store the private storage object path in `organisation_branding.logo_url`; the app resolves that path to a short-lived signed URL server-side for display.
 
+Future platform branding should align with EveryBatch, while this tenant branding surface remains focused on the active tenant/customer workspace. EveryBatch should have its own platform brand palette later instead of overwriting tenant-specific colours.
+
 ## Theme Colour Fields
 
 Migration 025 adds these fields to `public.organisation_branding`:

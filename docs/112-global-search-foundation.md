@@ -6,6 +6,8 @@ Task 112 turns the top header search placeholder into a basic global search for 
 
 It is a lightweight foundation only. It does not add an external search service, full-text search indexes, OCR, PDF content search, advanced filters, saved searches, create/edit actions, stock movements, purchase orders, production planning, costing rollups, Supplier Invoice Intake parser changes or Platform Admin changes.
 
+Future user-facing platform naming should align with EveryBatch. Search remains scoped to the current tenant workspace and should continue to respect tenant-specific branding, modules and permissions.
+
 ## What Was Added
 
 Added a reusable header search control:

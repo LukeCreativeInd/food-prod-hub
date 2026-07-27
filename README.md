@@ -8,6 +8,26 @@ The platform is intended to support food manufacturers with one operating hub an
 
 The current app includes the foundation for an internal operations hub: app shell, grouped module navigation, placeholder pages, Tailwind CSS styling, and Supabase environment placeholders. Business logic, authentication, database schema, costing calculations, and complex Supabase behavior are intentionally not implemented yet.
 
+## EveryBatch Brand Direction
+
+EveryBatch is now the real platform/product brand. Food Prod Hub remains the internal repo/project name for now, and Clean Eats Hub is Tenant 1/customer workspace powered by EveryBatch.
+
+Purchased domains:
+
+- `everybatchmrp.com`
+- `everybatchmrp.com.au`
+- `everybatch.com.au`
+
+Target domain architecture:
+
+- `everybatchmrp.com` for the public marketing site
+- `app.everybatchmrp.com` for central login
+- `cleaneats.everybatchmrp.com` for the Clean Eats tenant workspace
+- `platform.everybatchmrp.com` for future Platform Admin
+- `support.everybatchmrp.com` for support and knowledge base
+
+See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-architecture.md), [EveryBatch implementation roadmap](docs/113-everybatch-implementation-roadmap.md), and [Codex project context](docs/CODEX_PROJECT_CONTEXT.md).
+
 ## Current Status
 
 - Current phase: Platform foundation
@@ -99,6 +119,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Speed and performance overhaul has started with app-shell context consolidation, permission-call cleanup and targeted route/RLS indexes
 - Loading and route transition UX now keeps the protected app shell visible and uses compact centred branded workspace loaders instead of large full-page skeleton grids
 - Global search foundation has been added to the top header with tenant-scoped, permission-aware grouped results, including supplier item searches through confirmed internal item mappings
+- EveryBatch brand and domain architecture has been documented before any code/domain/routing changes
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -263,6 +284,9 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Speed and performance overhaul](docs/110-speed-performance-overhaul.md)
 - [Loading UX and route transition polish](docs/111-loading-ux-route-transition-polish.md)
 - [Global search foundation](docs/112-global-search-foundation.md)
+- [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-architecture.md)
+- [EveryBatch implementation roadmap](docs/113-everybatch-implementation-roadmap.md)
+- [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations
 

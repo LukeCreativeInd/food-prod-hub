@@ -44,6 +44,8 @@ The app shell and Organisation Settings page resolve that stored path to a short
 
 If no logo is saved, the sidebar continues to show the clean `Client Logo` placeholder from 109A.
 
+Future EveryBatch branding work should keep tenant logos and colours workspace-specific. EveryBatch can appear as a subtle trust layer in tenant workspaces, but Platform Admin and central login should use EveryBatch branding separately.
+
 ## Logo Removal
 
 Organisation Settings includes a `Remove logo` control.
@@ -146,3 +148,4 @@ No update/delete storage policies are created.
 - Add optional image dimension guidance.
 - Add safer SVG support only if sanitisation is implemented.
 - Continue the planned 110 performance work separately.
+- Align future platform-level branding with the EveryBatch brand/domain architecture from task 113 without replacing tenant branding controls.
