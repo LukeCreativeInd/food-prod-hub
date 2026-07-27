@@ -42,6 +42,20 @@ Target domains:
 - `platform.everybatchmrp.com` for future Platform Admin
 - `support.everybatchmrp.com` for support and knowledge base
 
+Tenant subdomain routing target:
+
+- `app.everybatchmrp.com` is the central login / tenant selector.
+- `{tenant_slug}.everybatchmrp.com` is the tenant workspace pattern.
+- `cleaneats.everybatchmrp.com` is the target Clean Eats workspace.
+- `platform.everybatchmrp.com` is Platform Admin.
+- `support.everybatchmrp.com` is support/help.
+
+Do not implement host-based tenant routing casually. Follow the task 116 routing plan first.
+
+Never trust client-provided `organisation_id`.
+
+Host-derived tenant slug must be verified server-side against `organisations.slug`.
+
 ## Architecture Guardrails
 
 Keep the architecture multi-tenant, tenant-safe and RLS-safe.
@@ -119,6 +133,7 @@ Do not add:
 - Platform Admin functionality unless specifically requested
 - feature flag implementation unless specifically requested
 - tenant subdomain routing unless specifically requested
+- middleware or host-routing changes unless specifically requested
 - user-facing Food Prod Hub wording
 
 When a migration file is created or changed, final responses must include the full SQL migration contents.

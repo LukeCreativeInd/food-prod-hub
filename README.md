@@ -122,6 +122,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - EveryBatch brand and domain architecture has been documented before any code/domain/routing changes
 - Multi-tenant platform architecture and update strategy has been documented before feature flags, tenant subdomains or Platform Admin separation are implemented
 - Platform Admin separation has been planned before moving Platform out of the tenant app shell
+- Tenant subdomain routing has been planned before middleware, domain configuration or login routing changes are implemented
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -290,6 +291,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [EveryBatch implementation roadmap](docs/113-everybatch-implementation-roadmap.md)
 - [Multi-tenant platform architecture and update strategy](docs/114-multi-tenant-platform-architecture-update-strategy.md)
 - [Platform Admin separation plan](docs/115-platform-admin-separation-plan.md)
+- [Tenant subdomain routing plan](docs/116-tenant-subdomain-routing-plan.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations

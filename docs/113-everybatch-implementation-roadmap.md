@@ -48,6 +48,8 @@ Purpose:
 - define how `cleaneats.everybatchmrp.com` resolves to the Clean Eats organisation
 - plan future tenant slug/subdomain handling
 - document central app login to tenant workspace redirect flow
+- document domain behaviour for marketing, central app, tenant app, Platform Admin and support domains
+- plan local development, Vercel/DNS setup and security rules before middleware is introduced
 
 Non-goals:
 
@@ -78,6 +80,10 @@ Risks:
 - login redirect loops
 - confusing central login and tenant login responsibilities
 - breaking local development if domain handling is too rigid
+
+Status:
+
+- Task 116 creates the Tenant Subdomain Routing Plan.
 
 ## 3. Platform Admin Separation Plan
 
@@ -351,6 +357,13 @@ Do not renumber existing committed tasks. This is a proposed future roadmap:
 
 - 115 Platform Admin Separation Plan
 - 116 Tenant Subdomain Routing Plan
+- Domain/env preparation
+- Tenant resolver foundation
+- Central login / tenant selector
+- Tenant app host routing
+- Platform admin domain routing
+- Support/help domain linkout
+- Custom domain support later
 - 117 EveryBatch Brand Foundation Implementation
 - 118 App Header and Page Title Layout Refactor
 - 119 Help / Support Menu Foundation
