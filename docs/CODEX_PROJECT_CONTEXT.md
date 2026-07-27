@@ -361,3 +361,9 @@ If `pnpm` hangs or fails due package-manager shim/network verification, use loca
 ```
 
 Do not repeatedly retry `pnpm` if the known shim issue appears.
+
+## Task 144 Costings Subpages
+
+Task 144 updates the Costings subpages to use real tenant-scoped data where available. Ingredient and Packaging Costs read internal items, supplier mappings and approved prices. Component Costs and Meal Margins read formula readiness data without inventing missing sell prices or broad costing rules. Price History reads real price observations and approved price context. No migrations or write actions are added.
+
+Task 144 follow-up removes the duplicate Costings content hero/title so the app header is the only main page title. Legacy nested `/costings/*` subpage URLs redirect to the active top-level Costings subpage routes.

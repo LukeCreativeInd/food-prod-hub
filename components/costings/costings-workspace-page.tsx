@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import {
   type DataTableCell,
   SampleDataTable,
@@ -42,17 +41,19 @@ export async function CostingsWorkspacePage({
   rows,
   badgeColumns = [],
   reviewPrompts,
-  dataBadge = "Sample costing data",
-  dataNoticeTitle = "Placeholder costing data for staff review",
-  dataNoticeDescription = "These rows and numbers are static examples only. They are here to review layout, terminology and missing-data prompts before real Clean Eats costing tables or calculations are created.",
+  dataBadge = "Read-only",
+  dataNoticeTitle = "Read-only costing visibility",
+  dataNoticeDescription = "This page is for costing visibility and readiness review only. It does not save changes or perform costing write actions.",
   emptyMessage,
 }: CostingsWorkspacePageProps) {
   await requirePermissionAccess("costings.view");
 
   return (
     <AppShell>
-      <PageHeader title={title} description={description} />
-      <div className="space-y-6 px-5 py-6 md:px-8">
+      <div
+        className="space-y-6 px-5 py-6 md:px-8"
+        aria-label={`${title}: ${description}`}
+      >
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {summaryCards.map((card) => (
             <StatCard key={card.label} {...card} />
@@ -82,7 +83,7 @@ export async function CostingsWorkspacePage({
                 <AlertCard
                   key={prompt}
                   title={prompt}
-                  description="Placeholder prompt for costing visibility, missing data and margin review before live calculations exist."
+                  description="Review question for costing visibility, missing data and future calculation rules."
                   meta="To confirm"
                   tone="warning"
                 />
@@ -91,8 +92,8 @@ export async function CostingsWorkspacePage({
           </SectionCard>
 
           <SectionCard
-            title="Sample data notice"
-            description="This page is intentionally not connected to live costing calculations."
+            title="Data notice"
+            description="This page stays read-only and does not perform write actions."
           >
             <div className="rounded-md border border-green-200 bg-green-50/60 px-4 py-4">
               <p className="text-sm font-semibold text-clean-green-900">

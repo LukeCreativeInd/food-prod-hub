@@ -1,111 +1,76 @@
 import { CostingsWorkspacePage } from "@/components/costings/costings-workspace-page";
+import { getComponentCostsData } from "@/lib/costings-subpage-data";
 
-const rows = [
-  {
-    Component: "Sweet Potato Mash",
-    Type: "Prepared component",
-    "Linked ingredients": "Sweet Potato, Seasoning",
-    "Batch/yield": "12 kg batch",
-    "Estimated cost": "$3.40/kg",
-    "Cost status": "Review",
-    "Used in meals": "4 meals",
-    Notes: "Yield needs confirmation",
-  },
-  {
-    Component: "Chunky Salsa",
-    Type: "Mix",
-    "Linked ingredients": "Tomato, Onion, Herbs",
-    "Batch/yield": "8 kg batch",
-    "Estimated cost": "Missing",
-    "Cost status": "Missing yield",
-    "Used in meals": "3 meals",
-    Notes: "Needs batch/yield data",
-  },
-  {
-    Component: "Napoli Sauce",
-    Type: "Batch recipe",
-    "Linked ingredients": "Tomato, Onion, Garlic",
-    "Batch/yield": "20 L batch",
-    "Estimated cost": "$2.85/L",
-    "Cost status": "Review",
-    "Used in meals": "5 meals",
-    Notes: "Sample sauce cost",
-  },
-  {
-    Component: "Chicken Mix",
-    Type: "Prepared mix",
-    "Linked ingredients": "Chicken Thigh, Roast Chicken Mix",
-    "Batch/yield": "15 kg batch",
-    "Estimated cost": "$7.95/kg",
-    "Cost status": "Ready",
-    "Used in meals": "6 meals",
-    Notes: "Static demo cost",
-  },
-  {
-    Component: "Rice Batch",
-    Type: "Batch recipe",
-    "Linked ingredients": "Basmati Rice, Water, Seasoning",
-    "Batch/yield": "18 kg cooked",
-    "Estimated cost": "Missing",
-    "Cost status": "Missing ingredient cost",
-    "Used in meals": "8 meals",
-    Notes: "Needs cooked yield rule",
-  },
-];
+export default async function ComponentCostsPage() {
+  const componentCosts = await getComponentCostsData();
 
-export default function ComponentCostsPage() {
   return (
     <CostingsWorkspacePage
       title="Component Costs"
-      description="Estimates costs for batch recipes, mixes and prepared components once real data exists."
+      description="Read-only formula readiness and safe component cost visibility from real component formula data."
       summaryCards={[
         {
-          label: "Components tracked",
-          value: "14",
-          helperText: "Sample components included in costing review.",
-          badge: "Sample",
-          tone: "info",
+          label: "Component formulas",
+          value: String(componentCosts.summary.totalFormulas),
+          helperText: "Real component formula versions visible for this tenant.",
+          badge: "Live",
+          tone: "success",
           icon: "CP",
         },
         {
-          label: "Missing yield",
-          value: "4",
-          helperText: "Static prompts for missing batch/yield data.",
-          badge: "Review",
-          tone: "warning",
-          icon: "Y",
+          label: "With lines",
+          value: String(componentCosts.summary.formulasWithLines),
+          helperText: "Formulas with at least one input line.",
+          badge: "Formula",
+          tone: "neutral",
+          icon: "LN",
         },
         {
-          label: "Missing ingredient cost",
-          value: "3",
-          helperText: "Placeholder upstream ingredient cost gaps.",
-          badge: "Review",
-          tone: "warning",
+          label: "All inputs priced",
+          value: String(componentCosts.summary.formulasWithAllPricedInputs),
+          helperText: "Formulas where every input has an approved supplier price.",
+          badge: "Ready",
+          tone: "success",
           icon: "$",
         },
         {
-          label: "Ready for meal costing",
-          value: "8",
-          helperText: "Sample count of components ready for margin review.",
-          badge: "Ready",
-          tone: "success",
-          icon: "OK",
+          label: "Missing inputs",
+          value: String(componentCosts.summary.formulasMissingPricedInputs),
+          helperText: "Formula records still missing lines or approved input prices.",
+          badge: "Review",
+          tone: "warning",
+          icon: "!",
         },
       ]}
-      tableTitle="Sample component costs"
-      tableDescription="Placeholder component costing records for staff review. No real calculations are being performed."
+      tableTitle="Component formula readiness"
+      tableDescription="Real component formulas are shown where available. Costs are only estimated when every line has a matching approved price in the same unit."
       columns={[
         "Component",
-        "Type",
-        "Linked ingredients",
-        "Batch/yield",
+        "Formula",
+        "Status",
+        "Output",
+        "Line count",
+        "Priced lines",
+        "Missing inputs",
         "Estimated cost",
-        "Cost status",
-        "Used in meals",
-        "Notes",
+        "Readiness",
       ]}
-      rows={rows}
-      badgeColumns={["Cost status"]}
+      rows={componentCosts.formulas.map((formula) => ({
+        Component: formula.outputItem,
+        Formula: formula.formulaName,
+        Status: formula.status,
+        Output: formula.output,
+        "Line count": formula.lineCount,
+        "Priced lines": formula.pricedLineCount,
+        "Missing inputs": formula.missingInputs,
+        "Estimated cost": formula.estimatedCost,
+        Readiness: formula.readiness,
+      }))}
+      badgeColumns={["Status", "Missing inputs", "Estimated cost", "Readiness"]}
+      dataBadge="Live readiness"
+      dataNoticeTitle="Formula pricing rules are still conservative"
+      dataNoticeDescription="This page reads real formula versions and formula lines. It only estimates a cost when quantities and approved price units are directly aligned; broader yield, loss and conversion rules remain future work."
+      emptyMessage="Formula data required before component costs can be calculated."
       reviewPrompts={[
         "Which component yields need to be captured before costing works?",
         "Should components be costed by raw input, cooked yield or usable output?",

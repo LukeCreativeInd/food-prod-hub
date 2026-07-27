@@ -111,6 +111,8 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Ingredients and Packaging now support basic manual internal item create/edit for authorised users while demo users remain read-only
 - Inventory Locations foundation has been drafted with tenant-scoped location records and real Stock Locations list/create/detail UI
 - Costings dashboard now shows real read-only price coverage, recent price records and formula readiness summaries
+- Costings subpages now show real tenant-scoped ingredient, packaging, formula and price observation data where available
+- Legacy nested Costings subpage URLs now redirect to the active top-level Costings routes, and duplicate Costings content headings have been removed
 - Production dashboard now shows real read-only setup readiness from locations, formulas and internal item data where available
 - App shell, navigation order and tenant branding have been polished as UI Overhaul v2 Part A
 - Dashboard, cards, Inventory overview, source document wording and invoice review table wrapping have been polished as UI Overhaul v2 Part B
@@ -307,6 +309,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Internal items manual create/edit foundation](docs/105-internal-items-manual-create-edit-foundation.md)
 - [Inventory locations foundation](docs/106-inventory-locations-foundation.md)
 - [Costings dashboard real data summary](docs/107-costings-dashboard-real-data-summary.md)
+- [Costings subpages real data pass](docs/144-costings-subpages-real-data-pass.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

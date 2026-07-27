@@ -1,107 +1,86 @@
 import { CostingsWorkspacePage } from "@/components/costings/costings-workspace-page";
+import { getMealMarginsData } from "@/lib/costings-subpage-data";
 
-const rows = [
-  {
-    Meal: "Chicken Fajita Bowl",
-    Category: "Bowl",
-    "Estimated cost": "$5.80",
-    "Sell price": "$13.50",
-    "Estimated margin": "57%",
-    Status: "Sample",
-    Notes: "Static demo numbers only",
-  },
-  {
-    Meal: "Naked Chicken Parma",
-    Category: "Protein meal",
-    "Estimated cost": "$6.90",
-    "Sell price": "$14.00",
-    "Estimated margin": "51%",
-    Status: "Review",
-    Notes: "Packaging cost missing",
-  },
-  {
-    Meal: "Spaghetti Bolognese",
-    Category: "Pasta",
-    "Estimated cost": "$4.95",
-    "Sell price": "$12.50",
-    "Estimated margin": "60%",
-    Status: "Ready",
-    Notes: "Sample margin layout",
-  },
-  {
-    Meal: "Burrito Bowl",
-    Category: "Bowl",
-    "Estimated cost": "$6.40",
-    "Sell price": "$13.00",
-    "Estimated margin": "51%",
-    Status: "Missing inputs",
-    Notes: "Component yield required",
-  },
-  {
-    Meal: "Shepherd's Pie",
-    Category: "Classic meal",
-    "Estimated cost": "$5.75",
-    "Sell price": "$12.00",
-    "Estimated margin": "52%",
-    Status: "Review",
-    Notes: "Cost target to confirm",
-  },
-];
+export default async function MealMarginsPage() {
+  const mealMargins = await getMealMarginsData();
 
-export default function MealMarginsPage() {
   return (
     <CostingsWorkspacePage
       title="Meal Margins"
-      description="Estimated meal cost, sell price and margin review once live data exists."
+      description="Read-only finished product formula readiness before true margin calculations exist."
       summaryCards={[
         {
-          label: "Meals tracked",
-          value: "28",
-          helperText: "Sample meals included in demo margin view.",
-          badge: "Sample",
-          tone: "info",
-          icon: "ML",
+          label: "Finished products",
+          value: String(mealMargins.summary.totalFinishedProducts),
+          helperText: "Finished product formula versions visible for this tenant.",
+          badge: "Live",
+          tone: "success",
+          icon: "FP",
         },
         {
-          label: "Below target margin",
-          value: "4",
-          helperText: "Static margin alerts for layout review only.",
-          badge: "Demo",
+          label: "Formula data",
+          value: String(mealMargins.summary.productsWithFormulaData),
+          helperText: "Finished products with a formula record available.",
+          badge: "Formula",
+          tone: "neutral",
+          icon: "FM",
+        },
+        {
+          label: "Cost inputs ready",
+          value: String(mealMargins.summary.productsWithCompleteCostingInputs),
+          helperText: "Finished product formulas where every input has a current approved price.",
+          badge: "Inputs",
+          tone: "success",
+          icon: "$",
+        },
+        {
+          label: "Missing sell price",
+          value: String(mealMargins.summary.productsMissingSellPrice),
+          helperText: "Sell prices are not stored in the current schema yet.",
+          badge: "Future",
           tone: "warning",
           icon: "%",
         },
-        {
-          label: "Missing cost inputs",
-          value: "7",
-          helperText: "Placeholder prompts for missing upstream costs.",
-          badge: "Review",
-          tone: "warning",
-          icon: "!",
-        },
-        {
-          label: "Ready for review",
-          value: "17",
-          helperText: "Sample count of meals with enough data to review.",
-          badge: "Ready",
-          tone: "success",
-          icon: "OK",
-        },
       ]}
-      tableTitle="Sample meal margin review"
-      tableDescription="Static example numbers only. No real margin calculations are being performed."
+      tableTitle="Finished product margin readiness"
+      tableDescription="Real finished product formula records are shown where available. Margins are not calculated because sell prices are not stored yet."
       columns={[
-        "Meal",
-        "Category",
+        "Finished product",
+        "Formula",
+        "Status",
+        "Line count",
+        "Priced lines",
+        "Missing inputs",
         "Estimated cost",
         "Sell price",
         "Estimated margin",
-        "Status",
-        "Notes",
+        "Readiness",
       ]}
-      rows={rows}
-      badgeColumns={["Status"]}
+      rows={mealMargins.products.map((product) => ({
+        "Finished product": product.outputItem,
+        Formula: product.formulaName,
+        Status: product.status,
+        "Line count": product.lineCount,
+        "Priced lines": product.pricedLineCount,
+        "Missing inputs": product.missingInputs,
+        "Estimated cost": product.estimatedCost,
+        "Sell price": product.sellPrice,
+        "Estimated margin": product.estimatedMargin,
+        Readiness: product.readiness,
+      }))}
+      badgeColumns={[
+        "Status",
+        "Missing inputs",
+        "Sell price",
+        "Estimated margin",
+        "Readiness",
+      ]}
+      dataBadge="Live readiness"
+      dataNoticeTitle="Sell price not stored yet"
+      dataNoticeDescription="This page reads real finished product formulas and input price readiness. It does not fake sell prices or margins; margin calculation needs explicit sell price and costing rules in a later task."
+      emptyMessage="Sell prices are not stored yet."
       reviewPrompts={[
-        "What target margin should be shown for review?",
+        "What sell price source should be used for margin review?",
         "Should margin warnings appear by meal, category or customer channel?",
         "Which missing inputs should block a meal from costing review?",
       ]}

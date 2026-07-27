@@ -1,92 +1,79 @@
 import { CostingsWorkspacePage } from "@/components/costings/costings-workspace-page";
-import { getSupplierPriceHistoryData } from "@/lib/products-data";
+import { getPriceHistoryData } from "@/lib/costings-subpage-data";
 
 export default async function PriceHistoryPage() {
-  const priceHistory = await getSupplierPriceHistoryData();
-  const rows = [
-    ...priceHistory.currentApprovedPrices.map((price) => ({
-      Item: price.itemName,
-      Supplier: price.supplierName,
-      "Supplier code": price.supplierItemCode ?? "Not recorded",
-      "Supplier description": price.supplierDescription,
-      Price: price.price,
-      Unit: price.unit,
-      Date: price.effectiveDate,
-      Source: price.sourceInvoice,
-      Type: "Current approved price",
-      Status: price.status,
-    })),
-    ...priceHistory.priceObservations.map((observation) => ({
-      Item: observation.itemName,
-      Supplier: observation.supplierName,
-      "Supplier code": observation.supplierItemCode ?? "Not recorded",
-      "Supplier description": "Invoice observation",
-      Price: observation.price,
-      Unit: observation.unit,
-      Date: observation.observedDate,
-      Source: observation.sourceInvoice,
-      Type: "Invoice observation",
-      Status: observation.decision,
-    })),
-  ];
+  const priceHistory = await getPriceHistoryData();
 
   return (
     <CostingsWorkspacePage
       title="Price History"
-      description="Read-only supplier price observations and approved current prices from Purchase Document Intake."
+      description="Read-only supplier price observations and approved current price context from Purchase Document Intake."
       summaryCards={[
         {
-          label: "Current prices",
-          value: String(priceHistory.currentApprovedPrices.length),
-          helperText: "Approved supplier prices currently available to costing review.",
-          badge: "Approved",
-          tone: "success",
-          icon: "$",
-        },
-        {
           label: "Observations",
-          value: String(priceHistory.priceObservations.length),
+          value: String(priceHistory.summary.totalObservations),
           helperText: "Invoice-sourced price observations retained for traceability.",
           badge: "Invoice",
           tone: "info",
           icon: "OB",
         },
         {
-          label: "Supplier items",
-          value: String(priceHistory.observedSupplierItemCount),
-          helperText: "Distinct supplier items with observed invoice prices.",
-          badge: "Source",
-          tone: "neutral",
-          icon: "SI",
-        },
-        {
           label: "Suppliers",
-          value: String(priceHistory.supplierCount),
-          helperText: "Suppliers visible through current tenant price permissions.",
+          value: String(priceHistory.summary.suppliersWithPriceData),
+          helperText: "Distinct suppliers with observed price data.",
           badge: "Tenant",
           tone: "neutral",
           icon: "SU",
         },
+        {
+          label: "Latest observation",
+          value: priceHistory.summary.latestObservationDate,
+          helperText: "Most recent observed invoice price date.",
+          badge: "Recent",
+          tone: "neutral",
+          icon: "DT",
+        },
+        {
+          label: "Price changes",
+          value: String(priceHistory.summary.priceChangesDetected),
+          helperText: "Observed price changes compared with the previous visible observation for the same supplier item.",
+          badge: "Trace",
+          tone: "warning",
+          icon: "CH",
+        },
       ]}
-      tableTitle="Supplier price records"
-      tableDescription="Live current prices and recent invoice observations. This is traceability only, not a pricing automation workflow."
+      tableTitle="Recent supplier price observations"
+      tableDescription="Live invoice observations with current approved price context where available. This is traceability only, not pricing automation."
       columns={[
         "Item",
         "Supplier",
         "Supplier code",
         "Supplier description",
-        "Price",
+        "Observed price",
+        "Approved price",
         "Unit",
         "Date",
         "Source",
-        "Type",
+        "Change",
         "Status",
       ]}
-      rows={rows}
-      badgeColumns={["Type", "Status"]}
+      rows={priceHistory.records.map((record) => ({
+        Item: record.itemName,
+        Supplier: record.supplierName,
+        "Supplier code": record.supplierItemCode,
+        "Supplier description": record.supplierDescription,
+        "Observed price": record.observedPrice,
+        "Approved price": record.approvedPrice,
+        Unit: record.unit,
+        Date: record.date,
+        Source: record.source,
+        Change: record.change,
+        Status: record.status,
+      }))}
+      badgeColumns={["Approved price", "Change", "Status"]}
       dataBadge="Live read-only"
       dataNoticeTitle="Price traceability from reviewed invoices"
-      dataNoticeDescription="Approved prices and invoice observations are shown for review. No automatic price updates, purchase orders, meal formulas or stock movements are created from this page."
+      dataNoticeDescription="Observed invoice prices and current approved prices are shown for review. No automatic price updates, purchase orders, formulas or stock movements are created from this page."
       emptyMessage="No supplier price observations or approved prices have been committed from Purchase Document Intake yet."
       reviewPrompts={[
         "Which price changes should require manager approval before costing use?",
