@@ -3,12 +3,15 @@ import { redirect } from "next/navigation";
 import { LoginBrandPanel } from "@/components/auth/login-brand-panel";
 import { LoginFormCard } from "@/components/auth/login-form-card";
 import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUserWorkspaceOptions } from "@/lib/workspace-options";
 
 export default async function LoginPage() {
   const user = await getCurrentUser();
 
   if (user) {
-    redirect("/dashboard");
+    const workspaceOptions = await getCurrentUserWorkspaceOptions();
+
+    redirect(workspaceOptions.defaultDestination.href);
   }
 
   return (

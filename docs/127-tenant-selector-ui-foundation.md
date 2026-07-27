@@ -47,9 +47,9 @@ Each workspace card shows:
 - organisation status
 - tenant logo if a safe public/display URL is available
 - clean initials placeholder otherwise
-- Continue action
+- visible `Open workspace` action
 
-Selecting a workspace posts to a server action.
+Selecting a workspace posts the tenant slug from the action button to a server action.
 
 For the current transitional state, a valid tenant selection redirects to:
 
@@ -121,15 +121,23 @@ No tenant data is shown in the no-workspace state.
 
 ## Login Behaviour Preserved
 
-The current `/login` route still redirects signed-in users to:
+Task 127 did not change login redirect behaviour.
+
+Task 128 now updates `/login` so successful sign-in and already-signed-in visits use workspace destination rules.
+
+One-workspace tenant users still land on:
 
 ```text
 /dashboard
 ```
 
-This task does not force users through `/select-workspace` after login.
+Platform admins with tenant workspaces now land on:
 
-Future login redirect updates can use the selector once the flow has been tested.
+```text
+/select-workspace
+```
+
+Tenant subdomain redirects are still not active.
 
 ## Tenant Subdomain Routing Status
 

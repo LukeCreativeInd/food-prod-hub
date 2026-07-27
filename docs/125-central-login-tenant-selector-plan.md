@@ -266,7 +266,8 @@ Do not change login redirects yet.
 Status:
 
 - Task 126 adds `lib/workspace-options.ts` with server-side workspace option, platform-admin detection, default destination and workspace selection validation helpers.
-- The helpers are not wired into `/login` or any route redirects yet.
+- Task 126 did not wire the helpers into `/login` or route redirects.
+- Task 128 later wires `/login` into the workspace destination rules.
 
 ### Phase 3 - Tenant Selector UI
 
@@ -280,7 +281,7 @@ Status:
 
 - Task 127 adds `/select-workspace` as the first EveryBatch-branded tenant selector UI foundation.
 - Workspace selection validates server-side and redirects to the current transitional `/dashboard` destination.
-- The route is not wired into `/login` automatically yet.
+- Task 128 later wires `/login` so multi-workspace/platform users can be sent to `/select-workspace`.
 
 ### Phase 4 - Login Redirect Update
 
@@ -290,6 +291,12 @@ After login:
 - multi-tenant user goes to selector.
 - platform-only user goes to Platform Admin.
 - no-access user sees no active workspace state.
+
+Status:
+
+- Task 128 updates `/login` so successful sign-in and already-signed-in visits use the workspace options helper for a safe transitional destination.
+- Destinations remain internal only: `/dashboard`, `/select-workspace`, `/platform` or `/no-access`.
+- Tenant subdomain redirects are still deferred.
 
 ### Phase 5 - Tenant Subdomain Routing
 

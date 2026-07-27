@@ -134,6 +134,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Central login and tenant selector planning now defines future post-login workspace selection, platform-admin access and safe redirect rules
 - Workspace options helper foundation now prepares server-side workspace choices and post-login destination guidance without changing login redirects
 - Tenant selector UI foundation has been added at `/select-workspace` with EveryBatch branding and server-validated workspace choices
+- Login now redirects through workspace destination rules, sending multi-workspace/platform users to `/select-workspace` while keeping tenant routing internal
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -314,6 +315,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Central login and tenant selector plan](docs/125-central-login-tenant-selector-plan.md)
 - [Workspace options helper foundation](docs/126-workspace-options-helper-foundation.md)
 - [Tenant selector UI foundation](docs/127-tenant-selector-ui-foundation.md)
+- [Login redirect to workspace selector](docs/128-login-redirect-to-workspace-selector.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations

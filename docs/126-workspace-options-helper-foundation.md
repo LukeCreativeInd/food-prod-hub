@@ -122,23 +122,31 @@ Important rules preserved:
 
 The future selector action must revalidate workspace selection server-side before redirecting.
 
-## Why Login Redirect Is Not Changed Yet
+## Login Redirect Status
 
-The current login route still redirects signed-in users to:
+Task 126 did not change login redirect behaviour.
+
+Task 128 now uses these helper rules after successful sign-in and when an already signed-in user visits `/login`.
+
+One-workspace tenant users still land on:
 
 ```text
 /dashboard
 ```
 
-That behaviour is intentionally preserved.
+Multi-workspace users and `platform_admin` users with tenant workspaces now land on:
 
-The workspace helper is a foundation for the next implementation steps:
+```text
+/select-workspace
+```
 
-1. add selector UI
-2. update login post-auth destination rules
-3. activate tenant subdomain routing later
+The remaining future steps are:
 
-Changing login redirects before the selector route exists would create avoidable dead ends.
+1. add safe tenant subdomain redirects after host routing is ready
+2. add tenant-specific login later
+3. add Platform Admin domain handling later
+
+Tenant subdomain redirects remain inactive.
 
 ## Example Outcomes
 
@@ -165,7 +173,20 @@ Task 127 adds the first `/select-workspace` UI foundation using these helpers.
 
 The selector validates workspace choices server-side and keeps transitional routing to `/dashboard` for tenant workspaces.
 
-It does not change `/login` redirect behaviour or activate tenant subdomain redirects.
+It did not change `/login` redirect behaviour in task 126 and does not activate tenant subdomain redirects.
+
+## Login Redirect Status
+
+Task 128 wires the current login flow to these helpers.
+
+After successful sign-in, `/login` now asks the server for the user's safe transitional destination:
+
+- `/dashboard`
+- `/select-workspace`
+- `/platform`
+- `/no-access`
+
+Tenant subdomain destinations remain documented only and are not active.
 
 ## Migration Notes
 

@@ -82,7 +82,6 @@ function WorkspaceCard({ workspace }: { workspace: WorkspaceOption }) {
       action={selectWorkspaceAction}
       className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/70 transition hover:-translate-y-0.5 hover:border-green-200 hover:shadow-lg hover:shadow-green-950/10"
     >
-      <input type="hidden" name="slug" value={workspace.slug} />
       <div className="flex items-start gap-4">
         <WorkspaceLogo workspace={workspace} />
         <div className="min-w-0 flex-1">
@@ -121,9 +120,11 @@ function WorkspaceCard({ workspace }: { workspace: WorkspaceOption }) {
 
       <button
         type="submit"
-        className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-clean-green-800 px-4 py-3 text-sm font-black text-white shadow-sm transition hover:bg-clean-green-900"
+        name="slug"
+        value={workspace.slug}
+        className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-clean-green-700 px-4 py-3 text-sm font-black text-white shadow-sm transition hover:bg-clean-green-900"
       >
-        Continue
+        Open workspace
       </button>
     </form>
   );

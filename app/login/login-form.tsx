@@ -5,6 +5,20 @@ import { useRouter } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/client";
 
+async function getPostLoginDestination() {
+  const response = await fetch("/api/auth/post-login-destination", {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to determine workspace destination.");
+  }
+
+  const data = (await response.json()) as { destination?: string };
+
+  return data.destination ?? "/dashboard";
+}
+
 export function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -29,8 +43,15 @@ export function LoginForm() {
       return;
     }
 
-    router.push("/dashboard");
-    router.refresh();
+    try {
+      const destination = await getPostLoginDestination();
+
+      router.push(destination);
+      router.refresh();
+    } catch {
+      setError("Signed in, but we could not determine your workspace. Try again.");
+      setIsLoading(false);
+    }
   }
 
   return (

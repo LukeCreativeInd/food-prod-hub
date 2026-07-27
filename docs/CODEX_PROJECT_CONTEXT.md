@@ -96,7 +96,7 @@ Workspace option helper foundation lives in:
 lib/workspace-options.ts
 ```
 
-It prepares active workspace options, platform-admin detection, default destination guidance and server-side workspace selection validation. It is not wired into `/login`, middleware, tenant subdomain routing or the app shell yet.
+It prepares active workspace options, platform-admin detection, default destination guidance and server-side workspace selection validation. Login now uses these destination rules, but the helper is not wired into middleware, tenant subdomain routing or the app shell.
 
 Tenant selector UI foundation lives at:
 
@@ -104,7 +104,14 @@ Tenant selector UI foundation lives at:
 /select-workspace
 ```
 
-It is an EveryBatch-branded central app/login-flow route outside the tenant AppShell/sidebar. It uses the workspace options helper and validates selected workspaces server-side before redirecting to the current transitional destination. It is not wired into `/login` automatically and does not redirect to tenant subdomains yet.
+It is an EveryBatch-branded central app/login-flow route outside the tenant AppShell/sidebar. It uses the workspace options helper and validates selected workspaces server-side before redirecting to the current transitional destination. Login now uses workspace destination rules, but tenant subdomain redirects remain inactive.
+
+Login redirect behaviour:
+
+- `/login` now uses the workspace options helper after successful sign-in.
+- Already-signed-in visits to `/login` use the same destination logic.
+- Allowed transitional destinations are `/dashboard`, `/select-workspace`, `/platform` and `/no-access`.
+- Tenant subdomain redirects remain inactive.
 
 ## Architecture Guardrails
 
