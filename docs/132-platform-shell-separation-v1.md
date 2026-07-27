@@ -59,6 +59,13 @@ It intentionally does not include tenant global search in v1.
 
 Platform-wide search remains future work.
 
+Task 138 improves responsive behaviour:
+
+- desktop keeps the left Platform sidebar
+- mobile/tablet hides full navigation by default
+- mobile/tablet uses a compact `Platform menu` button with an expandable nav panel
+- content appears near the top instead of below the full nav list
+
 ## Platform Navigation
 
 Implemented links:

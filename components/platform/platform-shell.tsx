@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 
 import { LogoutButton } from "@/components/auth/logout-button";
+import { PlatformMobileMenu } from "@/components/platform/platform-mobile-menu";
 import {
   PLATFORM_ADMIN_DOMAIN,
   PLATFORM_BRAND_NAME,
@@ -93,11 +94,18 @@ function PlatformMark() {
   );
 }
 
-function PlatformNavItem({ item }: { item: PlatformNavItem }) {
+function PlatformNavItem({
+  item,
+  onNavigate,
+}: {
+  item: PlatformNavItem;
+  onNavigate?: () => void;
+}) {
   if (item.href) {
     return (
       <Link
         href={item.href}
+        onClick={onNavigate}
         className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/10 hover:text-white"
       >
         <span>{item.label}</span>
@@ -117,6 +125,29 @@ function PlatformNavItem({ item }: { item: PlatformNavItem }) {
         Soon
       </span>
     </div>
+  );
+}
+
+export function PlatformNavigation({ onNavigate }: { onNavigate?: () => void }) {
+  return (
+    <nav className="space-y-5 lg:px-4" aria-label="Platform navigation">
+      {platformNavigation.map((section) => (
+        <section key={section.label}>
+          <p className="px-3 text-[0.7rem] font-black uppercase tracking-[0.18em] text-slate-500">
+            {section.label}
+          </p>
+          <div className="mt-2 space-y-1">
+            {section.items.map((item) => (
+              <PlatformNavItem
+                key={item.label}
+                item={item}
+                onNavigate={onNavigate}
+              />
+            ))}
+          </div>
+        </section>
+      ))}
+    </nav>
   );
 }
 
@@ -144,20 +175,11 @@ export function PlatformShell({ children }: PlatformShellProps) {
           </Link>
         </div>
 
-        <nav className="space-y-5 px-3 pb-5 lg:px-4">
-          {platformNavigation.map((section) => (
-            <section key={section.label}>
-              <p className="px-3 text-[0.7rem] font-black uppercase tracking-[0.18em] text-slate-500">
-                {section.label}
-              </p>
-              <div className="mt-2 space-y-1">
-                {section.items.map((item) => (
-                  <PlatformNavItem key={item.label} item={item} />
-                ))}
-              </div>
-            </section>
-          ))}
-        </nav>
+        <PlatformMobileMenu />
+
+        <div className="hidden px-3 pb-5 lg:block">
+          <PlatformNavigation />
+        </div>
       </aside>
 
       <div className="min-w-0">

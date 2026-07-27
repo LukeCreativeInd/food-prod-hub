@@ -136,16 +136,16 @@ export default async function CleanEatsTenantModulesPage() {
               {modules.map((moduleRow) => (
                 <div
                   key={moduleRow.moduleKey}
-                  className="grid gap-4 px-5 py-5 md:px-6 lg:grid-cols-[1.1fr_0.7fr_0.7fr_0.8fr_1fr]"
+                  className="grid min-w-0 gap-4 px-5 py-5 md:px-6 lg:grid-cols-[1.1fr_0.7fr_0.7fr_0.8fr_1fr]"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <h3 className="text-sm font-bold text-slate-950">
                       {moduleRow.label}
                     </h3>
-                    <p className="mt-1 text-sm font-mono text-slate-500">
+                    <p className="mt-1 break-words text-sm font-mono text-slate-500">
                       {moduleRow.moduleKey}
                     </p>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">
+                    <p className="mt-3 break-words text-sm leading-6 text-slate-600">
                       {moduleRow.description ?? "No description set."}
                     </p>
                   </div>
@@ -179,7 +179,7 @@ export default async function CleanEatsTenantModulesPage() {
                     <p className="text-xs font-semibold uppercase text-slate-500">
                       Notes
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">
+                    <p className="mt-2 break-words text-sm leading-6 text-slate-700">
                       {formatValue(moduleRow.notes)}
                     </p>
                   </div>

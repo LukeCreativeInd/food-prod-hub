@@ -246,6 +246,14 @@ docs/137-tenant-sidebar-accordion-behaviour-fix.md
 
 Expandable tenant navigation should auto-expand only the active module on route changes. Manual expansion should behave as a single-open accordion. Platform Admin shell navigation is separate and should not be affected by tenant sidebar changes.
 
+Platform Admin responsive layout is documented in:
+
+```text
+docs/138-platform-admin-responsive-layout-fix.md
+```
+
+Desktop Platform Admin keeps the left sidebar. Mobile/tablet Platform Admin should keep content near the top and expose Platform navigation through the compact `Platform menu` panel instead of rendering the full nav list above content.
+
 Support access and impersonation must be explicit, scoped and auditable. Do not add invisible support impersonation.
 
 ## Task Discipline

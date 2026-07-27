@@ -181,16 +181,16 @@ export default async function CleanEatsTenantFeaturesPage() {
               {features.map((feature) => (
                 <div
                   key={feature.featureKey}
-                  className="grid gap-4 px-5 py-5 md:px-6 xl:grid-cols-[1.1fr_0.7fr_0.7fr_0.8fr_1fr]"
+                  className="grid min-w-0 gap-4 px-5 py-5 md:px-6 xl:grid-cols-[1.1fr_0.7fr_0.7fr_0.8fr_1fr]"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <h3 className="text-sm font-bold text-slate-950">
                       {feature.label}
                     </h3>
-                    <p className="mt-1 text-sm font-mono text-slate-500">
+                    <p className="mt-1 break-words text-sm font-mono text-slate-500">
                       {feature.featureKey}
                     </p>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">
+                    <p className="mt-3 break-words text-sm leading-6 text-slate-600">
                       {feature.description ?? "No description set."}
                     </p>
                   </div>
@@ -229,7 +229,7 @@ export default async function CleanEatsTenantFeaturesPage() {
                     <p className="text-xs font-semibold uppercase text-slate-500">
                       Rollout / notes
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">
+                    <p className="mt-2 break-words text-sm leading-6 text-slate-700">
                       {feature.rolloutStage}
                       {feature.notes ? ` - ${feature.notes}` : ""}
                     </p>
