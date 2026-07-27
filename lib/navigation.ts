@@ -305,12 +305,4 @@ export const navigationGroups: NavigationGroup[] = [
       },
     ],
   },
-  {
-    label: "Platform",
-    href: "/platform",
-    isRoot: true,
-    requiredPermission: "platform.tenants.view",
-    iconKey: "admin",
-    items: [],
-  },
 ];

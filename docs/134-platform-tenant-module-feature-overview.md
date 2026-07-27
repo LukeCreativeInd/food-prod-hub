@@ -105,6 +105,8 @@ Other future Platform IA items remain disabled `Soon` entries.
 
 The Clean Eats tenant detail page also includes read-only cards linking to both views.
 
+Task 135 removes Platform Admin from the tenant workspace sidebar. These Platform Admin routes remain reachable from the Platform shell, `/select-workspace` and direct `/platform` access for platform admins.
+
 ## Access And Security
 
 Access remains through the existing Platform layout guard.

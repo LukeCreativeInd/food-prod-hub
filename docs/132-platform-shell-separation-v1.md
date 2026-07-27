@@ -39,6 +39,8 @@ Routes now rendered inside the Platform shell:
 
 The tenant app `AppShell` and tenant sidebar are no longer wrapped around these Platform routes.
 
+Task 135 removes the Platform link from the tenant workspace sidebar. Platform Admin remains available from `/select-workspace` and direct `/platform`.
+
 ## Platform Shell Purpose
 
 The Platform shell is the first EveryBatch operator-console shell.

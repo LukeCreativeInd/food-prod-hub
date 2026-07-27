@@ -228,6 +228,8 @@ Platform Tenant Module / Feature Flag Overview now adds read-only Clean Eats rou
 
 These pages inspect global module/feature registries and Clean Eats tenant state only. They do not provide enable/disable, toggle, provisioning or billing actions.
 
+Platform Admin has been removed from the tenant workspace sidebar. It remains accessible through `/select-workspace` for platform admins and by direct guarded `/platform` access. Do not re-add Platform Admin as a tenant navigation module unless a future task explicitly reverses this decision.
+
 Support access and impersonation must be explicit, scoped and auditable. Do not add invisible support impersonation.
 
 ## Task Discipline
