@@ -11,9 +11,9 @@ type PageActionButtonProps = {
 
 const variantStyles: Record<PageActionButtonVariant, string> = {
   primary:
-    "bg-clean-green-700 text-white shadow-sm hover:bg-clean-green-900 focus-visible:outline-clean-green-700",
+    "bg-[var(--tenant-primary)] text-white shadow-sm hover:brightness-90 focus-visible:outline-[var(--tenant-primary)]",
   secondary:
-    "border border-green-200 bg-white text-clean-green-900 hover:bg-green-50 focus-visible:outline-clean-green-700",
+    "border border-[color:var(--tenant-primary-border)] bg-white text-[var(--tenant-primary)] hover:bg-[var(--tenant-primary-soft)] focus-visible:outline-[var(--tenant-primary)]",
 };
 
 export function PageActionButton({

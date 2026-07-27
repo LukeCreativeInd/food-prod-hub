@@ -24,7 +24,7 @@ export function StatCard({
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
           {icon ? (
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-green-100 bg-green-50 text-sm font-bold text-clean-green-800">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[color:var(--tenant-accent-border)] bg-[var(--tenant-accent-soft)] text-sm font-bold text-[var(--tenant-primary)]">
               {icon}
             </span>
           ) : null}

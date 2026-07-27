@@ -1,48 +1,104 @@
+import { BrandingForm, type BrandingFormValues } from "@/app/organisation-settings/branding-form";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
   ModuleCard,
-  PageActionButton,
   SectionCard,
   StatusBadge,
 } from "@/components/ui";
-import { requirePermissionAccess } from "@/lib/auth";
+import {
+  getCurrentPermissionKeys,
+  requirePermissionAccess,
+} from "@/lib/auth";
 import { availableModules } from "@/lib/module-registry";
+import { createClient } from "@/lib/supabase/server";
 
-const cleanEatsOrganisation = {
-  profile: {
-    organisationName: "Clean Eats Australia",
-    tenantSlug: "cleaneats",
-    industry: "Food Manufacturing",
-    timezone: "Australia/Melbourne",
-    currency: "AUD",
-    defaultUnits: "Metric",
-  },
-  branding: {
-    logoInitials: "CE",
-    primaryColour: "#176B3A",
-    accentColour: "#A7D129",
-    sidebarStyle: "Clean operations sidebar",
-    themeMode: "Light",
-  },
+type PageProps = {
+  searchParams: Promise<{
+    branding?: string;
+  }>;
 };
 
-const profileFields = [
-  ["Organisation name", cleanEatsOrganisation.profile.organisationName],
-  ["Tenant slug", cleanEatsOrganisation.profile.tenantSlug],
-  ["Industry", cleanEatsOrganisation.profile.industry],
-  ["Timezone", cleanEatsOrganisation.profile.timezone],
-  ["Currency", cleanEatsOrganisation.profile.currency],
-  ["Default units", cleanEatsOrganisation.profile.defaultUnits],
-];
+type SettingsRow = {
+  timezone: string;
+  currency: string;
+  default_units: string;
+};
 
-const brandingFields = [
-  ["Primary colour", cleanEatsOrganisation.branding.primaryColour],
-  ["Accent colour", cleanEatsOrganisation.branding.accentColour],
-  ["Sidebar style", cleanEatsOrganisation.branding.sidebarStyle],
-  ["Theme mode", cleanEatsOrganisation.branding.themeMode],
-];
+type BrandingRow = {
+  logo_url: string | null;
+  primary_colour: string | null;
+  accent_colour: string | null;
+  success_colour: string | null;
+  warning_colour: string | null;
+  danger_colour: string | null;
+  info_colour: string | null;
+  sidebar_style: string | null;
+  theme_mode: string | null;
+};
+
+const fallbackBranding: BrandingFormValues = {
+  logoUrl: "",
+  primaryColour: "#176B3A",
+  accentColour: "#A7D129",
+  successColour: "#15803D",
+  warningColour: "#B7791F",
+  dangerColour: "#B91C1C",
+  infoColour: "#0369A1",
+  themeMode: "light",
+};
+
+function titleCase(value: string | null | undefined) {
+  if (!value) {
+    return "Not recorded";
+  }
+
+  return value
+    .split(/[-_]/)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function cleanHex(value: string | null | undefined, fallback: string) {
+  return value && /^#[0-9A-Fa-f]{6}$/.test(value) ? value.toUpperCase() : fallback;
+}
+
+function cleanThemeMode(value: string | null | undefined): "light" | "dark" {
+  return value === "dark" ? "dark" : "light";
+}
+
+function brandingMessage(status?: string) {
+  if (status === "updated") {
+    return {
+      tone: "success" as const,
+      text: "Organisation branding has been updated.",
+    };
+  }
+
+  if (status === "invalid_logo") {
+    return {
+      tone: "warning" as const,
+      text: "Logo URL must be a valid http or https URL.",
+    };
+  }
+
+  if (status === "invalid_theme") {
+    return {
+      tone: "warning" as const,
+      text: "Theme colours must be valid hex colours and theme mode must be light or dark.",
+    };
+  }
+
+  if (status === "error") {
+    return {
+      tone: "danger" as const,
+      text: "Organisation branding could not be saved. Check permissions and try again.",
+    };
+  }
+
+  return null;
+}
 
 function DetailGrid({ items }: { items: string[][] }) {
   return (
@@ -62,65 +118,121 @@ function DetailGrid({ items }: { items: string[][] }) {
   );
 }
 
-export default async function OrganisationSettingsPage() {
-  await requirePermissionAccess("admin.organisation.view");
+export default async function OrganisationSettingsPage({
+  searchParams,
+}: PageProps) {
+  const [authContext, permissionKeys, query] = await Promise.all([
+    requirePermissionAccess("admin.organisation.view"),
+    getCurrentPermissionKeys(),
+    searchParams,
+  ]);
+
+  if (!authContext.organisation) {
+    throw new Error("Current organisation is required.");
+  }
+
+  const canManageBranding =
+    permissionKeys.includes("admin.organisation.manage") ||
+    authContext.membership?.role_key === "platform_admin";
+  const supabase = await createClient();
+  const organisationId = authContext.organisation.id;
+  const [{ data: settingsData }, { data: brandingData }] = await Promise.all([
+    supabase
+      .from("organisation_settings")
+      .select("timezone, currency, default_units")
+      .eq("organisation_id", organisationId)
+      .maybeSingle(),
+    supabase
+      .from("organisation_branding")
+      .select(
+        "logo_url, primary_colour, accent_colour, success_colour, warning_colour, danger_colour, info_colour, sidebar_style, theme_mode",
+      )
+      .eq("organisation_id", organisationId)
+      .maybeSingle(),
+  ]);
+  const settings = settingsData as SettingsRow | null;
+  const branding = brandingData as BrandingRow | null;
+  const message = brandingMessage(query.branding);
+  const brandingValues: BrandingFormValues = {
+    logoUrl: branding?.logo_url ?? "",
+    primaryColour: cleanHex(
+      branding?.primary_colour,
+      fallbackBranding.primaryColour,
+    ),
+    accentColour: cleanHex(branding?.accent_colour, fallbackBranding.accentColour),
+    successColour: cleanHex(
+      branding?.success_colour,
+      fallbackBranding.successColour,
+    ),
+    warningColour: cleanHex(
+      branding?.warning_colour,
+      fallbackBranding.warningColour,
+    ),
+    dangerColour: cleanHex(branding?.danger_colour, fallbackBranding.dangerColour),
+    infoColour: cleanHex(branding?.info_colour, fallbackBranding.infoColour),
+    themeMode: cleanThemeMode(branding?.theme_mode),
+  };
+
+  const profileFields = [
+    ["Organisation name", authContext.organisation.name],
+    ["Tenant slug", authContext.organisation.slug],
+    ["Industry", "Food Manufacturing"],
+    ["Timezone", settings?.timezone ?? "Australia/Melbourne"],
+    ["Currency", settings?.currency ?? "AUD"],
+    ["Default units", titleCase(settings?.default_units ?? "metric")],
+  ];
+
+  const brandingFields = [
+    ["Logo URL", brandingValues.logoUrl || "No logo URL set"],
+    ["Primary colour", brandingValues.primaryColour],
+    ["Accent colour", brandingValues.accentColour],
+    ["Success colour", brandingValues.successColour],
+    ["Warning colour", brandingValues.warningColour],
+    ["Danger colour", brandingValues.dangerColour],
+    ["Info colour", brandingValues.infoColour],
+    ["Sidebar style", titleCase(branding?.sidebar_style ?? "clean-operations")],
+    ["Theme mode", titleCase(brandingValues.themeMode)],
+  ];
 
   return (
     <AppShell>
       <PageHeader
         title="Organisation Settings"
-        description="Tenant profile, branding, module access, and future organisation administration placeholders."
+        description="Tenant profile, branding, theme colours and future organisation administration controls."
       />
 
       <div className="space-y-6 px-5 py-6 md:px-8">
+        {message ? (
+          <div className="flex items-start justify-between gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm">
+            <span>{message.text}</span>
+            <StatusBadge tone={message.tone}>{titleCase(query.branding)}</StatusBadge>
+          </div>
+        ) : null}
+
         <SectionCard
           title="Organisation Profile"
-          description="Static Clean Eats tenant details that will later come from organisation settings."
-          action={<StatusBadge tone="info">Placeholder</StatusBadge>}
+          description="Current tenant profile and operational defaults for the active organisation."
+          action={<StatusBadge tone="info">Tenant context</StatusBadge>}
         >
           <DetailGrid items={profileFields} />
         </SectionCard>
 
         <SectionCard
-          title="Branding"
-          description="Future tenant-specific visual settings for the Clean Eats workspace."
+          title="Branding and Theme"
+          description="Manage tenant logo URL, brand colours, status colours and light/dark mode foundation."
           action={
-            <PageActionButton variant="secondary">
-              Preview only
-            </PageActionButton>
+            <StatusBadge tone={canManageBranding ? "success" : "warning"}>
+              {canManageBranding ? "Manage enabled" : "Read only"}
+            </StatusBadge>
           }
         >
-          <div className="grid gap-5 lg:grid-cols-[220px_1fr]">
-            <div className="flex min-h-44 flex-col items-center justify-center rounded-lg border border-slate-200 bg-gradient-to-br from-green-50 to-white p-5 text-center">
-              <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-clean-green-700 text-2xl font-bold text-white shadow-sm">
-                {cleanEatsOrganisation.branding.logoInitials}
-              </div>
-              <p className="mt-3 text-sm font-semibold text-slate-950">
-                Logo preview
-              </p>
-              <p className="mt-1 text-xs leading-5 text-slate-500">
-                Static placeholder for tenant branding.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <DetailGrid items={brandingFields} />
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-lg border border-slate-200 bg-white p-4">
-                  <div className="h-3 rounded-full bg-clean-green-700" />
-                  <p className="mt-3 text-xs font-semibold uppercase text-slate-500">
-                    Primary colour
-                  </p>
-                </div>
-                <div className="rounded-lg border border-slate-200 bg-white p-4">
-                  <div className="h-3 rounded-full bg-lime-300" />
-                  <p className="mt-3 text-xs font-semibold uppercase text-slate-500">
-                    Accent colour
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="mb-5">
+            <DetailGrid items={brandingFields} />
           </div>
+          <BrandingForm
+            values={brandingValues}
+            canManageBranding={canManageBranding}
+          />
         </SectionCard>
 
         <SectionCard
@@ -146,8 +258,8 @@ export default async function OrganisationSettingsPage() {
           description="Architecture preparation for tenant-aware settings."
         >
           <EmptyState
-            title="Organisation settings are not saved yet"
-            description="These placeholders will eventually load from the organisation/tenant record, including branding, enabled modules, users, roles, permissions, and operational settings. No database calls, authentication, or saving behaviour has been added in this version."
+            title="Logo upload remains a follow-up"
+            description="This version saves and previews a logo URL only. Proper tenant logo upload/storage, image validation and lifecycle management should be added in a later reviewed task."
           />
         </SectionCard>
       </div>

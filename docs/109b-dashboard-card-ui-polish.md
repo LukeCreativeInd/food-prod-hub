@@ -69,7 +69,7 @@ This pass made a light responsive/tablet pass only. Dedicated facility/iPad scre
 
 ## Known Limitations
 
-- 109C will handle Admin theme/logo management, upload controls and richer tenant branding.
+- 109C adds Admin theme/logo URL management and shared theme tokens. Proper logo upload/storage remains a later reviewed task.
 - 110 will handle deeper route load and query performance optimisation.
 - 111 will handle Costings subpage real-data polish.
 - No stock ledger, production planning, purchasing, costing engine, QA workflow, notifications or search backend has been added.

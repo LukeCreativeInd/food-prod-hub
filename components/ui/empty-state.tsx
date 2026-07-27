@@ -8,8 +8,8 @@ type EmptyStateProps = {
 
 export function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
-    <div className="rounded-lg border border-dashed border-green-200 bg-green-50/40 px-5 py-8 text-center">
-      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-sm font-bold text-clean-green-700">
+    <div className="rounded-lg border border-dashed border-[color:var(--tenant-primary-border)] bg-[var(--tenant-primary-soft)] px-5 py-8 text-center">
+      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[var(--tenant-accent-soft)] text-sm font-bold text-[var(--tenant-primary)]">
         -
       </div>
       <h4 className="mt-4 text-sm font-semibold text-slate-950">{title}</h4>

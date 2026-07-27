@@ -47,8 +47,12 @@ export interface OrganisationBranding {
   logoUrl?: string;
   primaryColour: string;
   accentColour: string;
+  successColour: string;
+  warningColour: string;
+  dangerColour: string;
+  infoColour: string;
   sidebarStyle: SidebarStyle;
-  themeMode: ThemeMode;
+  themeMode: Exclude<ThemeMode, "system">;
 }
 
 export interface EnabledModule {

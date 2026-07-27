@@ -223,7 +223,7 @@ export function AppSidebar({ navigationGroups, tenant }: AppSidebarProps) {
                 className={clsx(
                   "group flex items-center rounded-lg transition",
                   isParentActive
-                    ? "bg-green-50 text-[var(--tenant-primary)]"
+                    ? "bg-[var(--tenant-primary-soft)] text-[var(--tenant-primary)]"
                     : "text-slate-700 hover:bg-slate-50 hover:text-slate-950",
                   isCollapsed && "md:justify-center",
                 )}
@@ -241,7 +241,7 @@ export function AppSidebar({ navigationGroups, tenant }: AppSidebarProps) {
                     className={clsx(
                       "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border transition",
                       isParentActive
-                        ? "border-green-200 bg-white text-[var(--tenant-primary)] shadow-sm"
+                        ? "border-[color:var(--tenant-primary-border)] bg-white text-[var(--tenant-primary)] shadow-sm"
                         : "border-slate-200 bg-white text-slate-500 group-hover:border-green-200 group-hover:text-clean-green-700",
                     )}
                   >

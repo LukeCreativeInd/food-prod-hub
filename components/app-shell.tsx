@@ -14,6 +14,21 @@ type AppShellProps = {
   children: ReactNode;
 };
 
+function hexToRgba(hex: string, alpha: number) {
+  const match = /^#?([0-9a-f]{6})$/i.exec(hex);
+
+  if (!match) {
+    return `rgba(23, 107, 58, ${alpha})`;
+  }
+
+  const value = match[1];
+  const red = Number.parseInt(value.slice(0, 2), 16);
+  const green = Number.parseInt(value.slice(2, 4), 16);
+  const blue = Number.parseInt(value.slice(4, 6), 16);
+
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+}
+
 export async function AppShell({ children }: AppShellProps) {
   const navigationTimingStartedAt = Date.now();
   const [permissionKeys, enabledModuleKeys, tenantPresentation] =
@@ -53,12 +68,41 @@ export async function AppShell({ children }: AppShellProps) {
   const tenantStyle = {
     "--tenant-primary": tenantPresentation.primaryColour,
     "--tenant-accent": tenantPresentation.accentColour,
+    "--tenant-success": tenantPresentation.successColour,
+    "--tenant-warning": tenantPresentation.warningColour,
+    "--tenant-danger": tenantPresentation.dangerColour,
+    "--tenant-info": tenantPresentation.infoColour,
+    "--tenant-primary-soft": hexToRgba(tenantPresentation.primaryColour, 0.1),
+    "--tenant-primary-border": hexToRgba(tenantPresentation.primaryColour, 0.28),
+    "--tenant-accent-soft": hexToRgba(tenantPresentation.accentColour, 0.16),
+    "--tenant-accent-border": hexToRgba(tenantPresentation.accentColour, 0.34),
+    "--tenant-success-bg": hexToRgba(tenantPresentation.successColour, 0.12),
+    "--tenant-success-border": hexToRgba(tenantPresentation.successColour, 0.3),
+    "--tenant-warning-bg": hexToRgba(tenantPresentation.warningColour, 0.12),
+    "--tenant-warning-border": hexToRgba(tenantPresentation.warningColour, 0.3),
+    "--tenant-danger-bg": hexToRgba(tenantPresentation.dangerColour, 0.12),
+    "--tenant-danger-border": hexToRgba(tenantPresentation.dangerColour, 0.3),
+    "--tenant-info-bg": hexToRgba(tenantPresentation.infoColour, 0.12),
+    "--tenant-info-border": hexToRgba(tenantPresentation.infoColour, 0.3),
+    "--tenant-bg":
+      tenantPresentation.themeMode === "dark" ? "#0f1713" : "#f5f7f4",
+    "--tenant-surface":
+      tenantPresentation.themeMode === "dark" ? "#17211c" : "#ffffff",
+    "--tenant-surface-muted":
+      tenantPresentation.themeMode === "dark" ? "#111a16" : "#f8fafc",
+    "--tenant-border":
+      tenantPresentation.themeMode === "dark" ? "#26352d" : "#e2e8f0",
+    "--tenant-text":
+      tenantPresentation.themeMode === "dark" ? "#f8fafc" : "#0f172a",
+    "--tenant-muted":
+      tenantPresentation.themeMode === "dark" ? "#a7b3ad" : "#64748b",
   } as CSSProperties;
 
   return (
     <div
-      className="flex min-h-screen flex-col bg-[#f5f7f4] md:flex-row"
+      className="flex min-h-screen flex-col bg-[var(--tenant-bg)] text-[var(--tenant-text)] md:flex-row"
       style={tenantStyle}
+      data-tenant-theme={tenantPresentation.themeMode}
     >
       <AppSidebar
         navigationGroups={visibleNavigationGroups}
@@ -160,7 +204,7 @@ export async function AppShell({ children }: AppShellProps) {
             </div>
           </div>
         </header>
-        <main className="min-w-0 bg-[#f5f7f4]">{children}</main>
+        <main className="min-w-0 bg-[var(--tenant-bg)]">{children}</main>
       </div>
     </div>
   );

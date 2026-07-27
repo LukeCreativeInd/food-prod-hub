@@ -7,6 +7,11 @@ type BrandingRow = {
   logo_url: string | null;
   primary_colour: string | null;
   accent_colour: string | null;
+  success_colour: string | null;
+  warning_colour: string | null;
+  danger_colour: string | null;
+  info_colour: string | null;
+  theme_mode: string | null;
 };
 
 export type TenantPresentation = {
@@ -16,6 +21,11 @@ export type TenantPresentation = {
   initials: string;
   primaryColour: string;
   accentColour: string;
+  successColour: string;
+  warningColour: string;
+  dangerColour: string;
+  infoColour: string;
+  themeMode: "light" | "dark";
   userName: string;
   userDetail: string;
   userInitials: string;
@@ -28,6 +38,11 @@ const fallbackPresentation: TenantPresentation = {
   initials: "CE",
   primaryColour: "#176B3A",
   accentColour: "#A7D129",
+  successColour: "#15803D",
+  warningColour: "#B7791F",
+  dangerColour: "#B91C1C",
+  infoColour: "#0369A1",
+  themeMode: "light",
   userName: "Signed in",
   userDetail: "Clean Eats Hub",
   userInitials: "CE",
@@ -65,7 +80,9 @@ export const getTenantPresentation = cache(
     const supabase = await createClient();
     const { data } = await supabase
       .from("organisation_branding")
-      .select("logo_url, primary_colour, accent_colour")
+      .select(
+        "logo_url, primary_colour, accent_colour, success_colour, warning_colour, danger_colour, info_colour, theme_mode",
+      )
       .eq("organisation_id", organisation.id)
       .maybeSingle();
     const branding = (data as BrandingRow | null) ?? null;
@@ -86,6 +103,23 @@ export const getTenantPresentation = cache(
         branding?.accent_colour,
         fallbackPresentation.accentColour,
       ),
+      successColour: cleanHexColour(
+        branding?.success_colour,
+        fallbackPresentation.successColour,
+      ),
+      warningColour: cleanHexColour(
+        branding?.warning_colour,
+        fallbackPresentation.warningColour,
+      ),
+      dangerColour: cleanHexColour(
+        branding?.danger_colour,
+        fallbackPresentation.dangerColour,
+      ),
+      infoColour: cleanHexColour(
+        branding?.info_colour,
+        fallbackPresentation.infoColour,
+      ),
+      themeMode: branding?.theme_mode === "dark" ? "dark" : "light",
       userName,
       userDetail: email && fullName ? email : `${organisation.name} Hub`,
       userInitials: initialsFromName(userName),

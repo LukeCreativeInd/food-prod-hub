@@ -4,6 +4,30 @@
 
 :root {
   color-scheme: light;
+  --tenant-primary: #176b3a;
+  --tenant-accent: #a7d129;
+  --tenant-success: #15803d;
+  --tenant-warning: #b7791f;
+  --tenant-danger: #b91c1c;
+  --tenant-info: #0369a1;
+  --tenant-primary-soft: rgba(23, 107, 58, 0.1);
+  --tenant-primary-border: rgba(23, 107, 58, 0.28);
+  --tenant-accent-soft: rgba(167, 209, 41, 0.16);
+  --tenant-accent-border: rgba(167, 209, 41, 0.34);
+  --tenant-success-bg: rgba(21, 128, 61, 0.12);
+  --tenant-success-border: rgba(21, 128, 61, 0.3);
+  --tenant-warning-bg: rgba(183, 121, 31, 0.12);
+  --tenant-warning-border: rgba(183, 121, 31, 0.3);
+  --tenant-danger-bg: rgba(185, 28, 28, 0.12);
+  --tenant-danger-border: rgba(185, 28, 28, 0.3);
+  --tenant-info-bg: rgba(3, 105, 161, 0.12);
+  --tenant-info-border: rgba(3, 105, 161, 0.3);
+  --tenant-bg: #f5f7f4;
+  --tenant-surface: #ffffff;
+  --tenant-surface-muted: #f8fafc;
+  --tenant-border: #e2e8f0;
+  --tenant-text: #0f172a;
+  --tenant-muted: #64748b;
 }
 
 body {
@@ -22,4 +46,49 @@ body {
 ::selection {
   background: #bbf7d0;
   color: #14532d;
+}
+
+[data-tenant-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-tenant-theme="dark"] .bg-white,
+[data-tenant-theme="dark"] .bg-white\/85,
+[data-tenant-theme="dark"] .bg-white\/95 {
+  background-color: var(--tenant-surface);
+}
+
+[data-tenant-theme="dark"] .bg-slate-50,
+[data-tenant-theme="dark"] .bg-slate-50\/60,
+[data-tenant-theme="dark"] .bg-slate-50\/70,
+[data-tenant-theme="dark"] .bg-slate-100 {
+  background-color: var(--tenant-surface-muted);
+}
+
+[data-tenant-theme="dark"] .text-slate-950,
+[data-tenant-theme="dark"] .text-slate-900,
+[data-tenant-theme="dark"] .text-slate-800,
+[data-tenant-theme="dark"] .text-slate-700 {
+  color: var(--tenant-text);
+}
+
+[data-tenant-theme="dark"] .text-slate-600,
+[data-tenant-theme="dark"] .text-slate-500,
+[data-tenant-theme="dark"] .text-slate-400 {
+  color: var(--tenant-muted);
+}
+
+[data-tenant-theme="dark"] .border-slate-100,
+[data-tenant-theme="dark"] .border-slate-200,
+[data-tenant-theme="dark"] .border-slate-200\/80,
+[data-tenant-theme="dark"] .border-slate-300 {
+  border-color: var(--tenant-border);
+}
+
+[data-tenant-theme="dark"] input,
+[data-tenant-theme="dark"] select,
+[data-tenant-theme="dark"] textarea {
+  background-color: var(--tenant-surface-muted);
+  border-color: var(--tenant-border);
+  color: var(--tenant-text);
 }

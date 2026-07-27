@@ -9,10 +9,14 @@ type StatusBadgeProps = {
 
 const toneStyles: Record<StatusBadgeTone, string> = {
   neutral: "border-slate-200 bg-slate-50 text-slate-600",
-  success: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  warning: "border-amber-200 bg-amber-50 text-amber-700",
-  danger: "border-red-200 bg-red-50 text-red-700",
-  info: "border-sky-200 bg-sky-50 text-sky-700",
+  success:
+    "border-[color:var(--tenant-success-border)] bg-[var(--tenant-success-bg)] text-[var(--tenant-success)]",
+  warning:
+    "border-[color:var(--tenant-warning-border)] bg-[var(--tenant-warning-bg)] text-[var(--tenant-warning)]",
+  danger:
+    "border-[color:var(--tenant-danger-border)] bg-[var(--tenant-danger-bg)] text-[var(--tenant-danger)]",
+  info:
+    "border-[color:var(--tenant-info-border)] bg-[var(--tenant-info-bg)] text-[var(--tenant-info)]",
 };
 
 export function StatusBadge({ children, tone = "neutral" }: StatusBadgeProps) {
