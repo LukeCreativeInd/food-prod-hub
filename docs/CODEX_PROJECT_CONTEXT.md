@@ -67,6 +67,14 @@ Never trust client-provided `organisation_id`.
 
 Host-derived tenant slug must be verified server-side against `organisations.slug`.
 
+Tenant resolver foundation helpers live in:
+
+```text
+lib/tenant-resolver.ts
+```
+
+They parse EveryBatch hostnames and provide a server tenant lookup helper, but they are not wired into routing, middleware, auth redirects or app shell context yet.
+
 ## Architecture Guardrails
 
 Keep the architecture multi-tenant, tenant-safe and RLS-safe.

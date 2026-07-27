@@ -65,6 +65,10 @@ Rules:
 - host-derived tenant slug must still be verified against the database
 - future custom domains should map through a reviewed tenant domain model
 
+Task 124 adds the first parser/helper foundation for this model in `lib/tenant-resolver.ts`.
+
+It does not activate middleware, redirects, rewrites, central login routing, tenant app routing or Platform Admin domain routing. Current app behaviour still uses authenticated organisation context rather than request host.
+
 ## Central Login Routing Model
 
 Central login domain:

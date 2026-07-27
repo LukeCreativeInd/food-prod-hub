@@ -65,6 +65,14 @@ Current status:
 
 See [app.everybatchmrp.com domain connection notes](123-app-domain-connection-notes.md).
 
+## Tenant Resolver Foundation
+
+Task 124 adds `lib/tenant-resolver.ts` for safe host parsing and future tenant slug lookup.
+
+This helper recognises `app.everybatchmrp.com`, tenant subdomains, Platform Admin, support, marketing/root domains and local development hosts, but it is not wired into routing yet.
+
+No middleware, redirects, Supabase Auth settings or environment variables are changed by task 124.
+
 ## Domains To Hold For Now
 
 Do not connect these to the current tenant app yet:
