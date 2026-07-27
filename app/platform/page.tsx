@@ -2,6 +2,10 @@ import Link from "next/link";
 
 import { AppShell } from "@/components/app-shell";
 import { requirePermissionAccess } from "@/lib/auth";
+import {
+  PLATFORM_ADMIN_DOMAIN,
+  PLATFORM_BRAND_NAME,
+} from "@/lib/platform-brand";
 
 const metrics = [
   {
@@ -44,7 +48,7 @@ const architectureLayers = [
   },
   {
     label: "Platform Admin",
-    detail: "Platform-owner control centre for tenants and support oversight.",
+    detail: `${PLATFORM_BRAND_NAME} operator console for tenants and support oversight.`,
     status: "Current skeleton",
   },
 ];
@@ -131,15 +135,16 @@ export default async function PlatformPage() {
                 <PlatformBadge tone="amber">Temporary build route</PlatformBadge>
               </div>
               <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
-                Platform control centre
+                {PLATFORM_BRAND_NAME} operator console
               </p>
               <h1 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
                 Platform Admin
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
-                Control centre for tenants, modules, billing status and support
-                oversight. This page is separate in tone from tenant HUBs and
-                uses static read-only placeholders.
+                {PLATFORM_BRAND_NAME} control centre for tenants, modules,
+                billing status and support oversight. This page is separate in
+                tone from tenant workspaces and uses static read-only
+                placeholders.
               </p>
             </div>
             <div className="rounded-lg border border-slate-700 bg-slate-900/80 p-5">
@@ -150,8 +155,8 @@ export default async function PlatformPage() {
                 Current route: <span className="font-semibold">/platform</span>
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-300">
-                Future direction: admin subdomain / dedicated platform-owner
-                environment.
+                Future direction: {PLATFORM_ADMIN_DOMAIN} as a dedicated
+                platform-owner environment.
               </p>
             </div>
           </div>
@@ -183,8 +188,8 @@ export default async function PlatformPage() {
                 Platform architecture
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
-                Future commercial model: public website, tenant HUBs and
-                platform owner control centre.
+                Future commercial model: public website, tenant HUBs and{" "}
+                {PLATFORM_BRAND_NAME} operator console.
               </p>
             </div>
             <PlatformBadge tone="blue">Three-layer model</PlatformBadge>

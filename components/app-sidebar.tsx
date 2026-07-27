@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 import type { NavigationGroup } from "@/lib/navigation";
+import { PLATFORM_BRAND_NAME } from "@/lib/platform-brand";
 import type { TenantPresentation } from "@/lib/tenant-presentation";
 
 type AppSidebarProps = {
@@ -366,7 +367,7 @@ export function AppSidebar({ navigationGroups, tenant }: AppSidebarProps) {
             isCollapsed && "md:hidden",
           )}
         >
-          Modular food operations platform
+          Powered by {PLATFORM_BRAND_NAME}
         </p>
       </div>
     </aside>

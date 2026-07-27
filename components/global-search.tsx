@@ -216,7 +216,7 @@ export function GlobalSearch() {
         >
           <div className="border-b border-slate-200 p-3">
             <label className="relative block">
-              <span className="sr-only">Search across Clean Eats Hub</span>
+              <span className="sr-only">Search across your workspace</span>
               <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[var(--tenant-primary)]">
                 /
               </span>

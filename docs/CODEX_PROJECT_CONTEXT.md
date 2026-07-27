@@ -104,6 +104,14 @@ Inside tenant workspaces, tenant branding should remain prominent. EveryBatch ca
 
 Platform/admin surfaces should use EveryBatch branding.
 
+EveryBatch brand constants live in:
+
+```text
+lib/platform-brand.ts
+```
+
+Use these constants for user-facing platform copy where appropriate. Do not make routing/domain decisions depend on them until tenant subdomain routing is explicitly implemented.
+
 Platform Admin should eventually live at:
 
 ```text

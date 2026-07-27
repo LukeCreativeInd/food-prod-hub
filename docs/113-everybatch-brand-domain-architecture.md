@@ -455,6 +455,12 @@ Future implementation tasks should be reviewed separately and kept scoped:
 - do not change login branding until central versus tenant login rules are implemented deliberately
 - preserve RLS, membership and module-enable gates during all branding/domain work
 
+## Task 117 Brand Foundation Implementation
+
+Task 117 adds static EveryBatch brand constants and applies EveryBatch to platform metadata, login/auth copy, subtle tenant shell trust-layer wording and Platform Admin copy.
+
+It does not implement domain routing, central tenant selector, Platform Admin separation or marketing/support surfaces.
+
 ## Migration Notes
 
 No SQL migration was created.

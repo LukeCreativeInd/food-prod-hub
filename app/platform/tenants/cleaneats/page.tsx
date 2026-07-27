@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { requirePermissionAccess } from "@/lib/auth";
+import { PLATFORM_PRIMARY_DOMAIN } from "@/lib/platform-brand";
 
 const summaryCards = [
   { label: "Slug", value: "cleaneats", detail: "Stable tenant key" },
@@ -23,7 +24,7 @@ const contextItems = [
   "Separate branding/settings",
   "Separate users/memberships",
   "Separate enabled modules",
-  "Future subdomain: cleaneats.[brand].com.au",
+  `Future subdomain: cleaneats.${PLATFORM_PRIMARY_DOMAIN}`,
 ];
 
 const moduleGroups = [
@@ -176,7 +177,8 @@ export default async function CleanEatsTenantDetailPage() {
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
               Platform Admin preview. Tenant branding and data are
-              tenant-scoped; this page uses static read-only placeholders only.
+              tenant-scoped inside EveryBatch; this page uses static read-only
+              placeholders only.
             </p>
           </div>
         </section>

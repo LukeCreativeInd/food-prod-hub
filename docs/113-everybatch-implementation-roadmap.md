@@ -41,6 +41,10 @@ Risks:
 - introducing EveryBatch wording in places that should remain Clean Eats-specific
 - prematurely renaming internal code paths
 
+Status:
+
+- Task 117 adds the first EveryBatch brand foundation constants and applies EveryBatch to platform/auth-facing copy without changing routing or tenant branding.
+
 ## 2. Tenant Subdomain Routing Plan
 
 Purpose:

@@ -24,7 +24,7 @@ export default async function NoAccessPage() {
           }
         >
           <EmptyState
-            title="Contact the platform/admin team"
+            title="Contact your workspace admin"
             description="Ask an admin to review your role and permissions. No sensitive debug data or business module data is shown here."
             action={
               <div className="mx-auto max-w-xs">
