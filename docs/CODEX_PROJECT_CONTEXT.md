@@ -51,6 +51,8 @@ Immediate domain setup recommendation:
 - do not connect `support.everybatchmrp.com` until the support/knowledge-base target exists
 - do not change Vercel, DNS, Supabase Auth redirect URLs or env vars from a code task without explicit user instruction
 
+Task 123 domain connection is in progress manually. `app.everybatchmrp.com` has been added to Vercel, and Cloudflare has an `app` CNAME pointing to `b560eb64065fe2f1.vercel-dns-017.com` with proxy status set to DNS only for Vercel validation. Wait for DNS propagation, Vercel Valid Configuration and SSL before treating it as ready.
+
 Tenant subdomain routing target:
 
 - `app.everybatchmrp.com` is the central login / tenant selector.

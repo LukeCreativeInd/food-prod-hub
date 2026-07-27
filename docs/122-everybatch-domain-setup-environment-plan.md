@@ -47,6 +47,24 @@ This gives EveryBatch a stable branded login/app URL while the current app still
 
 This is temporary. Later, `app.everybatchmrp.com` should become the true central login and tenant selector.
 
+## Task 123 Connection Status
+
+Manual connection work is now in progress for `app.everybatchmrp.com`.
+
+Current status:
+
+- `everybatchmrp.com` has been added to Cloudflare.
+- Nameservers have been changed to Cloudflare and are propagating.
+- `app.everybatchmrp.com` has been added to the Vercel project.
+- Cloudflare DNS has a CNAME record:
+  - Type: `CNAME`
+  - Name: `app`
+  - Value: `b560eb64065fe2f1.vercel-dns-017.com`
+  - Proxy status: DNS only
+- Waiting for DNS propagation and Vercel validation.
+
+See [app.everybatchmrp.com domain connection notes](123-app-domain-connection-notes.md).
+
 ## Domains To Hold For Now
 
 Do not connect these to the current tenant app yet:
@@ -98,6 +116,14 @@ For `app.everybatchmrp.com`, likely DNS shape:
 
 - `CNAME app -> cname.vercel-dns.com` or the exact Vercel-provided target
 - TXT verification record if Vercel requests one
+
+Current Vercel-provided CNAME target for task 123:
+
+```text
+b560eb64065fe2f1.vercel-dns-017.com
+```
+
+Cloudflare proxy is set to DNS only so Vercel can validate the CNAME directly.
 
 Do not treat these as final provider-specific instructions. Vercel and the DNS provider must be checked at setup time.
 
