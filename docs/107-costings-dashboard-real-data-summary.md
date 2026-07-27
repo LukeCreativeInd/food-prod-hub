@@ -76,7 +76,7 @@ The dashboard is read-only. Demo users are not given supplier price management, 
 
 ## Supplier Invoice Intake Relationship
 
-Supplier Invoice Intake remains the source of reviewed supplier catalogue, price observation and approved price records.
+Supplier Invoice Intake remains one reviewed import source for supplier catalogue, price observation and approved price records.
 
 The Costings dashboard only summarises committed records. It does not:
 
@@ -147,3 +147,7 @@ Useful follow-up work:
 - continue formula data capture and review
 - review price approval requirements with Clean Eats
 - design the first component formula cost rollup once formula data is trusted
+
+## 109B UI Polish Note
+
+The dashboard/card polish pass keeps Costings as a real-data readiness surface and continues to avoid fake costing outputs, recipe rollups or operational metrics.

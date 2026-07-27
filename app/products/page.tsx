@@ -17,7 +17,7 @@ import { getProductsDashboardData } from "@/lib/products-dashboard-data";
 const moduleAreas = [
   {
     title: "Suppliers",
-    description: "Review supplier master records imported from approved invoices.",
+    description: "Review supplier master records created manually or through reviewed intake.",
     href: "/suppliers",
     eyebrow: "Products",
   },
@@ -195,17 +195,19 @@ export default async function ProductsPage() {
           </SectionCard>
 
           <SectionCard
-            title="Data source"
-            description="This dashboard is populated from committed, tenant-scoped records."
+            title="Import context"
+            description="This dashboard is populated from tenant-scoped records. Supplier Invoice Intake is one onboarding/import method only."
           >
             <div className="rounded-md border border-green-200 bg-green-50/60 px-4 py-4">
               <p className="text-sm font-semibold text-clean-green-900">
-                Supplier Invoice Intake feeds Products
+                Supplier Invoice Intake can feed Products
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-600">
                 Use Tools to review supplier invoices before committing supplier
-                items, internal items, mappings and approved prices. This page
-                reads those records only; it does not save changes.
+                items, internal items, mappings and approved prices. Manual
+                records and future import paths can also become trusted Products
+                data; uploaded documents are not treated as the permanent source
+                of truth.
               </p>
               {canViewPurchaseDocuments ? (
                 <Link
@@ -267,7 +269,7 @@ export default async function ProductsPage() {
             ) : (
               <EmptyState
                 title="No supplier items yet"
-                description="Use Tools -> Supplier Invoice Intake to import supplier catalogue lines, or add items manually once CRUD is available."
+                description="Supplier catalogue lines can come from reviewed Supplier Invoice Intake or future/manual catalogue management."
               />
             )}
           </SectionCard>
@@ -303,7 +305,7 @@ export default async function ProductsPage() {
             ) : (
               <EmptyState
                 title="No internal items yet"
-                description="Reviewed supplier invoice commits can create internal items. Manual internal item maintenance will come later with controlled CRUD."
+                description="Internal items can come from reviewed intake, manual creation or future formula/product setup."
               />
             )}
           </SectionCard>

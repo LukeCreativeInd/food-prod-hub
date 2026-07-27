@@ -280,7 +280,7 @@ export default async function SupplierDetailPage({
     <AppShell>
       <PageHeader
         title={detail.supplier.displayName}
-        description="Supplier detail showing basic supplier management, reviewed intake records, catalogue mappings and price traceability."
+        description="Supplier detail showing basic supplier management, catalogue mappings, price traceability and secondary import provenance."
       />
       <div className="space-y-6 px-5 py-6 md:px-8">
         {supplierMessage ? (
@@ -304,7 +304,7 @@ export default async function SupplierDetailPage({
         <section className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
           <SectionCard
             title="Supplier identity"
-            description="Tenant supplier master data created manually or reused during reviewed Supplier Invoice Intake commits."
+            description="Tenant supplier master data created manually, through reviewed intake or future controlled setup paths."
           >
             <DetailGrid
               rows={[
@@ -345,7 +345,7 @@ export default async function SupplierDetailPage({
 
         <SectionCard
           title="Aliases"
-          description="Legal, trading, invoice and account identifiers retained for future matching."
+          description="Legal, trading, invoice and account identifiers retained for future matching. Intake references are secondary context only."
         >
           <ReadOnlyTable
             columns={["Type", "Alias", "Source document", "Status"]}
@@ -401,8 +401,8 @@ export default async function SupplierDetailPage({
         </SectionCard>
 
         <SectionCard
-          title="Source documents"
-          description="Purchase document references remain read-only. Links are only shown to users with Purchase Document access."
+          title="Import provenance"
+          description="Reviewed purchase documents are an onboarding/import reference only. Supplier master data remains editable and trusted separately."
           action={
             <StatusBadge tone={detail.canViewPurchaseDocuments ? "success" : "warning"}>
               {detail.canViewPurchaseDocuments ? "Links enabled" : "References only"}
@@ -425,15 +425,15 @@ export default async function SupplierDetailPage({
             badgeColumns={["Status"]}
             emptyMessage={
               detail.canViewPurchaseDocuments
-                ? "No source purchase documents are visible for this supplier yet."
-                : "Source purchase documents are restricted for this role."
+                ? "No import purchase documents are visible for this supplier yet."
+                : "Import purchase document references are restricted for this role."
             }
           />
         </SectionCard>
 
         <SectionCard
           title="Price traceability"
-          description="Invoice observations and current approved supplier prices related to this supplier."
+          description="Observed import prices and current approved supplier prices related to this supplier."
         >
           <ReadOnlyTable
             columns={[

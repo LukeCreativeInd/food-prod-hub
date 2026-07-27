@@ -91,4 +91,8 @@ Not included:
 
 ## Future CRUD Relationship
 
-Future Products CRUD should build on this dashboard by turning attention cards and workspace links into reviewed maintenance flows. Until then, Supplier Invoice Intake remains the controlled path for creating supplier catalogue, internal item, mapping and approved price records.
+Future Products CRUD should build on this dashboard by turning attention cards and workspace links into reviewed maintenance flows. Supplier Invoice Intake remains one controlled path for creating supplier catalogue, internal item, mapping and approved price records, but it should not be presented as the permanent source of truth for all Products data.
+
+## 109B UI Polish Note
+
+The Products dashboard wording and supporting context were updated so reviewed invoice intake is framed as import provenance and one onboarding method. Manual records and future controlled imports can also become trusted Products data.

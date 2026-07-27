@@ -63,7 +63,7 @@ export default async function SuppliersPage({ searchParams }: PageProps) {
     (total, supplier) => total + supplier.currentPriceCount,
     0,
   );
-  const sourceDocuments = suppliers.reduce(
+  const importReferences = suppliers.reduce(
     (total, supplier) => total + supplier.documentCount,
     0,
   );
@@ -108,19 +108,19 @@ export default async function SuppliersPage({ searchParams }: PageProps) {
             icon="$"
           />
           <StatCard
-            label="Source documents"
-            value={String(sourceDocuments)}
-            helperText="Purchase documents linked to supplier records."
-            badge="Trace"
+            label="Import references"
+            value={String(importReferences)}
+            helperText="Reviewed intake documents retained as secondary provenance."
+            badge="Optional"
             tone="neutral"
-            icon="PD"
+            icon="IR"
           />
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
           <SectionCard
             title="Supplier directory"
-            description="Tenant-scoped supplier records from manual entry and reviewed Supplier Invoice Intake commits."
+            description="Tenant-scoped supplier records from manual entry, reviewed intake and future controlled setup paths."
             action={
               <StatusBadge tone={canManageSuppliers ? "success" : "info"}>
                 {canManageSuppliers ? "Manage enabled" : "Read only"}
@@ -191,7 +191,7 @@ export default async function SuppliersPage({ searchParams }: PageProps) {
             ) : (
               <EmptyState
                 title="No suppliers yet"
-                description="Create a supplier manually here, or use Tools -> Supplier Invoice Intake to create suppliers from reviewed invoice commits."
+                description="Create a supplier manually here, or use Tools -> Supplier Invoice Intake as one reviewed import path."
               />
             )}
           </SectionCard>

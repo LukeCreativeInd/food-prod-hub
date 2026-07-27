@@ -402,7 +402,7 @@ export default async function InternalItemDetailPage({
 
         <SectionCard
           title="Price history"
-          description="Observed invoice prices and current approved supplier prices for this internal item."
+          description="Observed import prices and current approved supplier prices for this internal item. Intake documents are supporting provenance only."
           action={
             <StatusBadge tone={detail.canViewPurchaseDocuments ? "success" : "warning"}>
               {detail.canViewPurchaseDocuments ? "Document links enabled" : "References only"}

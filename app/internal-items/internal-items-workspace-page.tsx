@@ -129,7 +129,7 @@ export async function InternalItemsWorkspacePage({
         <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
           <SectionCard
             title={`${typeLabel} directory`}
-            description="Tenant-scoped internal item records from manual entry and reviewed Supplier Invoice Intake commits."
+            description="Tenant-scoped internal item records from manual entry, reviewed intake and future controlled setup paths."
             action={
               <StatusBadge tone={canManageInternalItems ? "success" : "info"}>
                 {canManageInternalItems ? "Manage enabled" : "Read only"}

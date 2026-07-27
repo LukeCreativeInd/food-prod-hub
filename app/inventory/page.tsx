@@ -2,222 +2,196 @@ import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
   AlertCard,
+  EmptyState,
   ModuleCard,
   PageActionButton,
   SectionCard,
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { requirePermissionAccess } from "@/lib/auth";
-
-const summaryCards = [
-  {
-    label: "Stock items tracked",
-    value: "64",
-    helperText: "Sample ingredient, packaging and finished stock count.",
-    badge: "Sample",
-    tone: "info" as const,
-    icon: "ST",
-  },
-  {
-    label: "Open goods inwards",
-    value: "4",
-    helperText: "Placeholder supplier deliveries awaiting review.",
-    badge: "Open",
-    tone: "warning" as const,
-    icon: "GI",
-  },
-  {
-    label: "Batches received",
-    value: "18",
-    helperText: "Static batch receipt examples for staff review.",
-    badge: "Demo",
-    tone: "neutral" as const,
-    icon: "BT",
-  },
-  {
-    label: "Low stock prompts",
-    value: "7",
-    helperText: "Sample reorder prompts only; no live stock logic.",
-    badge: "Review",
-    tone: "warning" as const,
-    icon: "LO",
-  },
-  {
-    label: "Traceability reviews",
-    value: "5",
-    helperText: "Placeholder paths from batches to finished products.",
-    badge: "Future",
-    tone: "info" as const,
-    icon: "TR",
-  },
-];
-
-const inventoryFlow = [
-  {
-    title: "Supplier delivery",
-    description: "Future starting point for incoming supplier stock.",
-    meta: "Supplier",
-    tone: "info" as const,
-  },
-  {
-    title: "Goods inwards",
-    description: "Receive deliveries, references and receiving checks.",
-    meta: "Review",
-    tone: "warning" as const,
-  },
-  {
-    title: "Batch receiving",
-    description: "Capture supplier lots, received dates and use-by dates.",
-    meta: "Batch",
-    tone: "success" as const,
-  },
-  {
-    title: "Storage location",
-    description: "Place stock into dry, chilled, frozen or production areas.",
-    meta: "Location",
-    tone: "neutral" as const,
-  },
-  {
-    title: "Stock movement",
-    description: "Move stock from storage into kitchen or packing areas.",
-    meta: "Movement",
-    tone: "info" as const,
-  },
-  {
-    title: "Kitchen/production issue",
-    description: "Future link from stock issue to production tasks.",
-    meta: "Future",
-    tone: "warning" as const,
-  },
-  {
-    title: "Component/recipe usage",
-    description: "Track materials consumed into components and recipes.",
-    meta: "BOM",
-    tone: "neutral" as const,
-  },
-  {
-    title: "Finished product traceability",
-    description: "Connect input batches through to finished meals where practical.",
-    meta: "Trace",
-    tone: "success" as const,
-  },
-];
-
-const quickActions = [
-  { label: "Receive stock", href: "/goods-inwards" },
-  { label: "Review low stock", href: "/purchasing" },
-  { label: "Move stock", href: "/stock-movements" },
-  { label: "Open traceability", href: "/bom-traceability" },
-  { label: "Create purchase review", href: "/purchasing" },
-];
+import { getInventoryLocationsPageData } from "@/lib/inventory-locations-data";
 
 const inventoryAreas = [
   {
     title: "Goods Inwards",
-    description: "Preview incoming supplier deliveries and receiving checks.",
+    description:
+      "Future workspace for incoming supplier deliveries and receiving checks.",
     href: "/goods-inwards",
-    eyebrow: "Inventory",
+    eyebrow: "Future workflow",
   },
   {
     title: "Batch Receiving",
-    description: "Preview supplier batch, date, expiry and location capture.",
+    description:
+      "Future workspace for supplier lot, received date and use-by capture.",
     href: "/batch-receiving",
-    eyebrow: "Inventory",
+    eyebrow: "Future workflow",
   },
   {
     title: "Stock Locations",
-    description: "Preview facility storage areas and location status.",
+    description: "Real tenant location setup records and location maintenance.",
     href: "/stock-locations",
-    eyebrow: "Inventory",
+    eyebrow: "Live setup",
   },
   {
     title: "Stock Movements",
-    description: "Preview stock movement from storage into production areas.",
+    description:
+      "Future movement workspace. No stock ledger exists in this phase.",
     href: "/stock-movements",
-    eyebrow: "Inventory",
+    eyebrow: "Future workflow",
   },
   {
     title: "Purchasing",
-    description: "Preview reorder prompts and supplier purchasing review.",
+    description:
+      "Future purchasing requirements workspace. No purchase orders are created.",
     href: "/purchasing",
-    eyebrow: "Inventory",
+    eyebrow: "Future workflow",
   },
   {
     title: "BOM / Traceability",
-    description: "Preview how input batches connect to finished products.",
+    description:
+      "Future traceability workspace for linking inputs to finished outputs.",
     href: "/bom-traceability",
-    eyebrow: "Inventory",
+    eyebrow: "Future workflow",
   },
 ];
 
+function countLabel(value: number) {
+  return new Intl.NumberFormat("en-AU").format(value);
+}
+
+function readinessTone(value: number) {
+  return value > 0 ? ("success" as const) : ("warning" as const);
+}
+
 export default async function InventoryPage() {
-  await requirePermissionAccess("inventory.view");
+  const data = await getInventoryLocationsPageData();
+  const { counts, locations, canManageLocations } = data;
 
   return (
     <AppShell>
       <PageHeader
         title="Inventory"
-        description="Tracks goods inwards, batches, stock locations, stock movements, purchasing prompts and traceability from materials through to finished product."
+        description="Review real inventory location setup before goods receiving, stock movements, purchasing and traceability workflows are built."
       />
       <div className="space-y-6 px-5 py-6 md:px-8">
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-          {summaryCards.map((card) => (
-            <StatCard key={card.label} {...card} />
-          ))}
+        <div className="flex flex-wrap items-center gap-3">
+          <StatusBadge tone={canManageLocations ? "success" : "info"}>
+            {canManageLocations ? "Location management available" : "Read only"}
+          </StatusBadge>
+          <StatusBadge tone="neutral">No stock ledger yet</StatusBadge>
+        </div>
+
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <StatCard
+            label="Active locations"
+            value={countLabel(counts.active)}
+            helperText="Inventory locations currently marked active."
+            badge="Setup"
+            tone={readinessTone(counts.active)}
+            icon="LO"
+          />
+          <StatCard
+            label="Storage locations"
+            value={countLabel(counts.storage)}
+            helperText="Storage-type locations for future stock placement."
+            badge="Storage"
+            tone={readinessTone(counts.storage)}
+            icon="ST"
+          />
+          <StatCard
+            label="Production locations"
+            value={countLabel(counts.production)}
+            helperText="Production-type locations for future area/task planning."
+            badge="Production"
+            tone={readinessTone(counts.production)}
+            icon="PR"
+          />
+          <StatCard
+            label="Quarantine/waste"
+            value={countLabel(counts.quarantineWaste)}
+            helperText="Locations reserved for held, waste or exception stock."
+            badge="Control"
+            tone={counts.quarantineWaste > 0 ? "info" : "neutral"}
+            icon="QW"
+          />
         </section>
 
-        <section className="grid gap-6 xl:grid-cols-3">
+        <section className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
           <SectionCard
-            title="Inventory flow preview"
-            description="Sample flow only. No live stock, purchasing, BOM or traceability logic is connected."
-            action={<StatusBadge tone="info">Sample layout only</StatusBadge>}
+            title="Inventory setup readiness"
+            description="Readiness is based on location setup only. No live quantities, low-stock alerts or goods receiving records exist yet."
+            action={<StatusBadge tone="info">Real tenant data</StatusBadge>}
           >
             <div className="space-y-3">
-              {inventoryFlow.map((item) => (
-                <AlertCard key={item.title} {...item} />
-              ))}
+              <AlertCard
+                title="Location foundation"
+                description={
+                  counts.active > 0
+                    ? "Active locations exist for later stock, receiving and production workflows."
+                    : "Add active locations before future stock movement or receiving workflows are trusted."
+                }
+                meta={countLabel(counts.active)}
+                tone={readinessTone(counts.active)}
+              />
+              <AlertCard
+                title="Storage coverage"
+                description="Storage locations should cover dry, chilled, frozen and other facility needs once staff confirm the real layout."
+                meta={countLabel(counts.storage)}
+                tone={readinessTone(counts.storage)}
+              />
+              <AlertCard
+                title="Production area coverage"
+                description="Production locations can later support kitchen, prep, packing and task assignment flows."
+                meta={countLabel(counts.production)}
+                tone={readinessTone(counts.production)}
+              />
             </div>
           </SectionCard>
 
           <SectionCard
-            title="Quick actions"
-            description="Visual placeholders for future inventory workflows."
+            title="Current location list"
+            description="A quick scan of the first visible tenant locations."
+            action={
+              <PageActionButton href="/stock-locations" variant="secondary">
+                Open stock locations
+              </PageActionButton>
+            }
           >
-            <div className="grid gap-3">
-              {quickActions.map((action) => (
-                <PageActionButton
-                  key={action.label}
-                  href={action.href}
-                  variant="secondary"
-                >
-                  {action.label}
-                </PageActionButton>
-              ))}
-            </div>
-          </SectionCard>
-
-          <SectionCard
-            title="Sample data notice"
-            description="This module is not connected to live inventory or purchasing data."
-          >
-            <div className="rounded-md border border-green-200 bg-green-50/60 px-4 py-4">
-              <p className="text-sm font-semibold text-clean-green-900">
-                Placeholder layout only
-              </p>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                This is a static inventory demo. No real stock movement logic,
-                purchasing logic, BOM calculations, traceability writes,
-                Supabase queries or Clean Eats stock data have been added.
-              </p>
-            </div>
+            {locations.length > 0 ? (
+              <div className="space-y-3">
+                {locations.slice(0, 6).map((location) => (
+                  <article
+                    key={location.id}
+                    className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-slate-950">
+                          {location.name}
+                        </p>
+                        <p className="mt-1 text-xs font-medium text-slate-500">
+                          {location.locationCode} · {location.locationType} ·{" "}
+                          {location.temperatureZone ?? "No temperature zone"}
+                        </p>
+                      </div>
+                      <StatusBadge tone="success">{location.status}</StatusBadge>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                title="No inventory locations yet"
+                description="Create location records before building stock movements, goods receiving or traceability flows."
+              />
+            )}
           </SectionCard>
         </section>
 
         <SectionCard
           title="Inventory workspaces"
-          description="Demo workspaces for reviewing the Phase 1 inventory flow."
-          action={<StatusBadge tone="info">Demo navigation</StatusBadge>}
+          description="Existing Inventory routes remain available, but only Stock Locations uses real setup records in this phase."
+          action={<StatusBadge tone="neutral">Scoped foundation</StatusBadge>}
         >
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {inventoryAreas.map((area) => (

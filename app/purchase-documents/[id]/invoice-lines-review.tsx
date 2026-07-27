@@ -375,11 +375,11 @@ function RowValue({
   className?: string;
 }) {
   return (
-    <div className={className}>
+    <div className={`min-w-0 ${className}`}>
       <p className="text-[0.68rem] font-semibold uppercase text-slate-500 lg:hidden">
         {label}
       </p>
-      <p className="mt-1 truncate text-sm font-semibold text-slate-800 lg:mt-0">
+      <p className="mt-1 max-w-full whitespace-normal break-words text-sm font-semibold leading-5 text-slate-800 lg:mt-0">
         {value}
       </p>
     </div>
@@ -551,7 +551,7 @@ export function InvoiceLinesReview({
 
       {lineSummaries.length > 0 ? (
         <div className="divide-y divide-slate-200">
-          <div className="hidden grid-cols-[0.72fr_0.85fr_2fr_0.72fr_0.72fr_0.72fr_0.9fr_1.15fr_0.95fr_1fr_0.72fr] gap-3 bg-slate-50 px-4 py-3 text-xs font-bold uppercase text-slate-500 lg:grid">
+          <div className="hidden grid-cols-[0.68fr_0.78fr_minmax(0,1.7fr)_0.62fr_0.72fr_0.72fr_0.82fr_minmax(0,0.95fr)_0.82fr_minmax(0,0.85fr)_0.68fr] gap-3 bg-slate-50 px-4 py-3 text-xs font-bold uppercase text-slate-500 lg:grid">
             <span>Status</span>
             <span>Supplier code</span>
             <span>Supplier description</span>
@@ -580,9 +580,9 @@ export function InvoiceLinesReview({
                   }
                 }}
               >
-                <summary className="grid cursor-pointer list-none gap-3 px-4 py-4 transition hover:bg-slate-50 lg:grid-cols-[0.72fr_0.85fr_2fr_0.72fr_0.72fr_0.72fr_0.9fr_1.15fr_0.95fr_1fr_0.72fr] lg:items-center">
+                <summary className="grid cursor-pointer list-none gap-3 overflow-hidden px-4 py-4 transition hover:bg-slate-50 lg:grid-cols-[0.68fr_0.78fr_minmax(0,1.7fr)_0.62fr_0.72fr_0.72fr_0.82fr_minmax(0,0.95fr)_0.82fr_minmax(0,0.85fr)_0.68fr] lg:items-start">
                   <input type="hidden" name="line_ids" value={line.id} />
-                  <div>
+                  <div className="min-w-0">
                     <StatusBadge
                       tone={
                         summary.isReady ? "success" : statusTone(line.status)
@@ -625,7 +625,7 @@ export function InvoiceLinesReview({
                     }
                   />
                   <RowValue label="Price decision" value={summary.priceDecision} />
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[0.68rem] font-semibold uppercase text-slate-500 lg:hidden">
                       Issues
                     </p>
@@ -647,7 +647,7 @@ export function InvoiceLinesReview({
                       event.preventDefault();
                       toggleLine(line.id);
                     }}
-                    className="w-fit rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-bold uppercase text-slate-700 transition hover:bg-slate-50"
+                    className="w-fit rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-bold uppercase text-slate-700 transition hover:bg-slate-50 lg:justify-self-end"
                   >
                     {expanded ? "Collapse" : "Review"}
                   </button>

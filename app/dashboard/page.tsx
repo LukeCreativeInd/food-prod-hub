@@ -1,323 +1,430 @@
+import Link from "next/link";
+
 import { AuthContextStatus } from "@/components/auth/auth-context-status";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import {
   AlertCard,
+  EmptyState,
+  ModuleCard,
   PageActionButton,
   SectionCard,
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { requireAppAccess } from "@/lib/auth";
+import { getCurrentPermissionKeys, requireAppAccess } from "@/lib/auth";
+import { getCostingsDashboardData } from "@/lib/costings-dashboard-data";
+import { getInventoryLocationsPageData } from "@/lib/inventory-locations-data";
+import {
+  getPurchaseDocumentsForCurrentOrganisation,
+  type PurchaseDocumentSummary,
+} from "@/lib/purchase-document-intake";
+import { getProductsDashboardData } from "@/lib/products-dashboard-data";
+import { getProductionDashboardData } from "@/lib/production-dashboard-data";
 
-const dashboardStats = [
-  {
-    label: "Demo modules ready",
-    value: "4",
-    helperText: "Products, Costings, Production and Inventory are ready for review.",
-    badge: "Phase 1",
-    tone: "success" as const,
-    icon: "P1",
-  },
-  {
-    label: "Sample screens",
-    value: "30+",
-    helperText: "Static review screens across the Phase 1 module flow.",
-    badge: "Sample",
-    tone: "info" as const,
-    icon: "UI",
-  },
-  {
-    label: "CSV/data groups",
-    value: "6",
-    helperText: "Suppliers through finished products for collection and review.",
-    badge: "Collect",
-    tone: "warning" as const,
-    icon: "CSV",
-  },
-  {
-    label: "Live business data",
-    value: "0",
-    helperText: "No real Products, Costings, Production or Inventory data is connected.",
-    badge: "Safe",
-    tone: "neutral" as const,
-    icon: "0",
-  },
-];
+function countLabel(value: number | null | undefined) {
+  if (value === null || value === undefined) {
+    return "Hidden";
+  }
 
-const phaseOneModules = [
-  {
-    title: "Products",
-    icon: "PR",
-    description: "Define the supplier, ingredient, packaging, component, recipe and finished product foundation.",
-    status: "UI skeleton ready",
-    href: "/products",
-    subPages: [
-      "Suppliers",
-      "Ingredients",
-      "Packaging",
-      "Components",
-      "Recipes",
-      "Finished Products",
-    ],
-  },
-  {
-    title: "Costings",
-    icon: "CO",
-    description: "Review how input costs, packaging costs, component costs, meal margins and price history may appear.",
-    status: "UI skeleton ready",
-    href: "/costing-overview",
-    subPages: [
-      "Ingredient Costs",
-      "Packaging Costs",
-      "Component Costs",
-      "Meal Margins",
-      "Price History",
-    ],
-  },
-  {
-    title: "Production",
-    icon: "PD",
-    description: "Preview the flow from production reports into plans, areas, tasks and facility/iPad review screens.",
-    status: "UI skeleton ready",
-    href: "/production",
-    subPages: [
-      "Production Report",
-      "Plan",
-      "Areas",
-      "Tasks",
-      "Facility/iPad View",
-    ],
-  },
-  {
-    title: "Inventory",
-    icon: "IN",
-    description: "Preview goods inwards, batches, locations, movements, purchasing prompts and BOM/traceability.",
-    status: "UI skeleton ready",
-    href: "/inventory",
-    subPages: [
-      "Goods Inwards",
-      "Batch Receiving",
-      "Stock Locations",
-      "Stock Movements",
-      "Purchasing",
-      "BOM/Traceability",
-    ],
-  },
-];
+  return new Intl.NumberFormat("en-AU").format(value);
+}
 
-const demoFlow = [
-  {
-    title: "1. Products data foundation",
-    description: "Products define what exists: suppliers, ingredients, packaging, components, recipes and finished products.",
-    meta: "What exists",
-    tone: "success" as const,
-  },
-  {
-    title: "2. Costings review",
-    description: "Costings show what it costs and where ingredient, packaging, component or margin details need review.",
-    meta: "What it costs",
-    tone: "info" as const,
-  },
-  {
-    title: "3. Production planning/reporting",
-    description: "Production shows what needs to be made, where work happens and how tasks may reach facility screens.",
-    meta: "What to make",
-    tone: "warning" as const,
-  },
-  {
-    title: "4. Inventory, batches and traceability",
-    description: "Inventory tracks what comes in, moves around, gets used and may later trace into finished products.",
-    meta: "What gets used",
-    tone: "neutral" as const,
-  },
-];
+function attentionTone(value: number | null | undefined) {
+  if (value === null || value === undefined) {
+    return "neutral" as const;
+  }
 
-const staffReviewChecklist = [
-  "Do the module names make sense?",
-  "Are the screens easy to understand?",
-  "Are fields or columns missing?",
-  "What should be manager-only?",
-  "What should be tablet/facility-facing?",
-  "What data do we need first?",
-];
+  return value > 0 ? ("warning" as const) : ("success" as const);
+}
 
-const csvCollectionOrder = [
-  "Suppliers",
-  "Ingredients",
-  "Packaging",
-  "Components / Batch Recipes / Items",
-  "Recipes",
-  "Finished Products",
-];
+function formatStatus(status: string) {
+  return status
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function documentTone(status: string) {
+  if (status === "committed" || status === "ready_to_commit") {
+    return "success" as const;
+  }
+
+  if (status === "failed" || status === "rejected") {
+    return "danger" as const;
+  }
+
+  if (status === "uploaded" || status === "processing") {
+    return "info" as const;
+  }
+
+  return "warning" as const;
+}
+
+function recentPurchaseDocuments(documents: PurchaseDocumentSummary[]) {
+  return documents.slice(0, 4).map((document) => ({
+    id: document.id,
+    title: document.invoice_number ?? document.original_filename,
+    supplier:
+      document.supplier_display_name ??
+      document.supplier_trading_name_source ??
+      document.supplier_legal_name_source ??
+      "Supplier not linked",
+    status: document.status,
+  }));
+}
 
 export default async function DashboardPage() {
   await requireAppAccess();
 
+  const permissionKeys = await getCurrentPermissionKeys();
+  const hasPermission = (permission: string) => permissionKeys.includes(permission);
+
+  const [
+    productsData,
+    costingsData,
+    productionData,
+    inventoryData,
+    purchaseDocuments,
+  ] = await Promise.all([
+    hasPermission("products.view") ? getProductsDashboardData() : null,
+    hasPermission("costings.view") ? getCostingsDashboardData() : null,
+    hasPermission("production.view") ? getProductionDashboardData() : null,
+    hasPermission("inventory.view") ? getInventoryLocationsPageData() : null,
+    hasPermission("purchase_documents.view")
+      ? getPurchaseDocumentsForCurrentOrganisation()
+      : Promise.resolve([]),
+  ]);
+
+  const productsCounts = productsData?.counts;
+  const costingsCounts = costingsData?.counts;
+  const productionCounts = productionData?.counts;
+  const inventoryCounts = inventoryData?.counts;
+  const pendingPurchaseDocuments = purchaseDocuments.filter(
+    (document) => document.status !== "committed",
+  );
+  const committedPurchaseDocuments = purchaseDocuments.filter(
+    (document) => document.status === "committed",
+  );
+
+  const moduleCards = [
+    {
+      title: "Products",
+      description:
+        productsCounts
+          ? `${countLabel(productsCounts.suppliers)} suppliers, ${countLabel(
+              productsCounts.internalItems,
+            )} internal items and ${countLabel(
+              productsCounts.supplierItems,
+            )} supplier catalogue items are visible.`
+          : "Products visibility is restricted for this role.",
+      href: "/products",
+      eyebrow: productsCounts ? "Real setup data" : "Restricted",
+    },
+    {
+      title: "Costings",
+      description:
+        costingsCounts
+          ? `${countLabel(
+              costingsCounts.approvedSupplierPriceCount,
+            )} approved prices and ${countLabel(
+              costingsCounts.internalItemsWithoutApprovedPriceCount,
+            )} missing price gaps are visible.`
+          : "Costings visibility is restricted for this role.",
+      href: "/costing-overview",
+      eyebrow: costingsCounts ? "Readiness" : "Restricted",
+    },
+    {
+      title: "Inventory",
+      description:
+        inventoryCounts
+          ? `${countLabel(inventoryCounts.active)} active locations, including ${countLabel(
+              inventoryCounts.storage,
+            )} storage and ${countLabel(
+              inventoryCounts.production,
+            )} production locations.`
+          : "Inventory visibility is restricted for this role.",
+      href: "/inventory",
+      eyebrow: inventoryCounts ? "Location setup" : "Restricted",
+    },
+    {
+      title: "Production",
+      description:
+        productionCounts
+          ? `${countLabel(
+              productionCounts.productionLocationCount,
+            )} production locations, ${countLabel(
+              productionCounts.componentFormulaCount,
+            )} component formulas and ${countLabel(
+              productionCounts.finishedProductFormulaCount,
+            )} finished formulas are visible.`
+          : "Production visibility is restricted for this role.",
+      href: "/production",
+      eyebrow: productionCounts ? "Planning readiness" : "Restricted",
+    },
+    ...(hasPermission("purchase_documents.view")
+      ? [
+          {
+            title: "Tools",
+            description: `${countLabel(
+              pendingPurchaseDocuments.length,
+            )} supplier invoice document(s) currently need review. Intake is an onboarding/import pathway only.`,
+            href: "/purchase-documents",
+            eyebrow: "Supplier Invoice Intake",
+          },
+        ]
+      : []),
+  ];
+
   return (
     <AppShell>
       <PageHeader
-        title="Clean Eats Hub"
-        description="Phase 1 Demo Workspace for staff review using sample data only."
+        title="Dashboard"
+        description="A real Phase 1 setup overview for Products, Costings, Inventory, Production and controlled supplier invoice intake."
       />
       <div className="space-y-6 px-5 py-6 md:px-8">
-        <SectionCard
-          title="Phase 1 demo workspace"
-          description="Review the Phase 1 demo modules using sample data before real Clean Eats data is connected."
-          action={<StatusBadge tone="info">Staff review focus</StatusBadge>}
-        >
-          <div className="rounded-md border border-green-200 bg-green-50/60 px-4 py-4">
-            <p className="text-sm font-semibold text-clean-green-900">
-              Sample data only
-            </p>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              This dashboard is a review landing page for Products, Costings,
-              Production and Inventory. The screens are static placeholders so
-              staff can confirm terminology, fields and workflow direction
-              before real data is modelled or imported.
-            </p>
-          </div>
-        </SectionCard>
-
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {dashboardStats.map((stat) => (
-            <StatCard key={stat.label} {...stat} />
-          ))}
+          <StatCard
+            label="Suppliers"
+            value={countLabel(productsCounts?.suppliers)}
+            helperText="Tenant supplier master records currently visible."
+            badge={productsCounts ? "Live" : "Restricted"}
+            tone={productsCounts ? "success" : "neutral"}
+            icon="SU"
+          />
+          <StatCard
+            label="Internal items"
+            value={countLabel(productsCounts?.internalItems)}
+            helperText="Canonical ingredient, packaging, component and finished product records."
+            badge={productsCounts ? "Catalogue" : "Restricted"}
+            tone={productsCounts ? "success" : "neutral"}
+            icon="II"
+          />
+          <StatCard
+            label="Approved prices"
+            value={countLabel(costingsCounts?.approvedSupplierPriceCount)}
+            helperText="Current approved supplier prices available for costing review."
+            badge={costingsCounts ? "Current" : "Restricted"}
+            tone={costingsCounts ? "success" : "neutral"}
+            icon="$"
+          />
+          <StatCard
+            label="Stock locations"
+            value={countLabel(inventoryCounts?.active)}
+            helperText="Active inventory locations available for future stock workflows."
+            badge={inventoryCounts ? "Setup" : "Restricted"}
+            tone={inventoryCounts ? "info" : "neutral"}
+            icon="LO"
+          />
         </section>
 
-        <SectionCard
-          title="Phase 1 modules"
-          description="Start here for the staff demo review. Each module uses sample data only."
-          action={<StatusBadge tone="success">UI skeletons ready</StatusBadge>}
-        >
-          <div className="grid gap-4 lg:grid-cols-2">
-            {phaseOneModules.map((module) => (
-              <article
-                key={module.title}
-                className="rounded-lg border border-slate-200/80 bg-white p-5 shadow-sm ring-1 ring-white/60"
+        <section className="grid gap-6 xl:grid-cols-[1fr_1fr_0.9fr]">
+          <SectionCard
+            title="Readiness and attention"
+            description="Setup gaps based on current tenant records only. No stock, QA, delivery or production metrics are invented here."
+            action={<StatusBadge tone="info">Real setup signals</StatusBadge>}
+          >
+            <div className="space-y-3">
+              <AlertCard
+                title="Internal items missing approved prices"
+                description="Priceable internal items without a current approved supplier price."
+                meta={countLabel(
+                  costingsCounts?.internalItemsWithoutApprovedPriceCount,
+                )}
+                tone={attentionTone(
+                  costingsCounts?.internalItemsWithoutApprovedPriceCount,
+                )}
+              />
+              <AlertCard
+                title="Missing component formulas"
+                description="Component formula count available for future production and costing readiness."
+                meta={countLabel(productsCounts?.componentFormulas)}
+                tone={
+                  productsCounts
+                    ? productsCounts.componentFormulas > 0
+                      ? "success"
+                      : "warning"
+                    : "neutral"
+                }
+              />
+              <AlertCard
+                title="Missing finished product formulas"
+                description="Finished product formula count available for future meal planning readiness."
+                meta={countLabel(productsCounts?.finishedProductFormulas)}
+                tone={
+                  productsCounts
+                    ? productsCounts.finishedProductFormulas > 0
+                      ? "success"
+                      : "warning"
+                    : "neutral"
+                }
+              />
+              <AlertCard
+                title="Inventory location setup"
+                description="Active stock locations exist before stock movements or goods receiving are introduced."
+                meta={countLabel(inventoryCounts?.active)}
+                tone={
+                  inventoryCounts
+                    ? inventoryCounts.active > 0
+                      ? "success"
+                      : "warning"
+                    : "neutral"
+                }
+              />
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            title="Module overview"
+            description="Open the current Phase 1 real-data dashboards and setup areas."
+            action={<StatusBadge tone="success">Phase 1 foundation</StatusBadge>}
+          >
+            <div className="grid gap-4 md:grid-cols-2">
+              {moduleCards.map((module) => (
+                <ModuleCard key={module.title} {...module} />
+              ))}
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            title="Supplier Invoice Intake"
+            description="An onboarding and bulk import route for reviewed supplier documents, not the permanent source of truth."
+            action={
+              <StatusBadge
+                tone={hasPermission("purchase_documents.view") ? "info" : "warning"}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-green-50 text-sm font-bold text-clean-green-800">
-                      {module.icon}
-                    </span>
-                    <div>
-                      <h3 className="text-base font-semibold text-slate-950">
-                        {module.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-6 text-slate-500">
-                        {module.description}
-                      </p>
-                    </div>
-                  </div>
-                  <StatusBadge tone="success">{module.status}</StatusBadge>
-                </div>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {module.subPages.map((page) => (
-                    <span
-                      key={page}
-                      className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600"
-                    >
-                      {page}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-5">
-                  <PageActionButton href={module.href} variant="secondary">
-                    {`Open ${module.title}`}
-                  </PageActionButton>
-                </div>
-              </article>
-            ))}
-          </div>
-        </SectionCard>
+                {hasPermission("purchase_documents.view")
+                  ? "Tools access"
+                  : "Restricted"}
+              </StatusBadge>
+            }
+          >
+            {hasPermission("purchase_documents.view") ? (
+              <div className="space-y-3">
+                <AlertCard
+                  title="Documents needing review"
+                  description="Uploaded or extracted documents that have not yet been committed."
+                  meta={countLabel(pendingPurchaseDocuments.length)}
+                  tone={pendingPurchaseDocuments.length > 0 ? "warning" : "success"}
+                />
+                <AlertCard
+                  title="Committed import documents"
+                  description="Reviewed documents that created or reused supplier, item, mapping and price records."
+                  meta={countLabel(committedPurchaseDocuments.length)}
+                  tone="info"
+                />
+                <PageActionButton href="/purchase-documents" variant="secondary">
+                  Open Supplier Invoice Intake
+                </PageActionButton>
+              </div>
+            ) : (
+              <EmptyState
+                title="Supplier Invoice Intake is restricted"
+                description="This role can use the dashboard without viewing uploaded supplier invoice documents."
+              />
+            )}
+          </SectionCard>
+        </section>
 
         <section className="grid gap-6 xl:grid-cols-3">
           <SectionCard
-            title="Demo flow"
-            description="How the Phase 1 demo modules connect in plain English."
-            action={
-              <StatusBadge tone="info">{`Products -> Inventory`}</StatusBadge>
-            }
+            title="Recent supplier catalogue items"
+            description="Latest supplier-facing items visible through Products."
           >
-            <div className="space-y-3">
-              {demoFlow.map((item) => (
-                <AlertCard key={item.title} {...item} />
-              ))}
-            </div>
+            {productsData?.recentSupplierItems.length ? (
+              <div className="space-y-3">
+                {productsData.recentSupplierItems.slice(0, 4).map((item) => (
+                  <article
+                    key={item.id}
+                    className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3"
+                  >
+                    <p className="break-words text-sm font-semibold text-slate-950">
+                      {item.description}
+                    </p>
+                    <p className="mt-1 text-xs font-medium text-slate-500">
+                      {item.supplierName} · {item.code} · {item.purchaseUnit}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                title="No supplier items visible"
+                description="Supplier catalogue activity will appear here once records exist and this role can read Products."
+              />
+            )}
           </SectionCard>
 
           <SectionCard
-            title="Staff review checklist"
-            description="Use these prompts during staff walkthroughs."
-            action={<StatusBadge tone="warning">Review prompts</StatusBadge>}
+            title="Recent approved prices"
+            description="Current prices visible through Costings."
           >
-            <div className="space-y-3">
-              {staffReviewChecklist.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3"
-                >
-                  <p className="text-sm font-medium text-slate-700">{item}</p>
-                </div>
-              ))}
-            </div>
+            {costingsData?.recentApprovedPrices.length ? (
+              <div className="space-y-3">
+                {costingsData.recentApprovedPrices.slice(0, 4).map((price) => (
+                  <article
+                    key={price.id}
+                    className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="break-words text-sm font-semibold text-slate-950">
+                          {price.itemName}
+                        </p>
+                        <p className="mt-1 text-xs font-medium text-slate-500">
+                          {price.supplierName} · {price.unit}
+                        </p>
+                      </div>
+                      <StatusBadge tone="success">{price.price}</StatusBadge>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                title="No approved prices visible"
+                description="Approved price activity will appear here once current prices exist and this role can read Costings."
+              />
+            )}
           </SectionCard>
 
           <SectionCard
-            title="CSV/data collection order"
-            description="Collect first, review, then model/import later."
-            action={<StatusBadge tone="neutral">No imports yet</StatusBadge>}
+            title="Recent intake documents"
+            description="Recent supplier invoice review documents where Tools access is available."
           >
-            <ol className="space-y-3">
-              {csvCollectionOrder.map((item, index) => (
-                <li key={item} className="flex gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-clean-green-700 text-xs font-bold text-white">
-                    {index + 1}
-                  </span>
-                  <span className="pt-1 text-sm font-medium text-slate-700">
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ol>
-            <div className="mt-5 rounded-md border border-green-200 bg-green-50/60 px-4 py-3">
-              <p className="text-sm leading-6 text-slate-600">
-                Collect first, review with staff, then model and import once
-                the screens and terminology feel right.
-              </p>
-            </div>
+            {hasPermission("purchase_documents.view") &&
+            purchaseDocuments.length > 0 ? (
+              <div className="space-y-3">
+                {recentPurchaseDocuments(purchaseDocuments).map((document) => (
+                  <Link
+                    key={document.id}
+                    href={`/purchase-documents/${document.id}`}
+                    className="block rounded-md border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-green-200 hover:bg-white"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-clean-green-700">
+                          {document.title}
+                        </p>
+                        <p className="mt-1 truncate text-xs font-medium text-slate-500">
+                          {document.supplier}
+                        </p>
+                      </div>
+                      <StatusBadge tone={documentTone(document.status)}>
+                        {formatStatus(document.status)}
+                      </StatusBadge>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                title="No intake documents visible"
+                description="Recent supplier invoice review documents will appear here for roles with Tools access."
+              />
+            )}
           </SectionCard>
         </section>
-
-        <SectionCard
-          title="Next steps"
-          description="Suggested order before real data and table design begin."
-          action={<StatusBadge tone="info">Demo preparation</StatusBadge>}
-        >
-          <div className="grid gap-3 md:grid-cols-3">
-            <AlertCard
-              title="Plan demo/test user access"
-              description="Confirm which Phase 1 modules a staff demo user should see."
-              meta="Next"
-              tone="success"
-            />
-            <AlertCard
-              title="Run staff review"
-              description="Walk through the sample screens and capture missing fields or wording changes."
-              meta="Review"
-              tone="warning"
-            />
-            <AlertCard
-              title="Design real tables later"
-              description="Use staff feedback and collected CSVs before designing Products and Inventory data models."
-              meta="Later"
-              tone="neutral"
-            />
-          </div>
-        </SectionCard>
 
         <div className="pt-2">
           <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">

@@ -148,3 +148,7 @@ Useful follow-up work:
 - continue speed and performance review
 - run a real Costings subpages data pass
 - collect Clean Eats production planning rules before building production plans or task assignment
+
+## 109B UI Polish Note
+
+The dashboard/card polish pass keeps Production focused on real setup readiness only. It does not add production orders, fake progress, task assignment, stock usage or planning logic.
