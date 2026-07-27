@@ -1,6 +1,7 @@
 import { cache } from "react";
 
 import { getAuthContext } from "@/lib/auth";
+import { getOrganisationLogoDisplayUrl } from "@/lib/organisation-branding-storage";
 import { createClient } from "@/lib/supabase/server";
 
 type BrandingRow = {
@@ -89,11 +90,15 @@ export const getTenantPresentation = cache(
     const fullName = authContext.profile?.full_name?.trim();
     const email = authContext.profile?.email?.trim();
     const userName = fullName ?? email ?? fallbackPresentation.userName;
+    const logoUrl = await getOrganisationLogoDisplayUrl(
+      supabase,
+      branding?.logo_url,
+    );
 
     return {
       organisationName: organisation.name,
       tenantSlug: organisation.slug,
-      logoUrl: branding?.logo_url ?? null,
+      logoUrl: logoUrl || null,
       initials: initialsFromName(organisation.name),
       primaryColour: cleanHexColour(
         branding?.primary_colour,

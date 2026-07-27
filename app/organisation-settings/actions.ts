@@ -5,34 +5,42 @@ import { redirect } from "next/navigation";
 
 import { requirePermissionAccess } from "@/lib/auth";
 import { logDevRouteTiming } from "@/lib/dev-performance";
+import { organisationBrandingBucket } from "@/lib/organisation-branding-storage";
 import { createClient } from "@/lib/supabase/server";
 
 const hexColourPattern = /^#[0-9A-Fa-f]{6}$/;
 const themeModes = new Set(["light", "dark"]);
+const maxLogoBytes = 5 * 1024 * 1024;
+const allowedLogoMimeTypes = new Set(["image/png", "image/jpeg", "image/webp"]);
 
 function getString(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
 }
 
-function getOptionalUrl(formData: FormData, key: string) {
-  const value = getString(formData, key);
-
-  if (!value) {
-    return null;
-  }
-
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:" || url.protocol === "http:" ? value : null;
-  } catch {
-    return null;
-  }
-}
-
 function getHexColour(formData: FormData, key: string) {
   const value = getString(formData, key);
   return hexColourPattern.test(value) ? value.toUpperCase() : null;
+}
+
+function getLogoFile(formData: FormData) {
+  const value = formData.get("logo_file");
+
+  return value instanceof File && value.size > 0 ? value : null;
+}
+
+function safeFilename(value: string) {
+  const extension = value.split(".").pop()?.toLowerCase() ?? "logo";
+  const baseName = value
+    .replace(/\.[^.]+$/, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+    .slice(0, 60);
+  const safeBaseName = baseName || "tenant-logo";
+  const safeExtension = extension.replace(/[^a-z0-9]/g, "").slice(0, 8) || "png";
+
+  return `${safeBaseName}.${safeExtension}`;
 }
 
 export async function updateOrganisationBrandingAction(formData: FormData) {
@@ -43,8 +51,6 @@ export async function updateOrganisationBrandingAction(formData: FormData) {
     throw new Error("Current organisation is required.");
   }
 
-  const logoUrlInput = getString(formData, "logo_url");
-  const logoUrl = getOptionalUrl(formData, "logo_url");
   const primaryColour = getHexColour(formData, "primary_colour");
   const accentColour = getHexColour(formData, "accent_colour");
   const successColour = getHexColour(formData, "success_colour");
@@ -53,10 +59,8 @@ export async function updateOrganisationBrandingAction(formData: FormData) {
   const infoColour = getHexColour(formData, "info_colour");
   const themeModeInput = getString(formData, "theme_mode");
   const themeMode = themeModes.has(themeModeInput) ? themeModeInput : null;
-
-  if (logoUrlInput && !logoUrl) {
-    redirect("/organisation-settings?branding=invalid_logo");
-  }
+  const logoFile = getLogoFile(formData);
+  const shouldClearLogo = getString(formData, "clear_logo") === "1";
 
   if (
     !primaryColour ||
@@ -72,6 +76,59 @@ export async function updateOrganisationBrandingAction(formData: FormData) {
 
   const organisationId = authContext.organisation.id;
   const supabase = await createClient();
+  const { data: currentBranding } = await supabase
+    .from("organisation_branding")
+    .select("logo_url")
+    .eq("organisation_id", organisationId)
+    .maybeSingle();
+  let logoUrl = (currentBranding as { logo_url: string | null } | null)
+    ?.logo_url ?? null;
+
+  if (shouldClearLogo) {
+    logoUrl = null;
+  } else if (logoFile) {
+    if (!allowedLogoMimeTypes.has(logoFile.type)) {
+      redirect("/organisation-settings?branding=invalid_logo_file");
+    }
+
+    if (logoFile.size > maxLogoBytes) {
+      redirect("/organisation-settings?branding=logo_too_large");
+    }
+
+    const storagePath = `${organisationId}/logo/${Date.now()}-${safeFilename(
+      logoFile.name,
+    )}`;
+    const { error: uploadError } = await supabase.storage
+      .from(organisationBrandingBucket)
+      .upload(storagePath, logoFile, {
+        cacheControl: "3600",
+        contentType: logoFile.type,
+        upsert: false,
+      });
+
+    logDevRouteTiming("organisation.branding-logo-upload", timingStartedAt, {
+      status: uploadError ? "error" : "uploaded",
+      logoBytes: logoFile.size,
+      logoMimeType: logoFile.type,
+      storagePath,
+    });
+
+    if (uploadError) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Organisation branding logo upload failed", {
+          organisationId,
+          storagePath,
+          code: uploadError.name,
+          message: uploadError.message,
+        });
+      }
+
+      redirect("/organisation-settings?branding=logo_upload_error");
+    }
+
+    logoUrl = storagePath;
+  }
+
   const { error } = await supabase.from("organisation_branding").upsert(
     {
       organisation_id: organisationId,

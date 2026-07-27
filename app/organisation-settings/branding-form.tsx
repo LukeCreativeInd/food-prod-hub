@@ -1,12 +1,20 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type CSSProperties,
+  type FormEvent,
+} from "react";
+import { useFormStatus } from "react-dom";
 
 import { updateOrganisationBrandingAction } from "@/app/organisation-settings/actions";
 import { StatusBadge } from "@/components/ui";
 
 export type BrandingFormValues = {
   logoUrl: string;
+  logoPreviewUrl: string;
   primaryColour: string;
   accentColour: string;
   successColour: string;
@@ -32,6 +40,7 @@ const colourFields = [
 
 const fieldNames: Record<keyof BrandingFormValues, string> = {
   logoUrl: "logo_url",
+  logoPreviewUrl: "logo_preview_url",
   primaryColour: "primary_colour",
   accentColour: "accent_colour",
   successColour: "success_colour",
@@ -41,8 +50,28 @@ const fieldNames: Record<keyof BrandingFormValues, string> = {
   themeMode: "theme_mode",
 };
 
-function cleanLogoUrl(value: string) {
-  return value.trim();
+const defaultBrandingValues = {
+  primaryColour: "#176B3A",
+  accentColour: "#A7D129",
+  successColour: "#15803D",
+  warningColour: "#B7791F",
+  dangerColour: "#B91C1C",
+  infoColour: "#0369A1",
+  themeMode: "light" as const,
+};
+
+function SubmitButton({ canManageBranding }: { canManageBranding: boolean }) {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      disabled={!canManageBranding || pending}
+      className="inline-flex items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90 disabled:cursor-not-allowed disabled:bg-slate-300"
+    >
+      {pending ? "Saving..." : "Save branding"}
+    </button>
+  );
 }
 
 export function BrandingForm({
@@ -50,6 +79,30 @@ export function BrandingForm({
   canManageBranding,
 }: BrandingFormProps) {
   const [preview, setPreview] = useState(values);
+  const [selectedLogoUrl, setSelectedLogoUrl] = useState<string | null>(null);
+  const hasSavedLogo = Boolean(values.logoUrl);
+  const logoPreviewUrl = selectedLogoUrl ?? values.logoPreviewUrl;
+
+  useEffect(() => {
+    return () => {
+      if (selectedLogoUrl) {
+        URL.revokeObjectURL(selectedLogoUrl);
+      }
+    };
+  }, [selectedLogoUrl]);
+
+  const previewStyle = useMemo(
+    () =>
+      ({
+        "--preview-primary": preview.primaryColour,
+        "--preview-accent": preview.accentColour,
+        "--preview-success": preview.successColour,
+        "--preview-warning": preview.warningColour,
+        "--preview-danger": preview.dangerColour,
+        "--preview-info": preview.infoColour,
+      }) as CSSProperties,
+    [preview],
+  );
 
   function updateField(
     field: keyof BrandingFormValues,
@@ -67,6 +120,23 @@ export function BrandingForm({
     }
   }
 
+  function handleLogoSelection(fileList: FileList | null) {
+    const file = fileList?.item(0);
+
+    if (selectedLogoUrl) {
+      URL.revokeObjectURL(selectedLogoUrl);
+    }
+
+    setSelectedLogoUrl(file ? URL.createObjectURL(file) : null);
+  }
+
+  function resetThemeDefaults() {
+    setPreview((current) => ({
+      ...current,
+      ...defaultBrandingValues,
+    }));
+  }
+
   return (
     <form
       action={updateOrganisationBrandingAction}
@@ -81,10 +151,10 @@ export function BrandingForm({
               borderColor: preview.primaryColour,
             }}
           >
-            {cleanLogoUrl(preview.logoUrl) ? (
+            {logoPreviewUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={cleanLogoUrl(preview.logoUrl)}
+                src={logoPreviewUrl}
                 alt="Tenant logo preview"
                 className="max-h-24 max-w-full object-contain"
               />
@@ -104,25 +174,29 @@ export function BrandingForm({
             )}
           </div>
           <p className="mt-3 text-xs leading-5 text-slate-500">
-            URL preview only. Proper upload/storage management is deferred to a
-            later reviewed task.
+            PNG, JPG/JPEG or WebP up to 5MB. Logos are stored in private
+            tenant-scoped storage.
           </p>
         </div>
 
         <div className="space-y-4">
-          <label className="block">
+          <label className="block rounded-lg border border-slate-200 bg-white p-4">
             <span className="text-xs font-semibold uppercase text-slate-500">
-              Logo URL
+              Upload logo
             </span>
             <input
-              name={fieldNames.logoUrl}
-              type="url"
-              defaultValue={values.logoUrl}
+              name="logo_file"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
               disabled={!canManageBranding}
-              onChange={(event) => updateField("logoUrl", event.target.value)}
-              placeholder="https://example.com/logo.png"
-              className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500 focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+              onChange={(event) => handleLogoSelection(event.target.files)}
+              className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition file:mr-3 file:rounded-md file:border-0 file:bg-[var(--tenant-primary-soft)] file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-[var(--tenant-primary)] disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500 focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
             />
+            <span className="mt-2 block break-all text-xs leading-5 text-slate-500">
+              {values.logoUrl
+                ? `Saved logo path: ${values.logoUrl}`
+                : "No saved logo yet. The sidebar will use the placeholder until one is uploaded."}
+            </span>
           </label>
 
           <div className="grid gap-4 md:grid-cols-2">
@@ -138,7 +212,7 @@ export function BrandingForm({
                   <input
                     name={fieldNames[field]}
                     type="color"
-                    defaultValue={String(values[field])}
+                    value={String(preview[field])}
                     disabled={!canManageBranding}
                     onChange={(event) =>
                       updateField(field, event.target.value.toUpperCase())
@@ -162,7 +236,7 @@ export function BrandingForm({
             </span>
             <select
               name={fieldNames.themeMode}
-              defaultValue={values.themeMode}
+              value={preview.themeMode}
               disabled={!canManageBranding}
               onChange={(event) =>
                 updateField(
@@ -179,30 +253,86 @@ export function BrandingForm({
         </div>
       </div>
 
-      <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-        <p className="text-sm font-semibold text-slate-950">Theme preview</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <StatusBadge tone="success">Success</StatusBadge>
-          <StatusBadge tone="warning">Warning</StatusBadge>
-          <StatusBadge tone="danger">Danger</StatusBadge>
-          <StatusBadge tone="info">Info</StatusBadge>
+      <div
+        className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+        style={previewStyle}
+      >
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-sm font-semibold text-slate-950">
+              Live theme preview
+            </p>
+            <p className="mt-1 text-xs leading-5 text-slate-500">
+              This preview uses the selected colours before they are saved.
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={!canManageBranding}
+            onClick={resetThemeDefaults}
+            className="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+          >
+            Reset theme defaults
+          </button>
         </div>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <span
-            className="inline-flex rounded-md px-3.5 py-2 text-sm font-semibold text-white"
-            style={{ backgroundColor: preview.primaryColour }}
-          >
-            Primary action
-          </span>
-          <span
-            className="inline-flex rounded-md border px-3.5 py-2 text-sm font-semibold"
-            style={{
-              borderColor: preview.primaryColour,
-              color: preview.primaryColour,
-            }}
-          >
-            Secondary action
-          </span>
+        <div className="mt-4 grid gap-4 xl:grid-cols-[220px_1fr]">
+          <div className="flex h-24 items-center justify-center rounded-lg border border-slate-200 bg-white p-3">
+            {logoPreviewUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={logoPreviewUrl}
+                alt="Logo preview"
+                className="max-h-16 max-w-full object-contain"
+              />
+            ) : (
+              <div className="text-center text-xs font-semibold text-slate-500">
+                Client Logo
+              </div>
+            )}
+          </div>
+          <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-slate-950">Sample card</p>
+            <p className="mt-1 text-xs leading-5 text-slate-500">
+              Buttons, badges and cards will inherit these tenant tokens.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {[
+                ["Success", "var(--preview-success)"],
+                ["Warning", "var(--preview-warning)"],
+                ["Danger", "var(--preview-danger)"],
+                ["Info", "var(--preview-info)"],
+              ].map(([label, colour]) => (
+                <span
+                  key={label}
+                  className="inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold text-white"
+                  style={{
+                    backgroundColor: colour,
+                    borderColor: colour,
+                  }}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <span
+                className="inline-flex rounded-md px-3.5 py-2 text-sm font-semibold text-white"
+                style={{ backgroundColor: "var(--preview-primary)" }}
+              >
+                Primary action
+              </span>
+              <span
+                className="inline-flex rounded-md border px-3.5 py-2 text-sm font-semibold"
+                style={{
+                  borderColor: "var(--preview-primary)",
+                  color: "var(--preview-primary)",
+                  backgroundColor: "var(--preview-accent)",
+                }}
+              >
+                Accent action
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -210,13 +340,18 @@ export function BrandingForm({
         <StatusBadge tone={canManageBranding ? "success" : "warning"}>
           {canManageBranding ? "Editing enabled" : "Read only"}
         </StatusBadge>
-        <button
-          type="submit"
-          disabled={!canManageBranding}
-          className="inline-flex items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90 disabled:cursor-not-allowed disabled:bg-slate-300"
-        >
-          Save branding
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="submit"
+            name="clear_logo"
+            value="1"
+            disabled={!canManageBranding || !hasSavedLogo}
+            className="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+          >
+            Remove logo
+          </button>
+          <SubmitButton canManageBranding={canManageBranding} />
+        </div>
       </div>
     </form>
   );

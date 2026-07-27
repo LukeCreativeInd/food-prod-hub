@@ -95,6 +95,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - App shell, navigation order and tenant branding have been polished as UI Overhaul v2 Part A
 - Dashboard, cards, Inventory overview, source document wording and invoice review table wrapping have been polished as UI Overhaul v2 Part B
 - Organisation Settings now includes tenant logo URL, theme colour and light/dark mode management as UI Overhaul v2 Part C
+- Organisation Settings now supports private tenant logo upload/remove and completed branding controls as UI Overhaul v2 Part D
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -255,6 +256,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)
 - [Admin theme and logo management](docs/109c-admin-theme-logo-management.md)
+- [Branding controls completion](docs/109d-branding-controls-completion.md)
 
 ## Database Migrations
 

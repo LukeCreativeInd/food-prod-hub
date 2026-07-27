@@ -65,7 +65,7 @@ The app shell reads existing organisation branding where available:
 - `organisation_branding.primary_colour`
 - `organisation_branding.accent_colour`
 
-If no logo exists, the sidebar falls back to a clean logo placeholder labelled `Client Logo` instead of showing tenant metadata as a stacked brand block. 109C adds logo URL management and theme colour controls; full upload/storage remains deferred.
+If no logo exists, the sidebar falls back to a clean logo placeholder labelled `Client Logo` instead of showing tenant metadata as a stacked brand block. 109C adds logo URL management and theme colour controls; 109D completes tenant-safe logo upload/storage.
 
 ## Top Header
 
@@ -100,7 +100,7 @@ This pass adds a lightweight tenant branding lookup through the existing request
 
 - Dashboard/card redesign is deferred to 109B.
 - Admin theme and logo URL controls are added in 109C.
-- The current logo placeholder remains until proper tenant logo upload/storage is added in a later reviewed task.
+- The current logo placeholder remains when no tenant logo has been uploaded.
 - Dark mode is not included in 109A.
 - Status colour settings are not included in 109A.
 - Search and notifications remain placeholders.

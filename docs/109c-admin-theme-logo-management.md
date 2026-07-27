@@ -24,11 +24,11 @@ The form uses native colour inputs and a simple live preview. It saves only afte
 
 ## Logo Handling
 
-This version supports logo URL entry and preview only.
+This version originally supported logo URL entry and preview only.
 
 If `organisation_branding.logo_url` exists, the app shell/sidebar displays the logo URL. If no logo URL exists, the 109A clean `Client Logo` placeholder remains.
 
-Full tenant logo upload, storage bucket design, file validation, replacement/deletion rules and image lifecycle management are deferred to a future reviewed task. No insecure public upload path was added.
+Part D completes this foundation with tenant-safe logo upload to private Supabase Storage. New uploads store the private storage object path in `organisation_branding.logo_url`; the app resolves that path to a short-lived signed URL server-side for display.
 
 ## Theme Colour Fields
 
@@ -90,14 +90,15 @@ RLS remains enabled. Migration 025 adds insert/update policies for `organisation
 
 ## Storage Setup
 
-No storage bucket or storage policy was created.
+Part C did not create a storage bucket or storage policy.
 
-Manual storage setup is not required for this task. Proper logo upload/storage should be designed later.
+Part D adds the reviewed `organisation-branding` private storage bucket and tenant-scoped logo policies in `supabase/migrations/026_organisation_branding_storage.sql`.
 
 ## Known Limitations
 
-- No file upload.
 - No image cropping/resizing.
+- No physical object cleanup on logo removal yet.
+- No SVG upload until sanitisation is reviewed.
 - No per-module theme controls.
 - Dark mode is a central foundation, not a finished page-by-page dark polish pass.
 - 110 should still handle deeper performance and query optimisation.

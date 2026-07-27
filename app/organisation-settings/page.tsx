@@ -12,6 +12,7 @@ import {
   requirePermissionAccess,
 } from "@/lib/auth";
 import { availableModules } from "@/lib/module-registry";
+import { getOrganisationLogoDisplayUrl } from "@/lib/organisation-branding-storage";
 import { createClient } from "@/lib/supabase/server";
 
 type PageProps = {
@@ -40,6 +41,7 @@ type BrandingRow = {
 
 const fallbackBranding: BrandingFormValues = {
   logoUrl: "",
+  logoPreviewUrl: "",
   primaryColour: "#176B3A",
   accentColour: "#A7D129",
   successColour: "#15803D",
@@ -79,7 +81,28 @@ function brandingMessage(status?: string) {
   if (status === "invalid_logo") {
     return {
       tone: "warning" as const,
-      text: "Logo URL must be a valid http or https URL.",
+      text: "Logo must be uploaded as a supported image file.",
+    };
+  }
+
+  if (status === "invalid_logo_file") {
+    return {
+      tone: "warning" as const,
+      text: "Logo file must be PNG, JPG/JPEG or WebP.",
+    };
+  }
+
+  if (status === "logo_too_large") {
+    return {
+      tone: "warning" as const,
+      text: "Logo file is too large. Use an image up to 5MB.",
+    };
+  }
+
+  if (status === "logo_upload_error") {
+    return {
+      tone: "danger" as const,
+      text: "Logo could not be uploaded. Check the private branding storage bucket and policies.",
     };
   }
 
@@ -153,8 +176,13 @@ export default async function OrganisationSettingsPage({
   const settings = settingsData as SettingsRow | null;
   const branding = brandingData as BrandingRow | null;
   const message = brandingMessage(query.branding);
+  const logoPreviewUrl = await getOrganisationLogoDisplayUrl(
+    supabase,
+    branding?.logo_url,
+  );
   const brandingValues: BrandingFormValues = {
     logoUrl: branding?.logo_url ?? "",
+    logoPreviewUrl,
     primaryColour: cleanHex(
       branding?.primary_colour,
       fallbackBranding.primaryColour,
@@ -183,7 +211,7 @@ export default async function OrganisationSettingsPage({
   ];
 
   const brandingFields = [
-    ["Logo URL", brandingValues.logoUrl || "No logo URL set"],
+    ["Logo", brandingValues.logoUrl ? "Uploaded" : "No logo uploaded"],
     ["Primary colour", brandingValues.primaryColour],
     ["Accent colour", brandingValues.accentColour],
     ["Success colour", brandingValues.successColour],
@@ -219,7 +247,7 @@ export default async function OrganisationSettingsPage({
 
         <SectionCard
           title="Branding and Theme"
-          description="Manage tenant logo URL, brand colours, status colours and light/dark mode foundation."
+          description="Manage tenant logo upload, brand colours, status colours and light/dark mode foundation."
           action={
             <StatusBadge tone={canManageBranding ? "success" : "warning"}>
               {canManageBranding ? "Manage enabled" : "Read only"}
@@ -258,8 +286,8 @@ export default async function OrganisationSettingsPage({
           description="Architecture preparation for tenant-aware settings."
         >
           <EmptyState
-            title="Logo upload remains a follow-up"
-            description="This version saves and previews a logo URL only. Proper tenant logo upload/storage, image validation and lifecycle management should be added in a later reviewed task."
+            title="Branding controls are tenant scoped"
+            description="Logo uploads are stored in private tenant storage. Removing a logo clears the branding record so the sidebar falls back to the placeholder; physical object cleanup can be reviewed later."
           />
         </SectionCard>
       </div>
