@@ -111,6 +111,8 @@ Tenant login should show:
 - Powered by EveryBatch
 - tenant-specific domain context
 
+Task 120 prepares the visual component foundation for this tenant login mode, but it does not activate host-based tenant detection or tenant-specific `/login` routing.
+
 After auth:
 
 - if user belongs to Clean Eats, redirect to tenant dashboard

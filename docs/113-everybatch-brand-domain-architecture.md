@@ -251,6 +251,8 @@ Should show:
 - EveryBatch platform branding
 - no tenant-specific branding until a tenant is selected or resolved
 
+Task 120 makes this the current default `/login` visual mode while keeping the existing route and auth behaviour.
+
 ### Tenant Login
 
 Route target:
@@ -266,6 +268,8 @@ Should show:
 - Powered by EveryBatch
 - EveryBatch trust layer/footer
 - tenant-specific domain context
+
+Task 120 prepares reusable visual components for tenant login mode, but tenant host detection and tenant-specific routing remain future work.
 
 ### In-App Tenant Shell
 

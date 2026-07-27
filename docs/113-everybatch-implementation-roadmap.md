@@ -240,6 +240,10 @@ Risks:
 - redirect loops
 - showing tenant branding before tenant context is reliably resolved
 
+Status:
+
+- Task 120 improves `/login` with reusable platform/tenant branding components while keeping central EveryBatch styling as the current default. It does not implement tenant selector, host-based routing, password reset changes or invite flow.
+
 ## 7. Marketing Site Planning
 
 Purpose:

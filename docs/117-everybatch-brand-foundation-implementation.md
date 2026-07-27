@@ -57,7 +57,7 @@ This does not change tenant routing or page-level tenant context.
 
 ## Login/Public Branding
 
-The login page now presents the platform/auth layer as EveryBatch:
+The login page presents the platform/auth layer as EveryBatch:
 
 - EveryBatch
 - Food Manufacturing OS
@@ -67,6 +67,8 @@ The login page now presents the platform/auth layer as EveryBatch:
 It still notes that Clean Eats Hub is Tenant 1 during the foundation build.
 
 No central login domain, tenant selector, subdomain-specific login, sign-up flow or password reset changes were added.
+
+Task 120 later refines this into reusable platform/tenant login branding components while keeping central EveryBatch styling as the current default.
 
 ## Tenant Shell Branding
 
