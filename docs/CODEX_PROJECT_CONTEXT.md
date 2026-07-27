@@ -238,6 +238,26 @@ docs/136-tenant-provisioning-plan.md
 
 Tenant provisioning must be platform-admin-only. New tenants must receive organisation, settings, branding, modules and feature flags safely. Platform must not be enabled as a tenant module. Provisioning should be previewed and auditable. Never create plaintext passwords in Platform Admin. Do not use destructive tenant data deletion as automatic rollback. Tenant-specific seeds must target an explicit slug/id.
 
+Platform provisioning template foundation is documented in:
+
+```text
+docs/139-platform-provisioning-templates-foundation.md
+```
+
+Static provisioning definitions live in:
+
+```text
+lib/platform-provisioning-templates.ts
+```
+
+The read-only Platform Admin preview route is:
+
+```text
+/platform/tenants/provisioning
+```
+
+These templates cover tenant profiles, module packs, feature flag packs, default settings/branding and onboarding checklist categories. They are local configuration only. They do not call Supabase, create tenants, apply modules, invite users, configure domains or write checklist records.
+
 Tenant sidebar accordion behaviour is documented in:
 
 ```text

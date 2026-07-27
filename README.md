@@ -145,6 +145,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Tenant provisioning has been planned before building new tenant creation, module setup, feature flag setup or first-admin invite flows
 - Tenant sidebar expandable modules now use accordion-style behaviour so route changes keep only the active module open
 - Platform Admin now uses a compact collapsed mobile menu below desktop widths instead of stacking the full navigation above content
+- Platform provisioning templates now provide static tenant, module, feature flag, settings, branding and onboarding checklist definitions with a read-only Platform Admin preview
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -336,6 +337,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Tenant provisioning plan](docs/136-tenant-provisioning-plan.md)
 - [Tenant sidebar accordion behaviour fix](docs/137-tenant-sidebar-accordion-behaviour-fix.md)
 - [Platform Admin responsive layout fix](docs/138-platform-admin-responsive-layout-fix.md)
+- [Platform provisioning templates foundation](docs/139-platform-provisioning-templates-foundation.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations

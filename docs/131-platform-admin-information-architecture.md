@@ -368,6 +368,14 @@ Future provisioning flow:
 
 Provisioning should be reviewed before any automated tenant creation actions are built.
 
+Task 139 adds the first static provisioning template foundation and a read-only preview route at:
+
+```text
+/platform/tenants/provisioning
+```
+
+This route previews tenant templates, module packs, feature flag packs, defaults and onboarding checklist categories only. It does not create tenants or write Platform Admin provisioning records.
+
 ## Platform Settings And Branding
 
 ### Platform Branding

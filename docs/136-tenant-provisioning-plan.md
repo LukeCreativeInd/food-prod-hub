@@ -19,6 +19,8 @@ Current Platform Admin state:
 - `/platform/tenants/cleaneats/features` shows real feature flag overrides and effective state.
 - Platform Admin is removed from the tenant sidebar.
 - Platform Admin remains accessible through `/select-workspace` and guarded `/platform` routes.
+- Static provisioning templates now exist in `lib/platform-provisioning-templates.ts`.
+- `/platform/tenants/provisioning` shows a read-only preview of tenant templates, module packs, feature flag packs, defaults and onboarding checklist categories.
 - No tenant creation or provisioning workflow exists yet.
 
 Clean Eats is Tenant 1. Future tenants should be provisioned safely through reviewed Platform Admin workflows.
