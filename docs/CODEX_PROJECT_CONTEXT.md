@@ -86,6 +86,14 @@ Central login target:
 - `platform_admin` users should see a Platform Admin option.
 - Tenant-specific login branding, such as `cleaneats.everybatchmrp.com/login`, comes later.
 
+Workspace option helper foundation lives in:
+
+```text
+lib/workspace-options.ts
+```
+
+It prepares active workspace options, platform-admin detection, default destination guidance and server-side workspace selection validation. It is not wired into `/login`, middleware, tenant subdomain routing or the app shell yet.
+
 ## Architecture Guardrails
 
 Keep the architecture multi-tenant, tenant-safe and RLS-safe.

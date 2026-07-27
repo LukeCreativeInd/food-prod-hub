@@ -132,6 +132,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - `app.everybatchmrp.com` domain connection notes now document the Cloudflare/Vercel DNS setup currently pending validation
 - Tenant resolver foundation helpers now parse EveryBatch hostnames and prepare tenant slug lookup without activating host-based routing
 - Central login and tenant selector planning now defines future post-login workspace selection, platform-admin access and safe redirect rules
+- Workspace options helper foundation now prepares server-side workspace choices and post-login destination guidance without changing login redirects
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -310,6 +311,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [app.everybatchmrp.com domain connection notes](docs/123-app-domain-connection-notes.md)
 - [Tenant resolver foundation](docs/124-tenant-resolver-foundation.md)
 - [Central login and tenant selector plan](docs/125-central-login-tenant-selector-plan.md)
+- [Workspace options helper foundation](docs/126-workspace-options-helper-foundation.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations

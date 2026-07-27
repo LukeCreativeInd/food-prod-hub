@@ -263,6 +263,11 @@ Add a server helper that returns active tenant memberships and Platform Admin st
 
 Do not change login redirects yet.
 
+Status:
+
+- Task 126 adds `lib/workspace-options.ts` with server-side workspace option, platform-admin detection, default destination and workspace selection validation helpers.
+- The helpers are not wired into `/login` or any route redirects yet.
+
 ### Phase 3 - Tenant Selector UI
 
 Add `/select-workspace` or `/workspaces`.
