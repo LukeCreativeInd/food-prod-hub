@@ -94,6 +94,7 @@ export default async function PurchaseDocumentsPage() {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Supplier Invoice Intake"
         description="Upload, extract and review supplier invoices before committing supplier catalogue, internal item mappings and approved prices."
       />

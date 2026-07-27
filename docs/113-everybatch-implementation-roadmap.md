@@ -44,6 +44,7 @@ Risks:
 Status:
 
 - Task 117 adds the first EveryBatch brand foundation constants and applies EveryBatch to platform/auth-facing copy without changing routing or tenant branding.
+- Task 118 moves current page titles into the persistent app header and compacts redundant in-content workspace headers.
 
 ## 2. Tenant Subdomain Routing Plan
 
@@ -166,6 +167,10 @@ Risks:
 - destabilising the persistent app shell during loading
 - duplicating tenant context queries
 - overloading the header with too many controls
+
+Status:
+
+- Task 118 has been implemented with static path-based page title metadata and compact workspace context headers. It does not add Help/Support, notification backend, dynamic entity-name fetching or routing changes.
 
 ## 5. Help / Support Menu Foundation
 

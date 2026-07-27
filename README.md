@@ -124,6 +124,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Platform Admin separation has been planned before moving Platform out of the tenant app shell
 - Tenant subdomain routing has been planned before middleware, domain configuration or login routing changes are implemented
 - EveryBatch brand foundation has been applied to platform metadata, login/auth copy, subtle tenant shell trust-layer wording and Platform Admin copy
+- App header titles now appear in the persistent top bar, and major workspace page headers have been compacted to reduce wasted content space
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -294,6 +295,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Platform Admin separation plan](docs/115-platform-admin-separation-plan.md)
 - [Tenant subdomain routing plan](docs/116-tenant-subdomain-routing-plan.md)
 - [EveryBatch brand foundation implementation](docs/117-everybatch-brand-foundation-implementation.md)
+- [App header and page title layout refactor](docs/118-app-header-page-title-layout-refactor.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations

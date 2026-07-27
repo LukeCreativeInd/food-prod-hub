@@ -178,6 +178,7 @@ export default async function DashboardPage() {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Dashboard"
         description="A real Phase 1 setup overview for Products, Costings, Inventory, Production and controlled supplier invoice intake."
       />

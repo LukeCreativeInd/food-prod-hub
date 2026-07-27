@@ -222,6 +222,7 @@ export default async function OrganisationSettingsPage({
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Organisation Settings"
         description="Tenant profile, branding, theme colours and future organisation administration controls."
       />

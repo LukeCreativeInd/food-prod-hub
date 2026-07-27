@@ -249,6 +249,7 @@ export default async function StockLocationDetailPage({
   return (
     <>
       <PageHeader
+        variant="compact"
         title={detail.location.name}
         description="Stock location master record for future receiving, production, stock movement and traceability workflows."
       />

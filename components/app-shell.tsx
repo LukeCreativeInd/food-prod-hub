@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 
+import { AppHeaderTitle } from "@/components/app-header-title";
 import { AppSidebar } from "@/components/app-sidebar";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { GlobalSearch } from "@/components/global-search";
@@ -102,17 +103,12 @@ export async function AppShell({ children }: AppShellProps) {
         tenant={tenantPresentation}
       />
       <div className="min-w-0 flex-1">
-        <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 px-5 py-3 shadow-sm backdrop-blur md:px-8">
+        <header className="sticky top-0 z-20 border-b border-[var(--tenant-border)] bg-[var(--tenant-surface)]/95 px-5 py-3 shadow-sm backdrop-blur md:px-8">
           <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase text-[var(--tenant-primary)]">
-                {tenantPresentation.organisationName}
-              </p>
-              <p className="mt-1 text-sm text-slate-500">
-                Food manufacturing operations hub ·{" "}
-                {tenantPresentation.tenantSlug}
-              </p>
-            </div>
+            <AppHeaderTitle
+              organisationName={tenantPresentation.organisationName}
+              tenantSlug={tenantPresentation.tenantSlug}
+            />
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <GlobalSearch />
@@ -120,7 +116,7 @@ export async function AppShell({ children }: AppShellProps) {
               <button
                 type="button"
                 disabled
-                className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-500 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-80"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[var(--tenant-border)] bg-[var(--tenant-surface)] text-[var(--tenant-muted)] shadow-sm transition disabled:cursor-not-allowed disabled:opacity-80"
                 aria-label="Notifications placeholder"
                 title="Notifications placeholder"
               >
@@ -140,7 +136,7 @@ export async function AppShell({ children }: AppShellProps) {
               </button>
 
               <details className="group relative">
-                <summary className="flex cursor-pointer list-none items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2 shadow-sm transition hover:border-green-200 hover:bg-green-50 [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center gap-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 shadow-sm transition hover:border-[color:var(--tenant-primary-border)] hover:bg-[var(--tenant-primary-soft)] [&::-webkit-details-marker]:hidden">
                   <span
                     className="flex h-8 w-8 items-center justify-center rounded-md text-xs font-bold text-white"
                     style={{
@@ -150,17 +146,17 @@ export async function AppShell({ children }: AppShellProps) {
                     {tenantPresentation.userInitials}
                   </span>
                   <span className="min-w-0 text-left">
-                    <span className="block truncate text-sm font-semibold text-slate-950">
+                    <span className="block truncate text-sm font-semibold text-[var(--tenant-text)]">
                       {tenantPresentation.userName}
                     </span>
-                    <span className="block truncate text-xs text-slate-500">
+                    <span className="block truncate text-xs text-[var(--tenant-muted)]">
                       {tenantPresentation.userDetail}
                     </span>
                   </span>
                   <svg
                     aria-hidden="true"
                     viewBox="0 0 24 24"
-                    className="h-4 w-4 text-slate-400 transition group-open:rotate-180"
+                    className="h-4 w-4 text-[var(--tenant-muted)] transition group-open:rotate-180"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
@@ -170,14 +166,14 @@ export async function AppShell({ children }: AppShellProps) {
                     <path d="m6 9 6 6 6-6" />
                   </svg>
                 </summary>
-                <div className="absolute right-0 z-30 mt-2 w-64 rounded-lg border border-slate-200 bg-white p-3 shadow-lg">
-                  <p className="text-xs font-semibold uppercase text-slate-400">
+                <div className="absolute right-0 z-30 mt-2 w-64 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3 shadow-lg">
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">
                     Account
                   </p>
-                  <p className="mt-1 truncate text-sm font-semibold text-slate-950">
+                  <p className="mt-1 truncate text-sm font-semibold text-[var(--tenant-text)]">
                     {tenantPresentation.userName}
                   </p>
-                  <p className="mb-3 truncate text-xs text-slate-500">
+                  <p className="mb-3 truncate text-xs text-[var(--tenant-muted)]">
                     {tenantPresentation.userDetail}
                   </p>
                   <LogoutButton variant="light" />

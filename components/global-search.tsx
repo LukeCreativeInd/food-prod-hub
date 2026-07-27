@@ -197,13 +197,13 @@ export function GlobalSearch() {
       <button
         type="button"
         onClick={openSearch}
-        className="flex h-10 w-full items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-left text-sm text-slate-500 shadow-sm transition hover:border-[var(--tenant-primary-border)] hover:bg-[var(--tenant-surface-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--tenant-primary-border)]"
+        className="flex h-10 w-full items-center gap-2 rounded-md border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 text-left text-sm text-[var(--tenant-muted)] shadow-sm transition hover:border-[var(--tenant-primary-border)] hover:bg-[var(--tenant-surface-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--tenant-primary-border)]"
         aria-expanded={isOpen}
         aria-haspopup="dialog"
       >
         <span className="text-base text-[var(--tenant-primary)]">/</span>
         <span className="min-w-0 flex-1 truncate">Search</span>
-        <span className="rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-slate-400">
+        <span className="rounded border border-[var(--tenant-border)] bg-[var(--tenant-surface-muted)] px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[var(--tenant-muted)]">
           {shortcutLabel}
         </span>
       </button>
@@ -212,9 +212,9 @@ export function GlobalSearch() {
         <div
           role="dialog"
           aria-label="Global search"
-          className="absolute right-0 top-12 z-50 w-[min(92vw,34rem)] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl"
+          className="absolute right-0 top-12 z-50 w-[min(92vw,34rem)] overflow-hidden rounded-xl border border-[var(--tenant-border)] bg-[var(--tenant-surface)] shadow-2xl"
         >
-          <div className="border-b border-slate-200 p-3">
+          <div className="border-b border-[var(--tenant-border)] p-3">
             <label className="relative block">
               <span className="sr-only">Search across your workspace</span>
               <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[var(--tenant-primary)]">
@@ -227,7 +227,7 @@ export function GlobalSearch() {
                 onChange={(event) => setQuery(event.target.value)}
                 onKeyDown={handleInputKeyDown}
                 placeholder="Search pages, suppliers, products, stock..."
-                className="h-11 w-full rounded-lg border border-slate-200 bg-slate-50 py-2 pl-8 pr-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-[var(--tenant-primary-border)] focus:bg-white focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
+                className="h-11 w-full rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface-muted)] py-2 pl-8 pr-3 text-sm text-[var(--tenant-text)] outline-none transition placeholder:text-[var(--tenant-muted)] focus:border-[var(--tenant-primary-border)] focus:bg-[var(--tenant-surface)] focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
               />
             </label>
           </div>
@@ -235,31 +235,31 @@ export function GlobalSearch() {
           <div className="max-h-[60vh] overflow-y-auto p-2">
             {trimmedQuery.length < minimumSearchLength ? (
               <div className="px-4 py-8 text-center">
-                <p className="text-sm font-semibold text-slate-700">
+                <p className="text-sm font-semibold text-[var(--tenant-text)]">
                   Type at least 2 characters
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-[var(--tenant-muted)]">
                   Results stay scoped to your tenant, modules and permissions.
                 </p>
               </div>
             ) : isLoading ? (
-              <div className="flex items-center justify-center gap-3 px-4 py-8 text-sm text-slate-600">
+              <div className="flex items-center justify-center gap-3 px-4 py-8 text-sm text-[var(--tenant-muted)]">
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--tenant-primary-border)] border-t-[var(--tenant-primary)]" />
                 Searching...
               </div>
             ) : error ? (
               <div className="px-4 py-8 text-center">
                 <p className="text-sm font-semibold text-red-700">{error}</p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-[var(--tenant-muted)]">
                   Try again in a moment.
                 </p>
               </div>
             ) : resultCount === 0 ? (
               <div className="px-4 py-8 text-center">
-                <p className="text-sm font-semibold text-slate-700">
+                <p className="text-sm font-semibold text-[var(--tenant-text)]">
                   No results found
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-[var(--tenant-muted)]">
                   Try a supplier, item, stock location or page name.
                 </p>
               </div>
@@ -267,7 +267,7 @@ export function GlobalSearch() {
               <div className="space-y-3">
                 {response.groups.map((group) => (
                   <section key={group.label}>
-                    <div className="px-2 pb-1 pt-2 text-[11px] font-bold uppercase tracking-wide text-slate-400">
+                    <div className="px-2 pb-1 pt-2 text-[11px] font-bold uppercase tracking-wide text-[var(--tenant-muted)]">
                       {group.label}
                     </div>
                     <div className="space-y-1">
@@ -280,15 +280,15 @@ export function GlobalSearch() {
                         >
                           <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[var(--tenant-primary)]" />
                           <span className="min-w-0 flex-1">
-                            <span className="block truncate font-semibold text-slate-950">
+                            <span className="block truncate font-semibold text-[var(--tenant-text)]">
                               {result.title}
                             </span>
-                            <span className="block truncate text-xs text-slate-500">
+                            <span className="block truncate text-xs text-[var(--tenant-muted)]">
                               {result.subtitle}
                             </span>
                           </span>
                           {result.badge ? (
-                            <span className="self-start rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-semibold text-slate-500">
+                            <span className="self-start rounded-full border border-[var(--tenant-border)] bg-[var(--tenant-surface-muted)] px-2 py-0.5 text-[11px] font-semibold text-[var(--tenant-muted)]">
                               {result.badge}
                             </span>
                           ) : null}

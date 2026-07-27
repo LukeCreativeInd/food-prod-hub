@@ -304,6 +304,7 @@ export default async function InternalItemDetailPage({
   return (
     <>
       <PageHeader
+        variant="compact"
         title={detail.item.displayName}
         description="Internal item detail showing basic item management, supplier purchasing options and price traceability."
       />

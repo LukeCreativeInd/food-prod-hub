@@ -142,6 +142,7 @@ export default async function ProductionPage() {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Production"
         description="Prepare formulas, production areas and task workflows before planning and running production."
       />

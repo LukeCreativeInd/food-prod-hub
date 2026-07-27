@@ -274,8 +274,9 @@ export default async function PurchaseDocumentReviewPage({
 
   if (!review) {
     return (
-    <>
+      <>
         <PageHeader
+          variant="compact"
           title="Review Supplier Invoice"
           description="The requested document could not be found for your current organisation."
         />
@@ -293,7 +294,7 @@ export default async function PurchaseDocumentReviewPage({
             }
           />
         </div>
-    </>
+      </>
     );
   }
 
@@ -382,6 +383,7 @@ export default async function PurchaseDocumentReviewPage({
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Review Import"
         description="Review supplier invoice data before committing supplier catalogue, internal item mapping and approved price records."
       />

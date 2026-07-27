@@ -156,6 +156,7 @@ export default async function ProductsPage() {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Products"
         description="Manage supplier catalogue items, internal ingredients, packaging, components, recipes and finished products."
       />

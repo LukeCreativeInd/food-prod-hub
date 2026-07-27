@@ -69,6 +69,7 @@ export default async function InventoryPage() {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Inventory"
         description="Review real inventory location setup before goods receiving, stock movements, purchasing and traceability workflows are built."
       />

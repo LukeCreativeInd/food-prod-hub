@@ -140,6 +140,7 @@ export default async function CostingOverviewPage() {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Costings"
         description="Review supplier price coverage, approved costs and costing readiness for Clean Eats products."
       />

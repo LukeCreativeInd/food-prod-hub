@@ -201,6 +201,7 @@ export default async function StockLocationsPage({ searchParams }: PageProps) {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Stock Locations"
         description="Manage tenant stock locations for storage, production, receiving, dispatch and QA hold areas."
       />

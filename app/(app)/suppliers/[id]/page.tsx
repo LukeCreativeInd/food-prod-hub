@@ -278,6 +278,7 @@ export default async function SupplierDetailPage({
   return (
     <>
       <PageHeader
+        variant="compact"
         title={detail.supplier.displayName}
         description="Supplier detail showing basic supplier management, catalogue mappings, price traceability and secondary import provenance."
       />

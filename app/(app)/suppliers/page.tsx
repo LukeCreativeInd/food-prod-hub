@@ -71,6 +71,7 @@ export default async function SuppliersPage({ searchParams }: PageProps) {
   return (
     <>
       <PageHeader
+        variant="compact"
         title="Suppliers"
         description="Manage supplier master records and review supplier catalogue coverage for Clean Eats."
       />

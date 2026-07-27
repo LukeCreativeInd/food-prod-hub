@@ -126,13 +126,16 @@ This task does not build:
 
 Recommended follow-ups remain:
 
-- app header and page title layout refactor
 - Help/Support menu foundation
 - login branding split
 - tenant subdomain routing implementation
 - Platform Admin separation implementation
 - EveryBatch marketing site planning
 - support knowledge base planning
+
+Completed follow-up:
+
+- Task 118 moves current workspace titles into the persistent app header and compacts redundant in-content headers.
 
 ## Migration Notes
 
