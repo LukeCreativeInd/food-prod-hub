@@ -34,7 +34,7 @@ const platformNavigation: Array<{
         href: "/platform/tenants/cleaneats",
         status: "live",
       },
-      { label: "All Tenants", href: "/platform", status: "live" },
+      { label: "All Tenants", href: "/platform/tenants", status: "live" },
       { label: "New Tenant", href: "/platform/tenants/new", status: "live" },
       {
         label: "Tenant Provisioning",
@@ -47,12 +47,17 @@ const platformNavigation: Array<{
         status: "live",
       },
       {
-        label: "Tenant Modules",
+        label: "Tenant Onboarding",
+        href: "/platform/tenants/onboarding",
+        status: "live",
+      },
+      {
+        label: "Clean Eats Modules",
         href: "/platform/tenants/cleaneats/modules",
         status: "live",
       },
       {
-        label: "Tenant Feature Flags",
+        label: "Clean Eats Feature Flags",
         href: "/platform/tenants/cleaneats/features",
         status: "live",
       },

@@ -376,6 +376,10 @@ Task 139 adds the first static provisioning template foundation and a read-only 
 
 This route previews tenant templates, module packs, feature flag packs, defaults and onboarding checklist categories only. It does not create tenants or write Platform Admin provisioning records.
 
+`/platform/tenants/onboarding` now provides the dedicated read-only Tenant Onboarding Checklist scaffold. It previews checklist categories and required/optional setup items without saving progress.
+
+`/platform/tenants` now provides a read-only All Tenants overview route. Clean Eats module and feature flag nav labels are explicit until dynamic tenant module/feature routes are built.
+
 Task 140 adds a read-only New Tenant Wizard scaffold at:
 
 ```text

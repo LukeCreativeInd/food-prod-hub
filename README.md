@@ -149,6 +149,8 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Platform Admin now includes a read-only New Tenant Wizard scaffold at `/platform/tenants/new` with disabled provisioning actions
 - Tenant Create Action v1 now lets platform admins create foundation tenant records only, after applying the reviewed platform-admin insert policy migration
 - First tenant admin invite and membership planning now has pure validation helpers and a read-only Platform Admin scaffold
+- Platform Admin now includes a read-only Tenant Onboarding Checklist scaffold at `/platform/tenants/onboarding`
+- Platform Admin now includes a read-only All Tenants route at `/platform/tenants`, with Clean Eats-specific module/feature nav labels where pages are still Clean Eats-only
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -344,6 +346,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [New Tenant Wizard scaffold](docs/140-new-tenant-wizard-scaffold.md)
 - [Tenant Create Action v1](docs/141-tenant-create-action-v1.md)
 - [First tenant admin invite / membership plan](docs/142-first-tenant-admin-invite-membership-plan.md)
+- [Tenant Onboarding Checklist foundation](docs/143-tenant-onboarding-checklist-foundation.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations

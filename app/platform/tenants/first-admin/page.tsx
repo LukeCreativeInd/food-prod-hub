@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   buildFirstTenantAdminPlan,
   getAllowedFirstAdminRoles,
@@ -129,7 +131,14 @@ export default function PlatformTenantFirstAdminPage() {
             </h2>
             <p className="mt-1 text-sm leading-6 text-slate-600">
               These fields are disabled until a reviewed invite or membership
-              action is built.
+              action is built. First admin setup will become part of the{" "}
+              <Link
+                href="/platform/tenants/onboarding"
+                className="font-bold text-emerald-700 underline-offset-4 hover:underline"
+              >
+                tenant onboarding checklist
+              </Link>
+              .
             </p>
           </div>
           <PlatformBadge tone="amber">Disabled scaffold</PlatformBadge>

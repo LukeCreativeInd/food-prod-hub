@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import Link from "next/link";
+
 import { createTenantFoundationAction } from "@/app/platform/tenants/new/actions";
 import { userHasPermission } from "@/lib/auth";
 import {
@@ -640,6 +642,16 @@ export default async function PlatformNewTenantPage({ searchParams }: PageProps)
             <p className="text-sm font-bold text-white">Provisioning disabled</p>
             <p className="mt-2 text-sm leading-6 text-slate-300">
               No tenant records are created from this scaffold.
+            </p>
+            <p className="mt-3 text-sm leading-6 text-slate-300">
+              After tenant foundation creation, use{" "}
+              <Link
+                href="/platform/tenants/onboarding"
+                className="font-bold text-lime-200 underline-offset-4 hover:underline"
+              >
+                Tenant Onboarding Checklist
+              </Link>{" "}
+              to track setup readiness.
             </p>
             <textarea
               name="notes"

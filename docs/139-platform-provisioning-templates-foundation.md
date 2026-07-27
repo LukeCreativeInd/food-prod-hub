@@ -130,6 +130,8 @@ The first onboarding checklist template groups future setup items into:
 
 Checklist items are static planning definitions. No checklist table or tenant-specific checklist records were created.
 
+Task 143 surfaces this static checklist template in Platform Admin at `/platform/tenants/onboarding` as a read-only scaffold. No checklist persistence or completion actions are added yet.
+
 ## Helper Functions
 
 The helper exposes:

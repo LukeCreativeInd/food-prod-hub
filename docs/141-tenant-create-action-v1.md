@@ -68,6 +68,8 @@ This task does not create:
 - smoke test records
 - suppliers, items, stock, invoices or other operational data
 
+Task 143 adds a read-only Tenant Onboarding Checklist scaffold after tenant creation. It previews setup readiness but still does not save checklist records.
+
 ## Supported Fields
 
 Supported fields:

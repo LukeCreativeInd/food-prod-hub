@@ -272,6 +272,10 @@ The read-only wizard route is:
 
 It previews tenant identity, template/module pack, feature flag, settings/branding, first admin, onboarding checklist and review/provision steps. The provision button is disabled. Do not add tenant creation actions, Supabase writes, first-admin invites or domain provisioning unless a future task explicitly requests them.
 
+Task 143 adds `/platform/tenants/onboarding` as a read-only Platform Admin checklist scaffold using the static onboarding template from task 139. It does not add checklist persistence, completion actions, invite actions, RLS changes or tenant app navigation changes.
+
+Task 143 also adds `/platform/tenants` as the read-only All Tenants overview route. Platform Admin nav labels for Clean Eats module and feature pages are intentionally Clean Eats-specific until dynamic tenant module/feature pages exist.
+
 Tenant Create Action v1 is documented in:
 
 ```text

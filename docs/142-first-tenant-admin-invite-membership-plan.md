@@ -219,7 +219,7 @@ This task does not build:
 
 ## Next Implementation Recommendation
 
-Keep task 143 available for Tenant Onboarding Checklist Foundation.
+Task 143 adds the first read-only Tenant Onboarding Checklist scaffold. First admin setup is represented as a future checklist item, but no invite or membership write action is added.
 
 Treat the real first-admin invite/membership action as a later focused subtask, such as:
 
