@@ -438,7 +438,12 @@ Status:
 11. Add tenant selector UI before activating tenant subdomain destinations.
 12. Add tenant-specific login only after host-derived tenant context is server-verified.
 13. Build tenant provisioning only after Platform Admin shell boundaries are clear.
-14. Keep multi-tenant smoke tests ahead of future customer onboarding.
+14. Run the multi-tenant smoke test checklist before and after domain, login, selector, Platform Admin, permission/RLS, feature flag, deployment, migration or tenant onboarding changes.
+15. Keep multi-tenant smoke tests ahead of future customer onboarding.
+
+Smoke test checklist:
+
+- Task 130 adds [Multi-tenant smoke test checklist](130-multi-tenant-smoke-test-checklist.md).
 
 ## Future Task Backlog Proposal
 

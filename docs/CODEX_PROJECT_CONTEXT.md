@@ -114,6 +114,12 @@ Login redirect behaviour:
 - Tenant subdomain redirects remain inactive.
 - Authenticated app shell users have a `Switch workspace` entry in the user dropdown that links to `/select-workspace`.
 
+Use the multi-tenant smoke test checklist before and after major domain, login, selector, Platform Admin, permission/RLS, feature flag, deployment, migration or tenant onboarding changes:
+
+```text
+docs/130-multi-tenant-smoke-test-checklist.md
+```
+
 ## Architecture Guardrails
 
 Keep the architecture multi-tenant, tenant-safe and RLS-safe.

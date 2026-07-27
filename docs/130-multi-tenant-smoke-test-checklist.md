@@ -1,0 +1,295 @@
+# Multi-Tenant Smoke Test Checklist
+
+## Purpose
+
+Task 130 creates a repeatable smoke test checklist for EveryBatch multi-tenant foundations.
+
+Use this checklist before and after:
+
+- domain changes
+- login changes
+- tenant selector changes
+- Platform Admin changes
+- permission/RLS changes
+- feature flag changes
+- module gating changes
+- Vercel deployments
+- migration application
+- future tenant onboarding
+
+This checklist is documentation only. It does not change app code, routes, middleware, auth, database schema, migrations, RLS, permissions, navigation, branding UI, environment variables, Vercel config, Supabase config or packages.
+
+## 1. Environment / Domain Checks
+
+- [ ] Local dev loads at `http://localhost:3000`.
+- [ ] Live app loads at `https://app.everybatchmrp.com`.
+- [ ] Old Vercel production URL redirects to `app.everybatchmrp.com`.
+- [ ] No SSL warnings appear.
+- [ ] No mixed content warnings appear.
+- [ ] `everybatchmrp.com` root is not incorrectly pointing to the tenant app.
+- [ ] `cleaneats.everybatchmrp.com` is not active unless tenant routing is complete.
+- [ ] `platform.everybatchmrp.com` is not active unless Platform Admin separation is complete.
+- [ ] `support.everybatchmrp.com` is not active unless support destination setup is complete.
+
+## 2. DNS / Vercel Checks
+
+- [ ] Vercel shows `app.everybatchmrp.com` as Valid Configuration.
+- [ ] Vercel SSL is issued.
+- [ ] Cloudflare DNS has:
+  - [ ] `CNAME app -> b560eb64065fe2f1.vercel-dns-017.com`
+  - [ ] Proxy status: DNS only
+- [ ] Cloudflare proxy remains off/DNS-only for the `app` CNAME unless intentionally reviewed.
+
+Optional resolver checks:
+
+```bash
+dig app.everybatchmrp.com
+dig app.everybatchmrp.com @8.8.8.8
+dig app.everybatchmrp.com @1.1.1.1
+```
+
+## 3. Supabase Auth Checks
+
+- [ ] `app.everybatchmrp.com` is allowed in Supabase Auth redirect settings if required.
+- [ ] `localhost` remains allowed for local development.
+- [ ] Old Vercel URL remains allowed during transition.
+- [ ] Login does not fail due redirect URL mismatch.
+- [ ] Logout works.
+
+## 4. Login And Workspace Selector Checks
+
+### Platform/Admin User
+
+- [ ] Visit `/login` signed out.
+- [ ] Invalid login shows an error.
+- [ ] Valid login redirects to `/select-workspace`.
+- [ ] Clean Eats workspace card appears.
+- [ ] Platform Admin Console card appears.
+- [ ] `Open workspace` routes to `/dashboard`.
+- [ ] `Open Platform Admin` routes to `/platform`.
+- [ ] User menu -> `Switch workspace` returns to `/select-workspace`.
+- [ ] Sign out works.
+
+### Demo / Single-Workspace User
+
+- [ ] Valid login redirects to `/dashboard`.
+- [ ] No Platform Admin option appears.
+- [ ] Demo can access allowed modules only.
+- [ ] User menu `Switch workspace` is safe if visible.
+- [ ] Sign out works.
+
+## 5. App Shell / Navigation Checks
+
+- [ ] Sidebar appears after login.
+- [ ] Tenant logo appears.
+- [ ] Tenant theme colours apply.
+- [ ] Sidebar collapse works.
+- [ ] Menu order remains:
+  - [ ] Dashboard
+  - [ ] Inventory
+  - [ ] Products
+  - [ ] Costings
+  - [ ] Production
+  - [ ] QA
+  - [ ] Logistics
+  - [ ] CRM
+  - [ ] Reports
+  - [ ] Tools
+  - [ ] Admin
+  - [ ] Platform
+- [ ] Hidden modules remain hidden by permission/module rules.
+- [ ] Platform is visible only to `platform_admin`.
+- [ ] Tools / Supplier Invoice Intake is visible only to authorised users.
+
+## 6. Header Checks
+
+- [ ] Page title appears in the top header.
+- [ ] Global search works.
+- [ ] Help / Support menu opens.
+- [ ] Notification placeholder remains harmless.
+- [ ] User dropdown works.
+- [ ] `Switch workspace` link works.
+- [ ] Sign out works.
+
+## 7. Global Search Checks
+
+### Platform/Admin User
+
+Search:
+
+- [ ] `chicken`
+- [ ] `gnocchi`
+- [ ] `cammaroto`
+- [ ] `il nonno`
+- [ ] `stock`
+- [ ] `price`
+- [ ] `platform`
+
+Expected:
+
+- [ ] products/internal items appear.
+- [ ] suppliers appear.
+- [ ] Supplier Invoice Intake documents appear only if authorised.
+- [ ] stock locations/pages appear.
+- [ ] Platform appears only for `platform_admin`.
+
+### Demo User
+
+- [ ] No Platform/Admin results.
+- [ ] No Supplier Invoice Intake documents.
+- [ ] Allowed product/costing/inventory results still appear.
+
+## 8. Tenant Branding / Theme Checks
+
+- [ ] Organisation Settings loads.
+- [ ] Logo upload works.
+- [ ] Logo displays in sidebar.
+- [ ] Remove logo returns to placeholder.
+- [ ] Primary, accent and status colours save.
+- [ ] Light/dark mode saves.
+- [ ] App remains readable in light mode.
+- [ ] App remains readable in dark mode.
+- [ ] Demo cannot edit branding.
+
+## 9. Feature Flag Checks
+
+SQL/admin checks:
+
+- [ ] `feature_flags` table exists.
+- [ ] `organisation_feature_flags` table exists.
+- [ ] Clean Eats overrides exist and are enabled.
+- [ ] Demo has no management permissions.
+- [ ] No current feature is accidentally disabled because flags are not gating app behaviour yet.
+
+## 10. Module / Page Checks
+
+### Admin / Platform User
+
+- [ ] `/dashboard`
+- [ ] `/products`
+- [ ] `/suppliers`
+- [ ] `/ingredients`
+- [ ] `/packaging`
+- [ ] `/costing-overview`
+- [ ] `/inventory`
+- [ ] `/stock-locations`
+- [ ] `/production`
+- [ ] `/purchase-documents`
+- [ ] `/organisation-settings`
+- [ ] `/platform`
+
+### Demo / Single-Workspace User
+
+- [ ] Dashboard works.
+- [ ] Products allowed/read-only where intended.
+- [ ] Costings allowed/read-only where intended.
+- [ ] Inventory allowed/read-only where intended.
+- [ ] Production allowed/read-only where intended.
+- [ ] Admin hidden/blocked.
+- [ ] Platform hidden/blocked.
+- [ ] Supplier Invoice Intake hidden/blocked if no permission.
+
+## 11. Supplier Invoice Intake Checks
+
+- [ ] `/purchase-documents` loads for authorised user.
+- [ ] Upload still works.
+- [ ] Existing documents list loads.
+- [ ] Review page loads.
+- [ ] PDF/source preview works when requested.
+- [ ] Extraction flow is not broken.
+- [ ] Commit flow is not broken.
+- [ ] Demo cannot access.
+
+## 12. CRUD Foundation Checks
+
+- [ ] Supplier list shows real suppliers.
+- [ ] Create/edit supplier works for authorised user.
+- [ ] Demo supplier access is read-only/no create/edit.
+- [ ] Ingredients/internal items list works.
+- [ ] Create/edit internal item works for authorised user.
+- [ ] Packaging empty/real state works.
+- [ ] Stock locations show seeded locations.
+- [ ] Create/edit stock location works for authorised user.
+- [ ] Demo stock/internal item access is read-only/no create/edit.
+
+## 13. Platform Admin Checks
+
+- [ ] `/platform` is accessible to `platform_admin`.
+- [ ] `/platform` is not accessible to demo.
+- [ ] Tenant detail page works.
+- [ ] Platform copy is EveryBatch operator-console aligned.
+- [ ] Platform remains transitional inside the current app until separation task.
+
+## 14. RLS / Permission Sanity
+
+- [ ] Signed-out protected route redirects/blocks.
+- [ ] Demo cannot access Admin.
+- [ ] Demo cannot access Platform.
+- [ ] Demo cannot access Purchase Documents.
+- [ ] Direct hidden URLs go to `/no-access` or the appropriate access issue route.
+- [ ] `platform_admin` can access platform areas.
+- [ ] No cross-tenant data is visible.
+- [ ] No service-role keys are exposed.
+
+## 15. Performance Sanity
+
+- [ ] No `AuthApiError 429` spam.
+- [ ] App-shell navigation context is not repeatedly spiking badly.
+- [ ] Major pages load acceptably after warmup.
+- [ ] Route loading keeps shell visible.
+- [ ] Workspace loader appears in content area only.
+- [ ] Vercel Speed Insights is reviewed after live traffic.
+
+## 16. Migration Application Checklist
+
+- [ ] Review full SQL from Codex response before applying.
+- [ ] Apply migration in Supabase SQL Editor.
+- [ ] Run post-migration SQL checks.
+- [ ] Verify no `storage.objects` owner issue if storage policies are involved.
+- [ ] If storage policies need manual UI setup, create them manually in Supabase UI.
+- [ ] Run smoke tests after migration.
+- [ ] Commit only after migration/test pass where applicable.
+
+## 17. Release Checklist
+
+- [ ] Local build passes.
+- [ ] If `pnpm` stalls, fallback checks pass:
+
+```bash
+./node_modules/.bin/eslint .
+./node_modules/.bin/tsc --noEmit
+./node_modules/.bin/next build
+```
+
+- [ ] Vercel deployment succeeds.
+- [ ] `app.everybatchmrp.com` smoke tests pass.
+- [ ] Old URL redirect remains acceptable.
+- [ ] Key workflows pass.
+
+## 18. Rollback Checklist
+
+- [ ] Keep old Vercel URL available.
+- [ ] Revert latest code commit/deployment if app breaks.
+- [ ] Remove/revert domain redirect if needed.
+- [ ] Do not delete DNS records unless required.
+- [ ] Restore Supabase Auth redirect settings if changed incorrectly.
+- [ ] Avoid destructive DB changes.
+- [ ] Do not run data deletion migrations without backup/review.
+
+## 19. Known Not-Yet-Active Items
+
+- Tenant subdomain routing is not active.
+- `cleaneats.everybatchmrp.com` is not active.
+- `platform.everybatchmrp.com` is not active.
+- `support.everybatchmrp.com` is not active.
+- Marketing root `everybatchmrp.com` is not active.
+- Platform Admin is not separated yet.
+- Feature flags are not gating app behaviour yet.
+- Support/ticketing backend is not built.
+- Central tenant selector is foundational and transitional.
+
+## Migration Notes
+
+No SQL migration was created.
+
+No manual Supabase setup is required for this documentation task.

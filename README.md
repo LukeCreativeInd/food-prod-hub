@@ -136,6 +136,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Tenant selector UI foundation has been added at `/select-workspace` with EveryBatch branding and server-validated workspace choices
 - Login now redirects through workspace destination rules, sending multi-workspace/platform users to `/select-workspace` while keeping tenant routing internal
 - Authenticated users can now return to `/select-workspace` from the app shell user menu via `Switch workspace`
+- Multi-tenant smoke test checklist has been added for domain, login, selector, permissions, RLS, feature flag, release and rollback checks
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -318,6 +319,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Tenant selector UI foundation](docs/127-tenant-selector-ui-foundation.md)
 - [Login redirect to workspace selector](docs/128-login-redirect-to-workspace-selector.md)
 - [Workspace switcher foundation](docs/129-workspace-switcher-foundation.md)
+- [Multi-tenant smoke test checklist](docs/130-multi-tenant-smoke-test-checklist.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations
