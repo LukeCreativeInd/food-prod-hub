@@ -280,6 +280,26 @@ docs/141-tenant-create-action-v1.md
 
 `/platform/tenants/new` can now create foundation tenant records for platform admins after migration 029 is manually reviewed and applied. The action creates organisation, settings, branding, enabled modules and feature flag overrides only. It does not create auth users, profiles, memberships, first-admin invites, domains, billing/support records, onboarding records or operational starter data. Planned feature flags remain preview-only unless corresponding registry rows exist.
 
+First tenant admin invite/membership planning is documented in:
+
+```text
+docs/142-first-tenant-admin-invite-membership-plan.md
+```
+
+Pure helper definitions live in:
+
+```text
+lib/platform-first-admin.ts
+```
+
+The read-only Platform Admin scaffold route is:
+
+```text
+/platform/tenants/first-admin
+```
+
+This scaffold does not create Auth users, profiles, memberships or invite emails. It blocks platform_admin and phase_1_demo_user as first tenant admin role choices in the pure validation helper.
+
 Tenant sidebar accordion behaviour is documented in:
 
 ```text

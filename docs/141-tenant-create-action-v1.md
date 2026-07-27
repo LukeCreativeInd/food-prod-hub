@@ -168,6 +168,16 @@ A future reviewed RPC/transaction can replace this once provisioning grows beyon
 
 No audit log insert was added in this task because `audit_logs` currently has SELECT-only RLS and no reviewed write policy. Provisioning audit events should be added later through a dedicated reviewed write path.
 
+## First Admin Follow-Up
+
+Task 142 adds a first tenant admin invite/membership plan, pure validation helpers and a read-only Platform Admin scaffold at:
+
+```text
+/platform/tenants/first-admin
+```
+
+That follow-up still does not create Auth users, profiles, memberships or invite emails.
+
 ## Manual SQL Checks After Testing
 
 For a test slug such as `test-kitchen`:

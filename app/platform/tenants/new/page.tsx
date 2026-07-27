@@ -554,7 +554,8 @@ export default async function PlatformNewTenantPage({ searchParams }: PageProps)
         </div>
         <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
           No plaintext password creation. First admin setup must be auditable
-          and validated before provisioning actions are introduced.
+          and validated before provisioning actions are introduced. See the
+          Platform Admin First Admin / Invites scaffold for the planned flow.
         </div>
         </WizardStep>
 

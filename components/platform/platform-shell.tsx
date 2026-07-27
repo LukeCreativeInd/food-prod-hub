@@ -42,6 +42,11 @@ const platformNavigation: Array<{
         status: "live",
       },
       {
+        label: "First Admin / Invites",
+        href: "/platform/tenants/first-admin",
+        status: "live",
+      },
+      {
         label: "Tenant Modules",
         href: "/platform/tenants/cleaneats/modules",
         status: "live",
