@@ -244,6 +244,53 @@ Status:
 
 - Task 120 improves `/login` with reusable platform/tenant branding components while keeping central EveryBatch styling as the current default. It does not implement tenant selector, host-based routing, password reset changes or invite flow.
 
+## 6A. Central Login And Tenant Selector
+
+Purpose:
+
+- define the post-login decision flow for `app.everybatchmrp.com/login`
+- plan one-tenant, multi-tenant, platform-admin and no-access outcomes
+- prepare a future workspace selector before changing login redirects
+- keep tenant selection server-validated and safe from open redirects
+
+Non-goals:
+
+- no selector UI yet
+- no login redirect changes yet
+- no tenant subdomain routing yet
+- no middleware
+- no Platform Admin domain split
+- no Supabase Auth setting changes
+
+Dependencies:
+
+- login branding split
+- tenant resolver foundation
+- organisation membership helpers
+- `platform_admin` role
+- tenant subdomain routing plan
+- Platform Admin separation plan
+
+Likely implementation sequence:
+
+- workspace options helper
+- tenant selector UI
+- login redirect update
+- tenant subdomain routing destination switch
+- tenant-specific login
+- platform domain/login handling
+
+Risks:
+
+- open redirects through unsafe `returnTo` handling
+- trusting client-submitted tenant ids
+- leaking tenant names a user cannot access
+- redirect loops between central, tenant and platform domains
+
+Status:
+
+- Task 125 documents the central login and tenant selector plan. It does not change app code, routes, auth redirects or middleware.
+
 ## 7. Marketing Site Planning
 
 Purpose:
@@ -387,8 +434,11 @@ Status:
 7. Split login branding once central versus tenant domain routing is understood.
 8. Plan feature flags before tenant-specific beta rollouts.
 9. Plan domain setup and environment changes before touching Vercel, DNS or Supabase Auth redirects.
-10. Build tenant provisioning only after Platform Admin shell boundaries are clear.
-11. Keep multi-tenant smoke tests ahead of future customer onboarding.
+10. Build the workspace options helper before changing login redirects.
+11. Add tenant selector UI before activating tenant subdomain destinations.
+12. Add tenant-specific login only after host-derived tenant context is server-verified.
+13. Build tenant provisioning only after Platform Admin shell boundaries are clear.
+14. Keep multi-tenant smoke tests ahead of future customer onboarding.
 
 ## Future Task Backlog Proposal
 

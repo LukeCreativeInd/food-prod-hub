@@ -75,6 +75,17 @@ lib/tenant-resolver.ts
 
 They parse EveryBatch hostnames and provide a server tenant lookup helper, but they are not wired into routing, middleware, auth redirects or app shell context yet.
 
+Central login target:
+
+- `app.everybatchmrp.com/login` should become the EveryBatch-branded central login.
+- Multi-tenant users should eventually choose a workspace through a tenant selector.
+- One-tenant users can be redirected directly to their workspace after active membership is validated.
+- Tenant selection must validate active membership server-side.
+- Do not trust client-submitted tenant ids, tenant slugs or arbitrary `organisation_id` values.
+- Do not allow arbitrary `returnTo` or open redirects; allow only reviewed relative paths or approved EveryBatch domains.
+- `platform_admin` users should see a Platform Admin option.
+- Tenant-specific login branding, such as `cleaneats.everybatchmrp.com/login`, comes later.
+
 ## Architecture Guardrails
 
 Keep the architecture multi-tenant, tenant-safe and RLS-safe.
