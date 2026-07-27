@@ -51,11 +51,21 @@ The primary navigation order is now:
 9. Reports
 10. Tools
 11. Admin
-12. Platform
 
 Supplier Invoice Intake remains under Tools at `/purchase-documents`.
 
 Purchase Documents has not been added back under Inventory.
+
+Platform Admin was removed from tenant navigation in task 135. It remains available through `/select-workspace` and guarded `/platform` routes.
+
+## Sidebar Accordion Behaviour
+
+Task 137 updates expandable tenant navigation to use accordion-style behaviour:
+
+- route changes auto-expand only the active expandable module
+- previously active groups close when navigating to another module
+- manual expansion opens one group at a time
+- collapsed sidebar mode remains icon-only on desktop
 
 ## Tenant Branding
 
@@ -87,7 +97,6 @@ Existing navigation visibility rules remain in place:
 - module visibility still uses enabled module keys
 - permission visibility still uses current permission keys
 - Admin remains permission-gated
-- Platform remains guarded by the existing `platform.tenants.view` requirement
 - demo user restrictions remain unchanged
 
 No RLS, permission seed, route guard or database behaviour was changed.
@@ -106,7 +115,7 @@ This pass adds a lightweight tenant branding lookup through the existing request
 - Dark mode is not included in 109A.
 - Status colour settings are not included in 109A.
 - Search and notifications remain placeholders.
-- Platform Admin remains inside the current app for now, with existing visibility guards.
+- Platform Admin now uses its own shell and is no longer shown in tenant navigation.
 
 ## EveryBatch Brand Follow-Up
 

@@ -90,8 +90,16 @@ export function AppSidebar({ navigationGroups, tenant }: AppSidebarProps) {
         .map((group) => group.label),
     [navigationGroups, pathname],
   );
+  const activeExpandableGroupLabels = useMemo(
+    () =>
+      navigationGroups
+        .filter((group) => group.items.length > 0)
+        .filter((group) => activeGroupLabels.includes(group.label))
+        .map((group) => group.label),
+    [activeGroupLabels, navigationGroups],
+  );
   const [expandedGroups, setExpandedGroups] =
-    useState<string[]>(activeGroupLabels);
+    useState<string[]>(activeExpandableGroupLabels);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {
@@ -101,16 +109,12 @@ export function AppSidebar({ navigationGroups, tenant }: AppSidebarProps) {
   }, []);
 
   useEffect(() => {
-    setExpandedGroups((current) =>
-      Array.from(new Set([...current, ...activeGroupLabels])),
-    );
-  }, [activeGroupLabels]);
+    setExpandedGroups(activeExpandableGroupLabels);
+  }, [activeExpandableGroupLabels]);
 
   function toggleGroup(label: string) {
     setExpandedGroups((current) =>
-      current.includes(label)
-        ? current.filter((item) => item !== label)
-        : [...current, label],
+      current.includes(label) ? [] : [label],
     );
   }
 

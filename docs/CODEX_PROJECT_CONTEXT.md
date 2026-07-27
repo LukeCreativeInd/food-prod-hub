@@ -238,6 +238,14 @@ docs/136-tenant-provisioning-plan.md
 
 Tenant provisioning must be platform-admin-only. New tenants must receive organisation, settings, branding, modules and feature flags safely. Platform must not be enabled as a tenant module. Provisioning should be previewed and auditable. Never create plaintext passwords in Platform Admin. Do not use destructive tenant data deletion as automatic rollback. Tenant-specific seeds must target an explicit slug/id.
 
+Tenant sidebar accordion behaviour is documented in:
+
+```text
+docs/137-tenant-sidebar-accordion-behaviour-fix.md
+```
+
+Expandable tenant navigation should auto-expand only the active module on route changes. Manual expansion should behave as a single-open accordion. Platform Admin shell navigation is separate and should not be affected by tenant sidebar changes.
+
 Support access and impersonation must be explicit, scoped and auditable. Do not add invisible support impersonation.
 
 ## Task Discipline
