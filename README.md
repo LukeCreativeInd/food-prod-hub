@@ -142,6 +142,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Platform Admin now shows real tenant metadata, module counts, feature flag override counts and membership counts where available
 - Platform Admin now includes read-only Clean Eats module and feature flag overview pages
 - Platform Admin has been removed from the tenant workspace sidebar and remains accessible through `/select-workspace` or direct `/platform`
+- Tenant provisioning has been planned before building new tenant creation, module setup, feature flag setup or first-admin invite flows
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -330,6 +331,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Platform tenant overview v1](docs/133-platform-tenant-overview-v1.md)
 - [Platform tenant module and feature flag overview](docs/134-platform-tenant-module-feature-overview.md)
 - [Remove Platform from tenant navigation](docs/135-remove-platform-from-tenant-navigation.md)
+- [Tenant provisioning plan](docs/136-tenant-provisioning-plan.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations

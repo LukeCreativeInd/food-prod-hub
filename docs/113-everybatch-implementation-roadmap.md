@@ -451,7 +451,9 @@ Platform Admin sequence:
 - Task 132 should handle Platform Shell Separation v1.
 - Task 133 should handle Platform Tenant Overview v1.
 - Task 134 should handle Platform Tenant Module / Feature Flag Overview.
-- Task 135 should handle Tenant Provisioning Plan.
+- Task 135 removes Platform from Tenant Navigation.
+- Task 136 adds the Tenant Provisioning Plan.
+- Later provisioning tasks should handle Provisioning Templates Foundation, New Tenant Wizard Scaffold, Tenant Create Action v1, First Tenant Admin Invite Plan, Tenant Onboarding Checklist and Tenant Domain Integration.
 - Later tasks should plan Support Inbox Foundation, Billing Metadata Foundation, Release Management Foundation and System Health Overview.
 
 ## Future Task Backlog Proposal
@@ -485,7 +487,14 @@ Do not renumber existing committed tasks. This is a proposed future roadmap:
 - 132 Platform Shell Separation v1
 - 133 Platform Tenant Overview v1
 - 134 Platform Tenant Module / Feature Flag Overview
-- 135 Tenant Provisioning Plan
+- 135 Remove Platform from Tenant Navigation
+- 136 Tenant Provisioning Plan
+- Future Provisioning Templates Foundation
+- Future New Tenant Wizard Scaffold
+- Future Tenant Create Action v1
+- Future First Tenant Admin Invite Plan
+- Future Tenant Onboarding Checklist
+- Future Tenant Domain Integration
 - Future Support Inbox Foundation
 - Future Billing Metadata Foundation
 - Future Release Management Foundation
