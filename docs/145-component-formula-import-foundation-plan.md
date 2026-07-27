@@ -360,6 +360,8 @@ Once formulas are imported:
 
 Do not use formula import to create stock movements, production tasks or purchasing actions.
 
+Task 146 adds [Component / Formula Builder v1](146-component-formula-builder-v1.md) before import work. Manual formulas created through the builder use the same `internal_items`, `formula_versions` and `formula_lines` tables that future reviewed imports should write to.
+
 ## Non-Goals
 
 Task 145 does not build:

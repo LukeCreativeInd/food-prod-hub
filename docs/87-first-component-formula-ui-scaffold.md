@@ -12,6 +12,8 @@ Step 089 adds [Formula Import Planning](89-formula-import-planning.md). The comp
 
 Task 145 adds [Component / Formula Import Foundation Plan](145-component-formula-import-foundation-plan.md), which defines how component workbook rows should be matched, validated and reviewed before any future draft formula commit.
 
+Task 146 later upgrades the Component workspace into [Component / Formula Builder v1](146-component-formula-builder-v1.md), adding manual create/edit/line management for users with `formulas.manage`.
+
 ## Routes Added Or Updated
 
 - `/components`

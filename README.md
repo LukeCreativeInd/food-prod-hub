@@ -168,6 +168,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - First read-only Component Formula UI scaffold has been added at `/components` and `/components/[id]`
 - First read-only Finished Product Formula UI scaffold has been added at `/finished-products` and `/finished-products/[id]`
 - Formula import planning has been added before building staff template import, review or commit flows
+- Component Formula Builder v1 now supports manual component formula creation, header editing and line management using current formula tables
 
 ## Tech Stack
 
@@ -312,6 +313,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Costings dashboard real data summary](docs/107-costings-dashboard-real-data-summary.md)
 - [Costings subpages real data pass](docs/144-costings-subpages-real-data-pass.md)
 - [Component / Formula Import Foundation Plan](docs/145-component-formula-import-foundation-plan.md)
+- [Component / Formula Builder v1](docs/146-component-formula-builder-v1.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

@@ -371,3 +371,11 @@ Task 144 follow-up removes the duplicate Costings content hero/title so the app 
 ## Task 145 Formula Import Foundation
 
 Task 145 creates a planning/static-helper foundation for component and finished product formula imports. It maps the Clean Eats staff workbook/CSV columns to `internal_items`, `formula_versions` and `formula_lines`, defines matching/validation/review stages and records that production methods/routes and production areas remain future schema work. No migrations, upload UI, parser actions, Supabase writes or Costings logic changes are added.
+
+## Task 146 Component Formula Builder
+
+Task 146 adds the first manual Component Formula Builder v1 on the existing `/components` and `/components/[id]` tenant routes, with `/products/components` compatibility redirects. It uses the current `internal_items`, `formula_versions`, `formula_lines` and `approved_supplier_prices` schema without a migration.
+
+Reads require `formulas.view`. Create/edit/line actions require `formulas.manage`, derive `organisation_id` from the authenticated app context and respect current RLS. Line removal soft-archives `formula_lines.archived_at` because current formula RLS intentionally has no delete policy.
+
+The builder does not add workbook import, finished product formula editing, production routes/methods, stock movements, unit conversion, sell price/margin logic, Supplier Invoice Intake changes or Platform Admin changes.
