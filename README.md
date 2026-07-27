@@ -98,6 +98,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Organisation Settings now supports private tenant logo upload/remove and completed branding controls as UI Overhaul v2 Part D
 - Speed and performance overhaul has started with app-shell context consolidation, permission-call cleanup and targeted route/RLS indexes
 - Loading and route transition UX now keeps the protected app shell visible and uses compact centred branded workspace loaders instead of large full-page skeleton grids
+- Global search foundation has been added to the top header with tenant-scoped, permission-aware grouped results, including supplier item searches through confirmed internal item mappings
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -261,6 +262,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Branding controls completion](docs/109d-branding-controls-completion.md)
 - [Speed and performance overhaul](docs/110-speed-performance-overhaul.md)
 - [Loading UX and route transition polish](docs/111-loading-ux-route-transition-polish.md)
+- [Global search foundation](docs/112-global-search-foundation.md)
 
 ## Database Migrations
 
@@ -424,5 +426,6 @@ Repeat invoice and price change behaviour is documented in [Repeat Invoice and P
 - Tenant-scoped inventory location master records with read/create/edit UI only
 - Read-only Costings dashboard summary using approved supplier prices, price observations and formula readiness indicators
 - Read-only Production dashboard scaffold using inventory locations, formulas and internal item setup signals
+- Tenant-scoped, permission-aware global search across accessible pages and current core records
 
 No costing calculations, broad production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

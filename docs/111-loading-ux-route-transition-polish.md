@@ -116,12 +116,15 @@ It also relies on the broad 109C/109D dark-mode utility overrides, so the compac
 ## Limitations
 
 - This improves perceived loading quality, not raw database speed.
-- It does not add route prefetching or global search.
+- It does not add route prefetching.
 - It does not change route data dependencies.
 - If a route is genuinely slow, task 110 timing logs and Vercel Speed Insights remain the right tools to diagnose it.
 
+## Task 112 Follow-Up
+
+Task 112 adds the first global search foundation in the persistent top header. It builds on the stable app shell from task 111 so search can open without replacing the sidebar/header during route loading.
+
 ## Future Follow-Ups
 
-- Add global search as a separate reviewed task.
 - Consider route prefetch polish only if measured route transitions still feel sluggish.
 - Continue route-specific query optimisation only when timing data identifies a concrete slow helper.

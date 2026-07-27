@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { GlobalSearch } from "@/components/global-search";
 import { getAppShellContext } from "@/lib/app-shell-context";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { navigationGroups } from "@/lib/navigation";
@@ -114,18 +115,7 @@ export async function AppShell({ children }: AppShellProps) {
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <label className="relative block sm:w-80">
-                <span className="sr-only">Search placeholder</span>
-                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">
-                  /
-                </span>
-                <input
-                  type="search"
-                  disabled
-                  placeholder="Search placeholder"
-                  className="w-full rounded-md border border-slate-200 bg-slate-50 py-2 pl-8 pr-3 text-sm text-slate-500 outline-none transition placeholder:text-slate-400 disabled:cursor-not-allowed"
-                />
-              </label>
+              <GlobalSearch />
 
               <button
                 type="button"
