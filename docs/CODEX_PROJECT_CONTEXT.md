@@ -42,16 +42,20 @@ Target domains:
 - `platform.everybatchmrp.com` for future Platform Admin
 - `support.everybatchmrp.com` for support and knowledge base
 
-Immediate domain setup recommendation:
+Current domain setup:
 
-- connect `app.everybatchmrp.com` first to the existing app deployment only after explicit approval
+- `app.everybatchmrp.com` is live and validated in Vercel
+- Cloudflare DNS is active with `CNAME app -> b560eb64065fe2f1.vercel-dns-017.com`
+- Cloudflare proxy remains DNS only
+- the Vercel production URL currently redirects to `app.everybatchmrp.com`, but remains available in Vercel if needed
+- login and dashboard smoke tests passed on `app.everybatchmrp.com`
 - do not point `everybatchmrp.com` root to the tenant app; reserve it for marketing or a coming-soon page
-- do not connect `cleaneats.everybatchmrp.com` until the tenant resolver exists
+- do not connect `cleaneats.everybatchmrp.com` until tenant workspace host routing is implemented
 - do not connect `platform.everybatchmrp.com` until Platform Admin shell separation exists
 - do not connect `support.everybatchmrp.com` until the support/knowledge-base target exists
 - do not change Vercel, DNS, Supabase Auth redirect URLs or env vars from a code task without explicit user instruction
 
-Task 123 domain connection is in progress manually. `app.everybatchmrp.com` has been added to Vercel, and Cloudflare has an `app` CNAME pointing to `b560eb64065fe2f1.vercel-dns-017.com` with proxy status set to DNS only for Vercel validation. Wait for DNS propagation, Vercel Valid Configuration and SSL before treating it as ready.
+Task 123 domain connection is complete. `app.everybatchmrp.com` is the first stable EveryBatch app/login URL.
 
 Tenant subdomain routing target:
 

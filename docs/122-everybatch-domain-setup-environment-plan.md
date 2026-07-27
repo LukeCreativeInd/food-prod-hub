@@ -30,14 +30,14 @@ Do not plan around `everybatch.com`; it is not available.
 | `everybatchmrp.com` | Public marketing website / coming-soon page | Hold. Do not point to tenant app yet. |
 | `everybatchmrp.com.au` | AU market protection / redirect | Hold or redirect later. |
 | `everybatch.com.au` | AU brand protection / redirect | Hold or redirect later. |
-| `app.everybatchmrp.com` | Central EveryBatch app login / future tenant selector | First domain to connect to the existing app deployment. |
-| `cleaneats.everybatchmrp.com` | Clean Eats tenant workspace | Hold until tenant resolver exists. |
+| `app.everybatchmrp.com` | Central EveryBatch app login / future tenant selector | Live and validated in Vercel. |
+| `cleaneats.everybatchmrp.com` | Clean Eats tenant workspace | Hold until tenant workspace host routing is implemented. |
 | `platform.everybatchmrp.com` | Platform Admin control centre | Hold until Platform Admin shell separation exists. |
 | `support.everybatchmrp.com` | Support / knowledge base / tickets | Hold until support destination is selected. |
 
-## Current Temporary Recommendation
+## Current Temporary State
 
-Connect first:
+Connected first:
 
 ```text
 app.everybatchmrp.com -> existing Vercel app deployment
@@ -49,19 +49,21 @@ This is temporary. Later, `app.everybatchmrp.com` should become the true central
 
 ## Task 123 Connection Status
 
-Manual connection work is now in progress for `app.everybatchmrp.com`.
+Manual connection work is complete for `app.everybatchmrp.com`.
 
 Current status:
 
-- `everybatchmrp.com` has been added to Cloudflare.
-- Nameservers have been changed to Cloudflare and are propagating.
+- `app.everybatchmrp.com` is live and validated in Vercel.
+- Cloudflare DNS is active.
 - `app.everybatchmrp.com` has been added to the Vercel project.
 - Cloudflare DNS has a CNAME record:
   - Type: `CNAME`
   - Name: `app`
   - Value: `b560eb64065fe2f1.vercel-dns-017.com`
   - Proxy status: DNS only
-- Waiting for DNS propagation and Vercel validation.
+- Cloudflare proxy remains DNS only.
+- The Vercel production URL currently redirects to `app.everybatchmrp.com`, but remains available in Vercel if needed.
+- Login and dashboard smoke tests passed.
 
 See [app.everybatchmrp.com domain connection notes](123-app-domain-connection-notes.md).
 
@@ -87,26 +89,23 @@ Do not connect these to the current tenant app yet:
 Reasoning:
 
 - root `everybatchmrp.com` should be reserved for marketing or a coming-soon page
-- tenant subdomains need a host-derived tenant resolver first
+- tenant subdomains need tenant workspace host routing before they are connected
 - Platform Admin needs a separate platform-owner shell first
 - support needs a support/knowledge-base destination first
 - AU domains should redirect only after root/public-site behaviour is agreed
 
 ## Vercel Setup Checklist For `app.everybatchmrp.com`
 
-When explicitly approved as a future task:
+Completed/manual setup record:
 
-1. Open the Vercel project for the current app.
-2. Go to Settings -> Domains.
-3. Add `app.everybatchmrp.com`.
-4. Follow Vercel's exact DNS/verification instructions.
-5. Add the required DNS records at the current DNS provider.
-6. Wait for domain verification and SSL certificate provisioning.
-7. Confirm the domain points at the production deployment, not a preview deployment.
-8. Keep the old Vercel deployment URL active during transition.
-9. Do not add wildcard `*.everybatchmrp.com` yet unless tenant routing is being deliberately implemented.
+- `app.everybatchmrp.com` has been added to the Vercel project.
+- Cloudflare DNS has the Vercel-provided CNAME target.
+- Vercel validation is complete.
+- The domain points at the production deployment.
+- The Vercel production URL currently redirects to `app.everybatchmrp.com`, but remains available in Vercel if needed.
+- No wildcard `*.everybatchmrp.com` has been added.
 
-Follow Vercel's generated instructions as the source of truth for exact DNS values.
+Follow Vercel's generated instructions as the source of truth for any future domain changes.
 
 ## Later Vercel Setup
 
@@ -201,25 +200,27 @@ If future host-based development is needed, document local hostname setup separa
 
 ## Smoke Test Checklist After Connecting `app.everybatchmrp.com`
 
-After a future domain connection:
+Completed:
 
-1. Visit `https://app.everybatchmrp.com`.
-2. Confirm the login page loads.
-3. Confirm EveryBatch login branding appears.
-4. Sign in with the platform admin account.
-5. Confirm redirect/dashboard works.
-6. Confirm app shell/sidebar loads.
-7. Confirm global search opens and returns expected results.
-8. Confirm Help & Support menu opens.
-9. Confirm user menu/sign out works.
-10. Confirm Supplier Invoice Intake loads.
-11. Confirm Organisation Settings logo/theme controls load.
-12. Confirm logout redirects to `/login`.
-13. Confirm old Vercel URL still works during transition.
-14. Confirm localhost still works.
-15. Confirm there are no SSL or mixed-content warnings.
-16. Confirm Supabase Auth does not reject redirect URLs.
-17. Confirm demo user restrictions remain intact if tested.
+- `https://app.everybatchmrp.com/login` loads.
+- EveryBatch login branding appears.
+- login smoke test passed.
+- dashboard smoke test passed.
+
+Repeat after future deployments as needed:
+
+1. Confirm app shell/sidebar loads.
+2. Confirm global search opens and returns expected results.
+3. Confirm Help & Support menu opens.
+4. Confirm user menu/sign out works.
+5. Confirm Supplier Invoice Intake loads.
+6. Confirm Organisation Settings logo/theme controls load.
+7. Confirm logout redirects to `/login`.
+8. Confirm old Vercel URL remains available in Vercel if needed.
+9. Confirm localhost still works.
+10. Confirm there are no SSL or mixed-content warnings.
+11. Confirm Supabase Auth does not reject redirect URLs.
+12. Confirm demo user restrictions remain intact if tested.
 
 ## Rollback Plan
 

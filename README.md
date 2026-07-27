@@ -128,8 +128,8 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - The app header now includes a Help & Support menu linking to future EveryBatch support resources
 - The login page now uses reusable EveryBatch platform/tenant branding components while preserving the existing auth behaviour
 - Feature flag foundation has been drafted with global registry, Clean Eats overrides, RLS policies and server-side helpers
-- EveryBatch domain setup and environment planning now recommends connecting `app.everybatchmrp.com` first while holding root, tenant, platform and support domains
-- `app.everybatchmrp.com` domain connection notes now document the Cloudflare/Vercel DNS setup currently pending validation
+- EveryBatch domain setup and environment planning now records `app.everybatchmrp.com` as live while holding root, tenant, platform and support domains
+- `app.everybatchmrp.com` is live and validated in Vercel with Cloudflare DNS active and login/dashboard smoke tests passed
 - Tenant resolver foundation helpers now parse EveryBatch hostnames and prepare tenant slug lookup without activating host-based routing
 - Central login and tenant selector planning now defines future post-login workspace selection, platform-admin access and safe redirect rules
 - Workspace options helper foundation now prepares server-side workspace choices and post-login destination guidance without changing login redirects
