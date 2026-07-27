@@ -2,13 +2,9 @@ import type { CSSProperties, ReactNode } from "react";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { LogoutButton } from "@/components/auth/logout-button";
-import {
-  getCurrentEnabledModuleKeys,
-  getCurrentPermissionKeys,
-} from "@/lib/auth";
+import { getAppShellContext } from "@/lib/app-shell-context";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { navigationGroups } from "@/lib/navigation";
-import { getTenantPresentation } from "@/lib/tenant-presentation";
 
 type AppShellProps = {
   children: ReactNode;
@@ -31,12 +27,8 @@ function hexToRgba(hex: string, alpha: number) {
 
 export async function AppShell({ children }: AppShellProps) {
   const navigationTimingStartedAt = Date.now();
-  const [permissionKeys, enabledModuleKeys, tenantPresentation] =
-    await Promise.all([
-      getCurrentPermissionKeys(),
-      getCurrentEnabledModuleKeys(),
-      getTenantPresentation(),
-    ]);
+  const { permissionKeys, enabledModuleKeys, tenantPresentation } =
+    await getAppShellContext();
   const permissionSet = new Set(permissionKeys);
   const enabledModuleSet = new Set(enabledModuleKeys);
   const visibleNavigationGroups = navigationGroups

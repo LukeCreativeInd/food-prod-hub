@@ -11,7 +11,7 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { userHasPermission } from "@/lib/auth";
+import { getCurrentPermissionKeys } from "@/lib/auth";
 import { getProductsDashboardData } from "@/lib/products-dashboard-data";
 
 const moduleAreas = [
@@ -62,10 +62,13 @@ function attentionTone(value: number) {
 }
 
 export default async function ProductsPage() {
-  const [dashboard, canViewPurchaseDocuments] = await Promise.all([
+  const [dashboard, permissionKeys] = await Promise.all([
     getProductsDashboardData(),
-    userHasPermission("purchase_documents.view"),
+    getCurrentPermissionKeys(),
   ]);
+  const canViewPurchaseDocuments = permissionKeys.includes(
+    "purchase_documents.view",
+  );
   const { counts } = dashboard;
 
   const summaryCards = [

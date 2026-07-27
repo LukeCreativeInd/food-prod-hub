@@ -1,6 +1,5 @@
 import {
-  getCurrentPermissionKeys,
-  requirePermissionAccess,
+  requirePermissionAccessWithPermissions,
 } from "@/lib/auth";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { createClient } from "@/lib/supabase/server";
@@ -225,17 +224,15 @@ function buildReadiness({
 
 export async function getProductionDashboardData(): Promise<ProductionDashboardData> {
   const timingStartedAt = Date.now();
-  const authContext = await requirePermissionAccess("production.view");
+  const { authContext, permissionKeys } =
+    await requirePermissionAccessWithPermissions("production.view");
 
   if (!authContext.organisation) {
     throw new Error("Current organisation is required.");
   }
 
   const organisationId = authContext.organisation.id;
-  const [supabase, permissionKeys] = await Promise.all([
-    createClient(),
-    getCurrentPermissionKeys(),
-  ]);
+  const supabase = await createClient();
   const canViewInventorySetup = hasPermission(permissionKeys, "inventory.view");
   const canViewFormulaSetup = hasPermission(permissionKeys, "formulas.view");
   const canViewProductSetup = hasPermission(permissionKeys, "supplier_items.view");

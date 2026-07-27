@@ -109,3 +109,17 @@ After deployment:
 2. Use dev timing logs locally to identify route helper waterfalls.
 3. Record route timing observations in the existing performance/hosting review notes.
 4. Continue avoiding broad data queries in route-level server components.
+
+## Task 110 Follow-Up
+
+The next performance pass is documented in [Speed and Performance Overhaul](110-speed-performance-overhaul.md).
+
+Task 110 adds:
+
+- centralised app shell context loading
+- consolidated permission guard helpers
+- reduced repeated page permission probes
+- narrower Purchase Document list selection
+- targeted performance indexes for RLS helper and tenant dashboard/list query paths
+
+Migration `027_performance_foundation_indexes.sql` should be reviewed and applied before judging the database-side route timing impact.

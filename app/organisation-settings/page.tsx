@@ -8,8 +8,7 @@ import {
   StatusBadge,
 } from "@/components/ui";
 import {
-  getCurrentPermissionKeys,
-  requirePermissionAccess,
+  requirePermissionAccessWithPermissions,
 } from "@/lib/auth";
 import { availableModules } from "@/lib/module-registry";
 import { getOrganisationLogoDisplayUrl } from "@/lib/organisation-branding-storage";
@@ -144,9 +143,8 @@ function DetailGrid({ items }: { items: string[][] }) {
 export default async function OrganisationSettingsPage({
   searchParams,
 }: PageProps) {
-  const [authContext, permissionKeys, query] = await Promise.all([
-    requirePermissionAccess("admin.organisation.view"),
-    getCurrentPermissionKeys(),
+  const [{ authContext, permissionKeys }, query] = await Promise.all([
+    requirePermissionAccessWithPermissions("admin.organisation.view"),
     searchParams,
   ]);
 

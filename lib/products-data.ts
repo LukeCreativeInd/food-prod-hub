@@ -1,6 +1,6 @@
 import {
-  getCurrentPermissionKeys,
   requirePermissionAccess,
+  requirePermissionAccessWithPermissions,
 } from "@/lib/auth";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { createClient } from "@/lib/supabase/server";
@@ -335,13 +335,12 @@ async function requireSupplierPriceViewAccess() {
 }
 
 async function requireSupplierDirectoryAccess() {
-  const authContext = await requirePermissionAccess("supplier_items.view");
+  const { authContext, permissionKeys } =
+    await requirePermissionAccessWithPermissions("supplier_items.view");
 
   if (!authContext.organisation) {
     throw new Error("Current organisation is required.");
   }
-
-  const permissionKeys = await getCurrentPermissionKeys();
 
   return {
     organisationId: authContext.organisation.id,
@@ -351,13 +350,12 @@ async function requireSupplierDirectoryAccess() {
 }
 
 async function requireInternalItemAccess() {
-  const authContext = await requirePermissionAccess("supplier_items.view");
+  const { authContext, permissionKeys } =
+    await requirePermissionAccessWithPermissions("supplier_items.view");
 
   if (!authContext.organisation) {
     throw new Error("Current organisation is required.");
   }
-
-  const permissionKeys = await getCurrentPermissionKeys();
 
   return {
     organisationId: authContext.organisation.id,

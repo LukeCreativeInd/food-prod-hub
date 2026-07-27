@@ -1,6 +1,5 @@
 import {
-  getCurrentPermissionKeys,
-  requirePermissionAccess,
+  requirePermissionAccessWithPermissions,
 } from "@/lib/auth";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { createClient } from "@/lib/supabase/server";
@@ -77,13 +76,12 @@ function mapInventoryLocation(row: InventoryLocationRow): InventoryLocation {
 }
 
 async function requireInventoryLocationAccess() {
-  const authContext = await requirePermissionAccess("inventory.view");
+  const { authContext, permissionKeys } =
+    await requirePermissionAccessWithPermissions("inventory.view");
 
   if (!authContext.organisation) {
     throw new Error("Current organisation is required.");
   }
-
-  const permissionKeys = await getCurrentPermissionKeys();
 
   return {
     organisationId: authContext.organisation.id,

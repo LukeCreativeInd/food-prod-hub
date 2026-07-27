@@ -6,7 +6,10 @@ export { getCurrentProfile } from "./get-current-profile";
 export { getCurrentUser } from "./get-current-user";
 export { requireAppAccess } from "./require-app-access";
 export { requireAuth } from "./require-auth";
-export { requirePermissionAccess } from "./require-permission";
+export {
+  requirePermissionAccess,
+  requirePermissionAccessWithPermissions,
+} from "./require-permission";
 export {
   getCurrentPermissionKeys,
   requirePermission,

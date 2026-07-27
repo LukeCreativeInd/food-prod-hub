@@ -1,6 +1,5 @@
 import {
-  getCurrentPermissionKeys,
-  requirePermissionAccess,
+  requirePermissionAccessWithPermissions,
 } from "@/lib/auth";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { createClient } from "@/lib/supabase/server";
@@ -215,17 +214,15 @@ function buildCoverageByItemType(
 
 export async function getCostingsDashboardData(): Promise<CostingsDashboardData> {
   const timingStartedAt = Date.now();
-  const authContext = await requirePermissionAccess("costings.view");
+  const { authContext, permissionKeys } =
+    await requirePermissionAccessWithPermissions("costings.view");
 
   if (!authContext.organisation) {
     throw new Error("Current organisation is required.");
   }
 
   const organisationId = authContext.organisation.id;
-  const [supabase, permissionKeys] = await Promise.all([
-    createClient(),
-    getCurrentPermissionKeys(),
-  ]);
+  const supabase = await createClient();
 
   const [
     internalItemsResult,

@@ -1075,7 +1075,9 @@ export async function getPurchaseDocumentsForCurrentOrganisation() {
 
   const { data, error } = await supabase
     .from("purchase_documents")
-    .select("*")
+    .select(
+      "id, organisation_id, supplier_id, document_type, status, original_filename, invoice_number, invoice_date, invoice_total, tax_total, currency, supplier_legal_name_source, supplier_trading_name_source, supplier_abn_source, supplier_account_number_source, duplicate_of_document_id, uploaded_at, reviewed_at, committed_at, created_at, updated_at",
+    )
     .eq("organisation_id", organisationId)
     .order("uploaded_at", { ascending: false })
     .order("created_at", { ascending: false });

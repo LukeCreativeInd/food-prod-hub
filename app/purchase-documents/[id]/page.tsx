@@ -11,7 +11,7 @@ import {
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState, StatusBadge } from "@/components/ui";
-import { userHasPermission } from "@/lib/auth";
+import { getCurrentPermissionKeys } from "@/lib/auth";
 import {
   getPurchaseDocumentUnknownParserDiagnostics,
   getReviewedInternalItemName,
@@ -307,8 +307,9 @@ export default async function PurchaseDocumentReviewPage({
     query.upload,
     query.extract,
   );
-  const canCommit = await userHasPermission("purchase_documents.commit");
-  const canReview = await userHasPermission("purchase_documents.review");
+  const permissionKeys = await getCurrentPermissionKeys();
+  const canCommit = permissionKeys.includes("purchase_documents.commit");
+  const canReview = permissionKeys.includes("purchase_documents.review");
   const unknownParserDiagnostics =
     canReview &&
     (query.extract === "unknown_parser" || query.extract === "unknown_pattern")
