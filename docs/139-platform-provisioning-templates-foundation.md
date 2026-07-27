@@ -74,7 +74,7 @@ The initial module packs are:
 - Full Food Operations
 - Custom
 
-Dashboard is represented as a default workspace area, not a tenant module key.
+Dashboard is represented as the `dashboard` tenant module key so provisioning can create an explicit `organisation_modules` row for each tenant workspace.
 
 Platform is intentionally excluded from all tenant module packs. Platform Admin stays separate from tenant workspaces.
 

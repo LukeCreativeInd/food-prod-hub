@@ -1,4 +1,5 @@
 export type ModuleKey =
+  | "dashboard"
   | "products"
   | "costings"
   | "production"

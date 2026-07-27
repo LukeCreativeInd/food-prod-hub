@@ -57,7 +57,6 @@ export type ModulePackTemplate = {
   label: string;
   description: string;
   moduleKeys: ModuleKey[];
-  defaultWorkspaceAreas: string[];
 };
 
 export type FeatureFlagTemplateItem = {
@@ -223,8 +222,8 @@ export const modulePackTemplates: ModulePackTemplate[] = [
     key: "foundation_operations",
     label: "Foundation Operations",
     description: "Core pilot workspace for early onboarding.",
-    defaultWorkspaceAreas: ["Dashboard"],
     moduleKeys: [
+      "dashboard",
       "products",
       "costings",
       "inventory",
@@ -237,8 +236,8 @@ export const modulePackTemplates: ModulePackTemplate[] = [
     key: "meal_prep_operations",
     label: "Meal Prep Operations",
     description: "Meal prep production, inventory, QA and logistics setup.",
-    defaultWorkspaceAreas: ["Dashboard"],
     moduleKeys: [
+      "dashboard",
       "products",
       "costings",
       "production",
@@ -254,8 +253,8 @@ export const modulePackTemplates: ModulePackTemplate[] = [
     key: "full_food_operations",
     label: "Full Food Operations",
     description: "Full food manufacturing module pack for mature tenants.",
-    defaultWorkspaceAreas: ["Dashboard"],
     moduleKeys: [
+      "dashboard",
       "products",
       "costings",
       "production",
@@ -272,7 +271,6 @@ export const modulePackTemplates: ModulePackTemplate[] = [
     key: "custom",
     label: "Custom",
     description: "No fixed module list. Operator selects modules later.",
-    defaultWorkspaceAreas: ["Dashboard"],
     moduleKeys: [],
   },
 ];

@@ -6,6 +6,8 @@ Task 140 adds a read-only New Tenant Wizard scaffold inside Platform Admin.
 
 The scaffold previews the future EveryBatch tenant provisioning flow without creating tenants or writing data.
 
+Update: Task 141 turns this scaffold into the first functional Tenant Create Action v1. The page can now create tenant foundation records after the reviewed platform-admin insert policy migration is applied.
+
 ## Route Added
 
 The new route is:
@@ -28,7 +30,9 @@ The scaffold includes seven planned steps:
 6. Onboarding Checklist
 7. Review / Provision
 
-Each step shows disabled/read-only placeholder fields, static previews or future-action notes.
+Each step originally showed disabled/read-only placeholder fields, static previews or future-action notes.
+
+Task 141 makes tenant identity/template fields editable and adds a server action. First admin, domain, billing, support and operational starter sections remain preview-only.
 
 ## Templates Used
 
@@ -53,7 +57,7 @@ The selected example preview is Foundation / Pilot.
 
 Platform is not included as a tenant module.
 
-Dashboard is represented as a workspace area, not a tenant module key.
+Dashboard is represented as the `dashboard` tenant module key so the tenant foundation can enable it explicitly.
 
 ## Disabled Provisioning Action
 
@@ -63,7 +67,17 @@ The review step includes a disabled button:
 Provision tenant - coming soon
 ```
 
-No submit handler or tenant creation action exists.
+Task 141 replaces the disabled button with a foundation create action for platform admins.
+
+The action creates only:
+
+- organisation
+- organisation settings
+- organisation branding
+- enabled module rows
+- feature flag override rows
+
+It still does not create users, memberships, invites, domains, billing, support records or operational data.
 
 ## What Is Intentionally Not Implemented
 

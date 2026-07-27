@@ -22,7 +22,8 @@ Current Platform Admin state:
 - Static provisioning templates now exist in `lib/platform-provisioning-templates.ts`.
 - `/platform/tenants/provisioning` shows a read-only preview of tenant templates, module packs, feature flag packs, defaults and onboarding checklist categories.
 - `/platform/tenants/new` shows a read-only New Tenant Wizard scaffold with disabled provisioning actions.
-- No tenant creation or provisioning workflow exists yet.
+- `/platform/tenants/new` now includes Tenant Create Action v1 for platform admins after the reviewed insert policy migration is applied.
+- No first-admin invite, tenant domain routing, billing setup, support setup or operational starter data workflow exists yet.
 
 Clean Eats is Tenant 1. Future tenants should be provisioned safely through reviewed Platform Admin workflows.
 

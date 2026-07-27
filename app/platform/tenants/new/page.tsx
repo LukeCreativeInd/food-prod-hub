@@ -1,18 +1,61 @@
 import type { ReactNode } from "react";
 
+import { createTenantFoundationAction } from "@/app/platform/tenants/new/actions";
+import { userHasPermission } from "@/lib/auth";
 import {
   defaultOrganisationBranding,
   defaultOrganisationSettings,
   featureFlagPackTemplates,
   getDefaultProvisioningConfig,
+  modulePackTemplates,
   onboardingChecklistTemplate,
   tenantProvisioningTemplates,
 } from "@/lib/platform-provisioning-templates";
+
+type PageProps = {
+  searchParams: Promise<{
+    created?: string;
+    error?: string;
+  }>;
+};
 
 type PreviewFieldProps = {
   label: string;
   value: string;
   helper?: string;
+};
+
+type FormFieldProps = {
+  label: string;
+  name: string;
+  defaultValue: string;
+  helper?: string;
+  required?: boolean;
+  type?: "text" | "email";
+};
+
+const errorMessages: Record<string, string> = {
+  create_failed: "Tenant foundation could not be created.",
+  duplicate_check_failed: "Could not check whether that tenant slug is available.",
+  duplicate_slug: "A tenant with that slug already exists.",
+  feature_registry_error: "Could not validate the feature flag registry.",
+  invalid_currency: "Currency must be a three-letter code such as AUD.",
+  invalid_default_units: "Default units must be metric or imperial.",
+  invalid_email: "Primary contact email does not look valid.",
+  invalid_feature_pack: "Choose a valid feature flag pack.",
+  invalid_module_pack: "Choose a valid module pack.",
+  invalid_slug: "Use a lowercase slug with letters, numbers and hyphens only.",
+  invalid_template: "Choose a valid tenant template.",
+  missing_feature_registry: "One or more active feature flags are missing from the registry.",
+  missing_module_registry: "One or more selected modules are missing from the module registry.",
+  missing_organisation_name: "Organisation name is required.",
+  missing_workspace_name: "Workspace name is required.",
+  module_registry_error: "Could not validate the module registry.",
+  partial_failure:
+    "Tenant creation partially completed. Review the database before retrying.",
+  reserved_slug: "That slug is reserved for EveryBatch platform routing.",
+  rls_policy_required:
+    "Platform provisioning insert policies must be applied before this action can write.",
 };
 
 function PlatformBadge({
@@ -55,6 +98,58 @@ function PreviewField({ label, value, helper }: PreviewFieldProps) {
   );
 }
 
+function FormField({
+  label,
+  name,
+  defaultValue,
+  helper,
+  required = false,
+  type = "text",
+}: FormFieldProps) {
+  return (
+    <label className="block">
+      <span className="text-xs font-black uppercase tracking-[0.14em] text-slate-500">
+        {label}
+      </span>
+      <input
+        name={name}
+        type={type}
+        defaultValue={defaultValue}
+        required={required}
+        className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+      />
+      {helper ? <span className="mt-1 block text-xs text-slate-500">{helper}</span> : null}
+    </label>
+  );
+}
+
+function SelectField({
+  label,
+  name,
+  defaultValue,
+  children,
+}: {
+  label: string;
+  name: string;
+  defaultValue: string;
+  children: ReactNode;
+}) {
+  return (
+    <label className="block">
+      <span className="text-xs font-black uppercase tracking-[0.14em] text-slate-500">
+        {label}
+      </span>
+      <select
+        name={name}
+        defaultValue={defaultValue}
+        className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+      >
+        {children}
+      </select>
+    </label>
+  );
+}
+
 function WizardStep({
   number,
   title,
@@ -73,14 +168,18 @@ function WizardStep({
           </p>
           <h2 className="mt-1 text-lg font-bold text-slate-950">{title}</h2>
         </div>
-        <PlatformBadge tone="amber">Scaffold / no writes</PlatformBadge>
+        <PlatformBadge tone="amber">Foundation v1</PlatformBadge>
       </div>
       <div className="mt-5">{children}</div>
     </section>
   );
 }
 
-export default function PlatformNewTenantPage() {
+export default async function PlatformNewTenantPage({ searchParams }: PageProps) {
+  const [query, canCreateTenant] = await Promise.all([
+    searchParams,
+    userHasPermission("platform.tenants.manage"),
+  ]);
   const selectedPreview = getDefaultProvisioningConfig("foundation_pilot");
   const selectedModulePack = selectedPreview?.modulePack;
   const selectedFeaturePack = selectedPreview?.featureFlagPack;
@@ -94,6 +193,7 @@ export default function PlatformNewTenantPage() {
     selectedFeaturePack?.features.filter((feature) => feature.status === "active").length ?? 0;
   const plannedFeatureCount =
     selectedFeaturePack?.features.filter((feature) => feature.status === "planned").length ?? 0;
+  const errorMessage = query.error ? errorMessages[query.error] : null;
 
   return (
     <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
@@ -101,8 +201,8 @@ export default function PlatformNewTenantPage() {
         <div className="p-6 md:p-8">
           <div className="flex flex-wrap gap-2">
             <PlatformBadge tone="green">Wizard scaffold</PlatformBadge>
-            <PlatformBadge tone="amber">Create disabled</PlatformBadge>
-            <PlatformBadge>No Supabase writes</PlatformBadge>
+            <PlatformBadge tone="amber">Foundation writes only</PlatformBadge>
+            <PlatformBadge>No auth / domains / billing</PlatformBadge>
           </div>
           <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
             Platform Admin / new tenant
@@ -112,12 +212,32 @@ export default function PlatformNewTenantPage() {
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
             Preview the future EveryBatch tenant provisioning flow. The scaffold
-            shows planned fields, default templates and review sections only.
-            It does not create organisations, invite users, configure domains or
-            write to Supabase.
+            now creates the first reviewed tenant foundation records only. It
+            does not invite users, create auth accounts, configure domains,
+            create billing records or add operational starter data.
           </p>
         </div>
       </section>
+
+      {query.created ? (
+        <section className="rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-sm font-semibold text-emerald-800 shadow-sm">
+          Tenant foundation created for slug `{query.created}`. First admin,
+          domains, billing and operational starter data were not created.
+        </section>
+      ) : null}
+
+      {errorMessage ? (
+        <section className="rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm font-semibold text-amber-900 shadow-sm">
+          {errorMessage}
+        </section>
+      ) : null}
+
+      {!canCreateTenant ? (
+        <section className="rounded-xl border border-slate-200 bg-white p-5 text-sm font-semibold text-slate-700 shadow-sm">
+          Your account can view this scaffold, but `platform.tenants.manage` is
+          required to create a tenant foundation.
+        </section>
+      ) : null}
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -152,22 +272,111 @@ export default function PlatformNewTenantPage() {
         </article>
       </section>
 
-      <WizardStep number={1} title="Tenant Identity">
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          <PreviewField label="Organisation name" value="Example Foods Australia" />
-          <PreviewField label="Workspace name" value="Example Foods Hub" />
-          <PreviewField label="Tenant slug" value="examplefoods" />
-          <PreviewField label="Vertical / industry" value="Food Manufacturing" />
-          <PreviewField label="Timezone" value={defaultOrganisationSettings.timezone} />
-          <PreviewField label="Currency" value={defaultOrganisationSettings.currency} />
-          <PreviewField label="Default units" value={defaultOrganisationSettings.defaultUnits} />
-          <PreviewField label="Primary contact name" value="Future tenant contact" />
-          <PreviewField label="Primary contact email" value="contact@example.com" />
-          <PreviewField label="Tenant status" value="onboarding / future" />
-        </div>
-      </WizardStep>
+      <form action={createTenantFoundationAction} className="space-y-6">
+        <WizardStep number={1} title="Tenant Identity">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <FormField
+              label="Organisation name"
+              name="organisation_name"
+              defaultValue="Test Kitchen Co"
+              required
+            />
+            <FormField
+              label="Workspace name"
+              name="workspace_name"
+              defaultValue="Test Kitchen Hub"
+              helper="Preview only for v1; no dedicated workspace-name column exists yet."
+              required
+            />
+            <FormField
+              label="Tenant slug"
+              name="tenant_slug"
+              defaultValue="test-kitchen"
+              helper="Lowercase letters, numbers and hyphens only."
+              required
+            />
+            <FormField
+              label="Vertical / industry"
+              name="industry"
+              defaultValue="Food Manufacturing"
+            />
+            <FormField
+              label="Timezone"
+              name="timezone"
+              defaultValue={defaultOrganisationSettings.timezone}
+              required
+            />
+            <FormField
+              label="Currency"
+              name="currency"
+              defaultValue={defaultOrganisationSettings.currency}
+              required
+            />
+            <SelectField
+              label="Default units"
+              name="default_units"
+              defaultValue="metric"
+            >
+              <option value="metric">Metric</option>
+              <option value="imperial">Imperial</option>
+            </SelectField>
+            <FormField
+              label="Primary contact name"
+              name="primary_contact_name"
+              defaultValue=""
+              helper="Stored in provisioning notes only for v1."
+            />
+            <FormField
+              label="Primary contact email"
+              name="primary_contact_email"
+              type="email"
+              defaultValue=""
+              helper="Validated, but no auth user or invite is created."
+            />
+            <PreviewField
+              label="Tenant status"
+              value="active"
+              helper="Current organisations.status only supports active, inactive and archived."
+            />
+          </div>
+        </WizardStep>
 
-      <WizardStep number={2} title="Template / Module Pack">
+        <WizardStep number={2} title="Template / Module Pack">
+          <div className="mb-5 grid gap-4 md:grid-cols-3">
+            <SelectField
+              label="Tenant template"
+              name="tenant_template_key"
+              defaultValue="foundation_pilot"
+            >
+              {tenantProvisioningTemplates.map((template) => (
+                <option key={template.key} value={template.key}>
+                  {template.label}
+                </option>
+              ))}
+            </SelectField>
+            <SelectField
+              label="Module pack"
+              name="module_pack_key"
+              defaultValue="foundation_operations"
+            >
+              {modulePackTemplates.map((pack) => (
+                <option key={pack.key} value={pack.key}>
+                  {pack.label}
+                </option>
+              ))}
+            </SelectField>
+            <SelectField
+              label="Feature flag pack"
+              name="feature_flag_pack_key"
+              defaultValue="foundation_features"
+            >
+              {featureFlagPackTemplates.map((pack) => (
+                <option key={pack.key} value={pack.key}>
+                  {pack.label}
+                </option>
+              ))}
+            </SelectField>
+          </div>
         <div className="grid gap-4 xl:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-3">
             {tenantProvisioningTemplates.map((template) => (
@@ -207,14 +416,6 @@ export default function PlatformNewTenantPage() {
               {selectedModulePack?.description}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              {selectedModulePack?.defaultWorkspaceAreas.map((area) => (
-                <span
-                  key={area}
-                  className="rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-bold text-blue-700"
-                >
-                  {area}
-                </span>
-              ))}
               {selectedModulePack?.moduleKeys.map((moduleKey) => (
                 <span
                   key={moduleKey}
@@ -229,9 +430,9 @@ export default function PlatformNewTenantPage() {
             </p>
           </div>
         </div>
-      </WizardStep>
+        </WizardStep>
 
-      <WizardStep number={3} title="Feature Flags">
+        <WizardStep number={3} title="Feature Flags">
         <div className="grid gap-4 xl:grid-cols-2">
           {featureFlagPackTemplates.map((pack) => (
             <article
@@ -287,18 +488,20 @@ export default function PlatformNewTenantPage() {
           Feature flags control rollout readiness. They do not replace modules,
           permissions, memberships or RLS.
         </p>
-      </WizardStep>
+        </WizardStep>
 
-      <WizardStep number={4} title="Settings / Branding">
+        <WizardStep number={4} title="Settings / Branding">
         <div className="grid gap-5 xl:grid-cols-2">
           <div>
             <h3 className="text-sm font-bold text-slate-950">
               Default tenant settings
             </h3>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {Object.entries(defaultOrganisationSettings).map(([key, value]) => (
-                <PreviewField key={key} label={key} value={String(value)} />
-              ))}
+              <PreviewField label="Timezone" value="Uses field from Step 1" />
+              <PreviewField label="Currency" value="Uses field from Step 1" />
+              <PreviewField label="Default units" value="Uses field from Step 1" />
+              <PreviewField label="Date format" value="DD/MM/YYYY" />
+              <PreviewField label="Time format" value="24h" />
             </div>
           </div>
           <div>
@@ -340,9 +543,9 @@ export default function PlatformNewTenantPage() {
             </div>
           </div>
         </div>
-      </WizardStep>
+        </WizardStep>
 
-      <WizardStep number={5} title="First Admin">
+        <WizardStep number={5} title="First Admin">
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <PreviewField label="Admin full name" value="Future tenant admin" />
           <PreviewField label="Admin email" value="admin@example.com" />
@@ -353,9 +556,9 @@ export default function PlatformNewTenantPage() {
           No plaintext password creation. First admin setup must be auditable
           and validated before provisioning actions are introduced.
         </div>
-      </WizardStep>
+        </WizardStep>
 
-      <WizardStep number={6} title="Onboarding Checklist">
+        <WizardStep number={6} title="Onboarding Checklist">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {checklistCategories.map((category) => {
             const items = onboardingChecklistTemplate.items.filter(
@@ -385,9 +588,9 @@ export default function PlatformNewTenantPage() {
             );
           })}
         </div>
-      </WizardStep>
+        </WizardStep>
 
-      <WizardStep number={7} title="Review / Provision">
+        <WizardStep number={7} title="Review / Provision">
         <div className="grid gap-4 lg:grid-cols-[1fr_18rem]">
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <h3 className="text-sm font-bold text-slate-950">
@@ -437,16 +640,27 @@ export default function PlatformNewTenantPage() {
             <p className="mt-2 text-sm leading-6 text-slate-300">
               No tenant records are created from this scaffold.
             </p>
+            <textarea
+              name="notes"
+              rows={3}
+              placeholder="Optional provisioning notes"
+              className="mt-4 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-emerald-300"
+            />
             <button
-              type="button"
-              disabled
-              className="mt-5 w-full cursor-not-allowed rounded-lg bg-slate-700 px-4 py-3 text-sm font-black text-slate-300"
+              type="submit"
+              disabled={!canCreateTenant}
+              className={`mt-4 w-full rounded-lg px-4 py-3 text-sm font-black transition ${
+                canCreateTenant
+                  ? "bg-lime-300 text-green-950 hover:bg-lime-200"
+                  : "cursor-not-allowed bg-slate-700 text-slate-300"
+              }`}
             >
-              Provision tenant - coming soon
+              Create tenant foundation
             </button>
           </div>
         </div>
-      </WizardStep>
+        </WizardStep>
+      </form>
     </div>
   );
 }

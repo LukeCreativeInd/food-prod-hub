@@ -19,6 +19,13 @@ export interface ModuleRegistryItem {
 
 export const availableModules: ModuleRegistryItem[] = [
   {
+    key: "dashboard",
+    label: "Dashboard",
+    description: "Tenant workspace overview and operational landing page.",
+    group: "Management",
+    phase: "Platform",
+  },
+  {
     key: "products",
     label: "Products",
     description: "Product catalogue and food item planning.",

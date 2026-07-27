@@ -272,6 +272,14 @@ The read-only wizard route is:
 
 It previews tenant identity, template/module pack, feature flag, settings/branding, first admin, onboarding checklist and review/provision steps. The provision button is disabled. Do not add tenant creation actions, Supabase writes, first-admin invites or domain provisioning unless a future task explicitly requests them.
 
+Tenant Create Action v1 is documented in:
+
+```text
+docs/141-tenant-create-action-v1.md
+```
+
+`/platform/tenants/new` can now create foundation tenant records for platform admins after migration 029 is manually reviewed and applied. The action creates organisation, settings, branding, enabled modules and feature flag overrides only. It does not create auth users, profiles, memberships, first-admin invites, domains, billing/support records, onboarding records or operational starter data. Planned feature flags remain preview-only unless corresponding registry rows exist.
+
 Tenant sidebar accordion behaviour is documented in:
 
 ```text
