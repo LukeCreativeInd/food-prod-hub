@@ -258,6 +258,20 @@ The read-only Platform Admin preview route is:
 
 These templates cover tenant profiles, module packs, feature flag packs, default settings/branding and onboarding checklist categories. They are local configuration only. They do not call Supabase, create tenants, apply modules, invite users, configure domains or write checklist records.
 
+New Tenant Wizard scaffold is documented in:
+
+```text
+docs/140-new-tenant-wizard-scaffold.md
+```
+
+The read-only wizard route is:
+
+```text
+/platform/tenants/new
+```
+
+It previews tenant identity, template/module pack, feature flag, settings/branding, first admin, onboarding checklist and review/provision steps. The provision button is disabled. Do not add tenant creation actions, Supabase writes, first-admin invites or domain provisioning unless a future task explicitly requests them.
+
 Tenant sidebar accordion behaviour is documented in:
 
 ```text

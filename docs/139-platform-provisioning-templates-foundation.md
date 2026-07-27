@@ -46,6 +46,14 @@ It is intentionally read-only:
 - no domain setup
 - no starter data application
 
+Task 140 also adds a read-only New Tenant Wizard scaffold at:
+
+```text
+/platform/tenants/new
+```
+
+That wizard uses these static definitions for preview only. It still does not create tenants or write to Supabase.
+
 ## Tenant Templates
 
 The initial tenant templates are:

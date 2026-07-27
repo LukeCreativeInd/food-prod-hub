@@ -376,6 +376,14 @@ Task 139 adds the first static provisioning template foundation and a read-only 
 
 This route previews tenant templates, module packs, feature flag packs, defaults and onboarding checklist categories only. It does not create tenants or write Platform Admin provisioning records.
 
+Task 140 adds a read-only New Tenant Wizard scaffold at:
+
+```text
+/platform/tenants/new
+```
+
+The scaffold shows the planned provisioning steps and disabled create action only. It does not add tenant creation server actions.
+
 ## Platform Settings And Branding
 
 ### Platform Branding

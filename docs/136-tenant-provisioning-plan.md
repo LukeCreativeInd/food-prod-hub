@@ -21,6 +21,7 @@ Current Platform Admin state:
 - Platform Admin remains accessible through `/select-workspace` and guarded `/platform` routes.
 - Static provisioning templates now exist in `lib/platform-provisioning-templates.ts`.
 - `/platform/tenants/provisioning` shows a read-only preview of tenant templates, module packs, feature flag packs, defaults and onboarding checklist categories.
+- `/platform/tenants/new` shows a read-only New Tenant Wizard scaffold with disabled provisioning actions.
 - No tenant creation or provisioning workflow exists yet.
 
 Clean Eats is Tenant 1. Future tenants should be provisioned safely through reviewed Platform Admin workflows.

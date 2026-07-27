@@ -43,6 +43,10 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
     title: "Clean Eats Tenant Detail",
     context: "Platform",
   },
+  "/platform/tenants/new": {
+    title: "New Tenant",
+    context: "Platform",
+  },
   "/platform/tenants/cleaneats/modules": {
     title: "Clean Eats Modules",
     context: "Platform",
