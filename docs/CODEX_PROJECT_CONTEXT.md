@@ -98,6 +98,14 @@ lib/workspace-options.ts
 
 It prepares active workspace options, platform-admin detection, default destination guidance and server-side workspace selection validation. It is not wired into `/login`, middleware, tenant subdomain routing or the app shell yet.
 
+Tenant selector UI foundation lives at:
+
+```text
+/select-workspace
+```
+
+It is an EveryBatch-branded central app/login-flow route outside the tenant AppShell/sidebar. It uses the workspace options helper and validates selected workspaces server-side before redirecting to the current transitional destination. It is not wired into `/login` automatically and does not redirect to tenant subdomains yet.
+
 ## Architecture Guardrails
 
 Keep the architecture multi-tenant, tenant-safe and RLS-safe.

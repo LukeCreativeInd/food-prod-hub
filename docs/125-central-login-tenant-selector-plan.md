@@ -276,6 +276,12 @@ List validated workspaces and Platform Admin option.
 
 Keep current domain/routes while tenant subdomain routing remains inactive.
 
+Status:
+
+- Task 127 adds `/select-workspace` as the first EveryBatch-branded tenant selector UI foundation.
+- Workspace selection validates server-side and redirects to the current transitional `/dashboard` destination.
+- The route is not wired into `/login` automatically yet.
+
 ### Phase 4 - Login Redirect Update
 
 After login:

@@ -153,12 +153,19 @@ Changing login redirects before the selector route exists would create avoidable
 
 Recommended next tasks:
 
-- build `/select-workspace`
-- add server action for workspace selection
+- test and refine `/select-workspace`
 - update login redirect to use `getDefaultPostLoginDestination()`
 - add safe redirect target helper
 - activate tenant subdomain destinations after routing is ready
 - handle tenant-branded login later
+
+## Tenant Selector UI Status
+
+Task 127 adds the first `/select-workspace` UI foundation using these helpers.
+
+The selector validates workspace choices server-side and keeps transitional routing to `/dashboard` for tenant workspaces.
+
+It does not change `/login` redirect behaviour or activate tenant subdomain redirects.
 
 ## Migration Notes
 
