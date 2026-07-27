@@ -90,6 +90,20 @@ Inside tenant workspaces, tenant branding should remain prominent. EveryBatch ca
 
 Platform/admin surfaces should use EveryBatch branding.
 
+Platform Admin should eventually live at:
+
+```text
+platform.everybatchmrp.com
+```
+
+Platform should not be treated as a normal tenant module long-term.
+
+Avoid building platform-owner functionality into tenant UI unless a task explicitly says it is a temporary bridge.
+
+Tenant apps should be tenant-branded. Platform Admin should be EveryBatch-branded.
+
+Support access and impersonation must be explicit, scoped and auditable. Do not add invisible support impersonation.
+
 ## Task Discipline
 
 Respect current task sequencing.

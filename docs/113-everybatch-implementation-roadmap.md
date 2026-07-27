@@ -86,6 +86,8 @@ Purpose:
 - plan long-term separation of Platform Admin to `platform.everybatchmrp.com`
 - define platform-owner shell separate from tenant app shell
 - clarify support-mode tenant viewing
+- document what belongs in Platform Admin versus tenant workspaces
+- define implementation phases before moving code
 
 Non-goals:
 
@@ -115,6 +117,10 @@ Risks:
 - exposing platform controls inside tenant shell
 - unclear support/admin context when viewing a tenant
 - needing different navigation, search and help behaviours across shells
+
+Status:
+
+- Task 115 creates the Platform Admin separation plan.
 
 ## 4. App Header And Page Title Layout Refactor
 
@@ -329,13 +335,31 @@ Risks:
 ## Recommended Sequence
 
 1. Finalise EveryBatch brand assets and brand copy rules.
-2. Plan tenant subdomain routing before changing route behaviour.
-3. Split Platform Admin conceptually before expanding platform-owner controls.
-4. Refactor app header only after support/search/login needs are clear.
-5. Build support/help links once support destination exists.
-6. Split login branding once central versus tenant domain routing is understood.
-7. Plan marketing and support sites as separate surfaces from the tenant app.
-8. Keep multi-tenant rollout controls ahead of any future customer onboarding.
+2. Complete Platform Admin separation planning before moving `/platform` code.
+3. Plan tenant subdomain routing before changing route behaviour.
+4. Implement EveryBatch brand foundation only after brand assets/copy rules are clear.
+5. Refactor app header only after support/search/login needs are clear.
+6. Build support/help links once support destination exists.
+7. Split login branding once central versus tenant domain routing is understood.
+8. Plan feature flags before tenant-specific beta rollouts.
+9. Build tenant provisioning only after Platform Admin shell boundaries are clear.
+10. Keep multi-tenant smoke tests ahead of future customer onboarding.
+
+## Future Task Backlog Proposal
+
+Do not renumber existing committed tasks. This is a proposed future roadmap:
+
+- 115 Platform Admin Separation Plan
+- 116 Tenant Subdomain Routing Plan
+- 117 EveryBatch Brand Foundation Implementation
+- 118 App Header and Page Title Layout Refactor
+- 119 Help / Support Menu Foundation
+- 120 Login Branding Split
+- 121 Feature Flag Foundation
+- 122 Platform Shell Separation v1
+- 123 Tenant Provisioning Workflow v1
+- 124 Tenant Module Management v1
+- 125 Multi-tenant Smoke Test Checklist
 
 ## Migration Notes
 
