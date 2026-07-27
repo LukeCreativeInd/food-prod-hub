@@ -379,3 +379,9 @@ Task 146 adds the first manual Component Formula Builder v1 on the existing `/co
 Reads require `formulas.view`. Create/edit/line actions require `formulas.manage`, derive `organisation_id` from the authenticated app context and respect current RLS. Line removal soft-archives `formula_lines.archived_at` because current formula RLS intentionally has no delete policy.
 
 The builder does not add workbook import, finished product formula editing, production routes/methods, stock movements, unit conversion, sell price/margin logic, Supplier Invoice Intake changes or Platform Admin changes.
+
+## Task 147 FCP/LCP Frontend Optimisation
+
+Task 147 improves first paint and largest paint behaviour on `/dashboard`, `/organisation-settings`, `/suppliers` and `/platform` without changing schema, RLS, permissions, auth flow, middleware, tenant routing, Platform Admin provisioning, Supplier Invoice Intake logic or business rules.
+
+The pass adds lightweight count-only summary helpers for Dashboard and Suppliers, streams lower-priority sections through server `Suspense` boundaries, defers Organisation Settings branding/logo form work behind a stable section fallback and separates the static Platform Admin hero from heavier tenant/platform metadata panels. Global search was inspected and left unchanged because it does not fetch until the user types.

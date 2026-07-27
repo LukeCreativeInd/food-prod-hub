@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 
 import { createSupplierAction } from "@/app/suppliers/actions";
@@ -8,7 +9,10 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { getSupplierDirectoryPageData } from "@/lib/products-data";
+import {
+  getSupplierDirectoryPageData,
+  getSupplierDirectorySummaryData,
+} from "@/lib/products-data";
 
 type PageProps = {
   searchParams: Promise<{
@@ -46,78 +50,31 @@ function messageForCreate(status?: string) {
   return null;
 }
 
-export default async function SuppliersPage({ searchParams }: PageProps) {
-  const [{ suppliers, canManageSuppliers }, query] = await Promise.all([
-    getSupplierDirectoryPageData(),
-    searchParams,
-  ]);
-  const activeSuppliers = suppliers.filter(
-    (supplier) => supplier.status === "active",
-  ).length;
-  const linkedItems = suppliers.reduce(
-    (total, supplier) => total + supplier.supplierItemCount,
-    0,
+function SuppliersSectionFallback() {
+  return (
+    <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+      <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="h-4 w-40 rounded bg-slate-100" />
+        <div className="mt-4 space-y-3">
+          {[1, 2, 3, 4].map((item) => (
+            <div className="h-12 rounded-md bg-slate-50" key={item} />
+          ))}
+        </div>
+      </div>
+      <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="h-4 w-36 rounded bg-slate-100" />
+        <div className="mt-4 h-40 rounded-md bg-slate-50" />
+      </div>
+    </section>
   );
-  const currentPrices = suppliers.reduce(
-    (total, supplier) => total + supplier.currentPriceCount,
-    0,
-  );
-  const importReferences = suppliers.reduce(
-    (total, supplier) => total + supplier.documentCount,
-    0,
-  );
-  const createMessage = messageForCreate(query.create);
+}
+
+async function SupplierDirectorySection() {
+  const { suppliers, canManageSuppliers } = await getSupplierDirectoryPageData();
+  const visibleSuppliers = suppliers.slice(0, 30);
 
   return (
-    <>
-      <PageHeader
-        variant="compact"
-        title="Suppliers"
-        description="Manage supplier master records and review supplier catalogue coverage for Clean Eats."
-      />
-      <div className="space-y-6 px-5 py-6 md:px-8">
-        {createMessage ? (
-          <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
-            {createMessage}
-          </div>
-        ) : null}
-
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <StatCard
-            label="Active suppliers"
-            value={String(activeSuppliers)}
-            helperText="Tenant suppliers currently marked active."
-            badge="Live"
-            tone="success"
-            icon="SU"
-          />
-          <StatCard
-            label="Supplier items"
-            value={String(linkedItems)}
-            helperText="Supplier-facing catalogue items linked to suppliers."
-            badge="Catalogue"
-            tone="info"
-            icon="IT"
-          />
-          <StatCard
-            label="Current prices"
-            value={String(currentPrices)}
-            helperText="Approved current supplier prices linked to supplier items."
-            badge="Approved"
-            tone="success"
-            icon="$"
-          />
-          <StatCard
-            label="Import references"
-            value={String(importReferences)}
-            helperText="Reviewed intake documents retained as secondary provenance."
-            badge="Optional"
-            tone="neutral"
-            icon="IR"
-          />
-        </section>
-
-        <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+    <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
           <SectionCard
             title="Supplier directory"
             description="Tenant-scoped supplier records from manual entry, reviewed intake and future controlled setup paths."
@@ -128,7 +85,15 @@ export default async function SuppliersPage({ searchParams }: PageProps) {
             }
           >
             {suppliers.length > 0 ? (
-              <div className="overflow-x-auto rounded-md border border-slate-200">
+              <div className="space-y-3">
+                {suppliers.length > visibleSuppliers.length ? (
+                  <p className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
+                    Showing first {visibleSuppliers.length} of {suppliers.length} suppliers
+                    for faster initial rendering. Open supplier detail pages for full
+                    records.
+                  </p>
+                ) : null}
+                <div className="overflow-x-auto rounded-md border border-slate-200">
                 <table className="min-w-full divide-y divide-slate-200 text-sm">
                   <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
                     <tr>
@@ -148,7 +113,7 @@ export default async function SuppliersPage({ searchParams }: PageProps) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 bg-white">
-                    {suppliers.map((supplier) => (
+                    {visibleSuppliers.map((supplier) => (
                       <tr key={supplier.id}>
                         <td className="px-4 py-3">
                           <Link
@@ -187,6 +152,7 @@ export default async function SuppliersPage({ searchParams }: PageProps) {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
             ) : (
               <EmptyState
@@ -289,6 +255,68 @@ export default async function SuppliersPage({ searchParams }: PageProps) {
             )}
           </SectionCard>
         </section>
+  );
+}
+
+export default async function SuppliersPage({ searchParams }: PageProps) {
+  const [summary, query] = await Promise.all([
+    getSupplierDirectorySummaryData(),
+    searchParams,
+  ]);
+  const createMessage = messageForCreate(query.create);
+
+  return (
+    <>
+      <PageHeader
+        variant="compact"
+        title="Suppliers"
+        description="Manage supplier master records and review supplier catalogue coverage for Clean Eats."
+      />
+      <div className="space-y-6 px-5 py-6 md:px-8">
+        {createMessage ? (
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
+            {createMessage}
+          </div>
+        ) : null}
+
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <StatCard
+            label="Active suppliers"
+            value={String(summary.counts.activeSuppliers)}
+            helperText="Tenant suppliers currently marked active."
+            badge="Live"
+            tone="success"
+            icon="SU"
+          />
+          <StatCard
+            label="Supplier items"
+            value={String(summary.counts.linkedItems)}
+            helperText="Supplier-facing catalogue items linked to suppliers."
+            badge="Catalogue"
+            tone="info"
+            icon="IT"
+          />
+          <StatCard
+            label="Current prices"
+            value={String(summary.counts.currentPrices)}
+            helperText="Approved current supplier prices linked to supplier items."
+            badge="Approved"
+            tone="success"
+            icon="$"
+          />
+          <StatCard
+            label="Import references"
+            value={String(summary.counts.importReferences)}
+            helperText="Reviewed intake documents retained as secondary provenance."
+            badge="Optional"
+            tone="neutral"
+            icon="IR"
+          />
+        </section>
+
+        <Suspense fallback={<SuppliersSectionFallback />}>
+          <SupplierDirectorySection />
+        </Suspense>
       </div>
     </>
   );

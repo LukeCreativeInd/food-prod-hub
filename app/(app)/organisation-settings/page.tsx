@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { BrandingForm, type BrandingFormValues } from "@/app/organisation-settings/branding-form";
 import { PageHeader } from "@/components/page-header";
 import {
@@ -139,40 +141,40 @@ function DetailGrid({ items }: { items: string[][] }) {
   );
 }
 
-export default async function OrganisationSettingsPage({
-  searchParams,
-}: PageProps) {
-  const [{ authContext, permissionKeys }, query] = await Promise.all([
-    requirePermissionAccessWithPermissions("admin.organisation.view"),
-    searchParams,
-  ]);
+function SettingsSectionFallback({ label }: { label: string }) {
+  return (
+    <section className="rounded-lg border border-slate-200/80 bg-white p-5 shadow-sm">
+      <div className="h-4 w-44 rounded bg-slate-100" />
+      <div className="mt-3 h-3 w-full max-w-xl rounded bg-slate-100" />
+      <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {[1, 2, 3].map((item) => (
+          <div
+            className="h-20 rounded-lg border border-slate-200 bg-slate-50"
+            key={item}
+          />
+        ))}
+      </div>
+      <p className="mt-4 text-sm text-slate-500">{label}</p>
+    </section>
+  );
+}
 
-  if (!authContext.organisation) {
-    throw new Error("Current organisation is required.");
-  }
-
-  const canManageBranding =
-    permissionKeys.includes("admin.organisation.manage") ||
-    authContext.membership?.role_key === "platform_admin";
+async function BrandingThemeSection({
+  organisationId,
+  canManageBranding,
+}: {
+  organisationId: string;
+  canManageBranding: boolean;
+}) {
   const supabase = await createClient();
-  const organisationId = authContext.organisation.id;
-  const [{ data: settingsData }, { data: brandingData }] = await Promise.all([
-    supabase
-      .from("organisation_settings")
-      .select("timezone, currency, default_units")
-      .eq("organisation_id", organisationId)
-      .maybeSingle(),
-    supabase
-      .from("organisation_branding")
-      .select(
-        "logo_url, primary_colour, accent_colour, success_colour, warning_colour, danger_colour, info_colour, sidebar_style, theme_mode",
-      )
-      .eq("organisation_id", organisationId)
-      .maybeSingle(),
-  ]);
-  const settings = settingsData as SettingsRow | null;
+  const { data: brandingData } = await supabase
+    .from("organisation_branding")
+    .select(
+      "logo_url, primary_colour, accent_colour, success_colour, warning_colour, danger_colour, info_colour, sidebar_style, theme_mode",
+    )
+    .eq("organisation_id", organisationId)
+    .maybeSingle();
   const branding = brandingData as BrandingRow | null;
-  const message = brandingMessage(query.branding);
   const logoPreviewUrl = await getOrganisationLogoDisplayUrl(
     supabase,
     branding?.logo_url,
@@ -198,15 +200,6 @@ export default async function OrganisationSettingsPage({
     themeMode: cleanThemeMode(branding?.theme_mode),
   };
 
-  const profileFields = [
-    ["Organisation name", authContext.organisation.name],
-    ["Tenant slug", authContext.organisation.slug],
-    ["Industry", "Food Manufacturing"],
-    ["Timezone", settings?.timezone ?? "Australia/Melbourne"],
-    ["Currency", settings?.currency ?? "AUD"],
-    ["Default units", titleCase(settings?.default_units ?? "metric")],
-  ];
-
   const brandingFields = [
     ["Logo", brandingValues.logoUrl ? "Uploaded" : "No logo uploaded"],
     ["Primary colour", brandingValues.primaryColour],
@@ -217,6 +210,61 @@ export default async function OrganisationSettingsPage({
     ["Info colour", brandingValues.infoColour],
     ["Sidebar style", titleCase(branding?.sidebar_style ?? "clean-operations")],
     ["Theme mode", titleCase(brandingValues.themeMode)],
+  ];
+
+  return (
+    <SectionCard
+      title="Branding and Theme"
+      description="Manage tenant logo upload, brand colours, status colours and light/dark mode foundation."
+      action={
+        <StatusBadge tone={canManageBranding ? "success" : "warning"}>
+          {canManageBranding ? "Manage enabled" : "Read only"}
+        </StatusBadge>
+      }
+    >
+      <div className="mb-5">
+        <DetailGrid items={brandingFields} />
+      </div>
+      <BrandingForm
+        values={brandingValues}
+        canManageBranding={canManageBranding}
+      />
+    </SectionCard>
+  );
+}
+
+export default async function OrganisationSettingsPage({
+  searchParams,
+}: PageProps) {
+  const [{ authContext, permissionKeys }, query] = await Promise.all([
+    requirePermissionAccessWithPermissions("admin.organisation.view"),
+    searchParams,
+  ]);
+
+  if (!authContext.organisation) {
+    throw new Error("Current organisation is required.");
+  }
+
+  const canManageBranding =
+    permissionKeys.includes("admin.organisation.manage") ||
+    authContext.membership?.role_key === "platform_admin";
+  const supabase = await createClient();
+  const organisationId = authContext.organisation.id;
+  const { data: settingsData } = await supabase
+    .from("organisation_settings")
+    .select("timezone, currency, default_units")
+    .eq("organisation_id", organisationId)
+    .maybeSingle();
+  const settings = settingsData as SettingsRow | null;
+  const message = brandingMessage(query.branding);
+
+  const profileFields = [
+    ["Organisation name", authContext.organisation.name],
+    ["Tenant slug", authContext.organisation.slug],
+    ["Industry", "Food Manufacturing"],
+    ["Timezone", settings?.timezone ?? "Australia/Melbourne"],
+    ["Currency", settings?.currency ?? "AUD"],
+    ["Default units", titleCase(settings?.default_units ?? "metric")],
   ];
 
   return (
@@ -243,23 +291,14 @@ export default async function OrganisationSettingsPage({
           <DetailGrid items={profileFields} />
         </SectionCard>
 
-        <SectionCard
-          title="Branding and Theme"
-          description="Manage tenant logo upload, brand colours, status colours and light/dark mode foundation."
-          action={
-            <StatusBadge tone={canManageBranding ? "success" : "warning"}>
-              {canManageBranding ? "Manage enabled" : "Read only"}
-            </StatusBadge>
-          }
+        <Suspense
+          fallback={<SettingsSectionFallback label="Loading branding controls" />}
         >
-          <div className="mb-5">
-            <DetailGrid items={brandingFields} />
-          </div>
-          <BrandingForm
-            values={brandingValues}
+          <BrandingThemeSection
+            organisationId={organisationId}
             canManageBranding={canManageBranding}
           />
-        </SectionCard>
+        </Suspense>
 
         <SectionCard
           title="Enabled Modules"

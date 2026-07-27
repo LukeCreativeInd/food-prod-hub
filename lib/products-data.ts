@@ -647,6 +647,51 @@ export async function getSupplierDirectoryPageData() {
   };
 }
 
+export async function getSupplierDirectorySummaryData() {
+  const timingStartedAt = Date.now();
+  const { organisationId, canManageSuppliers } =
+    await requireSupplierDirectoryAccess();
+  const supabase = await createClient();
+
+  const [activeSuppliersResult, supplierItemsResult, currentPricesResult, documentsResult] =
+    await Promise.all([
+      supabase
+        .from("suppliers")
+        .select("id", { count: "exact", head: true })
+        .eq("organisation_id", organisationId)
+        .eq("status", "active")
+        .is("archived_at", null),
+      supabase
+        .from("supplier_items")
+        .select("id", { count: "exact", head: true })
+        .eq("organisation_id", organisationId)
+        .is("archived_at", null),
+      supabase
+        .from("approved_supplier_prices")
+        .select("id", { count: "exact", head: true })
+        .eq("organisation_id", organisationId)
+        .eq("status", "current"),
+      supabase
+        .from("purchase_documents")
+        .select("id", { count: "exact", head: true })
+        .eq("organisation_id", organisationId),
+    ]);
+
+  logDevRouteTiming("suppliers.summary", timingStartedAt, {
+    activeSupplierCount: activeSuppliersResult.count ?? 0,
+  });
+
+  return {
+    canManageSuppliers,
+    counts: {
+      activeSuppliers: activeSuppliersResult.count ?? 0,
+      linkedItems: supplierItemsResult.count ?? 0,
+      currentPrices: currentPricesResult.count ?? 0,
+      importReferences: documentsResult.count ?? 0,
+    },
+  };
+}
+
 export async function getSupplierDirectoryData() {
   const { suppliers } = await getSupplierDirectoryPageData();
 
