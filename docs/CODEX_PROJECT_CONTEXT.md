@@ -73,6 +73,8 @@ Tenant data should remain isolated through:
 
 Tenant-specific behaviour should generally be controlled through configuration, module enablement, feature flags or reviewed migrations.
 
+Feature flags now have a drafted database-backed foundation in migration 028. They are rollout/readiness controls only and must not replace modules, permissions, memberships or RLS.
+
 Do not rename the repo, routes, folders or code identifiers casually just because the product brand is now EveryBatch.
 
 Keep tenant-specific code config/feature-flag driven where possible.

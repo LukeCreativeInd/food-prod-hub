@@ -639,6 +639,18 @@ Codex/future development should follow these rules:
 - treat storage policies carefully and document manual UI setup where needed
 - prefer configuration, feature flags and module settings over tenant-specific forks
 
+## Feature Flag Foundation Status
+
+Task 121 drafts the first database-backed feature flag foundation:
+
+- `feature_flags` global registry
+- `organisation_feature_flags` tenant overrides
+- Clean Eats enabled overrides for already-built foundation features
+- RLS policies with active-member reads and platform-admin-only writes
+- server-side helper functions in `lib/feature-flags.ts`
+
+Existing app behaviour remains unchanged. Feature flags are not yet wired into app shell gating or Platform Admin editing.
+
 ## Future Implementation Backlog Proposal
 
 Do not renumber existing committed tasks. This is a proposed future backlog:

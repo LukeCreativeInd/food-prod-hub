@@ -303,6 +303,8 @@ Rules:
 - feature flags must not bypass RLS
 - feature flags must not grant access by themselves
 
+Task 121 creates the first `feature_flags` and `organisation_feature_flags` schema foundation with platform-admin-only mutation policies. Platform Admin management UI remains future work.
+
 ## Tenant Domain Management
 
 Target Platform Admin domain controls:
