@@ -1,8 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { AppShell } from "@/components/app-shell";
-import { requirePermissionAccess } from "@/lib/auth";
 import { PLATFORM_PRIMARY_DOMAIN } from "@/lib/platform-brand";
 
 const summaryCards = [
@@ -151,11 +149,8 @@ function DetailPanel({
 }
 
 export default async function CleanEatsTenantDetailPage() {
-  await requirePermissionAccess("platform.tenants.view");
-
   return (
-    <AppShell>
-      <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
+    <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
         <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
           <div className="p-6 md:p-8">
             <Link
@@ -417,7 +412,6 @@ export default async function CleanEatsTenantDetailPage() {
             ))}
           </div>
         </section>
-      </div>
-    </AppShell>
+    </div>
   );
 }

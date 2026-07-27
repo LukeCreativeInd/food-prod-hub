@@ -51,7 +51,7 @@ Current domain setup:
 - login and dashboard smoke tests passed on `app.everybatchmrp.com`
 - do not point `everybatchmrp.com` root to the tenant app; reserve it for marketing or a coming-soon page
 - do not connect `cleaneats.everybatchmrp.com` until tenant workspace host routing is implemented
-- do not connect `platform.everybatchmrp.com` until Platform Admin shell separation exists
+- do not connect `platform.everybatchmrp.com` until Platform Admin domain routing is explicitly implemented
 - do not connect `support.everybatchmrp.com` until the support/knowledge-base target exists
 - do not change Vercel, DNS, Supabase Auth redirect URLs or env vars from a code task without explicit user instruction
 
@@ -199,6 +199,14 @@ Future support tickets from `support.everybatchmrp.com` or app Help menu should 
 Avoid building tenant operational features inside Platform Admin unless they are clearly oversight, provisioning or support workflows.
 
 Tenant apps should be tenant-branded. Platform Admin should be EveryBatch-branded.
+
+Platform Shell Separation v1 is implemented at:
+
+```text
+/platform
+```
+
+`/platform` and `/platform/tenants/cleaneats` now render inside a dedicated EveryBatch Platform shell instead of the tenant AppShell/sidebar. The future `platform.everybatchmrp.com` domain remains inactive until a reviewed routing/domain task connects it.
 
 Support access and impersonation must be explicit, scoped and auditable. Do not add invisible support impersonation.
 

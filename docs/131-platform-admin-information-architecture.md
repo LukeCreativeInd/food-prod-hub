@@ -577,6 +577,11 @@ Tenant operational features should not be built in Platform Admin unless they ar
 - Platform Admin IA docs
 - Platform Shell Separation v1
 
+Status:
+
+- Task 131 completes Platform Admin IA docs.
+- Task 132 implements Platform Shell Separation v1 at `/platform` without activating `platform.everybatchmrp.com`.
+
 ### Phase 2
 
 - Platform Overview scaffold

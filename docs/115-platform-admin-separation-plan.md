@@ -123,6 +123,16 @@ It should not use the normal tenant operational sidebar unless viewing a tenant 
 
 The visual hierarchy should feel like an EveryBatch internal operator console, not a Clean Eats tenant workspace.
 
+Task 132 implements the first Platform shell separation at `/platform`.
+
+Current v1 behaviour:
+
+- `/platform` and `/platform/tenants/cleaneats` render inside a dedicated EveryBatch Platform shell.
+- The tenant AppShell/sidebar no longer wraps Platform pages.
+- Only currently implemented Platform routes are linked.
+- Future Platform IA items are shown as disabled `Soon` navigation entries.
+- `platform.everybatchmrp.com` routing remains future and is not active.
+
 ### Tenant Workspace Shell
 
 The tenant shell should use:

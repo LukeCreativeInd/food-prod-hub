@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import { AppShell } from "@/components/app-shell";
-import { requirePermissionAccess } from "@/lib/auth";
 import {
   PLATFORM_ADMIN_DOMAIN,
   PLATFORM_BRAND_NAME,
@@ -98,6 +96,36 @@ const guardrails = [
   "RLS/security foundations stay protected",
 ];
 
+const platformSignals = [
+  {
+    label: "Support inbox",
+    value: "Future",
+    detail: "Tickets from support.everybatchmrp.com and app Help menu later.",
+  },
+  {
+    label: "System health",
+    value: "Manual",
+    detail: "Vercel, Supabase, storage and route checks remain manual links later.",
+  },
+  {
+    label: "Feature flags",
+    value: "Drafted",
+    detail: "Registry foundation exists; no editor or live gating here yet.",
+  },
+  {
+    label: "Release notes",
+    value: "Planned",
+    detail: "Deployment metadata, migration status and smoke test records later.",
+  },
+];
+
+const nextSetupSteps = [
+  "Platform Shell Separation v1",
+  "Tenant Overview v1",
+  "Tenant Module / Feature Flag Overview",
+  "Tenant Provisioning Plan",
+];
+
 function PlatformBadge({
   children,
   tone = "slate",
@@ -122,11 +150,8 @@ function PlatformBadge({
 }
 
 export default async function PlatformPage() {
-  await requirePermissionAccess("platform.tenants.view");
-
   return (
-    <AppShell>
-      <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
+    <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
         <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
           <div className="grid gap-6 p-6 md:p-8 xl:grid-cols-[1.4fr_0.6fr]">
             <div>
@@ -179,6 +204,65 @@ export default async function PlatformPage() {
               </p>
             </article>
           ))}
+        </section>
+
+        <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+            <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-slate-950">
+                  Operator console signals
+                </h2>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  Platform Admin v1 separates the shell and prepares the
+                  operating areas without adding management actions.
+                </p>
+              </div>
+              <PlatformBadge tone="amber">Scaffold</PlatformBadge>
+            </div>
+            <div className="mt-5 grid gap-3 md:grid-cols-2">
+              {platformSignals.map((signal) => (
+                <article
+                  key={signal.label}
+                  className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                >
+                  <p className="text-xs font-semibold uppercase text-slate-500">
+                    {signal.label}
+                  </p>
+                  <p className="mt-2 text-lg font-bold text-slate-950">
+                    {signal.value}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    {signal.detail}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-slate-800 bg-slate-950 p-5 shadow-sm md:p-6">
+            <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-white">
+                  Next setup steps
+                </h2>
+                <p className="mt-1 text-sm leading-6 text-slate-300">
+                  Planned sequence from the Platform Admin IA.
+                </p>
+              </div>
+              <PlatformBadge tone="amber">Planned</PlatformBadge>
+            </div>
+            <div className="mt-5 space-y-3">
+              {nextSetupSteps.map((step) => (
+                <div
+                  key={step}
+                  className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-slate-100"
+                >
+                  {step}
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
 
         <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
@@ -371,7 +455,6 @@ export default async function PlatformPage() {
             </div>
           </div>
         </section>
-      </div>
-    </AppShell>
+    </div>
   );
 }
