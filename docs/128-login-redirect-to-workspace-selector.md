@@ -76,6 +76,18 @@ Current selector behaviour:
 - Platform Admin Console card links to `/platform`.
 - invalid workspace selections stay on `/select-workspace` with a safe error message.
 
+## Workspace Switcher Status
+
+Task 129 adds a `Switch workspace` entry to the authenticated app user dropdown.
+
+That entry links to:
+
+```text
+/select-workspace
+```
+
+It lets users return to the selector after entering the app without changing login redirect rules or activating tenant subdomain routing.
+
 ## Tenant Subdomain Routing Status
 
 This task does not redirect to:

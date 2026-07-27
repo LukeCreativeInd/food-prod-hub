@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import Link from "next/link";
 
 import { AppHeaderTitle } from "@/components/app-header-title";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -179,6 +180,15 @@ export async function AppShell({ children }: AppShellProps) {
                   <p className="mb-3 truncate text-xs text-[var(--tenant-muted)]">
                     {tenantPresentation.userDetail}
                   </p>
+                  <Link
+                    href="/select-workspace"
+                    className="mb-3 flex items-center justify-between rounded-md border border-[var(--tenant-border)] bg-[var(--tenant-surface-muted)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:border-[color:var(--tenant-primary-border)] hover:bg-[var(--tenant-primary-soft)]"
+                  >
+                    <span>Switch workspace</span>
+                    <span className="text-xs text-[var(--tenant-muted)]">
+                      EveryBatch
+                    </span>
+                  </Link>
                   <LogoutButton variant="light" />
                 </div>
               </details>

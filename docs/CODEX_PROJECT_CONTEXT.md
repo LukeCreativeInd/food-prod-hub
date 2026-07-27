@@ -112,6 +112,7 @@ Login redirect behaviour:
 - Already-signed-in visits to `/login` use the same destination logic.
 - Allowed transitional destinations are `/dashboard`, `/select-workspace`, `/platform` and `/no-access`.
 - Tenant subdomain redirects remain inactive.
+- Authenticated app shell users have a `Switch workspace` entry in the user dropdown that links to `/select-workspace`.
 
 ## Architecture Guardrails
 
