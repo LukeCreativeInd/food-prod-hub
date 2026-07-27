@@ -61,6 +61,25 @@ Tenant-specific behaviour should generally be controlled through configuration, 
 
 Do not rename the repo, routes, folders or code identifiers casually just because the product brand is now EveryBatch.
 
+Keep tenant-specific code config/feature-flag driven where possible.
+
+Do not hardcode Clean Eats behaviour unless the task explicitly scopes it as Tenant 1 seed data, demo data or a temporary adapter, and document that choice.
+
+Do not create cross-tenant data access. Use current organisation context, `organisation_id`, memberships, permissions, enabled modules and RLS.
+
+Every tenant-owned table needs `organisation_id` and RLS unless a task explicitly documents why the table is global/reference data.
+
+Do not add a module or major workspace without considering:
+
+- `modules`
+- `organisation_modules`
+- user permissions
+- route guards
+- navigation visibility
+- RLS for any tenant-owned data
+
+Storage policies may require manual Supabase UI setup when SQL ownership or `storage.objects` policy management is constrained. Document exact manual policy expressions whenever this happens.
+
 ## Current Tenant Relationship
 
 EveryBatch is the platform.
@@ -84,6 +103,9 @@ Do not add:
 - business logic beyond the requested scope
 - Supplier Invoice Intake parser/commit changes unless specifically requested
 - Platform Admin functionality unless specifically requested
+- feature flag implementation unless specifically requested
+- tenant subdomain routing unless specifically requested
+- user-facing Food Prod Hub wording
 
 When a migration file is created or changed, final responses must include the full SQL migration contents.
 
