@@ -92,6 +92,7 @@ The current app includes the foundation for an internal operations hub: app shel
 - Inventory Locations foundation has been drafted with tenant-scoped location records and real Stock Locations list/create/detail UI
 - Costings dashboard now shows real read-only price coverage, recent price records and formula readiness summaries
 - Production dashboard now shows real read-only setup readiness from locations, formulas and internal item data where available
+- App shell, navigation order and tenant branding have been polished as UI Overhaul v2 Part A
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -249,6 +250,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Inventory locations foundation](docs/106-inventory-locations-foundation.md)
 - [Costings dashboard real data summary](docs/107-costings-dashboard-real-data-summary.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
+- [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 
 ## Database Migrations
 

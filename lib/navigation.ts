@@ -37,6 +37,51 @@ export const navigationGroups: NavigationGroup[] = [
     items: [],
   },
   {
+    label: "Inventory",
+    href: "/inventory",
+    requiredPermission: "inventory.view",
+    requiredModuleKey: "inventory",
+    iconKey: "inventory",
+    items: [
+      {
+        label: "Goods Inwards",
+        href: "/goods-inwards",
+        requiredPermission: "goods_inwards.view",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "Batch Receiving",
+        href: "/batch-receiving",
+        requiredPermission: "inventory.view",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "Stock Locations",
+        href: "/stock-locations",
+        requiredPermission: "inventory.view",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "Stock Movements",
+        href: "/stock-movements",
+        requiredPermission: "inventory.view",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "Purchasing",
+        href: "/purchasing",
+        requiredPermission: "purchasing.view",
+        requiredModuleKey: "inventory",
+      },
+      {
+        label: "BOM / Traceability",
+        href: "/bom-traceability",
+        requiredPermission: "inventory.view",
+        requiredModuleKey: "inventory",
+      },
+    ],
+  },
+  {
     label: "Products",
     href: "/products",
     requiredPermission: "products.view",
@@ -160,66 +205,6 @@ export const navigationGroups: NavigationGroup[] = [
     ],
   },
   {
-    label: "Inventory",
-    href: "/inventory",
-    requiredPermission: "inventory.view",
-    requiredModuleKey: "inventory",
-    iconKey: "inventory",
-    items: [
-      {
-        label: "Goods Inwards",
-        href: "/goods-inwards",
-        requiredPermission: "goods_inwards.view",
-        requiredModuleKey: "inventory",
-      },
-      {
-        label: "Batch Receiving",
-        href: "/batch-receiving",
-        requiredPermission: "inventory.view",
-        requiredModuleKey: "inventory",
-      },
-      {
-        label: "Stock Locations",
-        href: "/stock-locations",
-        requiredPermission: "inventory.view",
-        requiredModuleKey: "inventory",
-      },
-      {
-        label: "Stock Movements",
-        href: "/stock-movements",
-        requiredPermission: "inventory.view",
-        requiredModuleKey: "inventory",
-      },
-      {
-        label: "Purchasing",
-        href: "/purchasing",
-        requiredPermission: "purchasing.view",
-        requiredModuleKey: "inventory",
-      },
-      {
-        label: "BOM / Traceability",
-        href: "/bom-traceability",
-        requiredPermission: "inventory.view",
-        requiredModuleKey: "inventory",
-      },
-    ],
-  },
-  {
-    label: "Tools",
-    href: "/purchase-documents",
-    requiredPermission: "purchase_documents.view",
-    requiredModuleKey: "tools",
-    iconKey: "tools",
-    items: [
-      {
-        label: "Supplier Invoice Intake",
-        href: "/purchase-documents",
-        requiredPermission: "purchase_documents.view",
-        requiredModuleKey: "tools",
-      },
-    ],
-  },
-  {
     label: "QA",
     href: "/qa",
     requiredPermission: "qa.view",
@@ -274,12 +259,19 @@ export const navigationGroups: NavigationGroup[] = [
     items: [],
   },
   {
-    label: "Platform",
-    href: "/platform",
-    isRoot: true,
-    requiredPermission: "platform.tenants.view",
-    iconKey: "admin",
-    items: [],
+    label: "Tools",
+    href: "/purchase-documents",
+    requiredPermission: "purchase_documents.view",
+    requiredModuleKey: "tools",
+    iconKey: "tools",
+    items: [
+      {
+        label: "Supplier Invoice Intake",
+        href: "/purchase-documents",
+        requiredPermission: "purchase_documents.view",
+        requiredModuleKey: "tools",
+      },
+    ],
   },
   {
     label: "Admin",
@@ -312,5 +304,13 @@ export const navigationGroups: NavigationGroup[] = [
         requiredPermission: "admin.integrations.view",
       },
     ],
+  },
+  {
+    label: "Platform",
+    href: "/platform",
+    isRoot: true,
+    requiredPermission: "platform.tenants.view",
+    iconKey: "admin",
+    items: [],
   },
 ];

@@ -1,4 +1,3 @@
-import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/ui";
 
@@ -29,7 +28,7 @@ export function RouteLoadingSkeleton({
   compactRows = 4,
 }: RouteLoadingSkeletonProps) {
   return (
-    <AppShell>
+    <>
       <PageHeader title={title} description={description} />
       <div className="space-y-6 px-5 py-6 md:px-8" aria-busy="true">
         <div className="flex flex-wrap gap-2">
@@ -76,6 +75,6 @@ export function RouteLoadingSkeleton({
           ))}
         </section>
       </div>
-    </AppShell>
+    </>
   );
 }
