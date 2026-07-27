@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { createInternalItemAction } from "@/app/internal-items/actions";
+import { createSupplierAction } from "@/app/suppliers/actions";
 import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
@@ -8,16 +8,12 @@ import {
   StatCard,
   StatusBadge,
 } from "@/components/ui";
-import { getInternalItemPageData } from "@/lib/products-data";
+import { getSupplierDirectoryPageData } from "@/lib/products-data";
 
-type InternalItemWorkspacePageProps = {
-  itemType: "ingredient" | "packaging";
-  title: string;
-  description: string;
-  createTitle: string;
-  emptyTitle: string;
-  emptyDescription: string;
-  typeLabel: string;
+type PageProps = {
+  searchParams: Promise<{
+    create?: string;
+  }>;
 };
 
 function statusTone(value: string) {
@@ -36,53 +32,48 @@ function statusTone(value: string) {
 
 function messageForCreate(status?: string) {
   if (status === "missing_name") {
-    return "Internal item name is required before an item can be created.";
+    return "Supplier display name is required before a supplier can be created.";
   }
 
   if (status === "duplicate") {
-    return "An internal item with that name and type already exists for this organisation.";
+    return "A supplier with that display name already exists for this organisation.";
   }
 
   if (status === "error") {
-    return "Internal item could not be created. Check the details and try again.";
+    return "Supplier could not be created. Check the details and try again.";
   }
 
   return null;
 }
 
-export async function InternalItemsWorkspacePage({
-  itemType,
-  title,
-  description,
-  createTitle,
-  emptyTitle,
-  emptyDescription,
-  typeLabel,
-  searchParams,
-}: InternalItemWorkspacePageProps & {
-  searchParams: Promise<{ create?: string }>;
-}) {
-  const [{ items, canManageInternalItems }, query] = await Promise.all([
-    getInternalItemPageData(itemType),
+export default async function SuppliersPage({ searchParams }: PageProps) {
+  const [{ suppliers, canManageSuppliers }, query] = await Promise.all([
+    getSupplierDirectoryPageData(),
     searchParams,
   ]);
-  const mappedCount = items.reduce(
-    (total, item) => total + item.mappedSupplierItemCount,
+  const activeSuppliers = suppliers.filter(
+    (supplier) => supplier.status === "active",
+  ).length;
+  const linkedItems = suppliers.reduce(
+    (total, supplier) => total + supplier.supplierItemCount,
     0,
   );
-  const approvedPriceCount = items.reduce(
-    (total, item) => total + item.approvedPriceCount,
+  const currentPrices = suppliers.reduce(
+    (total, supplier) => total + supplier.currentPriceCount,
     0,
   );
-  const formulaUsageCount = items.reduce(
-    (total, item) => total + item.formulaUsageCount,
+  const importReferences = suppliers.reduce(
+    (total, supplier) => total + supplier.documentCount,
     0,
   );
   const createMessage = messageForCreate(query.create);
 
   return (
     <>
-      <PageHeader title={title} description={description} />
+      <PageHeader
+        title="Suppliers"
+        description="Manage supplier master records and review supplier catalogue coverage for Clean Eats."
+      />
       <div className="space-y-6 px-5 py-6 md:px-8">
         {createMessage ? (
           <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
@@ -92,61 +83,61 @@ export async function InternalItemsWorkspacePage({
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <StatCard
-            label={title}
-            value={String(items.length)}
-            helperText={`Canonical internal ${typeLabel.toLowerCase()} records for this tenant.`}
-            badge={items.length > 0 ? "Live" : "Empty"}
-            tone={items.length > 0 ? "success" : "neutral"}
-            icon={itemType === "ingredient" ? "IN" : "PK"}
+            label="Active suppliers"
+            value={String(activeSuppliers)}
+            helperText="Tenant suppliers currently marked active."
+            badge="Live"
+            tone="success"
+            icon="SU"
           />
           <StatCard
-            label="Mapped supplier items"
-            value={String(mappedCount)}
-            helperText="Confirmed supplier item mappings linked to these records."
-            badge="Mappings"
-            tone={mappedCount > 0 ? "info" : "neutral"}
-            icon="MP"
+            label="Supplier items"
+            value={String(linkedItems)}
+            helperText="Supplier-facing catalogue items linked to suppliers."
+            badge="Catalogue"
+            tone="info"
+            icon="IT"
           />
           <StatCard
-            label="Approved prices"
-            value={String(approvedPriceCount)}
-            helperText="Current approved supplier prices linked to these records."
-            badge="Prices"
-            tone={approvedPriceCount > 0 ? "success" : "neutral"}
+            label="Current prices"
+            value={String(currentPrices)}
+            helperText="Approved current supplier prices linked to supplier items."
+            badge="Approved"
+            tone="success"
             icon="$"
           />
           <StatCard
-            label="Formula usage"
-            value={String(formulaUsageCount)}
-            helperText="Formula output/input references visible for these records."
-            badge="Formula"
-            tone={formulaUsageCount > 0 ? "info" : "neutral"}
-            icon="FX"
+            label="Import references"
+            value={String(importReferences)}
+            helperText="Reviewed intake documents retained as secondary provenance."
+            badge="Optional"
+            tone="neutral"
+            icon="IR"
           />
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
           <SectionCard
-            title={`${typeLabel} directory`}
-            description="Tenant-scoped internal item records from manual entry, reviewed intake and future controlled setup paths."
+            title="Supplier directory"
+            description="Tenant-scoped supplier records from manual entry, reviewed intake and future controlled setup paths."
             action={
-              <StatusBadge tone={canManageInternalItems ? "success" : "info"}>
-                {canManageInternalItems ? "Manage enabled" : "Read only"}
+              <StatusBadge tone={canManageSuppliers ? "success" : "info"}>
+                {canManageSuppliers ? "Manage enabled" : "Read only"}
               </StatusBadge>
             }
           >
-            {items.length > 0 ? (
+            {suppliers.length > 0 ? (
               <div className="overflow-x-auto rounded-md border border-slate-200">
                 <table className="min-w-full divide-y divide-slate-200 text-sm">
                   <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
                     <tr>
                       {[
-                        "Item",
-                        "Base unit",
-                        "Mapped suppliers",
-                        "Approved prices",
-                        "Formula usage",
-                        "Updated",
+                        "Supplier",
+                        "Legal name",
+                        "ABN",
+                        "Items",
+                        "Mapped/priced",
+                        "Documents",
                         "Status",
                       ].map((column) => (
                         <th key={column} className="px-4 py-3">
@@ -156,37 +147,39 @@ export async function InternalItemsWorkspacePage({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 bg-white">
-                    {items.map((item) => (
-                      <tr key={item.id}>
+                    {suppliers.map((supplier) => (
+                      <tr key={supplier.id}>
                         <td className="px-4 py-3">
                           <Link
-                            href={`/internal-items/${item.id}`}
+                            href={`/suppliers/${supplier.id}`}
                             className="font-semibold text-clean-green-700 hover:text-clean-green-900"
                           >
-                            {item.displayName}
+                            {supplier.displayName}
                           </Link>
-                          <p className="mt-1 text-xs text-slate-500">
-                            {item.itemType}
-                          </p>
+                          {supplier.supplierType ? (
+                            <p className="mt-1 text-xs text-slate-500">
+                              {supplier.supplierType}
+                            </p>
+                          ) : null}
                         </td>
                         <td className="px-4 py-3 text-slate-600">
-                          {item.baseUnit ?? "Not recorded"}
+                          {supplier.legalName ?? "Not recorded"}
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {supplier.abn ?? "Not recorded"}
                         </td>
                         <td className="px-4 py-3 font-semibold text-slate-800">
-                          {item.mappedSupplierItemCount}
+                          {supplier.supplierItemCount}
                         </td>
                         <td className="px-4 py-3 text-slate-600">
-                          {item.approvedPriceCount}
+                          {supplier.currentPriceCount} current price(s)
                         </td>
                         <td className="px-4 py-3 text-slate-600">
-                          {item.formulaUsageCount}
-                        </td>
-                        <td className="px-4 py-3 text-slate-600">
-                          {item.updatedAt}
+                          {supplier.documentCount}
                         </td>
                         <td className="px-4 py-3">
-                          <StatusBadge tone={statusTone(item.status)}>
-                            {item.status}
+                          <StatusBadge tone={statusTone(supplier.status)}>
+                            {supplier.status}
                           </StatusBadge>
                         </td>
                       </tr>
@@ -196,31 +189,30 @@ export async function InternalItemsWorkspacePage({
               </div>
             ) : (
               <EmptyState
-                title={emptyTitle}
-                description={emptyDescription}
+                title="No suppliers yet"
+                description="Create a supplier manually here, or use Tools -> Supplier Invoice Intake as one reviewed import path."
               />
             )}
           </SectionCard>
 
           <SectionCard
-            title={createTitle}
+            title="Create supplier"
             description={
-              canManageInternalItems
-                ? `Add a basic ${typeLabel.toLowerCase()} internal item without creating supplier mappings or prices.`
-                : "Manual internal item creation is restricted for this role."
+              canManageSuppliers
+                ? "Add a basic tenant supplier record without creating supplier items or prices."
+                : "Manual supplier creation is restricted for this role."
             }
             action={
-              <StatusBadge tone={canManageInternalItems ? "success" : "warning"}>
-                {canManageInternalItems ? "supplier_items.manage" : "Read only"}
+              <StatusBadge tone={canManageSuppliers ? "success" : "warning"}>
+                {canManageSuppliers ? "supplier_items.manage" : "Read only"}
               </StatusBadge>
             }
           >
-            {canManageInternalItems ? (
-              <form action={createInternalItemAction} className="space-y-4">
-                <input type="hidden" name="item_type" value={itemType} />
+            {canManageSuppliers ? (
+              <form action={createSupplierAction} className="space-y-4">
                 <label className="block">
                   <span className="text-xs font-semibold uppercase text-slate-500">
-                    Internal item name
+                    Display name
                   </span>
                   <input
                     name="display_name"
@@ -230,14 +222,34 @@ export async function InternalItemsWorkspacePage({
                 </label>
                 <label className="block">
                   <span className="text-xs font-semibold uppercase text-slate-500">
-                    Base unit
+                    Legal name
                   </span>
                   <input
-                    name="base_unit"
-                    placeholder={itemType === "ingredient" ? "kg" : "each"}
+                    name="legal_name"
                     className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
                   />
                 </label>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="block">
+                    <span className="text-xs font-semibold uppercase text-slate-500">
+                      ABN
+                    </span>
+                    <input
+                      name="abn"
+                      className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-xs font-semibold uppercase text-slate-500">
+                      Type
+                    </span>
+                    <input
+                      name="supplier_type"
+                      placeholder="Ingredient supplier"
+                      className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+                    />
+                  </label>
+                </div>
                 <label className="block">
                   <span className="text-xs font-semibold uppercase text-slate-500">
                     Status
@@ -265,13 +277,13 @@ export async function InternalItemsWorkspacePage({
                   type="submit"
                   className="inline-flex items-center justify-center rounded-md bg-clean-green-700 px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-clean-green-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-clean-green-700"
                 >
-                  Create internal item
+                  Create supplier
                 </button>
               </form>
             ) : (
               <EmptyState
-                title="Internal item management is restricted"
-                description="You can view internal item records, but creating and editing items requires supplier_items.manage."
+                title="Supplier management is restricted"
+                description="You can view supplier records, but creating and editing suppliers requires supplier_items.manage."
               />
             )}
           </SectionCard>

@@ -123,3 +123,7 @@ Task 110 adds:
 - targeted performance indexes for RLS helper and tenant dashboard/list query paths
 
 Migration `027_performance_foundation_indexes.sql` should be reviewed and applied before judging the database-side route timing impact.
+
+## Task 111 Loading UX Polish
+
+Task 111 replaces the earlier large route skeleton grids with compact branded workspace loaders. This improves perceived route transition quality without changing route data queries, auth, RLS or permissions.

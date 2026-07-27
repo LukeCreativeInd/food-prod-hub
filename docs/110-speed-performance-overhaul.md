@@ -170,3 +170,7 @@ Recommended follow-ups:
 - check Vercel Speed Insights after deployment and real usage
 - consider tenant-scoped summary views only if specific helpers remain slow after indexes
 - consider deeper auth/session strategy only if Auth 429s continue after route helper consolidation
+
+## Task 111 Loading UX Follow-Up
+
+Task 111 adds compact branded workspace loaders for major route transitions. It is perceived-speed polish only: no query, auth, RLS, permission or business logic behaviour is changed by the loading components.
