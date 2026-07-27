@@ -445,6 +445,15 @@ Smoke test checklist:
 
 - Task 130 adds [Multi-tenant smoke test checklist](130-multi-tenant-smoke-test-checklist.md).
 
+Platform Admin sequence:
+
+- Task 131 adds [Platform Admin information architecture](131-platform-admin-information-architecture.md).
+- Task 132 should handle Platform Shell Separation v1.
+- Task 133 should handle Platform Tenant Overview v1.
+- Task 134 should handle Platform Tenant Module / Feature Flag Overview.
+- Task 135 should handle Tenant Provisioning Plan.
+- Later tasks should plan Support Inbox Foundation, Billing Metadata Foundation, Release Management Foundation and System Health Overview.
+
 ## Future Task Backlog Proposal
 
 Do not renumber existing committed tasks. This is a proposed future roadmap:
@@ -467,11 +476,25 @@ Do not renumber existing committed tasks. This is a proposed future roadmap:
 - 123 Connect app.everybatchmrp.com to Vercel
 - 124 Tenant Resolver Foundation
 - 125 Central Login and Tenant Selector
-- 126 Tenant Workspace Host Routing
-- 127 Platform Admin Domain/Shell Separation
-- 128 Marketing Site Placeholder / Coming Soon
-- 129 Support Domain Linkout Setup
-- 130 AU Domain Redirect Setup
+- 126 Workspace Options Helper Foundation
+- 127 Tenant Selector UI Foundation
+- 128 Login Redirect to Workspace Selector
+- 129 Workspace Switcher Foundation
+- 130 Multi-tenant Smoke Test Checklist
+- 131 Platform Admin Information Architecture Docs
+- 132 Platform Shell Separation v1
+- 133 Platform Tenant Overview v1
+- 134 Platform Tenant Module / Feature Flag Overview
+- 135 Tenant Provisioning Plan
+- Future Support Inbox Foundation
+- Future Billing Metadata Foundation
+- Future Release Management Foundation
+- Future System Health Overview
+- Future Tenant Workspace Host Routing
+- Future Platform Admin Domain Routing
+- Future Marketing Site Placeholder / Coming Soon
+- Future Support Domain Linkout Setup
+- Future AU Domain Redirect Setup
 
 ## Migration Notes
 

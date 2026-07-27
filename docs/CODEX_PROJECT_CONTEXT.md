@@ -190,6 +190,14 @@ Platform should not be treated as a normal tenant module long-term.
 
 Avoid building platform-owner functionality into tenant UI unless a task explicitly says it is a temporary bridge.
 
+Platform Admin should become the EveryBatch operator console. It should eventually manage tenants, tenant modules, tenant feature flags, support, billing, updates/release metadata, platform branding, platform users, support access sessions and system health.
+
+Code updates remain outside Platform Admin through Codex, Git, Vercel deployment and reviewed Supabase SQL migration workflows.
+
+Future support tickets from `support.everybatchmrp.com` or app Help menu should flow into Platform Admin Support Inbox.
+
+Avoid building tenant operational features inside Platform Admin unless they are clearly oversight, provisioning or support workflows.
+
 Tenant apps should be tenant-branded. Platform Admin should be EveryBatch-branded.
 
 Support access and impersonation must be explicit, scoped and auditable. Do not add invisible support impersonation.
