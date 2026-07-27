@@ -351,6 +351,31 @@ Risks:
 - enabling unfinished modules for a tenant
 - leaking tenant-specific assumptions into shared code
 
+## 10. Domain Setup And Environment Plan
+
+Purpose:
+
+- document the first safe EveryBatch app domain connection
+- reserve the root domain for marketing/coming-soon use
+- define which tenant/platform/support domains should wait
+- document Vercel, DNS, Supabase Auth redirect and environment considerations before any settings change
+
+Non-goals:
+
+- no Vercel domain configuration
+- no DNS changes
+- no Supabase Auth setting changes
+- no environment variable changes
+- no tenant subdomain routing
+- no Platform Admin separation
+- no marketing site build
+
+Status:
+
+- Task 122 documents `app.everybatchmrp.com` as the first domain to connect to the existing app deployment.
+- Root `everybatchmrp.com` should not point to the tenant app yet.
+- `cleaneats.everybatchmrp.com`, `platform.everybatchmrp.com` and `support.everybatchmrp.com` should wait for their matching foundations.
+
 ## Recommended Sequence
 
 1. Finalise EveryBatch brand assets and brand copy rules.
@@ -361,8 +386,9 @@ Risks:
 6. Build support/help links once support destination exists.
 7. Split login branding once central versus tenant domain routing is understood.
 8. Plan feature flags before tenant-specific beta rollouts.
-9. Build tenant provisioning only after Platform Admin shell boundaries are clear.
-10. Keep multi-tenant smoke tests ahead of future customer onboarding.
+9. Plan domain setup and environment changes before touching Vercel, DNS or Supabase Auth redirects.
+10. Build tenant provisioning only after Platform Admin shell boundaries are clear.
+11. Keep multi-tenant smoke tests ahead of future customer onboarding.
 
 ## Future Task Backlog Proposal
 
@@ -382,10 +408,15 @@ Do not renumber existing committed tasks. This is a proposed future roadmap:
 - 119 Help / Support Menu Foundation
 - 120 Login Branding Split
 - 121 Feature Flag Foundation
-- 122 Platform Shell Separation v1
-- 123 Tenant Provisioning Workflow v1
-- 124 Tenant Module Management v1
-- 125 Multi-tenant Smoke Test Checklist
+- 122 EveryBatch Domain Setup and Environment Plan
+- 123 Connect app.everybatchmrp.com to Vercel
+- 124 Tenant Resolver Foundation
+- 125 Central Login and Tenant Selector
+- 126 Tenant Workspace Host Routing
+- 127 Platform Admin Domain/Shell Separation
+- 128 Marketing Site Placeholder / Coming Soon
+- 129 Support Domain Linkout Setup
+- 130 AU Domain Redirect Setup
 
 ## Migration Notes
 

@@ -42,6 +42,15 @@ Target domains:
 - `platform.everybatchmrp.com` for future Platform Admin
 - `support.everybatchmrp.com` for support and knowledge base
 
+Immediate domain setup recommendation:
+
+- connect `app.everybatchmrp.com` first to the existing app deployment only after explicit approval
+- do not point `everybatchmrp.com` root to the tenant app; reserve it for marketing or a coming-soon page
+- do not connect `cleaneats.everybatchmrp.com` until the tenant resolver exists
+- do not connect `platform.everybatchmrp.com` until Platform Admin shell separation exists
+- do not connect `support.everybatchmrp.com` until the support/knowledge-base target exists
+- do not change Vercel, DNS, Supabase Auth redirect URLs or env vars from a code task without explicit user instruction
+
 Tenant subdomain routing target:
 
 - `app.everybatchmrp.com` is the central login / tenant selector.

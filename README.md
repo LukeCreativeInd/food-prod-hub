@@ -128,6 +128,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - The app header now includes a Help & Support menu linking to future EveryBatch support resources
 - The login page now uses reusable EveryBatch platform/tenant branding components while preserving the existing auth behaviour
 - Feature flag foundation has been drafted with global registry, Clean Eats overrides, RLS policies and server-side helpers
+- EveryBatch domain setup and environment planning now recommends connecting `app.everybatchmrp.com` first while holding root, tenant, platform and support domains
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -302,6 +303,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Help / Support menu foundation](docs/119-help-support-menu-foundation.md)
 - [Login branding split](docs/120-login-branding-split.md)
 - [Feature flag foundation](docs/121-feature-flag-foundation.md)
+- [EveryBatch domain setup and environment plan](docs/122-everybatch-domain-setup-environment-plan.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations
