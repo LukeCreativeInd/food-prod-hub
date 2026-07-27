@@ -355,12 +355,14 @@ It can initially point to:
 - support ticket system
 - static help site
 
-Later app Help menu can link to:
+Task 119 adds the first app Help menu linkout foundation for:
 
 - Visit Knowledge Base
 - Module Guides
 - Submit Support Ticket
 - Contact Support
+
+Those links target future `support.everybatchmrp.com` paths only. They do not implement support subdomain routing, ticketing or support content inside the tenant app.
 
 ## Implementation Phases
 

@@ -13,6 +13,7 @@ The protected app shell header now shows:
 - current route/module title
 - compact workspace context
 - global search
+- Help & Support menu
 - notification placeholder
 - user menu and sign out
 
@@ -78,7 +79,6 @@ Loading files still render only content-area loading UI and do not import `AppSh
 
 This task does not add:
 
-- Help/Support menu
 - notification backend
 - route metadata from the database
 - dynamic entity-name fetching in the top header
@@ -91,7 +91,7 @@ This task does not add:
 
 ## Follow-Up
 
-Task 119 can add the Help/Support menu once the support destination and behaviour are ready.
+Task 119 adds the first Help & Support linkout menu. Future support work can add the actual support site, module guide content, ticket workflow and route-specific help mapping.
 
 ## Migration Notes
 

@@ -4,6 +4,7 @@ import { AppHeaderTitle } from "@/components/app-header-title";
 import { AppSidebar } from "@/components/app-sidebar";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { GlobalSearch } from "@/components/global-search";
+import { HelpSupportMenu } from "@/components/help-support-menu";
 import { getAppShellContext } from "@/lib/app-shell-context";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { navigationGroups } from "@/lib/navigation";
@@ -112,6 +113,8 @@ export async function AppShell({ children }: AppShellProps) {
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <GlobalSearch />
+
+              <HelpSupportMenu />
 
               <button
                 type="button"

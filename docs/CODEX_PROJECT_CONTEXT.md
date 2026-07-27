@@ -112,6 +112,8 @@ lib/platform-brand.ts
 
 Use these constants for user-facing platform copy where appropriate. Do not make routing/domain decisions depend on them until tenant subdomain routing is explicitly implemented.
 
+The first Help & Support menu links to future `support.everybatchmrp.com` paths through static constants only. It is not a support backend, ticketing system, route-specific guide engine or support impersonation flow.
+
 Platform Admin should eventually live at:
 
 ```text

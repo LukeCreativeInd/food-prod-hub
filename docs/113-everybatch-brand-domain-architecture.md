@@ -426,11 +426,11 @@ Tools:
 
 - Supplier Invoice Intake
 
-## Future Help And Support Menu
+## Help And Support Menu
 
-The app header should eventually include Help / Support.
+Task 119 adds the first app header Help & Support menu as a linkout foundation.
 
-Suggested dropdown links:
+Dropdown links:
 
 - Visit Knowledge Base
 - Module Guides
@@ -442,6 +442,8 @@ Target domain:
 ```text
 support.everybatchmrp.com
 ```
+
+The linked support paths are future support-site placeholders. No knowledge base, ticketing backend or support workflow is implemented in the app yet.
 
 ## Notes For Future Implementation
 

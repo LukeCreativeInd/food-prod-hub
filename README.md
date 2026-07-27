@@ -125,6 +125,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Tenant subdomain routing has been planned before middleware, domain configuration or login routing changes are implemented
 - EveryBatch brand foundation has been applied to platform metadata, login/auth copy, subtle tenant shell trust-layer wording and Platform Admin copy
 - App header titles now appear in the persistent top bar, and major workspace page headers have been compacted to reduce wasted content space
+- The app header now includes a Help & Support menu linking to future EveryBatch support resources
 - Purchase Document Review UI has been compacted for larger invoices with expandable line details
 - Purchase Document commit now has clearer pending feedback and development timing diagnostics
 - Repeat invoice and price change behaviour has been documented and surfaced for reviewed Cammaroto records
@@ -296,6 +297,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Tenant subdomain routing plan](docs/116-tenant-subdomain-routing-plan.md)
 - [EveryBatch brand foundation implementation](docs/117-everybatch-brand-foundation-implementation.md)
 - [App header and page title layout refactor](docs/118-app-header-page-title-layout-refactor.md)
+- [Help / Support menu foundation](docs/119-help-support-menu-foundation.md)
 - [Codex project context](docs/CODEX_PROJECT_CONTEXT.md)
 
 ## Database Migrations
