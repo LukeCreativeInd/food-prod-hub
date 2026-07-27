@@ -367,3 +367,7 @@ Do not repeatedly retry `pnpm` if the known shim issue appears.
 Task 144 updates the Costings subpages to use real tenant-scoped data where available. Ingredient and Packaging Costs read internal items, supplier mappings and approved prices. Component Costs and Meal Margins read formula readiness data without inventing missing sell prices or broad costing rules. Price History reads real price observations and approved price context. No migrations or write actions are added.
 
 Task 144 follow-up removes the duplicate Costings content hero/title so the app header is the only main page title. Legacy nested `/costings/*` subpage URLs redirect to the active top-level Costings subpage routes.
+
+## Task 145 Formula Import Foundation
+
+Task 145 creates a planning/static-helper foundation for component and finished product formula imports. It maps the Clean Eats staff workbook/CSV columns to `internal_items`, `formula_versions` and `formula_lines`, defines matching/validation/review stages and records that production methods/routes and production areas remain future schema work. No migrations, upload UI, parser actions, Supabase writes or Costings logic changes are added.

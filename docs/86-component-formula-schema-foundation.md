@@ -141,6 +141,8 @@ Both UI workspaces use `formulas.view`, the authenticated server Supabase client
 
 Step 089 adds [Formula Import Planning](89-formula-import-planning.md). Future reviewed imports should create `formula_versions` and `formula_lines` only after staff template data has been parsed, matched, validated and approved.
 
+Task 145 adds [Component / Formula Import Foundation Plan](145-component-formula-import-foundation-plan.md), aligning the Clean Eats collection workbook columns to the current `formula_versions`, `formula_lines` and `internal_items` schema. No migration or import action is added.
+
 ## Known Limitations
 
 - No formula create/edit UI exists yet.

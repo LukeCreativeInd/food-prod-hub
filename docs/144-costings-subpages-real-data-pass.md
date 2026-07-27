@@ -104,6 +104,8 @@ This task does not add:
 - batch costing engine
 - Platform Admin changes
 
+Task 145 adds [Component / Formula Import Foundation Plan](145-component-formula-import-foundation-plan.md), which describes how future formula imports can improve Component Costs and Meal Margins readiness without changing task 144 Costings logic.
+
 ## Follow-Up Fix Before Commit
 
 The shared Costings page wrapper no longer renders a second large content title/hero. Page titles remain in the persistent app header, and page content starts with summary cards and real-data sections.

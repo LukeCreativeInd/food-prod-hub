@@ -8,6 +8,8 @@ This step does not add migrations, staff CSV/XLSX import, formula create/edit fo
 
 Step 089 adds [Formula Import Planning](89-formula-import-planning.md). The finished product workspace will later show imported formula records after staff collection data is reviewed, matched and committed.
 
+Task 145 adds [Component / Formula Import Foundation Plan](145-component-formula-import-foundation-plan.md), which defines how finished product formula rows should be matched, validated and reviewed before any future draft formula commit.
+
 ## Routes Added Or Updated
 
 - `/finished-products`

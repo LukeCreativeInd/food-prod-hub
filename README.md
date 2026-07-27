@@ -113,6 +113,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Costings dashboard now shows real read-only price coverage, recent price records and formula readiness summaries
 - Costings subpages now show real tenant-scoped ingredient, packaging, formula and price observation data where available
 - Legacy nested Costings subpage URLs now redirect to the active top-level Costings routes, and duplicate Costings content headings have been removed
+- Component / Formula Import Foundation planning now maps Clean Eats staff workbook columns to the current formula schema before any upload/parser/import work
 - Production dashboard now shows real read-only setup readiness from locations, formulas and internal item data where available
 - App shell, navigation order and tenant branding have been polished as UI Overhaul v2 Part A
 - Dashboard, cards, Inventory overview, source document wording and invoice review table wrapping have been polished as UI Overhaul v2 Part B
@@ -310,6 +311,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Inventory locations foundation](docs/106-inventory-locations-foundation.md)
 - [Costings dashboard real data summary](docs/107-costings-dashboard-real-data-summary.md)
 - [Costings subpages real data pass](docs/144-costings-subpages-real-data-pass.md)
+- [Component / Formula Import Foundation Plan](docs/145-component-formula-import-foundation-plan.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

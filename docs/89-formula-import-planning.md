@@ -8,6 +8,13 @@ No import code is built yet. No UI, migrations, RLS changes, permission changes 
 
 The goal is to define the future reviewed import workflow before Clean Eats returns formula data.
 
+Task 145 adds the current implementation foundation plan and static helper:
+
+- [Component / Formula Import Foundation Plan](145-component-formula-import-foundation-plan.md)
+- `lib/formula-import-plan.ts`
+
+Use task 145 as the current source of truth before building formula import upload, parsing, review or commit actions.
+
 ## Purpose
 
 Formula import will turn staff-provided collection data into trusted formula records.

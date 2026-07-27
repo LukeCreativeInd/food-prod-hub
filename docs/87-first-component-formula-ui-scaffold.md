@@ -10,6 +10,8 @@ Step 088 adds the matching read-only Finished Product Formula UI scaffold; see [
 
 Step 089 adds [Formula Import Planning](89-formula-import-planning.md). The component formula workspace will later show imported formula records after staff collection data is reviewed, matched and committed.
 
+Task 145 adds [Component / Formula Import Foundation Plan](145-component-formula-import-foundation-plan.md), which defines how component workbook rows should be matched, validated and reviewed before any future draft formula commit.
+
 ## Routes Added Or Updated
 
 - `/components`
