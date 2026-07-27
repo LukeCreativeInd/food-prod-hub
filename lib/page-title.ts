@@ -43,6 +43,14 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
     title: "Clean Eats Tenant Detail",
     context: "Platform",
   },
+  "/platform/tenants/cleaneats/modules": {
+    title: "Clean Eats Modules",
+    context: "Platform",
+  },
+  "/platform/tenants/cleaneats/features": {
+    title: "Clean Eats Feature Flags",
+    context: "Platform",
+  },
   "/qa": { title: "QA", context: "Quality" },
   "/qa-checks": { title: "QA Checks", context: "Quality" },
   "/qa-sign-offs": { title: "QA Sign-offs", context: "Quality" },

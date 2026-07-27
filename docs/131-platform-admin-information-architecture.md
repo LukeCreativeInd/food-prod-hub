@@ -582,6 +582,7 @@ Status:
 - Task 131 completes Platform Admin IA docs.
 - Task 132 implements Platform Shell Separation v1 at `/platform` without activating `platform.everybatchmrp.com`.
 - Task 133 implements Platform Tenant Overview v1 with real tenant metadata on `/platform`.
+- Task 134 implements read-only Clean Eats module and feature flag overview pages.
 
 ### Phase 2
 

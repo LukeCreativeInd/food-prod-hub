@@ -96,6 +96,14 @@ Clean Eats receives enabled overrides for the seeded flags because those feature
 
 This preserves current app behaviour while creating a future feature management layer.
 
+Task 134 adds a read-only Platform Admin view of the feature flag registry and Clean Eats effective feature state at:
+
+```text
+/platform/tenants/cleaneats/features
+```
+
+This is visibility only. It does not add feature flag edit/toggle actions.
+
 ## Server Helpers
 
 Added:

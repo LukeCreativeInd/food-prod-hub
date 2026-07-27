@@ -36,8 +36,16 @@ const platformNavigation: Array<{
       { label: "All Tenants", href: "/platform", status: "live" },
       { label: "New Tenant", status: "soon" },
       { label: "Tenant Provisioning", status: "soon" },
-      { label: "Tenant Modules", status: "soon" },
-      { label: "Tenant Feature Flags", status: "soon" },
+      {
+        label: "Tenant Modules",
+        href: "/platform/tenants/cleaneats/modules",
+        status: "live",
+      },
+      {
+        label: "Tenant Feature Flags",
+        href: "/platform/tenants/cleaneats/features",
+        status: "live",
+      },
     ],
   },
   {

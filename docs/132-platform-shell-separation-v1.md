@@ -66,6 +66,8 @@ Implemented links:
 
 Task 133 updates `All Tenants` to link to `/platform` because that route now includes the real tenant overview.
 
+Task 134 updates `Tenant Modules` and `Tenant Feature Flags` to link to the read-only Clean Eats Platform Admin pages.
+
 Future IA items are shown as disabled `Soon` items so they are visible without creating broken links.
 
 Navigation sections:

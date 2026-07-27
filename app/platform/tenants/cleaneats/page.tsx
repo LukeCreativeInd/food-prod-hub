@@ -221,6 +221,43 @@ export default async function CleanEatsTenantDetailPage() {
           ))}
         </section>
 
+        <section className="grid gap-4 md:grid-cols-2">
+          <Link
+            href="/platform/tenants/cleaneats/modules"
+            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-slate-300 hover:shadow-md md:p-6"
+          >
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-slate-950">
+                  View Modules
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Review Clean Eats module access against the global module
+                  registry.
+                </p>
+              </div>
+              <PlatformBadge tone="green">Read-only</PlatformBadge>
+            </div>
+          </Link>
+          <Link
+            href="/platform/tenants/cleaneats/features"
+            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-slate-300 hover:shadow-md md:p-6"
+          >
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-slate-950">
+                  View Feature Flags
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Review Clean Eats feature overrides and effective rollout
+                  state.
+                </p>
+              </div>
+              <PlatformBadge tone="green">Read-only</PlatformBadge>
+            </div>
+          </Link>
+        </section>
+
         <DetailPanel
           title="Tenant architecture / context"
           description="Tenant boundaries that keep Clean Eats separate from future clients."

@@ -374,7 +374,7 @@ export default async function PlatformPage() {
                     </span>
                   )}
                 </div>
-                <div className="mt-4 grid gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 md:grid-cols-3">
+                <div className="mt-4 grid gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 lg:grid-cols-[1fr_1fr_1fr_auto]">
                   <p>
                     Branding:{" "}
                     <span className="font-semibold">
@@ -395,6 +395,22 @@ export default async function PlatformPage() {
                       Manual / placeholder
                     </span>
                   </p>
+                  {tenant.slug === "cleaneats" ? (
+                    <div className="flex flex-wrap gap-2 lg:justify-end">
+                      <Link
+                        href="/platform/tenants/cleaneats/modules"
+                        className="rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-800 transition hover:bg-slate-100"
+                      >
+                        Modules
+                      </Link>
+                      <Link
+                        href="/platform/tenants/cleaneats/features"
+                        className="rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-800 transition hover:bg-slate-100"
+                      >
+                        Features
+                      </Link>
+                    </div>
+                  ) : null}
                 </div>
               </article>
             ))}

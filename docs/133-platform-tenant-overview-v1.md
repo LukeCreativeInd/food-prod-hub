@@ -87,6 +87,13 @@ The Platform shell keeps the same structure from task 132.
 
 Other future IA items remain disabled `Soon` entries.
 
+Task 134 adds read-only Clean Eats module and feature flag detail routes:
+
+```text
+/platform/tenants/cleaneats/modules
+/platform/tenants/cleaneats/features
+```
+
 ## Access And Security
 
 Platform Admin access remains guarded through the existing Platform permission layout guard.

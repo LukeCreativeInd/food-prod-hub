@@ -219,6 +219,15 @@ Platform Tenant Overview v1 now reads real platform metadata where available:
 
 This overview remains read-only and does not fetch tenant operational data, create tenant management actions or change RLS.
 
+Platform Tenant Module / Feature Flag Overview now adds read-only Clean Eats routes:
+
+```text
+/platform/tenants/cleaneats/modules
+/platform/tenants/cleaneats/features
+```
+
+These pages inspect global module/feature registries and Clean Eats tenant state only. They do not provide enable/disable, toggle, provisioning or billing actions.
+
 Support access and impersonation must be explicit, scoped and auditable. Do not add invisible support impersonation.
 
 ## Task Discipline
