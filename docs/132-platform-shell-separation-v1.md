@@ -64,6 +64,8 @@ Implemented links:
 - `/platform`
 - `/platform/tenants/cleaneats`
 
+Task 133 updates `All Tenants` to link to `/platform` because that route now includes the real tenant overview.
+
 Future IA items are shown as disabled `Soon` items so they are visible without creating broken links.
 
 Navigation sections:
@@ -111,6 +113,8 @@ The page keeps the existing read-only tenant/platform scaffold and adds operator
 - next setup steps
 
 No tenant writes, management actions, support tickets, billing actions or feature flag edits are added.
+
+Task 133 updates this page to use real tenant metadata where available, including tenant counts, module enablement counts, feature flag override counts and membership counts.
 
 ## Tenant Detail Compatibility
 

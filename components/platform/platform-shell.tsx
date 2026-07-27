@@ -33,7 +33,7 @@ const platformNavigation: Array<{
         href: "/platform/tenants/cleaneats",
         status: "live",
       },
-      { label: "All Tenants", status: "soon" },
+      { label: "All Tenants", href: "/platform", status: "live" },
       { label: "New Tenant", status: "soon" },
       { label: "Tenant Provisioning", status: "soon" },
       { label: "Tenant Modules", status: "soon" },

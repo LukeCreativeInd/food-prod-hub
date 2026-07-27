@@ -2,76 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { PLATFORM_PRIMARY_DOMAIN } from "@/lib/platform-brand";
-
-const summaryCards = [
-  { label: "Slug", value: "cleaneats", detail: "Stable tenant key" },
-  { label: "Vertical", value: "Food Production", detail: "Tenant 1 pilot" },
-  { label: "Status", value: "Active / Pilot", detail: "Static v1 state" },
-  { label: "Environment", value: "Demo/Foundation", detail: "Phase 1 review" },
-  {
-    label: "Module pack",
-    value: "Phase 1 + planned",
-    detail: "Demo modules active",
-  },
-  { label: "Billing", value: "Manual / none", detail: "Not configured" },
-];
-
-const contextItems = [
-  "Same codebase",
-  "Separate organisation data",
-  "Separate branding/settings",
-  "Separate users/memberships",
-  "Separate enabled modules",
-  `Future subdomain: cleaneats.${PLATFORM_PRIMARY_DOMAIN}`,
-];
-
-const moduleGroups = [
-  {
-    label: "Default",
-    modules: ["Dashboard"],
-    note: "Default app area; not a selectable module initially.",
-  },
-  {
-    label: "Phase 1 demo",
-    modules: ["Products", "Costings", "Production", "Inventory"],
-    note: "Current staff review module set.",
-  },
-  {
-    label: "Planned/full",
-    modules: ["QA", "Logistics", "CRM", "Reports", "Admin"],
-    note: "Planned full operations model for this tenant.",
-  },
-];
-
-const memberships = [
-  {
-    name: "Luke",
-    role: "platform_admin",
-    access: "Platform admin / support oversight",
-    status: "Active",
-  },
-  {
-    name: "Clean Eats Demo User",
-    role: "phase_1_demo_user",
-    access: "Phase 1 demo modules",
-    status: "Active",
-  },
-  {
-    name: "Future staff users",
-    role: "pending",
-    access: "Production, warehouse, QA and management users",
-    status: "Planned",
-  },
-];
-
-const settingsPreview = [
-  ["Display name", "Clean Eats Hub"],
-  ["Primary colour", "Tenant-level Clean Eats green"],
-  ["Timezone", "Australia/Melbourne"],
-  ["Currency", "AUD"],
-  ["Units", "Metric"],
-  ["Date format", "DD/MM/YYYY"],
-];
+import { getPlatformTenantOverview } from "@/lib/platform-tenant-overview";
 
 const billingItems = [
   ["Plan", "Internal/Pilot"],
@@ -149,6 +80,99 @@ function DetailPanel({
 }
 
 export default async function CleanEatsTenantDetailPage() {
+  const overview = await getPlatformTenantOverview();
+  const tenant = overview.tenantRows.find((row) => row.slug === "cleaneats");
+  const tenantName = tenant?.name ?? "Clean Eats Australia";
+  const tenantStatus = tenant?.status ?? "active";
+  const summaryCards = [
+    {
+      label: "Slug",
+      value: tenant?.slug ?? "cleaneats",
+      detail: "Stable tenant key",
+    },
+    {
+      label: "Industry",
+      value: tenant?.industry ?? "Food Production",
+      detail: "Real organisation industry where available",
+    },
+    {
+      label: "Status",
+      value: tenantStatus,
+      detail: "Real organisation status",
+    },
+    {
+      label: "Members",
+      value: (tenant?.activeMemberCount ?? 0).toString(),
+      detail: `${tenant?.tenantAdminCount ?? 0} active admin memberships`,
+    },
+    {
+      label: "Enabled modules",
+      value: (tenant?.enabledModuleCount ?? 0).toString(),
+      detail: "Real organisation module enablement rows",
+    },
+    {
+      label: "Feature overrides",
+      value: (tenant?.featureOverrideCount ?? 0).toString(),
+      detail: "Real tenant feature flag override rows",
+    },
+  ];
+  const contextItems = [
+    "Same codebase",
+    "Separate organisation data",
+    "Separate branding/settings",
+    "Separate users/memberships",
+    `${tenant?.enabledModuleCount ?? 0} enabled module records`,
+    `Future subdomain: cleaneats.${PLATFORM_PRIMARY_DOMAIN}`,
+  ];
+  const moduleGroups = [
+    {
+      label: "Enabled modules",
+      modules: tenant?.enabledModules.map((module) => module.label) ?? [],
+      note: "Real enabled module list from organisation_modules and modules.",
+    },
+    {
+      label: "Feature overrides",
+      modules:
+        tenant?.featureOverrides.map(
+          (flag) => `${flag.label}: ${flag.enabled ? "on" : "off"}`,
+        ) ?? [],
+      note: "Real tenant override rows. Missing rows use global defaults in app helpers.",
+    },
+    {
+      label: "Membership roles",
+      modules:
+        tenant?.activeRoleBreakdown.map(
+          (role) => `${role.roleKey}: ${role.count}`,
+        ) ?? [],
+      note: "Role summary only. No profile IDs or user management actions are shown.",
+    },
+  ];
+  const settingsPreview = [
+    ["Display name", tenantName],
+    ["Logo", tenant?.logoUrl ? "Uploaded" : "Placeholder"],
+    ["Primary colour", tenant?.primaryColour ?? "Not set"],
+    ["Theme mode", tenant?.themeMode ?? "Not set"],
+    ["Timezone", tenant?.timezone ?? "Not set"],
+    ["Currency", tenant?.currency ?? "Not set"],
+    ["Units", tenant?.defaultUnits ?? "Not set"],
+  ];
+  const membershipSummaries =
+    tenant && tenant.activeRoleBreakdown.length > 0
+      ? tenant.activeRoleBreakdown.map((role) => ({
+          name: role.roleKey,
+          role: `${role.count} active member${role.count === 1 ? "" : "s"}`,
+          access: "Real role count from organisation memberships.",
+          status: "Active",
+        }))
+      : [
+          {
+            name: "Membership records",
+            role: "0 active members",
+            access: "Manual setup may still be needed or not visible.",
+            status: "Review",
+          },
+        ];
+
   return (
     <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
         <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
@@ -168,12 +192,12 @@ export default async function CleanEatsTenantDetailPage() {
               Tenant detail / Food Production / Pilot tenant
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
-              Clean Eats Australia
+              {tenantName}
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
               Platform Admin preview. Tenant branding and data are
-              tenant-scoped inside EveryBatch; this page uses static read-only
-              placeholders only.
+              tenant-scoped inside EveryBatch; this page uses read-only tenant
+              metadata where available.
             </p>
           </div>
         </section>
@@ -234,14 +258,20 @@ export default async function CleanEatsTenantDetailPage() {
                   </PlatformBadge>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {group.modules.map((module) => (
-                    <span
-                      key={module}
-                      className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800"
-                    >
-                      {module}
+                  {group.modules.length > 0 ? (
+                    group.modules.map((module) => (
+                      <span
+                        key={module}
+                        className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800"
+                      >
+                        {module}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-500">
+                      No rows found
                     </span>
-                  ))}
+                  )}
                 </div>
                 <p className="mt-4 text-sm leading-6 text-slate-600">
                   {group.note}
@@ -261,7 +291,7 @@ export default async function CleanEatsTenantDetailPage() {
             description="Plain labels only. No auth IDs, passwords or user-management actions."
           >
             <div className="space-y-3">
-              {memberships.map((membership) => (
+              {membershipSummaries.map((membership) => (
                 <article
                   key={membership.name}
                   className="rounded-lg border border-slate-200 bg-slate-50 p-4"

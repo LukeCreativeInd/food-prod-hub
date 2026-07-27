@@ -4,34 +4,7 @@ import {
   PLATFORM_ADMIN_DOMAIN,
   PLATFORM_BRAND_NAME,
 } from "@/lib/platform-brand";
-
-const metrics = [
-  {
-    label: "Tenants",
-    value: "1",
-    detail: "Clean Eats Australia is Tenant 1.",
-  },
-  {
-    label: "Active/Pilot tenants",
-    value: "1",
-    detail: "Static v1 placeholder.",
-  },
-  {
-    label: "Verticals",
-    value: "1",
-    detail: "Food Production active; more planned.",
-  },
-  {
-    label: "Billing mode",
-    value: "Manual",
-    detail: "Not configured for provider billing.",
-  },
-  {
-    label: "Integrations",
-    value: "Planned",
-    detail: "No live integration actions.",
-  },
-];
+import { getPlatformTenantOverview } from "@/lib/platform-tenant-overview";
 
 const architectureLayers = [
   {
@@ -48,20 +21,6 @@ const architectureLayers = [
     label: "Platform Admin",
     detail: `${PLATFORM_BRAND_NAME} operator console for tenants and support oversight.`,
     status: "Current skeleton",
-  },
-];
-
-const tenants = [
-  {
-    name: "Clean Eats Australia",
-    slug: "cleaneats",
-    vertical: "Food Production",
-    status: "Active / Pilot",
-    type: "Client 1",
-    modules: "9 planned",
-    billing: "Manual / none",
-    integrations: "Planned",
-    href: "/platform/tenants/cleaneats",
   },
 ];
 
@@ -150,6 +109,35 @@ function PlatformBadge({
 }
 
 export default async function PlatformPage() {
+  const overview = await getPlatformTenantOverview();
+  const metrics = [
+    {
+      label: "Tenants",
+      value: overview.totalTenantCount.toString(),
+      detail: "Real count from organisations.",
+    },
+    {
+      label: "Active / pilot",
+      value: `${overview.activeTenantCount} / ${overview.pilotTenantCount}`,
+      detail: "Pilot is currently derived from Clean Eats.",
+    },
+    {
+      label: "Module registry",
+      value: overview.platformSummary.activeModules.toString(),
+      detail: `${overview.platformSummary.totalModules} total module records.`,
+    },
+    {
+      label: "Feature flags",
+      value: overview.platformSummary.featureFlagCount.toString(),
+      detail: `${overview.platformSummary.enabledFeatureOverrideCount} enabled tenant overrides.`,
+    },
+    {
+      label: "Billing mode",
+      value: "Manual",
+      detail: "Provider billing is not configured yet.",
+    },
+  ];
+
   return (
     <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
         <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
@@ -168,8 +156,8 @@ export default async function PlatformPage() {
               <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
                 {PLATFORM_BRAND_NAME} control centre for tenants, modules,
                 billing status and support oversight. This page is separate in
-                tone from tenant workspaces and uses static read-only
-                placeholders.
+                tone from tenant workspaces and uses read-only platform
+                metadata where available.
               </p>
             </div>
             <div className="rounded-lg border border-slate-700 bg-slate-900/80 p-5">
@@ -311,17 +299,19 @@ export default async function PlatformPage() {
                   Tenant overview
                 </h2>
                 <p className="mt-1 text-sm leading-6 text-slate-600">
-                  Static v1 tenant list preview. No tenant creation or edit
-                  flows are active.
+                  Real platform metadata from tenant/config tables. No tenant
+                  creation or edit flows are active.
                 </p>
               </div>
-              <PlatformBadge tone="green">1 tenant</PlatformBadge>
+              <PlatformBadge tone="green">
+                {`${overview.totalTenantCount} tenants`}
+              </PlatformBadge>
             </div>
           </div>
           <div className="divide-y divide-slate-200">
-            {tenants.map((tenant) => (
+            {overview.tenantRows.map((tenant) => (
               <article key={tenant.slug} className="px-5 py-5 md:px-6">
-                <div className="grid gap-4 lg:grid-cols-[1.1fr_0.8fr_0.8fr_0.8fr_0.8fr_0.8fr_auto] lg:items-center">
+                <div className="grid gap-4 lg:grid-cols-[1.15fr_0.75fr_0.75fr_0.75fr_0.75fr_0.85fr_auto] lg:items-center">
                   <div>
                     <p className="text-sm font-bold text-slate-950">
                       {tenant.name}
@@ -332,10 +322,10 @@ export default async function PlatformPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase text-slate-500">
-                      Vertical
+                      Industry
                     </p>
                     <p className="mt-1 text-sm font-semibold text-slate-800">
-                      {tenant.vertical}
+                      {tenant.industry ?? "Not set"}
                     </p>
                   </div>
                   <div>
@@ -348,40 +338,61 @@ export default async function PlatformPage() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase text-slate-500">
-                      Type
-                    </p>
-                    <p className="mt-1 text-sm font-semibold text-slate-800">
-                      {tenant.type}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold uppercase text-slate-500">
                       Modules
                     </p>
                     <p className="mt-1 text-sm font-semibold text-slate-800">
-                      {tenant.modules}
+                      {tenant.enabledModuleCount} enabled
                     </p>
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase text-slate-500">
-                      Billing
+                      Features
                     </p>
                     <p className="mt-1 text-sm font-semibold text-slate-800">
-                      {tenant.billing}
+                      {tenant.featureOverrideCount} overrides
                     </p>
                   </div>
-                  <Link
-                    href={tenant.href}
-                    className="inline-flex w-fit items-center justify-center rounded-md border border-slate-300 bg-slate-950 px-3 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-                  >
-                    View
-                  </Link>
+                  <div>
+                    <p className="text-xs font-semibold uppercase text-slate-500">
+                      Members
+                    </p>
+                    <p className="mt-1 text-sm font-semibold text-slate-800">
+                      {tenant.activeMemberCount} active /{" "}
+                      {tenant.tenantAdminCount} admins
+                    </p>
+                  </div>
+                  {tenant.viewHref ? (
+                    <Link
+                      href={tenant.viewHref}
+                      className="inline-flex w-fit items-center justify-center rounded-md border border-slate-300 bg-slate-950 px-3 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                    >
+                      View
+                    </Link>
+                  ) : (
+                    <span className="inline-flex w-fit cursor-not-allowed items-center justify-center rounded-md border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-400">
+                      Future
+                    </span>
+                  )}
                 </div>
-                <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
-                  <p className="text-sm text-slate-700">
-                    Integrations:{" "}
+                <div className="mt-4 grid gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 md:grid-cols-3">
+                  <p>
+                    Branding:{" "}
                     <span className="font-semibold">
-                      {tenant.integrations}
+                      {tenant.logoUrl ? "Logo uploaded" : "Placeholder logo"}
+                    </span>
+                  </p>
+                  <p>
+                    Defaults:{" "}
+                    <span className="font-semibold">
+                      {[tenant.timezone, tenant.currency, tenant.defaultUnits]
+                        .filter(Boolean)
+                        .join(" / ") || "Not set"}
+                    </span>
+                  </p>
+                  <p>
+                    Billing/support:{" "}
+                    <span className="font-semibold">
+                      Manual / placeholder
                     </span>
                   </p>
                 </div>

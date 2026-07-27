@@ -208,6 +208,17 @@ Platform Shell Separation v1 is implemented at:
 
 `/platform` and `/platform/tenants/cleaneats` now render inside a dedicated EveryBatch Platform shell instead of the tenant AppShell/sidebar. The future `platform.everybatchmrp.com` domain remains inactive until a reviewed routing/domain task connects it.
 
+Platform Tenant Overview v1 now reads real platform metadata where available:
+
+- organisations
+- organisation settings
+- organisation branding
+- organisation modules
+- feature flag overrides
+- active membership counts
+
+This overview remains read-only and does not fetch tenant operational data, create tenant management actions or change RLS.
+
 Support access and impersonation must be explicit, scoped and auditable. Do not add invisible support impersonation.
 
 ## Task Discipline
