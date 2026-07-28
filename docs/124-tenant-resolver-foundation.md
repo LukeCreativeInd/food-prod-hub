@@ -26,8 +26,17 @@ The helper contains:
 - `normaliseHost(host)`
 - `parseEveryBatchHost(host)`
 - `getAppModeFromHost(host)`
-- `resolveTenantFromSlug(slug)`
 - `DEFAULT_LOCAL_DEV_TENANT_SLUG = "cleaneats"`
+
+Server-side tenant lookup now lives in:
+
+```text
+lib/tenant-lookup.ts
+```
+
+It exports:
+
+- `resolveTenantFromSlug(slug)`
 
 Task 154 strengthens this helper and adds route-intent helpers in:
 
@@ -82,7 +91,7 @@ This is a parsing hint only. The current app still uses existing authenticated o
 
 ## Tenant Lookup Helper
 
-`resolveTenantFromSlug(slug)` uses the authenticated Supabase server client and looks up:
+`resolveTenantFromSlug(slug)` lives in `lib/tenant-lookup.ts`. It uses the authenticated Supabase server client and looks up:
 
 ```text
 public.organisations.slug

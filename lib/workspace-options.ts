@@ -5,7 +5,7 @@ import {
   PLATFORM_ADMIN_DOMAIN,
   PLATFORM_PRIMARY_DOMAIN,
 } from "@/lib/platform-brand";
-import { resolveTenantFromSlug } from "@/lib/tenant-resolver";
+import { resolveTenantFromSlug } from "@/lib/tenant-lookup";
 import { createClient } from "@/lib/supabase/server";
 
 export type WorkspaceDestinationType =

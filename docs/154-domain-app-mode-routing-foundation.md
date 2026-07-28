@@ -4,6 +4,8 @@ Task 154 formalises the domain and app-mode routing foundation for EveryBatch.
 
 This task does not add DNS records, change Vercel domain settings, change Supabase Auth redirect URLs, activate tenant subdomain routing, add middleware, change database schema, create migrations, change RLS, change permissions, change tenant provisioning, move routes or change business logic.
 
+Task 155 builds on this foundation with a narrow Platform Admin app-mode guard. The guard only redirects tenant workspace routes when the host resolves as `platform_admin`; tenant subdomain enforcement remains deferred.
+
 ## Strategy
 
 EveryBatch should continue as:
@@ -75,6 +77,12 @@ Pure helpers:
 
 These helpers calculate intent only. They are not wired into middleware or global redirects.
 
+Task 155 wires only the Platform Admin subset into middleware:
+
+- `/` on Platform Admin host -> `/platform`
+- tenant workspace routes on Platform Admin host -> `/platform`
+- `/login`, `/select-workspace`, `/no-access`, `/platform/*` remain allowed
+
 ## Route Intent Rules
 
 Current route intent:
@@ -89,7 +97,9 @@ Current route intent:
 
 ## Current Enforced Behaviour
 
-No production domain enforcement was added.
+No production domain enforcement was added in task 154.
+
+Task 155 adds only Platform Admin host guarding. Central app and local development behaviour remain unchanged, and tenant app host enforcement remains inactive.
 
 Current behaviour remains:
 

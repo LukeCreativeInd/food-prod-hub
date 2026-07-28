@@ -60,6 +60,7 @@ const tenantRoutePrefixes = [
 ];
 
 const publicAuthRoutePrefixes = ["/login", "/select-workspace", "/no-access"];
+const platformAdminRoutePrefixes = ["/platform"];
 
 function normalisePathname(pathname: string) {
   if (!pathname.startsWith("/")) {
@@ -71,6 +72,40 @@ function normalisePathname(pathname: string) {
 
 function pathMatchesPrefix(pathname: string, prefix: string) {
   return pathname === prefix || pathname.startsWith(`${prefix}/`);
+}
+
+function isInternalOrAssetPath(pathname: string) {
+  return (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/api") ||
+    pathname === "/favicon.ico" ||
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml" ||
+    pathname.match(/\.(?:ico|png|jpg|jpeg|gif|svg|webp|avif|css|js|map|txt|xml)$/) !==
+      null
+  );
+}
+
+export function isTenantAppCanonicalRoute(pathname: string) {
+  const path = normalisePathname(pathname);
+
+  return tenantRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix));
+}
+
+export function isPlatformAdminPathAllowed(pathname: string) {
+  const path = normalisePathname(pathname);
+
+  if (isInternalOrAssetPath(path)) {
+    return true;
+  }
+
+  if (publicAuthRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix))) {
+    return true;
+  }
+
+  return platformAdminRoutePrefixes.some((prefix) =>
+    pathMatchesPrefix(path, prefix),
+  );
 }
 
 export function resolveAppModeFromHost(host: string): ParsedEveryBatchHost {
@@ -110,11 +145,7 @@ export function isRouteAllowedForAppMode(
 ) {
   const path = normalisePathname(pathname);
 
-  if (
-    path.startsWith("/_next") ||
-    path.startsWith("/api") ||
-    path === "/favicon.ico"
-  ) {
+  if (isInternalOrAssetPath(path)) {
     return true;
   }
 
@@ -135,7 +166,10 @@ export function isRouteAllowedForAppMode(
   }
 
   if (resolvedMode.mode === "platform_admin") {
-    return path === "/" || pathMatchesPrefix(path, "/platform");
+    return (
+      isPlatformAdminPathAllowed(path) ||
+      (path !== "/" && !isTenantAppCanonicalRoute(path))
+    );
   }
 
   if (resolvedMode.mode === "tenant_app") {
@@ -147,6 +181,36 @@ export function isRouteAllowedForAppMode(
   }
 
   return false;
+}
+
+export function getPlatformAdminAppModeRedirect(
+  pathname: string,
+): AppModeRedirectIntent {
+  const path = normalisePathname(pathname);
+
+  if (isPlatformAdminPathAllowed(path)) {
+    return {
+      shouldRedirect: false,
+      href: path,
+      reason: "Route is allowed on the Platform Admin host.",
+    };
+  }
+
+  if (path === "/" || isTenantAppCanonicalRoute(path)) {
+    return {
+      shouldRedirect: true,
+      href: "/platform",
+      reason:
+        "Platform Admin host should not render tenant workspace routes. Redirect to the Platform Admin shell.",
+    };
+  }
+
+  return {
+    shouldRedirect: false,
+    href: path,
+    reason:
+      "Unknown non-tenant route is left to normal app routing/not-found handling.",
+  };
 }
 
 export function getAppModeRedirect(

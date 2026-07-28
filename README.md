@@ -175,6 +175,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Sell price storage and margin readiness planning now separates future finished product sell prices from supplier input costs before any margin engine is built
 - Sell Price Schema Foundation has been drafted with tenant-scoped finished product sell price storage, explicit sell price permissions and conservative RLS policies
 - Domain/app-mode routing foundation now maps EveryBatch marketing, central app, Platform Admin, tenant, support, local dev and preview hosts without activating production redirects
+- Platform Admin app-mode guarding now prevents tenant workspace routes from rendering on the planned admin host while keeping local/dev and central app behaviour unchanged
 
 ## Tech Stack
 
@@ -328,6 +329,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Sell Price Storage And Margin Readiness Plan](docs/152-sell-price-storage-and-margin-readiness-plan.md)
 - [Sell Price Schema Foundation](docs/153-sell-price-schema-foundation.md)
 - [Domain / App Mode Routing Foundation](docs/154-domain-app-mode-routing-foundation.md)
+- [Platform Admin App Mode Guarding](docs/155-platform-admin-app-mode-guarding.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

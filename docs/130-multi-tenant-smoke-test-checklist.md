@@ -303,6 +303,21 @@ Task 154 adds passive resolver and route-intent helpers. Before enabling any hos
 
 These checks do not require DNS changes while the helpers remain passive.
 
+## Task 155 Platform Admin Host Guard Checks
+
+Task 155 adds narrow middleware enforcement for `platform_admin` mode only. When host simulation is practical, verify:
+
+- [ ] `Host: admin.everybatchmrp.com.au` with `/` redirects to `/platform`.
+- [ ] `Host: admin.everybatchmrp.com.au` with `/dashboard` redirects to `/platform`.
+- [ ] `Host: admin.everybatchmrp.com.au` with `/components` redirects to `/platform`.
+- [ ] `Host: admin.everybatchmrp.com.au` with `/finished-products` redirects to `/platform`.
+- [ ] `Host: admin.everybatchmrp.com.au` with `/platform` is allowed.
+- [ ] `Host: admin.everybatchmrp.com.au` with `/login` is allowed.
+- [ ] `localhost:3000/dashboard` remains allowed.
+- [ ] `app.everybatchmrp.com/platform` remains allowed until the admin domain is live and reviewed.
+
+Tenant subdomain enforcement remains deferred.
+
 ## Migration Notes
 
 No SQL migration was created.

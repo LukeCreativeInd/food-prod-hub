@@ -1,12 +1,9 @@
-import { cache } from "react";
-
 import {
   PLATFORM_ADMIN_DOMAIN,
   PLATFORM_APP_DOMAIN,
   PLATFORM_PRIMARY_DOMAIN,
   PLATFORM_SUPPORT_DOMAIN,
 } from "@/lib/platform-brand";
-import { createClient } from "@/lib/supabase/server";
 
 export const DEFAULT_LOCAL_DEV_TENANT_SLUG = "cleaneats";
 
@@ -33,13 +30,6 @@ export type ParsedEveryBatchHost = {
   canonicalPlatformHost: string;
   canonicalMarketingHost: string;
   reason: string;
-};
-
-export type ResolvedTenant = {
-  id: string;
-  slug: string;
-  name: string;
-  status: string;
 };
 
 const everyBatchRootDomains = new Set([
@@ -271,27 +261,6 @@ export const appModeResolverExamples = [
   },
 ] as const;
 
-export const resolveTenantFromSlug = cache(
-  async function resolveTenantFromSlug(
-    slug: string,
-  ): Promise<ResolvedTenant | null> {
-    if (!tenantSlugPattern.test(slug)) {
-      return null;
-    }
-
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("organisations")
-      .select("id, slug, name, status")
-      .eq("slug", slug)
-      .eq("status", "active")
-      .is("archived_at", null)
-      .maybeSingle();
-
-    if (error || !data) {
-      return null;
-    }
-
-    return data as ResolvedTenant;
-  },
-);
+export function isValidTenantSlug(slug: string) {
+  return tenantSlugPattern.test(slug);
+}

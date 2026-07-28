@@ -434,3 +434,9 @@ The table stores finished product sell prices by channel and keeps them separate
 Task 154 formalises passive domain/app-mode routing helpers. EveryBatch remains one repo, one Vercel project and one codebase, with future hostnames resolving to app modes rather than separate forks or builds.
 
 Current mappings include `app.everybatchmrp.com` as `central_app`, `admin.everybatchmrp.com.au` as the preferred `platform_admin` host, `cleaneats.everybatchmrp.com` as `tenant_app` with tenant slug `cleaneats`, `support.everybatchmrp.com` as `support`, root EveryBatch domains as `marketing`, and localhost/Vercel deployment hosts as `local_dev` style fallbacks. No DNS, Vercel, Supabase Auth, middleware, production redirects, tenant subdomain activation, migrations, RLS, permissions, route moves or business logic changes are included.
+
+## Task 155 Platform Admin App Mode Guarding
+
+Task 155 adds lightweight middleware for the planned Platform Admin host. When the host resolves as `platform_admin`, `/` and tenant workspace routes redirect to `/platform`, while `/login`, `/select-workspace`, `/no-access`, `/platform/*`, assets and Next internals remain allowed.
+
+Local development and Vercel deployment hosts remain permissive. `app.everybatchmrp.com` central app behaviour remains unchanged, including temporary `/platform` access while the admin domain is not live. Tenant app host enforcement for `cleaneats.everybatchmrp.com` remains deferred. No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, tenant subdomain activation, route move or business logic changes are included.
