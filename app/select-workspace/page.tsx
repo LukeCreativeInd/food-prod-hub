@@ -25,7 +25,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: `Choose your workspace | ${PLATFORM_BRAND_NAME}`,
+  title: "Select Workspace",
 };
 
 const errorMessages: Record<string, string> = {

@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 import { LogoutButton } from "@/components/auth/logout-button";
+import { DocumentTitleSync } from "@/components/document-title-sync";
 import { PlatformMobileMenu } from "@/components/platform/platform-mobile-menu";
 import {
   PLATFORM_ADMIN_DOMAIN,
@@ -437,6 +438,7 @@ export function PlatformShell({ children }: PlatformShellProps) {
         isCollapsed ? "lg:grid-cols-[5.5rem_1fr]" : "lg:grid-cols-[18rem_1fr]",
       )}
     >
+      <DocumentTitleSync />
       <aside className="border-b border-[#174231] bg-[#0F2E23] text-white lg:min-h-screen lg:border-b-0 lg:border-r">
         <div
           className={clsx(

@@ -5,13 +5,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
+import { LogoutButton } from "@/components/auth/logout-button";
 import type { NavigationGroup } from "@/lib/navigation";
-import { PLATFORM_BRAND_NAME } from "@/lib/platform-brand";
+import {
+  PLATFORM_BRAND_NAME,
+  PLATFORM_BRAND_TAGLINE,
+  PLATFORM_PRODUCT_LINE,
+} from "@/lib/platform-brand";
 import type { TenantPresentation } from "@/lib/tenant-presentation";
+
+export type SidebarWorkspaceLink = {
+  label: string;
+  detail: string;
+  href: string;
+  isCurrent: boolean;
+};
 
 type AppSidebarProps = {
   navigationGroups: NavigationGroup[];
   tenant: TenantPresentation;
+  workspaceLinks: SidebarWorkspaceLink[];
 };
 
 type SidebarIconProps = {
@@ -70,9 +83,21 @@ function LogoPlaceholderMark() {
   );
 }
 
+function EveryBatchMark() {
+  return (
+    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-lime-300 text-sm font-black text-green-950 shadow-sm">
+      EB
+    </span>
+  );
+}
+
 const sidebarCollapsedStorageKey = "food-prod-hub.sidebar-collapsed";
 
-export function AppSidebar({ navigationGroups, tenant }: AppSidebarProps) {
+export function AppSidebar({
+  navigationGroups,
+  tenant,
+  workspaceLinks,
+}: AppSidebarProps) {
   const pathname = usePathname();
   const activeGroupLabels = useMemo(
     () =>
@@ -142,63 +167,94 @@ export function AppSidebar({ navigationGroups, tenant }: AppSidebarProps) {
           isCollapsed ? "md:px-4" : "md:px-6",
         )}
       >
-        <div
+        <Link
+          href="/dashboard"
           className={clsx(
-            "flex items-center",
-            isCollapsed ? "md:justify-center" : "",
+            "flex items-center gap-3 rounded-xl text-slate-950 transition hover:text-[var(--tenant-primary)]",
+            isCollapsed && "md:justify-center",
+          )}
+          title={PLATFORM_BRAND_NAME}
+        >
+          <EveryBatchMark />
+          <span className={clsx("min-w-0", isCollapsed && "md:hidden")}>
+            <span className="block text-sm font-black tracking-tight">
+              {PLATFORM_BRAND_NAME}
+            </span>
+            <span className="block truncate text-[0.68rem] font-black uppercase tracking-[0.14em] text-slate-500">
+              {PLATFORM_PRODUCT_LINE}
+            </span>
+          </span>
+        </Link>
+        <p
+          className={clsx(
+            "mt-3 text-xs leading-5 text-slate-500",
+            isCollapsed && "md:hidden",
           )}
         >
-          <div
-            className={clsx(
-              "flex min-w-0 items-center rounded-xl border border-slate-200 bg-slate-50 shadow-sm ring-1 ring-black/5",
-              isCollapsed
-                ? "h-11 w-11 justify-center md:w-11"
-                : "h-14 w-full gap-3 px-3",
-            )}
-            title={
-              tenant.logoUrl
-                ? `${tenant.organisationName} logo`
-                : "Client logo placeholder"
-            }
-            aria-label={
-              tenant.logoUrl
-                ? `${tenant.organisationName} logo`
-                : "Client logo placeholder"
-            }
-          >
-            {tenant.logoUrl ? (
-              <div className="flex h-full min-w-0 flex-1 items-center justify-center overflow-hidden">
+          {PLATFORM_BRAND_TAGLINE}
+        </p>
+
+        <div className={clsx("mt-5", isCollapsed ? "md:flex md:justify-center" : "")}>
+          {tenant.logoUrl ? (
+            <div
+              className={clsx(
+                "flex items-center",
+                isCollapsed && "md:justify-center",
+              )}
+              title={`${tenant.organisationName} logo`}
+              aria-label={`${tenant.organisationName} logo`}
+            >
+              <div
+                className={clsx(
+                  "flex shrink-0 items-center overflow-hidden bg-white",
+                  isCollapsed
+                    ? "h-11 w-11 justify-center rounded-lg"
+                    : "h-14 w-full justify-start",
+                )}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={tenant.logoUrl}
                   alt={`${tenant.organisationName} logo`}
-                  className="max-h-10 max-w-full object-contain"
+                  className={clsx(
+                    "object-contain",
+                    isCollapsed ? "max-h-10 max-w-10" : "max-h-12 max-w-full",
+                  )}
                 />
               </div>
-            ) : (
-              <>
-                <span
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[var(--tenant-primary)] shadow-sm ring-1 ring-slate-200"
-                  aria-hidden="true"
-                >
-                  <LogoPlaceholderMark />
+            </div>
+          ) : (
+            <div
+              className={clsx(
+                "flex min-w-0 items-center",
+                isCollapsed
+                  ? "h-11 w-11 justify-center md:w-11"
+                  : "h-11 w-full gap-3",
+              )}
+              title={tenant.organisationName}
+              aria-label={tenant.organisationName}
+            >
+              <span
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-[var(--tenant-primary)] ring-1 ring-slate-200"
+                aria-hidden="true"
+              >
+                <LogoPlaceholderMark />
+              </span>
+              <span
+                className={clsx(
+                  "min-w-0 text-left",
+                  isCollapsed && "md:hidden",
+                )}
+              >
+                <span className="block truncate text-sm font-bold text-slate-950">
+                  {tenant.organisationName}
                 </span>
-                <span
-                  className={clsx(
-                    "min-w-0 text-left",
-                    isCollapsed && "md:hidden",
-                  )}
-                >
-                  <span className="block truncate text-sm font-semibold text-slate-900">
-                    Client Logo
-                  </span>
-                  <span className="block truncate text-xs text-slate-500">
-                    Placeholder
-                  </span>
+                <span className="block truncate text-xs text-slate-500">
+                  Tenant workspace
                 </span>
-              </>
-            )}
-          </div>
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -338,11 +394,102 @@ export function AppSidebar({ navigationGroups, tenant }: AppSidebarProps) {
           isCollapsed ? "md:px-3" : "md:px-6",
         )}
       >
+        <details className="group relative">
+          <summary
+            className={clsx(
+              "flex cursor-pointer list-none items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2.5 shadow-sm transition hover:border-[color:var(--tenant-primary-border)] hover:bg-[var(--tenant-primary-soft)] [&::-webkit-details-marker]:hidden",
+              isCollapsed && "md:justify-center md:px-2",
+            )}
+          >
+            <span
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-black text-white"
+              style={{ backgroundColor: tenant.primaryColour }}
+            >
+              {tenant.userInitials}
+            </span>
+            <span className={clsx("min-w-0 flex-1", isCollapsed && "md:hidden")}>
+              <span className="block truncate text-sm font-bold text-slate-950">
+                {tenant.userName}
+              </span>
+              <span className="block truncate text-xs text-slate-500">
+                {tenant.userDetail}
+              </span>
+            </span>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className={clsx(
+                "h-4 w-4 text-slate-400 transition group-open:rotate-180",
+                isCollapsed && "md:hidden",
+              )}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </summary>
+          <div
+            className={clsx(
+              "absolute bottom-full left-0 z-40 mb-2 w-72 rounded-xl border border-slate-200 bg-white p-3 shadow-2xl shadow-slate-900/15",
+              isCollapsed && "md:left-2 md:w-72",
+            )}
+          >
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
+              Account
+            </p>
+            <p className="mt-1 truncate text-sm font-bold text-slate-950">
+              {tenant.userName}
+            </p>
+            <p className="truncate text-xs text-slate-500">{tenant.userDetail}</p>
+
+            <div className="mt-3 border-t border-slate-100 pt-3">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
+                Workspaces
+              </p>
+              <div className="mt-2 space-y-1">
+                {workspaceLinks.map((workspace) => (
+                  <Link
+                    key={`${workspace.href}-${workspace.label}`}
+                    href={workspace.href}
+                    className={clsx(
+                      "flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm transition",
+                      workspace.isCurrent
+                        ? "bg-[var(--tenant-primary-soft)] text-[var(--tenant-primary)]"
+                        : "text-slate-700 hover:bg-slate-50 hover:text-slate-950",
+                    )}
+                  >
+                    <span className="min-w-0">
+                      <span className="block truncate font-bold">
+                        {workspace.label}
+                      </span>
+                      <span className="block truncate text-xs opacity-75">
+                        {workspace.detail}
+                      </span>
+                    </span>
+                    {workspace.isCurrent ? (
+                      <span className="rounded-full bg-white px-2 py-0.5 text-[0.65rem] font-black uppercase tracking-[0.12em]">
+                        Current
+                      </span>
+                    ) : null}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-3 border-t border-slate-100 pt-3">
+              <LogoutButton variant="light" />
+            </div>
+          </div>
+        </details>
+
         <button
           type="button"
           onClick={toggleSidebar}
           className={clsx(
-            "flex w-full items-center gap-3 rounded-md px-2 py-2 text-sm font-semibold text-slate-500 transition hover:bg-slate-50 hover:text-[var(--tenant-primary)]",
+            "mt-3 flex w-full items-center gap-3 rounded-md px-2 py-2 text-xs font-bold text-slate-400 transition hover:bg-slate-50 hover:text-[var(--tenant-primary)]",
             isCollapsed && "md:justify-center",
           )}
           aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -365,14 +512,6 @@ export function AppSidebar({ navigationGroups, tenant }: AppSidebarProps) {
             {isCollapsed ? "Expand" : "Collapse"}
           </span>
         </button>
-        <p
-          className={clsx(
-            "mt-2 text-xs leading-5 text-slate-400",
-            isCollapsed && "md:hidden",
-          )}
-        >
-          Powered by {PLATFORM_BRAND_NAME}
-        </p>
       </div>
     </aside>
   );

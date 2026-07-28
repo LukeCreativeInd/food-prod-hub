@@ -1,8 +1,5 @@
 import { LoginForm } from "@/app/login/login-form";
-import {
-  PLATFORM_APP_DOMAIN,
-  PLATFORM_BRAND_NAME,
-} from "@/lib/platform-brand";
+import { PLATFORM_BRAND_NAME } from "@/lib/platform-brand";
 
 type LoginFormCardProps = {
   mode: "platform" | "tenant";
@@ -16,7 +13,7 @@ export function LoginFormCard({
   const isTenantMode = mode === "tenant";
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/70 md:p-8">
+    <section className="flex h-full flex-col justify-center rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/70 md:p-8 lg:min-h-[34rem]">
       <div>
         <p className="text-xs font-bold uppercase tracking-[0.16em] text-clean-green-700">
           Secure access
@@ -26,8 +23,8 @@ export function LoginFormCard({
         </h2>
         <p className="mt-3 text-sm leading-6 text-slate-600">
           {isTenantMode
-            ? `Tenant-specific login styling is ready for ${tenantName}, but host-based tenant routing is not active yet.`
-            : `Use your workspace account. Future central login is planned for ${PLATFORM_APP_DOMAIN}.`}
+            ? `Use your ${tenantName} workspace account to continue.`
+            : "Use your workspace account to continue."}
         </p>
       </div>
 
@@ -35,11 +32,11 @@ export function LoginFormCard({
 
       <div className="mt-6 rounded-2xl border border-green-100 bg-green-50/80 px-4 py-3">
         <p className="text-xs font-bold uppercase tracking-[0.14em] text-clean-green-700">
-          Workspace context
+          Your workspace, connected
         </p>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          Clean Eats Hub remains Tenant 1 during the foundation build. Tenant
-          access, permissions and module visibility are checked after sign-in.
+          EveryBatch keeps each tenant workspace separated and secure across
+          products, production, inventory, purchasing and costings.
         </p>
       </div>
 

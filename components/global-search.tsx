@@ -46,6 +46,24 @@ function getResultCount(groups: GlobalSearchGroup[]) {
   return groups.reduce((count, group) => count + group.results.length, 0);
 }
 
+function SearchIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </svg>
+  );
+}
+
 export function GlobalSearch() {
   const router = useRouter();
   const pathname = usePathname();
@@ -193,19 +211,17 @@ export function GlobalSearch() {
   }
 
   return (
-    <div ref={panelRef} className="relative w-full sm:w-96">
+    <div ref={panelRef} className="relative">
       <button
         type="button"
         onClick={openSearch}
-        className="flex h-10 w-full items-center gap-2 rounded-md border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 text-left text-sm text-[var(--tenant-muted)] shadow-sm transition hover:border-[var(--tenant-primary-border)] hover:bg-[var(--tenant-surface-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--tenant-primary-border)]"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[var(--tenant-border)] bg-[var(--tenant-surface)] text-[var(--tenant-muted)] shadow-sm transition hover:border-[var(--tenant-primary-border)] hover:bg-[var(--tenant-primary-soft)] hover:text-[var(--tenant-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--tenant-primary-border)]"
         aria-expanded={isOpen}
         aria-haspopup="dialog"
+        aria-label={`Search across your workspace (${shortcutLabel})`}
+        title={`Search (${shortcutLabel})`}
       >
-        <span className="text-base text-[var(--tenant-primary)]">/</span>
-        <span className="min-w-0 flex-1 truncate">Search</span>
-        <span className="rounded border border-[var(--tenant-border)] bg-[var(--tenant-surface-muted)] px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[var(--tenant-muted)]">
-          {shortcutLabel}
-        </span>
+        <SearchIcon />
       </button>
 
       {isOpen ? (

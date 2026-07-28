@@ -1,14 +1,18 @@
 import type { CSSProperties, ReactNode } from "react";
-import Link from "next/link";
+import { headers } from "next/headers";
 
 import { AppHeaderTitle } from "@/components/app-header-title";
-import { AppSidebar } from "@/components/app-sidebar";
-import { LogoutButton } from "@/components/auth/logout-button";
+import { AppSidebar, type SidebarWorkspaceLink } from "@/components/app-sidebar";
+import { DocumentTitleSync } from "@/components/document-title-sync";
 import { GlobalSearch } from "@/components/global-search";
 import { HelpSupportMenu } from "@/components/help-support-menu";
 import { getAppShellContext } from "@/lib/app-shell-context";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { navigationGroups } from "@/lib/navigation";
+import {
+  getCurrentUserWorkspaceOptions,
+  getWorkspaceDestinationHref,
+} from "@/lib/workspace-options";
 
 type AppShellProps = {
   children: ReactNode;
@@ -31,8 +35,17 @@ function hexToRgba(hex: string, alpha: number) {
 
 export async function AppShell({ children }: AppShellProps) {
   const navigationTimingStartedAt = Date.now();
-  const { permissionKeys, enabledModuleKeys, tenantPresentation } =
-    await getAppShellContext();
+  const [
+    { permissionKeys, enabledModuleKeys, tenantPresentation },
+    workspaceOptions,
+    requestHeaders,
+  ] = await Promise.all([
+    getAppShellContext(),
+    getCurrentUserWorkspaceOptions(),
+    headers(),
+  ]);
+  const currentHost =
+    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
   const permissionSet = new Set(permissionKeys);
   const enabledModuleSet = new Set(enabledModuleKeys);
   const visibleNavigationGroups = navigationGroups
@@ -60,6 +73,40 @@ export async function AppShell({ children }: AppShellProps) {
     enabledModuleCount: enabledModuleKeys.length,
     visibleGroupCount: visibleNavigationGroups.length,
   });
+  const workspaceLinks: SidebarWorkspaceLink[] = [
+    ...workspaceOptions.workspaces.map((workspace) => ({
+      label: workspace.workspaceName,
+      detail:
+        workspace.slug === tenantPresentation.tenantSlug
+          ? "Current tenant workspace"
+          : "Tenant workspace",
+      href: getWorkspaceDestinationHref(
+        {
+          type: "tenant" as const,
+          href: "/dashboard",
+          tenantSlug: workspace.slug,
+        },
+        { currentHost },
+      ),
+      isCurrent: workspace.slug === tenantPresentation.tenantSlug,
+    })),
+    ...(workspaceOptions.isPlatformAdmin
+      ? [
+          {
+            label: "EveryBatch Platform Admin",
+            detail: "Operator console",
+            href: getWorkspaceDestinationHref(
+              {
+                type: "platform" as const,
+                href: "/platform",
+              },
+              { currentHost },
+            ),
+            isCurrent: false,
+          },
+        ]
+      : []),
+  ];
 
   const tenantStyle = {
     "--tenant-primary": tenantPresentation.primaryColour,
@@ -100,9 +147,11 @@ export async function AppShell({ children }: AppShellProps) {
       style={tenantStyle}
       data-tenant-theme={tenantPresentation.themeMode}
     >
+      <DocumentTitleSync />
       <AppSidebar
         navigationGroups={visibleNavigationGroups}
         tenant={tenantPresentation}
+        workspaceLinks={workspaceLinks}
       />
       <div className="min-w-0 flex-1">
         <header className="sticky top-0 z-20 border-b border-[var(--tenant-border)] bg-[var(--tenant-surface)]/95 px-5 py-3 shadow-sm backdrop-blur md:px-8">
@@ -112,10 +161,8 @@ export async function AppShell({ children }: AppShellProps) {
               tenantSlug={tenantPresentation.tenantSlug}
             />
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="flex flex-row items-center gap-2">
               <GlobalSearch />
-
-              <HelpSupportMenu />
 
               <button
                 type="button"
@@ -139,59 +186,7 @@ export async function AppShell({ children }: AppShellProps) {
                 </svg>
               </button>
 
-              <details className="group relative">
-                <summary className="flex cursor-pointer list-none items-center gap-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 shadow-sm transition hover:border-[color:var(--tenant-primary-border)] hover:bg-[var(--tenant-primary-soft)] [&::-webkit-details-marker]:hidden">
-                  <span
-                    className="flex h-8 w-8 items-center justify-center rounded-md text-xs font-bold text-white"
-                    style={{
-                      backgroundColor: tenantPresentation.primaryColour,
-                    }}
-                  >
-                    {tenantPresentation.userInitials}
-                  </span>
-                  <span className="min-w-0 text-left">
-                    <span className="block truncate text-sm font-semibold text-[var(--tenant-text)]">
-                      {tenantPresentation.userName}
-                    </span>
-                    <span className="block truncate text-xs text-[var(--tenant-muted)]">
-                      {tenantPresentation.userDetail}
-                    </span>
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    className="h-4 w-4 text-[var(--tenant-muted)] transition group-open:rotate-180"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
-                </summary>
-                <div className="absolute right-0 z-30 mt-2 w-64 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3 shadow-lg">
-                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">
-                    Account
-                  </p>
-                  <p className="mt-1 truncate text-sm font-semibold text-[var(--tenant-text)]">
-                    {tenantPresentation.userName}
-                  </p>
-                  <p className="mb-3 truncate text-xs text-[var(--tenant-muted)]">
-                    {tenantPresentation.userDetail}
-                  </p>
-                  <Link
-                    href="/select-workspace"
-                    className="mb-3 flex items-center justify-between rounded-md border border-[var(--tenant-border)] bg-[var(--tenant-surface-muted)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:border-[color:var(--tenant-primary-border)] hover:bg-[var(--tenant-primary-soft)]"
-                  >
-                    <span>Switch workspace</span>
-                    <span className="text-xs text-[var(--tenant-muted)]">
-                      EveryBatch
-                    </span>
-                  </Link>
-                  <LogoutButton variant="light" />
-                </div>
-              </details>
+              <HelpSupportMenu />
             </div>
           </div>
         </header>

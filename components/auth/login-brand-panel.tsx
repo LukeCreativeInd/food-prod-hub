@@ -55,7 +55,7 @@ export function LoginBrandPanel({
   const heading = isTenantMode ? tenantName : PLATFORM_BRAND_NAME;
   const eyebrow = isTenantMode ? "Workspace login" : PLATFORM_BRAND_CATEGORY;
   const supportingCopy = isTenantMode
-    ? "Sign in to your tenant workspace with the same secure EveryBatch account foundation."
+    ? "Access your tenant workspace with secure EveryBatch account access."
     : "Access recipes, production, inventory, purchasing and traceability in one place.";
 
   return (
@@ -103,7 +103,7 @@ export function LoginBrandPanel({
             </p>
           ) : (
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-green-100/80">
-              Central login foundation
+              Secure workspace gateway
             </p>
           )}
         </div>

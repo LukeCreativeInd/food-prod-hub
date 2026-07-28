@@ -8,6 +8,8 @@ Task 162 records live redirect QA after this hardening. See [Live Domain Redirec
 
 Task 163 polishes the central workspace selector cards and documents live-domain destination behaviour. See [Workspace Selector Live Domain QA / Polish](163-workspace-selector-live-domain-qa-polish.md).
 
+Task 165 adds inline workspace choices to the tenant sidebar account menu while preserving these central-app redirect rules.
+
 ## Correct Domains
 
 | Domain | Purpose |

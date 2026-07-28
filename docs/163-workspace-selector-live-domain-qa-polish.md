@@ -4,6 +4,10 @@ Task 163 verifies and lightly polishes the central EveryBatch workspace selector
 
 This task does not change DNS, Vercel, Supabase Auth, database schema, migrations, RLS, permissions, tenant provisioning, Platform Admin business logic, tenant app business logic, sidebars, navigation order, design systems or packages.
 
+Task 165 later moves signed-in workspace switching into the tenant sidebar account menu. The `/select-workspace` route remains the central selector and still uses the server-side workspace validation documented here.
+
+Task 165 also configures Supabase auth cookies to use `.everybatchmrp.com` on production EveryBatch app/admin/tenant subdomains. This is required so a session created on `app.everybatchmrp.com` can be read after selecting Clean Eats or Platform Admin and landing on a different subdomain.
+
 ## Purpose
 
 The workspace selector belongs on:
@@ -138,8 +142,9 @@ Signed-in platform admin:
 - [ ] Visit `https://app.everybatchmrp.com/select-workspace`.
 - [ ] Confirm Clean Eats card shows destination `cleaneats.everybatchmrp.com`.
 - [ ] Confirm Platform Admin card shows destination `admin.everybatchmrp.com`.
-- [ ] Select Clean Eats and confirm it opens `https://cleaneats.everybatchmrp.com/dashboard`.
-- [ ] Select Platform Admin and confirm it opens `https://admin.everybatchmrp.com/platform`.
+- [ ] Select Clean Eats and confirm it opens `https://cleaneats.everybatchmrp.com/dashboard` without showing the login form again.
+- [ ] Select Platform Admin and confirm it opens `https://admin.everybatchmrp.com/platform` without showing the login form again.
+- [ ] If testing immediately after deployment, sign in again once if the browser still has old host-only Supabase cookies.
 
 Path preservation:
 

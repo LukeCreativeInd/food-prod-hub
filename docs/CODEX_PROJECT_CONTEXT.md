@@ -115,7 +115,8 @@ Login redirect behaviour:
 - Already-signed-in visits to `/login` use the same destination logic.
 - Allowed transitional destinations are `/dashboard`, `/select-workspace`, `/platform` and `/no-access`.
 - Tenant subdomain redirects remain inactive.
-- Authenticated app shell users have a `Switch workspace` entry in the user dropdown that links to `/select-workspace`.
+- Authenticated tenant app users switch workspaces from the sidebar account menu. The menu shows tenant workspace options inline and shows Platform Admin when the signed-in user has platform access. `/select-workspace` remains available for first-login and central gateway flows, but it is not repeated as a separate row inside the sidebar account menu.
+- Supabase Auth cookies are configured through `lib/supabase/cookie-options.ts`. On known production EveryBatch app/admin/tenant subdomains, auth cookies use `.everybatchmrp.com` so sessions can travel between `app.everybatchmrp.com`, `cleaneats.everybatchmrp.com` and `admin.everybatchmrp.com`. Localhost, local/private hosts, Vercel preview hosts, marketing root and support hosts keep default host-only cookie behaviour. Users may need to sign in again once after this cookie-domain change deploys.
 
 Use the multi-tenant smoke test checklist before and after major domain, login, selector, Platform Admin, permission/RLS, feature flag, deployment, migration or tenant onboarding changes:
 
@@ -169,7 +170,7 @@ EveryBatch is the platform.
 
 Clean Eats Hub is the first customer workspace.
 
-Inside tenant workspaces, tenant branding should remain prominent. EveryBatch can appear as a subtle trust layer, such as "Powered by EveryBatch".
+Inside tenant workspaces, EveryBatch is now the primary product brand at the top of the sidebar, while tenant identity remains visible below it. Do not reintroduce the old bottom-left `Powered by EveryBatch` footer unless a later task explicitly changes the brand hierarchy. Current EveryBatch and tenant sidebar marks are temporary fallbacks until dedicated platform logo/icon and tenant logo/icon asset support is planned.
 
 Platform/admin surfaces should use EveryBatch branding.
 

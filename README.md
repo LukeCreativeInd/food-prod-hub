@@ -138,7 +138,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Workspace options helper foundation now prepares server-side workspace choices and post-login destination guidance without changing login redirects
 - Tenant selector UI foundation has been added at `/select-workspace` with EveryBatch branding and server-validated workspace choices
 - Login now redirects through workspace destination rules, sending multi-workspace/platform users to `/select-workspace` while keeping tenant routing internal
-- Authenticated users can now return to `/select-workspace` from the app shell user menu via `Switch workspace`
+- Authenticated tenant app users can now choose workspaces from the sidebar account menu, with `/select-workspace` retained as the central selector.
 - Multi-tenant smoke test checklist has been added for domain, login, selector, permissions, RLS, feature flag, release and rollback checks
 - Platform Admin information architecture has been documented before shell separation, tenant overview, support, billing or provisioning work
 - Platform Admin now uses a separate EveryBatch-branded shell at `/platform`, while tenant workspaces keep the tenant app shell
@@ -184,6 +184,8 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Central app tenant redirect hardening now prevents `app.everybatchmrp.com` tenant workspace routes from rendering Clean Eats directly and sends workspace selections to the correct tenant/admin domains
 - Live domain redirect QA after task 161 confirms central, admin and Clean Eats signed-out redirects are behaving as expected; signed-in selector clicks remain marked for manual browser verification
 - Workspace selector live-domain polish now makes tenant/admin destination domains explicit and preserves safe next paths for Clean Eats and Platform Admin selections
+- Tenant app shell, login and metadata polish now puts EveryBatch branding at the top of the tenant sidebar, moves account/workspace choices into the sidebar user menu, adds the EveryBatch app icon and syncs browser titles to the current route.
+- Supabase auth cookies now use `.everybatchmrp.com` on live EveryBatch app/admin/tenant subdomains so login sessions can be shared between the central app, Clean Eats workspace and Platform Admin; localhost keeps default host-only cookies.
 
 ## Tech Stack
 
@@ -346,6 +348,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Central App Tenant Redirect Hardening](docs/161-central-app-tenant-redirect-hardening.md)
 - [Live Domain Redirect QA Pass](docs/162-live-domain-redirect-qa-pass.md)
 - [Workspace Selector Live Domain QA / Polish](docs/163-workspace-selector-live-domain-qa-polish.md)
+- [Tenant App Shell, Login and Metadata Polish](docs/165-tenant-app-shell-login-metadata-polish.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

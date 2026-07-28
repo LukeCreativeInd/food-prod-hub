@@ -2,6 +2,8 @@
 
 import { createBrowserClient } from "@supabase/ssr";
 
+import { getBrowserSupabaseAuthCookieOptions } from "@/lib/supabase/cookie-options";
+
 function getSupabasePublicConfig() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -16,5 +18,7 @@ function getSupabasePublicConfig() {
 export function createClient() {
   const { supabaseUrl, supabaseAnonKey } = getSupabasePublicConfig();
 
-  return createBrowserClient(supabaseUrl, supabaseAnonKey);
+  return createBrowserClient(supabaseUrl, supabaseAnonKey, {
+    cookieOptions: getBrowserSupabaseAuthCookieOptions(),
+  });
 }

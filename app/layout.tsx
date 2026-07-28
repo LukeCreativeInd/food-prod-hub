@@ -11,8 +11,15 @@ import {
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: PLATFORM_BRAND_NAME,
+  title: {
+    default: PLATFORM_BRAND_NAME,
+    template: `%s — ${PLATFORM_BRAND_NAME}`,
+  },
   description: PLATFORM_BRAND_DESCRIPTION,
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/icon.svg", type: "image/svg+xml" }],
+  },
 };
 
 export default function RootLayout({

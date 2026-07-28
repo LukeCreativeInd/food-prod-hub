@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 
@@ -8,6 +9,10 @@ import {
   getCurrentUserWorkspaceOptions,
   getWorkspaceDestinationHref,
 } from "@/lib/workspace-options";
+
+export const metadata: Metadata = {
+  title: "Login",
+};
 
 export default async function LoginPage() {
   const user = await getCurrentUser();
@@ -29,7 +34,7 @@ export default async function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#eef4ea] px-5 py-8 md:px-8 lg:px-10">
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-stretch gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
         <LoginBrandPanel mode="platform" />
         <LoginFormCard mode="platform" />
       </div>
