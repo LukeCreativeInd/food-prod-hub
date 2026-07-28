@@ -245,34 +245,38 @@ Favicon:
 
 ## Implementation Sequence
 
-Recommended next tasks:
+Current/recommended sequence:
 
-1. **167 - Brand Asset Schema Foundation**
-   - draft tenant icon field/path migration if needed
-   - decide whether to keep `logo_url` compatibility or add clearer `logo_storage_path`
-   - keep platform assets static unless dynamic Platform Admin management is explicitly required
+1. **167 - EveryBatch Icon + Tenant Metadata Fix**
+   - add the reviewed EveryBatch PNG icon as static app icon files
+   - keep sidebar logo/icon upload support deferred
 
-2. **168 - Tenant Brand Asset Upload UI v1**
+2. **168 - Brand Asset Schema Foundation**
+   - draft tenant icon/storage-path fields while preserving `logo_url`
+   - create `platform_branding_assets` metadata table for EveryBatch assets
+   - extend the existing `organisation-branding` storage helper to support logo, icon, login and email paths
+
+3. **169 - Brand Asset Upload UI v1**
    - extend Organisation Settings with tenant full logo and tenant icon upload
    - preview expanded/collapsed sidebar behaviour
    - continue using the private `organisation-branding` bucket
 
-3. **169 - Platform Brand Asset Integration**
+4. **Future - Platform Brand Asset Integration**
    - replace temporary `EB` fallback with final EveryBatch logo/icon files
    - wire favicon/icon assets
    - keep static files unless dynamic Platform Admin branding is approved
 
 Then continue with planned product work:
 
-4. **170 - Sell Price Management UI v1**
-5. **171 - Meal Margins Real Calculation v1**
-6. **172 - Support Domain and Auth-Gated Help Centre Plan**
+5. **Sell Price Management UI v1**
+6. **Meal Margins Real Calculation v1**
+7. **Support Domain and Auth-Gated Help Centre Plan**
 
 If sell prices become more urgent, the asset schema work can pause after this plan and resume later.
 
 ## Non-Goals
 
-This task does not:
+Task 166 does not:
 
 - create migrations
 - create buckets or policies
@@ -284,12 +288,21 @@ This task does not:
 - add remote assets
 - modify business logic
 
-## Next Recommendation
+## Task 168 Update
 
-Start with task 167 only if tenant icon support should be implemented before sell price/margin work.
+Task 168 drafts migration `031_brand_asset_schema_foundation.sql`.
 
-Task 167 adds the real EveryBatch app icon as static PNG app icon files. If final full EveryBatch logo files are ready sooner, task 169 can still replace the remaining sidebar/login temporary marks before dynamic tenant icon upload work.
+It adds tenant branding metadata fields for full logo/icon storage paths, creates `platform_branding_assets` for EveryBatch asset references, and extends the existing private `organisation-branding` storage helper to support:
+
+```text
+{organisation_id}/logo/full-{safe_filename}
+{organisation_id}/logo/icon-{safe_filename}
+{organisation_id}/login/{safe_filename}
+{organisation_id}/email/{safe_filename}
+```
+
+The migration is drafted only and must be manually reviewed before applying. Upload UI remains a task 169 follow-up.
 
 ## Migration Notes
 
-No SQL migration was created or changed.
+Task 166 created no SQL migration. Task 168 drafts migration `031_brand_asset_schema_foundation.sql`.

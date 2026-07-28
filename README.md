@@ -353,6 +353,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Tenant App Shell, Login and Metadata Polish](docs/165-tenant-app-shell-login-metadata-polish.md)
 - [Brand Asset Logo/Icon Storage Plan](docs/166-brand-asset-logo-icon-storage-plan.md)
 - [EveryBatch Icon + Tenant Metadata Fix](docs/167-everybatch-icon-tenant-metadata-fix.md)
+- [Brand Asset Schema Foundation](docs/168-brand-asset-schema-foundation.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

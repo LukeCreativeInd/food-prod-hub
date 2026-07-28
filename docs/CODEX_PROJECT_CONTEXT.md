@@ -182,6 +182,14 @@ The recommended direction is static reviewed EveryBatch logo/icon assets first, 
 
 Task 167 replaces the temporary `app/icon.svg` fallback with the real EveryBatch PNG icon asset at `app/icon.png` and `app/apple-icon.png`, generated from `assets/brand/everybatch-icon.png`. Browser title formatting uses `Page Title - EveryBatch`.
 
+## Task 168 Brand Asset Schema Foundation
+
+Task 168 drafts migration `031_brand_asset_schema_foundation.sql` for future EveryBatch and tenant brand assets. It extends `organisation_branding` with clearer full-logo and icon storage fields while preserving `logo_url`, creates `platform_branding_assets` for platform asset metadata, and extends the existing private `organisation-branding` storage helper to support tenant-scoped logo, icon, login and email asset paths.
+
+Migration 031 intentionally does not drop or create policies on `storage.objects`. Existing organisation-branding storage policies remain managed through Supabase Storage and should continue calling `public.can_access_organisation_branding_storage_path()`.
+
+This is schema/storage foundation only. The migration is not applied by Codex. No upload UI, image processing, sidebar replacement, auth/RLS permission changes beyond the drafted table/storage policies, DNS/Vercel changes or business logic changes are included.
+
 Platform/admin surfaces should use EveryBatch branding.
 
 EveryBatch brand constants live in:

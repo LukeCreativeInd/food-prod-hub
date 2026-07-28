@@ -39,6 +39,21 @@ export type BrandAssetDisplayRule = {
   collapsedBehaviour?: string;
 };
 
+export const brandAssetSchema = {
+  platformBrandingAssetsTable: "platform_branding_assets",
+  organisationBrandingTable: "organisation_branding",
+  tenantLogoUrlField: "logo_url",
+  tenantLogoStoragePathField: "logo_storage_path",
+  tenantIconUrlField: "icon_url",
+  tenantIconStoragePathField: "icon_storage_path",
+} as const;
+
+export const supportedBrandAssetMimeTypes = [
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+] as const;
+
 export const brandAssetKinds: BrandAssetKind[] = [
   "logo_full",
   "logo_icon",
