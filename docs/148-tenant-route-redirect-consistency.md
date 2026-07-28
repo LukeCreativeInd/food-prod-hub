@@ -125,3 +125,7 @@ They also avoid changing:
 Add a branded tenant Not Found page for genuinely invalid tenant routes.
 
 That should remain separate from this redirect consistency task.
+
+## Task 170 Update
+
+Task 170 adds `/costings/sell-prices` as a small redirect to the canonical `/sell-prices` route.

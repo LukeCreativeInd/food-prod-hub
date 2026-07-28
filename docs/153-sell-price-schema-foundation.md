@@ -306,3 +306,7 @@ from pg_constraint
 where conrelid = 'public.finished_product_sell_prices'::regclass
   and conname = 'finished_product_sell_prices_finished_product_tenant_fkey';
 ```
+
+## Task 170 Update
+
+Task 170 adds the first Sell Price Management UI on `/sell-prices` using this schema. It creates, updates and soft-archives `finished_product_sell_prices` through permission-gated server actions, keeps supplier input costs separate, and still does not calculate final meal margins.

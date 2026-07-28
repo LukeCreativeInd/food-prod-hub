@@ -196,6 +196,12 @@ Task 169 adds tenant full-logo and icon upload controls to Organisation Settings
 
 The tenant sidebar now uses the full tenant logo in expanded mode and the tenant icon in collapsed mode, with name/initials fallbacks. `/platform/branding` is added as a conservative Platform Admin scaffold for `platform_branding_assets` metadata only; platform dynamic upload remains deferred.
 
+## Task 170 Sell Price Management UI
+
+Task 170 adds `/sell-prices` as the first tenant sell price management page for finished products. It uses the task 153 `finished_product_sell_prices` schema, requires `sell_prices.view` to read and `sell_prices.manage` to create/update/archive, and keeps mutations tenant-scoped through the current auth context.
+
+Sell price actions validate finished product ownership/type, channel, currency, tax mode, source, dates and non-negative amounts. Archive is soft only. Duplicate active open-ended prices are blocked per finished product/channel, while draft prices can coexist as review candidates. Meal Margins only treats active, non-archived, open-ended sell prices as readiness inputs and still does not calculate final margins.
+
 Platform/admin surfaces should use EveryBatch branding.
 
 EveryBatch brand constants live in:

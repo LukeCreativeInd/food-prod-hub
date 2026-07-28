@@ -355,6 +355,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [EveryBatch Icon + Tenant Metadata Fix](docs/167-everybatch-icon-tenant-metadata-fix.md)
 - [Brand Asset Schema Foundation](docs/168-brand-asset-schema-foundation.md)
 - [Tenant / Platform Logo + Icon Upload UI v1](docs/169-tenant-platform-logo-icon-upload-ui-v1.md)
+- [Sell Price Management UI v1](docs/170-sell-price-management-ui-v1.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

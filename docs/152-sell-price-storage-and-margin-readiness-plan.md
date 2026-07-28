@@ -340,3 +340,7 @@ After reviewing/applying task 153, the next implementation step should build a c
 3. same-tenant finished product internal item
 4. `internal_items.item_type = finished_product`
 5. current active price behaviour per channel
+
+## Task 170 Update
+
+Task 170 adds `/sell-prices` as the first management UI for finished product sell prices. Meal Margins now reads active sell price readiness, but final margin calculations remain deferred to task 171.

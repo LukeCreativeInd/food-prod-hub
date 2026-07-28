@@ -36,14 +36,14 @@ export default async function MealMarginsPage() {
         {
           label: "Missing sell price",
           value: String(mealMargins.summary.productsMissingSellPrice),
-          helperText: "Sell prices are not stored in the current schema yet.",
-          badge: "Future",
+          helperText: "Finished products without an active open-ended sell price.",
+          badge: "Sell price",
           tone: "warning",
           icon: "%",
         },
       ]}
       tableTitle="Finished product margin readiness"
-      tableDescription="Real finished product formula records are shown where available. Margins are not calculated because sell prices are not stored yet."
+      tableDescription="Real finished product formulas and active sell price readiness are shown where available. Margins are not calculated until rules are agreed."
       columns={[
         "Finished product",
         "Formula",
@@ -76,9 +76,9 @@ export default async function MealMarginsPage() {
         "Readiness",
       ]}
       dataBadge="Live readiness"
-      dataNoticeTitle="Sell price not stored yet"
-      dataNoticeDescription="This page reads real finished product formulas and input price readiness. It does not fake sell prices or margins; margin calculation needs explicit sell price and costing rules in a later task."
-      emptyMessage="Sell prices are not stored yet."
+      dataNoticeTitle="Sell price readiness is live"
+      dataNoticeDescription="This page reads real finished product formulas, input price readiness and active sell prices. It still does not calculate final margins; margin calculation needs explicit tax, channel and costing rules in a later task."
+      emptyMessage="No finished product margin readiness rows yet."
       reviewPrompts={[
         "What sell price source should be used for margin review?",
         "Should margin warnings appear by meal, category or customer channel?",

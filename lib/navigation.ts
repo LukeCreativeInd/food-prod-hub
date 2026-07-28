@@ -152,6 +152,12 @@ export const navigationGroups: NavigationGroup[] = [
         requiredModuleKey: "costings",
       },
       {
+        label: "Sell Prices",
+        href: "/sell-prices",
+        requiredPermission: "sell_prices.view",
+        requiredModuleKey: "costings",
+      },
+      {
         label: "Meal Margins",
         href: "/meal-margins",
         requiredPermission: "costings.view",

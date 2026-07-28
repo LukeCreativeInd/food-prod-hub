@@ -156,3 +156,7 @@ This keeps development and preview work practical.
 ## Migration Notes
 
 No SQL migration was created or changed.
+
+## Task 170 Update
+
+`/sell-prices` is now part of the tenant route surface. On `app.everybatchmrp.com`, it should redirect through `/select-workspace?next=%2Fsell-prices`; on `cleaneats.everybatchmrp.com`, it should be allowed as a tenant route.

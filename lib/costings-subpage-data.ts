@@ -86,6 +86,20 @@ type FormulaLineRow = {
   unit: string;
 };
 
+type FinishedProductSellPriceRow = {
+  id: string;
+  finished_product_internal_item_id: string;
+  channel_key: string;
+  channel_label: string | null;
+  price_amount: number | string;
+  currency_code: string;
+  tax_mode: string;
+  effective_from: string;
+  effective_to: string | null;
+  status: string;
+  archived_at: string | null;
+};
+
 type BaseCostingsData = {
   internalItems: InternalItemRow[];
   suppliers: SupplierRow[];
@@ -96,6 +110,7 @@ type BaseCostingsData = {
   purchaseDocuments: PurchaseDocumentRow[];
   formulaVersions: FormulaVersionRow[];
   formulaLines: FormulaLineRow[];
+  sellPrices: FinishedProductSellPriceRow[];
 };
 
 export type CostingItemPriceRow = {
@@ -323,6 +338,7 @@ async function getBaseCostingsData(): Promise<BaseCostingsData> {
     purchaseDocumentsResult,
     formulaVersionsResult,
     formulaLinesResult,
+    sellPricesResult,
   ] = await Promise.all([
     supabase
       .from("internal_items")
@@ -379,6 +395,16 @@ async function getBaseCostingsData(): Promise<BaseCostingsData> {
       .select("id, formula_version_id, input_internal_item_id, quantity, unit")
       .eq("organisation_id", organisationId)
       .is("archived_at", null),
+    supabase
+      .from("finished_product_sell_prices")
+      .select(
+        "id, finished_product_internal_item_id, channel_key, channel_label, price_amount, currency_code, tax_mode, effective_from, effective_to, status, archived_at",
+      )
+      .eq("organisation_id", organisationId)
+      .eq("status", "active")
+      .is("archived_at", null)
+      .is("effective_to", null)
+      .order("effective_from", { ascending: false }),
   ]);
 
   if (internalItemsResult.error) {
@@ -417,6 +443,10 @@ async function getBaseCostingsData(): Promise<BaseCostingsData> {
     throw new Error("Could not load costing formula lines.");
   }
 
+  if (sellPricesResult.error) {
+    throw new Error("Could not load costing sell prices.");
+  }
+
   return {
     internalItems: (internalItemsResult.data ?? []) as InternalItemRow[],
     suppliers: (suppliersResult.data ?? []) as SupplierRow[],
@@ -430,6 +460,7 @@ async function getBaseCostingsData(): Promise<BaseCostingsData> {
       (purchaseDocumentsResult.data ?? []) as PurchaseDocumentRow[],
     formulaVersions: (formulaVersionsResult.data ?? []) as FormulaVersionRow[],
     formulaLines: (formulaLinesResult.data ?? []) as FormulaLineRow[],
+    sellPrices: (sellPricesResult.data ?? []) as FinishedProductSellPriceRow[],
   };
 }
 
@@ -689,11 +720,52 @@ export async function getMealMarginsData(): Promise<MealMarginsData> {
   const timingStartedAt = Date.now();
   const data = await getBaseCostingsData();
   const formulaData = buildFormulaCostsData(data, "finished_product");
+  const activeSellPriceByProduct = new Map<string, FinishedProductSellPriceRow>();
+
+  data.sellPrices.forEach((price) => {
+    if (!activeSellPriceByProduct.has(price.finished_product_internal_item_id)) {
+      activeSellPriceByProduct.set(price.finished_product_internal_item_id, price);
+    }
+  });
+
   const products = formulaData.formulas.map((formula) => ({
     ...formula,
-    sellPrice: "Sell price not stored yet",
-    estimatedMargin: "Margin pending sell price",
+    sellPrice: (() => {
+      const sellPrice = activeSellPriceByProduct.get(formula.outputItem.href.split("/").at(-1) ?? "");
+
+      if (!sellPrice) {
+        return "Missing sell price";
+      }
+
+      return `${formatCurrency(
+        sellPrice.price_amount,
+        sellPrice.currency_code,
+      )} · ${sellPrice.channel_label ?? labelFromKey(sellPrice.channel_key)} · ${
+        sellPrice.tax_mode === "unknown" ? "tax review needed" : labelFromKey(sellPrice.tax_mode)
+      }`;
+    })(),
+    estimatedMargin: (() => {
+      const sellPrice = activeSellPriceByProduct.get(formula.outputItem.href.split("/").at(-1) ?? "");
+
+      if (!sellPrice) {
+        return "Blocked: missing sell price";
+      }
+
+      if (sellPrice.tax_mode === "unknown") {
+        return "Blocked: tax mode unknown";
+      }
+
+      return formula.readiness === "Ready for costing review"
+        ? "Ready for margin calculation"
+        : "Blocked: formula cost not ready";
+    })(),
   }));
+  const productsMissingSellPrice = products.filter((product) =>
+    product.sellPrice === "Missing sell price",
+  ).length;
+  const productsReadyForMarginCalculation = products.filter(
+    (product) => product.estimatedMargin === "Ready for margin calculation",
+  ).length;
 
   const result = {
     products,
@@ -702,8 +774,8 @@ export async function getMealMarginsData(): Promise<MealMarginsData> {
       productsWithFormulaData: products.length,
       productsWithCompleteCostingInputs:
         formulaData.summary.formulasWithAllPricedInputs,
-      productsMissingSellPrice: products.length,
-      productsReadyForMarginCalculation: 0,
+      productsMissingSellPrice,
+      productsReadyForMarginCalculation,
     },
   };
 
