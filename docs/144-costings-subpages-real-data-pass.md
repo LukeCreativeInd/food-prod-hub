@@ -112,6 +112,8 @@ Task 150 adds [Finished Product Formula Builder Plan](150-finished-product-formu
 
 Task 151 adds [Finished Product Formula Builder v1](151-finished-product-formula-builder-v1.md). Finished product formulas can now be entered manually and may improve future Meal Margins readiness, but task 144 Costings logic still does not invent sell prices, margins, unit conversions or broad costing rules.
 
+Task 152 adds [Sell Price Storage And Margin Readiness Plan](152-sell-price-storage-and-margin-readiness-plan.md). Supplier cost history remains separate from future finished product sell price history, and Meal Margins should remain readiness-only until sell prices and tax/margin rules exist.
+
 ## Follow-Up Fix Before Commit
 
 The shared Costings page wrapper no longer renders a second large content title/hero. Page titles remain in the persistent app header, and page content starts with summary cards and real-data sections.

@@ -411,3 +411,9 @@ Task 151 adds the first manual Finished Product Formula Builder v1 on `/finished
 Reads require `formulas.view`. Create/edit/line actions require `formulas.manage`, derive `organisation_id` from authenticated app context and respect RLS. Lines can reference component, ingredient and packaging internal items. Finished product inputs, self references, archived items, unsupported item types and cross-tenant items are blocked. Line removal soft-archives `formula_lines.archived_at`.
 
 Cost readiness is conservative: product estimated cost is shown only when all lines have safe cost sources and exact units, including active cost-ready component formulas for component inputs. Margin readiness remains pending because sell price storage and margin rules are not implemented. No import/upload, sell price management, margin engine, unit conversion engine, production tasks, iPad/facility workflow, QA checks, Supplier Invoice Intake changes or Platform Admin changes are included.
+
+## Task 152 Sell Price Storage And Margin Readiness
+
+Task 152 plans future sell price storage and margin readiness. It confirms current supplier pricing tables (`price_observations` and `approved_supplier_prices`) are cost-side only and should not store finished product sell prices.
+
+Future sell prices should be tenant-scoped, channel-specific, currency-aware, tax-mode-aware and versioned/history-preserving. Meal Margins should combine finished product formula cost with sell price only when formula cost is ready, selected channel price is active/current, currency and tax basis are known and margin rules are agreed. No migrations, sell price actions, UI forms, Shopify sync, GST engine, margin engine, Platform Admin changes or tenant provisioning changes are included.

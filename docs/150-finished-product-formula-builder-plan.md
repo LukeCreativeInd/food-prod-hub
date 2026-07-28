@@ -317,3 +317,5 @@ Build Finished Product Formula Builder v1 using the existing schema and the same
 5. Keep margin readiness separate until sell price storage exists.
 
 Task 151 adds [Finished Product Formula Builder v1](151-finished-product-formula-builder-v1.md), implementing this manual builder without a migration, import flow, sell price storage or margin engine.
+
+Task 152 adds [Sell Price Storage And Margin Readiness Plan](152-sell-price-storage-and-margin-readiness-plan.md), defining the future revenue-side pricing model needed before Meal Margins can calculate real margins.
