@@ -6,6 +6,8 @@ This task is documentation-first. It does not change DNS, Vercel, Supabase Auth,
 
 Test date: 28 July 2026
 
+Task 163 polishes the signed-in workspace selector cards and documents selector-specific QA. See [Workspace Selector Live Domain QA / Polish](163-workspace-selector-live-domain-qa-polish.md).
+
 ## Final Domain Map
 
 | Domain | Purpose |

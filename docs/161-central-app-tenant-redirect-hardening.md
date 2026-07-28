@@ -6,6 +6,8 @@ This task does not change DNS, Vercel, Supabase Auth, database schema, migration
 
 Task 162 records live redirect QA after this hardening. See [Live Domain Redirect QA Pass](162-live-domain-redirect-qa-pass.md).
 
+Task 163 polishes the central workspace selector cards and documents live-domain destination behaviour. See [Workspace Selector Live Domain QA / Polish](163-workspace-selector-live-domain-qa-polish.md).
+
 ## Correct Domains
 
 | Domain | Purpose |

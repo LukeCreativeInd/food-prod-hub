@@ -60,6 +60,8 @@ See [Live multi-domain smoke test results](160-live-multi-domain-smoke-test-resu
 
 See [Live domain redirect QA pass](162-live-domain-redirect-qa-pass.md) for post-task-161 live redirect results.
 
+See [Workspace selector live domain QA / polish](163-workspace-selector-live-domain-qa-polish.md) for signed-in selector destination checks.
+
 ## 2. DNS / Vercel Checks
 
 - [ ] Vercel shows `app.everybatchmrp.com` as Valid Configuration.

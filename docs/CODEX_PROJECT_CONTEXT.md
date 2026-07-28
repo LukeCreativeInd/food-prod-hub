@@ -484,3 +484,9 @@ The correct Platform Admin domain is `admin.everybatchmrp.com`; do not use `admi
 Task 162 records live signed-out/header QA after task 161. `app.everybatchmrp.com/dashboard`, `/components` and `/finished-products` now redirect to `/select-workspace?next=...`; central `/platform` routes redirect to `https://admin.everybatchmrp.com/...`; `admin.everybatchmrp.com` resolves and blocks tenant routes by redirecting them to `/platform`; `cleaneats.everybatchmrp.com` allows tenant routes while redirecting `/select-workspace` and `/platform` to `/dashboard`.
 
 No live redirect failures were found. Signed-in workspace selector clicks are documented for manual browser verification because they require real Supabase auth/session state. No code, DNS, Vercel, Supabase Auth, schema, migration, RLS, permission, business logic, sidebar or design changes are included.
+
+## Task 163 Workspace Selector Live Domain QA / Polish
+
+Task 163 lightly polishes the central workspace selector so each card shows workspace type, destination domain, short description, status and clearer action labels. Clean Eats shows `cleaneats.everybatchmrp.com`; Platform Admin shows `admin.everybatchmrp.com`. Safe `next` paths are preserved for Clean Eats tenant routes, Platform Admin preserves `/platform/...` paths, and localhost continues to use local paths.
+
+The selector continues to validate workspace selections server-side. `next` values must be internal single-slash paths; protocol URLs and `//` paths are ignored so there is no open redirect path. No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, tenant app business logic, Platform Admin business logic, sidebar or navigation changes are included.

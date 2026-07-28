@@ -87,12 +87,30 @@ function getSafeNextPath(value: string | undefined) {
   return value;
 }
 
+function getWorkspaceDescription(workspace: WorkspaceOption) {
+  if (workspace.slug === "cleaneats") {
+    return "Open the Clean Eats production, inventory, products and costings workspace.";
+  }
+
+  return `Open the ${workspace.displayName} tenant workspace.`;
+}
+
+function getDestinationLabel(href: string) {
+  if (!/^https?:\/\//.test(href)) {
+    return "Local development path";
+  }
+
+  return new URL(href).hostname;
+}
+
 function WorkspaceCard({
   workspace,
   nextPath,
+  destinationHref,
 }: {
   workspace: WorkspaceOption;
   nextPath: string | null;
+  destinationHref: string;
 }) {
   return (
     <form
@@ -103,7 +121,7 @@ function WorkspaceCard({
         <WorkspaceLogo workspace={workspace} />
         <div className="min-w-0 flex-1">
           <p className="text-xs font-bold uppercase tracking-[0.14em] text-clean-green-700">
-            Workspace
+            Tenant workspace
           </p>
           <h2 className="mt-2 text-xl font-black tracking-tight text-slate-950">
             {workspace.workspaceName}
@@ -112,9 +130,21 @@ function WorkspaceCard({
             {workspace.slug}
           </p>
         </div>
+        <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-black uppercase tracking-[0.12em] text-clean-green-800">
+          {workspace.status}
+        </span>
       </div>
 
       <div className="mt-5 grid gap-2 rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+        <p className="mb-1 text-sm leading-6 text-slate-600">
+          {getWorkspaceDescription(workspace)}
+        </p>
+        <div className="flex items-center justify-between gap-4">
+          <span>Destination</span>
+          <span className="text-right font-bold text-slate-800">
+            {getDestinationLabel(destinationHref)}
+          </span>
+        </div>
         <div className="flex items-center justify-between gap-4">
           <span>Role</span>
           <span className="font-bold text-slate-800">
@@ -128,9 +158,9 @@ function WorkspaceCard({
           </span>
         </div>
         <div className="flex items-center justify-between gap-4">
-          <span>Status</span>
-          <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-black uppercase tracking-[0.12em] text-clean-green-800">
-            {workspace.status}
+          <span>Type</span>
+          <span className="font-bold text-slate-800">
+            Tenant workspace
           </span>
         </div>
       </div>
@@ -143,7 +173,7 @@ function WorkspaceCard({
         value={workspace.slug}
         className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-clean-green-700 px-4 py-3 text-sm font-black text-white shadow-sm transition hover:bg-clean-green-900"
       >
-        Open workspace
+        Open {workspace.slug === "cleaneats" ? "Clean Eats" : "workspace"}
       </button>
     </form>
   );
@@ -159,14 +189,30 @@ function PlatformAdminCard({ href }: { href: string }) {
         <PlatformMark />
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.14em] text-lime-200">
-            Platform
+            Operator console
           </p>
           <h2 className="mt-2 text-xl font-black tracking-tight">
-            Platform Admin Console
+            EveryBatch Platform Admin
           </h2>
           <p className="mt-3 text-sm leading-6 text-green-50/85">
-            Manage EveryBatch tenants, modules and platform operations.
+            Manage tenants, provisioning, modules, feature flags and platform
+            operations.
           </p>
+        </div>
+        <span className="ml-auto rounded-full bg-lime-300 px-2.5 py-1 text-xs font-black uppercase tracking-[0.12em] text-green-950">
+          Active
+        </span>
+      </div>
+      <div className="mt-5 grid gap-2 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-green-50/85">
+        <div className="flex items-center justify-between gap-4">
+          <span>Destination</span>
+          <span className="text-right font-bold text-white">
+            {getDestinationLabel(href)}
+          </span>
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <span>Type</span>
+          <span className="font-bold text-white">Operator console</span>
         </div>
       </div>
       <span className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-lime-300 px-4 py-3 text-sm font-black text-green-950">
@@ -237,7 +283,7 @@ export default async function SelectWorkspacePage({ searchParams }: PageProps) {
   const platformAdminHref = getWorkspaceDestinationHref(
     {
       type: "platform",
-      href: "/platform",
+      href: nextPath?.startsWith("/platform") ? nextPath : "/platform",
     },
     { currentHost },
   );
@@ -265,7 +311,8 @@ export default async function SelectWorkspacePage({ searchParams }: PageProps) {
                 Choose your workspace.
               </p>
               <p className="mt-5 max-w-md text-base leading-7 text-green-50/85">
-                Select the EveryBatch workspace you want to open.
+                Select the EveryBatch workspace you want to open. Tenant
+                workspaces open on their own tenant domains.
               </p>
             </div>
 
@@ -294,6 +341,7 @@ export default async function SelectWorkspacePage({ searchParams }: PageProps) {
                 </h2>
                 <p className="mt-2 text-sm leading-6 text-slate-600">
                   Workspace access is validated server-side before you continue.
+                  Destinations are built from known EveryBatch domains only.
                 </p>
               </div>
               <LogoutButton variant="light" />
@@ -316,6 +364,14 @@ export default async function SelectWorkspacePage({ searchParams }: PageProps) {
                     key={workspace.organisationId}
                     workspace={workspace}
                     nextPath={nextPath}
+                    destinationHref={getWorkspaceDestinationHref(
+                      {
+                        type: "tenant",
+                        href: "/dashboard",
+                        tenantSlug: workspace.slug,
+                      },
+                      { currentHost, nextPath },
+                    )}
                   />
                 ))}
                 {workspaceOptions.isPlatformAdmin ? (
