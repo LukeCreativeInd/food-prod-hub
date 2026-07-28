@@ -27,10 +27,20 @@ This checklist is documentation only. It does not change app code, routes, middl
 - [ ] No SSL warnings appear.
 - [ ] No mixed content warnings appear.
 - [ ] `everybatchmrp.com` root is not incorrectly pointing to the tenant app.
-- [ ] `cleaneats.everybatchmrp.com` is not active unless tenant routing is complete.
+- [ ] `cleaneats.everybatchmrp.com` is active only after task 158 code, Vercel, DNS and Supabase Auth URL checks are complete.
 - [ ] `admin.everybatchmrp.com.au` is not active unless Platform Admin domain routing is complete.
 - [ ] `platform.everybatchmrp.com` is not active unless deliberately retained as a legacy/optional Platform Admin host.
 - [ ] `support.everybatchmrp.com` is not active unless support destination setup is complete.
+
+Clean Eats tenant host checks:
+
+- [ ] `cleaneats.everybatchmrp.com/` redirects to `/dashboard`.
+- [ ] `cleaneats.everybatchmrp.com/login` loads.
+- [ ] `cleaneats.everybatchmrp.com/dashboard` is allowed.
+- [ ] `cleaneats.everybatchmrp.com/components` is allowed.
+- [ ] `cleaneats.everybatchmrp.com/finished-products` is allowed.
+- [ ] `cleaneats.everybatchmrp.com/platform` redirects away from Platform Admin.
+- [ ] `cleaneats.everybatchmrp.com/platform/tenants` redirects away from Platform Admin.
 
 ## 2. DNS / Vercel Checks
 

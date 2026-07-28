@@ -4,9 +4,11 @@ Task 154 formalises the domain and app-mode routing foundation for EveryBatch.
 
 This task does not add DNS records, change Vercel domain settings, change Supabase Auth redirect URLs, activate tenant subdomain routing, add middleware, change database schema, create migrations, change RLS, change permissions, change tenant provisioning, move routes or change business logic.
 
-Task 155 builds on this foundation with a narrow Platform Admin app-mode guard. The guard only redirects tenant workspace routes when the host resolves as `platform_admin`; tenant subdomain enforcement remains deferred.
+Task 155 builds on this foundation with a narrow Platform Admin app-mode guard. The guard redirects tenant workspace routes when the host resolves as `platform_admin`.
 
 Task 156 documents the manual setup process for connecting `admin.everybatchmrp.com.au`. It does not change DNS, Vercel, Supabase Auth settings or routing behaviour by code.
+
+Task 158 activates the first tenant host guard for `cleaneats.everybatchmrp.com` only. The mapping remains static Clean Eats v1; dynamic tenant-domain lookup remains future work.
 
 ## Strategy
 
@@ -28,7 +30,7 @@ Separate Vercel builds or client-specific forks are not needed for this foundati
 | `app.everybatchmrp.com` | `central_app` | Live central app/login domain. |
 | `admin.everybatchmrp.com.au` | `platform_admin` | Preferred future Platform Admin domain, not connected/enforced yet. |
 | `platform.everybatchmrp.com` | `platform_admin` | Legacy/optional Platform Admin host recognised for compatibility, not connected/enforced yet. |
-| `cleaneats.everybatchmrp.com` | `tenant_app` | Future Clean Eats tenant workspace, not active yet. |
+| `cleaneats.everybatchmrp.com` | `tenant_app` | Clean Eats tenant workspace route guard active in code; DNS/Vercel/Supabase settings remain manual. |
 | `{tenant_slug}.everybatchmrp.com` | `tenant_app` | Future tenant workspace pattern, not active yet. |
 | `support.everybatchmrp.com` | `support` | Future support/docs destination. |
 | `localhost` / `127.0.0.1` | `local_dev` | Developer-friendly fallback with `cleaneats` tenant slug hint. |
@@ -77,13 +79,20 @@ Pure helpers:
 - `isRouteAllowedForAppMode(pathname, resolvedMode)`
 - `getAppModeRedirect(pathname, resolvedMode)`
 
-These helpers calculate intent only. They are not wired into middleware or global redirects.
+These helpers started as intent-only helpers in task 154. Later tasks wire narrow subsets into middleware.
 
 Task 155 wires only the Platform Admin subset into middleware:
 
 - `/` on Platform Admin host -> `/platform`
 - tenant workspace routes on Platform Admin host -> `/platform`
 - `/login`, `/select-workspace`, `/no-access`, `/platform/*` remain allowed
+
+Task 158 wires the Clean Eats tenant-host subset into middleware:
+
+- `/` on `cleaneats.everybatchmrp.com` -> `/dashboard`
+- `/platform/*` on `cleaneats.everybatchmrp.com` -> `/dashboard`
+- tenant workspace routes remain allowed
+- `/login`, `/select-workspace` and `/no-access` remain allowed
 
 ## Route Intent Rules
 
@@ -101,7 +110,7 @@ Current route intent:
 
 No production domain enforcement was added in task 154.
 
-Task 155 adds only Platform Admin host guarding. Central app and local development behaviour remain unchanged, and tenant app host enforcement remains inactive.
+Task 155 adds Platform Admin host guarding. Task 158 adds Clean Eats tenant host guarding for `cleaneats.everybatchmrp.com` only. Central app and local development behaviour remain unchanged.
 
 Current behaviour remains:
 
@@ -110,7 +119,7 @@ Current behaviour remains:
 - `/select-workspace` continues to validate selections server-side.
 - `/platform` remains available under the current app for platform admins.
 - `/dashboard` and tenant workspace routes continue to work locally.
-- tenant subdomain redirects remain inactive.
+- `cleaneats.everybatchmrp.com` redirects `/` and `/platform/*` to `/dashboard` while allowing tenant app routes.
 
 ## Future Enforcement Plan
 

@@ -10,6 +10,8 @@ export type AppModeRedirectIntent = {
   reason: string;
 };
 
+const activeTenantSubdomainSlugs = new Set(["cleaneats"]);
+
 type HeadersLike = {
   get(name: string): string | null;
 };
@@ -90,6 +92,16 @@ export function isTenantAppCanonicalRoute(pathname: string) {
   const path = normalisePathname(pathname);
 
   return tenantRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix));
+}
+
+export function isActiveTenantSubdomain(
+  resolvedMode: Pick<ParsedEveryBatchHost, "mode" | "tenantSlug">,
+) {
+  return (
+    resolvedMode.mode === "tenant_app" &&
+    typeof resolvedMode.tenantSlug === "string" &&
+    activeTenantSubdomainSlugs.has(resolvedMode.tenantSlug)
+  );
 }
 
 export function isPlatformAdminPathAllowed(pathname: string) {
@@ -210,6 +222,71 @@ export function getPlatformAdminAppModeRedirect(
     href: path,
     reason:
       "Unknown non-tenant route is left to normal app routing/not-found handling.",
+  };
+}
+
+export function getTenantAppModeRedirect(
+  pathname: string,
+  resolvedMode: Pick<ParsedEveryBatchHost, "mode" | "tenantSlug">,
+): AppModeRedirectIntent {
+  const path = normalisePathname(pathname);
+
+  if (!isActiveTenantSubdomain(resolvedMode)) {
+    return {
+      shouldRedirect: false,
+      href: path,
+      reason:
+        "Tenant subdomain routing v1 is only active for the Clean Eats tenant host.",
+    };
+  }
+
+  if (isInternalOrAssetPath(path)) {
+    return {
+      shouldRedirect: false,
+      href: path,
+      reason: "Internal and asset routes are allowed on tenant hosts.",
+    };
+  }
+
+  if (publicAuthRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix))) {
+    return {
+      shouldRedirect: false,
+      href: path,
+      reason: "Login, workspace selection and no-access routes remain allowed.",
+    };
+  }
+
+  if (path === "/") {
+    return {
+      shouldRedirect: true,
+      href: "/dashboard",
+      reason:
+        "Clean Eats tenant host root redirects to the tenant dashboard; existing auth guards handle signed-out users.",
+    };
+  }
+
+  if (platformAdminRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix))) {
+    return {
+      shouldRedirect: true,
+      href: "/dashboard",
+      reason:
+        "Tenant hosts must not render Platform Admin routes. Redirect to the tenant dashboard.",
+    };
+  }
+
+  if (isTenantAppCanonicalRoute(path)) {
+    return {
+      shouldRedirect: false,
+      href: path,
+      reason: "Tenant app route is allowed on the Clean Eats tenant host.",
+    };
+  }
+
+  return {
+    shouldRedirect: true,
+    href: "/dashboard",
+    reason:
+      "Route is outside the Clean Eats tenant app surface. Redirect to the tenant dashboard.",
   };
 }
 

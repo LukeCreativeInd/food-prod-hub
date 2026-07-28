@@ -224,5 +224,5 @@ This task does not include:
 ## Future Follow-Ups
 
 - task 157: Platform Admin brand/UI polish for admin-domain readiness has been added without DNS, routing, auth, database or permission changes
-- task 158: tenant subdomain routing and membership-aware tenant host enforcement
+- task 158: Clean Eats tenant subdomain routing v1 has been added in code for `cleaneats.everybatchmrp.com`; DNS, Vercel and Supabase Auth URL settings remain manual
 - future: central app tightening so `/platform` can eventually move away from `app.everybatchmrp.com`

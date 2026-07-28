@@ -178,6 +178,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Platform Admin app-mode guarding now prevents tenant workspace routes from rendering on the planned admin host while keeping local/dev and central app behaviour unchanged
 - Platform Admin domain setup has been documented for `admin.everybatchmrp.com.au`, including Vercel, Cloudflare, Supabase Auth, smoke test and rollback checklists
 - Platform Admin brand/UI polish now applies EveryBatch Operator Console language, current-route header titles, compact subpage context callouts, the platform green/lime palette and tenant-app-style grouped accordion/collapsible sidebar structure to the separated `/platform` shell
+- Clean Eats tenant subdomain routing v1 now guards `cleaneats.everybatchmrp.com` in code, allowing tenant app routes while redirecting `/` and `/platform/*` to `/dashboard`
 
 ## Tech Stack
 
@@ -334,6 +335,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Platform Admin App Mode Guarding](docs/155-platform-admin-app-mode-guarding.md)
 - [Platform Admin Domain Setup](docs/156-platform-admin-domain-setup.md)
 - [Platform Admin Brand/UI Polish](docs/157-platform-admin-brand-ui-polish.md)
+- [Tenant Subdomain Routing v1](docs/158-tenant-subdomain-routing-v1.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

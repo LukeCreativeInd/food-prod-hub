@@ -2,7 +2,7 @@
 
 Task 155 adds safe app-mode-aware guarding for the planned EveryBatch Platform Admin domain.
 
-This is a code-only guard task. It does not add DNS records, change Vercel domains, change Supabase Auth redirect URLs, activate tenant subdomain routing, enforce Clean Eats tenant subdomain routing, change database schema, create migrations, change RLS, change permissions, change tenant provisioning, change app business logic or install packages.
+This is a code-only guard task. It does not add DNS records, change Vercel domains, change Supabase Auth redirect URLs, change database schema, create migrations, change RLS, change permissions, change tenant provisioning, change app business logic or install packages.
 
 Task 156 adds the manual setup guide for connecting `admin.everybatchmrp.com.au`. The guard in task 155 remains unchanged.
 
@@ -91,11 +91,11 @@ This keeps local development and preview testing simple while production domain 
 
 The central app still allows `/platform` for now because the preferred Platform Admin domain is not live/enforced yet. Future tightening can happen after `admin.everybatchmrp.com.au` is connected and smoke tested.
 
-## Tenant App Enforcement Deferred
+## Tenant App Enforcement
 
-Tenant subdomain enforcement is intentionally deferred.
+Task 158 activates the first narrow tenant subdomain guard for Clean Eats only.
 
-`cleaneats.everybatchmrp.com` can resolve as `tenant_app`, but no middleware enforcement is active for tenant app mode yet. A later task should validate host-derived tenant slug, active membership and redirect behaviour before tenant subdomain routing is enabled.
+`cleaneats.everybatchmrp.com` resolves as `tenant_app` / `cleaneats`. On that host, `/` and `/platform/*` redirect to `/dashboard`, tenant workspace routes remain allowed, and no database/session reads are performed in middleware.
 
 ## Host Simulation Examples
 
@@ -117,7 +117,7 @@ Recommended follow-ups:
 
 - task 156: Platform Admin domain setup notes and deployment smoke test
 - task 157: Platform Admin brand/UI polish for admin-domain readiness
-- task 158: tenant subdomain routing and membership-aware tenant host enforcement
+- task 158: first Clean Eats tenant subdomain routing guard
 
 ## Migration Notes
 
