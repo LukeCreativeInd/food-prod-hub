@@ -17,11 +17,14 @@ This is a code-only routing/app-mode task. It does not add DNS records, change V
 
 The mapping is static for v1. Dynamic tenant-domain lookup and arbitrary tenant subdomains remain future work.
 
+Task 159 adds a small hardening rule for inactive tenant-looking subdomains. Only `cleaneats.everybatchmrp.com` is active in v1; other `{tenant_slug}.everybatchmrp.com` hosts allow public auth/static routes only and redirect app routes to `/login` until a future tenant-domain system activates them.
+
 ## Tenant Host Redirects
 
 On the Clean Eats tenant host:
 
 - `/` redirects to `/dashboard`
+- `/select-workspace` redirects to `/dashboard`
 - `/platform` redirects to `/dashboard`
 - `/platform/*` redirects to `/dashboard`
 - unknown non-tenant routes redirect to `/dashboard`
@@ -108,6 +111,7 @@ Host simulation:
 
 - `cleaneats.everybatchmrp.com/` -> redirects to `/dashboard`
 - `cleaneats.everybatchmrp.com/login` -> allowed
+- `cleaneats.everybatchmrp.com/select-workspace` -> redirects to `/dashboard`
 - `cleaneats.everybatchmrp.com/dashboard` -> allowed
 - `cleaneats.everybatchmrp.com/components` -> allowed
 - `cleaneats.everybatchmrp.com/finished-products` -> allowed
@@ -129,7 +133,7 @@ Live after DNS validates:
 ## Future Work
 
 - dynamic tenant domain table/lookup
-- arbitrary tenant subdomain support
+- arbitrary tenant subdomain support through reviewed tenant-domain records
 - tenant slug to organisation lookup from host-derived tenant slug
 - tenant-host-specific workspace selector refinement
 - stricter central app redirects after tenant/admin domains are fully validated

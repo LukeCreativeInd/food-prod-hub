@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import {
+  getCentralAppModeRedirect,
   getPlatformAdminAppModeRedirect,
   getTenantAppModeRedirect,
   resolveAppModeFromHeaders,
@@ -24,6 +25,18 @@ export function middleware(request: NextRequest) {
     redirectUrl.search = "";
 
     return NextResponse.redirect(redirectUrl);
+  }
+
+  if (resolvedMode.mode === "central_app") {
+    const redirectIntent = getCentralAppModeRedirect(
+      request.nextUrl.pathname,
+    );
+
+    if (!redirectIntent.shouldRedirect) {
+      return NextResponse.next();
+    }
+
+    return NextResponse.redirect(new URL(redirectIntent.href));
   }
 
   if (resolvedMode.mode !== "platform_admin") {

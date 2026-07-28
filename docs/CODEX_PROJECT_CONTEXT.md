@@ -458,3 +458,11 @@ No tenant app shell, tenant navigation, auth, middleware, DNS, Vercel, Supabase,
 Task 158 activates the first Clean Eats tenant subdomain guard in code. `cleaneats.everybatchmrp.com` resolves as `tenant_app` with tenant slug `cleaneats`; `/` and `/platform/*` redirect to `/dashboard`, while tenant app routes, `/login`, `/select-workspace` and `/no-access` remain allowed.
 
 This is static Clean Eats-only v1 routing. Middleware does not read Supabase sessions or query the database. `app.everybatchmrp.com`, `admin.everybatchmrp.com.au`, localhost and Vercel preview behaviour remain unchanged. No DNS, Vercel, Supabase Auth settings, schema, migration, RLS, permission, tenant provisioning, Platform Admin business logic, tenant sidebar or business module changes are included.
+
+## Task 159 Multi-Domain Smoke Test and Redirect Hardening
+
+Task 159 adds a multi-domain smoke-test checklist covering `app.everybatchmrp.com`, `admin.everybatchmrp.com.au`, `cleaneats.everybatchmrp.com` and localhost. It also hardens inactive tenant-looking subdomains so only the active Clean Eats tenant host can render tenant workspace routes in v1; other tenant subdomains allow public auth/static routes only and redirect app routes to `/login`.
+
+The final task 159 routing fix redirects `app.everybatchmrp.com/platform` and `/platform/*` to the same path on `https://admin.everybatchmrp.com.au`, redirects `cleaneats.everybatchmrp.com/select-workspace` to `/dashboard`, and keeps localhost permissive for development. A local stale refresh-token login warning was documented as a known dev/session issue for future auth hardening if it recurs.
+
+No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, business logic, sidebar or design changes are included.

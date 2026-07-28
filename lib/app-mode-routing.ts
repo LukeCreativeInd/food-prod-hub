@@ -3,6 +3,7 @@ import {
   type ParsedEveryBatchHost,
   parseEveryBatchHost,
 } from "@/lib/tenant-resolver";
+import { PLATFORM_ADMIN_DOMAIN } from "@/lib/platform-brand";
 
 export type AppModeRedirectIntent = {
   shouldRedirect: boolean;
@@ -170,11 +171,7 @@ export function isRouteAllowedForAppMode(
   }
 
   if (resolvedMode.mode === "central_app") {
-    return (
-      path === "/" ||
-      pathMatchesPrefix(path, "/dashboard") ||
-      pathMatchesPrefix(path, "/platform")
-    );
+    return path === "/" || pathMatchesPrefix(path, "/dashboard");
   }
 
   if (resolvedMode.mode === "platform_admin") {
@@ -225,6 +222,25 @@ export function getPlatformAdminAppModeRedirect(
   };
 }
 
+export function getCentralAppModeRedirect(pathname: string): AppModeRedirectIntent {
+  const path = normalisePathname(pathname);
+
+  if (platformAdminRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix))) {
+    return {
+      shouldRedirect: true,
+      href: `https://${PLATFORM_ADMIN_DOMAIN}${path}`,
+      reason:
+        "Platform Admin routes now live on the dedicated Platform Admin domain.",
+    };
+  }
+
+  return {
+    shouldRedirect: false,
+    href: path,
+    reason: "Central app route is allowed.",
+  };
+}
+
 export function getTenantAppModeRedirect(
   pathname: string,
   resolvedMode: Pick<ParsedEveryBatchHost, "mode" | "tenantSlug">,
@@ -232,11 +248,29 @@ export function getTenantAppModeRedirect(
   const path = normalisePathname(pathname);
 
   if (!isActiveTenantSubdomain(resolvedMode)) {
+    if (isInternalOrAssetPath(path)) {
+      return {
+        shouldRedirect: false,
+        href: path,
+        reason:
+          "Internal and asset routes are allowed while inactive tenant hosts are blocked.",
+      };
+    }
+
+    if (publicAuthRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix))) {
+      return {
+        shouldRedirect: false,
+        href: path,
+        reason:
+          "Login, workspace selection and no-access routes remain allowed on inactive tenant hosts.",
+      };
+    }
+
     return {
-      shouldRedirect: false,
-      href: path,
+      shouldRedirect: true,
+      href: "/login",
       reason:
-        "Tenant subdomain routing v1 is only active for the Clean Eats tenant host.",
+        "Tenant subdomain routing v1 is only active for the Clean Eats tenant host. Other tenant hosts redirect to login until activated.",
     };
   }
 
@@ -248,11 +282,24 @@ export function getTenantAppModeRedirect(
     };
   }
 
-  if (publicAuthRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix))) {
+  if (pathMatchesPrefix(path, "/select-workspace")) {
+    return {
+      shouldRedirect: true,
+      href: "/dashboard",
+      reason:
+        "The tenant subdomain already selects the Clean Eats workspace.",
+    };
+  }
+
+  if (
+    publicAuthRoutePrefixes
+      .filter((prefix) => prefix !== "/select-workspace")
+      .some((prefix) => pathMatchesPrefix(path, prefix))
+  ) {
     return {
       shouldRedirect: false,
       href: path,
-      reason: "Login, workspace selection and no-access routes remain allowed.",
+      reason: "Login and no-access routes remain allowed on the tenant host.",
     };
   }
 
@@ -294,6 +341,10 @@ export function getAppModeRedirect(
   pathname: string,
   resolvedMode: Pick<ParsedEveryBatchHost, "mode">,
 ): AppModeRedirectIntent {
+  if (resolvedMode.mode === "central_app") {
+    return getCentralAppModeRedirect(pathname);
+  }
+
   if (isRouteAllowedForAppMode(pathname, resolvedMode)) {
     return {
       shouldRedirect: false,

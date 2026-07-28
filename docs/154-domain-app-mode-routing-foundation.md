@@ -10,6 +10,10 @@ Task 156 documents the manual setup process for connecting `admin.everybatchmrp.
 
 Task 158 activates the first tenant host guard for `cleaneats.everybatchmrp.com` only. The mapping remains static Clean Eats v1; dynamic tenant-domain lookup remains future work.
 
+Task 159 adds the multi-domain smoke test checklist and hardens inactive tenant-looking subdomains so they cannot accidentally render app pages before dynamic tenant-domain activation exists.
+
+Task 159 also finalises Platform Admin domain separation: `/platform` routes on `app.everybatchmrp.com` redirect to the same path on `admin.everybatchmrp.com.au`, while localhost remains permissive for development.
+
 ## Strategy
 
 EveryBatch should continue as:
@@ -91,8 +95,10 @@ Task 158 wires the Clean Eats tenant-host subset into middleware:
 
 - `/` on `cleaneats.everybatchmrp.com` -> `/dashboard`
 - `/platform/*` on `cleaneats.everybatchmrp.com` -> `/dashboard`
+- `/select-workspace` on `cleaneats.everybatchmrp.com` -> `/dashboard`
 - tenant workspace routes remain allowed
-- `/login`, `/select-workspace` and `/no-access` remain allowed
+- `/login` and `/no-access` remain allowed
+- inactive tenant-looking subdomains allow public auth/static routes only and redirect app routes to `/login`
 
 ## Route Intent Rules
 

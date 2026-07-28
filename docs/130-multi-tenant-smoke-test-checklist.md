@@ -36,11 +36,23 @@ Clean Eats tenant host checks:
 
 - [ ] `cleaneats.everybatchmrp.com/` redirects to `/dashboard`.
 - [ ] `cleaneats.everybatchmrp.com/login` loads.
+- [ ] `cleaneats.everybatchmrp.com/select-workspace` redirects to `/dashboard`.
 - [ ] `cleaneats.everybatchmrp.com/dashboard` is allowed.
 - [ ] `cleaneats.everybatchmrp.com/components` is allowed.
 - [ ] `cleaneats.everybatchmrp.com/finished-products` is allowed.
 - [ ] `cleaneats.everybatchmrp.com/platform` redirects away from Platform Admin.
 - [ ] `cleaneats.everybatchmrp.com/platform/tenants` redirects away from Platform Admin.
+- [ ] inactive tenant-looking subdomains, if they ever resolve, redirect app routes to `/login` until explicitly activated.
+
+Central and Platform Admin host checks:
+
+- [ ] `app.everybatchmrp.com/platform` redirects to `https://admin.everybatchmrp.com.au/platform`.
+- [ ] `app.everybatchmrp.com/platform/tenants` redirects to `https://admin.everybatchmrp.com.au/platform/tenants`.
+- [ ] `admin.everybatchmrp.com.au/platform` is allowed.
+- [ ] `admin.everybatchmrp.com.au/dashboard` redirects to `/platform`.
+- [ ] localhost remains permissive for `/platform` during development.
+
+See [Multi-domain smoke test and redirect hardening](159-multi-domain-smoke-test-and-redirect-hardening.md) for the current domain redirect matrix.
 
 ## 2. DNS / Vercel Checks
 

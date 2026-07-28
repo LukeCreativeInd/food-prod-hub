@@ -179,6 +179,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Platform Admin domain setup has been documented for `admin.everybatchmrp.com.au`, including Vercel, Cloudflare, Supabase Auth, smoke test and rollback checklists
 - Platform Admin brand/UI polish now applies EveryBatch Operator Console language, current-route header titles, compact subpage context callouts, the platform green/lime palette and tenant-app-style grouped accordion/collapsible sidebar structure to the separated `/platform` shell
 - Clean Eats tenant subdomain routing v1 now guards `cleaneats.everybatchmrp.com` in code, allowing tenant app routes while redirecting `/` and `/platform/*` to `/dashboard`
+- Multi-domain smoke testing and redirect hardening now documents app/admin/tenant/localhost expected behaviour, redirects central `/platform` routes to the admin domain and blocks inactive tenant-looking subdomains from rendering app pages before activation
 
 ## Tech Stack
 
@@ -336,6 +337,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Platform Admin Domain Setup](docs/156-platform-admin-domain-setup.md)
 - [Platform Admin Brand/UI Polish](docs/157-platform-admin-brand-ui-polish.md)
 - [Tenant Subdomain Routing v1](docs/158-tenant-subdomain-routing-v1.md)
+- [Multi-Domain Smoke Test and Redirect Hardening](docs/159-multi-domain-smoke-test-and-redirect-hardening.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)
