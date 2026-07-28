@@ -1,11 +1,14 @@
 import { cache } from "react";
 
 import { getAuthContext } from "@/lib/auth";
-import { getOrganisationLogoDisplayUrl } from "@/lib/organisation-branding-storage";
+import { getOrganisationBrandingAssetDisplayUrl } from "@/lib/organisation-branding-storage";
 import { createClient } from "@/lib/supabase/server";
 
 type BrandingRow = {
   logo_url: string | null;
+  logo_storage_path: string | null;
+  icon_url: string | null;
+  icon_storage_path: string | null;
   primary_colour: string | null;
   accent_colour: string | null;
   success_colour: string | null;
@@ -19,6 +22,7 @@ export type TenantPresentation = {
   organisationName: string;
   tenantSlug: string;
   logoUrl: string | null;
+  iconUrl: string | null;
   initials: string;
   primaryColour: string;
   accentColour: string;
@@ -36,6 +40,7 @@ const fallbackPresentation: TenantPresentation = {
   organisationName: "Clean Eats Australia",
   tenantSlug: "cleaneats",
   logoUrl: null,
+  iconUrl: null,
   initials: "CE",
   primaryColour: "#176B3A",
   accentColour: "#A7D129",
@@ -81,24 +86,29 @@ export const getTenantPresentation = cache(
     const supabase = await createClient();
     const { data } = await supabase
       .from("organisation_branding")
-      .select(
-        "logo_url, primary_colour, accent_colour, success_colour, warning_colour, danger_colour, info_colour, theme_mode",
-      )
+      .select("*")
       .eq("organisation_id", organisation.id)
       .maybeSingle();
     const branding = (data as BrandingRow | null) ?? null;
     const fullName = authContext.profile?.full_name?.trim();
     const email = authContext.profile?.email?.trim();
     const userName = fullName ?? email ?? fallbackPresentation.userName;
-    const logoUrl = await getOrganisationLogoDisplayUrl(
+    const logoAssetPath = branding?.logo_storage_path ?? branding?.logo_url;
+    const iconAssetPath = branding?.icon_storage_path ?? branding?.icon_url;
+    const logoUrl = await getOrganisationBrandingAssetDisplayUrl(
       supabase,
-      branding?.logo_url,
+      logoAssetPath,
+    );
+    const iconUrl = await getOrganisationBrandingAssetDisplayUrl(
+      supabase,
+      iconAssetPath,
     );
 
     return {
       organisationName: organisation.name,
       tenantSlug: organisation.slug,
       logoUrl: logoUrl || null,
+      iconUrl: iconUrl || null,
       initials: initialsFromName(organisation.name),
       primaryColour: cleanHexColour(
         branding?.primary_colour,

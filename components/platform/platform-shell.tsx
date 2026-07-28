@@ -90,7 +90,7 @@ const platformNavigation: PlatformNavGroup[] = [
     iconKey: "platform",
     items: [
       { label: "Platform Settings", status: "soon" },
-      { label: "Platform Branding", status: "soon" },
+      { label: "Platform Branding", href: "/platform/branding", status: "live" },
       { label: "Domains", status: "soon" },
       { label: "Module Registry", status: "soon" },
       { label: "Feature Registry", status: "soon" },

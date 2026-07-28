@@ -96,6 +96,8 @@ Task 166 adds the [Brand Asset Logo/Icon Storage Plan](166-brand-asset-logo-icon
 
 Task 168 adds the reviewed schema foundation for future brand asset metadata in [Brand Asset Schema Foundation](168-brand-asset-schema-foundation.md). It does not replace the temporary Platform Admin mark or add upload UI.
 
+Task 169 adds `/platform/branding` as a conservative Platform Branding scaffold. It reads `platform_branding_assets` metadata when present, but does not upload platform assets or create a platform storage bucket.
+
 ## Tenant App Unaffected
 
 This task intentionally does not change the Clean Eats tenant app shell, tenant sidebar, tenant navigation order, tenant branding settings or tenant business module UI.

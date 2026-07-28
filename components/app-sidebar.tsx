@@ -91,6 +91,18 @@ function EveryBatchMark() {
   );
 }
 
+function TenantInitialsMark({ tenant }: { tenant: TenantPresentation }) {
+  return (
+    <span
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-xs font-black text-white shadow-sm"
+      style={{ backgroundColor: tenant.primaryColour }}
+      aria-hidden="true"
+    >
+      {tenant.initials}
+    </span>
+  );
+}
+
 const sidebarCollapsedStorageKey = "food-prod-hub.sidebar-collapsed";
 
 export function AppSidebar({
@@ -195,31 +207,43 @@ export function AppSidebar({
         </p>
 
         <div className={clsx("mt-5", isCollapsed ? "md:flex md:justify-center" : "")}>
-          {tenant.logoUrl ? (
+          {isCollapsed && tenant.iconUrl ? (
+            <div
+              className="hidden h-11 w-11 items-center justify-center overflow-hidden rounded-lg bg-white md:flex"
+              title={`${tenant.organisationName} icon`}
+              aria-label={`${tenant.organisationName} icon`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={tenant.iconUrl}
+                alt={`${tenant.organisationName} icon`}
+                className="max-h-10 max-w-10 object-contain"
+              />
+            </div>
+          ) : isCollapsed ? (
+            <div
+              className="hidden h-11 w-11 items-center justify-center md:flex"
+              title={tenant.organisationName}
+              aria-label={tenant.organisationName}
+            >
+              <TenantInitialsMark tenant={tenant} />
+            </div>
+          ) : tenant.logoUrl ? (
             <div
               className={clsx(
                 "flex items-center",
-                isCollapsed && "md:justify-center",
               )}
               title={`${tenant.organisationName} logo`}
               aria-label={`${tenant.organisationName} logo`}
             >
               <div
-                className={clsx(
-                  "flex shrink-0 items-center overflow-hidden bg-white",
-                  isCollapsed
-                    ? "h-11 w-11 justify-center rounded-lg"
-                    : "h-14 w-full justify-start",
-                )}
+                className="flex h-14 w-full shrink-0 items-center justify-start overflow-hidden bg-white"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={tenant.logoUrl}
                   alt={`${tenant.organisationName} logo`}
-                  className={clsx(
-                    "object-contain",
-                    isCollapsed ? "max-h-10 max-w-10" : "max-h-12 max-w-full",
-                  )}
+                  className="max-h-12 max-w-full object-contain"
                 />
               </div>
             </div>
@@ -234,12 +258,16 @@ export function AppSidebar({
               title={tenant.organisationName}
               aria-label={tenant.organisationName}
             >
-              <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-[var(--tenant-primary)] ring-1 ring-slate-200"
-                aria-hidden="true"
-              >
-                <LogoPlaceholderMark />
-              </span>
+              {isCollapsed ? (
+                <TenantInitialsMark tenant={tenant} />
+              ) : (
+                <span
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-[var(--tenant-primary)] ring-1 ring-slate-200"
+                  aria-hidden="true"
+                >
+                  <LogoPlaceholderMark />
+                </span>
+              )}
               <span
                 className={clsx(
                   "min-w-0 text-left",

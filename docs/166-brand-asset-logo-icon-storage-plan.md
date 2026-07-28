@@ -260,6 +260,7 @@ Current/recommended sequence:
    - extend Organisation Settings with tenant full logo and tenant icon upload
    - preview expanded/collapsed sidebar behaviour
    - continue using the private `organisation-branding` bucket
+   - add a conservative Platform Branding scaffold without platform upload
 
 4. **Future - Platform Brand Asset Integration**
    - replace temporary `EB` fallback with final EveryBatch logo/icon files
@@ -302,6 +303,12 @@ It adds tenant branding metadata fields for full logo/icon storage paths, create
 ```
 
 The migration is drafted only and must be manually reviewed before applying. Upload UI remains a task 169 follow-up.
+
+## Task 169 Update
+
+Task 169 adds tenant full-logo and icon upload controls to Organisation Settings using the existing private `organisation-branding` bucket and the schema from migration 031. It also adds `/platform/branding` as a read-only Platform Admin scaffold for EveryBatch asset metadata.
+
+Platform dynamic upload remains deferred because no reviewed platform storage bucket/policy exists yet.
 
 ## Migration Notes
 

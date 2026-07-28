@@ -4,15 +4,18 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { requirePermissionAccess } from "@/lib/auth";
+import {
+  brandAssetMaxFileBytes,
+  buildTenantIconStoragePath,
+  buildTenantLogoStoragePath,
+  isAcceptedBrandAssetMimeType,
+} from "@/lib/brand-assets";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { organisationBrandingBucket } from "@/lib/organisation-branding-storage";
 import { createClient } from "@/lib/supabase/server";
 
 const hexColourPattern = /^#[0-9A-Fa-f]{6}$/;
 const themeModes = new Set(["light", "dark"]);
-const maxLogoBytes = 5 * 1024 * 1024;
-const allowedLogoMimeTypes = new Set(["image/png", "image/jpeg", "image/webp"]);
-
 function getString(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
@@ -23,24 +26,10 @@ function getHexColour(formData: FormData, key: string) {
   return hexColourPattern.test(value) ? value.toUpperCase() : null;
 }
 
-function getLogoFile(formData: FormData) {
-  const value = formData.get("logo_file");
+function getAssetFile(formData: FormData, key: string) {
+  const value = formData.get(key);
 
   return value instanceof File && value.size > 0 ? value : null;
-}
-
-function safeFilename(value: string) {
-  const extension = value.split(".").pop()?.toLowerCase() ?? "logo";
-  const baseName = value
-    .replace(/\.[^.]+$/, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")
-    .slice(0, 60);
-  const safeBaseName = baseName || "tenant-logo";
-  const safeExtension = extension.replace(/[^a-z0-9]/g, "").slice(0, 8) || "png";
-
-  return `${safeBaseName}.${safeExtension}`;
 }
 
 export async function updateOrganisationBrandingAction(formData: FormData) {
@@ -59,8 +48,10 @@ export async function updateOrganisationBrandingAction(formData: FormData) {
   const infoColour = getHexColour(formData, "info_colour");
   const themeModeInput = getString(formData, "theme_mode");
   const themeMode = themeModes.has(themeModeInput) ? themeModeInput : null;
-  const logoFile = getLogoFile(formData);
+  const logoFile = getAssetFile(formData, "logo_file");
+  const iconFile = getAssetFile(formData, "icon_file");
   const shouldClearLogo = getString(formData, "clear_logo") === "1";
+  const shouldClearIcon = getString(formData, "clear_icon") === "1";
 
   if (
     !primaryColour ||
@@ -78,26 +69,38 @@ export async function updateOrganisationBrandingAction(formData: FormData) {
   const supabase = await createClient();
   const { data: currentBranding } = await supabase
     .from("organisation_branding")
-    .select("logo_url")
+    .select("*")
     .eq("organisation_id", organisationId)
     .maybeSingle();
-  let logoUrl = (currentBranding as { logo_url: string | null } | null)
-    ?.logo_url ?? null;
+  const currentBrandingRow =
+    currentBranding as {
+      logo_url: string | null;
+      logo_storage_path: string | null;
+      icon_url: string | null;
+      icon_storage_path: string | null;
+    } | null;
+  let logoUrl = currentBrandingRow?.logo_url ?? null;
+  let logoStoragePath = currentBrandingRow?.logo_storage_path ?? null;
+  let iconUrl = currentBrandingRow?.icon_url ?? null;
+  let iconStoragePath = currentBrandingRow?.icon_storage_path ?? null;
 
   if (shouldClearLogo) {
     logoUrl = null;
+    logoStoragePath = null;
   } else if (logoFile) {
-    if (!allowedLogoMimeTypes.has(logoFile.type)) {
+    if (!isAcceptedBrandAssetMimeType(logoFile.type)) {
       redirect("/organisation-settings?branding=invalid_logo_file");
     }
 
-    if (logoFile.size > maxLogoBytes) {
+    if (logoFile.size > brandAssetMaxFileBytes) {
       redirect("/organisation-settings?branding=logo_too_large");
     }
 
-    const storagePath = `${organisationId}/logo/${Date.now()}-${safeFilename(
+    const storagePath = buildTenantLogoStoragePath(
+      organisationId,
       logoFile.name,
-    )}`;
+      logoFile.type,
+    );
     const { error: uploadError } = await supabase.storage
       .from(organisationBrandingBucket)
       .upload(storagePath, logoFile, {
@@ -127,12 +130,65 @@ export async function updateOrganisationBrandingAction(formData: FormData) {
     }
 
     logoUrl = storagePath;
+    logoStoragePath = storagePath;
+  }
+
+  if (shouldClearIcon) {
+    iconUrl = null;
+    iconStoragePath = null;
+  } else if (iconFile) {
+    if (!isAcceptedBrandAssetMimeType(iconFile.type)) {
+      redirect("/organisation-settings?branding=invalid_icon_file");
+    }
+
+    if (iconFile.size > brandAssetMaxFileBytes) {
+      redirect("/organisation-settings?branding=icon_too_large");
+    }
+
+    const storagePath = buildTenantIconStoragePath(
+      organisationId,
+      iconFile.name,
+      iconFile.type,
+    );
+    const { error: uploadError } = await supabase.storage
+      .from(organisationBrandingBucket)
+      .upload(storagePath, iconFile, {
+        cacheControl: "3600",
+        contentType: iconFile.type,
+        upsert: false,
+      });
+
+    logDevRouteTiming("organisation.branding-icon-upload", timingStartedAt, {
+      status: uploadError ? "error" : "uploaded",
+      iconBytes: iconFile.size,
+      iconMimeType: iconFile.type,
+      storagePath,
+    });
+
+    if (uploadError) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Organisation branding icon upload failed", {
+          organisationId,
+          storagePath,
+          code: uploadError.name,
+          message: uploadError.message,
+        });
+      }
+
+      redirect("/organisation-settings?branding=icon_upload_error");
+    }
+
+    iconUrl = storagePath;
+    iconStoragePath = storagePath;
   }
 
   const { error } = await supabase.from("organisation_branding").upsert(
     {
       organisation_id: organisationId,
       logo_url: logoUrl,
+      logo_storage_path: logoStoragePath,
+      icon_url: iconUrl,
+      icon_storage_path: iconStoragePath,
       primary_colour: primaryColour,
       accent_colour: accentColour,
       success_colour: successColour,

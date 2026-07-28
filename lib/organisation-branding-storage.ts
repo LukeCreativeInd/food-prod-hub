@@ -18,26 +18,26 @@ function isHttpUrl(value: string) {
   return value.startsWith("https://") || value.startsWith("http://");
 }
 
-export async function getOrganisationLogoDisplayUrl(
+export async function getOrganisationBrandingAssetDisplayUrl(
   supabase: SignedUrlClient,
-  logoUrl: string | null | undefined,
+  assetPathOrUrl: string | null | undefined,
 ) {
-  if (!logoUrl) {
+  if (!assetPathOrUrl) {
     return "";
   }
 
-  if (isHttpUrl(logoUrl)) {
-    return logoUrl;
+  if (isHttpUrl(assetPathOrUrl)) {
+    return assetPathOrUrl;
   }
 
   const { data, error } = await supabase.storage
     .from(organisationBrandingBucket)
-    .createSignedUrl(logoUrl, 60 * 60);
+    .createSignedUrl(assetPathOrUrl, 60 * 60);
 
   if (error) {
     if (process.env.NODE_ENV !== "production") {
-      console.error("Organisation logo signed URL failed", {
-        logoPath: logoUrl,
+      console.error("Organisation branding asset signed URL failed", {
+        assetPath: assetPathOrUrl,
         message: error.message,
       });
     }
@@ -47,3 +47,6 @@ export async function getOrganisationLogoDisplayUrl(
 
   return data?.signedUrl ?? "";
 }
+
+export const getOrganisationLogoDisplayUrl =
+  getOrganisationBrandingAssetDisplayUrl;

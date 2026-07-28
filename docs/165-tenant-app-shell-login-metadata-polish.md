@@ -117,6 +117,7 @@ Users may need to sign in again once after deployment so their browser receives 
 
 Task 166 adds the detailed [Brand Asset Logo/Icon Storage Plan](166-brand-asset-logo-icon-storage-plan.md) for these asset follow-ups.
 Task 168 drafts the schema/storage foundation in [Brand Asset Schema Foundation](168-brand-asset-schema-foundation.md). Upload UI, cropping/resizing and runtime sidebar replacement remain follow-up work.
+Task 169 adds tenant full-logo/icon upload controls and wires the tenant sidebar to use full logo when expanded and icon when collapsed.
 
 - Drop in final EveryBatch logo assets when available.
 - Add EveryBatch platform logo and platform icon asset support. Expanded sidebars should use the full logo; collapsed sidebars should use a dedicated icon.

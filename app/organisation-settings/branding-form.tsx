@@ -14,7 +14,11 @@ import { StatusBadge } from "@/components/ui";
 
 export type BrandingFormValues = {
   logoUrl: string;
+  logoStoragePath: string;
   logoPreviewUrl: string;
+  iconUrl: string;
+  iconStoragePath: string;
+  iconPreviewUrl: string;
   primaryColour: string;
   accentColour: string;
   successColour: string;
@@ -40,7 +44,11 @@ const colourFields = [
 
 const fieldNames: Record<keyof BrandingFormValues, string> = {
   logoUrl: "logo_url",
+  logoStoragePath: "logo_storage_path",
   logoPreviewUrl: "logo_preview_url",
+  iconUrl: "icon_url",
+  iconStoragePath: "icon_storage_path",
+  iconPreviewUrl: "icon_preview_url",
   primaryColour: "primary_colour",
   accentColour: "accent_colour",
   successColour: "success_colour",
@@ -80,16 +88,23 @@ export function BrandingForm({
 }: BrandingFormProps) {
   const [preview, setPreview] = useState(values);
   const [selectedLogoUrl, setSelectedLogoUrl] = useState<string | null>(null);
-  const hasSavedLogo = Boolean(values.logoUrl);
+  const [selectedIconUrl, setSelectedIconUrl] = useState<string | null>(null);
+  const hasSavedLogo = Boolean(values.logoStoragePath || values.logoUrl);
+  const hasSavedIcon = Boolean(values.iconStoragePath || values.iconUrl);
   const logoPreviewUrl = selectedLogoUrl ?? values.logoPreviewUrl;
+  const iconPreviewUrl = selectedIconUrl ?? values.iconPreviewUrl;
 
   useEffect(() => {
     return () => {
       if (selectedLogoUrl) {
         URL.revokeObjectURL(selectedLogoUrl);
       }
+
+      if (selectedIconUrl) {
+        URL.revokeObjectURL(selectedIconUrl);
+      }
     };
-  }, [selectedLogoUrl]);
+  }, [selectedIconUrl, selectedLogoUrl]);
 
   const previewStyle = useMemo(
     () =>
@@ -130,6 +145,16 @@ export function BrandingForm({
     setSelectedLogoUrl(file ? URL.createObjectURL(file) : null);
   }
 
+  function handleIconSelection(fileList: FileList | null) {
+    const file = fileList?.item(0);
+
+    if (selectedIconUrl) {
+      URL.revokeObjectURL(selectedIconUrl);
+    }
+
+    setSelectedIconUrl(file ? URL.createObjectURL(file) : null);
+  }
+
   function resetThemeDefaults() {
     setPreview((current) => ({
       ...current,
@@ -143,46 +168,81 @@ export function BrandingForm({
       onSubmit={preventReadOnlySubmit}
       className="space-y-6"
     >
-      <div className="grid gap-5 xl:grid-cols-[260px_1fr]">
-        <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-          <div
-            className="flex h-32 items-center justify-center rounded-lg border border-slate-200 bg-white p-4"
-            style={{
-              borderColor: preview.primaryColour,
-            }}
-          >
-            {logoPreviewUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={logoPreviewUrl}
-                alt="Tenant logo preview"
-                className="max-h-24 max-w-full object-contain"
-              />
-            ) : (
-              <div className="text-center">
+      <div className="grid gap-5 xl:grid-cols-[280px_1fr]">
+        <div className="space-y-4">
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+            <p className="text-xs font-semibold uppercase text-slate-500">
+              Expanded sidebar logo
+            </p>
+            <div
+              className="mt-3 flex h-32 items-center justify-center rounded-lg border border-slate-200 bg-white p-4"
+              style={{
+                borderColor: preview.primaryColour,
+              }}
+            >
+              {logoPreviewUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={logoPreviewUrl}
+                  alt="Tenant full logo preview"
+                  className="max-h-24 max-w-full object-contain"
+                />
+              ) : (
+                <div className="text-center">
+                  <div
+                    className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg text-sm font-bold text-white"
+                    style={{ backgroundColor: preview.primaryColour }}
+                  >
+                    Logo
+                  </div>
+                  <p className="mt-3 text-sm font-semibold text-slate-950">
+                    Client Logo
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">Placeholder</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+            <p className="text-xs font-semibold uppercase text-slate-500">
+              Collapsed sidebar icon
+            </p>
+            <div
+              className="mt-3 flex h-28 items-center justify-center rounded-lg border border-slate-200 bg-white p-4"
+              style={{
+                borderColor: preview.primaryColour,
+              }}
+            >
+              {iconPreviewUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={iconPreviewUrl}
+                  alt="Tenant icon preview"
+                  className="max-h-16 max-w-16 object-contain"
+                />
+              ) : (
                 <div
-                  className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg text-sm font-bold text-white"
+                  className="flex h-14 w-14 items-center justify-center rounded-xl text-xs font-black text-white"
                   style={{ backgroundColor: preview.primaryColour }}
                 >
-                  Logo
+                  Icon
                 </div>
-                <p className="mt-3 text-sm font-semibold text-slate-950">
-                  Client Logo
-                </p>
-                <p className="mt-1 text-xs text-slate-500">Placeholder</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-          <p className="mt-3 text-xs leading-5 text-slate-500">
-            PNG, JPG/JPEG or WebP up to 5MB. Logos are stored in private
-            tenant-scoped storage.
+
+          <p className="text-xs leading-5 text-slate-500">
+            PNG, JPG/JPEG or WebP up to 5MB. Transparent backgrounds are
+            recommended. Full logos are for expanded surfaces; square icons are
+            for collapsed and compact surfaces.
           </p>
         </div>
 
         <div className="space-y-4">
           <label className="block rounded-lg border border-slate-200 bg-white p-4">
             <span className="text-xs font-semibold uppercase text-slate-500">
-              Upload logo
+              Upload full logo
             </span>
             <input
               name="logo_file"
@@ -193,9 +253,28 @@ export function BrandingForm({
               className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition file:mr-3 file:rounded-md file:border-0 file:bg-[var(--tenant-primary-soft)] file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-[var(--tenant-primary)] disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500 focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
             />
             <span className="mt-2 block break-all text-xs leading-5 text-slate-500">
-              {values.logoUrl
-                ? `Saved logo path: ${values.logoUrl}`
+              {values.logoStoragePath || values.logoUrl
+                ? `Saved logo path: ${values.logoStoragePath || values.logoUrl}`
                 : "No saved logo yet. The sidebar will use the placeholder until one is uploaded."}
+            </span>
+          </label>
+
+          <label className="block rounded-lg border border-slate-200 bg-white p-4">
+            <span className="text-xs font-semibold uppercase text-slate-500">
+              Upload icon
+            </span>
+            <input
+              name="icon_file"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              disabled={!canManageBranding}
+              onChange={(event) => handleIconSelection(event.target.files)}
+              className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition file:mr-3 file:rounded-md file:border-0 file:bg-[var(--tenant-primary-soft)] file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-[var(--tenant-primary)] disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500 focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100"
+            />
+            <span className="mt-2 block break-all text-xs leading-5 text-slate-500">
+              {values.iconStoragePath || values.iconUrl
+                ? `Saved icon path: ${values.iconStoragePath || values.iconUrl}`
+                : "No saved icon yet. Collapsed navigation will use initials until one is uploaded."}
             </span>
           </label>
 
@@ -349,6 +428,15 @@ export function BrandingForm({
             className="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
           >
             Remove logo
+          </button>
+          <button
+            type="submit"
+            name="clear_icon"
+            value="1"
+            disabled={!canManageBranding || !hasSavedIcon}
+            className="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+          >
+            Remove icon
           </button>
           <SubmitButton canManageBranding={canManageBranding} />
         </div>

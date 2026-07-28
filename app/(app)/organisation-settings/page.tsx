@@ -28,6 +28,9 @@ type SettingsRow = {
 
 type BrandingRow = {
   logo_url: string | null;
+  logo_storage_path: string | null;
+  icon_url: string | null;
+  icon_storage_path: string | null;
   primary_colour: string | null;
   accent_colour: string | null;
   success_colour: string | null;
@@ -40,7 +43,11 @@ type BrandingRow = {
 
 const fallbackBranding: BrandingFormValues = {
   logoUrl: "",
+  logoStoragePath: "",
   logoPreviewUrl: "",
+  iconUrl: "",
+  iconStoragePath: "",
+  iconPreviewUrl: "",
   primaryColour: "#176B3A",
   accentColour: "#A7D129",
   successColour: "#15803D",
@@ -102,6 +109,27 @@ function brandingMessage(status?: string) {
     return {
       tone: "danger" as const,
       text: "Logo could not be uploaded. Check the private branding storage bucket and policies.",
+    };
+  }
+
+  if (status === "invalid_icon_file") {
+    return {
+      tone: "warning" as const,
+      text: "Icon file must be PNG, JPG/JPEG or WebP.",
+    };
+  }
+
+  if (status === "icon_too_large") {
+    return {
+      tone: "warning" as const,
+      text: "Icon file is too large. Use an image up to 5MB.",
+    };
+  }
+
+  if (status === "icon_upload_error") {
+    return {
+      tone: "danger" as const,
+      text: "Icon could not be uploaded. Check the private branding storage bucket and policies.",
     };
   }
 
@@ -168,19 +196,25 @@ async function BrandingThemeSection({
   const supabase = await createClient();
   const { data: brandingData } = await supabase
     .from("organisation_branding")
-    .select(
-      "logo_url, primary_colour, accent_colour, success_colour, warning_colour, danger_colour, info_colour, sidebar_style, theme_mode",
-    )
+    .select("*")
     .eq("organisation_id", organisationId)
     .maybeSingle();
   const branding = brandingData as BrandingRow | null;
   const logoPreviewUrl = await getOrganisationLogoDisplayUrl(
     supabase,
-    branding?.logo_url,
+    branding?.logo_storage_path ?? branding?.logo_url,
+  );
+  const iconPreviewUrl = await getOrganisationLogoDisplayUrl(
+    supabase,
+    branding?.icon_storage_path ?? branding?.icon_url,
   );
   const brandingValues: BrandingFormValues = {
     logoUrl: branding?.logo_url ?? "",
+    logoStoragePath: branding?.logo_storage_path ?? "",
     logoPreviewUrl,
+    iconUrl: branding?.icon_url ?? "",
+    iconStoragePath: branding?.icon_storage_path ?? "",
+    iconPreviewUrl,
     primaryColour: cleanHex(
       branding?.primary_colour,
       fallbackBranding.primaryColour,
@@ -200,7 +234,8 @@ async function BrandingThemeSection({
   };
 
   const brandingFields = [
-    ["Logo", brandingValues.logoUrl ? "Uploaded" : "No logo uploaded"],
+    ["Full logo", brandingValues.logoStoragePath || brandingValues.logoUrl ? "Uploaded" : "No logo uploaded"],
+    ["Icon", brandingValues.iconStoragePath || brandingValues.iconUrl ? "Uploaded" : "No icon uploaded"],
     ["Primary colour", brandingValues.primaryColour],
     ["Accent colour", brandingValues.accentColour],
     ["Success colour", brandingValues.successColour],

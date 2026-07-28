@@ -190,6 +190,12 @@ Migration 031 intentionally does not drop or create policies on `storage.objects
 
 This is schema/storage foundation only. The migration is not applied by Codex. No upload UI, image processing, sidebar replacement, auth/RLS permission changes beyond the drafted table/storage policies, DNS/Vercel changes or business logic changes are included.
 
+## Task 169 Tenant / Platform Logo + Icon Upload UI
+
+Task 169 adds tenant full-logo and icon upload controls to Organisation Settings. Uploads use the existing private `organisation-branding` bucket with tenant-scoped paths under `{organisation_id}/logo/full-...` and `{organisation_id}/logo/icon-...`. The action requires `admin.organisation.manage`, validates PNG/JPG/WebP up to 5MB, stores private storage paths in `organisation_branding`, and does not use service-role keys.
+
+The tenant sidebar now uses the full tenant logo in expanded mode and the tenant icon in collapsed mode, with name/initials fallbacks. `/platform/branding` is added as a conservative Platform Admin scaffold for `platform_branding_assets` metadata only; platform dynamic upload remains deferred.
+
 Platform/admin surfaces should use EveryBatch branding.
 
 EveryBatch brand constants live in:

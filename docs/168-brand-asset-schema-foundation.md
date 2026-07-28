@@ -203,4 +203,6 @@ from public.platform_branding_assets;
 
 ## Next Step
 
-Task 169 should build a reviewed tenant/platform brand upload UI only after migration 031 is reviewed and applied.
+Task 169 adds the first tenant logo/icon upload UI and a conservative Platform Branding scaffold in [Tenant / Platform Logo + Icon Upload UI v1](169-tenant-platform-logo-icon-upload-ui-v1.md).
+
+Platform dynamic upload remains deferred until a reviewed platform storage bucket and policies exist.
