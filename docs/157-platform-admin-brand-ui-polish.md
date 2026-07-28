@@ -92,6 +92,8 @@ No external logo asset was downloaded or embedded.
 
 The EB mark remains the temporary Platform Admin mark. A final EveryBatch logo/icon asset should be added in a later dedicated brand asset task.
 
+Task 166 adds the [Brand Asset Logo/Icon Storage Plan](166-brand-asset-logo-icon-storage-plan.md). It recommends static reviewed EveryBatch logo/icon files first, with dynamic Platform Admin-managed platform branding only if runtime editing becomes necessary.
+
 ## Tenant App Unaffected
 
 This task intentionally does not change the Clean Eats tenant app shell, tenant sidebar, tenant navigation order, tenant branding settings or tenant business module UI.

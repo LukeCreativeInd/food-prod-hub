@@ -186,6 +186,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Workspace selector live-domain polish now makes tenant/admin destination domains explicit and preserves safe next paths for Clean Eats and Platform Admin selections
 - Tenant app shell, login and metadata polish now puts EveryBatch branding at the top of the tenant sidebar, moves account/workspace choices into the sidebar user menu, adds the EveryBatch app icon and syncs browser titles to the current route.
 - Supabase auth cookies now use `.everybatchmrp.com` on live EveryBatch app/admin/tenant subdomains so login sessions can be shared between the central app, Clean Eats workspace and Platform Admin; localhost keeps default host-only cookies.
+- Brand asset logo/icon storage planning now defines future EveryBatch platform logo/icon assets and tenant full-logo/icon assets before any schema, storage policy or upload UI changes.
 
 ## Tech Stack
 
@@ -349,6 +350,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Live Domain Redirect QA Pass](docs/162-live-domain-redirect-qa-pass.md)
 - [Workspace Selector Live Domain QA / Polish](docs/163-workspace-selector-live-domain-qa-polish.md)
 - [Tenant App Shell, Login and Metadata Polish](docs/165-tenant-app-shell-login-metadata-polish.md)
+- [Brand Asset Logo/Icon Storage Plan](docs/166-brand-asset-logo-icon-storage-plan.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

@@ -172,6 +172,14 @@ Clean Eats Hub is the first customer workspace.
 
 Inside tenant workspaces, EveryBatch is now the primary product brand at the top of the sidebar, while tenant identity remains visible below it. Do not reintroduce the old bottom-left `Powered by EveryBatch` footer unless a later task explicitly changes the brand hierarchy. Current EveryBatch and tenant sidebar marks are temporary fallbacks until dedicated platform logo/icon and tenant logo/icon asset support is planned.
 
+Brand asset planning is documented in:
+
+```text
+docs/166-brand-asset-logo-icon-storage-plan.md
+```
+
+The recommended direction is static reviewed EveryBatch logo/icon assets first, with tenant logo/icon assets extending the existing private `organisation-branding` bucket. Future dynamic platform asset management should be planned separately before adding schema or upload UI.
+
 Platform/admin surfaces should use EveryBatch branding.
 
 EveryBatch brand constants live in:

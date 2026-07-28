@@ -115,6 +115,8 @@ Users may need to sign in again once after deployment so their browser receives 
 
 ## Follow-Ups
 
+Task 166 adds the detailed [Brand Asset Logo/Icon Storage Plan](166-brand-asset-logo-icon-storage-plan.md) for these asset follow-ups.
+
 - Drop in final EveryBatch logo assets when available.
 - Add EveryBatch platform logo and platform icon asset support. Expanded sidebars should use the full logo; collapsed sidebars should use a dedicated icon.
 - Add tenant logo and tenant icon asset support. Expanded tenant sidebar identity should use the tenant logo cleanly; collapsed sidebars should use a dedicated tenant icon instead of shrinking a full logo.
