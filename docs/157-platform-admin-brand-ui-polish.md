@@ -13,7 +13,7 @@ The shell and overview page use:
 - operator console label: EveryBatch Operator Console
 - tagline: Every ingredient. Every process. Every batch.
 - central app domain: app.everybatchmrp.com
-- future Platform Admin domain: admin.everybatchmrp.com.au
+- future Platform Admin domain: admin.everybatchmrp.com
 
 ## Palette
 

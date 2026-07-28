@@ -36,7 +36,11 @@ export function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    return NextResponse.redirect(new URL(redirectIntent.href));
+    const redirectUrl = redirectIntent.href.startsWith("http")
+      ? new URL(redirectIntent.href)
+      : new URL(redirectIntent.href, request.url);
+
+    return NextResponse.redirect(redirectUrl);
   }
 
   if (resolvedMode.mode !== "platform_admin") {

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentUserWorkspaceOptions } from "@/lib/workspace-options";
+import {
+  getCurrentUserWorkspaceOptions,
+  getWorkspaceDestinationHref,
+} from "@/lib/workspace-options";
 
 const allowedPostLoginHrefs = new Set([
   "/dashboard",
@@ -9,10 +12,20 @@ const allowedPostLoginHrefs = new Set([
   "/no-access",
 ]);
 
-export async function GET() {
-  const workspaceOptions = await getCurrentUserWorkspaceOptions();
-  const href = workspaceOptions.defaultDestination.href;
-  const destination = allowedPostLoginHrefs.has(href) ? href : "/dashboard";
+function getRequestHost(request: Request) {
+  const forwardedHost = request.headers.get("x-forwarded-host");
 
-  return NextResponse.json({ destination });
+  return forwardedHost ?? request.headers.get("host");
+}
+
+export async function GET(request: Request) {
+  const workspaceOptions = await getCurrentUserWorkspaceOptions();
+  const fallbackHref = workspaceOptions.defaultDestination.href;
+  const href = allowedPostLoginHrefs.has(fallbackHref)
+    ? getWorkspaceDestinationHref(workspaceOptions.defaultDestination, {
+        currentHost: getRequestHost(request),
+      })
+    : "/dashboard";
+
+  return NextResponse.json({ destination: href });
 }

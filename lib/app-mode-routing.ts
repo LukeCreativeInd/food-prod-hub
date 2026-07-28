@@ -234,6 +234,15 @@ export function getCentralAppModeRedirect(pathname: string): AppModeRedirectInte
     };
   }
 
+  if (isTenantAppCanonicalRoute(path)) {
+    return {
+      shouldRedirect: true,
+      href: `/select-workspace?next=${encodeURIComponent(path)}`,
+      reason:
+        "Central app tenant workspace routes must resolve through the workspace selector.",
+    };
+  }
+
   return {
     shouldRedirect: false,
     href: path,

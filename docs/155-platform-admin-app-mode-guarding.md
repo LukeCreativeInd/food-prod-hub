@@ -4,7 +4,7 @@ Task 155 adds safe app-mode-aware guarding for the planned EveryBatch Platform A
 
 This is a code-only guard task. It does not add DNS records, change Vercel domains, change Supabase Auth redirect URLs, change database schema, create migrations, change RLS, change permissions, change tenant provisioning, change app business logic or install packages.
 
-Task 156 adds the manual setup guide for connecting `admin.everybatchmrp.com.au`. The guard in task 155 remains unchanged.
+Task 156 adds the manual setup guide for connecting `admin.everybatchmrp.com`. The guard in task 155 remains unchanged.
 
 ## What Is Enforced
 
@@ -19,7 +19,7 @@ the middleware now prevents tenant workspace routes from rendering on the Platfo
 Preferred future Platform Admin host:
 
 ```text
-admin.everybatchmrp.com.au
+admin.everybatchmrp.com
 ```
 
 Legacy/optional compatibility host still resolves as platform admin:
@@ -89,7 +89,7 @@ This keeps local development and preview testing simple while production domain 
 
 `app.everybatchmrp.com` keeps current central app behaviour.
 
-The central app still allows `/platform` for now because the preferred Platform Admin domain is not live/enforced yet. Future tightening can happen after `admin.everybatchmrp.com.au` is connected and smoke tested.
+The central app still allows `/platform` for now because the preferred Platform Admin domain is not live/enforced yet. Future tightening can happen after `admin.everybatchmrp.com` is connected and smoke tested.
 
 ## Tenant App Enforcement
 
@@ -103,11 +103,11 @@ Expected behaviour once host simulation is available:
 
 | Host/path | Expected result |
 | --- | --- |
-| `admin.everybatchmrp.com.au/` | redirect to `/platform` |
-| `admin.everybatchmrp.com.au/dashboard` | redirect to `/platform` |
-| `admin.everybatchmrp.com.au/components` | redirect to `/platform` |
-| `admin.everybatchmrp.com.au/platform` | allowed |
-| `admin.everybatchmrp.com.au/login` | allowed |
+| `admin.everybatchmrp.com/` | redirect to `/platform` |
+| `admin.everybatchmrp.com/dashboard` | redirect to `/platform` |
+| `admin.everybatchmrp.com/components` | redirect to `/platform` |
+| `admin.everybatchmrp.com/platform` | allowed |
+| `admin.everybatchmrp.com/login` | allowed |
 | `localhost:3000/dashboard` | allowed |
 | `app.everybatchmrp.com/platform` | allowed for now |
 

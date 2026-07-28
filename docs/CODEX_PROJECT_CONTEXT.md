@@ -39,7 +39,7 @@ Target domains:
 - `everybatchmrp.com` for public marketing
 - `app.everybatchmrp.com` for central login
 - `cleaneats.everybatchmrp.com` for Clean Eats tenant workspace
-- `admin.everybatchmrp.com.au` for future Platform Admin
+- `admin.everybatchmrp.com` for future Platform Admin
 - `support.everybatchmrp.com` for support and knowledge base
 
 Current domain setup:
@@ -51,7 +51,7 @@ Current domain setup:
 - login and dashboard smoke tests passed on `app.everybatchmrp.com`
 - do not point `everybatchmrp.com` root to the tenant app; reserve it for marketing or a coming-soon page
 - do not connect `cleaneats.everybatchmrp.com` until tenant workspace host routing is implemented
-- do not connect `admin.everybatchmrp.com.au` until Platform Admin domain routing is explicitly implemented
+- do not connect `admin.everybatchmrp.com` until Platform Admin domain routing is explicitly implemented
 - do not connect `support.everybatchmrp.com` until the support/knowledge-base target exists
 - do not change Vercel, DNS, Supabase Auth redirect URLs or env vars from a code task without explicit user instruction
 
@@ -62,7 +62,7 @@ Tenant subdomain routing target:
 - `app.everybatchmrp.com` is the central login / tenant selector.
 - `{tenant_slug}.everybatchmrp.com` is the tenant workspace pattern.
 - `cleaneats.everybatchmrp.com` is the target Clean Eats workspace.
-- `admin.everybatchmrp.com.au` is the preferred Platform Admin target.
+- `admin.everybatchmrp.com` is the preferred Platform Admin target.
 - `platform.everybatchmrp.com` remains earlier optional Platform Admin planning language only.
 - `support.everybatchmrp.com` is support/help.
 
@@ -186,7 +186,7 @@ The first Help & Support menu links to future `support.everybatchmrp.com` paths 
 Platform Admin should eventually live at:
 
 ```text
-admin.everybatchmrp.com.au
+admin.everybatchmrp.com
 ```
 
 Earlier `platform.everybatchmrp.com` references are legacy/optional planning language unless a later task deliberately retains that host.
@@ -211,7 +211,7 @@ Platform Shell Separation v1 is implemented at:
 /platform
 ```
 
-`/platform` and `/platform/tenants/cleaneats` now render inside a dedicated EveryBatch Platform shell instead of the tenant AppShell/sidebar. The future `admin.everybatchmrp.com.au` domain remains inactive until a reviewed routing/domain task connects it.
+`/platform` and `/platform/tenants/cleaneats` now render inside a dedicated EveryBatch Platform shell instead of the tenant AppShell/sidebar. The future `admin.everybatchmrp.com` domain remains inactive until a reviewed routing/domain task connects it.
 
 Platform Tenant Overview v1 now reads real platform metadata where available:
 
@@ -433,7 +433,7 @@ The table stores finished product sell prices by channel and keeps them separate
 
 Task 154 formalises passive domain/app-mode routing helpers. EveryBatch remains one repo, one Vercel project and one codebase, with future hostnames resolving to app modes rather than separate forks or builds.
 
-Current mappings include `app.everybatchmrp.com` as `central_app`, `admin.everybatchmrp.com.au` as the preferred `platform_admin` host, `cleaneats.everybatchmrp.com` as `tenant_app` with tenant slug `cleaneats`, `support.everybatchmrp.com` as `support`, root EveryBatch domains as `marketing`, and localhost/Vercel deployment hosts as `local_dev` style fallbacks. No DNS, Vercel, Supabase Auth, middleware, production redirects, tenant subdomain activation, migrations, RLS, permissions, route moves or business logic changes are included.
+Current mappings include `app.everybatchmrp.com` as `central_app`, `admin.everybatchmrp.com` as the preferred `platform_admin` host, `cleaneats.everybatchmrp.com` as `tenant_app` with tenant slug `cleaneats`, `support.everybatchmrp.com` as `support`, root EveryBatch domains as `marketing`, and localhost/Vercel deployment hosts as `local_dev` style fallbacks. No DNS, Vercel, Supabase Auth, middleware, production redirects, tenant subdomain activation, migrations, RLS, permissions, route moves or business logic changes are included.
 
 ## Task 155 Platform Admin App Mode Guarding
 
@@ -443,7 +443,7 @@ Local development and Vercel deployment hosts remain permissive. `app.everybatch
 
 ## Task 156 Platform Admin Domain Setup
 
-Task 156 documents the manual setup path for `admin.everybatchmrp.com.au`. The setup guide covers Vercel domain add steps, Cloudflare DNS requirements, Supabase Auth redirect URL review, signed-out/platform-admin/demo-user smoke tests and rollback notes.
+Task 156 documents the manual setup path for `admin.everybatchmrp.com`. The setup guide covers Vercel domain add steps, Cloudflare DNS requirements, Supabase Auth redirect URL review, signed-out/platform-admin/demo-user smoke tests and rollback notes.
 
 No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, tenant subdomain routing, Clean Eats host enforcement, route move, UI polish or business logic changes are included. `app.everybatchmrp.com` remains the live central app domain, and `platform.everybatchmrp.com` remains legacy/optional planning language only.
 
@@ -457,13 +457,13 @@ No tenant app shell, tenant navigation, auth, middleware, DNS, Vercel, Supabase,
 
 Task 158 activates the first Clean Eats tenant subdomain guard in code. `cleaneats.everybatchmrp.com` resolves as `tenant_app` with tenant slug `cleaneats`; `/` and `/platform/*` redirect to `/dashboard`, while tenant app routes, `/login`, `/select-workspace` and `/no-access` remain allowed.
 
-This is static Clean Eats-only v1 routing. Middleware does not read Supabase sessions or query the database. `app.everybatchmrp.com`, `admin.everybatchmrp.com.au`, localhost and Vercel preview behaviour remain unchanged. No DNS, Vercel, Supabase Auth settings, schema, migration, RLS, permission, tenant provisioning, Platform Admin business logic, tenant sidebar or business module changes are included.
+This is static Clean Eats-only v1 routing. Middleware does not read Supabase sessions or query the database. `app.everybatchmrp.com`, `admin.everybatchmrp.com`, localhost and Vercel preview behaviour remain unchanged. No DNS, Vercel, Supabase Auth settings, schema, migration, RLS, permission, tenant provisioning, Platform Admin business logic, tenant sidebar or business module changes are included.
 
 ## Task 159 Multi-Domain Smoke Test and Redirect Hardening
 
-Task 159 adds a multi-domain smoke-test checklist covering `app.everybatchmrp.com`, `admin.everybatchmrp.com.au`, `cleaneats.everybatchmrp.com` and localhost. It also hardens inactive tenant-looking subdomains so only the active Clean Eats tenant host can render tenant workspace routes in v1; other tenant subdomains allow public auth/static routes only and redirect app routes to `/login`.
+Task 159 adds a multi-domain smoke-test checklist covering `app.everybatchmrp.com`, `admin.everybatchmrp.com`, `cleaneats.everybatchmrp.com` and localhost. It also hardens inactive tenant-looking subdomains so only the active Clean Eats tenant host can render tenant workspace routes in v1; other tenant subdomains allow public auth/static routes only and redirect app routes to `/login`.
 
-The final task 159 routing fix redirects `app.everybatchmrp.com/platform` and `/platform/*` to the same path on `https://admin.everybatchmrp.com.au`, redirects `cleaneats.everybatchmrp.com/select-workspace` to `/dashboard`, and keeps localhost permissive for development. A local stale refresh-token login warning was documented as a known dev/session issue for future auth hardening if it recurs.
+The final task 159 routing fix redirects `app.everybatchmrp.com/platform` and `/platform/*` to the same path on `https://admin.everybatchmrp.com`, redirects `cleaneats.everybatchmrp.com/select-workspace` to `/dashboard`, and keeps localhost permissive for development. A local stale refresh-token login warning was documented as a known dev/session issue for future auth hardening if it recurs.
 
 No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, business logic, sidebar or design changes are included.
 
@@ -471,4 +471,10 @@ No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, business lo
 
 Task 160 records live signed-out/header smoke test results after deploying the domain routing work. `app.everybatchmrp.com` and `cleaneats.everybatchmrp.com` resolved and returned the expected redirects for central login, central Platform Admin redirect, Clean Eats tenant root, tenant workspace selector and tenant Platform Admin blocking.
 
-`admin.everybatchmrp.com.au` did not resolve from the Codex environment during task 160, so admin-domain live checks are recorded as requiring manual verification in Luke's browser/network and Vercel/Cloudflare. `app.everybatchmrp.com/dashboard` returning `200` is documented as a temporary Clean Eats fallback behaviour, with task 161 queued for Central App Tenant Redirect Hardening. No code, DNS, Vercel, Supabase Auth, schema, migration, RLS, permission, business logic, sidebar or design changes are included.
+`admin.everybatchmrp.com` did not resolve from the Codex environment during task 160, so admin-domain live checks are recorded as requiring manual verification in Luke's browser/network and Vercel/Cloudflare. `app.everybatchmrp.com/dashboard` returning `200` is documented as a temporary Clean Eats fallback behaviour, with task 161 queued for Central App Tenant Redirect Hardening. No code, DNS, Vercel, Supabase Auth, schema, migration, RLS, permission, business logic, sidebar or design changes are included.
+
+## Task 161 Central App Tenant Redirect Hardening
+
+Task 161 updates central-domain routing so `app.everybatchmrp.com` no longer renders tenant workspace routes directly. Central `/platform` routes redirect to `https://admin.everybatchmrp.com/platform...`; central tenant routes such as `/dashboard`, `/components` and `/finished-products` redirect to `/select-workspace?next=...`. The authenticated workspace selector and post-login destination helper then send tenant users to `https://cleaneats.everybatchmrp.com/...` and Platform Admin users to `https://admin.everybatchmrp.com/platform`, while localhost remains local/permissive.
+
+The correct Platform Admin domain is `admin.everybatchmrp.com`; do not use `admin.everybatchmrp.com.au`. Middleware still performs no Supabase/session/database reads. No DNS, Vercel, Supabase Auth, schema, migration, RLS, permission, tenant provisioning, business logic, sidebar or design changes are included.

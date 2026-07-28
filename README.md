@@ -23,7 +23,7 @@ Target domain architecture:
 - `everybatchmrp.com` for the public marketing site
 - `app.everybatchmrp.com` for central login
 - `cleaneats.everybatchmrp.com` for the Clean Eats tenant workspace
-- `admin.everybatchmrp.com.au` for future Platform Admin
+- `admin.everybatchmrp.com` for future Platform Admin
 - `support.everybatchmrp.com` for support and knowledge base
 
 See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-architecture.md), [EveryBatch implementation roadmap](docs/113-everybatch-implementation-roadmap.md), and [Codex project context](docs/CODEX_PROJECT_CONTEXT.md).
@@ -176,11 +176,12 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Sell Price Schema Foundation has been drafted with tenant-scoped finished product sell price storage, explicit sell price permissions and conservative RLS policies
 - Domain/app-mode routing foundation now maps EveryBatch marketing, central app, Platform Admin, tenant, support, local dev and preview hosts without activating production redirects
 - Platform Admin app-mode guarding now prevents tenant workspace routes from rendering on the planned admin host while keeping local/dev and central app behaviour unchanged
-- Platform Admin domain setup has been documented for `admin.everybatchmrp.com.au`, including Vercel, Cloudflare, Supabase Auth, smoke test and rollback checklists
+- Platform Admin domain setup has been documented for `admin.everybatchmrp.com`, including Vercel, Cloudflare, Supabase Auth, smoke test and rollback checklists
 - Platform Admin brand/UI polish now applies EveryBatch Operator Console language, current-route header titles, compact subpage context callouts, the platform green/lime palette and tenant-app-style grouped accordion/collapsible sidebar structure to the separated `/platform` shell
 - Clean Eats tenant subdomain routing v1 now guards `cleaneats.everybatchmrp.com` in code, allowing tenant app routes while redirecting `/` and `/platform/*` to `/dashboard`
 - Multi-domain smoke testing and redirect hardening now documents app/admin/tenant/localhost expected behaviour, redirects central `/platform` routes to the admin domain and blocks inactive tenant-looking subdomains from rendering app pages before activation
 - Live multi-domain smoke test results have been recorded for app/Clean Eats domains, with admin-domain DNS resolution marked for manual verification and central dashboard hardening queued as task 161
+- Central app tenant redirect hardening now prevents `app.everybatchmrp.com` tenant workspace routes from rendering Clean Eats directly and sends workspace selections to the correct tenant/admin domains
 
 ## Tech Stack
 
@@ -340,6 +341,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Tenant Subdomain Routing v1](docs/158-tenant-subdomain-routing-v1.md)
 - [Multi-Domain Smoke Test and Redirect Hardening](docs/159-multi-domain-smoke-test-and-redirect-hardening.md)
 - [Live Multi-Domain Smoke Test Results](docs/160-live-multi-domain-smoke-test-results.md)
+- [Central App Tenant Redirect Hardening](docs/161-central-app-tenant-redirect-hardening.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

@@ -6,12 +6,14 @@ This task does not add DNS records, change Vercel domain settings, change Supaba
 
 Task 160 records live post-deployment smoke test results for this matrix. See [Live Multi-Domain Smoke Test Results](160-live-multi-domain-smoke-test-results.md).
 
+Task 161 tightens the central gateway further: tenant workspace routes on `app.everybatchmrp.com` now redirect through `/select-workspace?next=...` instead of rendering Clean Eats directly.
+
 ## Domain Map
 
 | Domain | Mode | Current purpose |
 | --- | --- | --- |
 | `app.everybatchmrp.com` | `central_app` | Central login and workspace selection app. |
-| `admin.everybatchmrp.com.au` | `platform_admin` | EveryBatch Platform Admin app. |
+| `admin.everybatchmrp.com` | `platform_admin` | EveryBatch Platform Admin app. |
 | `cleaneats.everybatchmrp.com` | `tenant_app` | Clean Eats tenant workspace. |
 | `localhost` / `127.0.0.1` | `local_dev` | Permissive local development and review. |
 
@@ -23,22 +25,22 @@ Central app:
 | --- | --- | --- |
 | `app.everybatchmrp.com` | `/login` | Allowed. |
 | `app.everybatchmrp.com` | `/select-workspace` | Allowed. |
-| `app.everybatchmrp.com` | `/dashboard` | Current tenant app behaviour remains available after auth. |
-| `app.everybatchmrp.com` | `/platform` | Redirects to `https://admin.everybatchmrp.com.au/platform`. |
-| `app.everybatchmrp.com` | `/platform/*` | Redirects to the same path on `https://admin.everybatchmrp.com.au`. |
-| `app.everybatchmrp.com` | tenant routes | Current central app behaviour remains available during domain transition. |
+| `app.everybatchmrp.com` | `/dashboard` | Redirects to `/select-workspace?next=%2Fdashboard`. |
+| `app.everybatchmrp.com` | `/platform` | Redirects to `https://admin.everybatchmrp.com/platform`. |
+| `app.everybatchmrp.com` | `/platform/*` | Redirects to the same path on `https://admin.everybatchmrp.com`. |
+| `app.everybatchmrp.com` | tenant routes | Redirect to `/select-workspace?next=...`; authenticated selection sends users to the correct tenant subdomain. |
 
 Platform Admin:
 
 | Host | Path | Expected behaviour |
 | --- | --- | --- |
-| `admin.everybatchmrp.com.au` | `/` | Redirects to `/platform`. |
-| `admin.everybatchmrp.com.au` | `/login` | Allowed. |
-| `admin.everybatchmrp.com.au` | `/select-workspace` | Allowed. |
-| `admin.everybatchmrp.com.au` | `/platform` and `/platform/*` | Allowed, then existing platform guards handle auth/role access. |
-| `admin.everybatchmrp.com.au` | `/dashboard` | Redirects to `/platform`. |
-| `admin.everybatchmrp.com.au` | `/components` | Redirects to `/platform`. |
-| `admin.everybatchmrp.com.au` | `/finished-products` | Redirects to `/platform`. |
+| `admin.everybatchmrp.com` | `/` | Redirects to `/platform`. |
+| `admin.everybatchmrp.com` | `/login` | Allowed. |
+| `admin.everybatchmrp.com` | `/select-workspace` | Allowed. |
+| `admin.everybatchmrp.com` | `/platform` and `/platform/*` | Allowed, then existing platform guards handle auth/role access. |
+| `admin.everybatchmrp.com` | `/dashboard` | Redirects to `/platform`. |
+| `admin.everybatchmrp.com` | `/components` | Redirects to `/platform`. |
+| `admin.everybatchmrp.com` | `/finished-products` | Redirects to `/platform`. |
 
 Clean Eats tenant:
 
@@ -93,7 +95,7 @@ Supabase Auth Site URL should remain the central app URL during this transition:
 Redirect URLs should include the deployed domains and local development URLs used for login/logout flows:
 
 - `https://app.everybatchmrp.com/*`
-- `https://admin.everybatchmrp.com.au/*`
+- `https://admin.everybatchmrp.com/*`
 - `https://cleaneats.everybatchmrp.com/*`
 - `http://localhost:3000/*`
 - Vercel preview/production URLs retained as needed during rollout
@@ -103,7 +105,7 @@ These settings are manual. This task does not change Supabase Auth settings.
 ## Vercel / DNS Checklist
 
 - [ ] `app.everybatchmrp.com` is valid in Vercel.
-- [ ] `admin.everybatchmrp.com.au` is valid in Vercel before live Platform Admin smoke testing.
+- [ ] `admin.everybatchmrp.com` is valid in Vercel before live Platform Admin smoke testing.
 - [ ] `cleaneats.everybatchmrp.com` is valid in Vercel before live tenant smoke testing.
 - [ ] Cloudflare records use the target values requested by Vercel.
 - [ ] Cloudflare proxy remains DNS-only unless separately reviewed.
@@ -114,11 +116,11 @@ These settings are manual. This task does not change Vercel or DNS settings.
 ## Signed-Out Smoke Tests
 
 - [ ] `app.everybatchmrp.com/login` loads.
-- [ ] `app.everybatchmrp.com/platform` redirects to `https://admin.everybatchmrp.com.au/platform`.
-- [ ] `app.everybatchmrp.com/platform/tenants` redirects to `https://admin.everybatchmrp.com.au/platform/tenants`.
-- [ ] `admin.everybatchmrp.com.au/` redirects to `/platform`.
-- [ ] `admin.everybatchmrp.com.au/dashboard` redirects to `/platform`.
-- [ ] `admin.everybatchmrp.com.au/platform` is allowed, then existing auth guard handles signed-out users.
+- [ ] `app.everybatchmrp.com/platform` redirects to `https://admin.everybatchmrp.com/platform`.
+- [ ] `app.everybatchmrp.com/platform/tenants` redirects to `https://admin.everybatchmrp.com/platform/tenants`.
+- [ ] `admin.everybatchmrp.com/` redirects to `/platform`.
+- [ ] `admin.everybatchmrp.com/dashboard` redirects to `/platform`.
+- [ ] `admin.everybatchmrp.com/platform` is allowed, then existing auth guard handles signed-out users.
 - [ ] `cleaneats.everybatchmrp.com/` redirects to `/dashboard`, then existing auth guard may redirect to `/login`.
 - [ ] `cleaneats.everybatchmrp.com/select-workspace` redirects to `/dashboard`.
 - [ ] `cleaneats.everybatchmrp.com/dashboard` is allowed, then existing auth guard handles signed-out users.
@@ -128,9 +130,9 @@ These settings are manual. This task does not change Vercel or DNS settings.
 
 - [ ] Login through `app.everybatchmrp.com/login`.
 - [ ] Workspace selector shows Clean Eats workspace and Platform Admin Console.
-- [ ] `app.everybatchmrp.com/platform` redirects to `https://admin.everybatchmrp.com.au/platform`.
-- [ ] `admin.everybatchmrp.com.au/platform` loads Platform Admin.
-- [ ] `admin.everybatchmrp.com.au/dashboard` redirects to `/platform`.
+- [ ] `app.everybatchmrp.com/platform` redirects to `https://admin.everybatchmrp.com/platform`.
+- [ ] `admin.everybatchmrp.com/platform` loads Platform Admin.
+- [ ] `admin.everybatchmrp.com/dashboard` redirects to `/platform`.
 - [ ] `cleaneats.everybatchmrp.com/dashboard` loads Clean Eats workspace.
 - [ ] `cleaneats.everybatchmrp.com/platform` redirects to `/dashboard`.
 
@@ -140,7 +142,7 @@ These settings are manual. This task does not change Vercel or DNS settings.
 - [ ] `cleaneats.everybatchmrp.com/dashboard` loads.
 - [ ] Tenant routes load according to existing module/permission rules.
 - [ ] `/platform` on `cleaneats.everybatchmrp.com` does not render Platform Admin.
-- [ ] `/platform` on `admin.everybatchmrp.com.au` remains blocked by existing platform guards for non-platform users.
+- [ ] `/platform` on `admin.everybatchmrp.com` remains blocked by existing platform guards for non-platform users.
 
 ## Demo / Non-Platform User Tests
 

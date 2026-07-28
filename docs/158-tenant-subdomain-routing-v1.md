@@ -76,7 +76,7 @@ The tenant host allows current tenant workspace routes including:
 
 `app.everybatchmrp.com` remains the central app domain and keeps current login/workspace selector behaviour.
 
-`admin.everybatchmrp.com.au` remains the Platform Admin host. The existing Platform Admin guard is preserved:
+`admin.everybatchmrp.com` remains the Platform Admin host. The existing Platform Admin guard is preserved:
 
 - `/platform` is allowed
 - tenant app routes redirect to `/platform`
@@ -117,8 +117,8 @@ Host simulation:
 - `cleaneats.everybatchmrp.com/finished-products` -> allowed
 - `cleaneats.everybatchmrp.com/platform` -> redirects to `/dashboard`
 - `cleaneats.everybatchmrp.com/platform/tenants` -> redirects to `/dashboard`
-- `admin.everybatchmrp.com.au/dashboard` -> redirects to `/platform`
-- `admin.everybatchmrp.com.au/platform` -> allowed
+- `admin.everybatchmrp.com/dashboard` -> redirects to `/platform`
+- `admin.everybatchmrp.com/platform` -> allowed
 - `localhost/dashboard` -> allowed
 - `localhost/platform` -> allowed
 

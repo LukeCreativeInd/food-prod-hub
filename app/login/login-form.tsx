@@ -46,6 +46,11 @@ export function LoginForm() {
     try {
       const destination = await getPostLoginDestination();
 
+      if (/^https?:\/\//.test(destination)) {
+        window.location.assign(destination);
+        return;
+      }
+
       router.push(destination);
       router.refresh();
     } catch {

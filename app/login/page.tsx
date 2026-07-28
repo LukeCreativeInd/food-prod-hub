@@ -1,17 +1,30 @@
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 import { LoginBrandPanel } from "@/components/auth/login-brand-panel";
 import { LoginFormCard } from "@/components/auth/login-form-card";
 import { getCurrentUser } from "@/lib/auth";
-import { getCurrentUserWorkspaceOptions } from "@/lib/workspace-options";
+import {
+  getCurrentUserWorkspaceOptions,
+  getWorkspaceDestinationHref,
+} from "@/lib/workspace-options";
 
 export default async function LoginPage() {
   const user = await getCurrentUser();
 
   if (user) {
-    const workspaceOptions = await getCurrentUserWorkspaceOptions();
+    const [workspaceOptions, requestHeaders] = await Promise.all([
+      getCurrentUserWorkspaceOptions(),
+      headers(),
+    ]);
+    const currentHost =
+      requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
 
-    redirect(workspaceOptions.defaultDestination.href);
+    redirect(
+      getWorkspaceDestinationHref(workspaceOptions.defaultDestination, {
+        currentHost,
+      }),
+    );
   }
 
   return (

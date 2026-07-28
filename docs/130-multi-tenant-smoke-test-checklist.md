@@ -28,7 +28,7 @@ This checklist is documentation only. It does not change app code, routes, middl
 - [ ] No mixed content warnings appear.
 - [ ] `everybatchmrp.com` root is not incorrectly pointing to the tenant app.
 - [ ] `cleaneats.everybatchmrp.com` is active only after task 158 code, Vercel, DNS and Supabase Auth URL checks are complete.
-- [ ] `admin.everybatchmrp.com.au` is not active unless Platform Admin domain routing is complete.
+- [ ] `admin.everybatchmrp.com` is not active unless Platform Admin domain routing is complete.
 - [ ] `platform.everybatchmrp.com` is not active unless deliberately retained as a legacy/optional Platform Admin host.
 - [ ] `support.everybatchmrp.com` is not active unless support destination setup is complete.
 
@@ -46,10 +46,12 @@ Clean Eats tenant host checks:
 
 Central and Platform Admin host checks:
 
-- [ ] `app.everybatchmrp.com/platform` redirects to `https://admin.everybatchmrp.com.au/platform`.
-- [ ] `app.everybatchmrp.com/platform/tenants` redirects to `https://admin.everybatchmrp.com.au/platform/tenants`.
-- [ ] `admin.everybatchmrp.com.au/platform` is allowed.
-- [ ] `admin.everybatchmrp.com.au/dashboard` redirects to `/platform`.
+- [ ] `app.everybatchmrp.com/platform` redirects to `https://admin.everybatchmrp.com/platform`.
+- [ ] `app.everybatchmrp.com/platform/tenants` redirects to `https://admin.everybatchmrp.com/platform/tenants`.
+- [ ] `app.everybatchmrp.com/dashboard` redirects to `/select-workspace?next=%2Fdashboard`.
+- [ ] `app.everybatchmrp.com/components` redirects to `/select-workspace?next=%2Fcomponents`.
+- [ ] `admin.everybatchmrp.com/platform` is allowed.
+- [ ] `admin.everybatchmrp.com/dashboard` redirects to `/platform`.
 - [ ] localhost remains permissive for `/platform` during development.
 
 See [Multi-domain smoke test and redirect hardening](159-multi-domain-smoke-test-and-redirect-hardening.md) for the current domain redirect matrix.
@@ -305,7 +307,7 @@ SQL/admin checks:
 
 - Tenant subdomain routing is not active.
 - `cleaneats.everybatchmrp.com` is not active.
-- `admin.everybatchmrp.com.au` is not active.
+- `admin.everybatchmrp.com` is not active.
 - `platform.everybatchmrp.com` remains legacy/optional and is not active.
 - `support.everybatchmrp.com` is not active.
 - Marketing root `everybatchmrp.com` is not active.
@@ -320,7 +322,7 @@ Task 154 adds passive resolver and route-intent helpers. Before enabling any hos
 
 - [ ] `localhost:3000` resolves as `local_dev` with Clean Eats fallback.
 - [ ] `app.everybatchmrp.com` resolves as `central_app`.
-- [ ] `admin.everybatchmrp.com.au` resolves as `platform_admin`.
+- [ ] `admin.everybatchmrp.com` resolves as `platform_admin`.
 - [ ] `cleaneats.everybatchmrp.com` resolves as `tenant_app` with `tenantSlug = cleaneats`.
 - [ ] `support.everybatchmrp.com` resolves as `support`.
 - [ ] `everybatchmrp.com` resolves as `marketing`.
@@ -331,12 +333,12 @@ These checks do not require DNS changes while the helpers remain passive.
 
 Task 155 adds narrow middleware enforcement for `platform_admin` mode only. When host simulation is practical, verify:
 
-- [ ] `Host: admin.everybatchmrp.com.au` with `/` redirects to `/platform`.
-- [ ] `Host: admin.everybatchmrp.com.au` with `/dashboard` redirects to `/platform`.
-- [ ] `Host: admin.everybatchmrp.com.au` with `/components` redirects to `/platform`.
-- [ ] `Host: admin.everybatchmrp.com.au` with `/finished-products` redirects to `/platform`.
-- [ ] `Host: admin.everybatchmrp.com.au` with `/platform` is allowed.
-- [ ] `Host: admin.everybatchmrp.com.au` with `/login` is allowed.
+- [ ] `Host: admin.everybatchmrp.com` with `/` redirects to `/platform`.
+- [ ] `Host: admin.everybatchmrp.com` with `/dashboard` redirects to `/platform`.
+- [ ] `Host: admin.everybatchmrp.com` with `/components` redirects to `/platform`.
+- [ ] `Host: admin.everybatchmrp.com` with `/finished-products` redirects to `/platform`.
+- [ ] `Host: admin.everybatchmrp.com` with `/platform` is allowed.
+- [ ] `Host: admin.everybatchmrp.com` with `/login` is allowed.
 - [ ] `localhost:3000/dashboard` remains allowed.
 - [ ] `app.everybatchmrp.com/platform` remains allowed until the admin domain is live and reviewed.
 
@@ -344,17 +346,17 @@ Tenant subdomain enforcement remains deferred.
 
 ## Task 156 Platform Admin Domain Setup Checks
 
-Use [Platform Admin Domain Setup](156-platform-admin-domain-setup.md) before connecting `admin.everybatchmrp.com.au`.
+Use [Platform Admin Domain Setup](156-platform-admin-domain-setup.md) before connecting `admin.everybatchmrp.com`.
 
 Manual setup checks:
 
-- [ ] Add `admin.everybatchmrp.com.au` to the existing Vercel project.
+- [ ] Add `admin.everybatchmrp.com` to the existing Vercel project.
 - [ ] Copy the exact DNS target/verification values from Vercel.
 - [ ] Add the Cloudflare `admin` DNS record for `everybatchmrp.com.au`.
 - [ ] Keep Cloudflare proxy DNS only while Vercel validates, unless Vercel instructs otherwise.
 - [ ] Confirm Vercel marks the domain valid.
 - [ ] Confirm HTTPS/SSL works.
-- [ ] Add required Supabase Auth redirect URLs for `admin.everybatchmrp.com.au`.
+- [ ] Add required Supabase Auth redirect URLs for `admin.everybatchmrp.com`.
 - [ ] Keep existing `app.everybatchmrp.com`, Vercel and localhost auth URLs.
 - [ ] Run signed-out, platform-admin, non-platform/demo, central app and local dev smoke tests.
 - [ ] Keep rollback notes available before changing DNS.

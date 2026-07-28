@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 import { selectWorkspaceAction } from "@/app/select-workspace/actions";
 import { LogoutButton } from "@/components/auth/logout-button";
@@ -12,12 +13,14 @@ import {
 } from "@/lib/platform-brand";
 import {
   getCurrentUserWorkspaceOptions,
+  getWorkspaceDestinationHref,
   type WorkspaceOption,
 } from "@/lib/workspace-options";
 
 type PageProps = {
   searchParams: Promise<{
     error?: string;
+    next?: string;
   }>;
 };
 
@@ -76,7 +79,21 @@ function PlatformMark() {
   );
 }
 
-function WorkspaceCard({ workspace }: { workspace: WorkspaceOption }) {
+function getSafeNextPath(value: string | undefined) {
+  if (!value?.startsWith("/") || value.startsWith("//")) {
+    return null;
+  }
+
+  return value;
+}
+
+function WorkspaceCard({
+  workspace,
+  nextPath,
+}: {
+  workspace: WorkspaceOption;
+  nextPath: string | null;
+}) {
   return (
     <form
       action={selectWorkspaceAction}
@@ -118,6 +135,8 @@ function WorkspaceCard({ workspace }: { workspace: WorkspaceOption }) {
         </div>
       </div>
 
+      {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
+
       <button
         type="submit"
         name="slug"
@@ -130,10 +149,10 @@ function WorkspaceCard({ workspace }: { workspace: WorkspaceOption }) {
   );
 }
 
-function PlatformAdminCard() {
+function PlatformAdminCard({ href }: { href: string }) {
   return (
     <Link
-      href="/platform"
+      href={href}
       className="rounded-3xl border border-green-200 bg-green-950 p-5 text-white shadow-lg shadow-green-950/15 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-green-950/20"
     >
       <div className="flex items-start gap-4">
@@ -184,19 +203,44 @@ function NoWorkspaceState() {
 }
 
 export default async function SelectWorkspacePage({ searchParams }: PageProps) {
-  const [workspaceOptions, query] = await Promise.all([
+  const [workspaceOptions, query, requestHeaders] = await Promise.all([
     getCurrentUserWorkspaceOptions(),
     searchParams,
+    headers(),
   ]);
 
   if (!workspaceOptions.isAuthenticated) {
     redirect("/login");
   }
 
+  const currentHost =
+    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+  const nextPath = getSafeNextPath(query.next);
+
+  if (
+    nextPath &&
+    !workspaceOptions.isPlatformAdmin &&
+    workspaceOptions.workspaces.length === 1
+  ) {
+    redirect(
+      getWorkspaceDestinationHref(workspaceOptions.defaultDestination, {
+        currentHost,
+        nextPath,
+      }),
+    );
+  }
+
   const errorMessage = query.error ? errorMessages[query.error] : null;
   const hasWorkspaces = workspaceOptions.workspaces.length > 0;
   const showNoWorkspaceState =
     !hasWorkspaces && !workspaceOptions.isPlatformAdmin;
+  const platformAdminHref = getWorkspaceDestinationHref(
+    {
+      type: "platform",
+      href: "/platform",
+    },
+    { currentHost },
+  );
 
   return (
     <main className="min-h-screen bg-[#eef4ea] px-5 py-8 md:px-8 lg:px-10">
@@ -271,9 +315,12 @@ export default async function SelectWorkspacePage({ searchParams }: PageProps) {
                   <WorkspaceCard
                     key={workspace.organisationId}
                     workspace={workspace}
+                    nextPath={nextPath}
                   />
                 ))}
-                {workspaceOptions.isPlatformAdmin ? <PlatformAdminCard /> : null}
+                {workspaceOptions.isPlatformAdmin ? (
+                  <PlatformAdminCard href={platformAdminHref} />
+                ) : null}
               </div>
             )}
           </div>

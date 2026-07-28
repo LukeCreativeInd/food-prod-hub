@@ -5,6 +5,7 @@ import {
   PLATFORM_ADMIN_DOMAIN,
   PLATFORM_PRIMARY_DOMAIN,
 } from "@/lib/platform-brand";
+import { parseEveryBatchHost } from "@/lib/tenant-resolver";
 import { resolveTenantFromSlug } from "@/lib/tenant-lookup";
 import { createClient } from "@/lib/supabase/server";
 
@@ -109,6 +110,53 @@ function getTenantDashboardDestination(slug: string): WorkspaceDestination {
   };
 }
 
+function normaliseDestinationPath(path: string | null | undefined) {
+  if (!path) {
+    return "/dashboard";
+  }
+
+  if (!path.startsWith("/")) {
+    return `/${path}`;
+  }
+
+  return path;
+}
+
+export function getTenantSubdomainUrl(slug: string, path = "/dashboard") {
+  return `https://${slug}.${PLATFORM_PRIMARY_DOMAIN}${normaliseDestinationPath(path)}`;
+}
+
+export function getPlatformAdminUrl(path = "/platform") {
+  return `https://${PLATFORM_ADMIN_DOMAIN}${normaliseDestinationPath(path)}`;
+}
+
+export function getWorkspaceDestinationHref(
+  destination: WorkspaceDestination,
+  options?: {
+    currentHost?: string | null;
+    nextPath?: string | null;
+  },
+) {
+  const currentMode = options?.currentHost
+    ? parseEveryBatchHost(options.currentHost).mode
+    : "unknown";
+  const isLocalLike = currentMode === "local_dev";
+
+  if (destination.type === "platform") {
+    return isLocalLike ? destination.href : getPlatformAdminUrl(destination.href);
+  }
+
+  if (destination.type === "tenant" && destination.tenantSlug) {
+    const path = normaliseDestinationPath(options?.nextPath ?? destination.href);
+
+    return isLocalLike
+      ? path
+      : getTenantSubdomainUrl(destination.tenantSlug, path);
+  }
+
+  return destination.href;
+}
+
 async function resolveTenantFromOrganisationId(organisationId: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -151,7 +199,7 @@ export function getDefaultPostLoginDestination(
     return {
       type: "platform",
       href: "/platform",
-      futureHref: `https://${PLATFORM_ADMIN_DOMAIN}`,
+      futureHref: getPlatformAdminUrl("/platform"),
     };
   }
 

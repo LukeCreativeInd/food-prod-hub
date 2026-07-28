@@ -10,7 +10,7 @@ export const PLATFORM_PRIMARY_DOMAIN = "everybatchmrp.com";
 export const PLATFORM_APP_DOMAIN = "app.everybatchmrp.com";
 export const PLATFORM_CENTRAL_APP_DOMAIN = PLATFORM_APP_DOMAIN;
 export const PLATFORM_SUPPORT_DOMAIN = "support.everybatchmrp.com";
-export const PLATFORM_ADMIN_DOMAIN = "admin.everybatchmrp.com.au";
+export const PLATFORM_ADMIN_DOMAIN = "admin.everybatchmrp.com";
 export const PLATFORM_SUPPORT_URL = "https://support.everybatchmrp.com";
 export const PLATFORM_KNOWLEDGE_BASE_URL =
   "https://support.everybatchmrp.com/knowledge-base";

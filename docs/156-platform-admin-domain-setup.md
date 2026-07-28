@@ -5,14 +5,14 @@ Task 156 prepares the manual setup plan for the real EveryBatch Platform Admin d
 Domain:
 
 ```text
-admin.everybatchmrp.com.au
+admin.everybatchmrp.com
 ```
 
 This task does not add DNS records, change Vercel settings, change Supabase Auth settings, activate tenant subdomain routing, change database schema, create migrations, change RLS, change permissions, move routes, change business logic or install packages.
 
 ## Purpose
 
-`admin.everybatchmrp.com.au` is the future EveryBatch Platform Admin/operator console.
+`admin.everybatchmrp.com` is the future EveryBatch Platform Admin/operator console.
 
 It is not a tenant workspace.
 
@@ -40,7 +40,7 @@ app.everybatchmrp.com
 Platform Admin domain not yet connected:
 
 ```text
-admin.everybatchmrp.com.au
+admin.everybatchmrp.com
 ```
 
 Legacy/optional Platform Admin planning host:
@@ -57,13 +57,13 @@ In the existing Vercel project:
 
 - [ ] Open the EveryBatch/Food Prod Hub Vercel project.
 - [ ] Add domain:
-  - `admin.everybatchmrp.com.au`
+  - `admin.everybatchmrp.com`
 - [ ] Wait for Vercel to show DNS instructions.
 - [ ] Copy the exact CNAME and/or verification values Vercel provides.
 - [ ] Do not guess or reuse the `app.everybatchmrp.com` DNS target unless Vercel explicitly shows the same value.
 - [ ] Do not remove `app.everybatchmrp.com`.
 - [ ] Do not remove the current Vercel production URL.
-- [ ] Wait for Vercel to mark `admin.everybatchmrp.com.au` as valid.
+- [ ] Wait for Vercel to mark `admin.everybatchmrp.com` as valid.
 - [ ] Confirm Vercel SSL/HTTPS is active.
 
 ## Cloudflare DNS Checklist
@@ -75,7 +75,7 @@ In Cloudflare for `everybatchmrp.com.au`:
 - [ ] Target/value must be copied from the Vercel domain instructions.
 - [ ] Set Cloudflare proxy to DNS only while Vercel validates the record, unless Vercel's current instructions say otherwise.
 - [ ] Wait for DNS propagation.
-- [ ] Confirm `https://admin.everybatchmrp.com.au` resolves.
+- [ ] Confirm `https://admin.everybatchmrp.com` resolves.
 - [ ] Confirm there are no SSL warnings.
 - [ ] Do not add wildcard tenant DNS as part of this task.
 - [ ] Do not connect `cleaneats.everybatchmrp.com` as part of this task.
@@ -86,10 +86,10 @@ Review Supabase Auth URL configuration before testing login from the admin domai
 
 Add admin domain URLs if the current auth flow requires them:
 
-- `https://admin.everybatchmrp.com.au`
-- `https://admin.everybatchmrp.com.au/login`
-- `https://admin.everybatchmrp.com.au/platform`
-- `https://admin.everybatchmrp.com.au/select-workspace`
+- `https://admin.everybatchmrp.com`
+- `https://admin.everybatchmrp.com/login`
+- `https://admin.everybatchmrp.com/platform`
+- `https://admin.everybatchmrp.com/select-workspace`
 
 Keep existing URLs:
 
@@ -107,11 +107,11 @@ Do not remove existing redirect URLs during the transition.
 
 Signed out:
 
-- `https://admin.everybatchmrp.com.au`
+- `https://admin.everybatchmrp.com`
   - redirects to `/platform`, then existing auth guard should send to `/login`
-- `https://admin.everybatchmrp.com.au/login`
+- `https://admin.everybatchmrp.com/login`
   - loads the login page
-- `https://admin.everybatchmrp.com.au/dashboard`
+- `https://admin.everybatchmrp.com/dashboard`
   - redirects to `/platform`, then login/no-access behaviour depends on auth state
 
 Signed in as `platform_admin`:
@@ -148,18 +148,18 @@ Local development:
 
 - [ ] Code build passes.
 - [ ] Host simulation still confirms admin host guard behaviour.
-- [ ] `lib/platform-brand.ts` uses `admin.everybatchmrp.com.au` as `PLATFORM_ADMIN_DOMAIN`.
+- [ ] `lib/platform-brand.ts` uses `admin.everybatchmrp.com` as `PLATFORM_ADMIN_DOMAIN`.
 - [ ] `platform.everybatchmrp.com` is documented as legacy/optional where referenced.
 
 ### After Vercel And DNS Validate
 
 Signed out:
 
-- [ ] Visit `https://admin.everybatchmrp.com.au`.
+- [ ] Visit `https://admin.everybatchmrp.com`.
 - [ ] Confirm it lands safely on login through `/platform` auth guard flow.
-- [ ] Visit `https://admin.everybatchmrp.com.au/login`.
+- [ ] Visit `https://admin.everybatchmrp.com/login`.
 - [ ] Confirm login page loads.
-- [ ] Visit `https://admin.everybatchmrp.com.au/dashboard`.
+- [ ] Visit `https://admin.everybatchmrp.com/dashboard`.
 - [ ] Confirm tenant dashboard does not render on admin domain.
 
 Signed in as `platform_admin`:
@@ -196,7 +196,7 @@ Local dev:
 
 If the admin domain setup causes issues:
 
-- remove or disable `admin.everybatchmrp.com.au` from the Vercel project
+- remove or disable `admin.everybatchmrp.com` from the Vercel project
 - remove or disable the Cloudflare `admin` DNS record if needed
 - keep `app.everybatchmrp.com` live
 - keep the current Vercel production URL available
