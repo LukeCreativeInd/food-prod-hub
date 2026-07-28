@@ -466,3 +466,9 @@ Task 159 adds a multi-domain smoke-test checklist covering `app.everybatchmrp.co
 The final task 159 routing fix redirects `app.everybatchmrp.com/platform` and `/platform/*` to the same path on `https://admin.everybatchmrp.com.au`, redirects `cleaneats.everybatchmrp.com/select-workspace` to `/dashboard`, and keeps localhost permissive for development. A local stale refresh-token login warning was documented as a known dev/session issue for future auth hardening if it recurs.
 
 No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, business logic, sidebar or design changes are included.
+
+## Task 160 Live Multi-Domain Smoke Test Results
+
+Task 160 records live signed-out/header smoke test results after deploying the domain routing work. `app.everybatchmrp.com` and `cleaneats.everybatchmrp.com` resolved and returned the expected redirects for central login, central Platform Admin redirect, Clean Eats tenant root, tenant workspace selector and tenant Platform Admin blocking.
+
+`admin.everybatchmrp.com.au` did not resolve from the Codex environment during task 160, so admin-domain live checks are recorded as requiring manual verification in Luke's browser/network and Vercel/Cloudflare. `app.everybatchmrp.com/dashboard` returning `200` is documented as a temporary Clean Eats fallback behaviour, with task 161 queued for Central App Tenant Redirect Hardening. No code, DNS, Vercel, Supabase Auth, schema, migration, RLS, permission, business logic, sidebar or design changes are included.

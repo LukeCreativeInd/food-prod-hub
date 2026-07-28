@@ -180,6 +180,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Platform Admin brand/UI polish now applies EveryBatch Operator Console language, current-route header titles, compact subpage context callouts, the platform green/lime palette and tenant-app-style grouped accordion/collapsible sidebar structure to the separated `/platform` shell
 - Clean Eats tenant subdomain routing v1 now guards `cleaneats.everybatchmrp.com` in code, allowing tenant app routes while redirecting `/` and `/platform/*` to `/dashboard`
 - Multi-domain smoke testing and redirect hardening now documents app/admin/tenant/localhost expected behaviour, redirects central `/platform` routes to the admin domain and blocks inactive tenant-looking subdomains from rendering app pages before activation
+- Live multi-domain smoke test results have been recorded for app/Clean Eats domains, with admin-domain DNS resolution marked for manual verification and central dashboard hardening queued as task 161
 
 ## Tech Stack
 
@@ -338,6 +339,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Platform Admin Brand/UI Polish](docs/157-platform-admin-brand-ui-polish.md)
 - [Tenant Subdomain Routing v1](docs/158-tenant-subdomain-routing-v1.md)
 - [Multi-Domain Smoke Test and Redirect Hardening](docs/159-multi-domain-smoke-test-and-redirect-hardening.md)
+- [Live Multi-Domain Smoke Test Results](docs/160-live-multi-domain-smoke-test-results.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

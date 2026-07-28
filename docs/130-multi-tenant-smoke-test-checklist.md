@@ -54,6 +54,8 @@ Central and Platform Admin host checks:
 
 See [Multi-domain smoke test and redirect hardening](159-multi-domain-smoke-test-and-redirect-hardening.md) for the current domain redirect matrix.
 
+See [Live multi-domain smoke test results](160-live-multi-domain-smoke-test-results.md) for the latest recorded deployed results and manual follow-ups.
+
 ## 2. DNS / Vercel Checks
 
 - [ ] Vercel shows `app.everybatchmrp.com` as Valid Configuration.

@@ -4,6 +4,8 @@ Task 159 verifies the current EveryBatch multi-domain routing behaviour and adds
 
 This task does not add DNS records, change Vercel domain settings, change Supabase Auth settings, create dynamic tenant domain management, create a tenant domains table, change schema, create migrations, change RLS, change permissions or alter app business logic.
 
+Task 160 records live post-deployment smoke test results for this matrix. See [Live Multi-Domain Smoke Test Results](160-live-multi-domain-smoke-test-results.md).
+
 ## Domain Map
 
 | Domain | Mode | Current purpose |
