@@ -6,6 +6,8 @@ This task does not add DNS records, change Vercel domain settings, change Supaba
 
 Task 155 builds on this foundation with a narrow Platform Admin app-mode guard. The guard only redirects tenant workspace routes when the host resolves as `platform_admin`; tenant subdomain enforcement remains deferred.
 
+Task 156 documents the manual setup process for connecting `admin.everybatchmrp.com.au`. It does not change DNS, Vercel, Supabase Auth settings or routing behaviour by code.
+
 ## Strategy
 
 EveryBatch should continue as:

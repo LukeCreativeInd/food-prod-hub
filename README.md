@@ -176,6 +176,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Sell Price Schema Foundation has been drafted with tenant-scoped finished product sell price storage, explicit sell price permissions and conservative RLS policies
 - Domain/app-mode routing foundation now maps EveryBatch marketing, central app, Platform Admin, tenant, support, local dev and preview hosts without activating production redirects
 - Platform Admin app-mode guarding now prevents tenant workspace routes from rendering on the planned admin host while keeping local/dev and central app behaviour unchanged
+- Platform Admin domain setup has been documented for `admin.everybatchmrp.com.au`, including Vercel, Cloudflare, Supabase Auth, smoke test and rollback checklists
 
 ## Tech Stack
 
@@ -330,6 +331,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Sell Price Schema Foundation](docs/153-sell-price-schema-foundation.md)
 - [Domain / App Mode Routing Foundation](docs/154-domain-app-mode-routing-foundation.md)
 - [Platform Admin App Mode Guarding](docs/155-platform-admin-app-mode-guarding.md)
+- [Platform Admin Domain Setup](docs/156-platform-admin-domain-setup.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

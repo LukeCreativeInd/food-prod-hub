@@ -440,3 +440,9 @@ Current mappings include `app.everybatchmrp.com` as `central_app`, `admin.everyb
 Task 155 adds lightweight middleware for the planned Platform Admin host. When the host resolves as `platform_admin`, `/` and tenant workspace routes redirect to `/platform`, while `/login`, `/select-workspace`, `/no-access`, `/platform/*`, assets and Next internals remain allowed.
 
 Local development and Vercel deployment hosts remain permissive. `app.everybatchmrp.com` central app behaviour remains unchanged, including temporary `/platform` access while the admin domain is not live. Tenant app host enforcement for `cleaneats.everybatchmrp.com` remains deferred. No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, tenant subdomain activation, route move or business logic changes are included.
+
+## Task 156 Platform Admin Domain Setup
+
+Task 156 documents the manual setup path for `admin.everybatchmrp.com.au`. The setup guide covers Vercel domain add steps, Cloudflare DNS requirements, Supabase Auth redirect URL review, signed-out/platform-admin/demo-user smoke tests and rollback notes.
+
+No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, tenant subdomain routing, Clean Eats host enforcement, route move, UI polish or business logic changes are included. `app.everybatchmrp.com` remains the live central app domain, and `platform.everybatchmrp.com` remains legacy/optional planning language only.

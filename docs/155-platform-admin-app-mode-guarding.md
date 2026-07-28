@@ -4,6 +4,8 @@ Task 155 adds safe app-mode-aware guarding for the planned EveryBatch Platform A
 
 This is a code-only guard task. It does not add DNS records, change Vercel domains, change Supabase Auth redirect URLs, activate tenant subdomain routing, enforce Clean Eats tenant subdomain routing, change database schema, create migrations, change RLS, change permissions, change tenant provisioning, change app business logic or install packages.
 
+Task 156 adds the manual setup guide for connecting `admin.everybatchmrp.com.au`. The guard in task 155 remains unchanged.
+
 ## What Is Enforced
 
 When the request host resolves as:

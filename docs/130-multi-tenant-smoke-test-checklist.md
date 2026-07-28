@@ -318,6 +318,23 @@ Task 155 adds narrow middleware enforcement for `platform_admin` mode only. When
 
 Tenant subdomain enforcement remains deferred.
 
+## Task 156 Platform Admin Domain Setup Checks
+
+Use [Platform Admin Domain Setup](156-platform-admin-domain-setup.md) before connecting `admin.everybatchmrp.com.au`.
+
+Manual setup checks:
+
+- [ ] Add `admin.everybatchmrp.com.au` to the existing Vercel project.
+- [ ] Copy the exact DNS target/verification values from Vercel.
+- [ ] Add the Cloudflare `admin` DNS record for `everybatchmrp.com.au`.
+- [ ] Keep Cloudflare proxy DNS only while Vercel validates, unless Vercel instructs otherwise.
+- [ ] Confirm Vercel marks the domain valid.
+- [ ] Confirm HTTPS/SSL works.
+- [ ] Add required Supabase Auth redirect URLs for `admin.everybatchmrp.com.au`.
+- [ ] Keep existing `app.everybatchmrp.com`, Vercel and localhost auth URLs.
+- [ ] Run signed-out, platform-admin, non-platform/demo, central app and local dev smoke tests.
+- [ ] Keep rollback notes available before changing DNS.
+
 ## Migration Notes
 
 No SQL migration was created.

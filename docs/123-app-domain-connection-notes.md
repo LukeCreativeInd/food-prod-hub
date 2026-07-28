@@ -111,6 +111,8 @@ If `app.everybatchmrp.com` fails:
 
 Task 154 adds passive domain/app-mode resolver and route-intent helpers. It does not change the live `app.everybatchmrp.com` setup, DNS, Vercel domains, Supabase Auth redirect URLs or production redirect behaviour.
 
+Task 156 documents the separate manual setup checklist for `admin.everybatchmrp.com.au`. That domain should be connected independently from `app.everybatchmrp.com` and must follow Vercel's exact DNS instructions.
+
 ## Follow-Ups
 
 Proposed follow-ups:
