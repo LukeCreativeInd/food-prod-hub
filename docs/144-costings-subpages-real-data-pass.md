@@ -108,6 +108,8 @@ Task 145 adds [Component / Formula Import Foundation Plan](145-component-formula
 
 Task 146 adds [Component / Formula Builder v1](146-component-formula-builder-v1.md). Component formulas created manually through that builder can improve Component Costs readiness, but task 144 still does not add a unit conversion engine, batch costing engine or sell price/margin logic.
 
+Task 150 adds [Finished Product Formula Builder Plan](150-finished-product-formula-builder-plan.md). It keeps Meal Margins conservative: finished product formula cost can become readiness input later, but margins remain blocked until reliable sell price storage and agreed margin rules exist.
+
 ## Follow-Up Fix Before Commit
 
 The shared Costings page wrapper no longer renders a second large content title/hero. Page titles remain in the persistent app header, and page content starts with summary cards and real-data sections.

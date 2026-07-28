@@ -170,6 +170,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Formula import planning has been added before building staff template import, review or commit flows
 - Component Formula Builder v1 now supports manual component formula creation, header editing and line management using current formula tables
 - Tenant workspace page headings have been cleaned up so the persistent app header is the single main page title, while entity detail pages can still show the specific record name in content
+- Finished Product Formula Builder planning now confirms the current formula schema can support manual finished product formulas without a migration, while sell price and margin calculations remain future work
 
 ## Tech Stack
 
@@ -318,6 +319,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [FCP/LCP frontend optimisation pass](docs/147-fcp-lcp-frontend-optimisation-pass.md)
 - [Tenant route redirect consistency](docs/148-tenant-route-redirect-consistency.md)
 - [Tenant page heading cleanup](docs/149-tenant-page-heading-cleanup.md)
+- [Finished Product Formula Builder Plan](docs/150-finished-product-formula-builder-plan.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

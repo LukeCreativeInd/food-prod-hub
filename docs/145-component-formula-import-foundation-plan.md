@@ -145,6 +145,8 @@ Known examples include:
 
 Finished product margin calculation remains blocked until sell price storage and costing rules exist.
 
+Task 150 adds [Finished Product Formula Builder Plan](150-finished-product-formula-builder-plan.md), which confirms the manual builder should use the same schema targets and validation rules as future reviewed imports.
+
 ## Production Methods / Routes Mapping
 
 Production Methods / Routes are not imported into current formula tables.

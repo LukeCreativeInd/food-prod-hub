@@ -397,3 +397,9 @@ This is redirect-only. It does not move canonical pages, change tenant sidebar n
 Task 149 removes generic duplicated tenant page headings now that the persistent app header owns the main page title. Broad workspace pages start directly with summary cards, status badges, tables, forms or section cards instead of repeating titles such as Dashboard, Products, Inventory, Production, Suppliers, Modules or Supplier Invoice Intake in the content area.
 
 Entity detail pages may still show the specific record name inside the content area when the app header uses a generic detail title such as Component Detail, Supplier Detail, Internal Item Detail, Stock Location Detail or Finished Product Detail. No routing, sidebar, auth, permissions, RLS, Platform Admin, Supplier Invoice Intake parser/commit, Costings or Formula Builder business logic changes are included.
+
+## Task 150 Finished Product Formula Builder Plan
+
+Task 150 plans the future Finished Product Formula Builder v1. It confirms the current `internal_items`, `formula_versions`, `formula_lines` and `approved_supplier_prices` foundation can support tenant-scoped finished product formulas without a migration.
+
+Finished product formula outputs should use `internal_items.item_type = finished_product` and `formula_versions.formula_type = finished_product`. Lines should reference component, ingredient and packaging internal items through `formula_lines.input_internal_item_id`. Costing readiness remains conservative, and Meal Margins remain blocked until sell price storage and agreed margin rules exist. No write actions, forms, imports, migrations, Platform Admin changes, Supplier Invoice Intake changes or sidebar changes are included.

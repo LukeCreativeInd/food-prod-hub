@@ -4,6 +4,8 @@ Task 146 adds the first usable manual builder foundation for component and batch
 
 This task does not add workbook/CSV import, parser actions, finished product formula editing, production method routes, tablet workflows, QA checklist generation, stock movements, sell price management, broad costing rules, Platform Admin changes, tenant provisioning changes or database migrations.
 
+Task 150 adds [Finished Product Formula Builder Plan](150-finished-product-formula-builder-plan.md). Finished product editing should follow the same tenant-scoped schema and permission pattern, but remains a future implementation task.
+
 ## Schema Used
 
 No migration was required.
