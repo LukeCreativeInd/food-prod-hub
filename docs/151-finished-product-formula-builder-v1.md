@@ -148,9 +148,9 @@ Margin readiness is shown separately from cost readiness.
 Current behaviour:
 
 - if cost is not ready, margin is blocked by cost readiness
-- if cost is ready, margin remains pending sell price storage
+- if cost is ready and an active current sell price has known tax mode, task 171 can show a conservative read-only margin preview
 
-No sell price storage exists yet, so no actual margin value or percentage is calculated.
+The Finished Product Formula Builder still does not create sell prices, calculate margins inside the detail page or add a GST/tax engine.
 
 ## Permissions
 
@@ -380,8 +380,8 @@ where ii.display_name = 'Test Naked Chicken'
 
 ## Follow-Ups
 
-- Sell price storage and channel pricing plan.
-- Meal margin calculation once sell prices and tax/margin rules are agreed.
+- Sell price channel filtering and history views.
+- Expanded meal margin calculation once GST/tax rules are agreed.
 - Formula import implementation using the task 145/150 mapping rules.
 - Unit conversion rules.
 - Production methods/routes.
@@ -391,3 +391,5 @@ where ii.display_name = 'Test Naked Chicken'
 Task 152 adds [Sell Price Storage And Margin Readiness Plan](152-sell-price-storage-and-margin-readiness-plan.md). It keeps sell prices separate from supplier costs and confirms no margin engine should run until sell price storage, tax basis and margin rules exist.
 
 Task 153 adds [Sell Price Schema Foundation](153-sell-price-schema-foundation.md), drafting the tenant-scoped `finished_product_sell_prices` migration and explicit sell price permissions. The Finished Product Formula Builder still does not create or manage sell prices.
+
+Task 171 adds [Meal Margins Real Calculation v1](171-meal-margins-real-calculation-v1.md), which can use cost-ready finished product formulas for conservative read-only gross margin previews.

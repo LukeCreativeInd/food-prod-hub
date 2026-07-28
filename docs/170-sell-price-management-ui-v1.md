@@ -136,14 +136,14 @@ Archived prices do not count as active/current prices.
 
 Draft prices do not count as sell price ready. Archived prices do not count as sell price ready.
 
-It still does not calculate final margins. It can show readiness states such as:
+Task 171 now adds a conservative real margin preview when formula cost, active sell price, currency and tax mode are safe. It can still show blocker states such as:
 
 - missing sell price
 - tax mode unknown
 - formula cost not ready
 - ready for margin calculation
 
-Final margin percentage/dollar calculation remains task 171.
+Full GST normalisation, margin snapshots, Shopify sync, discounts, subscriptions and approval workflows remain future work.
 
 ## Permissions
 
@@ -266,4 +266,4 @@ order by o.slug;
 
 ## Next Step
 
-Task 171 should add Meal Margins Real Calculation v1 after tax, channel and costing rules are confirmed.
+Task 171 adds [Meal Margins Real Calculation v1](171-meal-margins-real-calculation-v1.md), a conservative read-only gross margin preview for safe active sell price and formula cost combinations.

@@ -6,7 +6,7 @@ EveryBatch is a Food Manufacturing OS for modern food manufacturers. Clean Eats 
 
 The platform is intended to support food manufacturers with one operating hub and modular workflows. Clean Eats is Client 1, but the codebase should be planned so future clients can use configurable modules without client-specific forks.
 
-The current app includes the foundation for an internal operations hub: app shell, grouped module navigation, placeholder pages, Tailwind CSS styling, and Supabase environment placeholders. Business logic, authentication, database schema, costing calculations, and complex Supabase behavior are intentionally not implemented yet.
+The current app includes the foundation for an internal operations hub: app shell, grouped module navigation, Tailwind CSS styling, Supabase auth/RLS foundations, real data scaffolds and conservative first-pass costing/margin previews. Broader production business logic, automation and complex operational workflows remain intentionally scoped for later reviewed tasks.
 
 ## EveryBatch Brand Direction
 
@@ -356,6 +356,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Brand Asset Schema Foundation](docs/168-brand-asset-schema-foundation.md)
 - [Tenant / Platform Logo + Icon Upload UI v1](docs/169-tenant-platform-logo-icon-upload-ui-v1.md)
 - [Sell Price Management UI v1](docs/170-sell-price-management-ui-v1.md)
+- [Meal Margins Real Calculation v1](docs/171-meal-margins-real-calculation-v1.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)
@@ -559,9 +560,10 @@ Repeat invoice and price change behaviour is documented in [Repeat Invoice and P
 - Repeat Cammaroto invoice matching and price-change indicators for reviewed intake lines
 - Tenant-scoped inventory location master records with read/create/edit UI only
 - Read-only Costings dashboard summary using approved supplier prices, price observations and formula readiness indicators
+- Read-only Meal Margins gross margin preview using cost-ready formulas and active current sell prices only
 - Read-only Production dashboard scaffold using inventory locations, formulas and internal item setup signals
 - Tenant-scoped, permission-aware global search across accessible pages and current core records
 - Frontend FCP/LCP optimisation pass for Dashboard, Organisation Settings, Suppliers and Platform routes
 - Consistent tenant nested-route redirects for natural Products, Production, Inventory, Admin and Tools URLs
 
-No costing calculations, broad production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.
+No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

@@ -100,6 +100,17 @@ type FinishedProductSellPriceRow = {
   archived_at: string | null;
 };
 
+type FormulaCostResult = {
+  ready: boolean;
+  totalCost: number | null;
+  unitCost: number | null;
+  outputUnit: string;
+  outputQuantity: number | null;
+  blockers: string[];
+  lineCount: number;
+  pricedLineCount: number;
+};
+
 type BaseCostingsData = {
   internalItems: InternalItemRow[];
   suppliers: SupplierRow[];
@@ -171,18 +182,36 @@ export type FormulaCostsData = {
 };
 
 export type MealMarginsData = {
-  products: Array<
-    FormulaCostingRow & {
-      sellPrice: string;
-      estimatedMargin: string;
-    }
-  >;
+  products: {
+    id: string;
+    finishedProduct: {
+      label: string;
+      href: string;
+    };
+    formula: string;
+    formulaStatus: string;
+    productCost: string;
+    sellPrice: string;
+    channel: string;
+    taxMode: string;
+    grossProfit: string;
+    grossMarginPercent: string;
+    markupPercent: string;
+    readiness: string;
+    blockers: string;
+    action: {
+      label: string;
+      href: string;
+    };
+  }[];
   summary: {
     totalFinishedProducts: number;
     productsWithFormulaData: number;
     productsWithCompleteCostingInputs: number;
+    productsWithActiveSellPrice: number;
     productsMissingSellPrice: number;
     productsReadyForMarginCalculation: number;
+    blockedProducts: number;
   };
 };
 
@@ -237,6 +266,14 @@ function formatCurrency(value: number | string | null | undefined, currency = "A
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(numericValue);
+}
+
+function formatPercent(value: number | null | undefined) {
+  if (value === null || value === undefined || !Number.isFinite(value)) {
+    return "Blocked";
+  }
+
+  return `${value.toFixed(1)}%`;
 }
 
 function formatDate(value: string | null | undefined) {
@@ -305,6 +342,14 @@ function latestCurrentPriceByInternalItem(
   });
 
   return latestPrices;
+}
+
+function isActiveCurrentSellPrice(price: FinishedProductSellPriceRow) {
+  return (
+    price.status === "active" &&
+    !price.archived_at &&
+    !price.effective_to
+  );
 }
 
 function groupMappingsByInternalItem(mappings: SupplierItemMappingRow[]) {
@@ -395,16 +440,13 @@ async function getBaseCostingsData(): Promise<BaseCostingsData> {
       .select("id, formula_version_id, input_internal_item_id, quantity, unit")
       .eq("organisation_id", organisationId)
       .is("archived_at", null),
-    supabase
-      .from("finished_product_sell_prices")
-      .select(
-        "id, finished_product_internal_item_id, channel_key, channel_label, price_amount, currency_code, tax_mode, effective_from, effective_to, status, archived_at",
-      )
-      .eq("organisation_id", organisationId)
-      .eq("status", "active")
-      .is("archived_at", null)
-      .is("effective_to", null)
-      .order("effective_from", { ascending: false }),
+	    supabase
+	      .from("finished_product_sell_prices")
+	      .select(
+	        "id, finished_product_internal_item_id, channel_key, channel_label, price_amount, currency_code, tax_mode, effective_from, effective_to, status, archived_at",
+	      )
+	      .eq("organisation_id", organisationId)
+	      .order("effective_from", { ascending: false }),
   ]);
 
   if (internalItemsResult.error) {
@@ -562,10 +604,7 @@ function buildItemCostsData(
   };
 }
 
-function buildFormulaCostsData(
-  data: BaseCostingsData,
-  formulaType: "component" | "finished_product",
-): FormulaCostsData {
+function buildFormulaCostContext(data: BaseCostingsData) {
   const internalItemById = new Map(
     data.internalItems.map((item) => [item.id, item]),
   );
@@ -579,45 +618,146 @@ function buildFormulaCostsData(
 
     return grouped;
   }, new Map<string, FormulaLineRow[]>());
+  const activeFormulaByOutputItem = new Map<string, FormulaVersionRow>();
+
+  data.formulaVersions
+    .filter((formula) => formula.status === "active")
+    .forEach((formula) => {
+      if (!activeFormulaByOutputItem.has(formula.output_internal_item_id)) {
+        activeFormulaByOutputItem.set(formula.output_internal_item_id, formula);
+      }
+    });
+
+  function calculateFormulaCost(
+    formula: FormulaVersionRow,
+    formulaStack = new Set<string>(),
+  ): FormulaCostResult {
+    if (formulaStack.has(formula.id)) {
+      return {
+        ready: false,
+        totalCost: null,
+        unitCost: null,
+        outputUnit: formula.output_unit,
+        outputQuantity: numberValue(formula.output_quantity),
+        blockers: ["Formula cycle detected"],
+        lineCount: 0,
+        pricedLineCount: 0,
+      };
+    }
+
+    const nextStack = new Set(formulaStack);
+    nextStack.add(formula.id);
+    const lines = linesByFormula.get(formula.id) ?? [];
+    const outputQuantity = numberValue(formula.output_quantity);
+    const blockers: string[] = [];
+    let pricedLineCount = 0;
+    let totalCost = 0;
+
+    if (lines.length === 0) {
+      blockers.push("Formula lines required");
+    }
+
+    if (outputQuantity === null || outputQuantity <= 0) {
+      blockers.push("Formula output quantity required");
+    }
+
+    lines.forEach((line) => {
+      const inputItem = internalItemById.get(line.input_internal_item_id);
+      const quantity = numberValue(line.quantity);
+
+      if (!inputItem) {
+        blockers.push("Input item missing");
+        return;
+      }
+
+      if (quantity === null || quantity <= 0) {
+        blockers.push(`${inputItem.display_name}: quantity required`);
+        return;
+      }
+
+      if (inputItem.item_type === "component") {
+        const componentFormula = activeFormulaByOutputItem.get(inputItem.id);
+
+        if (!componentFormula) {
+          blockers.push(`${inputItem.display_name}: active component formula required`);
+          return;
+        }
+
+        const componentCost = calculateFormulaCost(componentFormula, nextStack);
+
+        if (!componentCost.ready || componentCost.unitCost === null) {
+          blockers.push(`${inputItem.display_name}: component cost blocked`);
+          return;
+        }
+
+        if (componentCost.outputUnit !== line.unit) {
+          blockers.push(`${inputItem.display_name}: unit conversion required`);
+          return;
+        }
+
+        totalCost += componentCost.unitCost * quantity;
+        pricedLineCount += 1;
+        return;
+      }
+
+      const price = currentPriceByInternalItem.get(line.input_internal_item_id);
+      const priceValue = numberValue(price?.unit_price);
+
+      if (!price || priceValue === null) {
+        blockers.push(`${inputItem.display_name}: approved input price required`);
+        return;
+      }
+
+      if (price.currency !== "AUD") {
+        blockers.push(`${inputItem.display_name}: AUD input price required`);
+        return;
+      }
+
+      if (!price.purchase_unit || price.purchase_unit !== line.unit) {
+        blockers.push(`${inputItem.display_name}: unit conversion required`);
+        return;
+      }
+
+      totalCost += priceValue * quantity;
+      pricedLineCount += 1;
+    });
+
+    const ready =
+      blockers.length === 0 &&
+      lines.length > 0 &&
+      outputQuantity !== null &&
+      outputQuantity > 0;
+
+    return {
+      ready,
+      totalCost: ready ? totalCost : null,
+      unitCost: ready && outputQuantity ? totalCost / outputQuantity : null,
+      outputUnit: formula.output_unit,
+      outputQuantity,
+      blockers,
+      lineCount: lines.length,
+      pricedLineCount,
+    };
+  }
+
+  return {
+    activeFormulaByOutputItem,
+    calculateFormulaCost,
+    internalItemById,
+    linesByFormula,
+  };
+}
+
+function buildFormulaCostsData(
+  data: BaseCostingsData,
+  formulaType: "component" | "finished_product",
+): FormulaCostsData {
+  const { calculateFormulaCost, internalItemById } = buildFormulaCostContext(data);
   const formulas = data.formulaVersions
     .filter((formula) => formula.formula_type === formulaType)
     .map((formula) => {
       const outputItem = internalItemById.get(formula.output_internal_item_id);
-      const lines = linesByFormula.get(formula.id) ?? [];
-      const pricedLines = lines.filter((line) =>
-        currentPriceByInternalItem.has(line.input_internal_item_id),
-      );
-      const missingInputs = lines.filter(
-        (line) => !currentPriceByInternalItem.has(line.input_internal_item_id),
-      );
-      const lineCosts = lines.map((line) => {
-        const price = currentPriceByInternalItem.get(line.input_internal_item_id);
-        const priceValue = numberValue(price?.unit_price);
-        const quantity = numberValue(line.quantity);
-
-        if (
-          !price ||
-          priceValue === null ||
-          quantity === null ||
-          (price.purchase_unit && price.purchase_unit !== line.unit)
-        ) {
-          return null;
-        }
-
-        return priceValue * quantity;
-      });
-      const outputQuantity = numberValue(formula.output_quantity);
-      const allLineCosts = lineCosts.filter(
-        (value): value is number => value !== null,
-      );
-      const canEstimate =
-        lines.length > 0 &&
-        allLineCosts.length === lineCosts.length &&
-        outputQuantity !== null &&
-        outputQuantity > 0;
-      const totalCost = canEstimate
-        ? allLineCosts.reduce((sum, value) => sum + value, 0)
-        : null;
+      const cost = calculateFormulaCost(formula);
 
       return {
         id: formula.id,
@@ -630,26 +770,26 @@ function buildFormulaCostsData(
         formulaName: formula.version_name,
         status: labelFromKey(formula.status),
         output: `${formula.output_quantity} ${formula.output_unit}`,
-        lineCount: String(lines.length),
-        pricedLineCount: `${pricedLines.length} / ${lines.length}`,
+        lineCount: String(cost.lineCount),
+        pricedLineCount: `${cost.pricedLineCount} / ${cost.lineCount}`,
         missingInputs:
-          lines.length === 0
+          cost.lineCount === 0
             ? "Formula lines required"
-            : missingInputs.length === 0
+            : cost.blockers.length === 0
               ? "No missing priced inputs"
-              : `${missingInputs.length} missing priced input(s)`,
+              : cost.blockers.slice(0, 2).join("; "),
         estimatedCost:
-          totalCost !== null && outputQuantity !== null
-            ? `${formatCurrency(totalCost)} total / ${formatCurrency(
-                totalCost / outputQuantity,
+          cost.ready && cost.totalCost !== null && cost.unitCost !== null
+            ? `${formatCurrency(cost.totalCost)} total / ${formatCurrency(
+                cost.unitCost,
               )} per ${formula.output_unit}`
             : "Cost calculation pending formula pricing rules",
         readiness:
-          lines.length === 0
+          cost.lineCount === 0
             ? "Missing formula lines"
-            : missingInputs.length > 0
+            : cost.blockers.length > 0
               ? "Missing input prices"
-              : totalCost !== null
+              : cost.ready
                 ? "Ready for costing review"
                 : "Pricing rules required",
       };
@@ -719,68 +859,187 @@ export async function getComponentCostsData(): Promise<FormulaCostsData> {
 export async function getMealMarginsData(): Promise<MealMarginsData> {
   const timingStartedAt = Date.now();
   const data = await getBaseCostingsData();
-  const formulaData = buildFormulaCostsData(data, "finished_product");
-  const activeSellPriceByProduct = new Map<string, FinishedProductSellPriceRow>();
+  const { activeFormulaByOutputItem, calculateFormulaCost } =
+    buildFormulaCostContext(data);
+  const finishedProducts = data.internalItems.filter(
+    (item) => item.item_type === "finished_product",
+  );
+  const formulaVersionsByOutputItem = data.formulaVersions.reduce(
+    (grouped, formula) => {
+      if (formula.formula_type !== "finished_product") {
+        return grouped;
+      }
 
-  data.sellPrices.forEach((price) => {
-    if (!activeSellPriceByProduct.has(price.finished_product_internal_item_id)) {
-      activeSellPriceByProduct.set(price.finished_product_internal_item_id, price);
+      const current = grouped.get(formula.output_internal_item_id) ?? [];
+      current.push(formula);
+      grouped.set(formula.output_internal_item_id, current);
+
+      return grouped;
+    },
+    new Map<string, FormulaVersionRow[]>(),
+  );
+  const activeSellPricesByProduct = data.sellPrices
+    .filter(isActiveCurrentSellPrice)
+    .reduce((grouped, price) => {
+      const current = grouped.get(price.finished_product_internal_item_id) ?? [];
+      current.push(price);
+      grouped.set(price.finished_product_internal_item_id, current);
+
+      return grouped;
+    }, new Map<string, FinishedProductSellPriceRow[]>());
+  const draftSellPriceProductIds = new Set(
+    data.sellPrices
+      .filter((price) => price.status === "draft" && !price.archived_at)
+      .map((price) => price.finished_product_internal_item_id),
+  );
+  const costReadyProductIds = new Set<string>();
+  const activeSellPriceProductIds = new Set(activeSellPricesByProduct.keys());
+  const marginReadyProductIds = new Set<string>();
+  const blockedProductIds = new Set<string>();
+  const products = finishedProducts.flatMap((product) => {
+    const activeFormula = activeFormulaByOutputItem.get(product.id);
+    const formulaVersions = formulaVersionsByOutputItem.get(product.id) ?? [];
+    const formulaCost = activeFormula ? calculateFormulaCost(activeFormula) : null;
+    const sellPrices = activeSellPricesByProduct.get(product.id) ?? [];
+    const rowSellPrices: Array<FinishedProductSellPriceRow | null> =
+      sellPrices.length > 0 ? sellPrices : [null];
+
+    if (formulaCost?.ready) {
+      costReadyProductIds.add(product.id);
     }
+
+    return rowSellPrices.map((sellPrice) => {
+      const blockers: string[] = [];
+
+      if (!activeFormula) {
+        blockers.push(
+          formulaVersions.length > 0
+            ? "Active finished product formula required"
+            : "Missing formula",
+        );
+      } else if (!formulaCost?.ready) {
+        blockers.push(...(formulaCost?.blockers ?? ["Formula cost blocked"]));
+      }
+
+      if (!sellPrice) {
+        blockers.push(
+          draftSellPriceProductIds.has(product.id)
+            ? "Draft sell price only"
+            : "Missing sell price",
+        );
+      } else if (sellPrice.tax_mode === "unknown") {
+        blockers.push("Tax mode required");
+      } else if (sellPrice.currency_code !== "AUD") {
+        blockers.push("Currency mismatch");
+      }
+
+      const sellPriceAmount = numberValue(sellPrice?.price_amount);
+      const productCostAmount = formulaCost?.unitCost ?? null;
+      const canCalculate =
+        blockers.length === 0 &&
+        productCostAmount !== null &&
+        sellPriceAmount !== null &&
+        sellPriceAmount > 0;
+      const grossProfit =
+        canCalculate && productCostAmount !== null
+          ? sellPriceAmount - productCostAmount
+          : null;
+      const grossMarginPercent =
+        canCalculate && grossProfit !== null
+          ? (grossProfit / sellPriceAmount) * 100
+          : null;
+      const markupPercent =
+        canCalculate && grossProfit !== null && productCostAmount !== null && productCostAmount > 0
+          ? (grossProfit / productCostAmount) * 100
+          : null;
+      const readiness =
+        canCalculate && grossProfit !== null
+          ? grossProfit < 0
+            ? "Margin ready - negative"
+            : "Margin ready"
+          : blockers[0] ?? "Blocked";
+
+      if (readiness.startsWith("Margin ready")) {
+        marginReadyProductIds.add(product.id);
+      } else {
+        blockedProductIds.add(product.id);
+      }
+
+      return {
+        id: `${product.id}:${sellPrice?.id ?? "missing-sell-price"}`,
+        finishedProduct: {
+          label: product.display_name,
+          href: `/finished-products/${product.id}`,
+        },
+        formula: activeFormula
+          ? activeFormula.version_name
+          : formulaVersions.length > 0
+            ? "No active formula"
+            : "Missing formula",
+        formulaStatus: activeFormula ? labelFromKey(activeFormula.status) : "Blocked",
+        productCost:
+          formulaCost?.ready && formulaCost.unitCost !== null
+            ? `${formatCurrency(formulaCost.unitCost)} per ${formulaCost.outputUnit}`
+            : "Blocked",
+        sellPrice: sellPrice
+          ? formatCurrency(sellPrice.price_amount, sellPrice.currency_code)
+          : draftSellPriceProductIds.has(product.id)
+            ? "Draft only"
+            : "Missing",
+        channel: sellPrice
+          ? sellPrice.channel_label ?? labelFromKey(sellPrice.channel_key)
+          : "No active channel",
+        taxMode: sellPrice
+          ? sellPrice.tax_mode === "unknown"
+            ? "Tax mode required"
+            : labelFromKey(sellPrice.tax_mode)
+          : "Blocked",
+        grossProfit:
+          grossProfit !== null
+            ? formatCurrency(grossProfit, sellPrice?.currency_code ?? "AUD")
+            : "Blocked",
+        grossMarginPercent: formatPercent(grossMarginPercent),
+        markupPercent: formatPercent(markupPercent),
+        readiness,
+        blockers: blockers.length > 0 ? blockers.slice(0, 3).join("; ") : "None",
+        action:
+          !activeFormula
+            ? {
+                label: "Open finished product",
+                href: `/finished-products/${product.id}`,
+              }
+            : !sellPrice
+              ? {
+                  label: "Open sell prices",
+                  href: "/sell-prices",
+                }
+              : {
+                  label: "Review sell price",
+                  href: "/sell-prices",
+                },
+      };
+    });
   });
-
-  const products = formulaData.formulas.map((formula) => ({
-    ...formula,
-    sellPrice: (() => {
-      const sellPrice = activeSellPriceByProduct.get(formula.outputItem.href.split("/").at(-1) ?? "");
-
-      if (!sellPrice) {
-        return "Missing sell price";
-      }
-
-      return `${formatCurrency(
-        sellPrice.price_amount,
-        sellPrice.currency_code,
-      )} · ${sellPrice.channel_label ?? labelFromKey(sellPrice.channel_key)} · ${
-        sellPrice.tax_mode === "unknown" ? "tax review needed" : labelFromKey(sellPrice.tax_mode)
-      }`;
-    })(),
-    estimatedMargin: (() => {
-      const sellPrice = activeSellPriceByProduct.get(formula.outputItem.href.split("/").at(-1) ?? "");
-
-      if (!sellPrice) {
-        return "Blocked: missing sell price";
-      }
-
-      if (sellPrice.tax_mode === "unknown") {
-        return "Blocked: tax mode unknown";
-      }
-
-      return formula.readiness === "Ready for costing review"
-        ? "Ready for margin calculation"
-        : "Blocked: formula cost not ready";
-    })(),
-  }));
-  const productsMissingSellPrice = products.filter((product) =>
-    product.sellPrice === "Missing sell price",
-  ).length;
-  const productsReadyForMarginCalculation = products.filter(
-    (product) => product.estimatedMargin === "Ready for margin calculation",
+  const productsMissingSellPrice = finishedProducts.filter(
+    (product) => !activeSellPriceProductIds.has(product.id),
   ).length;
 
   const result = {
     products,
     summary: {
-      totalFinishedProducts: products.length,
-      productsWithFormulaData: products.length,
-      productsWithCompleteCostingInputs:
-        formulaData.summary.formulasWithAllPricedInputs,
+      totalFinishedProducts: finishedProducts.length,
+      productsWithFormulaData: formulaVersionsByOutputItem.size,
+      productsWithCompleteCostingInputs: costReadyProductIds.size,
+      productsWithActiveSellPrice: activeSellPriceProductIds.size,
       productsMissingSellPrice,
-      productsReadyForMarginCalculation,
+      productsReadyForMarginCalculation: marginReadyProductIds.size,
+      blockedProducts: blockedProductIds.size,
     },
   };
 
   logDevRouteTiming("costings.meal-margins-data", timingStartedAt, {
-    finishedProductFormulaCount: result.summary.totalFinishedProducts,
+    finishedProductCount: result.summary.totalFinishedProducts,
+    marginReadyProducts: result.summary.productsReadyForMarginCalculation,
   });
 
   return result;

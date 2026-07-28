@@ -66,12 +66,18 @@ Estimated component cost is shown only when every formula line has a current app
 
 Meal Margins now reads real finished product formula data where available.
 
-It does not fake sell prices or margins. Because sell price storage is not currently part of the schema, the page shows:
+Task 171 updates Meal Margins to calculate conservative real gross margin previews when formula cost and active sell price data are safe. The original task 144 behaviour remains important: the page still does not fake sell prices or margins when data is missing or unsafe.
 
-- `Sell price not stored yet`
-- `Margin pending sell price`
+The page shows blockers such as:
 
-This keeps the page useful for readiness review without inventing commercial data.
+- `Missing formula`
+- `Formula cost blocked`
+- `Missing sell price`
+- `Draft sell price only`
+- `Tax mode required`
+- `Unit conversion required`
+
+This keeps the page useful for margin review without inventing commercial data.
 
 ## Price History
 

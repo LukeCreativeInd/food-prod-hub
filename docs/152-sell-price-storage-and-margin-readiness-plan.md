@@ -181,9 +181,9 @@ Margin should remain blocked if:
 
 ## Margin Calculation Plan
 
-Do not implement this yet.
+Task 171 implements the first conservative read-only margin preview in [Meal Margins Real Calculation v1](171-meal-margins-real-calculation-v1.md).
 
-Future formulas to review:
+Formulas used for the v1 preview:
 
 - gross profit amount = net sell price - product cost
 - gross margin percent = gross profit amount / net sell price
@@ -195,6 +195,8 @@ Important:
 - do not fake tax normalisation without accounting rules
 - display currency consistently in AUD unless tenant settings say otherwise
 - margin preview and margin active states should be visibly different
+
+Task 171 still does not add GST/tax normalisation, snapshots, approval workflows, Shopify sync, discount logic, subscription pricing or wholesale quoting.
 
 ## Future UI Routes
 

@@ -31,7 +31,9 @@ function badgeTone(value: DataTableCell | undefined) {
   if (
     normalisedValue.includes("missing") ||
     normalisedValue.includes("review") ||
-    normalisedValue.includes("flagged")
+    normalisedValue.includes("flagged") ||
+    normalisedValue.includes("blocked") ||
+    normalisedValue.includes("required")
   ) {
     return "warning" as const;
   }

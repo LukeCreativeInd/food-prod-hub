@@ -202,6 +202,14 @@ Task 170 adds `/sell-prices` as the first tenant sell price management page for 
 
 Sell price actions validate finished product ownership/type, channel, currency, tax mode, source, dates and non-negative amounts. Archive is soft only. Duplicate active open-ended prices are blocked per finished product/channel, while draft prices can coexist as review candidates. Meal Margins only treats active, non-archived, open-ended sell prices as readiness inputs and still does not calculate final margins.
 
+## Task 171 Meal Margins Real Calculation
+
+Task 171 updates `/meal-margins` to show conservative read-only gross margin previews. It uses active finished product formulas, safe formula input costs, active current sell prices, AUD currency and known tax modes only.
+
+Margin formulas are `gross_profit_amount = sell_price_amount - product_cost`, `gross_margin_percent = gross_profit_amount / sell_price_amount * 100` and `markup_percent = gross_profit_amount / product_cost * 100` when product cost is greater than zero. Draft or archived sell prices, unknown tax modes, missing formulas, missing input prices, component formula blockers and unit mismatches block calculation instead of producing fake margins.
+
+No GST engine, tax normalisation, margin snapshots, Shopify sync, discount logic, subscription pricing, wholesale quoting, approval workflows, migrations or write actions are added.
+
 Platform/admin surfaces should use EveryBatch branding.
 
 EveryBatch brand constants live in:
