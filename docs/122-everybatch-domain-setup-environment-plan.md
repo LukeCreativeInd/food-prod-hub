@@ -32,7 +32,8 @@ Do not plan around `everybatch.com`; it is not available.
 | `everybatch.com.au` | AU brand protection / redirect | Hold or redirect later. |
 | `app.everybatchmrp.com` | Central EveryBatch app login / future tenant selector | Live and validated in Vercel. |
 | `cleaneats.everybatchmrp.com` | Clean Eats tenant workspace | Hold until tenant workspace host routing is implemented. |
-| `platform.everybatchmrp.com` | Platform Admin control centre | Hold until Platform Admin shell separation exists. |
+| `admin.everybatchmrp.com.au` | Preferred Platform Admin control centre | Hold until Platform Admin domain routing is implemented. |
+| `platform.everybatchmrp.com` | Legacy/optional Platform Admin host | Hold; recognised in code as platform_admin compatibility only. |
 | `support.everybatchmrp.com` | Support / knowledge base / tickets | Hold until support destination is selected. |
 
 ## Current Temporary State
@@ -83,6 +84,7 @@ Do not connect these to the current tenant app yet:
 - `everybatchmrp.com.au`
 - `everybatch.com.au`
 - `cleaneats.everybatchmrp.com`
+- `admin.everybatchmrp.com.au`
 - `platform.everybatchmrp.com`
 - `support.everybatchmrp.com`
 
@@ -112,7 +114,8 @@ Follow Vercel's generated instructions as the source of truth for any future dom
 Later, separate tasks can configure:
 
 - `everybatchmrp.com` for a marketing or coming-soon site
-- `platform.everybatchmrp.com` after Platform Admin shell separation
+- `admin.everybatchmrp.com.au` after Platform Admin domain routing is reviewed
+- `platform.everybatchmrp.com` only if the legacy/optional Platform Admin host is still wanted
 - wildcard tenant subdomains after tenant resolver implementation
 - `support.everybatchmrp.com` after support destination selection
 - AU redirects after the root domain behaviour is agreed
@@ -164,7 +167,8 @@ Keep existing URLs during transition:
 Later additions:
 
 - `https://cleaneats.everybatchmrp.com/login`
-- `https://platform.everybatchmrp.com`
+- `https://admin.everybatchmrp.com.au`
+- `https://platform.everybatchmrp.com` only if the legacy/optional Platform Admin host is retained
 - support/admin callback URLs only if those surfaces later use auth
 
 Do not change Supabase settings as part of this documentation task.

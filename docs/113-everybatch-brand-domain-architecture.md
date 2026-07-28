@@ -184,7 +184,7 @@ customername.everybatchmrp.com
 ### Platform Admin
 
 ```text
-platform.everybatchmrp.com
+admin.everybatchmrp.com.au
 ```
 
 Purpose:
@@ -202,9 +202,10 @@ Purpose:
 
 Current state:
 
-- Platform currently exists as a guarded module inside the tenant app shell.
+- Platform currently exists as a guarded `/platform` shell in the same app.
 - This is acceptable during early development.
-- Long term, Platform should separate into `platform.everybatchmrp.com`.
+- Long term, Platform should separate into `admin.everybatchmrp.com.au`.
+- Earlier `platform.everybatchmrp.com` references are legacy/optional planning language.
 
 ### Support And Knowledge Base
 
@@ -293,7 +294,7 @@ EveryBatch should not dominate the tenant workspace. The customer should feel th
 Route target:
 
 ```text
-platform.everybatchmrp.com
+admin.everybatchmrp.com.au
 ```
 
 Should show:
@@ -466,6 +467,14 @@ Future implementation tasks should be reviewed separately and kept scoped:
 Task 117 adds static EveryBatch brand constants and applies EveryBatch to platform metadata, login/auth copy, subtle tenant shell trust-layer wording and Platform Admin copy.
 
 It does not implement domain routing, central tenant selector, Platform Admin separation or marketing/support surfaces.
+
+## Task 154 Domain / App Mode Routing Foundation
+
+Task 154 updates the domain/app-mode foundation so one EveryBatch codebase can serve future marketing, central app, Platform Admin, tenant workspace, support, local development and preview modes.
+
+Current preferred Platform Admin host is `admin.everybatchmrp.com.au`. Earlier `platform.everybatchmrp.com` references remain legacy/optional planning language unless deliberately retained later.
+
+No DNS, Vercel, Supabase Auth, middleware, production redirect or tenant subdomain activation changes are made by task 154.
 
 ## Migration Notes
 

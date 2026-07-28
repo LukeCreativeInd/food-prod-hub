@@ -103,8 +103,13 @@ If `app.everybatchmrp.com` fails:
 - `app.everybatchmrp.com` is now live as the first stable EveryBatch app/login URL.
 - `everybatchmrp.com` root remains reserved for marketing/coming-soon and should not point to the tenant app yet.
 - `cleaneats.everybatchmrp.com` remains future until tenant workspace host routing is implemented.
-- `platform.everybatchmrp.com` is held until Platform Admin shell separation exists.
+- `admin.everybatchmrp.com.au` is the preferred future Platform Admin host and remains held until Platform Admin domain routing is implemented.
+- `platform.everybatchmrp.com` remains earlier optional Platform Admin planning language only.
 - `support.everybatchmrp.com` is held until support/knowledge base setup exists.
+
+## Task 154 Routing Foundation Note
+
+Task 154 adds passive domain/app-mode resolver and route-intent helpers. It does not change the live `app.everybatchmrp.com` setup, DNS, Vercel domains, Supabase Auth redirect URLs or production redirect behaviour.
 
 ## Follow-Ups
 

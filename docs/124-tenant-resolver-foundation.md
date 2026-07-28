@@ -29,6 +29,14 @@ The helper contains:
 - `resolveTenantFromSlug(slug)`
 - `DEFAULT_LOCAL_DEV_TENANT_SLUG = "cleaneats"`
 
+Task 154 strengthens this helper and adds route-intent helpers in:
+
+```text
+lib/app-mode-routing.ts
+```
+
+The task 154 helpers are passive only. They do not add middleware or activate host-based redirects.
+
 ## App Modes
 
 Supported app modes:
@@ -50,7 +58,8 @@ Supported app modes:
 | `everybatchmrp.com.au` | `marketing` | none |
 | `everybatch.com.au` | `marketing` | none |
 | `app.everybatchmrp.com` | `central_app` | none |
-| `platform.everybatchmrp.com` | `platform_admin` | none |
+| `admin.everybatchmrp.com.au` | `platform_admin` | none |
+| `platform.everybatchmrp.com` | `platform_admin` | none, legacy/optional compatibility |
 | `support.everybatchmrp.com` | `support` | none |
 | `cleaneats.everybatchmrp.com` | `tenant_app` | `cleaneats` |
 | `{tenant_slug}.everybatchmrp.com` | `tenant_app` | `{tenant_slug}` |
@@ -123,7 +132,8 @@ Future tasks can use this foundation for:
 - central login / tenant selector
 - tenant app host routing
 - `cleaneats.everybatchmrp.com` tenant workspace routing
-- `platform.everybatchmrp.com` Platform Admin shell routing
+- `admin.everybatchmrp.com.au` Platform Admin shell routing
+- optional/legacy `platform.everybatchmrp.com` Platform Admin shell routing if retained
 - support/marketing host separation
 - custom domain mapping
 - `tenant_domains` schema
@@ -138,7 +148,7 @@ Manual/pure helper examples to inspect later:
 | --- | --- |
 | `app.everybatchmrp.com` | `central_app` |
 | `cleaneats.everybatchmrp.com` | `tenant_app` |
-| `platform.everybatchmrp.com` | `platform_admin` |
+| `admin.everybatchmrp.com.au` | `platform_admin` |
 | `support.everybatchmrp.com` | `support` |
 | `everybatchmrp.com` | `marketing` |
 | `localhost:3000` | `local_dev` |

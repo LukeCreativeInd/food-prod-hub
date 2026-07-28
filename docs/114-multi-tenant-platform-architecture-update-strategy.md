@@ -561,7 +561,7 @@ Target routing:
 everybatchmrp.com                 public marketing site
 app.everybatchmrp.com             central login / tenant selector
 cleaneats.everybatchmrp.com       Clean Eats tenant workspace
-platform.everybatchmrp.com        Platform Admin
+admin.everybatchmrp.com.au        Platform Admin
 support.everybatchmrp.com         support / knowledge base
 ```
 
@@ -596,8 +596,9 @@ Target Platform Admin functions:
 
 Current state:
 
-- Platform exists as a guarded module in the tenant app shell.
-- Long term, it should separate to `platform.everybatchmrp.com`.
+- Platform exists as a guarded `/platform` shell in the same app.
+- Long term, it should separate to `admin.everybatchmrp.com.au`.
+- Earlier `platform.everybatchmrp.com` references are legacy/optional planning language.
 - Platform Admin should not feel like a normal tenant module once the platform-owner surface matures.
 
 ## Support And Knowledge Base Model
@@ -650,6 +651,14 @@ Task 121 drafts the first database-backed feature flag foundation:
 - server-side helper functions in `lib/feature-flags.ts`
 
 Existing app behaviour remains unchanged. Feature flags are not yet wired into app shell gating or Platform Admin editing.
+
+## Task 154 Domain / App Mode Routing Foundation
+
+Task 154 adds passive app-mode routing foundations for the one-codebase strategy. Hostnames now resolve to intended modes for marketing, central app, Platform Admin, tenant app, support, local development, Vercel preview/deployment fallback and unknown hosts.
+
+Preferred Platform Admin host is now `admin.everybatchmrp.com.au`. `platform.everybatchmrp.com` is still recognised as a legacy/optional Platform Admin host for compatibility.
+
+No DNS, Vercel project, Supabase Auth, middleware, route enforcement, tenant subdomain activation, database, RLS, permission or tenant provisioning changes are included.
 
 ## Future Implementation Backlog Proposal
 

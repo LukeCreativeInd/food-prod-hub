@@ -39,7 +39,7 @@ Target domains:
 - `everybatchmrp.com` for public marketing
 - `app.everybatchmrp.com` for central login
 - `cleaneats.everybatchmrp.com` for Clean Eats tenant workspace
-- `platform.everybatchmrp.com` for future Platform Admin
+- `admin.everybatchmrp.com.au` for future Platform Admin
 - `support.everybatchmrp.com` for support and knowledge base
 
 Current domain setup:
@@ -51,7 +51,7 @@ Current domain setup:
 - login and dashboard smoke tests passed on `app.everybatchmrp.com`
 - do not point `everybatchmrp.com` root to the tenant app; reserve it for marketing or a coming-soon page
 - do not connect `cleaneats.everybatchmrp.com` until tenant workspace host routing is implemented
-- do not connect `platform.everybatchmrp.com` until Platform Admin domain routing is explicitly implemented
+- do not connect `admin.everybatchmrp.com.au` until Platform Admin domain routing is explicitly implemented
 - do not connect `support.everybatchmrp.com` until the support/knowledge-base target exists
 - do not change Vercel, DNS, Supabase Auth redirect URLs or env vars from a code task without explicit user instruction
 
@@ -62,7 +62,8 @@ Tenant subdomain routing target:
 - `app.everybatchmrp.com` is the central login / tenant selector.
 - `{tenant_slug}.everybatchmrp.com` is the tenant workspace pattern.
 - `cleaneats.everybatchmrp.com` is the target Clean Eats workspace.
-- `platform.everybatchmrp.com` is Platform Admin.
+- `admin.everybatchmrp.com.au` is the preferred Platform Admin target.
+- `platform.everybatchmrp.com` remains earlier optional Platform Admin planning language only.
 - `support.everybatchmrp.com` is support/help.
 
 Do not implement host-based tenant routing casually. Follow the task 116 routing plan first.
@@ -78,6 +79,8 @@ lib/tenant-resolver.ts
 ```
 
 They parse EveryBatch hostnames and provide a server tenant lookup helper, but they are not wired into routing, middleware, auth redirects or app shell context yet.
+
+Task 154 strengthens the domain/app-mode foundation. `lib/tenant-resolver.ts` now maps marketing, central app, preferred Platform Admin, tenant app, support, local development, Vercel preview and unknown hosts. `lib/app-mode-routing.ts` adds pure route-intent/default-route helpers. These helpers are passive only: no middleware, production redirects, DNS/Vercel changes, Supabase Auth settings, tenant subdomain activation or route moves are included.
 
 Central login target:
 
@@ -183,8 +186,10 @@ The first Help & Support menu links to future `support.everybatchmrp.com` paths 
 Platform Admin should eventually live at:
 
 ```text
-platform.everybatchmrp.com
+admin.everybatchmrp.com.au
 ```
+
+Earlier `platform.everybatchmrp.com` references are legacy/optional planning language unless a later task deliberately retains that host.
 
 Platform should not be treated as a normal tenant module long-term.
 
@@ -206,7 +211,7 @@ Platform Shell Separation v1 is implemented at:
 /platform
 ```
 
-`/platform` and `/platform/tenants/cleaneats` now render inside a dedicated EveryBatch Platform shell instead of the tenant AppShell/sidebar. The future `platform.everybatchmrp.com` domain remains inactive until a reviewed routing/domain task connects it.
+`/platform` and `/platform/tenants/cleaneats` now render inside a dedicated EveryBatch Platform shell instead of the tenant AppShell/sidebar. The future `admin.everybatchmrp.com.au` domain remains inactive until a reviewed routing/domain task connects it.
 
 Platform Tenant Overview v1 now reads real platform metadata where available:
 
@@ -423,3 +428,9 @@ Future sell prices should be tenant-scoped, channel-specific, currency-aware, ta
 Task 153 drafts migration `030_sell_price_schema_foundation.sql` for tenant-scoped `finished_product_sell_prices`, explicit `sell_prices.view` and `sell_prices.manage` permissions, conservative RLS policies and static TypeScript constants aligned with the database constraints.
 
 The table stores finished product sell prices by channel and keeps them separate from supplier input costs. It uses a tenant-safe composite foreign key to `internal_items(organisation_id, id)`, with future sell price actions responsible for validating `internal_items.item_type = finished_product`. No sell price UI/actions, seed prices, Shopify sync, GST/tax engine, margin engine, Platform Admin changes, tenant provisioning changes or Supplier Invoice Intake changes are included.
+
+## Task 154 Domain / App Mode Routing Foundation
+
+Task 154 formalises passive domain/app-mode routing helpers. EveryBatch remains one repo, one Vercel project and one codebase, with future hostnames resolving to app modes rather than separate forks or builds.
+
+Current mappings include `app.everybatchmrp.com` as `central_app`, `admin.everybatchmrp.com.au` as the preferred `platform_admin` host, `cleaneats.everybatchmrp.com` as `tenant_app` with tenant slug `cleaneats`, `support.everybatchmrp.com` as `support`, root EveryBatch domains as `marketing`, and localhost/Vercel deployment hosts as `local_dev` style fallbacks. No DNS, Vercel, Supabase Auth, middleware, production redirects, tenant subdomain activation, migrations, RLS, permissions, route moves or business logic changes are included.

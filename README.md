@@ -23,7 +23,7 @@ Target domain architecture:
 - `everybatchmrp.com` for the public marketing site
 - `app.everybatchmrp.com` for central login
 - `cleaneats.everybatchmrp.com` for the Clean Eats tenant workspace
-- `platform.everybatchmrp.com` for future Platform Admin
+- `admin.everybatchmrp.com.au` for future Platform Admin
 - `support.everybatchmrp.com` for support and knowledge base
 
 See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-architecture.md), [EveryBatch implementation roadmap](docs/113-everybatch-implementation-roadmap.md), and [Codex project context](docs/CODEX_PROJECT_CONTEXT.md).
@@ -174,6 +174,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Finished Product Formula Builder v1 now supports manual finished product formula creation, header editing and line management using component, ingredient and packaging internal items
 - Sell price storage and margin readiness planning now separates future finished product sell prices from supplier input costs before any margin engine is built
 - Sell Price Schema Foundation has been drafted with tenant-scoped finished product sell price storage, explicit sell price permissions and conservative RLS policies
+- Domain/app-mode routing foundation now maps EveryBatch marketing, central app, Platform Admin, tenant, support, local dev and preview hosts without activating production redirects
 
 ## Tech Stack
 
@@ -326,6 +327,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Finished Product Formula Builder v1](docs/151-finished-product-formula-builder-v1.md)
 - [Sell Price Storage And Margin Readiness Plan](docs/152-sell-price-storage-and-margin-readiness-plan.md)
 - [Sell Price Schema Foundation](docs/153-sell-price-schema-foundation.md)
+- [Domain / App Mode Routing Foundation](docs/154-domain-app-mode-routing-foundation.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

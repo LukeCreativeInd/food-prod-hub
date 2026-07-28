@@ -121,7 +121,7 @@ Do not trust a client-submitted tenant id, tenant slug or organisation id on its
 | --- | --- |
 | One active tenant membership | Redirect after login to that tenant workspace. Transitional destination can remain `/dashboard` until tenant subdomain routing is active. |
 | Multiple active tenant memberships | Show tenant selector and let the user choose from active memberships only. |
-| `platform_admin` only | Show or enter Platform Admin option. Long term destination is `platform.everybatchmrp.com`. |
+| `platform_admin` only | Show or enter Platform Admin option. Long term destination is `admin.everybatchmrp.com.au`. |
 | `platform_admin` plus tenant memberships | Show Platform Admin option and tenant workspace options. User chooses the intended context. |
 | No active memberships and not `platform_admin` | Show no active workspace state with support link. Do not show tenant data. |
 | Inactive membership | Do not offer the workspace as active. Show unavailable/no-access messaging if directly requested. |
@@ -163,14 +163,14 @@ This is not implemented in task 125.
 Target Platform Admin domain:
 
 ```text
-platform.everybatchmrp.com
+admin.everybatchmrp.com.au
 ```
 
 Recommended approach:
 
 1. Build central login and tenant selector first.
 2. Show Platform Admin as an option for `platform_admin` users.
-3. Later, allow direct `platform.everybatchmrp.com/login` to use central auth and return to Platform Admin.
+3. Later, allow direct `admin.everybatchmrp.com.au/login` to use central auth and return to Platform Admin.
 
 Platform Admin access must require `platform_admin`.
 
@@ -201,7 +201,7 @@ Allowed redirect examples:
 /dashboard
 /select-workspace
 https://cleaneats.everybatchmrp.com/dashboard
-https://platform.everybatchmrp.com
+https://admin.everybatchmrp.com.au
 ```
 
 Disallowed redirect examples:
@@ -320,7 +320,9 @@ Validate tenant membership after auth.
 
 ### Phase 7 - Platform Domain Handling
 
-Complete `platform.everybatchmrp.com` shell/login handling and separate Platform Admin from normal tenant workspace UI.
+Complete preferred `admin.everybatchmrp.com.au` shell/login handling and separate Platform Admin from normal tenant workspace UI. The older `platform.everybatchmrp.com` option remains compatibility/planning language only unless it is deliberately retained later.
+
+Task 154 adds passive app-mode route-intent helpers for central app, Platform Admin, tenant app, support, marketing, local development and unknown hosts. These helpers do not activate tenant subdomain redirects, Platform Admin domain enforcement or middleware yet.
 
 ## Non-Goals
 

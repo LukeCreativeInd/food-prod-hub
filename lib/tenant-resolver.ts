@@ -22,9 +22,17 @@ export type AppMode =
 export type ParsedEveryBatchHost = {
   mode: AppMode;
   host: string;
+  hostname: string;
   tenantSlug?: string;
   isEveryBatchDomain: boolean;
   isLocalDev: boolean;
+  isKnownHost: boolean;
+  isLocalhost: boolean;
+  isPreview: boolean;
+  canonicalAppHost: string;
+  canonicalPlatformHost: string;
+  canonicalMarketingHost: string;
+  reason: string;
 };
 
 export type ResolvedTenant = {
@@ -43,9 +51,12 @@ const everyBatchRootDomains = new Set([
   "www.everybatch.com.au",
 ]);
 
+const legacyPlatformAdminDomains = new Set(["platform.everybatchmrp.com"]);
+
 const reservedSubdomains = new Map<string, AppMode>([
   ["app", "central_app"],
   ["platform", "platform_admin"],
+  ["admin", "platform_admin"],
   ["support", "support"],
   ["www", "marketing"],
 ]);
@@ -66,17 +77,53 @@ export function normaliseHost(host: string) {
     return trimmedHost.split("]")[0] + "]";
   }
 
+  if (trimmedHost === "::1") {
+    return trimmedHost;
+  }
+
   return trimmedHost.split(":")[0] ?? "";
 }
 
-function isLocalDevelopmentHost(host: string) {
+function isLocalhostHost(host: string) {
   return (
     localHostnames.has(host) ||
     host.endsWith(".local") ||
     host.endsWith(".localhost") ||
-    host.endsWith(".vercel.app") ||
     privateIpv4Pattern.test(host)
   );
+}
+
+function isVercelPreviewHost(host: string) {
+  return host.endsWith(".vercel.app");
+}
+
+function buildParsedHost(
+  host: string,
+  mode: AppMode,
+  options: {
+    tenantSlug?: string;
+    isEveryBatchDomain?: boolean;
+    isKnownHost?: boolean;
+    isLocalhost?: boolean;
+    isPreview?: boolean;
+    reason: string;
+  },
+): ParsedEveryBatchHost {
+  return {
+    mode,
+    host,
+    hostname: host,
+    tenantSlug: options.tenantSlug,
+    isEveryBatchDomain: options.isEveryBatchDomain ?? false,
+    isLocalDev: mode === "local_dev",
+    isKnownHost: options.isKnownHost ?? false,
+    isLocalhost: options.isLocalhost ?? false,
+    isPreview: options.isPreview ?? false,
+    canonicalAppHost: PLATFORM_APP_DOMAIN,
+    canonicalPlatformHost: PLATFORM_ADMIN_DOMAIN,
+    canonicalMarketingHost: PLATFORM_PRIMARY_DOMAIN,
+    reason: options.reason,
+  };
 }
 
 function parseTenantSubdomain(host: string) {
@@ -103,94 +150,126 @@ export function parseEveryBatchHost(host: string): ParsedEveryBatchHost {
   const normalisedHost = normaliseHost(host);
 
   if (!normalisedHost) {
-    return {
-      mode: "unknown",
-      host: "",
-      isEveryBatchDomain: false,
-      isLocalDev: false,
-    };
+    return buildParsedHost("", "unknown", {
+      reason: "No host was provided.",
+    });
   }
 
-  if (isLocalDevelopmentHost(normalisedHost)) {
-    return {
-      mode: "local_dev",
-      host: normalisedHost,
+  if (isLocalhostHost(normalisedHost)) {
+    return buildParsedHost(normalisedHost, "local_dev", {
       tenantSlug: DEFAULT_LOCAL_DEV_TENANT_SLUG,
-      isEveryBatchDomain: false,
-      isLocalDev: true,
-    };
+      isKnownHost: true,
+      isLocalhost: true,
+      reason: "Local development host uses the Clean Eats fallback tenant.",
+    });
+  }
+
+  if (isVercelPreviewHost(normalisedHost)) {
+    return buildParsedHost(normalisedHost, "local_dev", {
+      tenantSlug: DEFAULT_LOCAL_DEV_TENANT_SLUG,
+      isKnownHost: true,
+      isPreview: true,
+      reason:
+        "Vercel deployment host uses the current safe local-dev style fallback until domain routing is activated.",
+    });
   }
 
   if (normalisedHost === PLATFORM_APP_DOMAIN) {
-    return {
-      mode: "central_app",
-      host: normalisedHost,
+    return buildParsedHost(normalisedHost, "central_app", {
       isEveryBatchDomain: true,
-      isLocalDev: false,
-    };
+      isKnownHost: true,
+      reason: "Central EveryBatch app/login host.",
+    });
   }
 
-  if (normalisedHost === PLATFORM_ADMIN_DOMAIN) {
-    return {
-      mode: "platform_admin",
-      host: normalisedHost,
+  if (
+    normalisedHost === PLATFORM_ADMIN_DOMAIN ||
+    legacyPlatformAdminDomains.has(normalisedHost)
+  ) {
+    return buildParsedHost(normalisedHost, "platform_admin", {
       isEveryBatchDomain: true,
-      isLocalDev: false,
-    };
+      isKnownHost: true,
+      reason:
+        normalisedHost === PLATFORM_ADMIN_DOMAIN
+          ? "Preferred EveryBatch Platform Admin host."
+          : "Legacy optional Platform Admin host retained for compatibility.",
+    });
   }
 
   if (normalisedHost === PLATFORM_SUPPORT_DOMAIN) {
-    return {
-      mode: "support",
-      host: normalisedHost,
+    return buildParsedHost(normalisedHost, "support", {
       isEveryBatchDomain: true,
-      isLocalDev: false,
-    };
+      isKnownHost: true,
+      reason: "Future EveryBatch support host.",
+    });
   }
 
   if (everyBatchRootDomains.has(normalisedHost)) {
-    return {
-      mode: "marketing",
-      host: normalisedHost,
+    return buildParsedHost(normalisedHost, "marketing", {
       isEveryBatchDomain: true,
-      isLocalDev: false,
-    };
+      isKnownHost: true,
+      reason: "Marketing/root EveryBatch host.",
+    });
   }
 
   const tenantSlug = parseTenantSubdomain(normalisedHost);
 
   if (!tenantSlug) {
-    return {
-      mode: "unknown",
-      host: normalisedHost,
-      isEveryBatchDomain: false,
-      isLocalDev: false,
-    };
+    return buildParsedHost(normalisedHost, "unknown", {
+      reason: "Host is not recognised as an EveryBatch app, tenant, platform, support or local development host.",
+    });
   }
 
   const reservedMode = reservedSubdomains.get(tenantSlug);
 
   if (reservedMode) {
-    return {
-      mode: reservedMode,
-      host: normalisedHost,
+    return buildParsedHost(normalisedHost, reservedMode, {
       isEveryBatchDomain: true,
-      isLocalDev: false,
-    };
+      isKnownHost: true,
+      reason: `Reserved EveryBatch subdomain maps to ${reservedMode}.`,
+    });
   }
 
-  return {
-    mode: "tenant_app",
-    host: normalisedHost,
+  return buildParsedHost(normalisedHost, "tenant_app", {
     tenantSlug,
     isEveryBatchDomain: true,
-    isLocalDev: false,
-  };
+    isKnownHost: true,
+    reason: "Tenant workspace subdomain.",
+  });
 }
 
 export function getAppModeFromHost(host: string) {
   return parseEveryBatchHost(host).mode;
 }
+
+export const appModeResolverExamples = [
+  {
+    host: "localhost:3000",
+    expectedMode: "local_dev",
+    expectedTenantSlug: DEFAULT_LOCAL_DEV_TENANT_SLUG,
+  },
+  {
+    host: PLATFORM_APP_DOMAIN,
+    expectedMode: "central_app",
+  },
+  {
+    host: PLATFORM_ADMIN_DOMAIN,
+    expectedMode: "platform_admin",
+  },
+  {
+    host: "cleaneats.everybatchmrp.com",
+    expectedMode: "tenant_app",
+    expectedTenantSlug: "cleaneats",
+  },
+  {
+    host: PLATFORM_SUPPORT_DOMAIN,
+    expectedMode: "support",
+  },
+  {
+    host: PLATFORM_PRIMARY_DOMAIN,
+    expectedMode: "marketing",
+  },
+] as const;
 
 export const resolveTenantFromSlug = cache(
   async function resolveTenantFromSlug(

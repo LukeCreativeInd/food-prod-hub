@@ -28,7 +28,8 @@ This checklist is documentation only. It does not change app code, routes, middl
 - [ ] No mixed content warnings appear.
 - [ ] `everybatchmrp.com` root is not incorrectly pointing to the tenant app.
 - [ ] `cleaneats.everybatchmrp.com` is not active unless tenant routing is complete.
-- [ ] `platform.everybatchmrp.com` is not active unless Platform Admin separation is complete.
+- [ ] `admin.everybatchmrp.com.au` is not active unless Platform Admin domain routing is complete.
+- [ ] `platform.everybatchmrp.com` is not active unless deliberately retained as a legacy/optional Platform Admin host.
 - [ ] `support.everybatchmrp.com` is not active unless support destination setup is complete.
 
 ## 2. DNS / Vercel Checks
@@ -280,13 +281,27 @@ SQL/admin checks:
 
 - Tenant subdomain routing is not active.
 - `cleaneats.everybatchmrp.com` is not active.
-- `platform.everybatchmrp.com` is not active.
+- `admin.everybatchmrp.com.au` is not active.
+- `platform.everybatchmrp.com` remains legacy/optional and is not active.
 - `support.everybatchmrp.com` is not active.
 - Marketing root `everybatchmrp.com` is not active.
-- Platform Admin is not separated yet.
+- Platform Admin has a separate `/platform` shell, but preferred admin-domain routing is not active.
 - Feature flags are not gating app behaviour yet.
 - Support/ticketing backend is not built.
 - Central tenant selector is foundational and transitional.
+
+## Task 154 Resolver Checks
+
+Task 154 adds passive resolver and route-intent helpers. Before enabling any host-based routing, verify expected mappings:
+
+- [ ] `localhost:3000` resolves as `local_dev` with Clean Eats fallback.
+- [ ] `app.everybatchmrp.com` resolves as `central_app`.
+- [ ] `admin.everybatchmrp.com.au` resolves as `platform_admin`.
+- [ ] `cleaneats.everybatchmrp.com` resolves as `tenant_app` with `tenantSlug = cleaneats`.
+- [ ] `support.everybatchmrp.com` resolves as `support`.
+- [ ] `everybatchmrp.com` resolves as `marketing`.
+
+These checks do not require DNS changes while the helpers remain passive.
 
 ## Migration Notes
 
