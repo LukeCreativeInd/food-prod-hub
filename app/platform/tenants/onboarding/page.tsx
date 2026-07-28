@@ -56,21 +56,15 @@ export default async function PlatformTenantOnboardingPage() {
   const { summary } = checklistPreview;
 
   return (
-    <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
-      <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
-        <div className="p-6 md:p-8">
+    <div className="space-y-6 bg-[#F2F4F7] px-5 py-6 md:px-8 md:py-8">
+      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <div className="space-y-4">
           <div className="flex flex-wrap gap-2">
             <PlatformBadge tone="green">Read-only scaffold</PlatformBadge>
             <PlatformBadge tone="amber">No saved progress yet</PlatformBadge>
             <PlatformBadge>No checklist writes</PlatformBadge>
           </div>
-          <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
-            Platform Admin / tenant onboarding
-          </p>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
-            Tenant Onboarding Checklist
-          </h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
             Preview the future tenant onboarding structure using the static
             provisioning checklist template. This page does not save status,
             assign owners, set due dates or complete checklist items.
@@ -204,21 +198,21 @@ export default async function PlatformTenantOnboardingPage() {
         ))}
       </section>
 
-      <section className="rounded-xl border border-slate-800 bg-slate-950 p-5 shadow-sm md:p-6">
+      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
         <div className="grid gap-5 xl:grid-cols-[1fr_0.8fr]">
           <div>
-            <h2 className="text-lg font-bold text-white">
+            <h2 className="text-lg font-bold text-slate-950">
               Future persistence notes
             </h2>
-            <p className="mt-3 text-sm leading-6 text-slate-300">
+            <p className="mt-3 text-sm leading-6 text-slate-600">
               A later reviewed task can store checklist status per tenant with
               owner, due date, notes, completed_by and completed_at fields if
               they are still needed after manual onboarding tests.
             </p>
           </div>
-          <div className="rounded-lg border border-slate-700 bg-slate-900 p-4">
-            <p className="text-sm font-bold text-white">Actions disabled</p>
-            <p className="mt-2 text-sm leading-6 text-slate-300">
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <p className="text-sm font-bold text-slate-950">Actions disabled</p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
               No save, complete, skip or block action exists in this scaffold.
             </p>
           </div>

@@ -18,7 +18,7 @@ function PlatformBadge({
   tone?: BadgeTone;
 }) {
   const tones = {
-    slate: "border-slate-600 bg-slate-800 text-slate-100",
+    slate: "border-slate-600 bg-slate-800 text-slate-700",
     green: "border-emerald-200 bg-emerald-50 text-emerald-700",
     amber: "border-amber-200 bg-amber-50 text-amber-800",
     blue: "border-blue-200 bg-blue-50 text-blue-700",
@@ -40,20 +40,14 @@ export default function PlatformTenantProvisioningPage() {
   );
 
   return (
-    <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
-      <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
-        <div className="p-6 md:p-8">
+    <div className="space-y-6 bg-[#F2F4F7] px-5 py-6 md:px-8 md:py-8">
+      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <div className="space-y-4">
           <div className="flex flex-wrap gap-2">
             <PlatformBadge tone="green">Read-only planning template v1</PlatformBadge>
             <PlatformBadge>No tenant writes</PlatformBadge>
           </div>
-          <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
-            Platform Admin / tenant provisioning templates
-          </p>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
-            Provisioning Templates
-          </h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
             Static reusable tenant templates for future Platform Admin
             provisioning. This page previews definitions only; it does not
             create tenants, write to Supabase or send invites.
@@ -304,13 +298,13 @@ export default function PlatformTenantProvisioningPage() {
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-800 bg-slate-950 p-5 shadow-sm md:p-6">
+      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
         <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
           <div>
-            <h2 className="text-lg font-bold text-white">
+            <h2 className="text-lg font-bold text-slate-950">
               Read-only guardrails
             </h2>
-            <p className="mt-1 text-sm leading-6 text-slate-300">
+            <p className="mt-1 text-sm leading-6 text-slate-600">
               No tenants are created from this page. No Supabase writes,
               migrations, auth invites, billing actions or domain changes are
               included.
@@ -319,7 +313,7 @@ export default function PlatformTenantProvisioningPage() {
           <PlatformBadge tone="amber">No actions</PlatformBadge>
         </div>
         {foundationPreview ? (
-          <p className="mt-4 text-sm leading-6 text-slate-300">
+          <p className="mt-4 text-sm leading-6 text-slate-600">
             Foundation preview resolves to{" "}
             {foundationPreview.modulePack?.moduleKeys.length ?? 0} module rows
             and {foundationPreview.featureFlagPack?.features.length ?? 0} feature

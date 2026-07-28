@@ -1,20 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import type { ReactNode } from "react";
 
-import { PlatformNavigation } from "@/components/platform/platform-shell";
-
-export function PlatformMobileMenu() {
+export function PlatformMobileMenu({
+  children,
+}: {
+  children: (onNavigate: () => void) => ReactNode;
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const closeMenu = () => setIsOpen(false);
 
   return (
-    <div className="border-t border-slate-800 lg:hidden">
+    <div className="border-t border-white/10 lg:hidden">
       <button
         type="button"
         aria-controls="platform-mobile-menu"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((current) => !current)}
-        className="flex w-full items-center justify-between px-5 py-3 text-left text-sm font-black text-slate-100 transition hover:bg-white/5"
+        className="flex w-full items-center justify-between px-5 py-3 text-left text-sm font-black text-emerald-50 transition hover:bg-white/10"
       >
         <span>Platform menu</span>
         <span
@@ -28,9 +32,9 @@ export function PlatformMobileMenu() {
       {isOpen ? (
         <div
           id="platform-mobile-menu"
-          className="max-h-[65vh] overflow-y-auto border-t border-slate-800 px-3 py-4"
+          className="max-h-[65vh] overflow-y-auto border-t border-white/10 px-3 py-4"
         >
-          <PlatformNavigation onNavigate={() => setIsOpen(false)} />
+          {children(closeMenu)}
         </div>
       ) : null}
     </div>

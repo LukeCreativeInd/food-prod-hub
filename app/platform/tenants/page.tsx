@@ -41,9 +41,9 @@ export default async function PlatformTenantsPage() {
   const overview = await getPlatformTenantOverview();
 
   return (
-    <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
-      <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
-        <div className="grid gap-6 p-6 md:p-8 xl:grid-cols-[1.4fr_0.6fr]">
+    <div className="space-y-6 bg-[#F2F4F7] px-5 py-6 md:px-8 md:py-8">
+      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <div className="grid gap-4 xl:grid-cols-[1fr_auto]">
           <div>
             <div className="flex flex-wrap gap-2">
               <PlatformBadge tone="green">Read-only</PlatformBadge>
@@ -52,26 +52,20 @@ export default async function PlatformTenantsPage() {
                 Dynamic detail pages later
               </PlatformBadge>
             </div>
-            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
-              Platform Admin / tenants
-            </p>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
-              All Tenants
-            </h1>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
               Read-only tenant overview for EveryBatch operators. This page
               lists current tenant foundation records and links to Clean Eats
               detail pages while generic tenant detail routing is still planned.
             </p>
           </div>
-          <div className="rounded-lg border border-slate-700 bg-slate-900/80 p-5">
-            <p className="text-sm font-semibold text-slate-100">
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+            <p className="text-sm font-semibold text-slate-500">
               Tenant count
             </p>
-            <p className="mt-3 text-3xl font-black text-white">
+            <p className="mt-3 text-3xl font-black text-slate-950">
               {overview.totalTenantCount}
             </p>
-            <p className="mt-2 text-sm leading-6 text-slate-300">
+            <p className="mt-2 text-sm leading-6 text-slate-600">
               {overview.activeTenantCount} active tenants /{" "}
               {overview.pilotTenantCount} pilot tenants.
             </p>

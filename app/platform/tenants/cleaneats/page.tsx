@@ -44,7 +44,7 @@ function PlatformBadge({
   tone?: "slate" | "blue" | "amber" | "green";
 }) {
   const tones = {
-    slate: "border-slate-600 bg-slate-800 text-slate-100",
+    slate: "border-slate-600 bg-slate-800 text-slate-700",
     blue: "border-blue-200 bg-blue-50 text-blue-700",
     amber: "border-amber-200 bg-amber-50 text-amber-800",
     green: "border-emerald-200 bg-emerald-50 text-emerald-700",
@@ -174,27 +174,21 @@ export default async function CleanEatsTenantDetailPage() {
         ];
 
   return (
-    <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
-        <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
-          <div className="p-6 md:p-8">
+    <div className="space-y-6 bg-[#F2F4F7] px-5 py-6 md:px-8 md:py-8">
+        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+          <div className="space-y-4">
             <Link
               href="/platform"
-              className="inline-flex w-fit items-center rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm font-semibold text-slate-100 transition hover:bg-slate-800"
+              className="inline-flex w-fit items-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
             >
               Back to Platform
             </Link>
-            <div className="mt-7 flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               <PlatformBadge tone="green">Active</PlatformBadge>
               <PlatformBadge>Client 1</PlatformBadge>
               <PlatformBadge tone="amber">Read-only</PlatformBadge>
             </div>
-            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
-              Tenant detail / Food Production / Pilot tenant
-            </p>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
-              {tenantName}
-            </h1>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
               Platform Admin preview. Tenant branding and data are
               tenant-scoped inside EveryBatch; this page uses read-only tenant
               metadata where available.
@@ -455,13 +449,13 @@ export default async function CleanEatsTenantDetailPage() {
           </DetailPanel>
         </section>
 
-        <section className="rounded-xl border border-slate-800 bg-slate-950 p-5 shadow-sm md:p-6">
+        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
             <div>
-              <h2 className="text-lg font-bold text-white">
+              <h2 className="text-lg font-bold text-slate-950">
                 Read-only guardrails
               </h2>
-              <p className="mt-1 text-sm leading-6 text-slate-300">
+              <p className="mt-1 text-sm leading-6 text-slate-600">
                 This tenant detail page is a platform-admin preview, not a
                 tenant management console.
               </p>
@@ -472,7 +466,7 @@ export default async function CleanEatsTenantDetailPage() {
             {guardrails.map((guardrail) => (
               <div
                 key={guardrail}
-                className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-slate-100"
+                className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700"
               >
                 {guardrail}
               </div>

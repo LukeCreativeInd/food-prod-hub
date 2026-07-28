@@ -223,6 +223,6 @@ This task does not include:
 
 ## Future Follow-Ups
 
-- task 157: Platform Admin brand/UI polish for admin-domain readiness
+- task 157: Platform Admin brand/UI polish for admin-domain readiness has been added without DNS, routing, auth, database or permission changes
 - task 158: tenant subdomain routing and membership-aware tenant host enforcement
 - future: central app tightening so `/platform` can eventually move away from `app.everybatchmrp.com`

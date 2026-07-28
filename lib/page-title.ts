@@ -41,7 +41,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/platform": { title: "Platform Admin", context: "EveryBatch" },
   "/platform/tenants": { title: "All Tenants", context: "Platform" },
   "/platform/tenants/cleaneats": {
-    title: "Clean Eats Tenant Detail",
+    title: "Clean Eats Detail",
     context: "Platform",
   },
   "/platform/tenants/new": {
@@ -53,7 +53,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
     context: "Platform",
   },
   "/platform/tenants/onboarding": {
-    title: "Tenant Onboarding Checklist",
+    title: "Tenant Onboarding",
     context: "Platform",
   },
   "/platform/tenants/cleaneats/modules": {
@@ -65,7 +65,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
     context: "Platform",
   },
   "/platform/tenants/provisioning": {
-    title: "Provisioning Templates",
+    title: "Tenant Provisioning",
     context: "Platform",
   },
   "/qa": { title: "QA", context: "Quality" },

@@ -198,21 +198,15 @@ export default async function PlatformNewTenantPage({ searchParams }: PageProps)
   const errorMessage = query.error ? errorMessages[query.error] : null;
 
   return (
-    <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
-      <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
-        <div className="p-6 md:p-8">
+    <div className="space-y-6 bg-[#F2F4F7] px-5 py-6 md:px-8 md:py-8">
+      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <div className="space-y-4">
           <div className="flex flex-wrap gap-2">
             <PlatformBadge tone="green">Wizard scaffold</PlatformBadge>
             <PlatformBadge tone="amber">Foundation writes only</PlatformBadge>
             <PlatformBadge>No auth / domains / billing</PlatformBadge>
           </div>
-          <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
-            Platform Admin / new tenant
-          </p>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
-            New Tenant Wizard
-          </h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
             Preview the future EveryBatch tenant provisioning flow. The scaffold
             now creates the first reviewed tenant foundation records only. It
             does not invite users, create auth accounts, configure domains,
@@ -638,16 +632,16 @@ export default async function PlatformNewTenantPage({ searchParams }: PageProps)
               </div>
             </dl>
           </div>
-          <div className="rounded-lg border border-slate-800 bg-slate-950 p-4">
-            <p className="text-sm font-bold text-white">Provisioning disabled</p>
-            <p className="mt-2 text-sm leading-6 text-slate-300">
+          <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <p className="text-sm font-bold text-slate-950">Provisioning disabled</p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
               No tenant records are created from this scaffold.
             </p>
-            <p className="mt-3 text-sm leading-6 text-slate-300">
+            <p className="mt-3 text-sm leading-6 text-slate-600">
               After tenant foundation creation, use{" "}
               <Link
                 href="/platform/tenants/onboarding"
-                className="font-bold text-lime-200 underline-offset-4 hover:underline"
+                className="font-bold text-slate-500 underline-offset-4 hover:underline"
               >
                 Tenant Onboarding Checklist
               </Link>{" "}
@@ -657,7 +651,7 @@ export default async function PlatformNewTenantPage({ searchParams }: PageProps)
               name="notes"
               rows={3}
               placeholder="Optional provisioning notes"
-              className="mt-4 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-emerald-300"
+              className="mt-4 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 placeholder:text-slate-500 outline-none transition focus:border-green-600"
             />
             <button
               type="submit"
@@ -665,7 +659,7 @@ export default async function PlatformNewTenantPage({ searchParams }: PageProps)
               className={`mt-4 w-full rounded-lg px-4 py-3 text-sm font-black transition ${
                 canCreateTenant
                   ? "bg-lime-300 text-green-950 hover:bg-lime-200"
-                  : "cursor-not-allowed bg-slate-700 text-slate-300"
+                  : "cursor-not-allowed bg-slate-200 text-slate-500"
               }`}
             >
               Create tenant foundation

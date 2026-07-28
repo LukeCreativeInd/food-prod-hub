@@ -2,8 +2,16 @@ import { Suspense } from "react";
 import Link from "next/link";
 
 import {
+  PlatformMetricCard,
+  PlatformSectionCard,
+  PlatformStatusBadge as PlatformBadge,
+} from "@/components/platform/platform-ui";
+import {
   PLATFORM_ADMIN_DOMAIN,
   PLATFORM_BRAND_NAME,
+  PLATFORM_BRAND_TAGLINE,
+  PLATFORM_OPERATOR_CONSOLE_LABEL,
+  PLATFORM_PRODUCT_LINE,
 } from "@/lib/platform-brand";
 import { getPlatformTenantOverview } from "@/lib/platform-tenant-overview";
 
@@ -86,29 +94,6 @@ const nextSetupSteps = [
   "Tenant Provisioning Plan",
 ];
 
-function PlatformBadge({
-  children,
-  tone = "slate",
-}: {
-  children: string;
-  tone?: "slate" | "blue" | "amber" | "green";
-}) {
-  const tones = {
-    slate: "border-slate-600 bg-slate-800 text-slate-100",
-    blue: "border-blue-200 bg-blue-50 text-blue-700",
-    amber: "border-amber-200 bg-amber-50 text-amber-800",
-    green: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  };
-
-  return (
-    <span
-      className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${tones[tone]}`}
-    >
-      {children}
-    </span>
-  );
-}
-
 function PlatformPanelFallback({ label }: { label: string }) {
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
@@ -160,20 +145,12 @@ async function PlatformMetricsSection() {
   return (
     <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
       {metrics.map((metric) => (
-        <article
+        <PlatformMetricCard
           key={metric.label}
-          className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
-        >
-          <p className="text-sm font-semibold text-slate-500">
-            {metric.label}
-          </p>
-          <p className="mt-3 text-2xl font-bold text-slate-950">
-            {metric.value}
-          </p>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            {metric.detail}
-          </p>
-        </article>
+          label={metric.label}
+          value={metric.value}
+          detail={metric.detail}
+        />
       ))}
     </section>
   );
@@ -185,10 +162,10 @@ async function PlatformDeferredSections() {
   return (
     <>
       <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <PlatformSectionCard className="p-5 md:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
             <div>
-              <h2 className="text-lg font-bold text-slate-950">
+              <h2 className="text-lg font-bold text-[#0F2E23]">
                 Operator console signals
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
@@ -202,7 +179,7 @@ async function PlatformDeferredSections() {
             {platformSignals.map((signal) => (
               <article
                 key={signal.label}
-                className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                className="rounded-lg border border-slate-200 bg-[#F7FAF8] p-4"
               >
                 <p className="text-xs font-semibold uppercase text-slate-500">
                   {signal.label}
@@ -216,15 +193,15 @@ async function PlatformDeferredSections() {
               </article>
             ))}
           </div>
-        </div>
+        </PlatformSectionCard>
 
-        <div className="rounded-xl border border-slate-800 bg-slate-950 p-5 shadow-sm md:p-6">
+        <div className="rounded-xl border border-[#174231] bg-[#0F2E23] p-5 shadow-sm md:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
             <div>
               <h2 className="text-lg font-bold text-white">
                 Next setup steps
               </h2>
-              <p className="mt-1 text-sm leading-6 text-slate-300">
+              <p className="mt-1 text-sm leading-6 text-emerald-50/80">
                 Planned sequence from the Platform Admin IA.
               </p>
             </div>
@@ -234,7 +211,7 @@ async function PlatformDeferredSections() {
             {nextSetupSteps.map((step) => (
               <div
                 key={step}
-                className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-slate-100"
+                className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-emerald-50"
               >
                 {step}
               </div>
@@ -243,10 +220,10 @@ async function PlatformDeferredSections() {
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+      <PlatformSectionCard className="p-5 md:p-6">
         <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
           <div>
-            <h2 className="text-lg font-bold text-slate-950">
+            <h2 className="text-lg font-bold text-[#0F2E23]">
               Platform architecture
             </h2>
             <p className="mt-1 text-sm leading-6 text-slate-600">
@@ -260,10 +237,10 @@ async function PlatformDeferredSections() {
           {architectureLayers.map((layer, index) => (
             <article
               key={layer.label}
-              className="relative rounded-lg border border-slate-200 bg-slate-50 p-5"
+              className="relative rounded-lg border border-slate-200 bg-[#F7FAF8] p-5"
             >
               <div className="flex items-start justify-between gap-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-md bg-slate-900 text-sm font-bold text-white">
+                <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[#176B3D] text-sm font-bold text-white">
                   {index + 1}
                 </span>
                 <PlatformBadge tone={index === 2 ? "green" : "blue"}>
@@ -279,13 +256,13 @@ async function PlatformDeferredSections() {
             </article>
           ))}
         </div>
-      </section>
+      </PlatformSectionCard>
 
-      <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+      <PlatformSectionCard>
         <div className="border-b border-slate-200 px-5 py-4 md:px-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-lg font-bold text-slate-950">
+              <h2 className="text-lg font-bold text-[#0F2E23]">
                 Tenant overview
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
@@ -354,7 +331,7 @@ async function PlatformDeferredSections() {
                 {tenant.viewHref ? (
                   <Link
                     href={tenant.viewHref}
-                    className="inline-flex w-fit items-center justify-center rounded-md border border-slate-300 bg-slate-950 px-3 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                    className="inline-flex w-fit items-center justify-center rounded-md border border-[#176B3D] bg-[#176B3D] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#0F2E23]"
                   >
                     View
                   </Link>
@@ -389,13 +366,13 @@ async function PlatformDeferredSections() {
                   <div className="flex flex-wrap gap-2 lg:justify-end">
                     <Link
                       href="/platform/tenants/cleaneats/modules"
-                      className="rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-800 transition hover:bg-slate-100"
+                      className="rounded-md border border-[#176B3D]/25 bg-white px-3 py-2 text-xs font-bold text-[#176B3D] transition hover:bg-[#E8F5E9]"
                     >
                       Modules
                     </Link>
                     <Link
                       href="/platform/tenants/cleaneats/features"
-                      className="rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-bold text-slate-800 transition hover:bg-slate-100"
+                      className="rounded-md border border-[#176B3D]/25 bg-white px-3 py-2 text-xs font-bold text-[#176B3D] transition hover:bg-[#E8F5E9]"
                     >
                       Features
                     </Link>
@@ -405,13 +382,13 @@ async function PlatformDeferredSections() {
             </article>
           ))}
         </div>
-      </section>
+      </PlatformSectionCard>
 
       <section className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <PlatformSectionCard className="p-5 md:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
             <div>
-              <h2 className="text-lg font-bold text-slate-950">
+              <h2 className="text-lg font-bold text-[#0F2E23]">
                 Future verticals / product lines
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
@@ -425,7 +402,7 @@ async function PlatformDeferredSections() {
             {verticals.map((vertical) => (
               <article
                 key={vertical.label}
-                className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                className="rounded-lg border border-slate-200 bg-[#F7FAF8] p-4"
               >
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-sm font-bold text-slate-950">
@@ -445,12 +422,12 @@ async function PlatformDeferredSections() {
               </article>
             ))}
           </div>
-        </div>
+        </PlatformSectionCard>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+        <PlatformSectionCard className="p-5 md:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
             <div>
-              <h2 className="text-lg font-bold text-slate-950">
+              <h2 className="text-lg font-bold text-[#0F2E23]">
                 Admin notes / guardrails
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
@@ -470,7 +447,7 @@ async function PlatformDeferredSections() {
               </div>
             ))}
           </div>
-        </div>
+        </PlatformSectionCard>
       </section>
     </>
   );
@@ -478,49 +455,54 @@ async function PlatformDeferredSections() {
 
 export default function PlatformPage() {
   return (
-    <div className="space-y-6 bg-slate-100/80 px-5 py-6 md:px-8 md:py-8">
-        <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 shadow-sm">
-          <div className="grid gap-6 p-6 md:p-8 xl:grid-cols-[1.4fr_0.6fr]">
-            <div>
-              <div className="flex flex-wrap gap-2">
-                <PlatformBadge>Internal / Platform owner only</PlatformBadge>
-                <PlatformBadge tone="amber">Temporary build route</PlatformBadge>
-              </div>
-              <p className="mt-8 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
-                {PLATFORM_BRAND_NAME} operator console
-              </p>
-              <h1 className="mt-3 text-3xl font-bold tracking-tight text-white md:text-4xl">
-                Platform Admin
-              </h1>
-              <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">
-                {PLATFORM_BRAND_NAME} control centre for tenants, modules,
-                billing status and support oversight. This page is separate in
-                tone from tenant workspaces and uses read-only platform
-                metadata where available.
-              </p>
+    <div className="space-y-6 bg-[#F2F4F7] px-5 py-6 md:px-8 md:py-8">
+      <section className="overflow-hidden rounded-xl border border-[#174231] bg-[#0F2E23] shadow-sm">
+        <div className="grid gap-6 p-6 md:p-8 xl:grid-cols-[1.35fr_0.65fr]">
+          <div>
+            <div className="flex flex-wrap gap-2">
+              <PlatformBadge>Internal / Platform owner only</PlatformBadge>
+              <PlatformBadge tone="lime">{PLATFORM_PRODUCT_LINE}</PlatformBadge>
+              <PlatformBadge tone="amber">Temporary build route</PlatformBadge>
             </div>
-            <div className="rounded-lg border border-slate-700 bg-slate-900/80 p-5">
-              <p className="text-sm font-semibold text-slate-100">
-                Architecture note
-              </p>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
-                Current route: <span className="font-semibold">/platform</span>
-              </p>
-              <p className="mt-2 text-sm leading-6 text-slate-300">
-                Future direction: {PLATFORM_ADMIN_DOMAIN} as a dedicated
-                platform-owner environment.
-              </p>
-            </div>
+            <p className="mt-8 text-sm font-black uppercase tracking-[0.18em] text-lime-200">
+              {PLATFORM_OPERATOR_CONSOLE_LABEL}
+            </p>
+            <p className="mt-3 text-xl font-black tracking-tight text-white md:text-2xl">
+              Platform owner workspace
+            </p>
+            <p className="mt-3 max-w-3xl text-base font-semibold leading-7 text-lime-100">
+              {PLATFORM_BRAND_TAGLINE}
+            </p>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-emerald-50/80">
+              Platform-owner console for tenants, module access, feature
+              flags, provisioning readiness and support oversight. This area
+              is deliberately separate from tenant workspaces.
+            </p>
           </div>
-        </section>
+          <div className="rounded-lg border border-white/10 bg-white/5 p-5">
+            <p className="text-sm font-bold text-white">Domain readiness</p>
+            <p className="mt-3 text-sm leading-6 text-emerald-50/80">
+              Current route: <span className="font-semibold">/platform</span>
+            </p>
+            <p className="mt-2 text-sm leading-6 text-emerald-50/80">
+              Future direction: {PLATFORM_ADMIN_DOMAIN} as the dedicated
+              platform-owner environment.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        <Suspense fallback={<PlatformPanelFallback label="Loading platform metrics" />}>
-          <PlatformMetricsSection />
-        </Suspense>
+      <Suspense
+        fallback={<PlatformPanelFallback label="Loading platform metrics" />}
+      >
+        <PlatformMetricsSection />
+      </Suspense>
 
-        <Suspense fallback={<PlatformPanelFallback label="Loading platform details" />}>
-          <PlatformDeferredSections />
-        </Suspense>
+      <Suspense
+        fallback={<PlatformPanelFallback label="Loading platform details" />}
+      >
+        <PlatformDeferredSections />
+      </Suspense>
     </div>
   );
 }

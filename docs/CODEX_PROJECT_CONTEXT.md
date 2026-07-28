@@ -446,3 +446,9 @@ Local development and Vercel deployment hosts remain permissive. `app.everybatch
 Task 156 documents the manual setup path for `admin.everybatchmrp.com.au`. The setup guide covers Vercel domain add steps, Cloudflare DNS requirements, Supabase Auth redirect URL review, signed-out/platform-admin/demo-user smoke tests and rollback notes.
 
 No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, tenant subdomain routing, Clean Eats host enforcement, route move, UI polish or business logic changes are included. `app.everybatchmrp.com` remains the live central app domain, and `platform.everybatchmrp.com` remains legacy/optional planning language only.
+
+## Task 157 Platform Admin Brand/UI Polish
+
+Task 157 applies the EveryBatch brand direction to the separated Platform Admin shell and `/platform` overview. Platform Admin now uses the EveryBatch Operator Console language, Food Manufacturing OS product line, dark green/lime platform palette and refined Platform Admin badges/cards. The Platform shell header uses the shared page-title helper so it shows the current Platform route title. Platform subpages no longer start with full-width dark hero blocks; they now use compact light context callouts, badges, summary cards, tables or forms so the persistent header is the single page header. The Platform Admin sidebar now follows the tenant app sidebar structure more closely with grouped icon-led rows, longest-route child active matching, single-open accordion behaviour and desktop collapse/expand behaviour, while the mobile Platform menu remains accessible and closes after live navigation clicks.
+
+No tenant app shell, tenant navigation, auth, middleware, DNS, Vercel, Supabase, RLS, permission, migration, provisioning action or business module behaviour changes are included. The EB mark remains a temporary placeholder until a final EveryBatch logo/icon asset is provided.
