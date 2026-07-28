@@ -19,7 +19,7 @@ Current implementation:
 
 - Platform Admin uses a temporary EveryBatch `EB` mark.
 - Tenant app sidebar shows EveryBatch branding at the top and tenant identity beneath it.
-- The app favicon uses a temporary EveryBatch SVG fallback.
+- Task 167 replaces the temporary app favicon with the real EveryBatch PNG icon asset.
 - `organisation_branding.logo_url` stores the tenant logo reference.
 - Migration 026 created the private `organisation-branding` bucket and tenant-scoped logo storage policies.
 - Tenant icon support does not exist yet.
@@ -288,7 +288,7 @@ This task does not:
 
 Start with task 167 only if tenant icon support should be implemented before sell price/margin work.
 
-If final EveryBatch logo/icon files are ready sooner, task 169 can be done with static assets before dynamic tenant icon upload work.
+Task 167 adds the real EveryBatch app icon as static PNG app icon files. If final full EveryBatch logo files are ready sooner, task 169 can still replace the remaining sidebar/login temporary marks before dynamic tenant icon upload work.
 
 ## Migration Notes
 

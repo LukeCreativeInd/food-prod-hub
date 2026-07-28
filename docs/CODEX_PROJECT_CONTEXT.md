@@ -180,6 +180,8 @@ docs/166-brand-asset-logo-icon-storage-plan.md
 
 The recommended direction is static reviewed EveryBatch logo/icon assets first, with tenant logo/icon assets extending the existing private `organisation-branding` bucket. Future dynamic platform asset management should be planned separately before adding schema or upload UI.
 
+Task 167 replaces the temporary `app/icon.svg` fallback with the real EveryBatch PNG icon asset at `app/icon.png` and `app/apple-icon.png`, generated from `assets/brand/everybatch-icon.png`. Browser title formatting uses `Page Title - EveryBatch`.
+
 Platform/admin surfaces should use EveryBatch branding.
 
 EveryBatch brand constants live in:

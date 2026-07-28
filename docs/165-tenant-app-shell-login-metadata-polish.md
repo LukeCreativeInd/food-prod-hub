@@ -45,7 +45,7 @@ Search still opens the existing search palette and keeps the keyboard shortcut b
 
 ## Favicon And Metadata
 
-An EveryBatch `EB` SVG app icon has been added through the Next app icon/metadata flow.
+An EveryBatch `EB` SVG app icon was initially added through the Next app icon/metadata flow. Task 167 replaces that temporary fallback with the real EveryBatch PNG icon asset.
 
 Browser titles now use the current route title with the EveryBatch brand, for example:
 

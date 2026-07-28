@@ -12,7 +12,7 @@ export function DocumentTitleSync() {
   useEffect(() => {
     const pageTitle = getPageTitleMeta(pathname).title;
     document.title =
-      pathname === "/" ? PLATFORM_BRAND_NAME : `${pageTitle} — ${PLATFORM_BRAND_NAME}`;
+      pathname === "/" ? PLATFORM_BRAND_NAME : `${pageTitle} - ${PLATFORM_BRAND_NAME}`;
   }, [pathname]);
 
   return null;

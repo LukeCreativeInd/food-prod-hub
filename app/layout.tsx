@@ -13,12 +13,12 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: {
     default: PLATFORM_BRAND_NAME,
-    template: `%s — ${PLATFORM_BRAND_NAME}`,
+    template: `%s - ${PLATFORM_BRAND_NAME}`,
   },
   description: PLATFORM_BRAND_DESCRIPTION,
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    icon: [{ url: "/icon.png", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png", type: "image/png" }],
   },
 };
 
