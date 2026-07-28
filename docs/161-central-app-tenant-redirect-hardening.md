@@ -4,6 +4,8 @@ Task 161 removes the temporary behaviour where `app.everybatchmrp.com/dashboard`
 
 This task does not change DNS, Vercel, Supabase Auth, database schema, migrations, RLS, permissions, tenant provisioning, Platform Admin business logic, tenant app business logic, sidebars, design or packages.
 
+Task 162 records live redirect QA after this hardening. See [Live Domain Redirect QA Pass](162-live-domain-redirect-qa-pass.md).
+
 ## Correct Domains
 
 | Domain | Purpose |

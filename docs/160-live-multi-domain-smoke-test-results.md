@@ -8,6 +8,8 @@ Test date: 28 July 2026
 
 Task 161 supersedes the temporary central dashboard caveat recorded here. After task 161, `app.everybatchmrp.com/dashboard` should redirect through `/select-workspace?next=%2Fdashboard` instead of rendering the Clean Eats fallback workspace.
 
+Task 162 records the live post-task-161 redirect QA results. See [Live Domain Redirect QA Pass](162-live-domain-redirect-qa-pass.md).
+
 ## Domains Tested
 
 | Domain | Purpose |

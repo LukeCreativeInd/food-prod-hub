@@ -182,6 +182,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Multi-domain smoke testing and redirect hardening now documents app/admin/tenant/localhost expected behaviour, redirects central `/platform` routes to the admin domain and blocks inactive tenant-looking subdomains from rendering app pages before activation
 - Live multi-domain smoke test results have been recorded for app/Clean Eats domains, with admin-domain DNS resolution marked for manual verification and central dashboard hardening queued as task 161
 - Central app tenant redirect hardening now prevents `app.everybatchmrp.com` tenant workspace routes from rendering Clean Eats directly and sends workspace selections to the correct tenant/admin domains
+- Live domain redirect QA after task 161 confirms central, admin and Clean Eats signed-out redirects are behaving as expected; signed-in selector clicks remain marked for manual browser verification
 
 ## Tech Stack
 
@@ -342,6 +343,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Multi-Domain Smoke Test and Redirect Hardening](docs/159-multi-domain-smoke-test-and-redirect-hardening.md)
 - [Live Multi-Domain Smoke Test Results](docs/160-live-multi-domain-smoke-test-results.md)
 - [Central App Tenant Redirect Hardening](docs/161-central-app-tenant-redirect-hardening.md)
+- [Live Domain Redirect QA Pass](docs/162-live-domain-redirect-qa-pass.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

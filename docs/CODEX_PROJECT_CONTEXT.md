@@ -478,3 +478,9 @@ Task 160 records live signed-out/header smoke test results after deploying the d
 Task 161 updates central-domain routing so `app.everybatchmrp.com` no longer renders tenant workspace routes directly. Central `/platform` routes redirect to `https://admin.everybatchmrp.com/platform...`; central tenant routes such as `/dashboard`, `/components` and `/finished-products` redirect to `/select-workspace?next=...`. The authenticated workspace selector and post-login destination helper then send tenant users to `https://cleaneats.everybatchmrp.com/...` and Platform Admin users to `https://admin.everybatchmrp.com/platform`, while localhost remains local/permissive.
 
 The correct Platform Admin domain is `admin.everybatchmrp.com`; do not use `admin.everybatchmrp.com.au`. Middleware still performs no Supabase/session/database reads. No DNS, Vercel, Supabase Auth, schema, migration, RLS, permission, tenant provisioning, business logic, sidebar or design changes are included.
+
+## Task 162 Live Domain Redirect QA Pass
+
+Task 162 records live signed-out/header QA after task 161. `app.everybatchmrp.com/dashboard`, `/components` and `/finished-products` now redirect to `/select-workspace?next=...`; central `/platform` routes redirect to `https://admin.everybatchmrp.com/...`; `admin.everybatchmrp.com` resolves and blocks tenant routes by redirecting them to `/platform`; `cleaneats.everybatchmrp.com` allows tenant routes while redirecting `/select-workspace` and `/platform` to `/dashboard`.
+
+No live redirect failures were found. Signed-in workspace selector clicks are documented for manual browser verification because they require real Supabase auth/session state. No code, DNS, Vercel, Supabase Auth, schema, migration, RLS, permission, business logic, sidebar or design changes are included.
