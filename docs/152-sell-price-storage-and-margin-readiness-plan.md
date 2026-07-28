@@ -2,6 +2,8 @@
 
 Task 152 plans sell price storage and margin readiness before implementation.
 
+Task 153 now drafts the first reviewed schema foundation in [Sell Price Schema Foundation](153-sell-price-schema-foundation.md). The migration creates the tenant-scoped sell price table and permissions, but still does not add sell price UI, write actions, Shopify sync, tax automation or margin calculations.
+
 This is planning/static-helper work only. It does not create sell price tables, migrations, write actions, UI forms, Shopify sync, channel sync, GST/tax engine, discount logic, subscription pricing, wholesale quoting, margin calculations, Platform Admin changes, tenant provisioning changes or Supplier Invoice Intake changes.
 
 ## Current Schema Findings
@@ -15,9 +17,7 @@ Current findings:
 - Finished products are represented by `internal_items.item_type = finished_product`.
 - Finished product formulas can provide the cost side through `formula_versions.formula_type = finished_product`.
 - `organisation_settings.currency` exists and defaults to `AUD`.
-- No current table stores channel-specific sell prices.
-- No current table stores GST/tax mode for sell prices.
-- No current table stores sell price approval/version history.
+- Task 153 drafts `finished_product_sell_prices` for channel-specific sell prices, GST/tax mode, approval fields and history-ready effective dates.
 - No current table stores Shopify product/variant mappings.
 
 Expected conclusion:
@@ -71,12 +71,12 @@ Suggested fields:
 - `gst_rate` if needed later
 - `effective_from`
 - `effective_to`
-- `status`: `draft`, `active`, `superseded`, `archived`
-- `source`: `manual`, `shopify`, `import`, `api`
+- `status`: `draft`, `active`, `archived`
+- `source`: `manual`, `shopify`, `import`, `api`, `system`
 - `source_reference`
 - `notes`
-- `created_by_profile_id`
-- `approved_by_profile_id`
+- `created_by`
+- `approved_by`
 - `approved_at`
 - `created_at`
 - `updated_at`
@@ -140,7 +140,7 @@ Recommended behaviour:
 
 - draft prices can be entered but should not drive active margin reporting
 - one active price per finished product/channel should be selected for a date range
-- old active prices should become superseded or archived
+- old active prices should be given an `effective_to` date or archived before a new open-ended active price is created
 - effective dates should support history
 - price approval should record profile/timestamp where possible
 
@@ -232,9 +232,9 @@ Permission recommendation:
 - manage sell prices with `costings.manage` or a future `sell_prices.manage`
 - if product team owns sell prices, consider `products.manage`
 
-Recommended final direction:
+Task 153 direction:
 
-- introduce explicit `sell_prices.view` and `sell_prices.manage` permissions when the migration is drafted, because customer/channel sell prices are distinct from supplier input prices.
+- introduce explicit `sell_prices.view` and `sell_prices.manage` permissions because customer/channel sell prices are distinct from supplier input prices.
 
 ## Relationship To Finished Product Formulas
 
@@ -281,10 +281,13 @@ Planning notes:
 
 ## Future Database Needs
 
-Future reviewed migrations may need:
+Task 153 drafts:
+
+- `finished_product_sell_prices`
+
+Future reviewed migrations may still need:
 
 - `sell_price_channels` if channels become tenant-configurable
-- `finished_product_sell_prices`
 - `sell_price_observations`
 - `sell_price_imports`
 - `channel_product_mappings`
@@ -302,6 +305,8 @@ Do not create them now.
 
 - planned channels
 - tax modes
+- statuses
+- sources
 - workflow stages
 - sell price validation rules
 - margin readiness rules
@@ -313,9 +318,8 @@ The helper is pure/static only. It does not call Supabase, read auth context or 
 
 This task does not build:
 
-- sell price tables
-- migrations
 - sell price UI/actions
+- migrations
 - Shopify sync
 - channel sync
 - GST engine
@@ -329,10 +333,10 @@ This task does not build:
 
 ## Recommended Next Implementation Task
 
-Draft a reviewed sell price schema migration after Luke/Tony confirm:
+After reviewing/applying task 153, the next implementation step should build a controlled sell price UI/action layer that validates:
 
-1. required sales channels
-2. whether channel pricing is tenant-configurable in v1
-3. GST-inclusive/exclusive handling
-4. approval/current-price rules
-5. which permission keys should control sell price visibility and management
+1. active tenant context
+2. `sell_prices.manage`
+3. same-tenant finished product internal item
+4. `internal_items.item_type = finished_product`
+5. current active price behaviour per channel

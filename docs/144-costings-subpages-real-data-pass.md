@@ -114,6 +114,8 @@ Task 151 adds [Finished Product Formula Builder v1](151-finished-product-formula
 
 Task 152 adds [Sell Price Storage And Margin Readiness Plan](152-sell-price-storage-and-margin-readiness-plan.md). Supplier cost history remains separate from future finished product sell price history, and Meal Margins should remain readiness-only until sell prices and tax/margin rules exist.
 
+Task 153 adds [Sell Price Schema Foundation](153-sell-price-schema-foundation.md), drafting tenant-scoped sell price storage and permissions. Task 144 pages still do not calculate margins or add sell price editing.
+
 ## Follow-Up Fix Before Commit
 
 The shared Costings page wrapper no longer renders a second large content title/hero. Page titles remain in the persistent app header, and page content starts with summary cards and real-data sections.

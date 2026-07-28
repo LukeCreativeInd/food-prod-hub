@@ -417,3 +417,9 @@ Cost readiness is conservative: product estimated cost is shown only when all li
 Task 152 plans future sell price storage and margin readiness. It confirms current supplier pricing tables (`price_observations` and `approved_supplier_prices`) are cost-side only and should not store finished product sell prices.
 
 Future sell prices should be tenant-scoped, channel-specific, currency-aware, tax-mode-aware and versioned/history-preserving. Meal Margins should combine finished product formula cost with sell price only when formula cost is ready, selected channel price is active/current, currency and tax basis are known and margin rules are agreed. No migrations, sell price actions, UI forms, Shopify sync, GST engine, margin engine, Platform Admin changes or tenant provisioning changes are included.
+
+## Task 153 Sell Price Schema Foundation
+
+Task 153 drafts migration `030_sell_price_schema_foundation.sql` for tenant-scoped `finished_product_sell_prices`, explicit `sell_prices.view` and `sell_prices.manage` permissions, conservative RLS policies and static TypeScript constants aligned with the database constraints.
+
+The table stores finished product sell prices by channel and keeps them separate from supplier input costs. It uses a tenant-safe composite foreign key to `internal_items(organisation_id, id)`, with future sell price actions responsible for validating `internal_items.item_type = finished_product`. No sell price UI/actions, seed prices, Shopify sync, GST/tax engine, margin engine, Platform Admin changes, tenant provisioning changes or Supplier Invoice Intake changes are included.

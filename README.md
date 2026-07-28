@@ -173,6 +173,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Finished Product Formula Builder planning now confirms the current formula schema can support manual finished product formulas without a migration, while sell price and margin calculations remain future work
 - Finished Product Formula Builder v1 now supports manual finished product formula creation, header editing and line management using component, ingredient and packaging internal items
 - Sell price storage and margin readiness planning now separates future finished product sell prices from supplier input costs before any margin engine is built
+- Sell Price Schema Foundation has been drafted with tenant-scoped finished product sell price storage, explicit sell price permissions and conservative RLS policies
 
 ## Tech Stack
 
@@ -324,6 +325,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Finished Product Formula Builder Plan](docs/150-finished-product-formula-builder-plan.md)
 - [Finished Product Formula Builder v1](docs/151-finished-product-formula-builder-v1.md)
 - [Sell Price Storage And Margin Readiness Plan](docs/152-sell-price-storage-and-margin-readiness-plan.md)
+- [Sell Price Schema Foundation](docs/153-sell-price-schema-foundation.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

@@ -1,4 +1,4 @@
-export type SellPriceSourceType = "manual" | "shopify" | "import" | "api";
+export type SellPriceSourceType = "manual" | "shopify" | "import" | "api" | "system";
 
 export type SellPriceChannelKey =
   | "direct_consumer"
@@ -15,7 +15,7 @@ export type SellPriceTaxMode =
   | "out_of_scope"
   | "unknown";
 
-export type SellPriceStatus = "draft" | "active" | "superseded" | "archived";
+export type SellPriceStatus = "draft" | "active" | "archived";
 
 export type SellPriceReadinessStatus =
   | "no_sell_price"
@@ -55,6 +55,16 @@ export type SellPricePlan = {
   }[];
   taxModes: {
     key: SellPriceTaxMode;
+    label: string;
+    description: string;
+  }[];
+  statuses: {
+    key: SellPriceStatus;
+    label: string;
+    description: string;
+  }[];
+  sources: {
+    key: SellPriceSourceType;
     label: string;
     description: string;
   }[];
@@ -128,6 +138,52 @@ export const sellPriceTaxModes: SellPricePlan["taxModes"] = [
   },
 ];
 
+export const sellPriceStatuses: SellPricePlan["statuses"] = [
+  {
+    key: "draft",
+    label: "Draft",
+    description: "Entered or imported for review, but not used as the current active price.",
+  },
+  {
+    key: "active",
+    label: "Active",
+    description: "Reviewed current price for a finished product and channel.",
+  },
+  {
+    key: "archived",
+    label: "Archived",
+    description: "Soft-archived price retained for history and traceability.",
+  },
+];
+
+export const sellPriceSources: SellPricePlan["sources"] = [
+  {
+    key: "manual",
+    label: "Manual",
+    description: "Price entered directly by an authorised user.",
+  },
+  {
+    key: "shopify",
+    label: "Shopify",
+    description: "Future price imported from a Shopify channel for review.",
+  },
+  {
+    key: "import",
+    label: "Import",
+    description: "Future price imported from a file or reviewed data upload.",
+  },
+  {
+    key: "api",
+    label: "API",
+    description: "Future price received from a reviewed integration endpoint.",
+  },
+  {
+    key: "system",
+    label: "System",
+    description: "Reserved for future system-generated pricing records.",
+  },
+];
+
 export const proposedSellPriceWorkflowStages: SellPricePlan["workflowStages"] = [
   {
     key: "create_channel_price",
@@ -168,9 +224,9 @@ export const sellPriceValidationRules: SellPriceValidationRule[] = [
     description: "Sell price must have a channel key before margin can be reviewed.",
   },
   {
-    key: "price_positive",
+    key: "price_non_negative",
     severity: "blocker",
-    description: "Sell price amount must be greater than zero.",
+    description: "Sell price amount must be zero or greater.",
   },
   {
     key: "currency_matches_tenant",
@@ -263,6 +319,8 @@ export const marginReadinessRules: SellPriceValidationRule[] = [
 export const sellPricePlan: SellPricePlan = {
   channels: sellPriceChannels,
   taxModes: sellPriceTaxModes,
+  statuses: sellPriceStatuses,
+  sources: sellPriceSources,
   workflowStages: proposedSellPriceWorkflowStages,
   validationRules: sellPriceValidationRules,
   marginInputs: marginCalculationInputs,

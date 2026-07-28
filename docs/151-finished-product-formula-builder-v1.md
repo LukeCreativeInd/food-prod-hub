@@ -389,3 +389,5 @@ where ii.display_name = 'Test Naked Chicken'
 - iPad/facility workflow.
 
 Task 152 adds [Sell Price Storage And Margin Readiness Plan](152-sell-price-storage-and-margin-readiness-plan.md). It keeps sell prices separate from supplier costs and confirms no margin engine should run until sell price storage, tax basis and margin rules exist.
+
+Task 153 adds [Sell Price Schema Foundation](153-sell-price-schema-foundation.md), drafting the tenant-scoped `finished_product_sell_prices` migration and explicit sell price permissions. The Finished Product Formula Builder still does not create or manage sell prices.
