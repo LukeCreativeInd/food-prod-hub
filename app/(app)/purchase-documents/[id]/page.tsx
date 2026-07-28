@@ -8,7 +8,6 @@ import {
   extractPurchaseDocumentAction,
   savePurchaseDocumentReviewAction,
 } from "@/app/purchase-documents/actions";
-import { PageHeader } from "@/components/page-header";
 import { EmptyState, StatusBadge } from "@/components/ui";
 import { getCurrentPermissionKeys } from "@/lib/auth";
 import {
@@ -275,11 +274,6 @@ export default async function PurchaseDocumentReviewPage({
   if (!review) {
     return (
       <>
-        <PageHeader
-          variant="compact"
-          title="Review Supplier Invoice"
-          description="The requested document could not be found for your current organisation."
-        />
         <div className="px-5 py-6 md:px-8">
           <EmptyState
             title="Purchase document not found"
@@ -382,12 +376,6 @@ export default async function PurchaseDocumentReviewPage({
 
   return (
     <>
-      <PageHeader
-        variant="compact"
-        title="Review Import"
-        description="Review supplier invoice data before committing supplier catalogue, internal item mapping and approved price records."
-      />
-
       <form action={savePurchaseDocumentReviewAction}>
         <input type="hidden" name="document_id" value={document.id} />
 

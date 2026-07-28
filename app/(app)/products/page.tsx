@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { PageHeader } from "@/components/page-header";
 import {
   AlertCard,
   EmptyState,
@@ -155,11 +154,6 @@ export default async function ProductsPage() {
 
   return (
     <>
-      <PageHeader
-        variant="compact"
-        title="Products"
-        description="Manage supplier catalogue items, internal ingredients, packaging, components, recipes and finished products."
-      />
       <div className="space-y-6 px-5 py-6 md:px-8">
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
           {summaryCards.map((card) => (

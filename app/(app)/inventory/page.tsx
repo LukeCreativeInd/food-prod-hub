@@ -1,4 +1,3 @@
-import { PageHeader } from "@/components/page-header";
 import {
   AlertCard,
   EmptyState,
@@ -68,11 +67,6 @@ export default async function InventoryPage() {
 
   return (
     <>
-      <PageHeader
-        variant="compact"
-        title="Inventory"
-        description="Review real inventory location setup before goods receiving, stock movements, purchasing and traceability workflows are built."
-      />
       <div className="space-y-6 px-5 py-6 md:px-8">
         <div className="flex flex-wrap items-center gap-3">
           <StatusBadge tone={canManageLocations ? "success" : "info"}>

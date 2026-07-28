@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import { SampleDataTable } from "@/components/products/sample-data-table";
 import { AlertCard, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { requirePermissionAccess } from "@/lib/auth";
@@ -42,8 +41,10 @@ export async function ProductionWorkspacePage({
 
   return (
     <AppShell>
-      <PageHeader title={title} description={description} />
-      <div className="space-y-6 px-5 py-6 md:px-8">
+      <div
+        className="space-y-6 px-5 py-6 md:px-8"
+        aria-label={`${title}: ${description}`}
+      >
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {summaryCards.map((card) => (
             <StatCard key={card.label} {...card} />

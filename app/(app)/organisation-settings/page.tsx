@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 
 import { BrandingForm, type BrandingFormValues } from "@/app/organisation-settings/branding-form";
-import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
   ModuleCard,
@@ -269,12 +268,6 @@ export default async function OrganisationSettingsPage({
 
   return (
     <>
-      <PageHeader
-        variant="compact"
-        title="Organisation Settings"
-        description="Tenant profile, branding, theme colours and future organisation administration controls."
-      />
-
       <div className="space-y-6 px-5 py-6 md:px-8">
         {message ? (
           <div className="flex items-start justify-between gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm">

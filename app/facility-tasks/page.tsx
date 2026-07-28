@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import { FacilityTaskCard } from "@/components/production/facility-task-card";
 import { AlertCard, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { requirePermissionAccess } from "@/lib/auth";
@@ -39,10 +38,6 @@ export default async function FacilityTasksPage() {
 
   return (
     <AppShell>
-      <PageHeader
-        title="Facility / iPad View"
-        description="Future floor-staff task screen preview for production areas and iPad devices."
-      />
       <div className="space-y-6 px-5 py-6 md:px-8">
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <StatCard

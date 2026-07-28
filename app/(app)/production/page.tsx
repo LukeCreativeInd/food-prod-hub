@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { PageHeader } from "@/components/page-header";
 import {
   AlertCard,
   EmptyState,
@@ -141,11 +140,6 @@ export default async function ProductionPage() {
 
   return (
     <>
-      <PageHeader
-        variant="compact"
-        title="Production"
-        description="Prepare formulas, production areas and task workflows before planning and running production."
-      />
       <div className="space-y-6 px-5 py-6 md:px-8">
         <div className="flex flex-wrap items-center gap-3">
           <StatusBadge

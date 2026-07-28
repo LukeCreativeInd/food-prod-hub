@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import Link from "next/link";
 
 import { createSupplierAction } from "@/app/suppliers/actions";
-import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
   SectionCard,
@@ -267,11 +266,6 @@ export default async function SuppliersPage({ searchParams }: PageProps) {
 
   return (
     <>
-      <PageHeader
-        variant="compact"
-        title="Suppliers"
-        description="Manage supplier master records and review supplier catalogue coverage for Clean Eats."
-      />
       <div className="space-y-6 px-5 py-6 md:px-8">
         {createMessage ? (
           <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">

@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
   PageActionButton,
@@ -157,11 +156,6 @@ export default async function IntegrationsPage() {
 
   return (
     <AppShell>
-      <PageHeader
-        title="Integrations"
-        description="Integrations will eventually connect each organisation/tenant to external systems for orders, purchasing, accounting, delivery, marketing, and imports."
-      />
-
       <div className="space-y-6 px-5 py-6 md:px-8">
         <SectionCard
           title="Current Tenant Summary"

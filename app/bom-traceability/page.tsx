@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import { SampleDataTable } from "@/components/products/sample-data-table";
 import { AlertCard, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { requirePermissionAccess } from "@/lib/auth";
@@ -132,10 +131,6 @@ export default async function BomTraceabilityPage() {
 
   return (
     <AppShell>
-      <PageHeader
-        title="BOM / Traceability"
-        description="Preview how incoming materials can be traced through stock locations, production issues, components, recipes and finished products."
-      />
       <div className="space-y-6 px-5 py-6 md:px-8">
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {summaryCards.map((card) => (

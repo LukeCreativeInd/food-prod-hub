@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
   PageActionButton,
@@ -173,11 +172,6 @@ export default async function UsersPage() {
 
   return (
     <AppShell>
-      <PageHeader
-        title="Users & Roles"
-        description="Users will eventually be managed per organisation/tenant, with roles controlling access to modules, production tasks, QA checks, reports, and admin areas."
-      />
-
       <div className="space-y-6 px-5 py-6 md:px-8">
         <SectionCard
           title="Current Tenant Summary"

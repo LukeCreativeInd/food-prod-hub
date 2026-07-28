@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
   ModuleCard,
@@ -67,11 +66,6 @@ export default async function ModulesPage() {
 
   return (
     <AppShell>
-      <PageHeader
-        title="Modules"
-        description="Modules will eventually be enabled or disabled per organisation/tenant. This Clean Eats view is static only and does not save changes."
-      />
-
       <div className="space-y-6 px-5 py-6 md:px-8">
         <SectionCard
           title="Current Tenant Summary"

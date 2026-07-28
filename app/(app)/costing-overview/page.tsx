@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { PageHeader } from "@/components/page-header";
 import {
   AlertCard,
   EmptyState,
@@ -139,11 +138,6 @@ export default async function CostingOverviewPage() {
 
   return (
     <>
-      <PageHeader
-        variant="compact"
-        title="Costings"
-        description="Review supplier price coverage, approved costs and costing readiness for Clean Eats products."
-      />
       <div className="space-y-6 px-5 py-6 md:px-8">
         <div className="flex flex-wrap items-center gap-3">
           <StatusBadge tone={data.canManagePrices ? "success" : "info"}>

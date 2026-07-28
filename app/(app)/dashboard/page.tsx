@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import Link from "next/link";
 
 import { AuthContextStatus } from "@/components/auth/auth-context-status";
-import { PageHeader } from "@/components/page-header";
 import {
   AlertCard,
   EmptyState,
@@ -433,11 +432,6 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <PageHeader
-        variant="compact"
-        title="Dashboard"
-        description="A real Phase 1 setup overview for Products, Costings, Inventory, Production and controlled supplier invoice intake."
-      />
       <div className="space-y-6 px-5 py-6 md:px-8">
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <StatCard

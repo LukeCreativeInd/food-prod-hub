@@ -391,3 +391,9 @@ The pass adds lightweight count-only summary helpers for Dashboard and Suppliers
 Task 148 adds tiny redirect pages for natural nested tenant URLs across Products, Production, Inventory, Admin and Tools so they land on the existing active top-level workspace routes. Costings and Components redirects from earlier tasks are preserved.
 
 This is redirect-only. It does not move canonical pages, change tenant sidebar navigation, add middleware, activate tenant subdomain routing, change auth/permissions/RLS, change Platform Admin, change Supplier Invoice Intake logic, or change Costings/Formula Builder business logic. Facility/iPad compatibility aliases redirect to the existing `/facility-tasks` page because that is the current active route.
+
+## Task 149 Tenant Page Heading Cleanup
+
+Task 149 removes generic duplicated tenant page headings now that the persistent app header owns the main page title. Broad workspace pages start directly with summary cards, status badges, tables, forms or section cards instead of repeating titles such as Dashboard, Products, Inventory, Production, Suppliers, Modules or Supplier Invoice Intake in the content area.
+
+Entity detail pages may still show the specific record name inside the content area when the app header uses a generic detail title such as Component Detail, Supplier Detail, Internal Item Detail, Stock Location Detail or Finished Product Detail. No routing, sidebar, auth, permissions, RLS, Platform Admin, Supplier Invoice Intake parser/commit, Costings or Formula Builder business logic changes are included.

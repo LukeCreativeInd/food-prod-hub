@@ -1,6 +1,5 @@
 import { createComponentFormulaAction } from "@/app/components/actions";
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import { SampleDataTable } from "@/components/products/sample-data-table";
 import { EmptyState, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { getComponentFormulaListData } from "@/lib/component-formula-builder-data";
@@ -64,11 +63,6 @@ export default async function ComponentsPage({
 
   return (
     <AppShell>
-      <PageHeader
-        title="Components"
-        description="Create and maintain batch formulas for made components before production methods and route planning are added."
-      />
-
       <div className="space-y-6 px-5 py-6 md:px-8">
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
           <StatCard

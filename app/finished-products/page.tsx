@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import { SampleDataTable } from "@/components/products/sample-data-table";
 import { EmptyState, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { getFinishedProductFormulaOverviewForCurrentOrganisation } from "@/lib/formula-data";
@@ -51,11 +50,6 @@ export default async function FinishedProductsPage() {
 
   return (
     <AppShell>
-      <PageHeader
-        title="Finished Products"
-        description="Sellable meals/products assembled from ingredients, components and packaging."
-      />
-
       <div className="space-y-6 px-5 py-6 md:px-8">
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <StatCard

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ActionSubmitButton } from "@/app/purchase-documents/action-submit-button";
 import { createCammarotoSampleReviewAction } from "@/app/purchase-documents/actions";
 import { UploadDocumentForm } from "@/app/purchase-documents/upload-document-form";
-import { PageHeader } from "@/components/page-header";
 import { EmptyState, StatusBadge } from "@/components/ui";
 import {
   getPurchaseDocumentsForCurrentOrganisation,
@@ -93,12 +92,6 @@ export default async function PurchaseDocumentsPage() {
 
   return (
     <>
-      <PageHeader
-        variant="compact"
-        title="Supplier Invoice Intake"
-        description="Upload, extract and review supplier invoices before committing supplier catalogue, internal item mappings and approved prices."
-      />
-
       <div className="space-y-6 px-5 py-6 md:px-8">
         <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">

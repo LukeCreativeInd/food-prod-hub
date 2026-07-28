@@ -1,5 +1,4 @@
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
 import {
   AlertCard,
   EmptyState,
@@ -35,8 +34,10 @@ export async function PlaceholderPage({
 
   return (
     <AppShell>
-      <PageHeader title={title} description={description} />
-      <div className="space-y-6 px-5 py-6 md:px-8">
+      <div
+        className="space-y-6 px-5 py-6 md:px-8"
+        aria-label={`${title}: ${description}`}
+      >
         <section className="grid gap-4 md:grid-cols-3">
           <StatCard
             label="Screen status"

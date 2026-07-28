@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { createInternalItemAction } from "@/app/internal-items/actions";
-import { PageHeader } from "@/components/page-header";
 import {
   EmptyState,
   SectionCard,
@@ -82,8 +81,10 @@ export async function InternalItemsWorkspacePage({
 
   return (
     <>
-      <PageHeader variant="compact" title={title} description={description} />
-      <div className="space-y-6 px-5 py-6 md:px-8">
+      <div
+        className="space-y-6 px-5 py-6 md:px-8"
+        aria-label={`${title}: ${description}`}
+      >
         {createMessage ? (
           <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
             {createMessage}
