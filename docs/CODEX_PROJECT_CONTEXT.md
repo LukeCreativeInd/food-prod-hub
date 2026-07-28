@@ -385,3 +385,9 @@ The builder does not add workbook import, finished product formula editing, prod
 Task 147 improves first paint and largest paint behaviour on `/dashboard`, `/organisation-settings`, `/suppliers` and `/platform` without changing schema, RLS, permissions, auth flow, middleware, tenant routing, Platform Admin provisioning, Supplier Invoice Intake logic or business rules.
 
 The pass adds lightweight count-only summary helpers for Dashboard and Suppliers, streams lower-priority sections through server `Suspense` boundaries, defers Organisation Settings branding/logo form work behind a stable section fallback and separates the static Platform Admin hero from heavier tenant/platform metadata panels. Global search was inspected and left unchanged because it does not fetch until the user types.
+
+## Task 148 Tenant Route Redirect Consistency
+
+Task 148 adds tiny redirect pages for natural nested tenant URLs across Products, Production, Inventory, Admin and Tools so they land on the existing active top-level workspace routes. Costings and Components redirects from earlier tasks are preserved.
+
+This is redirect-only. It does not move canonical pages, change tenant sidebar navigation, add middleware, activate tenant subdomain routing, change auth/permissions/RLS, change Platform Admin, change Supplier Invoice Intake logic, or change Costings/Formula Builder business logic. Facility/iPad compatibility aliases redirect to the existing `/facility-tasks` page because that is the current active route.

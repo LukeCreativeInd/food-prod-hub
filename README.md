@@ -315,6 +315,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Component / Formula Import Foundation Plan](docs/145-component-formula-import-foundation-plan.md)
 - [Component / Formula Builder v1](docs/146-component-formula-builder-v1.md)
 - [FCP/LCP frontend optimisation pass](docs/147-fcp-lcp-frontend-optimisation-pass.md)
+- [Tenant route redirect consistency](docs/148-tenant-route-redirect-consistency.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)
@@ -521,5 +522,6 @@ Repeat invoice and price change behaviour is documented in [Repeat Invoice and P
 - Read-only Production dashboard scaffold using inventory locations, formulas and internal item setup signals
 - Tenant-scoped, permission-aware global search across accessible pages and current core records
 - Frontend FCP/LCP optimisation pass for Dashboard, Organisation Settings, Suppliers and Platform routes
+- Consistent tenant nested-route redirects for natural Products, Production, Inventory, Admin and Tools URLs
 
 No costing calculations, broad production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.
