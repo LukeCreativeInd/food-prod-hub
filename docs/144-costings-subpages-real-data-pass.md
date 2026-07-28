@@ -110,6 +110,8 @@ Task 146 adds [Component / Formula Builder v1](146-component-formula-builder-v1.
 
 Task 150 adds [Finished Product Formula Builder Plan](150-finished-product-formula-builder-plan.md). It keeps Meal Margins conservative: finished product formula cost can become readiness input later, but margins remain blocked until reliable sell price storage and agreed margin rules exist.
 
+Task 151 adds [Finished Product Formula Builder v1](151-finished-product-formula-builder-v1.md). Finished product formulas can now be entered manually and may improve future Meal Margins readiness, but task 144 Costings logic still does not invent sell prices, margins, unit conversions or broad costing rules.
+
 ## Follow-Up Fix Before Commit
 
 The shared Costings page wrapper no longer renders a second large content title/hero. Page titles remain in the persistent app header, and page content starts with summary cards and real-data sections.

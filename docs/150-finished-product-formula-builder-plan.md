@@ -315,3 +315,5 @@ Build Finished Product Formula Builder v1 using the existing schema and the same
 3. Reuse `formulas.view` and `formulas.manage`.
 4. Keep cost estimates conservative.
 5. Keep margin readiness separate until sell price storage exists.
+
+Task 151 adds [Finished Product Formula Builder v1](151-finished-product-formula-builder-v1.md), implementing this manual builder without a migration, import flow, sell price storage or margin engine.

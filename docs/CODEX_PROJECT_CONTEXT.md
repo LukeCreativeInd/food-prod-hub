@@ -403,3 +403,11 @@ Entity detail pages may still show the specific record name inside the content a
 Task 150 plans the future Finished Product Formula Builder v1. It confirms the current `internal_items`, `formula_versions`, `formula_lines` and `approved_supplier_prices` foundation can support tenant-scoped finished product formulas without a migration.
 
 Finished product formula outputs should use `internal_items.item_type = finished_product` and `formula_versions.formula_type = finished_product`. Lines should reference component, ingredient and packaging internal items through `formula_lines.input_internal_item_id`. Costing readiness remains conservative, and Meal Margins remain blocked until sell price storage and agreed margin rules exist. No write actions, forms, imports, migrations, Platform Admin changes, Supplier Invoice Intake changes or sidebar changes are included.
+
+## Task 151 Finished Product Formula Builder
+
+Task 151 adds the first manual Finished Product Formula Builder v1 on `/finished-products` and `/finished-products/[id]`. It uses the existing `internal_items`, `formula_versions`, `formula_lines` and `approved_supplier_prices` schema without a migration.
+
+Reads require `formulas.view`. Create/edit/line actions require `formulas.manage`, derive `organisation_id` from authenticated app context and respect RLS. Lines can reference component, ingredient and packaging internal items. Finished product inputs, self references, archived items, unsupported item types and cross-tenant items are blocked. Line removal soft-archives `formula_lines.archived_at`.
+
+Cost readiness is conservative: product estimated cost is shown only when all lines have safe cost sources and exact units, including active cost-ready component formulas for component inputs. Margin readiness remains pending because sell price storage and margin rules are not implemented. No import/upload, sell price management, margin engine, unit conversion engine, production tasks, iPad/facility workflow, QA checks, Supplier Invoice Intake changes or Platform Admin changes are included.
