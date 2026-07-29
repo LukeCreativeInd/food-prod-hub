@@ -13,11 +13,11 @@ export const PLATFORM_SUPPORT_DOMAIN = "support.everybatchmrp.com";
 export const PLATFORM_ADMIN_DOMAIN = "admin.everybatchmrp.com";
 export const PLATFORM_SUPPORT_URL = "https://support.everybatchmrp.com";
 export const PLATFORM_KNOWLEDGE_BASE_URL =
-  "https://support.everybatchmrp.com/knowledge-base";
+  "https://support.everybatchmrp.com/guides";
 export const PLATFORM_MODULE_GUIDES_URL =
-  "https://support.everybatchmrp.com/module-guides";
+  "https://support.everybatchmrp.com/guides";
 export const PLATFORM_SUPPORT_TICKET_URL =
-  "https://support.everybatchmrp.com/support";
+  "https://support.everybatchmrp.com/tickets";
 export const PLATFORM_CONTACT_SUPPORT_URL =
   "https://support.everybatchmrp.com/contact";
 

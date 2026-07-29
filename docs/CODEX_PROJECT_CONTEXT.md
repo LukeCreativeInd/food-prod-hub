@@ -543,3 +543,11 @@ No live redirect failures were found. Signed-in workspace selector clicks are do
 Task 163 lightly polishes the central workspace selector so each card shows workspace type, destination domain, short description, status and clearer action labels. Clean Eats shows `cleaneats.everybatchmrp.com`; Platform Admin shows `admin.everybatchmrp.com`. Safe `next` paths are preserved for Clean Eats tenant routes, Platform Admin preserves `/platform/...` paths, and localhost continues to use local paths.
 
 The selector continues to validate workspace selections server-side. `next` values must be internal single-slash paths; protocol URLs and `//` paths are ignored so there is no open redirect path. No DNS, Vercel, Supabase Auth, database, migration, RLS, permission, tenant app business logic, Platform Admin business logic, sidebar or navigation changes are included.
+
+## Task 174 Support Help Centre Scaffold
+
+Task 174 creates the first authenticated EveryBatch support/help-centre scaffold. The support host now allows and rewrites `support.everybatchmrp.com/`, `/guides`, `/tickets`, `/contact`, `/release-notes` and `/troubleshooting` to internal `/support` routes, while `/platform`, `/dashboard`, tenant app routes and `/select-workspace` redirect to support home. Middleware still performs no Supabase, session or database reads.
+
+The support routes use `requireAuth()` in the support layout, so any signed-in EveryBatch user can view the scaffold. The shell includes EveryBatch Help Centre branding, lightweight support navigation, workspace return links, the central workspace selector link and sign out. Guide, ticket, contact, release-note and troubleshooting pages are static scaffold pages only. No ticket tables, ticket actions, database-backed guide content, support-specific permissions, migrations, RLS changes, DNS/Vercel/Supabase setting changes or business logic changes are included.
+
+The task 174 follow-up fix hardens host resolution so recognised direct request hosts such as `support.everybatchmrp.com` win over forwarded-host fallback metadata. This prevents support-domain `/platform` and tenant workspace paths from rendering the wrong app surface if proxy headers are shaped unexpectedly.

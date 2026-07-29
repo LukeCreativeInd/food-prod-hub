@@ -71,6 +71,18 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
     title: "Tenant Provisioning",
     context: "Platform",
   },
+  "/support": { title: "Support", context: "EveryBatch" },
+  "/support/guides": { title: "Help Guides", context: "EveryBatch" },
+  "/support/tickets": { title: "Support Tickets", context: "EveryBatch" },
+  "/support/contact": { title: "Contact Support", context: "EveryBatch" },
+  "/support/release-notes": {
+    title: "Release Notes",
+    context: "EveryBatch",
+  },
+  "/support/troubleshooting": {
+    title: "Troubleshooting",
+    context: "EveryBatch",
+  },
   "/qa": { title: "QA", context: "Quality" },
   "/qa-checks": { title: "QA Checks", context: "Quality" },
   "/qa-sign-offs": { title: "QA Sign-offs", context: "Quality" },

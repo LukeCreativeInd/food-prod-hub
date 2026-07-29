@@ -29,9 +29,9 @@ It is not:
 
 - The Help & Support menu already points to `support.everybatchmrp.com` paths.
 - The support help centre is planned in [Support Domain And Auth-Gated Help Centre Plan](172-support-domain-auth-gated-help-centre-plan.md).
-- Support routes and support UI are not scaffolded yet.
+- Support routes and first support UI scaffold are now documented in [Support Help Centre Scaffold](174-support-help-centre-scaffold.md).
 - Support ticket tables do not exist yet.
-- The support domain may currently show DNS errors or app fallback behaviour until Vercel/DNS setup and task 174 are complete.
+- The support domain should now use the authenticated support scaffold after deployment, assuming Vercel/DNS/Auth settings are valid.
 
 ## Vercel Setup Checklist
 
@@ -114,9 +114,9 @@ Before the support Help Centre is made live, support should be added to the revi
 
 Task 173 does not change cookie code or Supabase settings.
 
-## Expected Behaviour Before Task 174
+## Historical Expectation Before Task 174
 
-Because task 174 has not created support routes yet:
+Before task 174 created support routes:
 
 - DNS/domain validation can be completed.
 - SSL can become active.
@@ -130,11 +130,12 @@ Do not claim the support centre is live until task 174 or later creates an authe
 
 After the Support Help Centre Scaffold is implemented:
 
-- `support.everybatchmrp.com` redirects signed-out users to login or an auth-required support landing.
+- `support.everybatchmrp.com` rewrites internally to `/support` and redirects signed-out users to login.
 - `support.everybatchmrp.com/login` loads login.
 - signed-in users see the Support Help Centre dashboard.
 - `support.everybatchmrp.com/guides` shows an authenticated guide index/scaffold.
 - `support.everybatchmrp.com/tickets` shows a ticket scaffold or coming-soon state.
+- `support.everybatchmrp.com/contact` shows an authenticated contact scaffold.
 - `support.everybatchmrp.com/platform` does not expose Platform Admin.
 - `support.everybatchmrp.com/dashboard` does not expose the tenant workspace.
 
@@ -175,13 +176,13 @@ Signed in:
 
 Current behaviour:
 
-- the Help & Support menu points to future `support.everybatchmrp.com` paths
-- task 173 does not change those URLs
+- the Help & Support menu points to the authenticated `support.everybatchmrp.com` scaffold paths
+- task 174 aligns guide, ticket and contact links with real support routes
 
 Interim expectation:
 
-- before DNS and task 174, the help link may not work as intended
-- after task 174, it should land on authenticated support content
+- before DNS and deployment, the help link may not work as intended
+- after deployment, it should land on authenticated support content
 
 Future:
 

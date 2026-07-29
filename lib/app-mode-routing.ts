@@ -65,6 +65,14 @@ const tenantRoutePrefixes = [
 
 const publicAuthRoutePrefixes = ["/login", "/select-workspace", "/no-access"];
 const platformAdminRoutePrefixes = ["/platform"];
+const supportRoutePrefixes = [
+  "/support",
+  "/guides",
+  "/tickets",
+  "/contact",
+  "/release-notes",
+  "/troubleshooting",
+];
 
 function normalisePathname(pathname: string) {
   if (!pathname.startsWith("/")) {
@@ -122,6 +130,47 @@ export function isPlatformAdminPathAllowed(pathname: string) {
   );
 }
 
+export function isSupportAppPathAllowed(pathname: string) {
+  const path = normalisePathname(pathname);
+
+  if (isInternalOrAssetPath(path)) {
+    return true;
+  }
+
+  if (
+    ["/login", "/no-access"].some((prefix) => pathMatchesPrefix(path, prefix))
+  ) {
+    return true;
+  }
+
+  return (
+    path === "/" ||
+    supportRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix))
+  );
+}
+
+export function getSupportAppModeRewritePath(pathname: string) {
+  const path = normalisePathname(pathname);
+
+  if (isInternalOrAssetPath(path) || pathMatchesPrefix(path, "/support")) {
+    return null;
+  }
+
+  if (path === "/") {
+    return "/support";
+  }
+
+  const supportRootRoute = supportRoutePrefixes.find(
+    (prefix) => prefix !== "/support" && pathMatchesPrefix(path, prefix),
+  );
+
+  if (!supportRootRoute) {
+    return null;
+  }
+
+  return `/support${path}`;
+}
+
 export function resolveAppModeFromHost(host: string): ParsedEveryBatchHost {
   return parseEveryBatchHost(host);
 }
@@ -129,6 +178,17 @@ export function resolveAppModeFromHost(host: string): ParsedEveryBatchHost {
 export function resolveAppModeFromHeaders(headers: HeadersLike) {
   const forwardedHost = headers.get("x-forwarded-host");
   const host = forwardedHost ?? headers.get("host") ?? "";
+
+  const directHost = headers.get("host");
+  const directMode = directHost ? resolveAppModeFromHost(directHost) : null;
+
+  if (
+    directMode &&
+    directMode.mode !== "unknown" &&
+    directMode.isKnownHost
+  ) {
+    return directMode;
+  }
 
   return resolveAppModeFromHost(host);
 }
@@ -167,6 +227,10 @@ export function isRouteAllowedForAppMode(
     return true;
   }
 
+  if (resolvedMode.mode === "support") {
+    return isSupportAppPathAllowed(path);
+  }
+
   if (publicAuthRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix))) {
     return true;
   }
@@ -186,7 +250,7 @@ export function isRouteAllowedForAppMode(
     return tenantRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix));
   }
 
-  if (resolvedMode.mode === "marketing" || resolvedMode.mode === "support") {
+  if (resolvedMode.mode === "marketing") {
     return path === "/";
   }
 
@@ -347,12 +411,71 @@ export function getTenantAppModeRedirect(
   };
 }
 
+export function getSupportAppModeRedirect(
+  pathname: string,
+): AppModeRedirectIntent {
+  const path = normalisePathname(pathname);
+
+  if (isInternalOrAssetPath(path)) {
+    return {
+      shouldRedirect: false,
+      href: path,
+      reason: "Internal and asset routes are allowed on the support host.",
+    };
+  }
+
+  if (pathMatchesPrefix(path, "/select-workspace")) {
+    return {
+      shouldRedirect: true,
+      href: "/",
+      reason:
+        "The support host does not render the central workspace selector.",
+    };
+  }
+
+  if (platformAdminRoutePrefixes.some((prefix) => pathMatchesPrefix(path, prefix))) {
+    return {
+      shouldRedirect: true,
+      href: "/",
+      reason:
+        "The support host must not expose Platform Admin routes.",
+    };
+  }
+
+  if (isTenantAppCanonicalRoute(path)) {
+    return {
+      shouldRedirect: true,
+      href: "/",
+      reason: "The support host must not expose tenant workspace routes.",
+    };
+  }
+
+  if (isSupportAppPathAllowed(path)) {
+    return {
+      shouldRedirect: false,
+      href: path,
+      reason: "Support route is allowed on the support host.",
+    };
+  }
+
+  return {
+    shouldRedirect: true,
+    href: "/",
+    reason:
+      "Route is outside the support help-centre surface. Redirect to support home.",
+  };
+}
+
 export function getAppModeRedirect(
   pathname: string,
   resolvedMode: Pick<ParsedEveryBatchHost, "mode">,
 ): AppModeRedirectIntent {
   if (resolvedMode.mode === "central_app") {
     return getCentralAppModeRedirect(pathname);
+  }
+
+  if (resolvedMode.mode === "support") {
+    return getSupportAppModeRedirect(pathname);
   }
 
   if (isRouteAllowedForAppMode(pathname, resolvedMode)) {

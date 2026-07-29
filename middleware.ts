@@ -3,6 +3,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   getCentralAppModeRedirect,
   getPlatformAdminAppModeRedirect,
+  getSupportAppModeRedirect,
+  getSupportAppModeRewritePath,
   getTenantAppModeRedirect,
   resolveAppModeFromHeaders,
 } from "@/lib/app-mode-routing";
@@ -41,6 +43,29 @@ export function middleware(request: NextRequest) {
       : new URL(redirectIntent.href, request.url);
 
     return NextResponse.redirect(redirectUrl);
+  }
+
+  if (resolvedMode.mode === "support") {
+    const redirectIntent = getSupportAppModeRedirect(request.nextUrl.pathname);
+
+    if (redirectIntent.shouldRedirect) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = redirectIntent.href;
+      redirectUrl.search = "";
+
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    const rewritePath = getSupportAppModeRewritePath(request.nextUrl.pathname);
+
+    if (!rewritePath) {
+      return NextResponse.next();
+    }
+
+    const rewriteUrl = request.nextUrl.clone();
+    rewriteUrl.pathname = rewritePath;
+
+    return NextResponse.rewrite(rewriteUrl);
   }
 
   if (resolvedMode.mode !== "platform_admin") {

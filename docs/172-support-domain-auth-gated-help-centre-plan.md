@@ -321,6 +321,8 @@ No setup is performed by task 172.
 
 Task 173 adds [Support Domain Setup](173-support-domain-setup.md), the detailed Vercel, Cloudflare, Supabase Auth, smoke-test and rollback checklist for connecting `support.everybatchmrp.com`.
 
+Task 174 adds [Support Help Centre Scaffold](174-support-help-centre-scaffold.md), the first authenticated support shell, static guide index, tickets coming-soon page, contact scaffold and support-host middleware rewrite.
+
 ## Implementation Sequence
 
 Recommended next tasks:
@@ -331,6 +333,8 @@ Recommended next tasks:
    - Review Supabase Auth redirect URLs.
    - Smoke test signed-out redirects.
 2. Task 174 — Support Help Centre Scaffold
+
+   Status: completed as the first authenticated scaffold. It does not create ticket persistence, database-backed guide content or support-specific permissions.
    - Add support app-mode guard.
    - Create support shell/layout.
    - Create authenticated support root page.
@@ -350,6 +354,8 @@ Recommended next tasks:
 The current Help & Support menu points to `support.everybatchmrp.com` paths.
 
 For task 172, keep that behaviour unchanged. If the support domain is not yet connected, the link may show a browser/DNS error until task 173.
+
+Task 174 updates the Help & Support menu targets so guides, tickets and contact links point to scaffolded authenticated support routes.
 
 Alternative future option:
 

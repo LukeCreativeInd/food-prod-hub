@@ -20,6 +20,8 @@ Task 172 plans the future authenticated `support.everybatchmrp.com` help centre.
 
 Task 173 documents the real-world setup checklist for connecting `support.everybatchmrp.com` in Vercel/Cloudflare and reviewing Supabase Auth redirect URLs. It still does not enforce support routes in middleware.
 
+Task 174 activates the first support-host route guard and rewrite scaffold. `support.everybatchmrp.com/`, `/guides`, `/tickets`, `/contact`, `/release-notes` and `/troubleshooting` rewrite to internal `/support` routes, while `/platform`, `/dashboard` and other tenant app routes redirect back to support home. Middleware still performs no Supabase/session/database reads.
+
 ## Strategy
 
 EveryBatch should continue as:
@@ -42,7 +44,7 @@ Separate Vercel builds or client-specific forks are not needed for this foundati
 | `platform.everybatchmrp.com` | `platform_admin` | Legacy/optional Platform Admin host recognised for compatibility, not connected/enforced yet. |
 | `cleaneats.everybatchmrp.com` | `tenant_app` | Clean Eats tenant workspace route guard active in code; DNS/Vercel/Supabase settings remain manual. |
 | `{tenant_slug}.everybatchmrp.com` | `tenant_app` | Future tenant workspace pattern, not active yet. |
-| `support.everybatchmrp.com` | `support` | Future support/docs destination. |
+| `support.everybatchmrp.com` | `support` | Authenticated support/help-centre scaffold active after task 174 deployment. |
 | `localhost` / `127.0.0.1` | `local_dev` | Developer-friendly fallback with `cleaneats` tenant slug hint. |
 | `*.vercel.app` | `local_dev` | Safe preview/deployment fallback matching existing behaviour. |
 | unknown host | `unknown` | Safe unknown mode; no global enforcement yet. |

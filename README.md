@@ -189,6 +189,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Brand asset logo/icon storage planning now defines future EveryBatch platform logo/icon assets and tenant full-logo/icon assets before any schema, storage policy or upload UI changes.
 - The real EveryBatch PNG icon is now used for app and Apple icons, and tenant/platform browser titles use the `Page Title - EveryBatch` format.
 - Support domain setup has been documented for `support.everybatchmrp.com`, including Vercel, Cloudflare, Supabase Auth, interim behaviour, smoke tests and rollback notes.
+- The first authenticated EveryBatch Support Help Centre scaffold now serves support landing, guides, tickets, contact, release notes and troubleshooting routes through the support app mode.
 
 ## Tech Stack
 
@@ -360,6 +361,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Meal Margins Real Calculation v1](docs/171-meal-margins-real-calculation-v1.md)
 - [Support Domain And Auth-Gated Help Centre Plan](docs/172-support-domain-auth-gated-help-centre-plan.md)
 - [Support Domain Setup](docs/173-support-domain-setup.md)
+- [Support Help Centre Scaffold](docs/174-support-help-centre-scaffold.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)
@@ -568,5 +570,6 @@ Repeat invoice and price change behaviour is documented in [Repeat Invoice and P
 - Tenant-scoped, permission-aware global search across accessible pages and current core records
 - Frontend FCP/LCP optimisation pass for Dashboard, Organisation Settings, Suppliers and Platform routes
 - Consistent tenant nested-route redirects for natural Products, Production, Inventory, Admin and Tools URLs
+- Authenticated support/help-centre scaffold for `support.everybatchmrp.com` and local `/support` routes
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.
