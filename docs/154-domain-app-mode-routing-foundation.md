@@ -16,6 +16,8 @@ Task 159 also finalises Platform Admin domain separation: `/platform` routes on 
 
 Task 161 finalises central gateway tenant-route hardening: tenant workspace routes on `app.everybatchmrp.com` redirect to `/select-workspace?next=...` instead of rendering the Clean Eats fallback workspace directly.
 
+Task 172 plans the future authenticated `support.everybatchmrp.com` help centre. The `support` app mode remains planned only; no support routes, middleware enforcement, DNS, Vercel or Supabase Auth settings are changed by task 172.
+
 ## Strategy
 
 EveryBatch should continue as:
@@ -166,6 +168,7 @@ Before enforcing new domains, review allowed URLs for:
 - `https://app.everybatchmrp.com`
 - `https://admin.everybatchmrp.com`
 - `https://cleaneats.everybatchmrp.com`
+- `https://support.everybatchmrp.com`
 - local development URLs
 
 ## Static Resolver Examples

@@ -29,6 +29,8 @@ The support URL paths are placeholders for the future support site:
 
 The app links to those target URLs, but it does not create or host those support pages.
 
+Task 172 adds [Support Domain And Auth-Gated Help Centre Plan](172-support-domain-auth-gated-help-centre-plan.md), which defines the future authenticated support-domain purpose, guide IA, ticket model and setup sequence. The Help menu remains a linkout placeholder until support routing is implemented.
+
 ## Header Menu
 
 Added:

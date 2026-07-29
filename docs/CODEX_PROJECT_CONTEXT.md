@@ -210,6 +210,14 @@ Margin formulas are `gross_profit_amount = sell_price_amount - product_cost`, `g
 
 No GST engine, tax normalisation, margin snapshots, Shopify sync, discount logic, subscription pricing, wholesale quoting, approval workflows, migrations or write actions are added.
 
+## Task 172 Support Domain And Auth-Gated Help Centre Plan
+
+Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.
+
+Support should use its own `support` app mode, require signed-in EveryBatch users, avoid exposing raw internal Codex task docs, and eventually respect tenant memberships, enabled modules/features and support roles. Platform admins/support staff should manage tickets through future Platform Admin support workflows; tenant users should use the support domain as the customer-facing help surface.
+
+No support routes, support UI, middleware/domain routing, DNS/Vercel/Supabase settings, auth changes, schema, migrations, RLS, permissions, ticket tables, support storage or packages are added.
+
 Platform/admin surfaces should use EveryBatch branding.
 
 EveryBatch brand constants live in:

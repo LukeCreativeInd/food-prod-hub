@@ -357,6 +357,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Tenant / Platform Logo + Icon Upload UI v1](docs/169-tenant-platform-logo-icon-upload-ui-v1.md)
 - [Sell Price Management UI v1](docs/170-sell-price-management-ui-v1.md)
 - [Meal Margins Real Calculation v1](docs/171-meal-margins-real-calculation-v1.md)
+- [Support Domain And Auth-Gated Help Centre Plan](docs/172-support-domain-auth-gated-help-centre-plan.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

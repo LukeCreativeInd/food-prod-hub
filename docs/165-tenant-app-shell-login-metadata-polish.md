@@ -93,6 +93,8 @@ This lets a user sign in on `app.everybatchmrp.com` and arrive authenticated on:
 
 The shared cookie domain is only applied for known EveryBatch production app modes. It is not applied on localhost, local/private hosts, Vercel preview hosts, the marketing root or future support host.
 
+Task 172 plans the future authenticated `support.everybatchmrp.com` Help Centre. Before support goes live, support should be added to the reviewed production cookie-sharing host list so users signed in through the central app can arrive authenticated on the support domain.
+
 The cookie options are shared by the browser and server Supabase helpers:
 
 - `lib/supabase/client.ts`
