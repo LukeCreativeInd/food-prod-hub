@@ -74,3 +74,7 @@ Support page metadata now covers:
 The support area remains authenticated through the existing support layout. The support domain and local `/support` routes continue to use the existing routing and auth behaviour.
 
 No database reads or writes are added for guide content.
+
+## Task 177 Follow-Up
+
+Task 177 drafts the separate support ticket schema foundation. Guide content remains static and separate from support ticket records.

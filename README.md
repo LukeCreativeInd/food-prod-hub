@@ -546,6 +546,8 @@ Repeat invoice and price change behaviour is documented in [Repeat Invoice and P
 
 Support Guides Static Content v1 is documented in [Support Guides Static Content v1](docs/176-support-guides-static-content-v1.md).
 
+Support Tickets Schema Foundation is documented in [Support Tickets Schema Foundation](docs/177-support-tickets-schema-foundation.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -576,5 +578,6 @@ Support Guides Static Content v1 is documented in [Support Guides Static Content
 - Consistent tenant nested-route redirects for natural Products, Production, Inventory, Admin and Tools URLs
 - Authenticated support/help-centre scaffold for `support.everybatchmrp.com` and local `/support` routes
 - Static authenticated support guides for getting started, domains, Products, Costings, Formula Builder, Supplier Invoice Intake, Inventory and access troubleshooting
+- Drafted support ticket schema foundation with tenant-scoped tickets, customer/internal comments, ticket events, RLS and support ticket permission seeds
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

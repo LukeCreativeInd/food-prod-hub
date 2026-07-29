@@ -198,6 +198,14 @@ Available guides now cover getting started, workspace selector/domains, Products
 
 Guide content remains authenticated and static. It is not database-backed, does not expose internal developer docs and does not add ticket persistence.
 
+## Task 177 Ticket Schema Foundation
+
+Task 177 drafts migration `032_support_tickets_schema_foundation.sql` for future support ticket storage.
+
+The migration creates `support_tickets`, `support_ticket_comments` and `support_ticket_events`, enables RLS, seeds support ticket permission keys and keeps internal comments/events platform-admin only.
+
+The authenticated support tickets page remains a scaffold. No ticket submission UI, Platform Admin inbox, attachments, emails or external support integration is active yet.
+
 ## Not Included
 
 Task 174 does not include:

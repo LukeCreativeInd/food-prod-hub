@@ -3,29 +3,22 @@ import type { Metadata } from "next";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionCard } from "@/components/ui/section-card";
 import { StatusBadge } from "@/components/ui/status-badge";
+import {
+  supportTicketCategories,
+  supportTicketPriorities,
+  supportTicketStatuses,
+} from "@/lib/support-ticket-types";
 
 export const metadata: Metadata = {
   title: "Support Tickets - EveryBatch",
 };
 
-const plannedTicketStatuses = [
-  "New",
-  "Triaged",
-  "In progress",
-  "Waiting on customer",
-  "Resolved",
-];
-
-const plannedTicketCategories = [
-  "Access",
-  "Supplier Invoice Intake",
-  "Products",
-  "Costings",
-  "Formula Builder",
-  "Production",
-  "Inventory",
-  "Platform Admin",
-];
+function formatSupportValue(value: string) {
+  return value
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
 
 export default function SupportTicketsPage() {
   return (
@@ -36,15 +29,15 @@ export default function SupportTicketsPage() {
           Support Tickets
         </h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
-          Ticket submission and tracking are planned for a later build. This
-          page confirms the authenticated support route and outlines the future
-          ticket structure without saving data.
+          Ticket submission and tracking are coming next. The ticket foundation
+          is prepared, but this page does not submit, update or store tickets
+          yet. For now, use your existing support channel.
         </p>
       </section>
 
       <EmptyState
         title="Ticket submission coming soon"
-        description="No support ticket records, forms, actions or attachments are created in this scaffold."
+        description="No ticket form, inbox, email workflow or file attachment flow is active on this page yet."
       />
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -53,8 +46,8 @@ export default function SupportTicketsPage() {
           description="Future ticket workflow states for support triage."
         >
           <div className="flex flex-wrap gap-2">
-            {plannedTicketStatuses.map((status) => (
-              <StatusBadge key={status}>{status}</StatusBadge>
+            {supportTicketStatuses.map((status) => (
+              <StatusBadge key={status}>{formatSupportValue(status)}</StatusBadge>
             ))}
           </div>
         </SectionCard>
@@ -64,9 +57,22 @@ export default function SupportTicketsPage() {
           description="Likely first-pass support ticket categories."
         >
           <div className="flex flex-wrap gap-2">
-            {plannedTicketCategories.map((category) => (
+            {supportTicketCategories.map((category) => (
               <StatusBadge key={category} tone="info">
-                {category}
+                {formatSupportValue(category)}
+              </StatusBadge>
+            ))}
+          </div>
+        </SectionCard>
+
+        <SectionCard
+          title="Planned priorities"
+          description="Priority labels prepared for the future ticket flow."
+        >
+          <div className="flex flex-wrap gap-2">
+            {supportTicketPriorities.map((priority) => (
+              <StatusBadge key={priority} tone="warning">
+                {formatSupportValue(priority)}
               </StatusBadge>
             ))}
           </div>

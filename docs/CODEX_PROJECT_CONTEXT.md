@@ -565,3 +565,9 @@ Task 176 expands the authenticated support/help-centre area with static user-fac
 Available guides cover getting started, workspace selector/domains, Products, Costings, Formula Builder, Supplier Invoice Intake, Inventory and sign-in/access troubleshooting. Coming-soon guide cards cover Production, QA, Logistics, CRM, Reports, Support Tickets and Platform Admin for operators.
 
 The support home now surfaces popular guides, the guide index groups cards by category and `/support/guides/[slug]` renders individual static guide pages. Troubleshooting and release notes now contain practical user-facing static content. No ticket persistence, database-backed guide content, MDX pipeline, migrations, auth/domain routing changes, RLS/permission changes or business logic changes are included.
+
+## Task 177 Support Tickets Schema Foundation
+
+Task 177 drafts migration `032_support_tickets_schema_foundation.sql` for the future EveryBatch support ticket foundation. It adds tenant-scoped `support_tickets`, `support_ticket_comments` and `support_ticket_events`, with customer/internal visibility on comments/events, support ticket value constraints, RLS policies and support ticket permission seeds.
+
+Active tenant members can read/create/comment on customer-visible support records for their organisation. Platform admins can read/manage across tenants and access internal comments/events. No support ticket UI forms, Platform Admin inbox, attachments, emails, external integrations, sample ticket data, auth/domain routing changes, business logic changes or migration application are included.
