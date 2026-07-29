@@ -1,0 +1,76 @@
+# Support Guides Static Content v1
+
+Task 176 expands the authenticated EveryBatch support area with static guide content.
+
+## What Changed
+
+- Added a typed static support guide model in `lib/support-guides.ts`.
+- Added available user-facing guides for current EveryBatch/Clean Eats workflows.
+- Added coming-soon guide cards for planned support topics.
+- Updated the support home page to show popular guides.
+- Updated the guide index to show categories, cards, status labels, audience and estimated read time.
+- Added individual static guide pages at `/support/guides/[slug]`.
+- Updated troubleshooting and release notes with useful user-facing content.
+
+## Available Guides
+
+- Getting started with EveryBatch
+- Workspace selector and domains
+- Products overview
+- Costings overview
+- Formula Builder basics
+- Supplier Invoice Intake basics
+- Inventory overview
+- Sign-in and access troubleshooting
+
+## Coming Soon Cards
+
+- Production workflow
+- QA checks
+- Logistics
+- CRM
+- Reports
+- Support tickets
+- Platform Admin for operators
+
+## Static Content Model
+
+Each guide includes:
+
+- category
+- slug
+- title
+- summary
+- status
+- audience
+- estimated read time
+- sections
+- related links
+
+The content is TypeScript data, not database-backed content.
+
+## What Is Intentionally Not Included
+
+- support ticket tables
+- ticket submission or tracking actions
+- database-backed guide publishing
+- MDX/content pipeline
+- internal developer docs, SQL details, RLS internals or Codex prompts
+- auth, domain routing or permission changes
+- migrations
+- business logic changes
+
+## Metadata
+
+Support page metadata now covers:
+
+- `Guides - EveryBatch`
+- individual guide titles as `{Guide title} - EveryBatch`
+- `Support Troubleshooting - EveryBatch`
+- `Release Notes - EveryBatch`
+
+## Behaviour Notes
+
+The support area remains authenticated through the existing support layout. The support domain and local `/support` routes continue to use the existing routing and auth behaviour.
+
+No database reads or writes are added for guide content.

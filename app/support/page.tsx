@@ -4,6 +4,9 @@ import Link from "next/link";
 import { SectionCard } from "@/components/ui/section-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import {
+  getSupportGuideStatusLabel,
+  getSupportGuideStatusTone,
+  popularSupportGuides,
   supportGuideCategories,
   supportQuickLinks,
 } from "@/lib/support-guides";
@@ -12,7 +15,9 @@ export const metadata: Metadata = {
   title: "Support - EveryBatch",
 };
 
-const featuredCategories = supportGuideCategories.slice(0, 8);
+const featuredCategories = supportGuideCategories.filter(
+  (category) => category.guides.length > 0,
+);
 
 export default function SupportHomePage() {
   return (
@@ -27,9 +32,9 @@ export default function SupportHomePage() {
           EveryBatch Help Centre
         </h1>
         <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
-          Guides, troubleshooting and support for your food manufacturing
-          workspace. This first scaffold keeps support authenticated while the
-          guide library and ticket workflow are built out.
+          Guides, troubleshooting and support for your food manufacturing hub.
+          Support stays authenticated, with static user-facing guides available
+          now and ticket workflows planned for a later release.
         </p>
       </section>
 
@@ -48,9 +53,44 @@ export default function SupportHomePage() {
         ))}
       </div>
 
+      <SectionCard title="Popular guides" description="Quick routes into the guide content most users need first.">
+        <div className="grid gap-3 sm:grid-cols-2">
+          {popularSupportGuides.map((guide) => (
+            <Link
+              key={guide.slug}
+              href={`/support/guides/${guide.slug}`}
+              className="rounded-lg border border-slate-200 bg-slate-50 p-4 transition hover:border-green-200 hover:bg-green-50"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <h3 className="text-sm font-bold text-slate-950">
+                  {guide.title}
+                </h3>
+                <StatusBadge tone={getSupportGuideStatusTone(guide.status)}>
+                  {getSupportGuideStatusLabel(guide.status)}
+                </StatusBadge>
+              </div>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                {guide.summary}
+              </p>
+              <p className="mt-3 text-xs font-bold text-green-800">
+                {guide.estimatedRead}
+              </p>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-4">
+          <Link
+            href="/support/guides"
+            className="text-sm font-bold text-green-900 transition hover:text-green-700"
+          >
+            Browse all guides
+          </Link>
+        </div>
+      </SectionCard>
+
       <SectionCard
         title="Help topics"
-        description="Static topic placeholders for the first authenticated help-centre release."
+        description="Available static guides and planned guide areas for authenticated EveryBatch users."
       >
         <div className="grid gap-3 sm:grid-cols-2">
           {featuredCategories.map((category) => (
@@ -64,6 +104,9 @@ export default function SupportHomePage() {
               </h3>
               <p className="mt-2 text-sm leading-6 text-slate-500">
                 {category.description}
+              </p>
+              <p className="mt-3 text-xs font-bold uppercase text-slate-400">
+                {category.guides.length} topics
               </p>
             </Link>
           ))}

@@ -72,7 +72,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
     context: "Platform",
   },
   "/support": { title: "Support", context: "EveryBatch" },
-  "/support/guides": { title: "Help Guides", context: "EveryBatch" },
+  "/support/guides": { title: "Guides", context: "EveryBatch" },
   "/support/tickets": { title: "Support Tickets", context: "EveryBatch" },
   "/support/contact": { title: "Contact Support", context: "EveryBatch" },
   "/support/release-notes": {
@@ -80,7 +80,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
     context: "EveryBatch",
   },
   "/support/troubleshooting": {
-    title: "Troubleshooting",
+    title: "Support Troubleshooting",
     context: "EveryBatch",
   },
   "/qa": { title: "QA", context: "Quality" },
@@ -126,6 +126,10 @@ const dynamicPageTitles: Array<{
   {
     pattern: /^\/finished-products\/[^/]+$/,
     meta: { title: "Finished Product Detail", context: "Products" },
+  },
+  {
+    pattern: /^\/support\/guides\/[^/]+$/,
+    meta: { title: "Support Guide", context: "EveryBatch" },
   },
 ];
 

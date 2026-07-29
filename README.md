@@ -544,6 +544,8 @@ Purchase Document extraction prototype is documented in [Purchase Document extra
 
 Repeat invoice and price change behaviour is documented in [Repeat Invoice and Price Change Behaviour](docs/78-repeat-invoice-price-change-behaviour.md).
 
+Support Guides Static Content v1 is documented in [Support Guides Static Content v1](docs/176-support-guides-static-content-v1.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -573,5 +575,6 @@ Repeat invoice and price change behaviour is documented in [Repeat Invoice and P
 - Frontend FCP/LCP optimisation pass for Dashboard, Organisation Settings, Suppliers and Platform routes
 - Consistent tenant nested-route redirects for natural Products, Production, Inventory, Admin and Tools URLs
 - Authenticated support/help-centre scaffold for `support.everybatchmrp.com` and local `/support` routes
+- Static authenticated support guides for getting started, domains, Products, Costings, Formula Builder, Supplier Invoice Intake, Inventory and access troubleshooting
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

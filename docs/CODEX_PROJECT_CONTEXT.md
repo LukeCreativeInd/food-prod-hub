@@ -557,3 +557,11 @@ The task 174 follow-up fix hardens host resolution so recognised direct request 
 Task 175 cleans up visual regressions across `/login`, `/select-workspace` and the Platform Admin shell. Login and workspace selector desktop layouts now use balanced two-panel grids so brand and action panels align visually while mobile remains stacked.
 
 The Platform Admin sidebar now has a tenant-shell-like account footer with Switch workspace and Sign out actions, a subtle collapse control beneath it and cleaner child submenu rows without repeated large icons or Live badges. Tenant app sidebar order, auth flow, workspace routing, Platform Admin business logic, support routing, database schema, migrations, RLS and permissions are unchanged.
+
+## Task 176 Support Guides Static Content
+
+Task 176 expands the authenticated support/help-centre area with static user-facing guide content. The shared static guide model now includes categories, slugs, titles, summaries, statuses, audiences, estimated read times, body sections and related links.
+
+Available guides cover getting started, workspace selector/domains, Products, Costings, Formula Builder, Supplier Invoice Intake, Inventory and sign-in/access troubleshooting. Coming-soon guide cards cover Production, QA, Logistics, CRM, Reports, Support Tickets and Platform Admin for operators.
+
+The support home now surfaces popular guides, the guide index groups cards by category and `/support/guides/[slug]` renders individual static guide pages. Troubleshooting and release notes now contain practical user-facing static content. No ticket persistence, database-backed guide content, MDX pipeline, migrations, auth/domain routing changes, RLS/permission changes or business logic changes are included.

@@ -140,11 +140,11 @@ Production links remain external to the support domain. Local development can us
 Page metadata/title mappings were added for:
 
 - `Support - EveryBatch`
-- `Help Guides - EveryBatch`
+- `Guides - EveryBatch`
 - `Support Tickets - EveryBatch`
 - `Contact Support - EveryBatch`
 - `Release Notes - EveryBatch`
-- `Troubleshooting - EveryBatch`
+- `Support Troubleshooting - EveryBatch`
 
 ## Testing Checklist
 
@@ -185,11 +185,18 @@ Live after deployment:
 
 ## Future Tasks
 
-- Support Guides Static Content v1
 - Support Tickets Schema Foundation
 - Support Ticket UI v1
 - Platform Admin Support Inbox
 - Context-aware help links by module
+
+## Task 176 Static Guide Content
+
+Task 176 replaces the first placeholder guide scaffold with a typed static guide model, an expanded guide index and individual static guide pages.
+
+Available guides now cover getting started, workspace selector/domains, Products, Costings, Formula Builder, Supplier Invoice Intake, Inventory and sign-in/access troubleshooting. Coming-soon guide cards cover Production, QA, Logistics, CRM, Reports, Support Tickets and Platform Admin for operators.
+
+Guide content remains authenticated and static. It is not database-backed, does not expose internal developer docs and does not add ticket persistence.
 
 ## Not Included
 
