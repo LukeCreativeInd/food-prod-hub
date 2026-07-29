@@ -577,3 +577,9 @@ Active tenant members can read/create/comment on customer-visible support record
 Task 178 adds the first customer-facing support ticket portal under `/support/tickets`. Signed-in users can choose an organisation context, view customer-visible tickets, create a support ticket, open ticket detail, add customer-visible comments and see customer-visible timeline events.
 
 The UI uses the authenticated Supabase server client and existing RLS. It does not use service-role keys, does not show internal comments/events and does not build Platform Admin Support Inbox, internal notes UI, assignment/status management UI, attachments, email notifications, external integrations, schema changes, RLS changes or business logic changes.
+
+## Task 179 Platform Admin Support Inbox
+
+Task 179 adds the first Platform Admin Support Inbox under `/platform/support`, with detail pages at `/platform/support/[id]`. Platform admins can list tickets across tenants, filter by status/priority/category/tenant/search, update status/priority/category, assign or clear assignment, add customer-visible replies and add internal notes.
+
+The inbox uses the authenticated Supabase server client and existing platform-admin RLS. It does not use service-role keys, does not add schema/RLS/permission changes and does not build attachments, emails, realtime, external integrations or customer-facing ticket UI again. Customer `/support/tickets/[id]` continues to show customer-visible comments/events only, so internal Platform Admin notes/events remain hidden from customers.

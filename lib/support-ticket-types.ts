@@ -74,3 +74,9 @@ export function isSupportTicketPriority(
 ): value is SupportTicketPriority {
   return supportTicketPriorities.includes(value as SupportTicketPriority);
 }
+
+export function isSupportTicketStatus(
+  value: string,
+): value is SupportTicketStatus {
+  return supportTicketStatuses.includes(value as SupportTicketStatus);
+}

@@ -214,6 +214,12 @@ Users can list tickets for a selected workspace, create a new support ticket, op
 
 Platform Admin Support Inbox, internal notes, assignment/status management, attachments and email notifications remain future work.
 
+## Task 179 Platform Support Inbox
+
+Task 179 adds the first Platform Admin support inbox at `/platform/support`.
+
+EveryBatch operators can review tickets across tenants, manage status/priority/category, assign tickets, add customer-visible replies and add internal notes. The customer support portal remains separate and does not show internal notes/events.
+
 ## Not Included
 
 Task 174 does not include:

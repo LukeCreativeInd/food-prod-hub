@@ -101,7 +101,7 @@ const platformNavigation: PlatformNavGroup[] = [
     label: "Operations",
     iconKey: "operations",
     items: [
-      { label: "Support", status: "soon" },
+      { label: "Support Inbox", href: "/platform/support", status: "live" },
       { label: "Audit Logs", status: "soon" },
       { label: "System Health", status: "soon" },
       { label: "Smoke Tests", status: "soon" },

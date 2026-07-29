@@ -205,3 +205,9 @@ order by tablename, policyname;
 Task 178 adds the first customer-facing support ticket UI on top of this schema foundation.
 
 The UI supports customer ticket list, new ticket creation, ticket detail, customer-visible comments and customer-visible timeline events. Platform Admin Support Inbox, internal notes UI, attachments and email notifications remain future work.
+
+## Task 179 Platform Inbox Follow-Up
+
+Task 179 adds the first Platform Admin Support Inbox on `/platform/support`.
+
+Platform admins can list tickets across tenants, filter by ticket fields, open ticket detail, update status/priority/category, assign/clear assignment, add customer-visible replies and add internal notes. Internal comments/events remain hidden from the customer-facing support portal.

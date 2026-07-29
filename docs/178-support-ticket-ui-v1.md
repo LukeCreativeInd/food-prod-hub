@@ -127,7 +127,12 @@ Task 178 does not include:
 
 ## Future Tasks
 
-- 179 Platform Admin Support Inbox v1
 - Support Ticket Attachments
 - Email notifications
 - Context-aware support ticket links from app pages
+
+## Task 179 Platform Inbox Follow-Up
+
+Task 179 adds the first Platform Admin Support Inbox under `/platform/support`.
+
+Customer support pages remain preserved and continue to show customer-visible comments/events only. Internal notes/events added from Platform Admin are not shown on `/support/tickets/[id]`.

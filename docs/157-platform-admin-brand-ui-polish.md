@@ -102,6 +102,12 @@ Task 169 adds `/platform/branding` as a conservative Platform Branding scaffold.
 
 Task 175 adds [App Shell And Auth Page UI Cleanup](175-app-shell-auth-page-ui-cleanup.md). It further polishes the Platform Admin sidebar by moving Switch workspace and Sign out into a tenant-shell-like account footer, placing the collapse control underneath and simplifying child submenu rows so they no longer repeat large icons or Live badges on every item.
 
+## Task 179 Follow-Up
+
+Task 179 adds [Platform Admin Support Inbox v1](179-platform-admin-support-inbox-v1.md). The Platform Admin Operations group now includes a live `Support Inbox` item for `/platform/support`.
+
+The Platform Admin sidebar structure remains otherwise unchanged, and tenant app navigation is unaffected.
+
 ## Tenant App Unaffected
 
 This task intentionally does not change the Clean Eats tenant app shell, tenant sidebar, tenant navigation order, tenant branding settings or tenant business module UI.
