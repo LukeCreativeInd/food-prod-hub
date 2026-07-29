@@ -289,9 +289,9 @@ export default async function SelectWorkspacePage({ searchParams }: PageProps) {
   );
 
   return (
-    <main className="min-h-screen bg-[#eef4ea] px-5 py-8 md:px-8 lg:px-10">
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <section className="relative overflow-hidden rounded-3xl bg-green-950 px-6 py-7 text-white shadow-2xl shadow-green-950/25 md:px-8 md:py-9">
+    <main className="min-h-screen bg-[#eef4ea] px-5 py-8 md:px-8 lg:flex lg:items-center lg:px-10">
+      <div className="mx-auto grid w-full max-w-6xl items-stretch gap-6 lg:min-h-[34rem] lg:grid-cols-[0.92fr_1.08fr]">
+        <section className="relative h-full overflow-hidden rounded-3xl bg-green-950 px-6 py-7 text-white shadow-2xl shadow-green-950/25 md:px-8 md:py-9">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(190,242,100,0.28),transparent_30%),radial-gradient(circle_at_85%_20%,rgba(34,197,94,0.18),transparent_28%)]" />
           <div className="relative flex h-full flex-col justify-between gap-10">
             <div>
@@ -307,7 +307,7 @@ export default async function SelectWorkspacePage({ searchParams }: PageProps) {
                 </div>
               </div>
 
-              <p className="mt-8 max-w-md text-3xl font-black leading-tight tracking-tight md:text-5xl">
+              <p className="mt-8 max-w-md text-3xl font-black leading-tight tracking-tight md:text-4xl">
                 Choose your workspace.
               </p>
               <p className="mt-5 max-w-md text-base leading-7 text-green-50/85">
@@ -329,8 +329,8 @@ export default async function SelectWorkspacePage({ searchParams }: PageProps) {
           </div>
         </section>
 
-        <section className="flex flex-col justify-center">
-          <div className="rounded-3xl border border-slate-200 bg-white/70 p-5 shadow-xl shadow-slate-200/70 backdrop-blur md:p-6">
+        <section className="flex h-full flex-col justify-center">
+          <div className="flex h-full flex-col justify-center rounded-3xl border border-slate-200 bg-white/70 p-5 shadow-xl shadow-slate-200/70 backdrop-blur md:p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-clean-green-700">

@@ -190,6 +190,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - The real EveryBatch PNG icon is now used for app and Apple icons, and tenant/platform browser titles use the `Page Title - EveryBatch` format.
 - Support domain setup has been documented for `support.everybatchmrp.com`, including Vercel, Cloudflare, Supabase Auth, interim behaviour, smoke tests and rollback notes.
 - The first authenticated EveryBatch Support Help Centre scaffold now serves support landing, guides, tickets, contact, release notes and troubleshooting routes through the support app mode.
+- Login, workspace selector and Platform Admin sidebar/footer UI have been cleaned up for better panel balance and less submenu clutter.
 
 ## Tech Stack
 
@@ -362,6 +363,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Support Domain And Auth-Gated Help Centre Plan](docs/172-support-domain-auth-gated-help-centre-plan.md)
 - [Support Domain Setup](docs/173-support-domain-setup.md)
 - [Support Help Centre Scaffold](docs/174-support-help-centre-scaffold.md)
+- [App Shell And Auth Page UI Cleanup](docs/175-app-shell-auth-page-ui-cleanup.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

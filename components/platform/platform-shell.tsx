@@ -207,17 +207,45 @@ function PlatformNavItem({
   group,
   activeHref,
   isCollapsed = false,
+  isChild = false,
   onNavigate,
 }: {
   item: PlatformNavItem;
   group: PlatformNavGroup;
   activeHref: string | null;
   isCollapsed?: boolean;
+  isChild?: boolean;
   onNavigate?: () => void;
 }) {
   const isActive = item.href === activeHref;
 
   if (item.href) {
+    if (isChild) {
+      return (
+        <Link
+          href={item.href}
+          onClick={onNavigate}
+          className={clsx(
+            "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold transition",
+            isActive
+              ? "bg-lime-200/15 text-white"
+              : "text-emerald-50/75 hover:bg-white/10 hover:text-white",
+          )}
+          aria-current={isActive ? "page" : undefined}
+          title={item.label}
+        >
+          <span
+            aria-hidden="true"
+            className={clsx(
+              "h-1.5 w-1.5 shrink-0 rounded-full",
+              isActive ? "bg-lime-200" : "bg-emerald-100/35",
+            )}
+          />
+          <span className="min-w-0 flex-1 truncate">{item.label}</span>
+        </Link>
+      );
+    }
+
     return (
       <Link
         href={item.href}
@@ -256,6 +284,24 @@ function PlatformNavItem({
           </span>
         ) : null}
       </Link>
+    );
+  }
+
+  if (isChild) {
+    return (
+      <div
+        className="flex cursor-not-allowed items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-emerald-100/35"
+        title={item.label}
+      >
+        <span
+          aria-hidden="true"
+          className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-100/20"
+        />
+        <span className="min-w-0 flex-1 truncate">{item.label}</span>
+        <span className="text-[0.65rem] font-black uppercase tracking-[0.12em] text-emerald-100/35">
+          Soon
+        </span>
+      </div>
     );
   }
 
@@ -414,6 +460,7 @@ export function PlatformNavigation({
                     item={item}
                     group={section}
                     activeHref={activeHref}
+                    isChild
                     onNavigate={onNavigate}
                   />
                 ))}
@@ -423,6 +470,76 @@ export function PlatformNavigation({
         );
       })}
     </nav>
+  );
+}
+
+function PlatformAccountMenu({ isCollapsed }: { isCollapsed: boolean }) {
+  return (
+    <details className="group relative">
+      <summary
+        className={clsx(
+          "flex cursor-pointer list-none items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-3 transition hover:bg-white/10",
+          isCollapsed && "justify-center px-2",
+        )}
+      >
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-lime-300 text-xs font-black text-green-950">
+          EB
+        </span>
+        <span className={clsx("min-w-0 flex-1", isCollapsed && "hidden")}>
+          <span className="block truncate text-sm font-bold text-white">
+            Platform Admin
+          </span>
+          <span className="block truncate text-xs text-emerald-100/65">
+            Operator console
+          </span>
+        </span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className={clsx(
+            "h-4 w-4 text-emerald-100/50 transition group-open:rotate-180",
+            isCollapsed && "hidden",
+          )}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </summary>
+
+      <div
+        className={clsx(
+          "absolute bottom-full left-0 z-40 mb-2 w-72 rounded-xl border border-white/10 bg-[#14382A] p-3 shadow-2xl shadow-black/30",
+          isCollapsed && "left-2",
+        )}
+      >
+        <p className="text-xs font-bold uppercase tracking-[0.14em] text-lime-200">
+          Account
+        </p>
+        <p className="mt-1 truncate text-sm font-bold text-white">
+          Platform Admin
+        </p>
+        <p className="truncate text-xs text-emerald-100/65">
+          EveryBatch operator console
+        </p>
+
+        <div className="mt-3 border-t border-white/10 pt-3">
+          <Link
+            href="/select-workspace"
+            className="block rounded-lg px-3 py-2 text-sm font-bold text-emerald-50 transition hover:bg-white/10 hover:text-white"
+          >
+            Switch workspace
+          </Link>
+        </div>
+
+        <div className="mt-3 border-t border-white/10 pt-3">
+          <LogoutButton variant="light" />
+        </div>
+      </div>
+    </details>
   );
 }
 
@@ -492,11 +609,13 @@ export function PlatformShell({ children }: PlatformShellProps) {
               isCollapsed ? "px-2" : "px-4",
             )}
           >
+            <PlatformAccountMenu isCollapsed={isCollapsed} />
+
             <button
               type="button"
               onClick={() => setIsCollapsed((current) => !current)}
               className={clsx(
-                "flex w-full items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-bold text-emerald-50 transition hover:bg-white/10",
+                "mt-3 flex w-full items-center gap-3 rounded-md px-2 py-2 text-xs font-bold text-emerald-100/55 transition hover:bg-white/10 hover:text-white",
                 isCollapsed && "justify-center px-2",
               )}
               aria-label={
@@ -509,7 +628,7 @@ export function PlatformShell({ children }: PlatformShellProps) {
               <span
                 aria-hidden="true"
                 className={clsx(
-                  "flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition",
+                  "flex h-8 w-8 items-center justify-center rounded-lg transition",
                   isCollapsed ? "rotate-180" : "",
                 )}
               >
@@ -527,7 +646,7 @@ export function PlatformShell({ children }: PlatformShellProps) {
                 </svg>
               </span>
               <span className={clsx(isCollapsed && "hidden")}>
-                Collapse sidebar
+                {isCollapsed ? "Expand" : "Collapse"}
               </span>
             </button>
           </div>
@@ -553,13 +672,6 @@ export function PlatformShell({ children }: PlatformShellProps) {
               <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">
                 Future: {PLATFORM_ADMIN_DOMAIN}
               </span>
-              <Link
-                href="/select-workspace"
-                className="inline-flex items-center justify-center rounded-md border border-[#176B3D]/25 bg-white px-3 py-2 text-xs font-bold text-[#176B3D] shadow-sm transition hover:bg-[#E8F5E9]"
-              >
-                Switch workspace
-              </Link>
-              <LogoutButton variant="light" />
             </div>
           </div>
         </header>

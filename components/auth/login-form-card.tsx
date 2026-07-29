@@ -13,7 +13,7 @@ export function LoginFormCard({
   const isTenantMode = mode === "tenant";
 
   return (
-    <section className="flex h-full flex-col justify-center rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/70 md:p-8 lg:min-h-[34rem]">
+    <section className="flex h-full flex-col justify-center rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/70 md:p-8">
       <div>
         <p className="text-xs font-bold uppercase tracking-[0.16em] text-clean-green-700">
           Secure access

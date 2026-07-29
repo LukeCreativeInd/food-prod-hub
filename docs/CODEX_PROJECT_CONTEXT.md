@@ -551,3 +551,9 @@ Task 174 creates the first authenticated EveryBatch support/help-centre scaffold
 The support routes use `requireAuth()` in the support layout, so any signed-in EveryBatch user can view the scaffold. The shell includes EveryBatch Help Centre branding, lightweight support navigation, workspace return links, the central workspace selector link and sign out. Guide, ticket, contact, release-note and troubleshooting pages are static scaffold pages only. No ticket tables, ticket actions, database-backed guide content, support-specific permissions, migrations, RLS changes, DNS/Vercel/Supabase setting changes or business logic changes are included.
 
 The task 174 follow-up fix hardens host resolution so recognised direct request hosts such as `support.everybatchmrp.com` win over forwarded-host fallback metadata. This prevents support-domain `/platform` and tenant workspace paths from rendering the wrong app surface if proxy headers are shaped unexpectedly.
+
+## Task 175 App Shell And Auth Page UI Cleanup
+
+Task 175 cleans up visual regressions across `/login`, `/select-workspace` and the Platform Admin shell. Login and workspace selector desktop layouts now use balanced two-panel grids so brand and action panels align visually while mobile remains stacked.
+
+The Platform Admin sidebar now has a tenant-shell-like account footer with Switch workspace and Sign out actions, a subtle collapse control beneath it and cleaner child submenu rows without repeated large icons or Live badges. Tenant app sidebar order, auth flow, workspace routing, Platform Admin business logic, support routing, database schema, migrations, RLS and permissions are unchanged.

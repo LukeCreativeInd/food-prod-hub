@@ -59,7 +59,7 @@ export function LoginBrandPanel({
     : "Access recipes, production, inventory, purchasing and traceability in one place.";
 
   return (
-    <section className="relative overflow-hidden rounded-3xl bg-green-950 px-6 py-7 text-white shadow-2xl shadow-green-950/25 md:px-8 md:py-9 lg:min-h-[34rem]">
+    <section className="relative h-full overflow-hidden rounded-3xl bg-green-950 px-6 py-7 text-white shadow-2xl shadow-green-950/25 md:px-8 md:py-9">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(190,242,100,0.28),transparent_30%),radial-gradient(circle_at_85%_20%,rgba(34,197,94,0.18),transparent_28%)]" />
       <div className="relative flex h-full flex-col justify-between gap-10">
         <div>
@@ -83,7 +83,7 @@ export function LoginBrandPanel({
             </div>
           </div>
 
-          <p className="mt-8 max-w-md text-3xl font-black leading-tight tracking-tight md:text-5xl">
+          <p className="mt-8 max-w-md text-3xl font-black leading-tight tracking-tight md:text-4xl">
             Sign in to your workspace.
           </p>
           <p className="mt-5 max-w-md text-base leading-7 text-green-50/85">

@@ -70,6 +70,8 @@ Removed temporary language such as:
 
 The login page still uses the existing Supabase Auth flow and post-login workspace destination logic.
 
+Task 175 adds [App Shell And Auth Page UI Cleanup](175-app-shell-auth-page-ui-cleanup.md), which further balances the `/login` and `/select-workspace` desktop panels while preserving the existing auth and workspace-routing behaviour.
+
 ## Switch Workspace Fix
 
 The old header `Switch workspace` entry has been replaced by the sidebar workspace menu.

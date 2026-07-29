@@ -33,8 +33,8 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#eef4ea] px-5 py-8 md:px-8 lg:px-10">
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-stretch gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+    <div className="min-h-screen bg-[#eef4ea] px-5 py-8 md:px-8 lg:flex lg:items-center lg:px-10">
+      <div className="mx-auto grid w-full max-w-6xl items-stretch gap-6 lg:min-h-[32rem] lg:grid-cols-[1.05fr_0.95fr]">
         <LoginBrandPanel mode="platform" />
         <LoginFormCard mode="platform" />
       </div>
