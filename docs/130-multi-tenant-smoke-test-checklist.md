@@ -30,7 +30,7 @@ This checklist is documentation only. It does not change app code, routes, middl
 - [ ] `cleaneats.everybatchmrp.com` is active only after task 158 code, Vercel, DNS and Supabase Auth URL checks are complete.
 - [ ] `admin.everybatchmrp.com` is not active unless Platform Admin domain routing is complete.
 - [ ] `platform.everybatchmrp.com` is not active unless deliberately retained as a legacy/optional Platform Admin host.
-- [ ] `support.everybatchmrp.com` is not active unless support destination setup is complete.
+- [ ] `support.everybatchmrp.com` is not treated as a live Help Centre until support domain setup and scaffold tasks are complete.
 
 Clean Eats tenant host checks:
 
@@ -61,6 +61,17 @@ See [Live multi-domain smoke test results](160-live-multi-domain-smoke-test-resu
 See [Live domain redirect QA pass](162-live-domain-redirect-qa-pass.md) for post-task-161 live redirect results.
 
 See [Workspace selector live domain QA / polish](163-workspace-selector-live-domain-qa-polish.md) for signed-in selector destination checks.
+
+Support host checks:
+
+- [ ] `support.everybatchmrp.com` resolves over HTTPS after task 173 domain setup.
+- [ ] Before task 174, app fallback/redirect/404 behaviour is recorded as expected interim state.
+- [ ] After task 174, signed-out `/`, `/guides` and `/tickets` require auth.
+- [ ] After task 174, signed-in `/` shows the Support Help Centre scaffold.
+- [ ] After task 174, `/platform` does not expose Platform Admin from the support host.
+- [ ] After task 174, `/dashboard` does not expose the tenant app from the support host.
+
+See [Support Domain Setup](173-support-domain-setup.md) for the support-domain Vercel, Cloudflare, Supabase Auth and smoke-test checklist.
 
 ## 2. DNS / Vercel Checks
 

@@ -319,6 +319,8 @@ Future setup should include:
 
 No setup is performed by task 172.
 
+Task 173 adds [Support Domain Setup](173-support-domain-setup.md), the detailed Vercel, Cloudflare, Supabase Auth, smoke-test and rollback checklist for connecting `support.everybatchmrp.com`.
+
 ## Implementation Sequence
 
 Recommended next tasks:

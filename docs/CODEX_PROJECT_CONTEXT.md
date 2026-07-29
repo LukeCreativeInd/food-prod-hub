@@ -218,6 +218,12 @@ Support should use its own `support` app mode, require signed-in EveryBatch user
 
 No support routes, support UI, middleware/domain routing, DNS/Vercel/Supabase settings, auth changes, schema, migrations, RLS, permissions, ticket tables, support storage or packages are added.
 
+## Task 173 Support Domain Setup
+
+Task 173 documents the real-world setup checklist for `support.everybatchmrp.com`: Vercel domain add, Cloudflare DNS, Supabase Auth redirect URL review, expected interim behaviour before support routes exist, post-scaffold smoke tests and rollback notes.
+
+This task still does not build support routes, support UI, support tickets, support middleware enforcement, schema, migrations, RLS, permissions, DNS/Vercel/Supabase settings through code or packages. The support domain should not be described as a live Help Centre until task 174 or later creates an authenticated support scaffold.
+
 Platform/admin surfaces should use EveryBatch branding.
 
 EveryBatch brand constants live in:

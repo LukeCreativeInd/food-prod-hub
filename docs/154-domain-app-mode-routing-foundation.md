@@ -18,6 +18,8 @@ Task 161 finalises central gateway tenant-route hardening: tenant workspace rout
 
 Task 172 plans the future authenticated `support.everybatchmrp.com` help centre. The `support` app mode remains planned only; no support routes, middleware enforcement, DNS, Vercel or Supabase Auth settings are changed by task 172.
 
+Task 173 documents the real-world setup checklist for connecting `support.everybatchmrp.com` in Vercel/Cloudflare and reviewing Supabase Auth redirect URLs. It still does not enforce support routes in middleware.
+
 ## Strategy
 
 EveryBatch should continue as:

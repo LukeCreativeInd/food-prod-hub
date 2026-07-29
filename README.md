@@ -188,6 +188,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Supabase auth cookies now use `.everybatchmrp.com` on live EveryBatch app/admin/tenant subdomains so login sessions can be shared between the central app, Clean Eats workspace and Platform Admin; localhost keeps default host-only cookies.
 - Brand asset logo/icon storage planning now defines future EveryBatch platform logo/icon assets and tenant full-logo/icon assets before any schema, storage policy or upload UI changes.
 - The real EveryBatch PNG icon is now used for app and Apple icons, and tenant/platform browser titles use the `Page Title - EveryBatch` format.
+- Support domain setup has been documented for `support.everybatchmrp.com`, including Vercel, Cloudflare, Supabase Auth, interim behaviour, smoke tests and rollback notes.
 
 ## Tech Stack
 
@@ -358,6 +359,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Sell Price Management UI v1](docs/170-sell-price-management-ui-v1.md)
 - [Meal Margins Real Calculation v1](docs/171-meal-margins-real-calculation-v1.md)
 - [Support Domain And Auth-Gated Help Centre Plan](docs/172-support-domain-auth-gated-help-centre-plan.md)
+- [Support Domain Setup](docs/173-support-domain-setup.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)
