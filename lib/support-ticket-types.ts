@@ -55,3 +55,22 @@ export type SupportTicketSource = (typeof supportTicketSources)[number];
 export type SupportTicketVisibility =
   (typeof supportTicketVisibilities)[number];
 export type SupportTicketEventType = (typeof supportTicketEventTypes)[number];
+
+export function formatSupportTicketValue(value: string) {
+  return value
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+export function isSupportTicketCategory(
+  value: string,
+): value is SupportTicketCategory {
+  return supportTicketCategories.includes(value as SupportTicketCategory);
+}
+
+export function isSupportTicketPriority(
+  value: string,
+): value is SupportTicketPriority {
+  return supportTicketPriorities.includes(value as SupportTicketPriority);
+}

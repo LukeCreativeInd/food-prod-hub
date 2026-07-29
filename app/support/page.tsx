@@ -53,6 +53,26 @@ export default function SupportHomePage() {
         ))}
       </div>
 
+      <SectionCard
+        title="Support tickets"
+        description="Create or review customer-visible support tickets for your workspace."
+      >
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/support/tickets/new"
+            className="inline-flex items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800"
+          >
+            Open a support ticket
+          </Link>
+          <Link
+            href="/support/tickets"
+            className="inline-flex items-center justify-center rounded-md border border-green-200 bg-white px-4 py-2 text-sm font-bold text-green-900 transition hover:bg-green-50"
+          >
+            View your tickets
+          </Link>
+        </div>
+      </SectionCard>
+
       <SectionCard title="Popular guides" description="Quick routes into the guide content most users need first.">
         <div className="grid gap-3 sm:grid-cols-2">
           {popularSupportGuides.map((guide) => (

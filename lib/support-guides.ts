@@ -520,7 +520,7 @@ export const supportQuickLinks = [
   },
   {
     title: "Support tickets",
-    description: "Ticket intake is planned and not persistent yet.",
+    description: "Create and review customer-visible workspace tickets.",
     href: "/tickets",
   },
   {

@@ -81,12 +81,20 @@ export default function SupportTroubleshootingPage() {
         title="Access guide"
         description="For login, workspace and permissions issues, start with the dedicated access guide."
       >
-        <Link
-          href="/support/guides/sign-in-and-access-troubleshooting"
-          className="inline-flex items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800"
-        >
-          Open sign-in and access troubleshooting
-        </Link>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/support/guides/sign-in-and-access-troubleshooting"
+            className="inline-flex items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800"
+          >
+            Open sign-in and access troubleshooting
+          </Link>
+          <Link
+            href="/support/tickets/new"
+            className="inline-flex items-center justify-center rounded-md border border-green-200 bg-white px-4 py-2 text-sm font-bold text-green-900 transition hover:bg-green-50"
+          >
+            Open a support ticket
+          </Link>
+        </div>
       </SectionCard>
     </div>
   );

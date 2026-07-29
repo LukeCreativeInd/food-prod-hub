@@ -548,6 +548,8 @@ Support Guides Static Content v1 is documented in [Support Guides Static Content
 
 Support Tickets Schema Foundation is documented in [Support Tickets Schema Foundation](docs/177-support-tickets-schema-foundation.md).
 
+Support Ticket UI v1 is documented in [Support Ticket UI v1](docs/178-support-ticket-ui-v1.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -579,5 +581,6 @@ Support Tickets Schema Foundation is documented in [Support Tickets Schema Found
 - Authenticated support/help-centre scaffold for `support.everybatchmrp.com` and local `/support` routes
 - Static authenticated support guides for getting started, domains, Products, Costings, Formula Builder, Supplier Invoice Intake, Inventory and access troubleshooting
 - Drafted support ticket schema foundation with tenant-scoped tickets, customer/internal comments, ticket events, RLS and support ticket permission seeds
+- Customer-facing support ticket portal for listing tickets, creating tickets, viewing details and adding customer-visible comments
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

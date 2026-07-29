@@ -206,6 +206,14 @@ The migration creates `support_tickets`, `support_ticket_comments` and `support_
 
 The authenticated support tickets page remains a scaffold. No ticket submission UI, Platform Admin inbox, attachments, emails or external support integration is active yet.
 
+## Task 178 Customer Ticket UI
+
+Task 178 adds the first authenticated customer-facing support ticket portal.
+
+Users can list tickets for a selected workspace, create a new support ticket, open a ticket detail page, add customer-visible comments and see customer-visible timeline events.
+
+Platform Admin Support Inbox, internal notes, assignment/status management, attachments and email notifications remain future work.
+
 ## Not Included
 
 Task 174 does not include:

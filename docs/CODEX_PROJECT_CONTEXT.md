@@ -571,3 +571,9 @@ The support home now surfaces popular guides, the guide index groups cards by ca
 Task 177 drafts migration `032_support_tickets_schema_foundation.sql` for the future EveryBatch support ticket foundation. It adds tenant-scoped `support_tickets`, `support_ticket_comments` and `support_ticket_events`, with customer/internal visibility on comments/events, support ticket value constraints, RLS policies and support ticket permission seeds.
 
 Active tenant members can read/create/comment on customer-visible support records for their organisation. Platform admins can read/manage across tenants and access internal comments/events. No support ticket UI forms, Platform Admin inbox, attachments, emails, external integrations, sample ticket data, auth/domain routing changes, business logic changes or migration application are included.
+
+## Task 178 Support Ticket UI
+
+Task 178 adds the first customer-facing support ticket portal under `/support/tickets`. Signed-in users can choose an organisation context, view customer-visible tickets, create a support ticket, open ticket detail, add customer-visible comments and see customer-visible timeline events.
+
+The UI uses the authenticated Supabase server client and existing RLS. It does not use service-role keys, does not show internal comments/events and does not build Platform Admin Support Inbox, internal notes UI, assignment/status management UI, attachments, email notifications, external integrations, schema changes, RLS changes or business logic changes.

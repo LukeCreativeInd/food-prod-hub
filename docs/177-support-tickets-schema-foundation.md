@@ -195,8 +195,13 @@ order by tablename, policyname;
 
 ## Future Tasks
 
-- Support Ticket UI v1
 - Platform Admin Support Inbox v1
 - Support Ticket Attachments
 - Email notifications
 - Context-aware support ticket links from app pages
+
+## Task 178 UI Follow-Up
+
+Task 178 adds the first customer-facing support ticket UI on top of this schema foundation.
+
+The UI supports customer ticket list, new ticket creation, ticket detail, customer-visible comments and customer-visible timeline events. Platform Admin Support Inbox, internal notes UI, attachments and email notifications remain future work.
