@@ -11,6 +11,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { SectionCard } from "@/components/ui/section-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { getSupportTicketOrganisationContext } from "@/lib/support-ticket-context";
+import { getSupportModuleLabel } from "@/lib/support-ticket-page-context";
 import {
   getSupportTicketComments,
   getSupportTicketDetail,
@@ -144,6 +145,9 @@ export default async function SupportTicketDetailPage({
   const canComment = ticket
     ? canCustomerCommentOnStatus(ticket.status)
     : false;
+  const relatedModuleLabel = ticket?.related_module_key
+    ? getSupportModuleLabel(ticket.related_module_key)
+    : null;
 
   if (!ticket) {
     return (
@@ -227,6 +231,32 @@ export default async function SupportTicketDetailPage({
           </p>
         </div>
       </SectionCard>
+
+      {ticket.related_path || ticket.related_module_key ? (
+        <SectionCard
+          title="Related context"
+          description="Page/module context included when this ticket was created."
+        >
+          <div className="grid gap-3 text-sm sm:grid-cols-2">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">
+                Module
+              </p>
+              <p className="mt-2 font-semibold text-slate-950">
+                {relatedModuleLabel ?? "Not provided"}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">
+                Page
+              </p>
+              <p className="mt-2 break-words font-mono text-xs text-slate-600">
+                {ticket.related_path ?? "Not provided"}
+              </p>
+            </div>
+          </div>
+        </SectionCard>
+      ) : null}
 
       {statusMetadata ? (
         <SectionCard title="Status meaning">

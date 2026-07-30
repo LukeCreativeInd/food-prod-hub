@@ -13,6 +13,7 @@ import {
   getPlatformSupportOrganisations,
   type PlatformSupportTicketFilters,
 } from "@/lib/platform-support-ticket-data";
+import { getSupportModuleLabel } from "@/lib/support-ticket-page-context";
 import {
   formatSupportTicketValue,
   isSupportTicketCategory,
@@ -274,6 +275,14 @@ export default async function PlatformSupportPage({
                     <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500">
                       {ticket.description}
                     </p>
+                    {ticket.related_module_key || ticket.related_path ? (
+                      <p className="mt-2 text-xs font-semibold text-slate-500">
+                        {ticket.related_module_key
+                          ? getSupportModuleLabel(ticket.related_module_key)
+                          : "Related page"}
+                        {ticket.related_path ? ` / ${ticket.related_path}` : ""}
+                      </p>
+                    ) : null}
                   </div>
                   <div>
                     <p className="font-semibold text-slate-700">

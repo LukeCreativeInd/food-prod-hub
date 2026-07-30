@@ -556,6 +556,8 @@ Support Ticket Polish and Permission QA is documented in [Support Ticket Polish 
 
 Support Ticket Status Workflow Polish is documented in [Support Ticket Status Workflow Polish](docs/181-support-ticket-status-workflow-polish.md).
 
+Support Ticket Context-Aware Creation is documented in [Support Ticket Context-Aware Creation](docs/182-support-ticket-context-aware-creation.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -591,5 +593,6 @@ Support Ticket Status Workflow Polish is documented in [Support Ticket Status Wo
 - Platform Admin support inbox for cross-tenant ticket review, filters, status/priority/category updates, assignment, customer replies and internal notes
 - Support ticket polish and permission QA confirming customer/internal visibility, clearer support states and no required schema/RLS/permission changes
 - Support ticket status workflow polish for waiting-on-support, waiting-on-customer, resolved and closed ticket behaviour
+- Context-aware support ticket creation from the app Help menu with safe related page/module defaults
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

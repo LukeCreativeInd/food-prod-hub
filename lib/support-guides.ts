@@ -480,6 +480,7 @@ export const supportGuides: SupportGuide[] = [
         body: [
           "Use Support Tickets to create a customer-visible request for the selected workspace.",
           "New tickets start as waiting on support, which means EveryBatch needs to review or respond.",
+          "From inside the app, use Report an issue on this page from the Help menu to include safe page/module context automatically.",
         ],
       },
       {

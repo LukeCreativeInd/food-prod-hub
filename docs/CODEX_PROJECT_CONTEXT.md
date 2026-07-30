@@ -599,3 +599,11 @@ Task 181 defines the v1 support ticket lifecycle in shared TypeScript helpers. N
 Platform Admin customer-visible replies are blocked on closed tickets, move `open` and `waiting_on_support` tickets to `waiting_on_customer`, and leave `waiting_on_customer`, `planned` and `resolved` statuses unchanged. Internal notes remain allowed and do not change status.
 
 Manual Platform Admin status changes set `resolved_at` or `closed_at` only when moving into those statuses and the timestamp is empty. Historical `resolved_at` and `closed_at` values are preserved when moving away from those statuses. No schema, migration, RLS, permission, auth/domain routing, notification, attachment, realtime, external integration or business module change is included.
+
+## Task 182 Support Ticket Context-Aware Creation
+
+Task 182 adds safe context-aware ticket creation. `lib/support-ticket-page-context.ts` maps known app paths to safe `related_path`, `related_module_key` and support ticket category defaults. The tenant app Help menu now includes `Report an issue on this page`, linking to local `/support/tickets/new` on localhost and `https://support.everybatchmrp.com/tickets/new` on production surfaces with safe query params.
+
+The new ticket page accepts `relatedPath`, `moduleKey`, `category`, `priority`, `title` and existing `organisationId` params, displays a linked context card when present, and server actions re-sanitise path/module/category before writing. Customer and Platform support detail pages display related context, and Platform inbox rows show compact context hints.
+
+No support ticket schema, migration, RLS, permission, auth/domain routing, notification, attachment, screenshot, browser metadata, external integration or business module change is included.

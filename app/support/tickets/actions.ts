@@ -5,6 +5,11 @@ import { redirect } from "next/navigation";
 
 import { getSupportTicketOrganisationContext } from "@/lib/support-ticket-context";
 import {
+  getSupportCategoryForModule,
+  normaliseSupportModuleKey,
+  normaliseSupportRelatedPath,
+} from "@/lib/support-ticket-page-context";
+import {
   canCustomerCommentOnStatus,
   getNextStatusAfterCustomerComment,
   isSupportTicketCategory,
@@ -125,7 +130,13 @@ export async function createSupportTicketAction(formData: FormData) {
   const description = getString(formData, "description");
   const category = getString(formData, "category") || "other";
   const priority = getString(formData, "priority") || "normal";
-  const relatedPath = getOptionalString(formData, "related_path");
+  const relatedPath = normaliseSupportRelatedPath(
+    getOptionalString(formData, "related_path"),
+  );
+  const relatedModuleKey = normaliseSupportModuleKey(
+    getOptionalString(formData, "related_module_key"),
+  );
+  const fallbackCategory = getSupportCategoryForModule(relatedModuleKey);
   const { organisation, profileId } =
     await requireWritableOrganisation(organisationId);
 
@@ -137,9 +148,9 @@ export async function createSupportTicketAction(formData: FormData) {
     redirect(getTicketRedirect("invalid_description", organisation.id));
   }
 
-  if (!isSupportTicketCategory(category)) {
-    redirect(getTicketRedirect("invalid_category", organisation.id));
-  }
+  const safeCategory = isSupportTicketCategory(category)
+    ? category
+    : fallbackCategory;
 
   if (!isSupportTicketPriority(priority)) {
     redirect(getTicketRedirect("invalid_priority", organisation.id));
@@ -156,9 +167,10 @@ export async function createSupportTicketAction(formData: FormData) {
       description,
       status: "waiting_on_support",
       priority,
-      category,
+      category: safeCategory,
       source: "support_portal",
       related_path: relatedPath,
+      related_module_key: relatedModuleKey,
       customer_last_activity_at: now,
       updated_at: now,
     })

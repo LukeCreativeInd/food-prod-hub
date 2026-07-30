@@ -131,6 +131,10 @@ Task 181 defines the support ticket status lifecycle used after this QA pass:
 
 No migration, RLS or permission change was required.
 
+## Task 182 Context-Aware Creation Follow-Up
+
+Task 182 implements the context-aware creation follow-up noted in this QA pass. Users can create a ticket from the app Help menu with safe related page/module context, and customer/Platform detail pages display that context when present.
+
 ## Remaining Follow-Ups
 
 - Support ticket attachments.

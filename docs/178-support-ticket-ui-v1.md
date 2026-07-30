@@ -148,3 +148,9 @@ Customer ticket actions now log safe server-side Supabase error context when wri
 Task 181 changes new customer tickets to start as `waiting_on_support` and makes customer comments move active/planned/resolved tickets back to `waiting_on_support`.
 
 Customer comments are blocked on closed tickets with a friendly message and a new-ticket action. Internal notes/events remain hidden from the customer UI.
+
+## Task 182 Context-Aware Creation Follow-Up
+
+Task 182 adds safe page/module context support to `/support/tickets/new`.
+
+The new ticket form can receive `relatedPath`, `moduleKey` and `category` query params, displays a linked context card and stores sanitised `related_path` / `related_module_key` values when safe.

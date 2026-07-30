@@ -6,8 +6,10 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { SectionCard } from "@/components/ui/section-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { getSupportTicketOrganisationContext } from "@/lib/support-ticket-context";
+import { getSupportTicketContextFromParams } from "@/lib/support-ticket-page-context";
 import {
   formatSupportTicketValue,
+  isSupportTicketPriority,
   supportTicketCategories,
   supportTicketPriorities,
 } from "@/lib/support-ticket-types";
@@ -19,6 +21,11 @@ export const metadata: Metadata = {
 type NewSupportTicketPageProps = {
   searchParams: Promise<{
     organisationId?: string;
+    relatedPath?: string;
+    moduleKey?: string;
+    category?: string;
+    priority?: string;
+    title?: string;
   }>;
 };
 
@@ -30,6 +37,19 @@ export default async function NewSupportTicketPage({
     params.organisationId,
   );
   const selectedOrganisation = context.selectedOrganisation;
+  const pageContext = getSupportTicketContextFromParams({
+    relatedPath: params.relatedPath,
+    moduleKey: params.moduleKey,
+    category: params.category,
+  });
+  const defaultPriority =
+    params.priority && isSupportTicketPriority(params.priority)
+      ? params.priority
+      : "normal";
+  const defaultTitle = params.title?.trim().slice(0, 160) ?? "";
+  const titlePlaceholder = pageContext.moduleLabel
+    ? `Issue with ${pageContext.moduleLabel}`
+    : "Short summary";
 
   return (
     <div className="space-y-6">
@@ -66,11 +86,51 @@ export default async function NewSupportTicketPage({
         />
       ) : null}
 
+      {pageContext.relatedPath || pageContext.moduleKey ? (
+        <SectionCard
+          title="Linked page context"
+          description="This ticket will include safe page/module context to help EveryBatch support understand where the issue was reported."
+        >
+          <div className="grid gap-3 text-sm sm:grid-cols-2">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">
+                Module
+              </p>
+              <p className="mt-2 font-semibold text-slate-950">
+                {pageContext.moduleLabel ?? "Not detected"}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">
+                Page
+              </p>
+              <p className="mt-2 break-words font-mono text-xs text-slate-600">
+                {pageContext.relatedPath ?? "Not provided"}
+              </p>
+            </div>
+          </div>
+        </SectionCard>
+      ) : null}
+
       <SectionCard
         title="Ticket details"
         description="Keep the description practical: what happened, what you expected and which page or workflow was involved."
       >
         <form action={createSupportTicketAction} className="space-y-5">
+          {pageContext.relatedPath ? (
+            <input
+              type="hidden"
+              name="related_path"
+              value={pageContext.relatedPath}
+            />
+          ) : null}
+          {pageContext.moduleKey ? (
+            <input
+              type="hidden"
+              name="related_module_key"
+              value={pageContext.moduleKey}
+            />
+          ) : null}
           <div className="grid gap-4 lg:grid-cols-3">
             <label className="grid gap-2 text-sm font-semibold text-slate-700">
               Workspace
@@ -110,7 +170,7 @@ export default async function NewSupportTicketPage({
               Category
               <select
                 name="category"
-                defaultValue="other"
+                defaultValue={pageContext.category}
                 required
                 className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-100"
               >
@@ -126,7 +186,7 @@ export default async function NewSupportTicketPage({
               Priority
               <select
                 name="priority"
-                defaultValue="normal"
+                defaultValue={defaultPriority}
                 required
                 className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-100"
               >
@@ -145,7 +205,8 @@ export default async function NewSupportTicketPage({
               name="title"
               required
               minLength={3}
-              placeholder="Short summary"
+              defaultValue={defaultTitle}
+              placeholder={titlePlaceholder}
               className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-100"
             />
           </label>
@@ -162,14 +223,16 @@ export default async function NewSupportTicketPage({
             />
           </label>
 
-          <label className="grid gap-2 text-sm font-semibold text-slate-700">
-            Page or area this relates to
-            <input
-              name="related_path"
-              placeholder="/products, /support/guides or a short area name"
-              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-100"
-            />
-          </label>
+          {!pageContext.relatedPath ? (
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+              Page or area this relates to
+              <input
+                name="related_path"
+                placeholder="/products, /support/guides or a short area name"
+                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-100"
+              />
+            </label>
+          ) : null}
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <button

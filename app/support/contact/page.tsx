@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { SectionCard } from "@/components/ui/section-card";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -16,25 +17,31 @@ export default function SupportContactPage() {
           Contact Support
         </h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
-          This page gives signed-in EveryBatch users a safe contact area while
-          ticket submission, routing and support inbox tooling are planned.
+          This page gives signed-in EveryBatch users a safe support contact
+          area. For product issues, use support tickets so the request is linked
+          to your workspace.
         </p>
       </section>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <SectionCard
           title="Current support path"
-          description="Use the existing support channel while in-app ticket submission is not active."
+          description="Create a workspace-linked support ticket for product help."
         >
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <p className="text-sm font-bold text-slate-950">
-              Contact EveryBatch support
+              Open a support ticket
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-500">
-              For now, raise support needs through the agreed business channel.
-              A persistent support-ticket workflow will be added after the
-              ticket schema and support inbox are reviewed.
+              Tickets help EveryBatch support see your workspace, category and
+              any page/module context included from the app Help menu.
             </p>
+            <Link
+              href="/support/tickets/new"
+              className="mt-3 inline-flex items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800"
+            >
+              New support ticket
+            </Link>
           </div>
         </SectionCard>
 

@@ -182,3 +182,9 @@ Task 181 makes Platform Admin customer-visible replies follow the reviewed statu
 - internal notes remain allowed and do not change status
 
 Manual status changes preserve historical `resolved_at` and `closed_at` timestamps when moving away from those statuses.
+
+## Task 182 Context-Aware Creation Follow-Up
+
+Task 182 adds related page/module context display to Platform Admin support inbox rows and ticket detail pages.
+
+No Platform Admin workflow, permission or route structure change was required.

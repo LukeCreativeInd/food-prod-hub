@@ -164,9 +164,8 @@ export function SupportShell({
               Support access active
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-500">
-              Support is visible to authenticated EveryBatch users. Detailed
-              ticket workflows and database-backed guide content are planned
-              later.
+              Support is visible to authenticated EveryBatch users. Tickets,
+              guides, troubleshooting and release notes are available here.
             </p>
           </section>
 

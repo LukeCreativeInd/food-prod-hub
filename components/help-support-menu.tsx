@@ -11,6 +11,7 @@ import {
   PLATFORM_MODULE_GUIDES_URL,
   PLATFORM_SUPPORT_TICKET_URL,
 } from "@/lib/platform-brand";
+import { getSupportTicketNewUrlForPath } from "@/lib/support-ticket-page-context";
 
 const supportLinks = [
   {
@@ -25,7 +26,7 @@ const supportLinks = [
   },
   {
     label: "Submit Support Ticket",
-    description: "Future support ticket entry point.",
+    description: "Create a workspace-linked support ticket.",
     href: PLATFORM_SUPPORT_TICKET_URL,
   },
   {
@@ -77,7 +78,15 @@ export function HelpSupportMenu() {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [currentHost, setCurrentHost] = useState<string | null>(null);
   const pageTitle = getPageTitleMeta(pathname);
+  const currentPageTicketHref = getSupportTicketNewUrlForPath(pathname, {
+    currentHost,
+  });
+
+  useEffect(() => {
+    setCurrentHost(window.location.host);
+  }, []);
 
   useEffect(() => {
     function handlePointerDown(event: MouseEvent) {
@@ -144,8 +153,16 @@ export function HelpSupportMenu() {
               {pageTitle.title}
             </p>
             <p className="mt-1 text-xs text-[var(--tenant-muted)]">
-              Page-specific guides coming soon.
+              Create a ticket with this page attached as context.
             </p>
+            <a
+              href={currentPageTicketHref}
+              role="menuitem"
+              className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3 py-2 text-sm font-bold text-white transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--tenant-primary-border)]"
+              onClick={() => setIsOpen(false)}
+            >
+              Report an issue on this page
+            </a>
           </div>
 
           <div className="p-2">

@@ -40,6 +40,11 @@ const troubleshootingTopics = [
       "Check that you are signed in and have an active workspace membership. Tickets must be linked to a valid workspace.",
   },
   {
+    title: "Support needs more page context",
+    description:
+      "Use Report an issue on this page from the app Help menu so the ticket includes safe page and module context.",
+  },
+  {
     title: "I can't see a ticket",
     description:
       "Confirm the ticket belongs to the selected workspace. Customer users only see customer-visible support tickets for their own workspace.",

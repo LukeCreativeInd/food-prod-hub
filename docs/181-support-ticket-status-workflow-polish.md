@@ -171,3 +171,7 @@ from public.support_ticket_events
 order by created_at desc
 limit 40;
 ```
+
+## Task 182 Context-Aware Creation Follow-Up
+
+Task 182 does not change the status lifecycle. New context-aware tickets still start as `waiting_on_support`, and subsequent customer/Platform replies follow the same status rules documented above.

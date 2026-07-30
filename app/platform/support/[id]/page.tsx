@@ -23,6 +23,7 @@ import {
   type PlatformSupportTicketComment,
   type PlatformSupportTicketEvent,
 } from "@/lib/platform-support-ticket-data";
+import { getSupportModuleLabel } from "@/lib/support-ticket-page-context";
 import {
   canPlatformReplyOnStatus,
   formatSupportTicketValue,
@@ -200,6 +201,9 @@ export default async function PlatformSupportTicketPage({
     ? getSupportTicketStatusMetadata(ticket.status)
     : null;
   const canReply = ticket ? canPlatformReplyOnStatus(ticket.status) : false;
+  const relatedModuleLabel = ticket?.related_module_key
+    ? getSupportModuleLabel(ticket.related_module_key)
+    : null;
 
   if (!ticket) {
     return (
@@ -336,6 +340,9 @@ export default async function PlatformSupportTicketPage({
             </p>
             {ticket.related_path || ticket.related_module_key ? (
               <div className="mt-5 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+                <p className="mb-2 text-xs font-black uppercase tracking-[0.12em] text-slate-400">
+                  Related context
+                </p>
                 {ticket.related_path ? (
                   <p>
                     <span className="font-bold text-slate-950">
@@ -349,7 +356,7 @@ export default async function PlatformSupportTicketPage({
                     <span className="font-bold text-slate-950">
                       Related module:
                     </span>{" "}
-                    {ticket.related_module_key}
+                    {relatedModuleLabel ?? ticket.related_module_key}
                   </p>
                 ) : null}
               </div>

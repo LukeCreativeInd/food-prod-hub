@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Support",
+    title: "Context-aware support tickets",
+    description:
+      "The app Help menu can now create support tickets with safe page and module context, helping EveryBatch support understand where an issue was reported.",
+  },
+  {
+    label: "Support",
     title: "Support ticket status workflow",
     description:
       "Support tickets now use clearer waiting-on-support, waiting-on-customer, resolved and closed behaviour across the customer portal and Platform Admin inbox.",
