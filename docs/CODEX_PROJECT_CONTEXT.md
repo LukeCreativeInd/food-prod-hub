@@ -236,6 +236,18 @@ See:
 docs/187-finished-product-data-entry-polish.md
 ```
 
+## Task 188 Component Formula Builder Polish
+
+Task 188 improves `/components` and `/components/[id]` so Components read as prepared/intermediate batch outputs rather than generic formula rows. The list now uses component-first columns and clearer empty/create wording. The detail page shows component fields, readiness cards, safe support-ticket context, cost blocker links, formula-line helper text and future-only production/where-used messaging.
+
+This task does not change formula calculations, Meal Margins calculations, Sell Price business rules, RLS, permissions, migrations, Supplier Invoice Intake, inventory, production, QA, auth/domain routing or Platform Admin logic. Component Costs support context now uses `moduleKey = component_costs`.
+
+See:
+
+```text
+docs/188-component-formula-builder-polish.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

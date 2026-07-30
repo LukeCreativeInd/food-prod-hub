@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+
 import { createComponentFormulaAction } from "@/app/components/actions";
 import { AppShell } from "@/components/app-shell";
 import { SampleDataTable } from "@/components/products/sample-data-table";
 import { EmptyState, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { getComponentFormulaListData } from "@/lib/component-formula-builder-data";
+
+export const metadata: Metadata = {
+  title: "Components - EveryBatch",
+};
 
 const exampleComponents = [
   "Bolognese Sauce",
@@ -44,19 +51,18 @@ export default async function ComponentsPage({
   const createMessage = getCreateMessage(params.create);
 
   const rows = data.components.map((component) => ({
-    "Formula name": {
+    Component: {
       label: component.displayName,
       href: `/components/${component.id}`,
     },
-    Status: component.status,
-    Version: component.versionName,
-    "Batch yield": component.outputQuantity,
+    Formula: component.status,
+    "Batch output": component.outputQuantity,
     Lines: String(component.lineCount),
-    "Cost readiness": component.costReadiness,
+    Cost: component.costReadiness,
     "Estimated cost": component.estimatedCost,
-    "Last updated": component.lastUpdated,
+    Updated: component.lastUpdated,
     Action: {
-      label: data.canManageFormulas ? "Build" : "View",
+      label: data.canManageFormulas ? "Manage" : "View",
       href: `/components/${component.id}`,
     },
   }));
@@ -98,7 +104,7 @@ export default async function ComponentsPage({
             icon="LN"
           />
           <StatCard
-            label="Cost review"
+            label="Cost blocked"
             value={String(data.summary.formulasMissingCostInputs)}
             helperText="Missing approved prices, units or formula lines."
             badge="Review"
@@ -115,8 +121,8 @@ export default async function ComponentsPage({
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
           <SectionCard
-            title="Component formula builder"
-            description="Manual component formulas use internal items as inputs. The current version supports header editing, line management and safe cost readiness only."
+            title="Components"
+            description="Real tenant component items. Components are prepared/intermediate outputs that can later feed finished product formulas."
             action={
               data.canManageFormulas ? (
                 <StatusBadge tone="success">Manage enabled</StatusBadge>
@@ -128,8 +134,18 @@ export default async function ComponentsPage({
             {data.components.length === 0 ? (
               <div className="space-y-5">
                 <EmptyState
-                  title="No component formulas captured yet"
-                  description="Create the first component formula manually or wait for the future workbook import review flow. Formula lines must use existing internal items."
+                  title="No components captured yet"
+                  description="Create the first component and draft formula header. Components are prepared batches such as cooked rice, sauces, spice mixes, cooked chicken or mash."
+                  action={
+                    data.canManageFormulas ? (
+                      <Link
+                        className="inline-flex items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90"
+                        href="#new-component"
+                      >
+                        Add component
+                      </Link>
+                    ) : null
+                  }
                 />
                 <div className="rounded-md border border-dashed border-slate-300 bg-slate-50/70 p-4">
                   <p className="text-sm font-semibold text-slate-900">
@@ -147,26 +163,25 @@ export default async function ComponentsPage({
             ) : (
               <SampleDataTable
                 columns={[
-                  "Formula name",
-                  "Status",
-                  "Version",
-                  "Batch yield",
+                  "Component",
+                  "Formula",
+                  "Batch output",
                   "Lines",
-                  "Cost readiness",
+                  "Cost",
                   "Estimated cost",
-                  "Last updated",
+                  "Updated",
                   "Action",
                 ]}
                 rows={rows}
-                badgeColumns={["Status", "Cost readiness"]}
-                emptyMessage="No component formula rows are visible yet."
+                badgeColumns={["Formula", "Cost"]}
+                emptyMessage="No components are visible yet."
               />
             )}
           </SectionCard>
 
           <SectionCard
-            title="New Component Formula"
-            description="Create a draft component and formula header. Input lines are added on the detail page."
+            title="Add component"
+            description="Create a component internal item and its first draft formula header. Input lines are added on the detail page."
             action={
               data.canManageFormulas ? (
                 <StatusBadge tone="success">formulas.manage</StatusBadge>
@@ -176,10 +191,14 @@ export default async function ComponentsPage({
             }
           >
             {data.canManageFormulas ? (
-              <form action={createComponentFormulaAction} className="space-y-4">
+              <form
+                action={createComponentFormulaAction}
+                className="space-y-4"
+                id="new-component"
+              >
                 <label className="block">
                   <span className="text-xs font-semibold uppercase text-slate-500">
-                    Formula name
+                    Component name
                   </span>
                   <input
                     className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-950 outline-none focus:border-[var(--tenant-primary)] focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
@@ -187,11 +206,14 @@ export default async function ComponentsPage({
                     placeholder="Bolognese Sauce"
                     required
                   />
+                  <span className="mt-1 block text-xs leading-5 text-slate-500">
+                    This becomes a canonical internal item with item type component.
+                  </span>
                 </label>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <label className="block">
                     <span className="text-xs font-semibold uppercase text-slate-500">
-                      Batch yield
+                      Batch/output quantity
                     </span>
                     <input
                       className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-950 outline-none focus:border-[var(--tenant-primary)] focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
@@ -205,7 +227,7 @@ export default async function ComponentsPage({
                   </label>
                   <label className="block">
                     <span className="text-xs font-semibold uppercase text-slate-500">
-                      Unit
+                      Batch/output unit
                     </span>
                     <input
                       className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-950 outline-none focus:border-[var(--tenant-primary)] focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
@@ -213,6 +235,9 @@ export default async function ComponentsPage({
                       placeholder="kg"
                       required
                     />
+                    <span className="mt-1 block text-xs leading-5 text-slate-500">
+                      Formula line quantities are interpreted against this output.
+                    </span>
                   </label>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -267,7 +292,7 @@ export default async function ComponentsPage({
                   className="inline-flex w-full items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
                   type="submit"
                 >
-                  Create component formula
+                  Add component
                 </button>
               </form>
             ) : (
@@ -280,16 +305,28 @@ export default async function ComponentsPage({
         </div>
 
         <SectionCard
-          title="Builder boundaries"
-          description="This v1 builder captures the formula/BOM only. It deliberately leaves operational workflow for later reviewed tasks."
+          title="Review links and builder boundaries"
+          description="Component setup connects to cost review now and to production/inventory later."
         >
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-4 lg:grid-cols-4">
             <div className="rounded-md border border-slate-200 bg-white p-4">
               <p className="text-sm font-semibold text-slate-950">Internal items only</p>
               <p className="mt-2 text-sm leading-6 text-slate-600">
                 Formula lines reference tenant internal items or existing components, not
                 supplier source descriptions.
               </p>
+            </div>
+            <div className="rounded-md border border-slate-200 bg-white p-4">
+              <p className="text-sm font-semibold text-slate-950">Cost review</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                Use Component Costs, Ingredient Costs and Packaging Costs to
+                review blockers before trusting a batch estimate.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-3 text-sm font-semibold text-[var(--tenant-primary)]">
+                <Link href="/component-costs">Component Costs</Link>
+                <Link href="/ingredient-costs">Ingredient Costs</Link>
+                <Link href="/packaging-costs">Packaging Costs</Link>
+              </div>
             </div>
             <div className="rounded-md border border-slate-200 bg-white p-4">
               <p className="text-sm font-semibold text-slate-950">No conversion engine</p>

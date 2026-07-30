@@ -22,7 +22,7 @@ const troubleshootingTopics = [
   {
     title: "Margins are blocked",
     description:
-      "Look for missing approved prices, missing formula lines, unit mismatch messages or draft sell prices.",
+      "Look for missing approved prices, missing formula lines, component-cost blockers, unit mismatch messages or draft sell prices.",
   },
   {
     title: "Invoice upload has unknown lines",

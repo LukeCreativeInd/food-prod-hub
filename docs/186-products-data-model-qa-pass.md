@@ -107,6 +107,8 @@ Draft sell prices are allowed as candidates but do not count as margin-ready. Ar
 
 Task 187 follows this QA pass with Finished Product data-entry polish. `/finished-products` and `/finished-products/[id]` now show clearer real-data readiness for formula, cost, active current sell price and margin setup, while keeping production readiness labelled as future.
 
+Task 188 follows with Component Formula Builder polish. `/components` and `/components/[id]` now use clearer component-first wording, component detail fields, input-line guidance, cost blocker actions and links to Component Costs, Ingredient Costs, Packaging Costs and Finished Products.
+
 ## Permission And Module QA
 
 Current permission shape is appropriate for the current build:

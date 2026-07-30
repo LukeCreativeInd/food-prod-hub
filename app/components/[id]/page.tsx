@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -9,7 +10,7 @@ import {
 } from "@/app/components/actions";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
-import { EmptyState, PageActionButton, SectionCard, StatusBadge } from "@/components/ui";
+import { EmptyState, PageActionButton, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { getComponentFormulaDetailData } from "@/lib/component-formula-builder-data";
 
 type PageProps = {
@@ -19,6 +20,10 @@ type PageProps = {
   searchParams: Promise<{
     formula?: string;
   }>;
+};
+
+export const metadata: Metadata = {
+  title: "Component - EveryBatch",
 };
 
 function statusTone(value: string) {
@@ -130,6 +135,21 @@ export default async function ComponentFormulaDetailPage({
 
   const actionMessage = getActionMessage(resolvedSearchParams.formula);
   const selectedVersion = detail.selectedVersion;
+  const ingredientCount = detail.lines.filter(
+    (line) => line.inputItemType === "ingredient",
+  ).length;
+  const packagingCount = detail.lines.filter(
+    (line) => line.inputItemType === "packaging",
+  ).length;
+  const componentCount = detail.lines.filter(
+    (line) => line.inputItemType === "component",
+  ).length;
+  const supportTicketHref = `/support/tickets/new?${new URLSearchParams({
+    relatedPath: `/components/${detail.component.id}`,
+    moduleKey: "components",
+    category: "formulas",
+  }).toString()}`;
+  const formulaActionHref = selectedVersion ? "#formula-header" : "/components";
 
   return (
     <AppShell>
@@ -159,144 +179,268 @@ export default async function ComponentFormulaDetailPage({
           </div>
         ) : null}
 
+        <SectionCard
+          title="Component details"
+          description="Canonical prepared/intermediate item. Formula inputs and costing readiness are reviewed from this item."
+          action={
+            <PageActionButton href={supportTicketHref} variant="secondary">
+              Get help
+            </PageActionButton>
+          }
+        >
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {[
+              ["Name", detail.component.displayName],
+              ["Item type", detail.component.itemType],
+              ["Base unit", detail.component.baseUnit],
+              ["Item status", detail.component.status],
+              ["Formula version", selectedVersion?.versionName ?? "Not captured"],
+              ["Batch output", selectedVersion?.outputQuantity ?? "Not captured"],
+              ["Updated", detail.component.updatedAt],
+              ["Notes", detail.component.notes || "No notes recorded"],
+            ].map(([label, value]) => (
+              <div
+                className="rounded-md border border-slate-200 bg-slate-50/70 px-4 py-3"
+                key={label}
+              >
+                <p className={labelClassName()}>{label}</p>
+                <p className="mt-1 text-sm font-semibold text-slate-900">
+                  {value}
+                </p>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
+          <StatCard
+            label="Formula lines"
+            value={String(detail.lines.length)}
+            helperText="Active ingredient, packaging, component and other input lines."
+            badge="BOM"
+            tone={detail.lines.length > 0 ? "info" : "warning"}
+            icon="LN"
+          />
+          <StatCard
+            label="Ingredients"
+            value={String(ingredientCount)}
+            helperText="Purchased ingredient inputs used by this component."
+            badge="Inputs"
+            tone={ingredientCount > 0 ? "info" : "neutral"}
+            icon="IN"
+          />
+          <StatCard
+            label="Packaging"
+            value={String(packagingCount)}
+            helperText="Packaging inputs captured in this component formula."
+            badge="Inputs"
+            tone={packagingCount > 0 ? "info" : "neutral"}
+            icon="PK"
+          />
+          <StatCard
+            label="Sub-components"
+            value={String(componentCount)}
+            helperText="Reusable component inputs nested into this formula."
+            badge="Inputs"
+            tone={componentCount > 0 ? "info" : "neutral"}
+            icon="CP"
+          />
+          <StatCard
+            label="Input costs"
+            value={detail.costReadiness.status}
+            helperText={detail.costReadiness.estimatedCost}
+            badge="Costing"
+            tone={detail.costReadiness.tone}
+            icon="$"
+          />
+          <StatCard
+            label="Production"
+            value="Future"
+            helperText="Inventory availability and batch production are not live yet."
+            badge="Later"
+            tone="neutral"
+            icon="PR"
+          />
+        </section>
+
+        <SectionCard
+          title="Review actions"
+          description="Move between component setup and costing review without changing formula calculation rules."
+        >
+          <div className="flex flex-wrap gap-3">
+            <PageActionButton href={formulaActionHref} variant="secondary">
+              Manage formula
+            </PageActionButton>
+            <PageActionButton href="/component-costs" variant="secondary">
+              View component costs
+            </PageActionButton>
+            <PageActionButton href="/ingredient-costs" variant="secondary">
+              View ingredient costs
+            </PageActionButton>
+            <PageActionButton href="/packaging-costs" variant="secondary">
+              View packaging costs
+            </PageActionButton>
+            <PageActionButton href="/finished-products" variant="secondary">
+              View finished products
+            </PageActionButton>
+          </div>
+          <p className="mt-4 text-sm leading-6 text-slate-500">
+            Where-used counts are not live yet. Finished product formulas can use
+            components, but this page does not currently calculate downstream usage.
+          </p>
+        </SectionCard>
+
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-          <SectionCard
-            title="Formula header"
-            description="Basic component formula fields supported by the current formula schema."
-            action={
-              detail.selectedVersion ? (
-                <StatusBadge tone={statusTone(detail.selectedVersion.status)}>
-                  {detail.selectedVersion.status}
-                </StatusBadge>
-              ) : (
-                <StatusBadge tone="warning">Formula missing</StatusBadge>
-              )
-            }
-          >
-            {detail.selectedVersion ? (
-              detail.canManageFormulas ? (
-                <form action={updateComponentFormulaHeaderAction} className="space-y-4">
-                  <input name="component_id" type="hidden" value={detail.component.id} />
-                  <input
-                    name="formula_version_id"
-                    type="hidden"
-                    value={detail.selectedVersion.id}
-                  />
-                  <div className="grid gap-4 lg:grid-cols-2">
-                    <label className="block">
-                      <span className={labelClassName()}>Component name</span>
-                      <input
-                        className={inputClassName()}
-                        defaultValue={detail.component.displayName}
-                        name="display_name"
-                        required
-                      />
-                    </label>
-                    <label className="block">
-                      <span className={labelClassName()}>Version name</span>
-                      <input
-                        className={inputClassName()}
-                        defaultValue={detail.selectedVersion.versionNameValue}
-                        name="version_name"
-                        required
-                      />
-                    </label>
-                    <label className="block">
-                      <span className={labelClassName()}>Batch yield</span>
-                      <input
-                        className={inputClassName()}
-                        defaultValue={detail.selectedVersion.outputQuantityValue}
-                        min="0.001"
-                        name="output_quantity"
-                        required
-                        step="0.001"
-                        type="number"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className={labelClassName()}>Yield unit</span>
-                      <input
-                        className={inputClassName()}
-                        defaultValue={detail.selectedVersion.outputUnit}
-                        name="output_unit"
-                        required
-                      />
-                    </label>
-                    <label className="block">
-                      <span className={labelClassName()}>Expected yield</span>
-                      <input
-                        className={inputClassName()}
-                        defaultValue={detail.selectedVersion.expectedYieldQuantityValue}
-                        min="0.001"
-                        name="expected_yield_quantity"
-                        step="0.001"
-                        type="number"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className={labelClassName()}>Expected yield unit</span>
-                      <input
-                        className={inputClassName()}
-                        defaultValue={detail.selectedVersion.expectedYieldUnit}
-                        name="expected_yield_unit"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className={labelClassName()}>Status</span>
-                      <select
-                        className={inputClassName()}
-                        defaultValue={detail.selectedVersion.status}
-                        name="status"
-                      >
-                        <option value="draft">Draft</option>
-                        <option value="active">Active</option>
-                      </select>
-                    </label>
-                  </div>
-                  <label className="block">
-                    <span className={labelClassName()}>Notes</span>
-                    <textarea
-                      className="mt-1 min-h-24 w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-950 outline-none focus:border-[var(--tenant-primary)] focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
-                      defaultValue={detail.selectedVersion.notes || detail.component.notes}
-                      name="notes"
+          <div id="formula-header" className="scroll-mt-24">
+            <SectionCard
+              title="Formula header"
+              description="Basic component formula fields supported by the current formula schema."
+              action={
+                detail.selectedVersion ? (
+                  <StatusBadge tone={statusTone(detail.selectedVersion.status)}>
+                    {detail.selectedVersion.status}
+                  </StatusBadge>
+                ) : (
+                  <StatusBadge tone="warning">Formula missing</StatusBadge>
+                )
+              }
+            >
+              {detail.selectedVersion ? (
+                detail.canManageFormulas ? (
+                  <form action={updateComponentFormulaHeaderAction} className="space-y-4">
+                    <input name="component_id" type="hidden" value={detail.component.id} />
+                    <input
+                      name="formula_version_id"
+                      type="hidden"
+                      value={detail.selectedVersion.id}
                     />
-                  </label>
-                  <button
-                    className="inline-flex items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
-                    type="submit"
-                  >
-                    Save formula header
-                  </button>
-                </form>
-              ) : (
-                <dl className="grid gap-4 md:grid-cols-2">
-                  {[
-                    ["Component name", detail.component.displayName],
-                    ["Version", detail.selectedVersion.versionName],
-                    ["Status", detail.selectedVersion.status],
-                    ["Batch yield", detail.selectedVersion.outputQuantity],
-                    ["Expected yield", detail.selectedVersion.expectedYield],
-                    ["Notes", detail.selectedVersion.notes || "No notes recorded"],
-                  ].map(([label, value]) => (
-                    <div
-                      className="rounded-md border border-slate-200 bg-slate-50/60 px-4 py-3"
-                      key={label}
-                    >
-                      <dt className={labelClassName()}>{label}</dt>
-                      <dd className="mt-1 text-sm font-semibold text-slate-900">
-                        {value}
-                      </dd>
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <label className="block">
+                        <span className={labelClassName()}>Component name</span>
+                        <input
+                          className={inputClassName()}
+                          defaultValue={detail.component.displayName}
+                          name="display_name"
+                          required
+                        />
+                        <span className="mt-1 block text-xs leading-5 text-slate-500">
+                          This remains a canonical internal item with item type component.
+                        </span>
+                      </label>
+                      <label className="block">
+                        <span className={labelClassName()}>Version name</span>
+                        <input
+                          className={inputClassName()}
+                          defaultValue={detail.selectedVersion.versionNameValue}
+                          name="version_name"
+                          required
+                        />
+                      </label>
+                      <label className="block">
+                        <span className={labelClassName()}>Batch yield</span>
+                        <input
+                          className={inputClassName()}
+                          defaultValue={detail.selectedVersion.outputQuantityValue}
+                          min="0.001"
+                          name="output_quantity"
+                          required
+                          step="0.001"
+                          type="number"
+                        />
+                        <span className="mt-1 block text-xs leading-5 text-slate-500">
+                          Input quantities are reviewed against this component output.
+                        </span>
+                      </label>
+                      <label className="block">
+                        <span className={labelClassName()}>Yield unit</span>
+                        <input
+                          className={inputClassName()}
+                          defaultValue={detail.selectedVersion.outputUnit}
+                          name="output_unit"
+                          required
+                        />
+                      </label>
+                      <label className="block">
+                        <span className={labelClassName()}>Expected yield</span>
+                        <input
+                          className={inputClassName()}
+                          defaultValue={detail.selectedVersion.expectedYieldQuantityValue}
+                          min="0.001"
+                          name="expected_yield_quantity"
+                          step="0.001"
+                          type="number"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className={labelClassName()}>Expected yield unit</span>
+                        <input
+                          className={inputClassName()}
+                          defaultValue={detail.selectedVersion.expectedYieldUnit}
+                          name="expected_yield_unit"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className={labelClassName()}>Status</span>
+                        <select
+                          className={inputClassName()}
+                          defaultValue={detail.selectedVersion.status}
+                          name="status"
+                        >
+                          <option value="draft">Draft</option>
+                          <option value="active">Active</option>
+                        </select>
+                      </label>
                     </div>
-                  ))}
-                </dl>
-              )
-            ) : (
-              <EmptyState
-                title="No formula version captured"
-                description="Create or reuse this component from the Components page to add the first draft formula version."
-              />
-            )}
-          </SectionCard>
+                    <label className="block">
+                      <span className={labelClassName()}>Notes</span>
+                      <textarea
+                        className="mt-1 min-h-24 w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-950 outline-none focus:border-[var(--tenant-primary)] focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
+                        defaultValue={detail.selectedVersion.notes || detail.component.notes}
+                        name="notes"
+                      />
+                    </label>
+                    <button
+                      className="inline-flex items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+                      type="submit"
+                    >
+                      Save formula header
+                    </button>
+                  </form>
+                ) : (
+                  <dl className="grid gap-4 md:grid-cols-2">
+                    {[
+                      ["Component name", detail.component.displayName],
+                      ["Version", detail.selectedVersion.versionName],
+                      ["Status", detail.selectedVersion.status],
+                      ["Batch yield", detail.selectedVersion.outputQuantity],
+                      ["Expected yield", detail.selectedVersion.expectedYield],
+                      ["Notes", detail.selectedVersion.notes || "No notes recorded"],
+                    ].map(([label, value]) => (
+                      <div
+                        className="rounded-md border border-slate-200 bg-slate-50/60 px-4 py-3"
+                        key={label}
+                      >
+                        <dt className={labelClassName()}>{label}</dt>
+                        <dd className="mt-1 text-sm font-semibold text-slate-900">
+                          {value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                )
+              ) : (
+                <EmptyState
+                  title="Formula missing"
+                  description="Component cost can be previewed only after this component has formula lines with reviewed prices and compatible units."
+                  action={
+                    <PageActionButton href="/components" variant="secondary">
+                      Back to components
+                    </PageActionButton>
+                  }
+                />
+              )}
+            </SectionCard>
+          </div>
 
           <SectionCard
             title="Cost readiness"
@@ -325,13 +469,18 @@ export default async function ComponentFormulaDetailPage({
                 </p>
               ))}
             </div>
+            <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold text-[var(--tenant-primary)]">
+              <Link href="/ingredient-costs">Review Ingredient Costs</Link>
+              <Link href="/packaging-costs">Review Packaging Costs</Link>
+              <Link href="/component-costs">Open Component Costs</Link>
+            </div>
           </SectionCard>
         </div>
 
         {selectedVersion ? (
           <SectionCard
             title="Formula lines"
-            description="Inputs can be ingredients, packaging, consumables, equipment or other components. Supplier descriptions stay outside formula lines."
+            description="Add the ingredients, packaging, consumables or sub-components used to make this batch output. Supplier descriptions stay outside formula lines."
             action={
               detail.canManageFormulas ? (
                 <StatusBadge tone="success">Editable</StatusBadge>
@@ -343,7 +492,7 @@ export default async function ComponentFormulaDetailPage({
             {detail.lines.length === 0 ? (
               <EmptyState
                 title="No input lines yet"
-                description="Add one row per ingredient, packaging item or reusable component needed to make this batch formula."
+                description="Add one row per ingredient, packaging item or reusable component needed to make this component. Cost stays blocked until lines have reviewed prices and compatible units."
               />
             ) : (
               <div className="space-y-4">
@@ -437,7 +586,7 @@ export default async function ComponentFormulaDetailPage({
                             className="inline-flex w-full items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90 sm:w-auto"
                             type="submit"
                           >
-                            Save
+                            Save line
                           </button>
                         </div>
                         <label className="block md:col-span-2 xl:col-span-10">
@@ -527,7 +676,7 @@ export default async function ComponentFormulaDetailPage({
 
         {selectedVersion && detail.canManageFormulas ? (
           <SectionCard
-            title="Add formula line"
+            title="Add input line"
             description="Select an existing tenant internal item. Unknown items should be created and reviewed before they become formula inputs."
           >
             <form
@@ -562,7 +711,7 @@ export default async function ComponentFormulaDetailPage({
                 </select>
               </label>
               <label className="block xl:col-span-2">
-                <span className={labelClassName()}>Quantity</span>
+                  <span className={labelClassName()}>Quantity</span>
                 <input
                   className={inputClassName()}
                   min="0.001"
@@ -571,10 +720,16 @@ export default async function ComponentFormulaDetailPage({
                   step="0.001"
                   type="number"
                 />
+                <span className="mt-1 block text-xs leading-5 text-slate-500">
+                  Quantity is per component batch/output defined in the header.
+                </span>
               </label>
               <label className="block xl:col-span-1">
-                <span className={labelClassName()}>Unit</span>
+                  <span className={labelClassName()}>Unit</span>
                 <input className={inputClassName()} name="unit" placeholder="kg" required />
+                <span className="mt-1 block text-xs leading-5 text-slate-500">
+                  Unit should match the approved price unit until conversions are designed.
+                </span>
               </label>
               <label className="block xl:col-span-2">
                 <span className={labelClassName()}>Prep state</span>
@@ -593,7 +748,7 @@ export default async function ComponentFormulaDetailPage({
                   className="inline-flex w-full items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] sm:w-auto"
                   type="submit"
                 >
-                  Add line
+                  Add input line
                 </button>
               </div>
               <label className="block md:col-span-2 xl:col-span-12">
@@ -656,12 +811,12 @@ export default async function ComponentFormulaDetailPage({
         </SectionCard>
 
         <SectionCard
-          title="Production method placeholder"
-          description="Production instructions remain separate from the formula/BOM layer."
+          title="Production readiness"
+          description="Production instructions and inventory availability remain separate from the formula/BOM layer."
         >
           <EmptyState
-            title="Method and route layer comes later"
-            description="Steps, work areas, tablet task logging, actual production quantities and waste reporting will be designed in later production-specific work."
+            title="Production readiness comes later"
+            description="Steps, work areas, tablet task logging, inventory availability, actual production quantities and waste reporting will be designed in later production-specific work."
           />
         </SectionCard>
       </div>

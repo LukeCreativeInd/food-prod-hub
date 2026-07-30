@@ -50,6 +50,7 @@ const supportModuleFilterOptions = [
   "finished_products",
   "formulas",
   "costings",
+  "component_costs",
   "meal_margins",
   "sell_prices",
   "inventory",

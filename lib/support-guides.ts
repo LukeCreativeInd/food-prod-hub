@@ -264,13 +264,14 @@ export const supportGuides: SupportGuide[] = [
         body: [
           "A formula version belongs to an output internal item. Formula lines list the input internal items and quantities needed to make that output.",
           "Component formulas and finished product formulas use the same foundation, but they represent different operational levels.",
+          "Component formulas describe prepared or intermediate batch outputs such as sauces, cooked rice, spice mixes or cooked proteins. Finished product formulas can later use those components as inputs.",
         ],
       },
       {
         heading: "Review before relying on cost",
         body: [
           "Every line should be checked for the right internal item, quantity and unit before the cost is trusted.",
-          "Missing approved prices, missing child formulas, unsupported item types and unit mismatches should remain visible as readiness messages.",
+          "Missing approved prices, missing child formulas, unsupported item types and unit mismatches should remain visible as readiness messages. Use Ingredient Costs, Packaging Costs and Component Costs to resolve blockers.",
         ],
       },
       {

@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Products",
+    title: "Component Formula Builder polish",
+    description:
+      "Component setup now has clearer real-data readiness, component detail fields, costing links and line-level guidance for missing prices or unit review.",
+  },
+  {
+    label: "Products",
     title: "Finished Product setup polish",
     description:
       "Finished Products now shows clearer real-data readiness for formula, cost, sell price and margin setup, with links into formula, sell price and margin review areas.",
