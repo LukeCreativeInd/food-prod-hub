@@ -47,6 +47,7 @@ export type GoodsInwardsFormOptions = {
 
 export type InventoryReceiptListItem = {
   id: string;
+  purchaseDocumentId: string | null;
   receiptNumber: string;
   supplierName: string;
   supplierReference: string;
@@ -61,6 +62,7 @@ export type InventoryReceiptListItem = {
 
 export type InventoryReceiptLineItem = {
   id: string;
+  purchaseDocumentLineId: string | null;
   internalItemName: string;
   receivedQuantity: string;
   receivedUnit: string;
@@ -100,6 +102,8 @@ export type InventoryStockMovementItem = {
 export type InventoryReceiptDetail = {
   receipt: {
     id: string;
+    purchaseDocumentId: string | null;
+    purchaseDocumentLabel: string | null;
     receiptNumber: string;
     supplierName: string;
     supplierReference: string;
@@ -146,6 +150,7 @@ export type StockMovementsPageData = {
 type ReceiptRow = {
   id: string;
   supplier_id: string | null;
+  purchase_document_id: string | null;
   receipt_number: string | null;
   supplier_reference: string | null;
   received_at: string;
@@ -159,6 +164,7 @@ type ReceiptRow = {
 
 type ReceiptLineRow = {
   id: string;
+  purchase_document_line_id: string | null;
   internal_item_id: string;
   stock_location_id: string;
   received_quantity: number;
@@ -198,6 +204,12 @@ type LotRow = {
 type SupplierRow = {
   id: string;
   display_name: string;
+};
+
+type PurchaseDocumentRow = {
+  id: string;
+  invoice_number: string | null;
+  original_filename: string;
 };
 
 type InternalItemRow = {
@@ -366,7 +378,7 @@ export async function fetchInventoryReceipts(): Promise<GoodsInwardsListData> {
   const { data: receiptRows, error: receiptError } = await supabase
     .from("inventory_receipts")
     .select(
-      "id, supplier_id, receipt_number, supplier_reference, received_at, status, notes, created_at, updated_at, posted_at, cancelled_at",
+      "id, supplier_id, purchase_document_id, receipt_number, supplier_reference, received_at, status, notes, created_at, updated_at, posted_at, cancelled_at",
     )
     .eq("organisation_id", organisationId)
     .is("archived_at", null)
@@ -411,6 +423,7 @@ export async function fetchInventoryReceipts(): Promise<GoodsInwardsListData> {
 
   const mappedReceipts = receipts.map((receipt) => ({
     id: receipt.id,
+    purchaseDocumentId: receipt.purchase_document_id,
     receiptNumber: receipt.receipt_number ?? "Draft receipt",
     supplierName: receipt.supplier_id
       ? supplierMap.get(receipt.supplier_id)?.display_name ?? "Unknown supplier"
@@ -458,7 +471,7 @@ export async function fetchInventoryReceiptDetail(
   const { data: receiptData, error: receiptError } = await supabase
     .from("inventory_receipts")
     .select(
-      "id, supplier_id, receipt_number, supplier_reference, received_at, status, notes, created_at, updated_at, posted_at, cancelled_at",
+      "id, supplier_id, purchase_document_id, receipt_number, supplier_reference, received_at, status, notes, created_at, updated_at, posted_at, cancelled_at",
     )
     .eq("organisation_id", organisationId)
     .eq("id", receiptId)
@@ -475,12 +488,12 @@ export async function fetchInventoryReceiptDetail(
 
   const receipt = receiptData as ReceiptRow;
 
-  const [linesResult, movementsResult, supplierResult, formOptions] =
+  const [linesResult, movementsResult, supplierResult, purchaseDocumentResult, formOptions] =
     await Promise.all([
       supabase
         .from("inventory_receipt_lines")
         .select(
-          "id, internal_item_id, stock_location_id, received_quantity, received_unit, inventory_quantity, inventory_unit, lot_number, expiry_date, use_by_date, manufacture_date, conversion_status, qa_status, status, notes",
+          "id, purchase_document_line_id, internal_item_id, stock_location_id, received_quantity, received_unit, inventory_quantity, inventory_unit, lot_number, expiry_date, use_by_date, manufacture_date, conversion_status, qa_status, status, notes",
         )
         .eq("organisation_id", organisationId)
         .eq("receipt_id", receiptId)
@@ -501,10 +514,23 @@ export async function fetchInventoryReceiptDetail(
             .eq("id", receipt.supplier_id)
             .maybeSingle()
         : Promise.resolve({ data: null, error: null }),
+      receipt.purchase_document_id
+        ? supabase
+            .from("purchase_documents")
+            .select("id, invoice_number, original_filename")
+            .eq("organisation_id", organisationId)
+            .eq("id", receipt.purchase_document_id)
+            .maybeSingle()
+        : Promise.resolve({ data: null, error: null }),
       fetchGoodsInwardsFormOptions(),
     ]);
 
-  if (linesResult.error || movementsResult.error || supplierResult.error) {
+  if (
+    linesResult.error ||
+    movementsResult.error ||
+    supplierResult.error ||
+    purchaseDocumentResult.error
+  ) {
     throw new Error("Could not load receipt detail records.");
   }
 
@@ -566,6 +592,12 @@ export async function fetchInventoryReceiptDetail(
   return {
     receipt: {
       id: receipt.id,
+      purchaseDocumentId: receipt.purchase_document_id,
+      purchaseDocumentLabel: receipt.purchase_document_id
+        ? ((purchaseDocumentResult.data as PurchaseDocumentRow | null)?.invoice_number ??
+          (purchaseDocumentResult.data as PurchaseDocumentRow | null)?.original_filename ??
+          "Source invoice")
+        : null,
       receiptNumber: receipt.receipt_number ?? "Draft receipt",
       supplierName: receipt.supplier_id
         ? ((supplierResult.data as SupplierRow | null)?.display_name ?? "Unknown supplier")
@@ -583,6 +615,7 @@ export async function fetchInventoryReceiptDetail(
     },
     lines: lines.map((line) => ({
       id: line.id,
+      purchaseDocumentLineId: line.purchase_document_line_id,
       internalItemName: itemMap.get(line.internal_item_id)?.display_name ?? "Unknown item",
       receivedQuantity: formatQuantity(line.received_quantity),
       receivedUnit: line.received_unit,

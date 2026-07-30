@@ -331,7 +331,8 @@ export const supportGuides: SupportGuide[] = [
         heading: "What commit creates",
         body: [
           "After review, commit can create or reuse supplier records, supplier items, internal items, mappings, price observations and approved supplier prices.",
-          "It does not create stock movements, goods-inwards receipts, purchase orders, accounting updates or supplier payment detail changes.",
+          "It does not post stock movements, purchase orders, accounting updates or supplier payment detail changes.",
+          "Reviewed and mapped invoice lines can now be sent to Goods Inwards as a draft receipt. The draft still needs warehouse review and manual posting before stock is updated.",
         ],
       },
     ],
@@ -368,7 +369,8 @@ export const supportGuides: SupportGuide[] = [
       {
         heading: "What is still separate",
         body: [
-          "Supplier Invoice Intake can review supplier documents and prices, but it does not create receiving lines automatically yet.",
+          "Supplier Invoice Intake can create a draft Goods Inwards receipt from eligible reviewed invoice lines, but it does not post stock automatically.",
+          "The receiving user still reviews locations, lot/expiry details, QA status and conversion blockers before posting.",
           "Stock-on-hand totals, valuation, purchase orders, QA checklists, barcode scanning and production consumption remain future workflows.",
         ],
       },

@@ -209,6 +209,7 @@ Supplier Invoice Intake:
 
 - remains separate; invoices do not auto-create receipts or stock.
 - task 196 plans a future review-first bridge where eligible invoice lines can create draft receipt suggestions only.
+- task 197 implements that bridge: reviewed/mapped invoice lines can create draft Goods Inwards receipts, but posting still controls lot and stock movement creation.
 
 Purchasing / Purchase Orders:
 
@@ -274,7 +275,7 @@ UOM conversion rules:
 
 - no transaction/RPC posting yet
 - no stock-on-hand summary
-- no Supplier Invoice to Receiving suggestions yet; task 196 plans the future v1 bridge
+- no automatic Supplier Invoice to Receiving posting; task 197 creates draft suggestions only
 - no purchase orders
 - no barcode scanning
 - no QA checklist workflow

@@ -35,6 +35,11 @@ const troubleshootingTopics = [
       "Check that the receipt has at least one active line, no rejected lines and no lines marked conversion required or blocked. Unknown pack conversions such as bunch to grams need future UOM rules before posting.",
   },
   {
+    title: "I can't create a Goods Inwards draft from an invoice",
+    description:
+      "Check that invoice lines are committed or mapped to internal stock items, have positive quantities and units, and that you selected an active stock location. Informational, non-stock and already-sent lines are skipped.",
+  },
+  {
     title: "Invoice upload has unknown lines",
     description:
       "Review the line source text, supplier item, classification and internal item mapping before committing.",

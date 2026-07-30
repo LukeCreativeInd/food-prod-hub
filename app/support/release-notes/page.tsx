@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Inventory",
+    title: "Supplier invoice to Goods Inwards draft",
+    description:
+      "Reviewed Supplier Invoice Intake lines can now create draft Goods Inwards receipts. Stock is still updated only after the receipt is reviewed and posted.",
+  },
+  {
+    label: "Inventory",
     title: "Goods Inwards receiving",
     description:
       "Goods Inwards now supports manual draft receipts, receiving lines, receipt posting, inventory lot creation and receipt stock movement ledger rows.",

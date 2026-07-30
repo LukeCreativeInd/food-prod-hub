@@ -122,7 +122,14 @@ export default async function GoodsInwardsPage({ searchParams }: PageProps) {
                         {receipt.supplierName}
                       </td>
                       <td className="px-4 py-3 text-slate-600">
-                        {receipt.supplierReference}
+                        <div className="space-y-1">
+                          <span>{receipt.supplierReference}</span>
+                          {receipt.purchaseDocumentId ? (
+                            <div>
+                              <StatusBadge tone="info">Source invoice</StatusBadge>
+                            </div>
+                          ) : null}
+                        </div>
                       </td>
                       <td className="px-4 py-3 text-slate-600">
                         {receipt.receivedAt}
@@ -162,7 +169,8 @@ export default async function GoodsInwardsPage({ searchParams }: PageProps) {
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
               <p className="text-sm font-bold text-slate-950">Invoices</p>
               <p className="mt-2 text-sm leading-6 text-slate-500">
-                Supplier Invoice Intake does not auto-create receipts yet.
+                Reviewed Supplier Invoice Intake lines can create draft receipts,
+                but invoices never auto-post stock.
               </p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">

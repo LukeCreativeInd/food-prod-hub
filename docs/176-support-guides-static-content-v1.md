@@ -91,4 +91,6 @@ Task 184 plans support ticket attachments only. The user-facing support guide sh
 
 Task 185 adds the attachment database/Storage foundation, but uploads are still not user-facing. Support guide copy should continue to avoid promising attachment upload until UI/actions are built.
 
-Task 195 updates the Inventory guide, troubleshooting page and release notes to mention the first manual Goods Inwards workflow. The support guide should still avoid promising Supplier Invoice to Receiving automation, purchase orders, barcode scanning, QA checklists or stock-on-hand reporting until those features are built.
+Task 195 updates the Inventory guide, troubleshooting page and release notes to mention the first manual Goods Inwards workflow.
+
+Task 197 updates Supplier Invoice Intake and Inventory guide/troubleshooting/release-note copy to mention draft Goods Inwards receipt creation from eligible reviewed invoice lines. The support guide should still avoid promising automatic invoice-to-stock posting, purchase orders, barcode scanning, QA checklists, pack-unit conversion rules or stock-on-hand reporting until those features are built.

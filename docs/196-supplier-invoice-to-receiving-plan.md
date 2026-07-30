@@ -456,21 +456,21 @@ Avoid any sample/dummy receiving rows. New invoice-to-receiving UI should use re
 
 ## Recommended Task 197 Scope
 
-Task 197 should be Supplier Invoice to Receiving v1.
+Task 197 has now been implemented as Supplier Invoice to Receiving v1.
 
-Recommended implementation:
+Implemented scope:
 
-- add read helpers that calculate invoice-line eligibility
-- add server action to create a draft receipt from eligible invoice lines
-- require a default stock location
-- insert draft receipt header and lines with existing schema
-- skip already-linked lines by default
-- show clear skipped-line summary
-- redirect to `/goods-inwards/[receipt_id]`
-- add source invoice display on Goods Inwards pages
-- keep posting unchanged
+- read helper calculates invoice-line eligibility and skipped reasons
+- server action creates draft receipt from eligible invoice lines
+- default stock location is required
+- draft receipt header and lines use existing schema
+- already-linked lines are skipped by default
+- purchase document page shows real skipped-line summary
+- successful creation redirects to `/goods-inwards/[receipt_id]`
+- Goods Inwards detail/list shows source invoice markers
+- posting remains unchanged
 
-Recommended non-goals for task 197:
+Non-goals preserved:
 
 - no schema migration unless eligibility cannot be represented with existing links
 - no auto-posting
@@ -479,6 +479,12 @@ Recommended non-goals for task 197:
 - no pack conversion tables
 - no QA checklist workflow
 - no reports
+
+See:
+
+```text
+docs/197-supplier-invoice-to-receiving-v1.md
+```
 
 ## Suggested Manual Smoke Checks For Task 197
 

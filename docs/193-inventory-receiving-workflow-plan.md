@@ -731,6 +731,20 @@ See:
 docs/196-supplier-invoice-to-receiving-plan.md
 ```
 
+## Task 197 Follow-Up
+
+Task 197 implements the first review-driven bridge from Supplier Invoice Intake to Goods Inwards.
+
+Reviewed and mapped invoice lines can now create a draft Goods Inwards receipt with draft receipt lines. The receipt links to `purchase_document_id`, lines link to `purchase_document_line_id`, and duplicate prevention skips invoice lines already linked to active receipt lines.
+
+The original receiving boundary remains intact: no inventory lots or stock movement rows are created until the user reviews and posts the Goods Inwards receipt.
+
+See:
+
+```text
+docs/197-supplier-invoice-to-receiving-v1.md
+```
+
 ## Behaviour Preserved
 
 - no migrations were created

@@ -5,11 +5,16 @@ import { InvoiceLinesReview } from "@/app/purchase-documents/[id]/invoice-lines-
 import { ReviewActionPanel } from "@/app/purchase-documents/[id]/review-action-panel";
 import {
   commitPurchaseDocumentReviewAction,
+  createGoodsInwardsDraftFromInvoiceAction,
   extractPurchaseDocumentAction,
   savePurchaseDocumentReviewAction,
 } from "@/app/purchase-documents/actions";
 import { EmptyState, StatusBadge } from "@/components/ui";
 import { getCurrentPermissionKeys } from "@/lib/auth";
+import {
+  getInvoiceToReceivingSummary,
+  type InvoiceToReceivingSummary,
+} from "@/lib/invoice-to-receiving-data";
 import {
   getPurchaseDocumentUnknownParserDiagnostics,
   getReviewedInternalItemName,
@@ -28,6 +33,7 @@ type PageProps = {
     upload?: string;
     extract?: string;
     preview?: string;
+    receiving?: string;
   }>;
 };
 
@@ -100,7 +106,32 @@ function messageFor(
   saved?: string,
   upload?: string,
   extract?: string,
+  receiving?: string,
 ) {
+  if (receiving === "missing_location") {
+    return "Choose a default stock location before creating a Goods Inwards draft.";
+  }
+
+  if (receiving === "no_eligible_lines") {
+    return "No mapped stock lines are ready to send to Goods Inwards. Review mappings, classifications, quantities and units first.";
+  }
+
+  if (receiving === "permission_required") {
+    return "Goods Inwards draft creation requires purchase document view access and inventory receipt create access.";
+  }
+
+  if (receiving === "invalid_document") {
+    return "Purchase document was not found or is not accessible for receiving.";
+  }
+
+  if (receiving === "line_error") {
+    return "The draft receipt header was cancelled because receipt line creation failed. No stock was posted.";
+  }
+
+  if (receiving === "error") {
+    return "Could not create a Goods Inwards draft from this invoice. No stock was posted.";
+  }
+
   if (extract === "success") {
     return "Extraction completed. Review and correct the extracted values before committing.";
   }
@@ -205,6 +236,193 @@ function FieldPreview({ label, value }: { label: string; value: string }) {
   );
 }
 
+function GoodsInwardsReceivingPanel({
+  summary,
+}: {
+  summary: InvoiceToReceivingSummary;
+}) {
+  const actionDisabled =
+    !summary.canCreateDraft ||
+    summary.eligibleLines.length === 0 ||
+    summary.locations.length === 0;
+
+  return (
+    <section className="mx-5 mb-6 rounded-lg border border-emerald-200 bg-emerald-50/70 p-5 shadow-sm md:mx-8 md:p-6">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+        <div>
+          <div className="flex flex-wrap gap-2">
+            <StatusBadge tone="info">Draft only</StatusBadge>
+            <StatusBadge tone={summary.counts.eligible > 0 ? "success" : "warning"}>
+              {`${summary.counts.eligible} eligible`}
+            </StatusBadge>
+            <StatusBadge tone={summary.counts.skipped > 0 ? "warning" : "neutral"}>
+              {`${summary.counts.skipped} skipped`}
+            </StatusBadge>
+            {summary.counts.alreadySent > 0 ? (
+              <StatusBadge tone="info">
+                {`${summary.counts.alreadySent} already sent`}
+              </StatusBadge>
+            ) : null}
+          </div>
+          <h2 className="mt-4 text-lg font-bold text-emerald-950">
+            Goods Inwards
+          </h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-emerald-900">
+            Create a draft receipt from mapped invoice lines. Stock is not
+            updated until the Goods Inwards receipt is reviewed and posted.
+          </p>
+        </div>
+
+        <div className="rounded-md border border-emerald-200 bg-white/80 px-4 py-3 text-sm leading-6 text-emerald-950">
+          Invoice approval remains supplier/catalogue/price knowledge. Receiving
+          remains physical stock review.
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+        <FieldPreview label="Eligible lines" value={String(summary.counts.eligible)} />
+        <FieldPreview label="Skipped lines" value={String(summary.counts.skipped)} />
+        <FieldPreview label="Already sent" value={String(summary.counts.alreadySent)} />
+        <FieldPreview label="Unmapped" value={String(summary.counts.unmapped)} />
+        <FieldPreview
+          label="Ignored / non-stock"
+          value={String(summary.counts.ignoredOrNonStock)}
+        />
+      </div>
+
+      {summary.existingReceipts.length > 0 ? (
+        <div className="mt-5 rounded-lg border border-emerald-200 bg-white p-4">
+          <h3 className="text-sm font-bold text-slate-950">
+            Existing Goods Inwards receipts
+          </h3>
+          <div className="mt-3 grid gap-3 md:grid-cols-2">
+            {summary.existingReceipts.map((receipt) => (
+              <Link
+                key={receipt.id}
+                href={`/goods-inwards/${receipt.id}`}
+                className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm transition hover:border-emerald-300 hover:bg-white"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-bold text-slate-950">
+                      {receipt.receiptLabel}
+                    </p>
+                    <p className="mt-1 text-slate-600">
+                      {receipt.supplierReference} · {receipt.receivedAt}
+                    </p>
+                  </div>
+                  <StatusBadge tone={receipt.status === "posted" ? "success" : "warning"}>
+                    {receipt.statusLabel}
+                  </StatusBadge>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {summary.skippedLines.length > 0 ? (
+        <details className="mt-5 rounded-lg border border-amber-200 bg-white">
+          <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-amber-950">
+            Skipped line reasons
+          </summary>
+          <div className="grid gap-2 border-t border-amber-100 p-4 md:grid-cols-2">
+            {summary.skippedLines.slice(0, 12).map((line) => (
+              <div
+                key={line.id}
+                className="rounded-md border border-amber-100 bg-amber-50 px-3 py-2 text-sm text-amber-950"
+              >
+                <p className="font-bold">
+                  Line {line.lineNumber}: {line.reason}
+                </p>
+                <p className="mt-1 text-amber-900">{line.description}</p>
+              </div>
+            ))}
+          </div>
+        </details>
+      ) : null}
+
+      {summary.eligibleLines.length > 0 ? (
+        <details className="mt-5 rounded-lg border border-emerald-200 bg-white">
+          <summary className="cursor-pointer px-4 py-3 text-sm font-bold text-emerald-950">
+            Eligible draft receipt lines
+          </summary>
+          <div className="grid gap-2 border-t border-emerald-100 p-4 md:grid-cols-2">
+            {summary.eligibleLines.map((line) => (
+              <div
+                key={line.id}
+                className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-bold text-slate-950">
+                      Line {line.lineNumber}: {line.internalItemName}
+                    </p>
+                    <p className="mt-1 text-slate-600">
+                      {line.receivedQuantity} {line.receivedUnit} ·{" "}
+                      {line.description}
+                    </p>
+                  </div>
+                  <StatusBadge
+                    tone={
+                      line.conversionStatus === "needs_conversion"
+                        ? "warning"
+                        : "success"
+                    }
+                  >
+                    {line.conversionStatus.replace("_", " ")}
+                  </StatusBadge>
+                </div>
+              </div>
+            ))}
+          </div>
+        </details>
+      ) : null}
+
+      <form
+        action={createGoodsInwardsDraftFromInvoiceAction}
+        className="mt-5 rounded-lg border border-emerald-200 bg-white p-4"
+      >
+        <input type="hidden" name="document_id" value={summary.document.id} />
+        <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
+          <label className="block">
+            <span className="text-xs font-semibold uppercase text-slate-500">
+              Default stock location
+            </span>
+            <select
+              name="stock_location_id"
+              required
+              disabled={!summary.canCreateDraft || summary.locations.length === 0}
+              className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-clean-green-700 focus:ring-2 focus:ring-clean-green-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500"
+            >
+              <option value="">Choose receiving location</option>
+              {summary.locations.map((location) => (
+                <option key={location.id} value={location.id}>
+                  {location.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button
+            type="submit"
+            disabled={actionDisabled}
+            className="inline-flex min-h-10 items-center justify-center rounded-md bg-emerald-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-900 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-500"
+          >
+            Create Goods Inwards draft
+          </button>
+        </div>
+        <p className="mt-3 text-xs leading-5 text-slate-500">
+          {summary.locations.length === 0
+            ? "Create an active stock location before invoice lines can be sent to Goods Inwards."
+            : !summary.canCreateDraft
+              ? "Inventory receipt create permission is required."
+              : "All imported lines use this location initially. Review line details before posting."}
+        </p>
+      </form>
+    </section>
+  );
+}
+
 function TextInput({
   label,
   name,
@@ -300,7 +518,9 @@ export default async function PurchaseDocumentReviewPage({
     query.saved,
     query.upload,
     query.extract,
+    query.receiving,
   );
+  const receivingSummary = await getInvoiceToReceivingSummary(document.id);
   const permissionKeys = await getCurrentPermissionKeys();
   const canCommit = permissionKeys.includes("purchase_documents.commit");
   const canReview = permissionKeys.includes("purchase_documents.review");
@@ -827,6 +1047,10 @@ export default async function PurchaseDocumentReviewPage({
           </section>
         </div>
       </form>
+
+      {receivingSummary ? (
+        <GoodsInwardsReceivingPanel summary={receivingSummary} />
+      ) : null}
     </>
   );
 }

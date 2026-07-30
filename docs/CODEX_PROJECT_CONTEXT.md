@@ -356,6 +356,20 @@ See:
 docs/196-supplier-invoice-to-receiving-plan.md
 ```
 
+## Task 197 Supplier Invoice To Receiving v1
+
+Task 197 adds the first review-driven bridge from Supplier Invoice Intake to Goods Inwards. Purchase document detail pages now show a Goods Inwards panel with real eligibility counts, skipped-line reasons, existing linked receipt links, a required default stock location selector and a `Create Goods Inwards draft` action.
+
+The server action creates only `inventory_receipts` draft headers and `inventory_receipt_lines` draft lines. Receipts link to `purchase_document_id`, lines link to `purchase_document_line_id`, and duplicate prevention skips invoice lines that are already linked to non-archived receipt lines. Goods Inwards detail/list pages now mark source invoice receipts.
+
+No inventory lots, stock movements, parser changes, approved supplier price changes, purchase orders, UOM conversion tables, RLS/permission changes, Platform Admin changes, domain changes or packages are added. Goods Inwards posting remains the only step that creates lots and stock movement ledger rows.
+
+See:
+
+```text
+docs/197-supplier-invoice-to-receiving-v1.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

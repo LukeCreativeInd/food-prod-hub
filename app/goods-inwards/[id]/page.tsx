@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 import {
   addInventoryReceiptLineAction,
@@ -44,6 +45,10 @@ function actionMessage(status?: string) {
     { tone: "success" | "warning" | "danger" | "info"; text: string }
   > = {
     created: { tone: "success", text: "Draft receipt created." },
+    created_from_invoice: {
+      tone: "success",
+      text: "Draft receipt created from Supplier Invoice Intake. Review lines before posting.",
+    },
     line_added: { tone: "success", text: "Receipt line added." },
     line_cancelled: { tone: "success", text: "Draft receipt line cancelled." },
     receipt_cancelled: { tone: "success", text: "Draft receipt cancelled." },
@@ -234,6 +239,14 @@ export default async function GoodsInwardsReceiptDetailPage({
             <PageActionButton href="/goods-inwards" variant="secondary">
               Back to Goods Inwards
             </PageActionButton>
+            {data.receipt.purchaseDocumentId ? (
+              <Link
+                href={`/purchase-documents/${data.receipt.purchaseDocumentId}`}
+                className="inline-flex items-center justify-center rounded-md border border-emerald-200 bg-emerald-50 px-3.5 py-2 text-sm font-semibold text-emerald-800 transition hover:bg-emerald-100"
+              >
+                Source invoice: {data.receipt.purchaseDocumentLabel}
+              </Link>
+            ) : null}
             {canPost ? (
               <form action={postInventoryReceiptAction}>
                 <input name="receipt_id" type="hidden" value={data.receipt.id} />
@@ -314,6 +327,9 @@ export default async function GoodsInwardsReceiptDetailPage({
                       <StatusBadge tone={qaTone(line.qaStatus)}>
                         {line.qaStatusLabel}
                       </StatusBadge>
+                      {line.purchaseDocumentLineId ? (
+                        <StatusBadge tone="info">Invoice line</StatusBadge>
+                      ) : null}
                     </div>
                   </div>
                   <div className="mt-4 grid gap-3 md:grid-cols-3 xl:grid-cols-5">
@@ -523,8 +539,8 @@ export default async function GoodsInwardsReceiptDetailPage({
 
         <AlertCard
           title="Supplier invoices remain separate"
-          description="Supplier Invoice Intake can create supplier, item and price reference records, but it does not create receiving lines or stock movements in this task."
-          meta="Future task 196/197"
+          description="Supplier Invoice Intake can create draft Goods Inwards lines from reviewed invoice lines, but stock is still updated only after this receipt is reviewed and posted."
+          meta="Review-first receiving"
           tone="info"
         />
       </div>
