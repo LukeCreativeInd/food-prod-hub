@@ -179,7 +179,7 @@ Finished Product data entry now points clearly to future or existing module rela
 ## Recommended Next Tasks
 
 - 188 Component Formula Builder Polish
-- 189 Finished Product Formula Builder Polish
+- 189 Finished Product Formula Builder Polish - now added clearer finished product formula input copy, grouped selectable inputs, cost/sell/margin action links and support guide notes without changing formula or margin calculations
 - 190 Costing Snapshot Plan
 - 191 Costing Snapshot Schema Foundation
 - 192 Costing Snapshot UI v1

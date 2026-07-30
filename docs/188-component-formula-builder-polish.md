@@ -191,7 +191,7 @@ Component formulas connect to or will later connect to:
 
 ## Recommended Next Tasks
 
-- 189 Finished Product Formula Builder Polish
+- 189 Finished Product Formula Builder Polish - now completed as a matching sellable product formula clarity pass
 - 190 Costing Snapshot Plan
 - 191 Costing Snapshot Schema Foundation
 - 192 Costing Snapshot UI v1

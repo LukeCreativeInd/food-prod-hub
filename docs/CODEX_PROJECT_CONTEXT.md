@@ -248,6 +248,18 @@ See:
 docs/188-component-formula-builder-polish.md
 ```
 
+## Task 189 Finished Product Formula Builder Polish
+
+Task 189 improves `/finished-products/[id]` so finished product formulas read as sellable meal/SKU setup rather than generic formula rows. The detail page now has clearer formula input language, grouped component/ingredient/packaging selectors, visible line cost hints, editable loss notes and direct links to Components, Component Costs, Ingredient Costs, Packaging Costs, Sell Prices and Meal Margins.
+
+This task does not change formula calculations, Meal Margins calculations, Sell Price business rules, RLS, permissions, migrations, Supplier Invoice Intake, inventory, production, QA, auth/domain routing or Platform Admin logic. Support guide copy now better distinguishes component formulas from finished product formulas.
+
+See:
+
+```text
+docs/189-finished-product-formula-builder-polish.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Products",
+    title: "Finished Product Formula Builder polish",
+    description:
+      "Finished product formula detail pages now have clearer input-line labels, grouped component/ingredient/packaging inputs, stronger cost and margin blocker guidance, and direct links to sell prices, meal margins and cost review pages.",
+  },
+  {
+    label: "Products",
     title: "Component Formula Builder polish",
     description:
       "Component setup now has clearer real-data readiness, component detail fields, costing links and line-level guidance for missing prices or unit review.",
