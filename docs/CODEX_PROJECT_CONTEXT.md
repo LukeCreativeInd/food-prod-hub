@@ -613,3 +613,9 @@ No support ticket schema, migration, RLS, permission, auth/domain routing, notif
 Task 183 improves support ticket list usability without schema changes. `/platform/support` now uses safe page parsing, 25-ticket server-side pagination, count display, active filter chips, validated status/priority/category/tenant/module filters and bounded title/description search. Summary cards remain global Platform Admin inbox health counts rather than filter-bound counts.
 
 Customer `/support/tickets` now has lightweight status/category/search filters, 25-ticket pagination, clearer empty states and related module/path context on ticket rows when present. Customer detail visibility remains unchanged: internal notes/events are still Platform Admin-only. No support ticket schema, migration, RLS, permission, auth/domain routing, notification, attachment, realtime, external integration or business module change is included.
+
+## Task 184 Support Ticket Attachments Plan
+
+Task 184 documents the future support ticket attachment architecture only. The recommended future design is a private `support-ticket-attachments` Supabase Storage bucket with paths shaped as `{organisation_id}/support-tickets/{ticket_id}/{attachment_id}/{safe_filename}`, plus a tenant-scoped `public.support_ticket_attachments` table with customer/internal visibility, scan status, soft archive status and composite ticket foreign keys.
+
+The plan recommends customer-visible attachments for active tenant members and Platform Admin, internal-only attachments for Platform Admin only, signed URLs instead of public files, conservative v1 file limits, no `attachment_added` event until the event type check is deliberately expanded, and no attachment-specific permissions in v1 unless a real separation need appears. No attachment schema, migration, Storage bucket, Storage policy, RLS, permission, upload UI, support action, notification, external integration or business module change is included.

@@ -50,7 +50,7 @@ Create behaviour:
 
 - inserts into `support_tickets`
 - uses `source = support_portal`
-- uses `status = open`
+- uses `status = waiting_on_support`
 - writes `created_by_profile_id`
 - writes `customer_last_activity_at`
 - inserts a customer-visible `created` event
@@ -154,3 +154,11 @@ Customer comments are blocked on closed tickets with a friendly message and a ne
 Task 182 adds safe page/module context support to `/support/tickets/new`.
 
 The new ticket form can receive `relatedPath`, `moduleKey` and `category` query params, displays a linked context card and stores sanitised `related_path` / `related_module_key` values when safe.
+
+## Task 183 List Polish Follow-Up
+
+Task 183 adds customer ticket list search, status/category filters, 25-ticket pagination and related context display on rows.
+
+## Task 184 Attachments Planning Follow-Up
+
+Task 184 plans future customer-visible and internal-only attachments, but does not add upload UI. Future UI should add optional attachments under the new-ticket description and customer comment form while keeping internal-only attachments out of the customer portal.

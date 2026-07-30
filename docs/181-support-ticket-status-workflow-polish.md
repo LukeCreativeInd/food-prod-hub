@@ -179,3 +179,7 @@ Task 182 does not change the status lifecycle. New context-aware tickets still s
 ## Task 183 List Polish Follow-Up
 
 Task 183 does not change the status lifecycle. It improves Platform Admin and customer ticket list search/filter/pagination while continuing to use the same `waiting_on_support`, `waiting_on_customer`, `planned`, `resolved` and `closed` lifecycle states.
+
+## Task 184 Attachments Planning Follow-Up
+
+Task 184 does not change the status lifecycle. Future attachments should be tied to ticket creation, comments or internal notes without changing the existing waiting/resolved/closed transition rules.

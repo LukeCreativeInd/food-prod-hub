@@ -141,6 +141,12 @@ Task 183 completes the first support inbox pagination/search polish follow-up. P
 
 No schema, migration, RLS or permission change was required.
 
+## Task 184 Attachments Planning Follow-Up
+
+Task 184 documents the future support ticket attachment visibility model. Customer-visible attachments should follow the same customer visibility pattern as customer comments/events. Internal-only attachments should remain Platform Admin-only.
+
+No schema, migration, RLS, permission, upload UI or action change was made.
+
 ## Remaining Follow-Ups
 
 - Support ticket attachments.

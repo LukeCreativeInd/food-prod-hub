@@ -86,6 +86,12 @@ Task 183 adds Platform Admin filtering by `related_module_key` and shows the sam
 
 Context-aware ticket creation, sanitisation and write behaviour are unchanged.
 
+## Task 184 Attachments Planning Follow-Up
+
+Task 184 plans future attachment support. Attachments should preserve ticket `related_path` and `related_module_key` context so files/screenshots remain connected to the page or module where the support request was raised.
+
+No attachment upload behaviour is added by task 184.
+
 ## Admin And Support Impact
 
 Platform Admin impact:

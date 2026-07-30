@@ -197,3 +197,9 @@ Task 183 adds server-side pagination, safer query-param parsing, active filter c
 Summary cards remain global Platform Admin inbox health counts rather than filter-bound counts.
 
 No schema, migration, RLS or permission change was required.
+
+## Task 184 Attachments Planning Follow-Up
+
+Task 184 plans future support ticket attachments. Platform Admin detail should eventually show customer-visible and internal-only attachments with visibility, scan and status badges, and allow internal-only attachments from internal-note workflows.
+
+No upload UI, schema, Storage bucket, RLS, permission or Platform Admin workflow change is added by task 184.

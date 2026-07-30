@@ -223,3 +223,11 @@ No schema, RLS or permission seed change was required.
 Task 181 keeps the same schema and status value set, but defines the v1 lifecycle in TypeScript helpers and UI copy.
 
 New customer-created tickets now start as `waiting_on_support`. Closed tickets block customer comments and Platform customer-visible replies, while internal Platform notes remain allowed. No schema, RLS or permission seed change was required.
+
+## Task 184 Attachments Planning Follow-Up
+
+Task 184 plans future support ticket attachments before any upload implementation.
+
+The recommended future foundation is a private `support-ticket-attachments` Storage bucket plus a tenant-scoped `public.support_ticket_attachments` table with customer/internal visibility. Attachment RLS should follow the existing ticket/comment/event visibility model, and Storage paths should be scoped as `{organisation_id}/support-tickets/{ticket_id}/{attachment_id}/{safe_filename}`.
+
+No attachment schema, Storage bucket, policy, RLS, permission or UI change is added by task 184.

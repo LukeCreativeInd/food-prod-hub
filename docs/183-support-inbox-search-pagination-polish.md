@@ -122,6 +122,12 @@ No schema, RLS or permission change was required.
 - Support ticket attachments.
 - Email notifications.
 
+## Task 184 Attachments Planning Follow-Up
+
+Task 184 plans the future attachment model for support tickets. The planned attachment table and Storage bucket should work with the list/search polish here, with optional future paperclip/count indicators in `/platform/support` after attachments are implemented.
+
+No attachment upload UI, schema, Storage bucket, RLS or permission change is added by task 184.
+
 ## Suggested Smoke Checks
 
 Local:
