@@ -30,7 +30,6 @@ Task 176 expands the authenticated EveryBatch support area with static guide con
 - Logistics
 - CRM
 - Reports
-- Support tickets
 - Platform Admin for operators
 
 ## Static Content Model
@@ -75,6 +74,8 @@ The support area remains authenticated through the existing support layout. The 
 
 No database reads or writes are added for guide content.
 
-## Task 177 Follow-Up
+## Task 177-180 Follow-Up
 
 Task 177 drafts the separate support ticket schema foundation. Guide content remains static and separate from support ticket records.
+
+Tasks 178-180 add the first live customer-facing ticket portal, Platform Admin support inbox and support ticket QA polish. The support home, troubleshooting and release notes now point to real ticket workflows rather than a future ticket scaffold.

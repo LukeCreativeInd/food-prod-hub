@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Support",
-    title: "Support Help Centre scaffold",
+    title: "Support tickets and Platform inbox",
     description:
-      "Authenticated support pages now provide a home, guide index, troubleshooting, contact, ticket scaffold and release notes area.",
+      "Authenticated users can create and review workspace support tickets, while Platform Admin can manage replies, internal notes, assignment and ticket status from the support inbox.",
   },
   {
     label: "Access",

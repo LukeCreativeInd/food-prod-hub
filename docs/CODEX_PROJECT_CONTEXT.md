@@ -583,3 +583,11 @@ The UI uses the authenticated Supabase server client and existing RLS. It does n
 Task 179 adds the first Platform Admin Support Inbox under `/platform/support`, with detail pages at `/platform/support/[id]`. Platform admins can list tickets across tenants, filter by status/priority/category/tenant/search, update status/priority/category, assign or clear assignment, add customer-visible replies and add internal notes.
 
 The inbox uses the authenticated Supabase server client and existing platform-admin RLS. It does not use service-role keys, does not add schema/RLS/permission changes and does not build attachments, emails, realtime, external integrations or customer-facing ticket UI again. Customer `/support/tickets/[id]` continues to show customer-visible comments/events only, so internal Platform Admin notes/events remain hidden from customers.
+
+## Task 180 Support Ticket Polish And Permission QA
+
+Task 180 polishes and QA-checks the full support ticket loop after tasks 177-179. Support home, troubleshooting and release notes now describe live workspace-linked ticket workflows. Customer ticket detail now shows clearer workspace context, support ticket metadata and success/warning/error feedback. Customer ticket actions log safe server-side Supabase error context when writes fail.
+
+Platform support inbox filtering now ignores invalid tenant filter ids before querying Supabase, and inbox copy clarifies the customer-visible reply versus internal operator note model. The visibility model is confirmed: customer support pages query `visibility = customer` comments/events only, while Platform Admin support pages can show both customer-visible and internal records through existing platform-admin RLS.
+
+No support ticket schema, migration, RLS, permission, auth/domain routing, Platform Admin route structure, external integration, email, realtime, attachment or business module change is included.

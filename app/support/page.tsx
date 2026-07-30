@@ -25,16 +25,16 @@ export default function SupportHomePage() {
       <section className="rounded-xl border border-green-950/10 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap gap-2">
           <StatusBadge tone="success">Authenticated</StatusBadge>
-          <StatusBadge tone="info">Guides scaffold</StatusBadge>
-          <StatusBadge tone="warning">Tickets coming soon</StatusBadge>
+          <StatusBadge tone="info">Guides</StatusBadge>
+          <StatusBadge tone="success">Support tickets</StatusBadge>
         </div>
         <h1 className="mt-5 text-3xl font-black tracking-tight text-slate-950">
           EveryBatch Help Centre
         </h1>
         <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
           Guides, troubleshooting and support for your food manufacturing hub.
-          Support stays authenticated, with static user-facing guides available
-          now and ticket workflows planned for a later release.
+          Support stays authenticated, with user-facing guides and
+          workspace-linked ticket workflows available now.
         </p>
       </section>
 
@@ -133,7 +133,10 @@ export default function SupportHomePage() {
         </div>
       </SectionCard>
 
-      <SectionCard title="Need help?" description="Support intake is scaffolded while ticket persistence is planned.">
+      <SectionCard
+        title="Need help?"
+        description="Create a workspace-linked ticket or review previous customer-visible support conversations."
+      >
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link
             href="/support/contact"
@@ -145,7 +148,7 @@ export default function SupportHomePage() {
             href="/support/tickets"
             className="inline-flex items-center justify-center rounded-md border border-green-200 bg-white px-4 py-2 text-sm font-bold text-green-900 transition hover:bg-green-50"
           >
-            View ticket scaffold
+            View your tickets
           </Link>
         </div>
       </SectionCard>

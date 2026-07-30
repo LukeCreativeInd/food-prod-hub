@@ -136,3 +136,9 @@ Task 178 does not include:
 Task 179 adds the first Platform Admin Support Inbox under `/platform/support`.
 
 Customer support pages remain preserved and continue to show customer-visible comments/events only. Internal notes/events added from Platform Admin are not shown on `/support/tickets/[id]`.
+
+## Task 180 Polish And Permission QA
+
+Task 180 polishes the customer support ticket detail page with clearer workspace context, clearer success/warning/error feedback and shared support ticket value labels.
+
+Customer ticket actions now log safe server-side Supabase error context when writes fail. Customer-visible filtering remains unchanged.

@@ -13,6 +13,13 @@ import { createClient } from "@/lib/supabase/server";
 const uuidPattern =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+type SupportActionError = {
+  code?: string;
+  message?: string;
+  details?: string;
+  hint?: string;
+};
+
 function getString(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
@@ -31,6 +38,27 @@ function getTicketRedirect(status: string, organisationId?: string | null) {
   }
 
   return `/support/tickets?${params.toString()}`;
+}
+
+function logSupportTicketActionError(
+  action: string,
+  error: SupportActionError | null,
+  context: Record<string, string | null>,
+) {
+  if (!error) {
+    return;
+  }
+
+  console.error("[support-ticket-action]", {
+    action,
+    context,
+    error: {
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+    },
+  });
 }
 
 async function requireWritableOrganisation(organisationId: string) {
@@ -101,6 +129,10 @@ export async function createSupportTicketAction(formData: FormData) {
     .single();
 
   if (ticketError || !ticket) {
+    logSupportTicketActionError("create_ticket", ticketError, {
+      organisationId: organisation.id,
+      profileId,
+    });
     redirect(getTicketRedirect("create_error", organisation.id));
   }
 
@@ -121,6 +153,11 @@ export async function createSupportTicketAction(formData: FormData) {
   revalidatePath("/support/tickets");
 
   if (eventError) {
+    logSupportTicketActionError("create_ticket_event", eventError, {
+      ticketId,
+      organisationId: organisation.id,
+      profileId,
+    });
     redirect(`/support/tickets/${ticketId}?ticket=created_event_error`);
   }
 
@@ -157,6 +194,11 @@ export async function addSupportTicketCommentAction(formData: FormData) {
     });
 
   if (commentError) {
+    logSupportTicketActionError("add_customer_comment", commentError, {
+      ticketId,
+      organisationId: organisation.id,
+      profileId,
+    });
     redirect(`/support/tickets/${ticketId}?comment=error`);
   }
 
@@ -172,7 +214,7 @@ export async function addSupportTicketCommentAction(formData: FormData) {
       metadata: {},
     });
 
-  await supabase
+  const { error: ticketUpdateError } = await supabase
     .from("support_tickets")
     .update({
       customer_last_activity_at: now,
@@ -187,7 +229,21 @@ export async function addSupportTicketCommentAction(formData: FormData) {
   revalidatePath(`/support/tickets/${ticketId}`);
 
   if (eventError) {
+    logSupportTicketActionError("add_customer_comment_event", eventError, {
+      ticketId,
+      organisationId: organisation.id,
+      profileId,
+    });
     redirect(`/support/tickets/${ticketId}?comment=added_event_error`);
+  }
+
+  if (ticketUpdateError) {
+    logSupportTicketActionError("add_customer_comment_ticket_update", ticketUpdateError, {
+      ticketId,
+      organisationId: organisation.id,
+      profileId,
+    });
+    redirect(`/support/tickets/${ticketId}?comment=ticket_update_error`);
   }
 
   redirect(`/support/tickets/${ticketId}?comment=added`);

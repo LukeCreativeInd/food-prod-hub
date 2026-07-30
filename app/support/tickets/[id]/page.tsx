@@ -10,6 +10,7 @@ import {
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionCard } from "@/components/ui/section-card";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { getSupportTicketOrganisationContext } from "@/lib/support-ticket-context";
 import {
   getSupportTicketComments,
   getSupportTicketDetail,
@@ -17,9 +18,10 @@ import {
   type SupportTicketComment,
   type SupportTicketEvent,
 } from "@/lib/support-ticket-data";
+import { formatSupportTicketValue } from "@/lib/support-ticket-types";
 
 export const metadata: Metadata = {
-  title: "Ticket Detail - EveryBatch",
+  title: "Support Ticket - EveryBatch",
 };
 
 type SupportTicketDetailPageProps = {
@@ -55,27 +57,44 @@ function getFeedbackMessage({
   comment?: string;
 }) {
   if (ticket === "created") {
-    return "Ticket created.";
+    return { tone: "success", message: "Ticket created." };
   }
 
   if (ticket === "created_event_error") {
-    return "Ticket created, but the timeline event could not be recorded.";
+    return {
+      tone: "warning",
+      message: "Ticket created, but the timeline event could not be recorded.",
+    };
   }
 
   if (comment === "added") {
-    return "Comment added.";
+    return { tone: "success", message: "Comment added." };
   }
 
   if (comment === "added_event_error") {
-    return "Comment added, but the timeline event could not be recorded.";
+    return {
+      tone: "warning",
+      message: "Comment added, but the timeline event could not be recorded.",
+    };
+  }
+
+  if (comment === "ticket_update_error") {
+    return {
+      tone: "warning",
+      message:
+        "Comment added, but the ticket activity status could not be updated.",
+    };
   }
 
   if (comment === "invalid_body") {
-    return "Comment needs at least 2 characters.";
+    return { tone: "error", message: "Comment needs at least 2 characters." };
   }
 
   if (comment === "error") {
-    return "Could not add the comment. Please try again.";
+    return {
+      tone: "error",
+      message: "Could not add the comment. Please try again.",
+    };
   }
 
   return null;
@@ -93,6 +112,11 @@ export default async function SupportTicketDetailPage({
         getSupportTicketEvents(ticket.id),
       ])
     : [[], []];
+  const context = ticket
+    ? await getSupportTicketOrganisationContext(ticket.organisation_id)
+    : null;
+  const workspaceName =
+    context?.selectedOrganisation?.workspaceName ?? "Current workspace";
   const feedbackMessage = getFeedbackMessage(query);
 
   if (!ticket) {
@@ -155,10 +179,28 @@ export default async function SupportTicketDetailPage({
       </section>
 
       {feedbackMessage ? (
-        <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-900">
-          {feedbackMessage}
+        <div
+          className={
+            feedbackMessage.tone === "error"
+              ? "rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-900"
+              : feedbackMessage.tone === "warning"
+                ? "rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900"
+                : "rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-900"
+          }
+        >
+          {feedbackMessage.message}
         </div>
       ) : null}
+
+      <SectionCard title="Workspace">
+        <div className="flex flex-wrap items-center gap-3">
+          <StatusBadge tone="info">{workspaceName}</StatusBadge>
+          <p className="text-sm leading-6 text-slate-500">
+            This ticket is linked to the selected EveryBatch workspace. Only
+            customer-visible replies and timeline events are shown here.
+          </p>
+        </div>
+      </SectionCard>
 
       <SectionCard title="Description">
         <p className="whitespace-pre-wrap text-sm leading-6 text-slate-600">
@@ -238,7 +280,7 @@ export default async function SupportTicketDetailPage({
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <StatusBadge tone="neutral">
-                      {event.event_type.replaceAll("_", " ")}
+                      {formatSupportTicketValue(event.event_type)}
                     </StatusBadge>
                     <p className="text-sm font-bold text-slate-950">
                       {event.event_summary}

@@ -552,6 +552,8 @@ Support Ticket UI v1 is documented in [Support Ticket UI v1](docs/178-support-ti
 
 Platform Admin Support Inbox v1 is documented in [Platform Admin Support Inbox v1](docs/179-platform-admin-support-inbox-v1.md).
 
+Support Ticket Polish and Permission QA is documented in [Support Ticket Polish And Permission QA](docs/180-support-ticket-polish-permission-qa.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -585,5 +587,6 @@ Platform Admin Support Inbox v1 is documented in [Platform Admin Support Inbox v
 - Drafted support ticket schema foundation with tenant-scoped tickets, customer/internal comments, ticket events, RLS and support ticket permission seeds
 - Customer-facing support ticket portal for listing tickets, creating tickets, viewing details and adding customer-visible comments
 - Platform Admin support inbox for cross-tenant ticket review, filters, status/priority/category updates, assignment, customer replies and internal notes
+- Support ticket polish and permission QA confirming customer/internal visibility, clearer support states and no required schema/RLS/permission changes
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

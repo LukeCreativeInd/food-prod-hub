@@ -145,9 +145,9 @@ The first RLS policies allow active organisation members to create and comment o
 
 ## Support Tickets Page Copy
 
-The authenticated `/support/tickets` scaffold now notes that ticket submission is coming next and that users should continue using the existing support channel for now.
+Tasks 178-180 now use this schema foundation for the authenticated customer support ticket portal and Platform Admin support inbox.
 
-No form, inbox, email workflow or attachment flow is active yet.
+The customer portal exposes customer-visible tickets, comments and timeline events only. Platform Admin can review cross-tenant tickets, customer-visible replies and internal notes through the Platform Admin support inbox.
 
 ## Not Included
 
@@ -211,3 +211,9 @@ The UI supports customer ticket list, new ticket creation, ticket detail, custom
 Task 179 adds the first Platform Admin Support Inbox on `/platform/support`.
 
 Platform admins can list tickets across tenants, filter by ticket fields, open ticket detail, update status/priority/category, assign/clear assignment, add customer-visible replies and add internal notes. Internal comments/events remain hidden from the customer-facing support portal.
+
+## Task 180 Polish And Permission QA
+
+Task 180 confirms the support ticket visibility model after live customer and Platform Admin testing. Customer pages continue to query only `visibility = customer`, while Platform Admin pages can review internal records through the existing platform-admin RLS path.
+
+No schema, RLS or permission seed change was required.

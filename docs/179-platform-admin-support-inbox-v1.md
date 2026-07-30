@@ -162,3 +162,12 @@ from public.support_ticket_events
 order by created_at desc
 limit 30;
 ```
+
+## Task 180 Polish And Permission QA
+
+Task 180 confirms the Platform Admin support inbox access model and adds small polish:
+
+- invalid tenant filter ids are ignored before querying Supabase
+- inbox copy more clearly describes customer-visible replies and internal operator notes
+- empty state copy points back to the authenticated support portal
+- no RLS, schema, permission or Platform Admin route changes were required

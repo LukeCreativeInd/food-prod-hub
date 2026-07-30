@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   title: "Platform Support Inbox - EveryBatch",
 };
 
+const uuidPattern =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 type PlatformSupportPageProps = {
   searchParams: Promise<{
     status?: string;
@@ -72,7 +75,10 @@ function normaliseFilters(
       params.category && isSupportTicketCategory(params.category)
         ? params.category
         : "all",
-    organisationId: params.organisationId || "all",
+    organisationId:
+      params.organisationId && uuidPattern.test(params.organisationId)
+        ? params.organisationId
+        : "all",
     q: params.q?.trim() || "",
   };
 }
@@ -99,7 +105,8 @@ export default async function PlatformSupportPage({
             </div>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
               Manage EveryBatch support requests across tenants. This inbox
-              shows customer and internal ticket context for platform operators.
+              shows customer-visible replies and internal operator notes for
+              platform support workflows.
             </p>
           </div>
           <Link
@@ -295,8 +302,8 @@ export default async function PlatformSupportPage({
                   No support tickets match these filters.
                 </p>
                 <p className="mt-2 text-sm text-slate-500">
-                  Clear filters or wait for customer tickets from the support
-                  portal.
+                  Clear filters or wait for customer tickets from the
+                  authenticated support portal.
                 </p>
               </div>
             )}

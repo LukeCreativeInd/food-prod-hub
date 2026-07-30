@@ -35,6 +35,26 @@ const troubleshootingTopics = [
       "Support is authenticated. Sign in from the central app, then return to support.everybatchmrp.com.",
   },
   {
+    title: "I can't create a support ticket",
+    description:
+      "Check that you are signed in and have an active workspace membership. Tickets must be linked to a valid workspace.",
+  },
+  {
+    title: "I can't see a ticket",
+    description:
+      "Confirm the ticket belongs to the selected workspace. Customer users only see customer-visible support tickets for their own workspace.",
+  },
+  {
+    title: "A support reply is missing",
+    description:
+      "Customer pages show customer-visible replies and timeline events only. Internal operator notes are kept in Platform Admin and are not shown to customer users.",
+  },
+  {
+    title: "The wrong workspace is selected",
+    description:
+      "Use Change workspace on the tickets page, or return to the central workspace selector if you need a different EveryBatch area.",
+  },
+  {
     title: "Changes are not visible after login",
     description:
       "Sign out and sign in again after membership, role or domain-session changes are made.",

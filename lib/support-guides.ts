@@ -119,7 +119,7 @@ export const supportGuides: SupportGuide[] = [
         heading: "Find your way around",
         body: [
           "Use the sidebar to move between Products, Costings, Production, Inventory, Tools and Admin areas.",
-          "The help menu and support site remain available for guide content, troubleshooting and future ticket support.",
+          "The help menu and support site remain available for guide content, troubleshooting and workspace-linked support tickets.",
         ],
       },
     ],
