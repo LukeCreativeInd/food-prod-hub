@@ -745,6 +745,16 @@ See:
 docs/197-supplier-invoice-to-receiving-v1.md
 ```
 
+## Task 198 Follow-Up
+
+Task 198 drafts the production batch planning schema foundation. It deliberately keeps Goods Inwards as the only stock-changing receiving workflow for now: production plans and batches may reference future inventory availability, lots and stock movements, but they do not consume stock or create production output movements yet.
+
+See:
+
+```text
+docs/198-production-batch-planning-data-model.md
+```
+
 ## Behaviour Preserved
 
 - no migrations were created

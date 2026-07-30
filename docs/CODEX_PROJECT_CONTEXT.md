@@ -785,3 +785,9 @@ The plan recommends customer-visible attachments for active tenant members and P
 Task 185 drafts migration `033_support_ticket_attachments_foundation.sql`. It creates private `support-ticket-attachments` bucket metadata, `public.support_ticket_attachments`, attachment indexes, RLS policies and `public.can_access_support_ticket_attachment_storage_path(...)` for future signed Storage access. It also adds `lib/support-ticket-attachment-types.ts` for bucket, limit, MIME, visibility, source, scan-status and attachment-status constants.
 
 Migration 033 intentionally does not create direct `storage.objects` policies. Storage SELECT/INSERT policy expressions remain a reviewed/manual follow-up when upload/download UI is built. No upload UI, display UI, ticket action change, comment/event change, email, notification, realtime, scan worker, auth/domain routing, Platform Admin route, support guide promise, RLS bypass, service-role use or business module change is included.
+
+## Task 198 Production Batch Planning Data Model
+
+Task 198 drafts migration `036_production_batch_planning_schema_foundation.sql` for tenant-scoped production planning. It adds `production_areas`, `production_plans`, `production_plan_lines`, `production_batches` and `production_batch_inputs`, plus production planning permissions, RLS policies, comments, indexes and TypeScript status constants.
+
+This is schema foundation only. It does not build Production Plan UI, production task execution, iPad/facility workflows, stock consumption, production stock movements, QA checks, logistics, reports, UOM conversion tables, supplier invoice changes or Goods Inwards posting changes. Task 199 should replace misleading production demo content with real empty states and real data from these tables after the migration is reviewed and applied.

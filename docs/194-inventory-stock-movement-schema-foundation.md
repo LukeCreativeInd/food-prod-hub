@@ -164,7 +164,7 @@ Supplier Invoice Intake remains separate from receiving. Invoice parsing/review 
 
 Products and costings continue to use `internal_items`, supplier catalogue records and approved supplier prices. The new inventory tables do not change costing calculations or costing snapshots.
 
-Future formula/production work can use stock movements for consumption/output, but this migration does not create production business logic.
+Task 198 drafts the first production planning tables that can later reference formula versions, costing snapshots, inventory lots and locations. It does not create stock movement writes from production; future production issue/output workflows should still create append-like stock movement ledger rows through a later reviewed task.
 
 ## Future Work
 
@@ -173,6 +173,7 @@ Recommended follow-up tasks:
 - Task 195: Goods Inwards / receiving UI and draft/post workflow completed as the first manual v1 workflow
 - Task 196: Supplier Invoice to Receiving planning completed for the future draft suggestion flow
 - Task 197: Supplier Invoice to Receiving v1 implemented using existing draft receipt and line links
+- Task 198: Production Batch Planning schema foundation drafted without production stock consumption/output movements
 - UOM Conversion Foundation for box/carton/bunch/bottle/pack conversions
 - stock-on-hand summary/view
 - stock movement reversal/adjustment UI

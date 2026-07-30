@@ -122,6 +122,46 @@ const routeContexts: Array<{
     },
   },
   {
+    prefixes: ["/production/production-plan", "/production-plan"],
+    context: {
+      moduleKey: "production_plan",
+      moduleLabel: "Production Plan",
+      category: "production",
+    },
+  },
+  {
+    prefixes: ["/production/production-areas", "/production-areas"],
+    context: {
+      moduleKey: "production_areas",
+      moduleLabel: "Production Areas",
+      category: "production",
+    },
+  },
+  {
+    prefixes: ["/production/production-tasks", "/production-tasks", "/facility-tasks"],
+    context: {
+      moduleKey: "production_tasks",
+      moduleLabel: "Production Tasks",
+      category: "production",
+    },
+  },
+  {
+    prefixes: ["/production/facility-ipad-view", "/facility-ipad-view"],
+    context: {
+      moduleKey: "facility_view",
+      moduleLabel: "Facility View",
+      category: "production",
+    },
+  },
+  {
+    prefixes: ["/production/production-report", "/production-report"],
+    context: {
+      moduleKey: "production_report",
+      moduleLabel: "Production Report",
+      category: "production",
+    },
+  },
+  {
     prefixes: [
       "/production",
       "/production-plan",

@@ -204,6 +204,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Goods Inwards Receiving UI v1 now supports manual draft receipts, receipt lines, posting, inventory lot creation and receipt stock movement ledger rows.
 - Supplier Invoice to Receiving planning now defines how reviewed supplier invoice lines can become draft Goods Inwards suggestions without automatically posting stock.
 - Supplier Invoice to Receiving v1 now creates draft Goods Inwards receipts from eligible reviewed/mapped invoice lines while keeping stock updates behind manual receipt posting.
+- Production Batch Planning schema foundation has been drafted with tenant-scoped production plans, plan lines, production batches, batch inputs and production areas for review before the first real Production Plan UI.
 
 ## Tech Stack
 
@@ -399,6 +400,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Goods Inwards Receiving UI v1](docs/195-goods-inwards-receiving-ui-v1.md)
 - [Supplier Invoice to Receiving Plan](docs/196-supplier-invoice-to-receiving-plan.md)
 - [Supplier Invoice to Receiving v1](docs/197-supplier-invoice-to-receiving-v1.md)
+- [Production Batch Planning Data Model](docs/198-production-batch-planning-data-model.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

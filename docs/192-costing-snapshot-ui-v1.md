@@ -219,5 +219,5 @@ order by archived_at desc;
 - Add audit log writes for create/archive actions after audit-write policy planning.
 - Add snapshot history summaries to reporting once the first manual flow is tested.
 - Consider a Platform Admin snapshot support view later.
-- Consider production-plan snapshot linking after production planning is real.
+- Task 198 drafts production plan and batch tables with optional `costing_snapshot_id` links so future production planning can reference locked costs without recalculating historical assumptions.
 - Use the task 193 receiving workflow plan to guide future actual lot cost versus snapshot cost comparisons.

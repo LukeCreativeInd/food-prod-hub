@@ -246,8 +246,8 @@ Costing snapshots:
 
 Production plans/batch recipes:
 
-- unchanged.
-- future production consumption can later use received lots and stock movements.
+- task 198 drafts production plans, production plan lines, batches and batch inputs as a future planning layer.
+- production planning remains separate from invoice-to-receiving and does not consume received lots or create stock movements yet.
 
 QA checks/non-conformance/hold-release:
 
