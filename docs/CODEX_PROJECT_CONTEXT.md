@@ -224,6 +224,18 @@ See:
 docs/186-products-data-model-qa-pass.md
 ```
 
+## Task 187 Finished Product Data Entry Polish
+
+Task 187 improves `/finished-products` and `/finished-products/[id]` so Finished Products read as real data-entry and review areas. The list now shows real data-backed formula, cost, sell price and margin readiness. The detail page shows core finished-product fields, setup readiness cards, safe support-ticket context, and links to formula management, Sell Prices, Meal Margins and Component Costs.
+
+This task does not change formula calculations, Meal Margins calculations, Sell Price business rules, RLS, permissions, migrations, Supplier Invoice Intake, inventory, production, QA, auth/domain routing or Platform Admin logic. Production readiness remains future-only.
+
+See:
+
+```text
+docs/187-finished-product-data-entry-polish.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

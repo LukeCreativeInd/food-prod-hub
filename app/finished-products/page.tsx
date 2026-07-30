@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+
 import { createFinishedProductFormulaAction } from "@/app/finished-products/actions";
 import { AppShell } from "@/components/app-shell";
 import { SampleDataTable } from "@/components/products/sample-data-table";
 import { EmptyState, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { getFinishedProductFormulaListData } from "@/lib/finished-product-formula-builder-data";
+
+export const metadata: Metadata = {
+  title: "Finished Products - EveryBatch",
+};
 
 type PageProps = {
   searchParams: Promise<{
@@ -39,16 +46,16 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
       label: finishedProduct.displayName,
       href: `/finished-products/${finishedProduct.id}`,
     },
-    Status: finishedProduct.status,
-    Version: finishedProduct.versionName,
+    Formula: finishedProduct.status,
     Output: finishedProduct.outputQuantity,
     Lines: String(finishedProduct.lineCount),
-    "Cost readiness": finishedProduct.costReadiness,
+    Cost: finishedProduct.costReadiness,
+    "Sell price": finishedProduct.sellPriceReadiness,
+    Margin: finishedProduct.marginReadiness,
     "Estimated cost": finishedProduct.estimatedCost,
-    "Margin readiness": finishedProduct.marginReadiness,
     Updated: finishedProduct.lastUpdated,
     Action: {
-      label: data.canManageFormulas ? "Build" : "View",
+      label: data.canManageFormulas ? "Manage" : "View",
       href: `/finished-products/${finishedProduct.id}`,
     },
   }));
@@ -68,7 +75,7 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
           <StatCard
             label="With formula lines"
             value={String(data.summary.formulasWithLines)}
-            helperText="Finished products with at least one active formula line."
+            helperText="Finished products with at least one visible formula line."
             badge="BOM"
             tone={data.summary.formulasWithLines > 0 ? "info" : "neutral"}
             icon="LN"
@@ -99,8 +106,8 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
           <SectionCard
-            title="Finished product formula builder"
-            description="Manual finished product formulas use components, ingredients and packaging internal items as inputs."
+            title="Finished products"
+            description="Real tenant finished products. Formulas define inputs, sell prices unlock margin previews, and production readiness remains future."
             action={
               data.canManageFormulas ? (
                 <StatusBadge tone="success">Manage enabled</StatusBadge>
@@ -111,33 +118,43 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
           >
             {data.finishedProducts.length === 0 ? (
               <EmptyState
-                title="No finished product formulas yet"
-                description="Create the first finished product formula manually. Lines can reference tenant-scoped components, ingredients and packaging items."
+                title="No finished products yet"
+                description="Create the first finished product and draft formula header. Finished products are sellable/output items; formulas, sell prices and margins are completed after the item exists."
+                action={
+                  data.canManageFormulas ? (
+                    <Link
+                      className="inline-flex items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90"
+                      href="#new-finished-product"
+                    >
+                      Add finished product
+                    </Link>
+                  ) : null
+                }
               />
             ) : (
               <SampleDataTable
                 columns={[
                   "Finished product",
-                  "Status",
-                  "Version",
+                  "Formula",
                   "Output",
                   "Lines",
-                  "Cost readiness",
+                  "Cost",
+                  "Sell price",
+                  "Margin",
                   "Estimated cost",
-                  "Margin readiness",
                   "Updated",
                   "Action",
                 ]}
                 rows={rows}
-                badgeColumns={["Status", "Cost readiness", "Margin readiness"]}
-                emptyMessage="No finished product formulas are visible yet."
+                badgeColumns={["Formula", "Cost", "Sell price", "Margin"]}
+                emptyMessage="No finished products are visible yet."
               />
             )}
           </SectionCard>
 
           <SectionCard
-            title="New Finished Product Formula"
-            description="Create a finished product and draft formula header. Lines are added on the detail page."
+            title="Add finished product"
+            description="Create a sellable finished product internal item and its first draft formula header. Formula lines are added on the detail page."
             action={
               data.canManageFormulas ? (
                 <StatusBadge tone="success">formulas.manage</StatusBadge>
@@ -147,7 +164,11 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
             }
           >
             {data.canManageFormulas ? (
-              <form action={createFinishedProductFormulaAction} className="space-y-4">
+              <form
+                action={createFinishedProductFormulaAction}
+                className="space-y-4"
+                id="new-finished-product"
+              >
                 <label className="block">
                   <span className="text-xs font-semibold uppercase text-slate-500">
                     Finished product name
@@ -155,14 +176,17 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
                   <input
                     className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-950 outline-none focus:border-[var(--tenant-primary)] focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
                     name="display_name"
-                    placeholder="Naked Chicken"
+                    placeholder="Naked Chicken 100g"
                     required
                   />
+                  <span className="mt-1 block text-xs leading-5 text-slate-500">
+                    This becomes a canonical internal item with item type finished_product.
+                  </span>
                 </label>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <label className="block">
                     <span className="text-xs font-semibold uppercase text-slate-500">
-                      Output quantity
+                      Selling/output quantity
                     </span>
                     <input
                       className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-950 outline-none focus:border-[var(--tenant-primary)] focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
@@ -176,7 +200,7 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
                   </label>
                   <label className="block">
                     <span className="text-xs font-semibold uppercase text-slate-500">
-                      Output unit
+                      Selling/output unit
                     </span>
                     <input
                       className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-950 outline-none focus:border-[var(--tenant-primary)] focus:ring-2 focus:ring-[var(--tenant-primary-soft)]"
@@ -184,6 +208,9 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
                       name="output_unit"
                       required
                     />
+                    <span className="mt-1 block text-xs leading-5 text-slate-500">
+                      Keep this aligned with how the product is sold or planned.
+                    </span>
                   </label>
                 </div>
                 <label className="block">
@@ -213,7 +240,7 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
                   className="inline-flex w-full items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90"
                   type="submit"
                 >
-                  Create finished product formula
+                  Add finished product
                 </button>
               </form>
             ) : (
@@ -226,19 +253,44 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
         </div>
 
         <SectionCard
-          title="Margin readiness"
-          description="Meal margin reporting uses cost-ready formulas plus active current sell prices."
+          title="Next steps after product setup"
+          description="Finished product data entry connects the formula builder, sell prices and margin review."
         >
-          <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-4">
-            <p className="text-sm font-semibold text-slate-950">
-              Margin depends on formula, cost and sell price readiness
-            </p>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              A finished product is margin-ready only when it has an active
-              formula, all formula inputs have safe approved cost sources and an
-              active current sell price exists for the channel being reviewed.
-              Draft or archived sell prices do not count.
-            </p>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              {
+                title: "Build formula",
+                body: "Add component, ingredient and packaging lines so the product can become cost-ready.",
+                href: "/finished-products",
+                cta: "Review products",
+              },
+              {
+                title: "Add sell price",
+                body: "Record an active current sell price for the product/channel before margin is counted as ready.",
+                href: "/sell-prices",
+                cta: "Open sell prices",
+              },
+              {
+                title: "Review margin",
+                body: "Meal Margins stays conservative and only previews margin when formula costs and sell prices are ready.",
+                href: "/meal-margins",
+                cta: "Open meal margins",
+              },
+            ].map((item) => (
+              <div
+                className="rounded-md border border-slate-200 bg-slate-50 px-4 py-4"
+                key={item.title}
+              >
+                <p className="text-sm font-semibold text-slate-950">{item.title}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
+                <Link
+                  className="mt-4 inline-flex text-sm font-semibold text-[var(--tenant-primary)] hover:underline"
+                  href={item.href}
+                >
+                  {item.cta}
+                </Link>
+              </div>
+            ))}
           </div>
         </SectionCard>
       </div>

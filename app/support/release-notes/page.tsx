@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 
 const releaseNotes = [
   {
+    label: "Products",
+    title: "Finished Product setup polish",
+    description:
+      "Finished Products now shows clearer real-data readiness for formula, cost, sell price and margin setup, with links into formula, sell price and margin review areas.",
+  },
+  {
     label: "Support",
     title: "Support inbox search and pagination",
     description:

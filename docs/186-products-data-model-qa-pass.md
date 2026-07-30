@@ -105,6 +105,8 @@ Finished product margin readiness depends on:
 
 Draft sell prices are allowed as candidates but do not count as margin-ready. Archived sell prices do not count. The Finished Products page copy has been updated so it no longer says sell price storage is missing.
 
+Task 187 follows this QA pass with Finished Product data-entry polish. `/finished-products` and `/finished-products/[id]` now show clearer real-data readiness for formula, cost, active current sell price and margin setup, while keeping production readiness labelled as future.
+
 ## Permission And Module QA
 
 Current permission shape is appropriate for the current build:

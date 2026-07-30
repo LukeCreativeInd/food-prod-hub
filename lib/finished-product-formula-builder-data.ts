@@ -52,6 +52,17 @@ type ApprovedSupplierPriceRow = {
   status: string;
 };
 
+type FinishedProductSellPriceRow = {
+  id: string;
+  finished_product_internal_item_id: string;
+  channel_key: string;
+  channel_label: string | null;
+  price_amount: number | string;
+  currency_code: string;
+  tax_mode: string;
+  status: string;
+};
+
 export type FinishedProductLineSelectableItem = {
   id: string;
   displayName: string;
@@ -78,6 +89,8 @@ export type FinishedProductFormulaBuilderListData = {
     costReadiness: string;
     costReadinessTone: Tone;
     estimatedCost: string;
+    sellPriceReadiness: string;
+    sellPriceReadinessTone: Tone;
     marginReadiness: string;
     marginReadinessTone: Tone;
     lastUpdated: string;
@@ -155,6 +168,12 @@ export type FinishedProductFormulaBuilderDetailData = {
   marginReadiness: {
     status: string;
     tone: Tone;
+    issues: string[];
+  };
+  sellPriceReadiness: {
+    status: string;
+    tone: Tone;
+    summary: string;
     issues: string[];
   };
 };
@@ -386,6 +405,47 @@ async function loadApprovedPrices(organisationId: string, internalItemIds: strin
   }
 
   return (data ?? []) as ApprovedSupplierPriceRow[];
+}
+
+async function loadActiveCurrentSellPrices(
+  organisationId: string,
+  finishedProductIds: string[],
+) {
+  if (finishedProductIds.length === 0) {
+    return [];
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("finished_product_sell_prices")
+    .select(
+      "id, finished_product_internal_item_id, channel_key, channel_label, price_amount, currency_code, tax_mode, status",
+    )
+    .eq("organisation_id", organisationId)
+    .eq("status", "active")
+    .is("effective_to", null)
+    .is("archived_at", null)
+    .in("finished_product_internal_item_id", finishedProductIds)
+    .order("effective_from", { ascending: false });
+
+  if (error) {
+    return [];
+  }
+
+  return (data ?? []) as FinishedProductSellPriceRow[];
+}
+
+function groupSellPricesByFinishedProduct(prices: FinishedProductSellPriceRow[]) {
+  const pricesByFinishedProductId = new Map<string, FinishedProductSellPriceRow[]>();
+
+  prices.forEach((price) => {
+    const existing =
+      pricesByFinishedProductId.get(price.finished_product_internal_item_id) ?? [];
+    existing.push(price);
+    pricesByFinishedProductId.set(price.finished_product_internal_item_id, existing);
+  });
+
+  return pricesByFinishedProductId;
 }
 
 function groupVersionsByOutput(versions: FormulaVersionRow[]) {
@@ -695,18 +755,59 @@ export function getFinishedProductCostReadiness(
   };
 }
 
-function getMarginReadiness(costReady: boolean) {
+function getSellPriceReadiness(sellPrices: FinishedProductSellPriceRow[]) {
+  if (sellPrices.length === 0) {
+    return {
+      status: "Sell price missing",
+      tone: "warning" as const,
+      summary: "Add an active current sell price before margin can be reviewed.",
+      issues: ["No active open-ended sell price is recorded for this finished product."],
+    };
+  }
+
+  const channels = sellPrices
+    .map((price) => price.channel_label ?? price.channel_key)
+    .join(", ");
+
   return {
-    status: costReady
-      ? "Margin pending sell price"
-      : "Margin blocked by cost readiness",
-    tone: "warning" as const,
-    issues: costReady
-      ? ["Sell price storage is not implemented yet."]
-      : [
-          "Finished product cost must be ready before margin can be reviewed.",
-          "Sell price storage is not implemented yet.",
-        ],
+    status: "Sell price ready",
+    tone: "success" as const,
+    summary: `${sellPrices.length} active current sell price${
+      sellPrices.length === 1 ? "" : "s"
+    } recorded${channels ? `: ${channels}` : ""}.`,
+    issues: ["At least one active current sell price is available for margin preview."],
+  };
+}
+
+function getMarginReadiness(costReady: boolean, sellPriceReady: boolean) {
+  if (!costReady) {
+    return {
+      status: "Margin blocked",
+      tone: "warning" as const,
+      issues: [
+        "Finished product cost must be ready before margin can be reviewed.",
+        sellPriceReady
+          ? "An active current sell price exists, but cost readiness is still blocking margin."
+          : "An active current sell price is also required.",
+      ],
+    };
+  }
+
+  if (!sellPriceReady) {
+    return {
+      status: "Margin blocked",
+      tone: "warning" as const,
+      issues: ["Add an active current sell price before margin can be previewed."],
+    };
+  }
+
+  return {
+    status: "Margin ready",
+    tone: "success" as const,
+    issues: [
+      "This product has a cost-ready formula and at least one active current sell price.",
+      "Open Meal Margins for the conservative margin preview.",
+    ],
   };
 }
 
@@ -750,6 +851,11 @@ export async function getFinishedProductFormulaListData(): Promise<FinishedProdu
     await requireFinishedProductBuilderAccess();
   const { finishedProducts, versions, lines } =
     await loadFinishedProductRows(organisationId);
+  const sellPrices = await loadActiveCurrentSellPrices(
+    organisationId,
+    finishedProducts.map((product) => product.id),
+  );
+  const sellPricesByFinishedProductId = groupSellPricesByFinishedProduct(sellPrices);
   const finishedProductVersions = versions.filter(
     (version) => version.formula_type === "finished_product",
   );
@@ -780,7 +886,13 @@ export async function getFinishedProductFormulaListData(): Promise<FinishedProdu
           issues: [],
           numericCost: null,
         };
-    const marginReadiness = getMarginReadiness(costReadiness.numericCost !== null);
+    const sellPriceReadiness = getSellPriceReadiness(
+      sellPricesByFinishedProductId.get(product.id) ?? [],
+    );
+    const marginReadiness = getMarginReadiness(
+      costReadiness.numericCost !== null,
+      sellPriceReadiness.tone === "success",
+    );
 
     return {
       id: product.id,
@@ -794,6 +906,8 @@ export async function getFinishedProductFormulaListData(): Promise<FinishedProdu
       costReadiness: costReadiness.status,
       costReadinessTone: costReadiness.tone,
       estimatedCost: costReadiness.estimatedCost,
+      sellPriceReadiness: sellPriceReadiness.status,
+      sellPriceReadinessTone: sellPriceReadiness.tone,
       marginReadiness: marginReadiness.status,
       marginReadinessTone: marginReadiness.tone,
       lastUpdated: selectedVersion
@@ -814,7 +928,8 @@ export async function getFinishedProductFormulaListData(): Promise<FinishedProdu
       formulasWithLines: items.filter((item) => item.lineCount > 0).length,
       costReadyFormulas: items.filter((item) => item.costReadinessTone === "success")
         .length,
-      marginReadyFormulas: 0,
+      marginReadyFormulas: items.filter((item) => item.marginReadinessTone === "success")
+        .length,
     },
     finishedProducts: items,
   };
@@ -847,9 +962,10 @@ export async function getFinishedProductFormulaDetailData(
   const lines = selectedVersion
     ? allLines.filter((line) => line.formula_version_id === selectedVersion.id)
     : [];
-  const [selectableItems, readinessContext] = await Promise.all([
+  const [selectableItems, readinessContext, sellPrices] = await Promise.all([
     getFinishedProductLineSelectableItems(organisationId, finishedProduct.id),
     buildReadinessContext(organisationId, allLines, versions),
+    loadActiveCurrentSellPrices(organisationId, [finishedProduct.id]),
   ]);
   const costReadiness = getFinishedProductCostReadiness(
     lines,
@@ -858,7 +974,11 @@ export async function getFinishedProductFormulaDetailData(
     readinessContext.componentVersionsByOutputItemId,
     readinessContext.linesByFormulaVersionId,
   );
-  const marginReadiness = getMarginReadiness(costReadiness.numericCost !== null);
+  const sellPriceReadiness = getSellPriceReadiness(sellPrices);
+  const marginReadiness = getMarginReadiness(
+    costReadiness.numericCost !== null,
+    sellPriceReadiness.tone === "success",
+  );
 
   logDevRouteTiming("finished-product-formulas.detail", timingStartedAt, {
     finishedProductFound: true,
@@ -968,5 +1088,6 @@ export async function getFinishedProductFormulaDetailData(
       issues: costReadiness.issues,
     },
     marginReadiness,
+    sellPriceReadiness,
   };
 }

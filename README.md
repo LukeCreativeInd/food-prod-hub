@@ -192,6 +192,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - The first authenticated EveryBatch Support Help Centre scaffold now serves support landing, guides, tickets, contact, release notes and troubleshooting routes through the support app mode.
 - Login, workspace selector and Platform Admin sidebar/footer UI have been cleaned up for better panel balance and less submenu clutter.
 - Products data model QA now documents the current supplier/internal item/formula/sell-price relationships and removes misleading fake Recipes scaffold data.
+- Finished Products now has clearer data-entry and review polish across formula, cost, sell price and margin readiness.
 
 ## Tech Stack
 
@@ -376,6 +377,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Support Ticket Attachments Plan](docs/184-support-ticket-attachments-plan.md)
 - [Support Ticket Attachments Foundation](docs/185-support-ticket-attachments-foundation.md)
 - [Products Data Model QA Pass](docs/186-products-data-model-qa-pass.md)
+- [Finished Product Data Entry Polish](docs/187-finished-product-data-entry-polish.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

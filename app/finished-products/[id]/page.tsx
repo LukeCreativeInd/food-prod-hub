@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -19,6 +20,10 @@ type PageProps = {
   searchParams: Promise<{
     formula?: string;
   }>;
+};
+
+export const metadata: Metadata = {
+  title: "Finished Product - EveryBatch",
 };
 
 function statusTone(value: string) {
@@ -130,6 +135,12 @@ export default async function FinishedProductFormulaDetailPage({
     (line) => line.inputItemType === "packaging",
   ).length;
   const otherCount = detail.lines.length - ingredientCount - componentCount - packagingCount;
+  const supportTicketHref = `/support/tickets/new?${new URLSearchParams({
+    relatedPath: `/finished-products/${detail.finishedProduct.id}`,
+    moduleKey: "finished_products",
+    category: "formulas",
+  }).toString()}`;
+  const formulaActionHref = selectedVersion ? "#formula-header" : "/finished-products";
 
   return (
     <AppShell>
@@ -159,7 +170,42 @@ export default async function FinishedProductFormulaDetailPage({
           </div>
         ) : null}
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <SectionCard
+          title="Finished product details"
+          description="Canonical sellable/output item. Formula, sell price and margin readiness are reviewed from this item."
+          action={
+            <PageActionButton href={supportTicketHref} variant="secondary">
+              Get help
+            </PageActionButton>
+          }
+        >
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {[
+              ["Name", detail.finishedProduct.displayName],
+              ["Item type", detail.finishedProduct.itemType],
+              ["Base unit", detail.finishedProduct.baseUnit],
+              ["Item status", detail.finishedProduct.status],
+              ["Formula version", selectedVersion?.versionName ?? "Not captured"],
+              ["Formula output", selectedVersion?.outputQuantity ?? "Not captured"],
+              ["Updated", detail.finishedProduct.updatedAt],
+              ["Notes", detail.finishedProduct.notes || "No notes recorded"],
+            ].map(([label, value]) => (
+              <div
+                className="rounded-md border border-slate-200 bg-slate-50/70 px-4 py-3"
+                key={label}
+              >
+                <p className="text-xs font-semibold uppercase text-slate-500">
+                  {label}
+                </p>
+                <p className="mt-1 text-sm font-semibold text-slate-900">
+                  {value}
+                </p>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
           <StatCard
             label="Formula lines"
             value={String(detail.lines.length)}
@@ -185,14 +231,47 @@ export default async function FinishedProductFormulaDetailPage({
             icon="$"
           />
           <StatCard
+            label="Sell price"
+            value={detail.sellPriceReadiness.status}
+            helperText={detail.sellPriceReadiness.summary}
+            badge="Pricing"
+            tone={detail.sellPriceReadiness.tone}
+            icon="SP"
+          />
+          <StatCard
             label="Margin readiness"
             value={detail.marginReadiness.status}
-            helperText="Sell price storage is not implemented yet."
-            badge="Pending"
+            helperText="Requires formula cost readiness and active current sell price."
+            badge="Margin"
             tone={detail.marginReadiness.tone}
             icon="%"
           />
         </section>
+
+        <SectionCard
+          title="Review actions"
+          description="Move between setup areas without changing calculation rules."
+        >
+          <div className="flex flex-wrap gap-3">
+            <PageActionButton href={formulaActionHref} variant="secondary">
+              Manage formula
+            </PageActionButton>
+            <PageActionButton href="/sell-prices" variant="secondary">
+              Manage sell prices
+            </PageActionButton>
+            <PageActionButton href="/meal-margins" variant="secondary">
+              View meal margins
+            </PageActionButton>
+            <PageActionButton href="/component-costs" variant="secondary">
+              Review component costs
+            </PageActionButton>
+          </div>
+          <p className="mt-4 text-sm leading-6 text-slate-500">
+            Production readiness is not live yet. It will later connect this
+            finished product to inventory availability, production plans, QA
+            release and dispatch/traceability workflows.
+          </p>
+        </SectionCard>
 
         {selectedVersion ? (
           <SectionCard
@@ -210,6 +289,7 @@ export default async function FinishedProductFormulaDetailPage({
               <form
                 action={updateFinishedProductFormulaHeaderAction}
                 className="grid gap-4 lg:grid-cols-2"
+                id="formula-header"
               >
                 <input
                   name="finished_product_id"
@@ -327,8 +407,13 @@ export default async function FinishedProductFormulaDetailPage({
             description="This finished product internal item exists, but no formula version has been captured yet."
           >
             <EmptyState
-              title="Create a finished product formula from the list page"
-              description="This v1 builder creates new formula headers from /finished-products. Existing finished product records without formulas can be connected in a later follow-up."
+              title="Formula missing"
+              description="Margin can be previewed only after this product has a formula with cost-ready component, ingredient or packaging lines."
+              action={
+                <PageActionButton href="/finished-products" variant="secondary">
+                  Back to finished products
+                </PageActionButton>
+              }
             />
           </SectionCard>
         )}
@@ -598,7 +683,7 @@ export default async function FinishedProductFormulaDetailPage({
 
           <SectionCard
             title="Margin readiness"
-            description="Margin remains separate from formula cost and is blocked until sell price storage exists."
+            description="Margin is previewed from formula cost readiness plus active current sell prices."
             action={
               <StatusBadge tone={detail.marginReadiness.tone}>
                 {detail.marginReadiness.status}
@@ -606,7 +691,7 @@ export default async function FinishedProductFormulaDetailPage({
             }
           >
             <ul className="space-y-2">
-              {detail.marginReadiness.issues.map((issue) => (
+              {[...detail.sellPriceReadiness.issues, ...detail.marginReadiness.issues].map((issue) => (
                 <li
                   className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
                   key={issue}

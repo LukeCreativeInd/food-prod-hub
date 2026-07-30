@@ -195,6 +195,7 @@ export const supportGuides: SupportGuide[] = [
         body: [
           "Supplier and internal item pages support manual review and maintenance foundations.",
           "Component and finished product areas connect into formula and costing readiness without creating production or stock movements yet.",
+          "Finished product pages now show setup readiness across formula, cost, sell price and margin so teams can see what still needs review before production depends on the item.",
         ],
       },
       {
