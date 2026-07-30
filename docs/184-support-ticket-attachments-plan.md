@@ -471,6 +471,19 @@ After 185:
 
 The recommended path is 185 foundation only, then return to the core product unless attachments become urgent.
 
+## Task 185 Foundation Follow-Up
+
+Task 185 implements the foundation recommended here:
+
+- migration `033_support_ticket_attachments_foundation.sql`
+- private `support-ticket-attachments` bucket metadata
+- `public.support_ticket_attachments`
+- attachment RLS policies
+- `public.can_access_support_ticket_attachment_storage_path(...)`
+- TypeScript constants in `lib/support-ticket-attachment-types.ts`
+
+Task 185 intentionally does not add upload UI, display UI, ticket action changes or direct `storage.objects` policies.
+
 ## Suggested Future Smoke Checks
 
 After a future implementation:

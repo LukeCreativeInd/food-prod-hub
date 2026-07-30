@@ -147,6 +147,10 @@ Task 184 documents the future support ticket attachment visibility model. Custom
 
 No schema, migration, RLS, permission, upload UI or action change was made.
 
+## Task 185 Attachments Foundation Follow-Up
+
+Task 185 adds the attachment metadata/RLS foundation while preserving the visibility model confirmed here. Customer pages still do not show internal records, and no upload/display UI is built yet.
+
 ## Remaining Follow-Ups
 
 - Support ticket attachments.

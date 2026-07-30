@@ -92,6 +92,10 @@ Task 184 plans future attachment support. Attachments should preserve ticket `re
 
 No attachment upload behaviour is added by task 184.
 
+## Task 185 Attachments Foundation Follow-Up
+
+Task 185 creates the attachment database/Storage foundation only. Context-aware ticket creation is unchanged, and future attachment UI should keep using existing ticket `related_path` / `related_module_key` context.
+
 ## Admin And Support Impact
 
 Platform Admin impact:

@@ -128,6 +128,10 @@ Task 184 plans the future attachment model for support tickets. The planned atta
 
 No attachment upload UI, schema, Storage bucket, RLS or permission change is added by task 184.
 
+## Task 185 Attachments Foundation Follow-Up
+
+Task 185 adds the attachment metadata foundation, but `/platform/support` and `/support/tickets` list UI remains unchanged. Attachment counts/paperclip indicators remain future UI work.
+
 ## Suggested Smoke Checks
 
 Local:

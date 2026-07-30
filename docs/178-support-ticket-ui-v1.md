@@ -162,3 +162,7 @@ Task 183 adds customer ticket list search, status/category filters, 25-ticket pa
 ## Task 184 Attachments Planning Follow-Up
 
 Task 184 plans future customer-visible and internal-only attachments, but does not add upload UI. Future UI should add optional attachments under the new-ticket description and customer comment form while keeping internal-only attachments out of the customer portal.
+
+## Task 185 Attachments Foundation Follow-Up
+
+Task 185 adds the database/Storage foundation for attachments, but the customer support ticket UI is unchanged. No file inputs or attachment display are available yet.

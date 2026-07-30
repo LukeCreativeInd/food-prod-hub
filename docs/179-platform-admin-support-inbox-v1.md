@@ -203,3 +203,7 @@ No schema, migration, RLS or permission change was required.
 Task 184 plans future support ticket attachments. Platform Admin detail should eventually show customer-visible and internal-only attachments with visibility, scan and status badges, and allow internal-only attachments from internal-note workflows.
 
 No upload UI, schema, Storage bucket, RLS, permission or Platform Admin workflow change is added by task 184.
+
+## Task 185 Attachments Foundation Follow-Up
+
+Task 185 adds the future attachment table, bucket metadata, helper function and RLS policies. Platform Admin support inbox/detail pages are not changed yet, and no attachment upload/display UI is live.

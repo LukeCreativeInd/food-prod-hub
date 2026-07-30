@@ -88,3 +88,5 @@ Task 182 updates the same guide to mention the app Help menu's context-aware `Re
 Task 183 updates support ticket list behaviour with customer-facing search/filter controls and Platform Admin inbox pagination/filter polish. Guide content remains static and separate from database-backed support ticket records.
 
 Task 184 plans support ticket attachments only. The user-facing support guide should not mention file upload as available until a later task builds the attachment schema, Storage policies and upload UI.
+
+Task 185 adds the attachment database/Storage foundation, but uploads are still not user-facing. Support guide copy should continue to avoid promising attachment upload until UI/actions are built.

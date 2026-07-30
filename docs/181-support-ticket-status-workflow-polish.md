@@ -183,3 +183,7 @@ Task 183 does not change the status lifecycle. It improves Platform Admin and cu
 ## Task 184 Attachments Planning Follow-Up
 
 Task 184 does not change the status lifecycle. Future attachments should be tied to ticket creation, comments or internal notes without changing the existing waiting/resolved/closed transition rules.
+
+## Task 185 Attachments Foundation Follow-Up
+
+Task 185 also leaves the status lifecycle unchanged. It does not add attachment events or change comment/status transitions.

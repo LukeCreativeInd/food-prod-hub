@@ -231,3 +231,9 @@ Task 184 plans future support ticket attachments before any upload implementatio
 The recommended future foundation is a private `support-ticket-attachments` Storage bucket plus a tenant-scoped `public.support_ticket_attachments` table with customer/internal visibility. Attachment RLS should follow the existing ticket/comment/event visibility model, and Storage paths should be scoped as `{organisation_id}/support-tickets/{ticket_id}/{attachment_id}/{safe_filename}`.
 
 No attachment schema, Storage bucket, policy, RLS, permission or UI change is added by task 184.
+
+## Task 185 Attachments Foundation Follow-Up
+
+Task 185 drafts migration `033_support_ticket_attachments_foundation.sql`.
+
+It adds the attachment metadata table, private bucket metadata, helper function, indexes and RLS policies, but still does not build upload UI, display UI, ticket action changes, emails, realtime, scan workers or direct Storage object policies.

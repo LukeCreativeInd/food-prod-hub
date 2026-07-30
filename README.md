@@ -562,6 +562,8 @@ Support Inbox Search and Pagination Polish is documented in [Support Inbox Searc
 
 Support Ticket Attachments Plan is documented in [Support Ticket Attachments Plan](docs/184-support-ticket-attachments-plan.md).
 
+Support Ticket Attachments Foundation is documented in [Support Ticket Attachments Foundation](docs/185-support-ticket-attachments-foundation.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -600,5 +602,6 @@ Support Ticket Attachments Plan is documented in [Support Ticket Attachments Pla
 - Context-aware support ticket creation from the app Help menu with safe related page/module defaults
 - Platform Admin support inbox pagination/search/filter polish and customer ticket list filter polish
 - Planned support ticket attachment architecture covering private storage, tenant-scoped paths, visibility/RLS, file limits and rollout sequencing
+- Drafted support ticket attachment foundation with private bucket metadata, tenant-scoped attachment table, helper function, RLS policies and TypeScript constants
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.
