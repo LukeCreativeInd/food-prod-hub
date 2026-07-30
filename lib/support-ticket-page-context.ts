@@ -31,18 +31,44 @@ const routeContexts: Array<{
     context: { moduleKey: "dashboard", moduleLabel: "Dashboard", category: "other" },
   },
   {
-    prefixes: [
-      "/products",
-      "/suppliers",
-      "/internal-items",
-      "/ingredients",
-      "/packaging",
-    ],
-    context: { moduleKey: "products", moduleLabel: "Products", category: "products" },
+    prefixes: ["/products/components", "/components"],
+    context: { moduleKey: "components", moduleLabel: "Components", category: "formulas" },
   },
   {
-    prefixes: ["/components", "/recipes", "/finished-products"],
+    prefixes: ["/products/recipes", "/recipes"],
+    context: { moduleKey: "recipes", moduleLabel: "Recipes", category: "formulas" },
+  },
+  {
+    prefixes: ["/products/finished-products", "/finished-products"],
+    context: {
+      moduleKey: "finished_products",
+      moduleLabel: "Finished Products",
+      category: "formulas",
+    },
+  },
+  {
+    prefixes: [],
     context: { moduleKey: "formulas", moduleLabel: "Formulas", category: "formulas" },
+  },
+  {
+    prefixes: ["/costings/meal-margins", "/meal-margins"],
+    context: {
+      moduleKey: "meal_margins",
+      moduleLabel: "Meal Margins",
+      category: "costings",
+    },
+  },
+  {
+    prefixes: ["/costings/sell-prices", "/sell-prices"],
+    context: {
+      moduleKey: "sell_prices",
+      moduleLabel: "Sell Prices",
+      category: "costings",
+    },
+  },
+  {
+    prefixes: ["/suppliers", "/internal-items", "/ingredients", "/packaging", "/products"],
+    context: { moduleKey: "products", moduleLabel: "Products", category: "products" },
   },
   {
     prefixes: [

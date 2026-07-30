@@ -191,6 +191,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Support domain setup has been documented for `support.everybatchmrp.com`, including Vercel, Cloudflare, Supabase Auth, interim behaviour, smoke tests and rollback notes.
 - The first authenticated EveryBatch Support Help Centre scaffold now serves support landing, guides, tickets, contact, release notes and troubleshooting routes through the support app mode.
 - Login, workspace selector and Platform Admin sidebar/footer UI have been cleaned up for better panel balance and less submenu clutter.
+- Products data model QA now documents the current supplier/internal item/formula/sell-price relationships and removes misleading fake Recipes scaffold data.
 
 ## Tech Stack
 
@@ -364,6 +365,17 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Support Domain Setup](docs/173-support-domain-setup.md)
 - [Support Help Centre Scaffold](docs/174-support-help-centre-scaffold.md)
 - [App Shell And Auth Page UI Cleanup](docs/175-app-shell-auth-page-ui-cleanup.md)
+- [Support Guides Static Content v1](docs/176-support-guides-static-content-v1.md)
+- [Support Tickets Schema Foundation](docs/177-support-tickets-schema-foundation.md)
+- [Support Ticket UI v1](docs/178-support-ticket-ui-v1.md)
+- [Platform Admin Support Inbox v1](docs/179-platform-admin-support-inbox-v1.md)
+- [Support Ticket Polish and Permission QA](docs/180-support-ticket-polish-permission-qa.md)
+- [Support Ticket Status Workflow Polish](docs/181-support-ticket-status-workflow-polish.md)
+- [Support Ticket Context-Aware Creation](docs/182-support-ticket-context-aware-creation.md)
+- [Support Inbox Search and Pagination Polish](docs/183-support-inbox-search-pagination-polish.md)
+- [Support Ticket Attachments Plan](docs/184-support-ticket-attachments-plan.md)
+- [Support Ticket Attachments Foundation](docs/185-support-ticket-attachments-foundation.md)
+- [Products Data Model QA Pass](docs/186-products-data-model-qa-pass.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

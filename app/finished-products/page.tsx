@@ -84,9 +84,9 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
           <StatCard
             label="Margin ready"
             value={String(data.summary.marginReadyFormulas)}
-            helperText="Blocked until sell price storage and margin rules exist."
-            badge="Pending"
-            tone="warning"
+            helperText="Finished products with cost-ready formulas and active current sell prices."
+            badge="Readiness"
+            tone={data.summary.marginReadyFormulas > 0 ? "success" : "warning"}
             icon="%"
           />
         </section>
@@ -227,16 +227,17 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
 
         <SectionCard
           title="Margin readiness"
-          description="Meal margin reporting stays conservative until pricing and margin rules exist."
+          description="Meal margin reporting uses cost-ready formulas plus active current sell prices."
         >
-          <div className="rounded-md border border-amber-200 bg-amber-50 px-4 py-4">
-            <p className="text-sm font-semibold text-amber-950">
-              Margin pending sell price storage
+          <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-4">
+            <p className="text-sm font-semibold text-slate-950">
+              Margin depends on formula, cost and sell price readiness
             </p>
-            <p className="mt-2 text-sm leading-6 text-amber-900">
-              Finished product formulas can become cost-ready here, but margin is
-              still blocked until reliable sell price storage, pack size/tax
-              handling and margin formulas are agreed.
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              A finished product is margin-ready only when it has an active
+              formula, all formula inputs have safe approved cost sources and an
+              active current sell price exists for the channel being reviewed.
+              Draft or archived sell prices do not count.
             </p>
           </div>
         </SectionCard>

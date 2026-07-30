@@ -210,6 +210,20 @@ Margin formulas are `gross_profit_amount = sell_price_amount - product_cost`, `g
 
 No GST engine, tax normalisation, margin snapshots, Shopify sync, discount logic, subscription pricing, wholesale quoting, approval workflows, migrations or write actions are added.
 
+## Task 186 Products Data Model QA Pass
+
+Task 186 documents the current Products and Costings data model before deeper inventory and production work. Canonical tenant catalogue records are `internal_items`: ingredients and packaging use `item_type = ingredient` and `item_type = packaging`, components use `item_type = component`, and finished products use `item_type = finished_product`.
+
+Supplier-facing records remain separate in `suppliers`, `supplier_aliases`, `supplier_items`, `supplier_item_mappings`, `purchase_documents`, `purchase_document_lines`, `price_observations` and `approved_supplier_prices`. Formulas use `formula_versions.output_internal_item_id` for outputs and `formula_lines.input_internal_item_id` for inputs. Sell prices live in `finished_product_sell_prices`, and Meal Margins only uses active, non-archived current sell prices.
+
+Recipes are not a separate live table yet. `/recipes` is a scaffold/signpost to Components and Finished Products rather than fake saved recipe rows. Help/support page context now maps component, recipe, finished product, sell price and meal margin routes more specifically.
+
+See:
+
+```text
+docs/186-products-data-model-qa-pass.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

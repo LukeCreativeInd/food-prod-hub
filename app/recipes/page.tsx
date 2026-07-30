@@ -1,110 +1,115 @@
-import { ProductsWorkspacePage } from "@/components/products/products-workspace-page";
+import Link from "next/link";
 
-const rows = [
+import { AppShell } from "@/components/app-shell";
+import { EmptyState, SectionCard, StatCard, StatusBadge } from "@/components/ui";
+
+const recipeReadinessItems = [
   {
-    Recipe: "Chicken Fajita Bowl Recipe",
-    "Finished product": "Chicken Fajita Bowl",
-    Components: "Chicken Mix, Rice Batch",
-    "Direct ingredients": "Capsicum, Onion",
-    Packaging: "Meal Tray, Meal Sleeve",
-    Status: "Review",
-    Notes: "Sample recipe structure",
+    title: "Finished product formulas",
+    description:
+      "Meal and SKU structures are currently managed through finished product formula records.",
+    href: "/finished-products",
+    cta: "Open finished products",
   },
   {
-    Recipe: "Naked Chicken Parma Recipe",
-    "Finished product": "Naked Chicken Parma",
-    Components: "Napoli Sauce, Chicken Mix",
-    "Direct ingredients": "Cheese, Herbs",
-    Packaging: "Meal Tray, Label",
-    Status: "Missing packaging",
-    Notes: "Packaging link to confirm",
+    title: "Component formulas",
+    description:
+      "Reusable prep batches and sub-recipes are represented as component internal items with formula lines.",
+    href: "/components",
+    cta: "Open components",
   },
   {
-    Recipe: "Spaghetti Bolognese Recipe",
-    "Finished product": "Spaghetti Bolognese",
-    Components: "Napoli Sauce",
-    "Direct ingredients": "Pasta, Parmesan",
-    Packaging: "Meal Tray, Meal Sleeve",
-    Status: "Sample",
-    Notes: "Static demo recipe",
-  },
-  {
-    Recipe: "Burrito Bowl Recipe",
-    "Finished product": "Burrito Bowl",
-    Components: "Rice Batch, Chunky Salsa",
-    "Direct ingredients": "Beans, Corn",
-    Packaging: "Meal Tray",
-    Status: "Missing components",
-    Notes: "Component list to review",
-  },
-  {
-    Recipe: "Shepherd's Pie Recipe",
-    "Finished product": "Shepherd's Pie",
-    Components: "Sweet Potato Mash",
-    "Direct ingredients": "Beef Mix, Peas",
-    Packaging: "Meal Tray, Label",
-    Status: "Review",
-    Notes: "Finished product recipe placeholder",
+    title: "Costing readiness",
+    description:
+      "Recipe costs stay blocked until formula inputs have approved supplier prices and compatible units.",
+    href: "/component-costs",
+    cta: "Review costs",
   },
 ];
 
 export default function RecipesPage() {
   return (
-    <ProductsWorkspacePage
-      title="Recipes"
-      description="Recipe structures define what goes into a finished product and how components, ingredients and packaging link together."
-      summaryCards={[
-        {
-          label: "Recipes drafted",
-          value: "18",
-          helperText: "Sample recipe structures for staff review.",
-          badge: "Sample",
-          tone: "info",
-          icon: "RC",
-        },
-        {
-          label: "Missing components",
-          value: "4",
-          helperText: "Placeholder prompts for missing component links.",
-          badge: "Review",
-          tone: "warning",
-          icon: "CP",
-        },
-        {
-          label: "Missing packaging",
-          value: "3",
-          helperText: "Packaging relationships to confirm before costing.",
-          badge: "To confirm",
-          tone: "warning",
-          icon: "PK",
-        },
-        {
-          label: "Review required",
-          value: "7",
-          helperText: "Recipes needing terminology and structure review.",
-          badge: "Review",
-          tone: "warning",
-          icon: "!",
-        },
-      ]}
-      tableTitle="Sample recipes"
-      tableDescription="Placeholder recipe structures for staff review. No real recipes or BOM logic are connected."
-      columns={[
-        "Recipe",
-        "Finished product",
-        "Components",
-        "Direct ingredients",
-        "Packaging",
-        "Status",
-        "Notes",
-      ]}
-      rows={rows}
-      badgeColumns={["Status"]}
-      reviewPrompts={[
-        "Should recipe structures include both components and direct ingredients?",
-        "Should packaging be part of the recipe or only the finished product?",
-        "What is the right terminology: Recipes, Items, BOMs or something else?",
-      ]}
-    />
+    <AppShell>
+      <div className="space-y-6 px-5 py-6 md:px-8">
+        <section className="grid gap-4 md:grid-cols-3">
+          <StatCard
+            label="Recipe records"
+            value="0"
+            helperText="No separate recipe table is connected yet."
+            badge="Not live"
+            tone="neutral"
+            icon="RC"
+          />
+          <StatCard
+            label="Formula source"
+            value="Formulas"
+            helperText="Use component and finished product formula builders for current real data."
+            badge="Live path"
+            tone="info"
+            icon="FM"
+          />
+          <StatCard
+            label="Operational risk"
+            value="Medium"
+            helperText="Recipe terminology still needs to settle before inventory and production depend on it."
+            badge="Review"
+            tone="warning"
+            icon="!"
+          />
+        </section>
+
+        <SectionCard
+          title="Recipes data model"
+          description="Recipes are not a separate saved record type yet. Current recipe-like data lives in formulas."
+          action={<StatusBadge tone="warning">Scaffold only</StatusBadge>}
+        >
+          <EmptyState
+            title="No separate recipe records are connected"
+            description="This page now avoids sample recipe rows. Use Finished Products for meal/SKU formulas and Components for reusable prep formulas until a dedicated recipe model is reviewed."
+            action={
+              <div className="flex flex-col justify-center gap-3 sm:flex-row">
+                <Link
+                  className="inline-flex items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90"
+                  href="/finished-products"
+                >
+                  Finished products
+                </Link>
+                <Link
+                  className="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                  href="/components"
+                >
+                  Components
+                </Link>
+              </div>
+            }
+          />
+        </SectionCard>
+
+        <SectionCard
+          title="Current direction"
+          description="Use this page as a signpost until recipe terminology and production links are reviewed."
+        >
+          <div className="grid gap-4 md:grid-cols-3">
+            {recipeReadinessItems.map((item) => (
+              <article
+                className="rounded-md border border-slate-200 bg-slate-50/70 p-4"
+                key={item.title}
+              >
+                <h4 className="text-sm font-semibold text-slate-950">{item.title}</h4>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {item.description}
+                </p>
+                <Link
+                  className="mt-4 inline-flex text-sm font-semibold text-[var(--tenant-primary)] hover:underline"
+                  href={item.href}
+                >
+                  {item.cta}
+                </Link>
+              </article>
+            ))}
+          </div>
+        </SectionCard>
+      </div>
+    </AppShell>
   );
 }

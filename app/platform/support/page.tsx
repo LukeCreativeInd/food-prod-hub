@@ -45,8 +45,13 @@ type PlatformSupportPageProps = {
 const supportModuleFilterOptions = [
   "dashboard",
   "products",
+  "components",
+  "recipes",
+  "finished_products",
   "formulas",
   "costings",
+  "meal_margins",
+  "sell_prices",
   "inventory",
   "purchasing",
   "supplier_invoice_intake",
