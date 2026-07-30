@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Support",
+    title: "Support ticket status workflow",
+    description:
+      "Support tickets now use clearer waiting-on-support, waiting-on-customer, resolved and closed behaviour across the customer portal and Platform Admin inbox.",
+  },
+  {
+    label: "Support",
     title: "Support tickets and Platform inbox",
     description:
       "Authenticated users can create and review workspace support tickets, while Platform Admin can manage replies, internal notes, assignment and ticket status from the support inbox.",

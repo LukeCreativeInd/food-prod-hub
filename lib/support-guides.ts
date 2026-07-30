@@ -470,12 +470,38 @@ export const supportGuides: SupportGuide[] = [
     categoryTitle: "Admin",
     title: "Support tickets",
     summary:
-      "Planned guide for the future authenticated ticket submission and tracking flow.",
-    status: "coming_soon",
+      "How to create, review and reply to workspace-linked EveryBatch support tickets.",
+    status: "available",
     audience: "All signed-in users",
-    estimatedRead: "Coming soon",
-    sections: [],
-    relatedLinks: [],
+    estimatedRead: "4 min read",
+    sections: [
+      {
+        heading: "Create a ticket",
+        body: [
+          "Use Support Tickets to create a customer-visible request for the selected workspace.",
+          "New tickets start as waiting on support, which means EveryBatch needs to review or respond.",
+        ],
+      },
+      {
+        heading: "Reply and status flow",
+        body: [
+          "When EveryBatch replies, the ticket may move to waiting on customer. If you reply again, it moves back to waiting on support.",
+          "Resolved tickets can be replied to if the issue still needs attention. Closed tickets do not accept new customer comments in v1.",
+        ],
+      },
+      {
+        heading: "What customers can see",
+        body: [
+          "The customer support portal shows customer-visible comments and timeline events only.",
+          "Internal Platform Admin notes are not shown in the customer support portal.",
+        ],
+      },
+    ],
+    relatedLinks: [
+      { label: "Support tickets", href: "/support/tickets" },
+      { label: "New support ticket", href: "/support/tickets/new" },
+      { label: "Troubleshooting", href: "/support/troubleshooting" },
+    ],
   },
   {
     slug: "platform-admin-for-operators",

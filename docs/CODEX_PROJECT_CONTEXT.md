@@ -591,3 +591,11 @@ Task 180 polishes and QA-checks the full support ticket loop after tasks 177-179
 Platform support inbox filtering now ignores invalid tenant filter ids before querying Supabase, and inbox copy clarifies the customer-visible reply versus internal operator note model. The visibility model is confirmed: customer support pages query `visibility = customer` comments/events only, while Platform Admin support pages can show both customer-visible and internal records through existing platform-admin RLS.
 
 No support ticket schema, migration, RLS, permission, auth/domain routing, Platform Admin route structure, external integration, email, realtime, attachment or business module change is included.
+
+## Task 181 Support Ticket Status Workflow Polish
+
+Task 181 defines the v1 support ticket lifecycle in shared TypeScript helpers. New customer tickets now start as `waiting_on_support`. Customer comments are blocked on closed tickets and otherwise move tickets to `waiting_on_support`, including resolved tickets where the customer still needs help.
+
+Platform Admin customer-visible replies are blocked on closed tickets, move `open` and `waiting_on_support` tickets to `waiting_on_customer`, and leave `waiting_on_customer`, `planned` and `resolved` statuses unchanged. Internal notes remain allowed and do not change status.
+
+Manual Platform Admin status changes set `resolved_at` or `closed_at` only when moving into those statuses and the timestamp is empty. Historical `resolved_at` and `closed_at` values are preserved when moving away from those statuses. No schema, migration, RLS, permission, auth/domain routing, notification, attachment, realtime, external integration or business module change is included.

@@ -118,6 +118,19 @@ Future support ticket links may connect to:
 
 These integrations were documented only. They were not built in task 180.
 
+## Task 181 Status Workflow Follow-Up
+
+Task 181 defines the support ticket status lifecycle used after this QA pass:
+
+- new customer tickets start as `waiting_on_support`
+- customer comments send active/planned/resolved tickets back to `waiting_on_support`
+- Platform Admin replies move `open` and `waiting_on_support` tickets to `waiting_on_customer`
+- Platform Admin replies keep `planned` and `resolved` statuses unchanged
+- closed tickets block customer comments and Platform customer-visible replies
+- internal notes do not change status
+
+No migration, RLS or permission change was required.
+
 ## Remaining Follow-Ups
 
 - Support ticket attachments.

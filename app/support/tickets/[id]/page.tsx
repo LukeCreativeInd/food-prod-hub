@@ -18,7 +18,11 @@ import {
   type SupportTicketComment,
   type SupportTicketEvent,
 } from "@/lib/support-ticket-data";
-import { formatSupportTicketValue } from "@/lib/support-ticket-types";
+import {
+  canCustomerCommentOnStatus,
+  formatSupportTicketValue,
+  getSupportTicketStatusMetadata,
+} from "@/lib/support-ticket-types";
 
 export const metadata: Metadata = {
   title: "Support Ticket - EveryBatch",
@@ -78,6 +82,14 @@ function getFeedbackMessage({
     };
   }
 
+  if (comment === "status_event_error") {
+    return {
+      tone: "warning",
+      message:
+        "Comment added, but the status change timeline event could not be recorded.",
+    };
+  }
+
   if (comment === "ticket_update_error") {
     return {
       tone: "warning",
@@ -88,6 +100,14 @@ function getFeedbackMessage({
 
   if (comment === "invalid_body") {
     return { tone: "error", message: "Comment needs at least 2 characters." };
+  }
+
+  if (comment === "closed_ticket") {
+    return {
+      tone: "error",
+      message:
+        "This ticket is closed. Create a new ticket if you need more help.",
+    };
   }
 
   if (comment === "error") {
@@ -118,6 +138,12 @@ export default async function SupportTicketDetailPage({
   const workspaceName =
     context?.selectedOrganisation?.workspaceName ?? "Current workspace";
   const feedbackMessage = getFeedbackMessage(query);
+  const statusMetadata = ticket
+    ? getSupportTicketStatusMetadata(ticket.status)
+    : null;
+  const canComment = ticket
+    ? canCustomerCommentOnStatus(ticket.status)
+    : false;
 
   if (!ticket) {
     return (
@@ -202,6 +228,22 @@ export default async function SupportTicketDetailPage({
         </div>
       </SectionCard>
 
+      {statusMetadata ? (
+        <SectionCard title="Status meaning">
+          <p className="text-sm font-bold text-slate-950">
+            {statusMetadata.label}
+          </p>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            {statusMetadata.customerMeaning}
+          </p>
+          {ticket.status === "resolved" ? (
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              Replying will send the ticket back to EveryBatch support.
+            </p>
+          ) : null}
+        </SectionCard>
+      ) : null}
+
       <SectionCard title="Description">
         <p className="whitespace-pre-wrap text-sm leading-6 text-slate-600">
           {ticket.description}
@@ -238,31 +280,52 @@ export default async function SupportTicketDetailPage({
             </p>
           )}
 
-          <form action={addSupportTicketCommentAction} className="space-y-3">
-            <input type="hidden" name="ticket_id" value={ticket.id} />
-            <input
-              type="hidden"
-              name="organisation_id"
-              value={ticket.organisation_id}
-            />
-            <label className="grid gap-2 text-sm font-semibold text-slate-700">
-              Add a comment
-              <textarea
-                name="body"
-                required
-                minLength={2}
-                rows={4}
-                placeholder="Add an update or reply for support."
-                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-100"
+          {canComment ? (
+            <form action={addSupportTicketCommentAction} className="space-y-3">
+              <input type="hidden" name="ticket_id" value={ticket.id} />
+              <input
+                type="hidden"
+                name="organisation_id"
+                value={ticket.organisation_id}
               />
-            </label>
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800"
-            >
-              Add comment
-            </button>
-          </form>
+              <label className="grid gap-2 text-sm font-semibold text-slate-700">
+                Add a comment
+                <textarea
+                  name="body"
+                  required
+                  minLength={2}
+                  rows={4}
+                  placeholder="Add an update or reply for support."
+                  className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-100"
+                />
+              </label>
+              <p className="text-xs font-semibold text-slate-500">
+                Adding a comment sends this ticket back to EveryBatch support.
+              </p>
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800"
+              >
+                Add comment
+              </button>
+            </form>
+          ) : (
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm font-bold text-slate-950">
+                Comments are closed
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                This ticket is closed. Create a new ticket if you need more
+                help.
+              </p>
+              <Link
+                href={`/support/tickets/new?organisationId=${ticket.organisation_id}`}
+                className="mt-3 inline-flex items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800"
+              >
+                Create new ticket
+              </Link>
+            </div>
+          )}
         </div>
       </SectionCard>
 

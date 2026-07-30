@@ -54,7 +54,8 @@ export default async function NewSupportTicketPage({
         </h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
           Tell us what you need help with. Ticket submission creates a
-          customer-visible request for the selected workspace.
+          customer-visible request for the selected workspace and marks it as
+          waiting on EveryBatch support.
         </p>
       </section>
 

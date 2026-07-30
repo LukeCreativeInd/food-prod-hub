@@ -5,8 +5,12 @@ import { redirect } from "next/navigation";
 
 import { getSupportTicketOrganisationContext } from "@/lib/support-ticket-context";
 import {
+  canCustomerCommentOnStatus,
+  getNextStatusAfterCustomerComment,
   isSupportTicketCategory,
   isSupportTicketPriority,
+  isSupportTicketStatus,
+  type SupportTicketStatus,
 } from "@/lib/support-ticket-types";
 import { createClient } from "@/lib/supabase/server";
 
@@ -82,6 +86,39 @@ async function requireWritableOrganisation(organisationId: string) {
   };
 }
 
+async function getWritableTicketForComment(
+  ticketId: string,
+  organisationId: string,
+) {
+  if (!uuidPattern.test(ticketId)) {
+    return null;
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("support_tickets")
+    .select("id, organisation_id, status")
+    .eq("id", ticketId)
+    .eq("organisation_id", organisationId)
+    .is("archived_at", null)
+    .maybeSingle();
+
+  if (error || !data || !isSupportTicketStatus(data.status)) {
+    logSupportTicketActionError("get_comment_ticket", error, {
+      ticketId,
+      organisationId,
+      profileId: null,
+    });
+    return null;
+  }
+
+  return data as {
+    id: string;
+    organisation_id: string;
+    status: SupportTicketStatus;
+  };
+}
+
 export async function createSupportTicketAction(formData: FormData) {
   const organisationId = getString(formData, "organisation_id");
   const title = getString(formData, "title");
@@ -117,7 +154,7 @@ export async function createSupportTicketAction(formData: FormData) {
       created_by_profile_id: profileId,
       title,
       description,
-      status: "open",
+      status: "waiting_on_support",
       priority,
       category,
       source: "support_portal",
@@ -144,7 +181,7 @@ export async function createSupportTicketAction(formData: FormData) {
       organisation_id: organisation.id,
       actor_profile_id: profileId,
       event_type: "created",
-      event_summary: "Ticket created",
+      event_summary: "Ticket created and waiting on support",
       visibility: "customer",
       metadata: {},
     });
@@ -171,20 +208,28 @@ export async function addSupportTicketCommentAction(formData: FormData) {
   const { organisation, profileId } =
     await requireWritableOrganisation(organisationId);
 
-  if (!uuidPattern.test(ticketId)) {
+  const ticket = await getWritableTicketForComment(ticketId, organisation.id);
+
+  if (!ticket) {
     redirect(getTicketRedirect("invalid_ticket", organisation.id));
   }
 
+  if (!canCustomerCommentOnStatus(ticket.status)) {
+    redirect(`/support/tickets/${ticket.id}?comment=closed_ticket`);
+  }
+
   if (body.length < 2) {
-    redirect(`/support/tickets/${ticketId}?comment=invalid_body`);
+    redirect(`/support/tickets/${ticket.id}?comment=invalid_body`);
   }
 
   const now = new Date().toISOString();
+  const nextStatus = getNextStatusAfterCustomerComment(ticket.status);
+  const statusWillChange = nextStatus !== ticket.status;
   const supabase = await createClient();
   const { error: commentError } = await supabase
     .from("support_ticket_comments")
     .insert({
-      ticket_id: ticketId,
+      ticket_id: ticket.id,
       organisation_id: organisation.id,
       author_profile_id: profileId,
       body,
@@ -195,17 +240,17 @@ export async function addSupportTicketCommentAction(formData: FormData) {
 
   if (commentError) {
     logSupportTicketActionError("add_customer_comment", commentError, {
-      ticketId,
+      ticketId: ticket.id,
       organisationId: organisation.id,
       profileId,
     });
-    redirect(`/support/tickets/${ticketId}?comment=error`);
+    redirect(`/support/tickets/${ticket.id}?comment=error`);
   }
 
   const { error: eventError } = await supabase
     .from("support_ticket_events")
     .insert({
-      ticket_id: ticketId,
+      ticket_id: ticket.id,
       organisation_id: organisation.id,
       actor_profile_id: profileId,
       event_type: "comment_added",
@@ -219,32 +264,62 @@ export async function addSupportTicketCommentAction(formData: FormData) {
     .update({
       customer_last_activity_at: now,
       updated_at: now,
-      status: "waiting_on_support",
+      status: nextStatus,
     })
-    .eq("id", ticketId)
-    .eq("organisation_id", organisation.id)
-    .in("status", ["open", "waiting_on_customer"]);
+    .eq("id", ticket.id)
+    .eq("organisation_id", organisation.id);
+
+  const { error: statusEventError } = statusWillChange
+    ? await supabase.from("support_ticket_events").insert({
+        ticket_id: ticket.id,
+        organisation_id: organisation.id,
+        actor_profile_id: profileId,
+        event_type: "status_changed",
+        event_summary: "Status changed after customer comment",
+        visibility: "customer",
+        from_value: ticket.status,
+        to_value: nextStatus,
+        metadata: {},
+      })
+    : { error: null };
 
   revalidatePath("/support/tickets");
-  revalidatePath(`/support/tickets/${ticketId}`);
+  revalidatePath(`/support/tickets/${ticket.id}`);
 
   if (eventError) {
     logSupportTicketActionError("add_customer_comment_event", eventError, {
-      ticketId,
+      ticketId: ticket.id,
       organisationId: organisation.id,
       profileId,
     });
-    redirect(`/support/tickets/${ticketId}?comment=added_event_error`);
+    redirect(`/support/tickets/${ticket.id}?comment=added_event_error`);
   }
 
   if (ticketUpdateError) {
-    logSupportTicketActionError("add_customer_comment_ticket_update", ticketUpdateError, {
-      ticketId,
-      organisationId: organisation.id,
-      profileId,
-    });
-    redirect(`/support/tickets/${ticketId}?comment=ticket_update_error`);
+    logSupportTicketActionError(
+      "add_customer_comment_ticket_update",
+      ticketUpdateError,
+      {
+        ticketId: ticket.id,
+        organisationId: organisation.id,
+        profileId,
+      },
+    );
+    redirect(`/support/tickets/${ticket.id}?comment=ticket_update_error`);
   }
 
-  redirect(`/support/tickets/${ticketId}?comment=added`);
+  if (statusEventError) {
+    logSupportTicketActionError(
+      "add_customer_comment_status_event",
+      statusEventError,
+      {
+        ticketId: ticket.id,
+        organisationId: organisation.id,
+        profileId,
+      },
+    );
+    redirect(`/support/tickets/${ticket.id}?comment=status_event_error`);
+  }
+
+  redirect(`/support/tickets/${ticket.id}?comment=added`);
 }

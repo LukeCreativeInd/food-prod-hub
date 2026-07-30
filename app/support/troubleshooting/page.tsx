@@ -50,6 +50,21 @@ const troubleshootingTopics = [
       "Customer pages show customer-visible replies and timeline events only. Internal operator notes are kept in Platform Admin and are not shown to customer users.",
   },
   {
+    title: "What does waiting on support mean?",
+    description:
+      "EveryBatch support needs to review or respond. New tickets and customer replies usually move into this state.",
+  },
+  {
+    title: "What does waiting on customer mean?",
+    description:
+      "EveryBatch has replied and may be waiting for your input or confirmation.",
+  },
+  {
+    title: "I need to reply to a closed ticket",
+    description:
+      "Closed tickets do not accept new customer comments in v1. Create a new ticket if you need more help.",
+  },
+  {
     title: "The wrong workspace is selected",
     description:
       "Use Change workspace on the tickets page, or return to the central workspace selector if you need a different EveryBatch area.",

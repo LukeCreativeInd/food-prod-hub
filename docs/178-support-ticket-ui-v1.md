@@ -142,3 +142,9 @@ Customer support pages remain preserved and continue to show customer-visible co
 Task 180 polishes the customer support ticket detail page with clearer workspace context, clearer success/warning/error feedback and shared support ticket value labels.
 
 Customer ticket actions now log safe server-side Supabase error context when writes fail. Customer-visible filtering remains unchanged.
+
+## Task 181 Status Workflow Follow-Up
+
+Task 181 changes new customer tickets to start as `waiting_on_support` and makes customer comments move active/planned/resolved tickets back to `waiting_on_support`.
+
+Customer comments are blocked on closed tickets with a friendly message and a new-ticket action. Internal notes/events remain hidden from the customer UI.

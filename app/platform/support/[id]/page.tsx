@@ -24,7 +24,9 @@ import {
   type PlatformSupportTicketEvent,
 } from "@/lib/platform-support-ticket-data";
 import {
+  canPlatformReplyOnStatus,
   formatSupportTicketValue,
+  getSupportTicketStatusMetadata,
   supportTicketCategories,
   supportTicketPriorities,
   supportTicketStatuses,
@@ -114,6 +116,18 @@ function getFeedbackMessage(status?: string) {
         message:
           "Reply was saved, but ticket activity/status could not be updated. Check the server log before retrying.",
       };
+    case "reply_status_event_error":
+      return {
+        tone: "error",
+        message:
+          "Reply was saved, but the status change timeline event could not be saved. Check the server log before retrying.",
+      };
+    case "closed_reply_blocked":
+      return {
+        tone: "error",
+        message:
+          "This ticket is closed. Change the status before sending a customer-visible reply.",
+      };
     case "internal_note_error":
       return {
         tone: "error",
@@ -182,6 +196,10 @@ export default async function PlatformSupportTicketPage({
       ])
     : [[], []];
   const feedbackMessage = getFeedbackMessage(query.support);
+  const statusMetadata = ticket
+    ? getSupportTicketStatusMetadata(ticket.status)
+    : null;
+  const canReply = ticket ? canPlatformReplyOnStatus(ticket.status) : false;
 
   if (!ticket) {
     return (
@@ -285,6 +303,29 @@ export default async function PlatformSupportTicketPage({
           </p>
         </article>
       </section>
+
+      {statusMetadata ? (
+        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <h3 className="text-lg font-bold text-slate-950">
+                Status workflow
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                {statusMetadata.platformMeaning}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <PlatformStatusBadge tone={statusMetadata.isTerminal ? "amber" : "green"}>
+                {statusMetadata.isTerminal ? "Terminal" : "Active workflow"}
+              </PlatformStatusBadge>
+              <PlatformStatusBadge tone={canReply ? "green" : "amber"}>
+                {canReply ? "Reply allowed" : "Reply blocked"}
+              </PlatformStatusBadge>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
         <div className="space-y-6">
@@ -407,20 +448,39 @@ export default async function PlatformSupportTicketPage({
             <p className="mt-1 text-sm leading-6 text-slate-600">
               This reply is visible in the customer support portal.
             </p>
-            <form action={addPlatformSupportReplyAction} className="mt-4 space-y-3">
-              <input type="hidden" name="ticket_id" value={ticket.id} />
-              <textarea
-                name="body"
-                required
-                minLength={2}
-                rows={4}
-                className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950"
-                placeholder="Reply to the customer..."
-              />
-              <button className="rounded-md bg-[#0F2E23] px-4 py-2 text-sm font-bold text-white">
-                Add customer reply
-              </button>
-            </form>
+            {canReply ? (
+              <form
+                action={addPlatformSupportReplyAction}
+                className="mt-4 space-y-3"
+              >
+                <input type="hidden" name="ticket_id" value={ticket.id} />
+                <textarea
+                  name="body"
+                  required
+                  minLength={2}
+                  rows={4}
+                  className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950"
+                  placeholder="Reply to the customer..."
+                />
+                <p className="text-xs font-semibold text-slate-500">
+                  Replies move open or waiting-on-support tickets to waiting on
+                  customer. Planned and resolved tickets keep their status.
+                </p>
+                <button className="rounded-md bg-[#0F2E23] px-4 py-2 text-sm font-bold text-white">
+                  Add customer reply
+                </button>
+              </form>
+            ) : (
+              <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <p className="text-sm font-bold text-slate-950">
+                  Customer replies are blocked
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-500">
+                  This ticket is closed. Change the status before sending a
+                  customer-visible reply.
+                </p>
+              </div>
+            )}
           </section>
 
           <section className="rounded-xl border border-amber-200 bg-amber-50 p-5 shadow-sm md:p-6">

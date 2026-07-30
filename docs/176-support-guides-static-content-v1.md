@@ -22,6 +22,7 @@ Task 176 expands the authenticated EveryBatch support area with static guide con
 - Supplier Invoice Intake basics
 - Inventory overview
 - Sign-in and access troubleshooting
+- Support tickets
 
 ## Coming Soon Cards
 
@@ -79,3 +80,5 @@ No database reads or writes are added for guide content.
 Task 177 drafts the separate support ticket schema foundation. Guide content remains static and separate from support ticket records.
 
 Tasks 178-180 add the first live customer-facing ticket portal, Platform Admin support inbox and support ticket QA polish. The support home, troubleshooting and release notes now point to real ticket workflows rather than a future ticket scaffold.
+
+Task 181 updates the support tickets guide from coming-soon content to an available user guide covering ticket creation, waiting statuses, replies, resolved tickets, closed tickets and internal-note visibility.

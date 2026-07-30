@@ -217,3 +217,9 @@ Platform admins can list tickets across tenants, filter by ticket fields, open t
 Task 180 confirms the support ticket visibility model after live customer and Platform Admin testing. Customer pages continue to query only `visibility = customer`, while Platform Admin pages can review internal records through the existing platform-admin RLS path.
 
 No schema, RLS or permission seed change was required.
+
+## Task 181 Status Workflow Follow-Up
+
+Task 181 keeps the same schema and status value set, but defines the v1 lifecycle in TypeScript helpers and UI copy.
+
+New customer-created tickets now start as `waiting_on_support`. Closed tickets block customer comments and Platform customer-visible replies, while internal Platform notes remain allowed. No schema, RLS or permission seed change was required.

@@ -554,6 +554,8 @@ Platform Admin Support Inbox v1 is documented in [Platform Admin Support Inbox v
 
 Support Ticket Polish and Permission QA is documented in [Support Ticket Polish And Permission QA](docs/180-support-ticket-polish-permission-qa.md).
 
+Support Ticket Status Workflow Polish is documented in [Support Ticket Status Workflow Polish](docs/181-support-ticket-status-workflow-polish.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -588,5 +590,6 @@ Support Ticket Polish and Permission QA is documented in [Support Ticket Polish 
 - Customer-facing support ticket portal for listing tickets, creating tickets, viewing details and adding customer-visible comments
 - Platform Admin support inbox for cross-tenant ticket review, filters, status/priority/category updates, assignment, customer replies and internal notes
 - Support ticket polish and permission QA confirming customer/internal visibility, clearer support states and no required schema/RLS/permission changes
+- Support ticket status workflow polish for waiting-on-support, waiting-on-customer, resolved and closed ticket behaviour
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

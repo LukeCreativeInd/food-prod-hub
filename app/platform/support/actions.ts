@@ -5,9 +5,14 @@ import { redirect } from "next/navigation";
 
 import { requirePermissionAccess } from "@/lib/auth";
 import {
+  canPlatformReplyOnStatus,
+  getNextStatusAfterPlatformReply,
   isSupportTicketCategory,
   isSupportTicketPriority,
   isSupportTicketStatus,
+  shouldSetClosedAt,
+  shouldSetResolvedAt,
+  type SupportTicketStatus,
 } from "@/lib/support-ticket-types";
 import { createClient } from "@/lib/supabase/server";
 
@@ -48,7 +53,7 @@ async function getTicketForAction(ticketId: string) {
   const { data, error } = await supabase
     .from("support_tickets")
     .select(
-      "id, organisation_id, status, priority, category, assigned_to_profile_id",
+      "id, organisation_id, status, priority, category, assigned_to_profile_id, resolved_at, closed_at",
     )
     .eq("id", ticketId)
     .is("archived_at", null)
@@ -58,13 +63,19 @@ async function getTicketForAction(ticketId: string) {
     return null;
   }
 
+  if (!isSupportTicketStatus(data.status)) {
+    return null;
+  }
+
   return data as {
     id: string;
     organisation_id: string;
-    status: string;
+    status: SupportTicketStatus;
     priority: string;
     category: string;
     assigned_to_profile_id: string | null;
+    resolved_at: string | null;
+    closed_at: string | null;
   };
 }
 
@@ -192,11 +203,11 @@ export async function updateSupportTicketStatusAction(formData: FormData) {
     updated_at: now,
   };
 
-  if (status === "resolved") {
+  if (shouldSetResolvedAt(status) && !ticket.resolved_at) {
     updates.resolved_at = now;
   }
 
-  if (status === "closed") {
+  if (shouldSetClosedAt(status) && !ticket.closed_at) {
     updates.closed_at = now;
   }
 
@@ -474,7 +485,13 @@ export async function addPlatformSupportReplyAction(formData: FormData) {
     redirectToTicket(ticket.id, "invalid_reply");
   }
 
+  if (!canPlatformReplyOnStatus(ticket.status)) {
+    redirectToTicket(ticket.id, "closed_reply_blocked");
+  }
+
   const now = new Date().toISOString();
+  const nextStatus = getNextStatusAfterPlatformReply(ticket.status);
+  const statusWillChange = nextStatus !== ticket.status;
   const supabase = await createClient();
   const { error: commentError } = await insertTicketComment({
     supabase,
@@ -519,10 +536,23 @@ export async function addPlatformSupportReplyAction(formData: FormData) {
     .update({
       support_last_activity_at: now,
       updated_at: now,
-      status: "waiting_on_customer",
+      status: nextStatus,
     })
-    .eq("id", ticket.id)
-    .in("status", ["open", "waiting_on_support"]);
+    .eq("id", ticket.id);
+
+  const { error: statusEventError } = statusWillChange
+    ? await insertTicketEvent({
+        supabase,
+        ticketId: ticket.id,
+        organisationId: ticket.organisation_id,
+        actorProfileId: profileId,
+        eventType: "status_changed",
+        eventSummary: "Status changed after support reply",
+        visibility: "customer",
+        fromValue: ticket.status,
+        toValue: nextStatus,
+      })
+    : { error: null };
 
   if (ticketUpdateError) {
     logSupportActionError("reply_ticket_update", ticketUpdateError, {
@@ -532,6 +562,16 @@ export async function addPlatformSupportReplyAction(formData: FormData) {
     });
     revalidatePlatformSupportPaths(ticket.id);
     redirectToTicket(ticket.id, "reply_ticket_update_error");
+  }
+
+  if (statusEventError) {
+    logSupportActionError("reply_status_event_insert", statusEventError, {
+      ticketId: ticket.id,
+      organisationId: ticket.organisation_id,
+      actorProfileId: profileId,
+    });
+    revalidatePlatformSupportPaths(ticket.id);
+    redirectToTicket(ticket.id, "reply_status_event_error");
   }
 
   revalidatePlatformSupportPaths(ticket.id);

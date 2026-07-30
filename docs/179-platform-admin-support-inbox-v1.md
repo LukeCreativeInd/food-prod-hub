@@ -171,3 +171,14 @@ Task 180 confirms the Platform Admin support inbox access model and adds small p
 - inbox copy more clearly describes customer-visible replies and internal operator notes
 - empty state copy points back to the authenticated support portal
 - no RLS, schema, permission or Platform Admin route changes were required
+
+## Task 181 Status Workflow Follow-Up
+
+Task 181 makes Platform Admin customer-visible replies follow the reviewed status lifecycle:
+
+- replies to `open` or `waiting_on_support` move the ticket to `waiting_on_customer`
+- replies to `waiting_on_customer`, `planned` or `resolved` keep the current status
+- replies to `closed` tickets are blocked until the status is changed
+- internal notes remain allowed and do not change status
+
+Manual status changes preserve historical `resolved_at` and `closed_at` timestamps when moving away from those statuses.
