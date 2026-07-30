@@ -384,7 +384,7 @@ Costing snapshots may later connect to:
 - Ingredient/Packaging Costs: approved supplier prices are copied into snapshot lines.
 - Supplier Invoice Intake: future approved price changes affect future snapshots only, not historical snapshots.
 - Purchasing: future purchasing recommendations may compare forecast cost against latest snapshots.
-- Inventory receiving/stock availability: actual received lot costs may later compare with planned snapshot costs.
+- Inventory receiving/stock availability: task 193 now plans receipt lines, lots and stock movements so actual received lot costs can later compare with planned snapshot costs.
 - Production plans/batch recipes: plans and batches should eventually reference the snapshot used at release.
 - QA/non-conformance: QA holds may affect whether production output is sellable, but should not mutate historical cost snapshots.
 - Logistics/dispatch/traceability: dispatch reports may combine order/production records with snapshot costs later.

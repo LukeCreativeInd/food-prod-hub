@@ -199,6 +199,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Costing Snapshot schema foundation has been drafted with tenant-scoped snapshot header/line tables, RLS policies and dedicated permissions for review.
 - Costing Snapshot UI v1 now adds manual component cost, finished product cost and finished product margin snapshot creation, recent snapshot panels and locked snapshot detail pages.
 - Cost readiness now normalises common unit labels and supports safe metric kg/g and l/ml conversion; pack units such as bunch, box and carton still need future UOM Conversion Foundation work.
+- Inventory Receiving Workflow planning now defines the future Goods Inwards, receipt line, lot, stock movement, QA hold and traceability approach before schema/UI build work.
 
 ## Tech Stack
 
@@ -389,6 +390,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Costing Snapshot Plan](docs/190-costing-snapshot-plan.md)
 - [Costing Snapshot Schema Foundation](docs/191-costing-snapshot-schema-foundation.md)
 - [Costing Snapshot UI v1](docs/192-costing-snapshot-ui-v1.md)
+- [Inventory Receiving Workflow Plan](docs/193-inventory-receiving-workflow-plan.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

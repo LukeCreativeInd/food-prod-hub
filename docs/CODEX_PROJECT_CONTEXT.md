@@ -298,6 +298,20 @@ See:
 docs/192-costing-snapshot-ui-v1.md
 ```
 
+## Task 193 Inventory Receiving Workflow Plan
+
+Task 193 plans the future real Goods Inwards / Inventory Receiving workflow before schema or UI work. The plan separates Supplier Invoice Intake/price approval from physical receiving, recommends receipt headers, receipt lines, inventory lots and stock movements for task 194, and defines a conservative Goods Inwards UI direction for task 195.
+
+The plan recommends preserving physical receipt data even when pack-unit conversion is unknown, while preventing unknown pack units from becoming production-ready stock until UOM Conversion Foundation rules exist. It documents QA hold/release, traceability, Supplier Invoice Intake integration, permissions/RLS, Admin/Support impact and placeholder inventory copy to replace later.
+
+No migrations, tables, receiving UI, stock movements, stock balances, Supplier Invoice Intake changes, costing snapshot changes, formula changes, Production/QA/Logistics changes, auth/domain changes, RLS changes, permission changes or packages are added.
+
+See:
+
+```text
+docs/193-inventory-receiving-workflow-plan.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

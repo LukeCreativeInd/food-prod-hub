@@ -183,7 +183,7 @@ Products, Costings, Supplier Invoice Intake, Formulas, Sell Prices and Meal Marg
 - 190 Costing Snapshot Plan - now completed as the planning step for locked historical component, finished product and margin costs
 - 191 Costing Snapshot Schema Foundation - now drafted as migration 034 with snapshot header/line tables, RLS and permissions for review
 - 192 Costing Snapshot UI v1 - now adds manual snapshot creation, recent history panels and locked snapshot detail pages
-- 193 Inventory Receiving Workflow Plan
+- 193 Inventory Receiving Workflow Plan - now completed as the plan for Goods Inwards, receipt lines, lots, stock movements, QA hold/release and traceability foundations
 - 194 Inventory Stock Movement Schema Foundation
 - 195 Goods Inwards Receiving UI v1
 - 196 Unit Of Measure Standardisation Plan

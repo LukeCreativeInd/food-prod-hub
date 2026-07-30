@@ -220,3 +220,4 @@ order by archived_at desc;
 - Add snapshot history summaries to reporting once the first manual flow is tested.
 - Consider a Platform Admin snapshot support view later.
 - Consider production-plan snapshot linking after production planning is real.
+- Use the task 193 receiving workflow plan to guide future actual lot cost versus snapshot cost comparisons.
