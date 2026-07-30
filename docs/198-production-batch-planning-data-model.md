@@ -360,17 +360,14 @@ UOM conversion rules:
 
 ## Task 199 UI Plan
 
-Recommended task 199 scope:
+Task 199 has now built the first real Production Plan UI:
 
-- replace `/production-plan` static rows with real production plan list/empty state
-- add read-only or create-draft production plan UI if safe
-- show production plan lines from real `production_plan_lines`
-- link planned outputs to internal items, formula versions and costing snapshots
-- show production areas from real `production_areas`
-- keep production batches read-only or minimal-draft only until execution is planned
-- do not consume stock
-- do not create production stock movements
-- keep task/tablet execution out of scope
+- `/production-plan` now shows real production plan list/empty state.
+- `/production-plan/new` creates draft production plans.
+- `/production-plan/[id]` shows real plan detail, planned output lines and planned batch headers.
+- planned output lines link to internal items, active formula versions and latest costing snapshots when available.
+- planned batches are header-only planning records.
+- production planning still does not consume stock, reserve stock, create output stock, create production tasks or generate `stock_movements`.
 
 ## Suggested SQL Smoke Checks
 

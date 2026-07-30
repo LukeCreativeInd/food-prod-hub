@@ -424,12 +424,38 @@ export const supportGuides: SupportGuide[] = [
     categoryTitle: "Operations",
     title: "Production workflow",
     summary:
-      "Planned guide for production plans, production areas and tablet-friendly task logging.",
-    status: "coming_soon",
+      "Plan production days, planned output lines and planned batch headers before execution workflows are built.",
+    status: "available",
     audience: "Production managers and staff",
-    estimatedRead: "Coming soon",
-    sections: [],
-    relatedLinks: [],
+    estimatedRead: "5 min",
+    sections: [
+      {
+        heading: "What Production Plan v1 does",
+        body: [
+          "Production Plan v1 lets authorised users create a draft production plan for a date, add planned finished product or component outputs, and create planned batch/run headers from those lines.",
+          "Lines can attach active formula versions and recent costing snapshots when those setup records exist. If a formula is missing, the line can still be captured but is marked blocked so the setup gap is visible.",
+        ],
+      },
+      {
+        heading: "What it does not do yet",
+        body: [
+          "Production plans do not reserve inventory, consume stock, create output stock, generate facility tasks or update reports.",
+          "Planned batches are planning records only. QA release, tablet execution, stock issue, output stock movements and production reporting are future workflows.",
+        ],
+      },
+      {
+        heading: "Common checks",
+        body: [
+          "If no production areas appear, keep the line unassigned or ask an admin to review Production Areas setup later.",
+          "If a line is blocked, check whether the chosen finished product or component has an active formula.",
+        ],
+      },
+    ],
+    relatedLinks: [
+      { label: "Production Plan", href: "/production-plan" },
+      { label: "Formula Builder basics", href: "/support/guides/formula-builder-basics" },
+      { label: "Inventory basics", href: "/support/guides/inventory-basics" },
+    ],
   },
   {
     slug: "qa-checks",

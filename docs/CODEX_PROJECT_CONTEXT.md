@@ -791,3 +791,9 @@ Migration 033 intentionally does not create direct `storage.objects` policies. S
 Task 198 drafts migration `036_production_batch_planning_schema_foundation.sql` for tenant-scoped production planning. It adds `production_areas`, `production_plans`, `production_plan_lines`, `production_batches` and `production_batch_inputs`, plus production planning permissions, RLS policies, comments, indexes and TypeScript status constants.
 
 This is schema foundation only. It does not build Production Plan UI, production task execution, iPad/facility workflows, stock consumption, production stock movements, QA checks, logistics, reports, UOM conversion tables, supplier invoice changes or Goods Inwards posting changes. Task 199 should replace misleading production demo content with real empty states and real data from these tables after the migration is reviewed and applied.
+
+## Task 199 Production Plan UI v1
+
+Task 199 replaces the fake `/production-plan` demo surface with real production planning UI. Users with the right permissions can view production plans, create a draft plan, open plan detail, add planned finished product/component output lines and create planned production batch headers.
+
+This remains planning-only. It does not reserve or consume stock, create inventory lots, create `stock_movements`, create production output stock, generate production tasks, build tablet/facility execution, generate batch inputs, change Goods Inwards/Supplier Invoice Intake/costing/formula logic, alter RLS/permissions, or add packages. Support guide, troubleshooting and release-note text now mention Production Plan UI v1.

@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 
 const releaseNotes = [
   {
+    label: "Production",
+    title: "Production Plan UI v1",
+    description:
+      "Production Plan now uses real planning records. Users can create draft plans, add planned finished product or component output lines and create planned batch headers without reserving or consuming stock.",
+  },
+  {
     label: "Inventory",
     title: "Supplier invoice to Goods Inwards draft",
     description:

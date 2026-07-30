@@ -25,6 +25,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/production": { title: "Production", context: "Operations" },
   "/production-report": { title: "Production Report", context: "Production" },
   "/production-plan": { title: "Production Plan", context: "Production" },
+  "/production-plan/new": { title: "New Production Plan", context: "Production" },
   "/production-areas": { title: "Production Areas", context: "Production" },
   "/production-tasks": { title: "Production Tasks", context: "Production" },
   "/facility-view": { title: "Facility/iPad View", context: "Production" },
@@ -140,6 +141,10 @@ const dynamicPageTitles: Array<{
   {
     pattern: /^\/finished-products\/[^/]+$/,
     meta: { title: "Finished Product Detail", context: "Products" },
+  },
+  {
+    pattern: /^\/production-plan\/[^/]+$/,
+    meta: { title: "Production Plan Detail", context: "Production" },
   },
   {
     pattern: /^\/support\/guides\/[^/]+$/,

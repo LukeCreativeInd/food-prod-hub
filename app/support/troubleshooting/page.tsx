@@ -40,6 +40,16 @@ const troubleshootingTopics = [
       "Check that invoice lines are committed or mapped to internal stock items, have positive quantities and units, and that you selected an active stock location. Informational, non-stock and already-sent lines are skipped.",
   },
   {
+    title: "A Production Plan line is blocked",
+    description:
+      "Check whether the selected finished product or component has an active formula. Production Plan v1 can capture the line, but it marks missing formula setup as blocked for review.",
+  },
+  {
+    title: "No Production Areas are available",
+    description:
+      "Production areas are optional in Production Plan v1. You can leave the area blank until the workspace has active production area records.",
+  },
+  {
     title: "Invoice upload has unknown lines",
     description:
       "Review the line source text, supplier item, classification and internal item mapping before committing.",
