@@ -11,14 +11,16 @@ import {
   getPlatformSupportInbox,
   getPlatformSupportInboxSummary,
   getPlatformSupportOrganisations,
-  type PlatformSupportTicketFilters,
 } from "@/lib/platform-support-ticket-data";
 import { getSupportModuleLabel } from "@/lib/support-ticket-page-context";
 import {
+  buildSupportTicketQueryString,
+  parseSupportTicketFilters,
+  parseSupportTicketPage,
+  supportTicketPageSize,
+} from "@/lib/support-ticket-query";
+import {
   formatSupportTicketValue,
-  isSupportTicketCategory,
-  isSupportTicketPriority,
-  isSupportTicketStatus,
   supportTicketCategories,
   supportTicketPriorities,
   supportTicketStatuses,
@@ -28,18 +30,35 @@ export const metadata: Metadata = {
   title: "Platform Support Inbox - EveryBatch",
 };
 
-const uuidPattern =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
 type PlatformSupportPageProps = {
   searchParams: Promise<{
     status?: string;
     priority?: string;
     category?: string;
     organisationId?: string;
+    moduleKey?: string;
     q?: string;
+    page?: string;
   }>;
 };
+
+const supportModuleFilterOptions = [
+  "dashboard",
+  "products",
+  "formulas",
+  "costings",
+  "inventory",
+  "purchasing",
+  "supplier_invoice_intake",
+  "production",
+  "qa",
+  "logistics",
+  "reports",
+  "crm",
+  "admin",
+  "platform_admin",
+  "support",
+];
 
 function formatDateTime(value: string) {
   return new Intl.DateTimeFormat("en-AU", {
@@ -54,46 +73,44 @@ function personLabel(
   return person?.full_name || person?.email || "Unassigned";
 }
 
-function normaliseFilters(
-  params: Awaited<PlatformSupportPageProps["searchParams"]>,
-): PlatformSupportTicketFilters & {
-  status: NonNullable<PlatformSupportTicketFilters["status"]>;
-  priority: NonNullable<PlatformSupportTicketFilters["priority"]>;
-  category: NonNullable<PlatformSupportTicketFilters["category"]>;
-  organisationId: NonNullable<PlatformSupportTicketFilters["organisationId"]>;
-  q: string;
-} {
-  return {
-    status:
-      params.status && isSupportTicketStatus(params.status)
-        ? params.status
-        : "all",
-    priority:
-      params.priority && isSupportTicketPriority(params.priority)
-        ? params.priority
-        : "all",
-    category:
-      params.category && isSupportTicketCategory(params.category)
-        ? params.category
-        : "all",
-    organisationId:
-      params.organisationId && uuidPattern.test(params.organisationId)
-        ? params.organisationId
-        : "all",
-    q: params.q?.trim() || "",
-  };
-}
-
 export default async function PlatformSupportPage({
   searchParams,
 }: PlatformSupportPageProps) {
   const params = await searchParams;
-  const filters = normaliseFilters(params);
-  const [tickets, summary, organisations] = await Promise.all([
-    getPlatformSupportInbox(filters),
+  const filters = parseSupportTicketFilters(params);
+  const pagination = parseSupportTicketPage(params.page, supportTicketPageSize);
+  const [inboxPage, summary, organisations] = await Promise.all([
+    getPlatformSupportInbox(filters, pagination),
     getPlatformSupportInboxSummary(),
     getPlatformSupportOrganisations(),
   ]);
+  const tickets = inboxPage.tickets;
+  const totalCount = inboxPage.totalCount ?? 0;
+  const showingStart = totalCount > 0 ? pagination.offset + 1 : 0;
+  const showingEnd = Math.min(pagination.offset + tickets.length, totalCount);
+  const hasPrevious = pagination.page > 1;
+  const hasNext = pagination.offset + tickets.length < totalCount;
+  const activeFilters = [
+    filters.status !== "all"
+      ? `Status: ${formatSupportTicketValue(filters.status)}`
+      : null,
+    filters.priority !== "all"
+      ? `Priority: ${formatSupportTicketValue(filters.priority)}`
+      : null,
+    filters.category !== "all"
+      ? `Category: ${formatSupportTicketValue(filters.category)}`
+      : null,
+    filters.organisationId !== "all"
+      ? `Tenant: ${
+          organisations.find((organisation) => organisation.id === filters.organisationId)
+            ?.name ?? "Selected tenant"
+        }`
+      : null,
+    filters.moduleKey !== "all"
+      ? `Module: ${getSupportModuleLabel(filters.moduleKey) ?? filters.moduleKey}`
+      : null,
+    filters.activeQ ? `Search: ${filters.activeQ}` : null,
+  ].filter((filter): filter is string => Boolean(filter));
 
   return (
     <div className="space-y-6 bg-[#F2F4F7] px-5 py-6 md:px-8 md:py-8">
@@ -147,14 +164,14 @@ export default async function PlatformSupportPage({
           <div>
             <h2 className="text-lg font-bold text-slate-950">Filters</h2>
             <p className="mt-1 text-sm leading-6 text-slate-600">
-              Narrow the operator inbox by tenant, status, priority, category or
-              title/description search.
+              Narrow the operator inbox by tenant, status, priority, category,
+              module context or title/description search.
             </p>
           </div>
-          <PlatformStatusBadge tone="amber">Recent 100</PlatformStatusBadge>
+          <PlatformStatusBadge tone="amber">25 per page</PlatformStatusBadge>
         </div>
 
-        <form className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <form className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-6">
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
             Status
             <select
@@ -216,6 +233,21 @@ export default async function PlatformSupportPage({
             </select>
           </label>
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            Module
+            <select
+              name="moduleKey"
+              defaultValue={filters.moduleKey}
+              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950"
+            >
+              <option value="all">All modules</option>
+              {supportModuleFilterOptions.map((moduleKey) => (
+                <option key={moduleKey} value={moduleKey}>
+                  {getSupportModuleLabel(moduleKey)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
             Search
             <input
               name="q"
@@ -224,7 +256,7 @@ export default async function PlatformSupportPage({
               className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950"
             />
           </label>
-          <div className="flex gap-3 md:col-span-2 xl:col-span-5">
+          <div className="flex flex-wrap gap-3 md:col-span-2 xl:col-span-6">
             <button
               type="submit"
               className="inline-flex items-center justify-center rounded-md bg-[#0F2E23] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#174231]"
@@ -239,6 +271,20 @@ export default async function PlatformSupportPage({
             </Link>
           </div>
         </form>
+        {filters.qTooShort ? (
+          <p className="mt-3 text-sm font-semibold text-amber-800">
+            Search needs at least 2 characters, so it was ignored.
+          </p>
+        ) : null}
+        {activeFilters.length > 0 ? (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {activeFilters.map((filter) => (
+              <PlatformStatusBadge key={filter} tone="blue">
+                {filter}
+              </PlatformStatusBadge>
+            ))}
+          </div>
+        ) : null}
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
@@ -249,7 +295,11 @@ export default async function PlatformSupportPage({
               Cross-tenant support tickets visible to platform admins.
             </p>
           </div>
-          <PlatformStatusBadge tone="blue">{tickets.length} shown</PlatformStatusBadge>
+          <PlatformStatusBadge tone="blue">
+            {totalCount > 0
+              ? `Showing ${showingStart}-${showingEnd} of ${totalCount}`
+              : "No matches"}
+          </PlatformStatusBadge>
         </div>
 
         <div className="mt-5 overflow-hidden rounded-lg border border-slate-200">
@@ -314,7 +364,52 @@ export default async function PlatformSupportPage({
                   Clear filters or wait for customer tickets from the
                   authenticated support portal.
                 </p>
+                <Link
+                  href="/platform/support"
+                  className="mt-4 inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+                >
+                  Clear filters
+                </Link>
               </div>
+            )}
+          </div>
+        </div>
+        <div className="mt-5 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm font-semibold text-slate-500">
+            {totalCount > 0
+              ? `Showing ${showingStart}-${showingEnd} of ${totalCount} tickets`
+              : "No tickets to show"}
+          </p>
+          <div className="flex gap-2">
+            {hasPrevious ? (
+              <Link
+                href={`/platform/support${buildSupportTicketQueryString(
+                  filters,
+                  pagination.page - 1,
+                )}`}
+                className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+              >
+                Previous
+              </Link>
+            ) : (
+              <span className="inline-flex cursor-not-allowed items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-bold text-slate-400">
+                Previous
+              </span>
+            )}
+            {hasNext ? (
+              <Link
+                href={`/platform/support${buildSupportTicketQueryString(
+                  filters,
+                  pagination.page + 1,
+                )}`}
+                className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+              >
+                Next
+              </Link>
+            ) : (
+              <span className="inline-flex cursor-not-allowed items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-bold text-slate-400">
+                Next
+              </span>
             )}
           </div>
         </div>

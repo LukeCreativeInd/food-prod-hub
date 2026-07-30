@@ -50,6 +50,11 @@ const troubleshootingTopics = [
       "Confirm the ticket belongs to the selected workspace. Customer users only see customer-visible support tickets for their own workspace.",
   },
   {
+    title: "Ticket filters hide a request",
+    description:
+      "Clear status, category or search filters on the ticket list, then check the selected workspace again.",
+  },
+  {
     title: "A support reply is missing",
     description:
       "Customer pages show customer-visible replies and timeline events only. Internal operator notes are kept in Platform Admin and are not shown to customer users.",

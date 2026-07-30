@@ -80,6 +80,12 @@ Platform Admin ticket detail and inbox also show related context when present.
 
 No absolute tenant-domain link is generated yet because tenant-domain context and workspace selection should remain explicit and safe.
 
+## Task 183 List Polish Follow-Up
+
+Task 183 adds Platform Admin filtering by `related_module_key` and shows the same related context in the customer ticket list when present.
+
+Context-aware ticket creation, sanitisation and write behaviour are unchanged.
+
 ## Admin And Support Impact
 
 Platform Admin impact:

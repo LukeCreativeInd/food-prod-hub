@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Support",
+    title: "Support inbox search and pagination",
+    description:
+      "Platform Admin support now has safer pagination, clearer filters and module-context search controls. Customer ticket lists also have lightweight search and filter controls.",
+  },
+  {
+    label: "Support",
     title: "Context-aware support tickets",
     description:
       "The app Help menu can now create support tickets with safe page and module context, helping EveryBatch support understand where an issue was reported.",

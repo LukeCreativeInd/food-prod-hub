@@ -491,6 +491,13 @@ export const supportGuides: SupportGuide[] = [
         ],
       },
       {
+        heading: "Find tickets",
+        body: [
+          "Use status, category and search filters on the ticket list when you need to find a previous request.",
+          "Clear filters if a ticket seems missing, then confirm the selected workspace is correct.",
+        ],
+      },
+      {
         heading: "What customers can see",
         body: [
           "The customer support portal shows customer-visible comments and timeline events only.",

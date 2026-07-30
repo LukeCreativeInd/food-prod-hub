@@ -9,8 +9,20 @@ import {
 import { EmptyState } from "@/components/ui/empty-state";
 import { SectionCard } from "@/components/ui/section-card";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { getSupportModuleLabel } from "@/lib/support-ticket-page-context";
 import { getSupportTicketOrganisationContext } from "@/lib/support-ticket-context";
 import { getSupportTicketsForOrganisation } from "@/lib/support-ticket-data";
+import {
+  buildSupportTicketQueryString,
+  parseSupportTicketFilters,
+  parseSupportTicketPage,
+  supportTicketCustomerPageSize,
+} from "@/lib/support-ticket-query";
+import {
+  formatSupportTicketValue,
+  supportTicketCategories,
+  supportTicketStatuses,
+} from "@/lib/support-ticket-types";
 
 export const metadata: Metadata = {
   title: "Support Tickets - EveryBatch",
@@ -20,6 +32,10 @@ type SupportTicketsPageProps = {
   searchParams: Promise<{
     organisationId?: string;
     ticket?: string;
+    status?: string;
+    category?: string;
+    q?: string;
+    page?: string;
   }>;
 };
 
@@ -53,14 +69,42 @@ export default async function SupportTicketsPage({
   searchParams,
 }: SupportTicketsPageProps) {
   const params = await searchParams;
+  const filters = parseSupportTicketFilters(params);
+  const pagination = parseSupportTicketPage(
+    params.page,
+    supportTicketCustomerPageSize,
+  );
   const context = await getSupportTicketOrganisationContext(
     params.organisationId,
   );
   const selectedOrganisation = context.selectedOrganisation;
-  const tickets = selectedOrganisation
-    ? await getSupportTicketsForOrganisation(selectedOrganisation.id)
-    : [];
+  const ticketPage = selectedOrganisation
+    ? await getSupportTicketsForOrganisation(
+        selectedOrganisation.id,
+        filters,
+        pagination,
+      )
+    : { tickets: [], totalCount: 0 };
+  const tickets = ticketPage.tickets;
+  const totalCount = ticketPage.totalCount ?? 0;
+  const showingStart = totalCount > 0 ? pagination.offset + 1 : 0;
+  const showingEnd = Math.min(pagination.offset + tickets.length, totalCount);
+  const hasPrevious = pagination.page > 1;
+  const hasNext = pagination.offset + tickets.length < totalCount;
   const statusMessage = getStatusMessage(params.ticket);
+  const activeFilters = [
+    filters.status !== "all"
+      ? `Status: ${formatSupportTicketValue(filters.status)}`
+      : null,
+    filters.category !== "all"
+      ? `Category: ${formatSupportTicketValue(filters.category)}`
+      : null,
+    filters.activeQ ? `Search: ${filters.activeQ}` : null,
+  ].filter((filter): filter is string => Boolean(filter));
+  const listFilters = {
+    ...filters,
+    organisationId: selectedOrganisation?.id ?? filters.organisationId,
+  };
 
   return (
     <div className="space-y-6">
@@ -140,8 +184,8 @@ export default async function SupportTicketsPage({
           </div>
           {context.isPlatformAdmin ? (
             <p className="mt-4 text-sm leading-6 text-slate-500">
-              Platform Admin Support Inbox is planned next. This page is the
-              customer-facing ticket view for a selected workspace.
+              This page is the customer-facing ticket view for a selected
+              workspace. Use Platform Admin for the cross-tenant support inbox.
             </p>
           ) : null}
         </SectionCard>
@@ -162,6 +206,80 @@ export default async function SupportTicketsPage({
             ) : null
           }
         >
+          <form className="mb-5 grid gap-3 md:grid-cols-[1fr_1fr_1.4fr_auto]">
+            <input
+              type="hidden"
+              name="organisationId"
+              value={selectedOrganisation.id}
+            />
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+              Status
+              <select
+                name="status"
+                defaultValue={filters.status}
+                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950"
+              >
+                <option value="all">All statuses</option>
+                {supportTicketStatuses.map((status) => (
+                  <option key={status} value={status}>
+                    {formatSupportTicketValue(status)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+              Category
+              <select
+                name="category"
+                defaultValue={filters.category}
+                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950"
+              >
+                <option value="all">All categories</option>
+                {supportTicketCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {formatSupportTicketValue(category)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+              Search
+              <input
+                name="q"
+                defaultValue={filters.q}
+                placeholder="Title or description"
+                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950"
+              />
+            </label>
+            <div className="flex items-end gap-2">
+              <button
+                type="submit"
+                className="inline-flex min-h-10 flex-1 items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800 md:flex-none"
+              >
+                Apply
+              </button>
+              <Link
+                href={`/support/tickets?organisationId=${selectedOrganisation.id}`}
+                className="inline-flex min-h-10 flex-1 items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-50 md:flex-none"
+              >
+                Clear
+              </Link>
+            </div>
+          </form>
+          {filters.qTooShort ? (
+            <p className="mb-3 text-sm font-semibold text-amber-800">
+              Search needs at least 2 characters, so it was ignored.
+            </p>
+          ) : null}
+          {activeFilters.length > 0 ? (
+            <div className="mb-5 flex flex-wrap gap-2">
+              {activeFilters.map((filter) => (
+                <StatusBadge key={filter} tone="info">
+                  {filter}
+                </StatusBadge>
+              ))}
+            </div>
+          ) : null}
           {tickets.length > 0 ? (
             <div className="space-y-3">
               {tickets.map((ticket) => (
@@ -188,20 +306,82 @@ export default async function SupportTicketsPage({
                   <div className="mt-3 text-xs text-slate-500">
                     Created {formatDateTime(ticket.created_at)}
                   </div>
+                  {ticket.related_module_key || ticket.related_path ? (
+                    <div className="mt-3 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-500">
+                      {ticket.related_module_key
+                        ? getSupportModuleLabel(ticket.related_module_key)
+                        : "Related page"}
+                      {ticket.related_path ? ` / ${ticket.related_path}` : ""}
+                    </div>
+                  ) : null}
                 </Link>
               ))}
+              <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm font-semibold text-slate-500">
+                  Showing {showingStart}-{showingEnd} of {totalCount} tickets
+                </p>
+                <div className="flex gap-2">
+                  {hasPrevious ? (
+                    <Link
+                      href={`/support/tickets${buildSupportTicketQueryString(
+                        listFilters,
+                        pagination.page - 1,
+                      )}`}
+                      className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+                    >
+                      Previous
+                    </Link>
+                  ) : (
+                    <span className="inline-flex cursor-not-allowed items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-bold text-slate-400">
+                      Previous
+                    </span>
+                  )}
+                  {hasNext ? (
+                    <Link
+                      href={`/support/tickets${buildSupportTicketQueryString(
+                        listFilters,
+                        pagination.page + 1,
+                      )}`}
+                      className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+                    >
+                      Next
+                    </Link>
+                  ) : (
+                    <span className="inline-flex cursor-not-allowed items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-bold text-slate-400">
+                      Next
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
           ) : (
             <EmptyState
-              title="No support tickets yet"
-              description="Create a ticket when you need help with access, product data, costings, invoice intake or another EveryBatch workflow."
+              title={
+                activeFilters.length > 0
+                  ? "No tickets match these filters"
+                  : "No support tickets yet"
+              }
+              description={
+                activeFilters.length > 0
+                  ? "Clear filters to return to all customer-visible tickets for this workspace."
+                  : "Create a ticket when you need help with access, product data, costings, invoice intake or another EveryBatch workflow."
+              }
               action={
-                <Link
-                  href={`/support/tickets/new?organisationId=${selectedOrganisation.id}`}
-                  className="inline-flex items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800"
-                >
-                  New ticket
-                </Link>
+                activeFilters.length > 0 ? (
+                  <Link
+                    href={`/support/tickets?organisationId=${selectedOrganisation.id}`}
+                    className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+                  >
+                    Clear filters
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/support/tickets/new?organisationId=${selectedOrganisation.id}`}
+                    className="inline-flex items-center justify-center rounded-md bg-green-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800"
+                  >
+                    New ticket
+                  </Link>
+                )
               }
             />
           )}

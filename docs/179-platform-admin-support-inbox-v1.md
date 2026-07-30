@@ -24,9 +24,10 @@ The inbox includes:
 - category filter
 - tenant filter
 - title/description search
-- recent ticket list ordered by `updated_at desc`
+- related module filter after context-aware ticket creation
+- paginated ticket list ordered by `updated_at desc`
 
-The first pass limits the visible list to recent ticket records and does not add pagination.
+Task 183 replaces the first-pass recent-list limit with safe 25-ticket pagination, count display and previous/next controls.
 
 ## Ticket Detail
 
@@ -130,7 +131,7 @@ Task 179 does not include:
 - Support Ticket Attachments
 - Support Email Notifications
 - Support Assignment/User Search
-- Support Inbox Pagination/Search polish
+- Support inbox full-text search and saved views
 - Context-aware ticket creation from app pages
 
 ## Smoke Checks
@@ -188,3 +189,11 @@ Manual status changes preserve historical `resolved_at` and `closed_at` timestam
 Task 182 adds related page/module context display to Platform Admin support inbox rows and ticket detail pages.
 
 No Platform Admin workflow, permission or route structure change was required.
+
+## Task 183 Search And Pagination Follow-Up
+
+Task 183 adds server-side pagination, safer query-param parsing, active filter chips, module-context filtering and clearer empty states to `/platform/support`.
+
+Summary cards remain global Platform Admin inbox health counts rather than filter-bound counts.
+
+No schema, migration, RLS or permission change was required.

@@ -135,12 +135,18 @@ No migration, RLS or permission change was required.
 
 Task 182 implements the context-aware creation follow-up noted in this QA pass. Users can create a ticket from the app Help menu with safe related page/module context, and customer/Platform detail pages display that context when present.
 
+## Task 183 Search And Pagination Follow-Up
+
+Task 183 completes the first support inbox pagination/search polish follow-up. Platform Admin support now uses bounded pagination, safe query-param parsing, module-context filtering and clearer active-filter/empty states. Customer ticket lists now have lightweight status/category/search filters and show related context when present.
+
+No schema, migration, RLS or permission change was required.
+
 ## Remaining Follow-Ups
 
 - Support ticket attachments.
 - Email notifications.
 - Support assignment/user search.
-- Support inbox pagination and richer search.
+- Full-text support search and saved inbox views.
 - Context-aware ticket creation from tenant app pages.
 - Dedicated support-agent roles and permissions.
 - Audit log writes for important support actions.

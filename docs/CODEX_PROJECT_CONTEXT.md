@@ -607,3 +607,9 @@ Task 182 adds safe context-aware ticket creation. `lib/support-ticket-page-conte
 The new ticket page accepts `relatedPath`, `moduleKey`, `category`, `priority`, `title` and existing `organisationId` params, displays a linked context card when present, and server actions re-sanitise path/module/category before writing. Customer and Platform support detail pages display related context, and Platform inbox rows show compact context hints.
 
 No support ticket schema, migration, RLS, permission, auth/domain routing, notification, attachment, screenshot, browser metadata, external integration or business module change is included.
+
+## Task 183 Support Inbox Search And Pagination Polish
+
+Task 183 improves support ticket list usability without schema changes. `/platform/support` now uses safe page parsing, 25-ticket server-side pagination, count display, active filter chips, validated status/priority/category/tenant/module filters and bounded title/description search. Summary cards remain global Platform Admin inbox health counts rather than filter-bound counts.
+
+Customer `/support/tickets` now has lightweight status/category/search filters, 25-ticket pagination, clearer empty states and related module/path context on ticket rows when present. Customer detail visibility remains unchanged: internal notes/events are still Platform Admin-only. No support ticket schema, migration, RLS, permission, auth/domain routing, notification, attachment, realtime, external integration or business module change is included.

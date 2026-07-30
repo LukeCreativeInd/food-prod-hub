@@ -175,3 +175,7 @@ limit 40;
 ## Task 182 Context-Aware Creation Follow-Up
 
 Task 182 does not change the status lifecycle. New context-aware tickets still start as `waiting_on_support`, and subsequent customer/Platform replies follow the same status rules documented above.
+
+## Task 183 List Polish Follow-Up
+
+Task 183 does not change the status lifecycle. It improves Platform Admin and customer ticket list search/filter/pagination while continuing to use the same `waiting_on_support`, `waiting_on_customer`, `planned`, `resolved` and `closed` lifecycle states.

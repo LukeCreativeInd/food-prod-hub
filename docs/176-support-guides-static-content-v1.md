@@ -84,3 +84,5 @@ Tasks 178-180 add the first live customer-facing ticket portal, Platform Admin s
 Task 181 updates the support tickets guide from coming-soon content to an available user guide covering ticket creation, waiting statuses, replies, resolved tickets, closed tickets and internal-note visibility.
 
 Task 182 updates the same guide to mention the app Help menu's context-aware `Report an issue on this page` flow.
+
+Task 183 updates support ticket list behaviour with customer-facing search/filter controls and Platform Admin inbox pagination/filter polish. Guide content remains static and separate from database-backed support ticket records.

@@ -558,6 +558,8 @@ Support Ticket Status Workflow Polish is documented in [Support Ticket Status Wo
 
 Support Ticket Context-Aware Creation is documented in [Support Ticket Context-Aware Creation](docs/182-support-ticket-context-aware-creation.md).
 
+Support Inbox Search and Pagination Polish is documented in [Support Inbox Search And Pagination Polish](docs/183-support-inbox-search-pagination-polish.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -594,5 +596,6 @@ Support Ticket Context-Aware Creation is documented in [Support Ticket Context-A
 - Support ticket polish and permission QA confirming customer/internal visibility, clearer support states and no required schema/RLS/permission changes
 - Support ticket status workflow polish for waiting-on-support, waiting-on-customer, resolved and closed ticket behaviour
 - Context-aware support ticket creation from the app Help menu with safe related page/module defaults
+- Platform Admin support inbox pagination/search/filter polish and customer ticket list filter polish
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.

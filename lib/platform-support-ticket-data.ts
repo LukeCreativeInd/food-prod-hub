@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getSupportTicketIlikePattern } from "@/lib/support-ticket-query";
 import type {
   SupportTicketCategory,
   SupportTicketPriority,
@@ -10,7 +11,13 @@ export type PlatformSupportTicketFilters = {
   priority?: SupportTicketPriority | "all";
   category?: SupportTicketCategory | "all";
   organisationId?: string | "all";
-  q?: string;
+  moduleKey?: string | "all";
+  activeQ?: string | null;
+};
+
+export type PlatformSupportInboxPage = {
+  tickets: PlatformSupportTicket[];
+  totalCount: number | null;
 };
 
 type SupportTicketRow = {
@@ -152,22 +159,10 @@ async function hydrateTickets(rows: SupportTicketRow[]) {
   }));
 }
 
-function matchesSearch(ticket: SupportTicketRow, q?: string) {
-  const search = q?.trim().toLowerCase();
-
-  if (!search) {
-    return true;
-  }
-
-  return (
-    ticket.title.toLowerCase().includes(search) ||
-    ticket.description.toLowerCase().includes(search)
-  );
-}
-
 export async function getPlatformSupportInbox(
   filters: PlatformSupportTicketFilters,
-) {
+  pagination: { offset: number; to: number },
+): Promise<PlatformSupportInboxPage> {
   const supabase = await createClient();
   let query = supabase
     .from("support_tickets")
@@ -193,10 +188,11 @@ export async function getPlatformSupportInbox(
       updated_at,
       archived_at
       `,
+      { count: "exact" },
     )
     .is("archived_at", null)
     .order("updated_at", { ascending: false })
-    .limit(100);
+    .range(pagination.offset, pagination.to);
 
   if (filters.status && filters.status !== "all") {
     query = query.eq("status", filters.status);
@@ -214,17 +210,26 @@ export async function getPlatformSupportInbox(
     query = query.eq("organisation_id", filters.organisationId);
   }
 
-  const { data, error } = await query;
-
-  if (error || !data) {
-    return [];
+  if (filters.moduleKey && filters.moduleKey !== "all") {
+    query = query.eq("related_module_key", filters.moduleKey);
   }
 
-  const filteredRows = (data as SupportTicketRow[]).filter((ticket) =>
-    matchesSearch(ticket, filters.q),
-  );
+  if (filters.activeQ) {
+    const pattern = getSupportTicketIlikePattern(filters.activeQ);
 
-  return hydrateTickets(filteredRows);
+    query = query.or(`title.ilike.${pattern},description.ilike.${pattern}`);
+  }
+
+  const { data, error, count } = await query;
+
+  if (error || !data) {
+    return { tickets: [], totalCount: 0 };
+  }
+
+  return {
+    tickets: await hydrateTickets(data as SupportTicketRow[]),
+    totalCount: count,
+  };
 }
 
 async function countTicketsByFilter(

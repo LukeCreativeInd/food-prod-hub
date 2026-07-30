@@ -1,4 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
+import { getSupportTicketIlikePattern } from "@/lib/support-ticket-query";
+import type {
+  SupportTicketCategory,
+  SupportTicketStatus,
+} from "@/lib/support-ticket-types";
 
 export type SupportTicketListItem = {
   id: string;
@@ -8,9 +13,22 @@ export type SupportTicketListItem = {
   priority: string;
   category: string;
   source: string;
+  related_path: string | null;
+  related_module_key: string | null;
   created_at: string;
   updated_at: string;
   archived_at: string | null;
+};
+
+export type SupportTicketListFilters = {
+  status?: SupportTicketStatus | "all";
+  category?: SupportTicketCategory | "all";
+  activeQ?: string | null;
+};
+
+export type SupportTicketListPage = {
+  tickets: SupportTicketListItem[];
+  totalCount: number | null;
 };
 
 export type SupportTicketDetail = SupportTicketListItem & {
@@ -69,22 +87,50 @@ export type SupportTicketEvent = {
 
 export async function getSupportTicketsForOrganisation(
   organisationId: string,
-) {
+  filters: SupportTicketListFilters = {},
+  pagination?: { offset: number; to: number },
+): Promise<SupportTicketListPage> {
   const supabase = await createClient();
-  const { data, error } = await supabase
+  let query = supabase
     .from("support_tickets")
     .select(
-      "id, organisation_id, title, status, priority, category, source, created_at, updated_at, archived_at",
+      "id, organisation_id, title, status, priority, category, source, related_path, related_module_key, created_at, updated_at, archived_at",
+      { count: "exact" },
     )
     .eq("organisation_id", organisationId)
     .is("archived_at", null)
     .order("updated_at", { ascending: false });
 
-  if (error) {
-    return [];
+  if (filters.status && filters.status !== "all") {
+    query = query.eq("status", filters.status);
   }
 
-  return (data as SupportTicketListItem[] | null) ?? [];
+  if (filters.category && filters.category !== "all") {
+    query = query.eq("category", filters.category);
+  }
+
+  if (filters.activeQ) {
+    const pattern = getSupportTicketIlikePattern(filters.activeQ);
+
+    query = query.or(`title.ilike.${pattern},description.ilike.${pattern}`);
+  }
+
+  if (pagination) {
+    query = query.range(pagination.offset, pagination.to);
+  } else {
+    query = query.limit(50);
+  }
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    return { tickets: [], totalCount: 0 };
+  }
+
+  return {
+    tickets: (data as SupportTicketListItem[] | null) ?? [],
+    totalCount: count,
+  };
 }
 
 export async function getSupportTicketDetail(ticketId: string) {
