@@ -813,3 +813,11 @@ Task 201 documents how QA, Logistics, Reports and CRM should connect into the Ph
 The task records QA, Logistics, Reports and CRM integration maps, a cross-module lifecycle from supplier invoice to future dispatch/reporting, permission and Platform Admin impact, Support Help Centre/troubleshooting/release-note impact and scaffold/demo cleanup findings for QA, Logistics, Reports, CRM, Production Report, Production Tasks and Facility/iPad surfaces.
 
 The 201-250 roadmap order remains unchanged: keep UOM conversion next, then inventory/production hardening, QA, Logistics, Reports and CRM in the planned sequence. The 201+ prompt template now includes source-of-truth impact checks. No UI, schema, migration, RLS, permission, auth/domain routing, business logic or package changes are included.
+
+## Task 202 UOM Conversion Foundation Plan
+
+Task 202 documents the UOM Conversion Foundation before schema or UI work. The plan confirms that global metric conversions such as kg/g and l/ml can remain safe in code, while pack units such as bunch, box, carton, bottle, bag, tub, tray and packet must not be guessed.
+
+The recommended future model is tenant-scoped `uom_conversion_rules` with rule scopes for tenant, internal item and supplier item. Matching priority should prefer supplier-item-specific rules, then internal-item-specific rules, then tenant generic rules, then global metric conversion, then blocked/no conversion. The plan covers conversion math, direct/reverse conversion handling, source/review metadata, permissions/RLS planning, UI placement under Products, Admin/Support impact, cross-module impact, audit/reporting considerations and risks/controls.
+
+No UI, schema, migration, RLS, permission, unit conversion helper, costing, Goods Inwards, Supplier Invoice Intake, production planning, auth/domain routing, business logic or package changes are included.

@@ -368,6 +368,7 @@ Current storage areas include private purchase document uploads and organisation
 - RLS safety must be rechecked after each new table/policy.
 - Sequential write flows should move to transaction-safe RPCs where partial writes are risky.
 - Unit conversion gaps can block costing, receiving and production confidence.
+- Pack-unit conversions must be reviewed tenant/item/supplier rules rather than global guesses.
 - Data quality risk is high until Clean Eats masters/formulas/conversions are reviewed.
 - User permission risk remains until real staff roles are tested.
 - Demo/scaffold confusion risk remains in QA, Logistics, CRM, Reports and some production surfaces.

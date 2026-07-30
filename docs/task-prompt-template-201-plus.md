@@ -92,6 +92,7 @@ Document:
 - whether this duplicates data owned by another module
 - whether this affects reporting dimensions
 - whether this should emit audit log events later
+- whether unit-of-measure conversion rules are needed instead of guessing pack sizes
 
 Dummy/demo content requirement:
 Identify any fake/demo/scaffold/reference-only content touched by this task.
