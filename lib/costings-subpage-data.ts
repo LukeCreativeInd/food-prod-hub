@@ -1,6 +1,7 @@
 import { requirePermissionAccessWithPermissions } from "@/lib/auth";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { createClient } from "@/lib/supabase/server";
+import { convertQuantity, describeUnitMismatch } from "@/lib/unit-conversions";
 
 type InternalItemRow = {
   id: string;
@@ -690,12 +691,24 @@ function buildFormulaCostContext(data: BaseCostingsData) {
           return;
         }
 
-        if (componentCost.outputUnit !== line.unit) {
-          blockers.push(`${inputItem.display_name}: unit conversion required`);
+        const convertedQuantity = convertQuantity(
+          quantity,
+          line.unit,
+          componentCost.outputUnit,
+        );
+
+        if (convertedQuantity === null) {
+          blockers.push(
+            `${inputItem.display_name}: ${describeUnitMismatch(
+              line.unit,
+              componentCost.outputUnit,
+              "cost source",
+            )}`,
+          );
           return;
         }
 
-        totalCost += componentCost.unitCost * quantity;
+        totalCost += componentCost.unitCost * convertedQuantity;
         pricedLineCount += 1;
         return;
       }
@@ -713,12 +726,21 @@ function buildFormulaCostContext(data: BaseCostingsData) {
         return;
       }
 
-      if (!price.purchase_unit || price.purchase_unit !== line.unit) {
-        blockers.push(`${inputItem.display_name}: unit conversion required`);
+      const convertedQuantity = price.purchase_unit
+        ? convertQuantity(quantity, line.unit, price.purchase_unit)
+        : null;
+
+      if (!price.purchase_unit || convertedQuantity === null) {
+        blockers.push(
+          `${inputItem.display_name}: ${describeUnitMismatch(
+            line.unit,
+            price.purchase_unit,
+          )}`,
+        );
         return;
       }
 
-      totalCost += priceValue * quantity;
+      totalCost += priceValue * convertedQuantity;
       pricedLineCount += 1;
     });
 

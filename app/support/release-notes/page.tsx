@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 
 const releaseNotes = [
   {
+    label: "Costings",
+    title: "Costing snapshots",
+    description:
+      "Component and finished product detail pages can now create locked manual cost and margin snapshots, with frozen detail pages for later review.",
+  },
+  {
     label: "Products",
     title: "Finished Product Formula Builder polish",
     description:

@@ -83,7 +83,7 @@ export default async function FinishedProductsPage({ searchParams }: PageProps) 
           <StatCard
             label="Cost ready"
             value={String(data.summary.costReadyFormulas)}
-            helperText="Finished product formulas with safe cost sources and exact units."
+            helperText="Finished product formulas with safe cost sources and supported unit handling."
             badge="Costing"
             tone={data.summary.costReadyFormulas > 0 ? "success" : "warning"}
             icon="$"

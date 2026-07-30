@@ -91,7 +91,7 @@ export default async function MealMarginsPage() {
       ]}
       dataBadge="Live calculation"
       dataNoticeTitle="Margin calculation v1 is conservative"
-      dataNoticeDescription="This page calculates gross profit, gross margin and markup only from active sell prices and cost-ready formulas. GST-inclusive prices are labelled as previews; no GST engine, discounts, subscriptions, Shopify sync or snapshots are applied."
+      dataNoticeDescription="This page calculates gross profit, gross margin and markup only from active sell prices and cost-ready formulas. It remains a live preview; create locked cost or margin snapshots from the relevant finished product detail page when a review point needs to be preserved."
       emptyMessage="No finished products available for margin review yet."
       reviewPrompts={[
         "Should GST-inclusive prices be normalised before final margin reporting?",

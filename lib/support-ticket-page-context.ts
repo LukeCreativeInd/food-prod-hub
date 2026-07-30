@@ -59,6 +59,14 @@ const routeContexts: Array<{
     },
   },
   {
+    prefixes: ["/costing-snapshots"],
+    context: {
+      moduleKey: "costing_snapshots",
+      moduleLabel: "Costing Snapshots",
+      category: "costings",
+    },
+  },
+  {
     prefixes: ["/costings/component-costs", "/component-costs"],
     context: {
       moduleKey: "component_costs",

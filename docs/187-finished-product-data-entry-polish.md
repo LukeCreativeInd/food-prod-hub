@@ -170,7 +170,7 @@ Finished Product data entry now points clearly to future or existing module rela
 - product lifecycle/approval status model
 - product-specific filters on Sell Prices and Meal Margins
 - unit-of-measure conversion and pack-format handling
-- costing snapshots
+- broader costing snapshot reporting beyond the first manual UI added in task 192
 - production readiness engine
 - inventory availability and finished-goods stock
 - QA hold/release state
@@ -182,7 +182,7 @@ Finished Product data entry now points clearly to future or existing module rela
 - 189 Finished Product Formula Builder Polish - now added clearer finished product formula input copy, grouped selectable inputs, cost/sell/margin action links and support guide notes without changing formula or margin calculations
 - 190 Costing Snapshot Plan - now documents how finished product cost/margin snapshots should preserve formula, price and sell price assumptions
 - 191 Costing Snapshot Schema Foundation - now drafted as migration 034 for future locked snapshot records
-- 192 Costing Snapshot UI v1
+- 192 Costing Snapshot UI v1 - now adds manual finished product cost/margin snapshot creation and recent snapshot history on finished product detail pages
 - 196 Unit Of Measure Standardisation Plan
 - future Finished Product SKU/Profile Schema Plan
 - future Finished Product product-specific Sell Price/Margin filters

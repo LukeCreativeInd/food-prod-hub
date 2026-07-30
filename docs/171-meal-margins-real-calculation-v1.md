@@ -36,7 +36,7 @@ For a finished product to be cost-ready:
 - approved supplier prices must be AUD for v1
 - component input lines must use a cost-ready active component formula
 
-No unit conversion is performed. If a line needs conversion, the row is blocked with a unit conversion message.
+Safe metric unit conversion is performed for kg/g and l/ml, and common casing/label differences such as KG versus kg are normalised. Pack or purchase units such as bunch, box, carton, tray and bottle remain blocked with a purchase-unit conversion message until a future UOM Conversion Foundation exists.
 
 ## Sell Price Dependency
 
@@ -92,7 +92,7 @@ User-facing statuses include:
 - `Draft sell price only`
 - `Tax mode required`
 - `Currency mismatch`
-- `Unit conversion required`
+- `Purchase-unit conversion required`
 - `Component cost blocked`
 
 ## What V1 Refuses To Calculate
@@ -222,7 +222,7 @@ order by fpsp.status;
 ## Follow-Ups
 
 - GST/tax normalisation rules
-- margin snapshots
+- broader margin snapshot reporting and automation beyond the manual detail-page snapshots added in task 192
 - channel selector/filter
 - margin approval workflows
 - sell price history tab

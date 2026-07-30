@@ -53,7 +53,7 @@ The formula line area now uses clearer language:
 - line badges display readable input type labels such as `Component`, `Ingredient` and `Packaging`
 - line cards show the current cost source hint
 - quantity is labelled as the quantity used for the formula output
-- unit helper text explains that exact unit matches are required until unit conversion rules are designed
+- unit helper text explains that safe metric kg/g and l/ml conversions are supported, while pack units still need purchase-unit conversion setup
 - editable line forms now include the existing `loss_note` field, so a loss note added on create can be maintained later
 - selectable inputs are grouped by Components, Ingredients and Packaging
 
@@ -163,7 +163,7 @@ Finished product formulas connect or should later connect to:
 - Inventory receiving/stock availability: future only; no stock-on-hand or availability calculation was added.
 - Supplier Invoice Intake/prices: indirect through approved supplier prices for ingredient and packaging inputs.
 - Costings: formula line quantities and approved prices drive cost readiness.
-- Costing snapshots: future; no snapshot tables or records are created.
+- Costing snapshots: task 192 now adds manual finished product cost/margin snapshot creation and recent history; reporting, automation and production links remain future.
 - Production plans/batch recipes: future; formula output and input lines will later support production planning.
 - QA checks/non-conformance: future; no hold/release or QA status is connected yet.
 - Logistics/dispatch/traceability: future; no dispatch, batch traceability or delivery workflow was added.
@@ -188,7 +188,7 @@ Finished product formulas connect or should later connect to:
 - dedicated finished product profile editor for SKU/code, lifecycle, pack format and richer notes
 - formula import from spreadsheets or staff templates
 - unit-of-measure conversion rules
-- costing snapshots
+- broader costing snapshot reporting beyond the first manual UI added in task 192
 - finished-goods inventory availability
 - production planning/batch recipe execution
 - QA release/hold state
@@ -199,7 +199,7 @@ Finished product formulas connect or should later connect to:
 
 - Costing Snapshot Plan - now completed as task 190
 - Costing Snapshot Schema Foundation - now drafted as migration 034 for future locked snapshot records
-- Costing Snapshot UI v1
+- Costing Snapshot UI v1 - now adds manual finished product cost/margin snapshot creation and recent snapshot history on finished product detail pages
 - Unit Of Measure Standardisation Plan
 - Finished Product Profile/SKU Schema Plan
 - Product-specific Sell Price and Meal Margin filters

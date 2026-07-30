@@ -8,9 +8,11 @@ import {
   updateFinishedProductFormulaHeaderAction,
   updateFinishedProductFormulaLineAction,
 } from "@/app/finished-products/actions";
+import { createCostingSnapshotAction } from "@/app/costing-snapshots/actions";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState, PageActionButton, SectionCard, StatCard, StatusBadge } from "@/components/ui";
+import { getCostingSnapshotPanelData } from "@/lib/costing-snapshot-data";
 import {
   getFinishedProductFormulaDetailData,
   type FinishedProductLineSelectableItem,
@@ -22,6 +24,7 @@ type PageProps = {
   }>;
   searchParams: Promise<{
     formula?: string;
+    snapshot?: string;
   }>;
 };
 
@@ -81,6 +84,8 @@ function actionMessage(status?: string) {
     active_conflict: "This finished product already has another active formula.",
     duplicate: "Another finished product already uses that name.",
     not_found: "The formula record could not be found.",
+    snapshot_error: "The costing snapshot could not be created.",
+    snapshot_invalid: "The costing snapshot action was missing required details.",
     error: "The formula action could not be completed.",
   };
 
@@ -157,7 +162,8 @@ export default async function FinishedProductFormulaDetailPage({
     notFound();
   }
 
-  const message = actionMessage(query.formula);
+  const snapshotPanel = await getCostingSnapshotPanelData(detail.finishedProduct.id);
+  const message = actionMessage(query.formula ?? query.snapshot);
   const selectedVersion = detail.selectedVersion;
   const ingredientCount = detail.lines.filter(
     (line) => line.inputItemType === "ingredient",
@@ -316,6 +322,121 @@ export default async function FinishedProductFormulaDetailPage({
             release and dispatch/traceability workflows.
           </p>
         </SectionCard>
+
+        {snapshotPanel.canView ? (
+          <SectionCard
+            title="Costing snapshots"
+            description="Create locked manual cost or margin snapshots for this finished product, then compare them with the live formula and sell price state."
+            action={<StatusBadge tone="info">costing_snapshots.view</StatusBadge>}
+          >
+            <div className="flex flex-wrap gap-3">
+              {snapshotPanel.canCreate ? (
+                <>
+                  <form action={createCostingSnapshotAction}>
+                    <input
+                      name="internal_item_id"
+                      type="hidden"
+                      value={detail.finishedProduct.id}
+                    />
+                    <input
+                      name="snapshot_type"
+                      type="hidden"
+                      value="finished_product_cost"
+                    />
+                    <input
+                      name="return_path"
+                      type="hidden"
+                      value={`/finished-products/${detail.finishedProduct.id}`}
+                    />
+                    <button className={primaryButtonClass} type="submit">
+                      Create cost snapshot
+                    </button>
+                  </form>
+                  <form action={createCostingSnapshotAction}>
+                    <input
+                      name="internal_item_id"
+                      type="hidden"
+                      value={detail.finishedProduct.id}
+                    />
+                    <input
+                      name="snapshot_type"
+                      type="hidden"
+                      value="finished_product_margin"
+                    />
+                    <input
+                      name="return_path"
+                      type="hidden"
+                      value={`/finished-products/${detail.finishedProduct.id}`}
+                    />
+                    <button className={secondaryButtonClass} type="submit">
+                      Create margin snapshot
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <StatusBadge tone="info">Read only</StatusBadge>
+              )}
+              <PageActionButton href="/meal-margins" variant="secondary">
+                Compare live meal margins
+              </PageActionButton>
+            </div>
+
+            {snapshotPanel.snapshots.length === 0 ? (
+              <div className="mt-4">
+                <EmptyState
+                  title="No snapshots yet"
+                  description="Create a manual snapshot when this finished product cost or margin needs a frozen review record."
+                />
+              </div>
+            ) : (
+              <div className="mt-4 overflow-x-auto rounded-md border border-slate-200">
+                <table className="min-w-full divide-y divide-slate-200 text-sm">
+                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
+                    <tr>
+                      <th className="px-4 py-3">Snapshot</th>
+                      <th className="px-4 py-3">Status</th>
+                      <th className="px-4 py-3">Cost</th>
+                      <th className="px-4 py-3">Margin</th>
+                      <th className="px-4 py-3">Created</th>
+                      <th className="px-4 py-3">Open</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 bg-white">
+                    {snapshotPanel.snapshots.map((snapshot) => (
+                      <tr key={snapshot.id}>
+                        <td className="px-4 py-3 font-semibold text-slate-900">
+                          {snapshot.typeLabel}
+                        </td>
+                        <td className="px-4 py-3">
+                          <StatusBadge tone={snapshot.statusTone}>
+                            {snapshot.statusLabel}
+                          </StatusBadge>
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {snapshot.costLabel}
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {snapshot.marginLabel}
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {snapshot.createdAt}
+                        </td>
+                        <td className="px-4 py-3">
+                          <Link
+                            className="font-semibold text-clean-green-700 hover:text-clean-green-900"
+                            href={snapshot.href}
+                          >
+                            View snapshot
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </SectionCard>
+        ) : null}
 
         {selectedVersion ? (
           <div className="scroll-mt-24" id="formula-header">
@@ -591,7 +712,7 @@ export default async function FinishedProductFormulaDetailPage({
                         </FormField>
                         <FormField
                           label="Unit"
-                          helperText="Must match the approved price unit until conversions are built."
+                          helperText="Metric kg/g and l/ml conversions are handled safely. Pack units still need purchase-unit setup."
                         >
                           <input
                             className={inputClass}
@@ -721,7 +842,7 @@ export default async function FinishedProductFormulaDetailPage({
               </FormField>
               <FormField
                 label="Unit"
-                helperText="Use the exact approved cost unit for now."
+                helperText="Metric kg/g and l/ml conversions are supported. Pack units still need review."
               >
                 <input
                   className={inputClass}
@@ -763,7 +884,7 @@ export default async function FinishedProductFormulaDetailPage({
         <section className="grid gap-6 xl:grid-cols-2">
           <SectionCard
             title="Cost readiness"
-            description="Estimated cost appears only when every input line has a safe cost source and exact unit match."
+            description="Estimated cost appears when every input line has a safe cost source and either matching units or supported metric conversion."
             action={
               <StatusBadge tone={detail.costReadiness.tone}>
                 {detail.costReadiness.status}

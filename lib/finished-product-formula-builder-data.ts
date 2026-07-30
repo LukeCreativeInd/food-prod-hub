@@ -1,6 +1,11 @@
 import { requirePermissionAccessWithPermissions } from "@/lib/auth";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { createClient } from "@/lib/supabase/server";
+import {
+  convertQuantity,
+  describeUnitMismatch,
+  normaliseUnit,
+} from "@/lib/unit-conversions";
 
 type Tone = "success" | "warning" | "neutral" | "info";
 
@@ -510,10 +515,13 @@ function getApprovedLineCostState(
   }
 
   const purchaseUnit = approvedPrice.purchase_unit ?? inputItem.base_unit ?? "";
+  const convertedQuantity = purchaseUnit
+    ? convertQuantity(quantity, line.unit, purchaseUnit)
+    : null;
 
-  if (!purchaseUnit || purchaseUnit.toLowerCase() !== line.unit.toLowerCase()) {
+  if (!purchaseUnit || convertedQuantity === null) {
     return {
-      issue: `${inputItem.display_name} uses ${line.unit}, but current approved price is per ${purchaseUnit || "unknown unit"}.`,
+      issue: `${inputItem.display_name}: ${describeUnitMismatch(line.unit, purchaseUnit)}`,
       cost: null,
       hint: `${formatCurrency(approvedPrice.unit_price, approvedPrice.currency)} / ${
         purchaseUnit || "unknown unit"
@@ -535,10 +543,21 @@ function getApprovedLineCostState(
     };
   }
 
+  const normalisedFormulaUnit = normaliseUnit(line.unit);
+  const normalisedPurchaseUnit = normaliseUnit(purchaseUnit);
+  const conversionNote =
+    normalisedFormulaUnit &&
+    normalisedPurchaseUnit &&
+    normalisedFormulaUnit !== normalisedPurchaseUnit
+      ? ` (${formatNumber(convertedQuantity)} ${purchaseUnit} costed from ${formatNumber(
+          quantity,
+        )} ${line.unit})`
+      : "";
+
   return {
     issue: null,
-    cost: quantity * unitPrice,
-    hint: `${formatCurrency(approvedPrice.unit_price, approvedPrice.currency)} / ${purchaseUnit}`,
+    cost: convertedQuantity * unitPrice,
+    hint: `${formatCurrency(approvedPrice.unit_price, approvedPrice.currency)} / ${purchaseUnit}${conversionNote}`,
     status: "Ready",
     tone: "success" as const,
   };
@@ -601,13 +620,32 @@ function getComponentFormulaCostState(
 
   const outputQuantity = Number(componentVersion.output_quantity);
 
-  if (
-    !Number.isFinite(outputQuantity) ||
-    outputQuantity <= 0 ||
-    componentVersion.output_unit.toLowerCase() !== line.unit.toLowerCase()
-  ) {
+  const convertedQuantity = convertQuantity(
+    quantity,
+    line.unit,
+    componentVersion.output_unit,
+  );
+
+  if (!Number.isFinite(outputQuantity) || outputQuantity <= 0) {
     return {
-      issue: `${inputItem.display_name} output unit is ${componentVersion.output_unit}, but this finished product line uses ${line.unit}.`,
+      issue: `${inputItem.display_name} needs a valid component output quantity.`,
+      cost: null,
+      hint: `Component output ${formatQuantityUnit(
+        componentVersion.output_quantity,
+        componentVersion.output_unit,
+      )}`,
+      status: "Quantity review",
+      tone: "warning" as const,
+    };
+  }
+
+  if (convertedQuantity === null) {
+    return {
+      issue: `${inputItem.display_name}: ${describeUnitMismatch(
+        line.unit,
+        componentVersion.output_unit,
+        "cost source",
+      )}`,
       cost: null,
       hint: `Component output ${formatQuantityUnit(
         componentVersion.output_quantity,
@@ -638,11 +676,21 @@ function getComponentFormulaCostState(
   }
 
   const unitCost = componentReadiness.numericCost / outputQuantity;
+  const normalisedLineUnit = normaliseUnit(line.unit);
+  const normalisedOutputUnit = normaliseUnit(componentVersion.output_unit);
+  const conversionNote =
+    normalisedLineUnit &&
+    normalisedOutputUnit &&
+    normalisedLineUnit !== normalisedOutputUnit
+      ? ` (${formatNumber(convertedQuantity)} ${componentVersion.output_unit} costed from ${formatNumber(
+          quantity,
+        )} ${line.unit})`
+      : "";
 
   return {
     issue: null,
-    cost: unitCost * quantity,
-    hint: `${formatCurrency(unitCost)} / ${componentVersion.output_unit}`,
+    cost: unitCost * convertedQuantity,
+    hint: `${formatCurrency(unitCost)} / ${componentVersion.output_unit}${conversionNote}`,
     status: "Ready",
     tone: "success" as const,
   };
@@ -750,7 +798,7 @@ export function getFinishedProductCostReadiness(
     status: "Cost ready",
     tone: "success" as const,
     estimatedCost: formatCurrency(totalCost),
-    issues: ["All visible lines have safe cost sources and exact units."],
+    issues: ["All visible lines have safe cost sources and unit handling."],
     numericCost: totalCost,
   };
 }

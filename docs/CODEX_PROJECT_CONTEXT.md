@@ -276,12 +276,26 @@ docs/190-costing-snapshot-plan.md
 
 Task 191 drafts migration `034_costing_snapshot_schema_foundation.sql` for tenant-scoped locked costing snapshots. It creates `costing_snapshots` and `costing_snapshot_lines`, seeds `costing_snapshots.view`, `costing_snapshots.create` and `costing_snapshots.manage`, enables RLS and adds view/create/manage policies with platform-admin overrides.
 
-The migration is not applied by Codex. No snapshot UI, creation actions, reports, production links, formula calculation changes, Meal Margins calculation changes, Sell Prices business rule changes, Supplier Invoice Intake changes, auth/domain changes, Platform Admin logic changes or sample snapshot data are included.
+Codex did not apply the migration; it was manually applied in Supabase before task 192. No snapshot UI, creation actions, reports, production links, formula calculation changes, Meal Margins calculation changes, Sell Prices business rule changes, Supplier Invoice Intake changes, auth/domain changes, Platform Admin logic changes or sample snapshot data were included in task 191.
 
 See:
 
 ```text
 docs/191-costing-snapshot-schema-foundation.md
+```
+
+## Task 192 Costing Snapshot UI v1
+
+Task 192 adds the first controlled UI and server actions for costing snapshots after migration 034 was manually applied in Supabase. Components can create manual component cost snapshots, finished products can create manual cost or margin snapshots, both detail pages show recent snapshot history, and `/costing-snapshots/[id]` shows locked header/line values with blocked reasons.
+
+Snapshot creation uses the authenticated Supabase server client and existing RLS/permissions: `costing_snapshots.view`, `costing_snapshots.create` and `costing_snapshots.manage`. Cost readiness and snapshots now normalise common unit labels and support safe metric kg/g and l/ml conversion. Unknown pack units such as bunch, box, carton, tray and bottle still block until a future UOM Conversion Foundation defines tenant/supplier-item-specific conversion rules.
+
+No service-role key, schema migration, formula calculation schema change, Sell Prices rule change, Supplier Invoice Intake change, Production/Inventory logic or Platform Admin logic is added. Meal Margins remains a live preview and points users to finished product detail pages for locked snapshots.
+
+See:
+
+```text
+docs/192-costing-snapshot-ui-v1.md
 ```
 
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan

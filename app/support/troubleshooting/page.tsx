@@ -22,7 +22,12 @@ const troubleshootingTopics = [
   {
     title: "Margins are blocked",
     description:
-      "Look for missing approved prices, missing formula lines, component-cost blockers, unit mismatch messages or draft sell prices.",
+      "Look for missing approved prices, missing formula lines, component-cost blockers, purchase-unit conversion messages or draft sell prices. Metric kg/g and l/ml conversions should not block.",
+  },
+  {
+    title: "A costing snapshot is blocked",
+    description:
+      "Open the snapshot detail page and review the blocked reason on the header or line. Blocked snapshots intentionally preserve missing prices, unit mismatches or sell price blockers at the time they were created.",
   },
   {
     title: "Invoice upload has unknown lines",

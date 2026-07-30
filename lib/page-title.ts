@@ -20,6 +20,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/component-costs": { title: "Component Costs", context: "Costings" },
   "/sell-prices": { title: "Sell Prices", context: "Costings" },
   "/meal-margins": { title: "Meal Margins", context: "Costings" },
+  "/costing-snapshots": { title: "Costing Snapshots", context: "Costings" },
   "/price-history": { title: "Price History", context: "Costings" },
   "/production": { title: "Production", context: "Operations" },
   "/production-report": { title: "Production Report", context: "Production" },

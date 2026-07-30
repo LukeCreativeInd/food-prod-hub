@@ -257,7 +257,7 @@ Ingredient and packaging costs should use the same current approved supplier pri
 
 - `approved_supplier_prices.status = current`
 - price linked to `internal_item_id`
-- exact unit match required until unit conversion rules are built
+- safe unit handling: equivalent labels are normalised, kg/g and l/ml conversions are supported, and unknown pack units remain blocked until purchase-unit conversion rules are added
 - AUD only unless multi-currency support is explicitly designed
 
 The snapshot should copy:
@@ -411,7 +411,7 @@ Those statements are currently true. They should become more specific once snaps
 ## Known Risks And Gaps
 
 - Unit-of-measure standardisation is still required.
-- Unit conversion rules do not exist yet.
+- Broad unit conversion rules do not exist yet. Task 192 adds safe metric kg/g and l/ml conversion only; pack units such as bunch, box, carton, bottle and tray still need a UOM Conversion Foundation.
 - Formula yield/waste/cooked/raw/drained weight handling is incomplete.
 - Nested component costing needs a deliberate snapshot strategy.
 - Active formula version semantics may need stronger approval/locking rules.
@@ -442,15 +442,20 @@ See `docs/191-costing-snapshot-schema-foundation.md`.
 
 ## Recommended Task 192 Scope
 
-Task 192 should add first read-only/controlled UI:
+Task 192 has now added first controlled UI:
 
-- latest snapshot cards on Component detail and Finished Product detail
-- snapshot history lists
-- single manual create action only if task 191 schema and permissions are applied
+- latest snapshot panels on Component detail and Finished Product detail
+- recent snapshot history lists
+- single manual create actions for component cost, finished product cost and finished product margin snapshots
+- locked snapshot detail route at `/costing-snapshots/[id]`
 - blocked snapshot messaging
+- archive action behind `costing_snapshots.manage`
 - no production batch integration
 - no report engine
 - no bulk snapshot automation
+- no pack-size conversion engine
+
+See `docs/192-costing-snapshot-ui-v1.md`.
 
 ## Behaviour Preserved
 

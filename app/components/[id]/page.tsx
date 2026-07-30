@@ -8,10 +8,12 @@ import {
   updateComponentFormulaHeaderAction,
   updateComponentFormulaLineAction,
 } from "@/app/components/actions";
+import { createCostingSnapshotAction } from "@/app/costing-snapshots/actions";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState, PageActionButton, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { getComponentFormulaDetailData } from "@/lib/component-formula-builder-data";
+import { getCostingSnapshotPanelData } from "@/lib/costing-snapshot-data";
 
 type PageProps = {
   params: Promise<{
@@ -19,6 +21,7 @@ type PageProps = {
   }>;
   searchParams: Promise<{
     formula?: string;
+    snapshot?: string;
   }>;
 };
 
@@ -79,6 +82,8 @@ function getActionMessage(status?: string) {
     active_conflict: "This component already has an active formula.",
     duplicate: "Another component already uses that name.",
     not_found: "The requested formula record was not found.",
+    snapshot_error: "The costing snapshot could not be created.",
+    snapshot_invalid: "The costing snapshot action was missing required details.",
     error: "The formula action could not be completed.",
   };
 
@@ -133,7 +138,10 @@ export default async function ComponentFormulaDetailPage({
     notFound();
   }
 
-  const actionMessage = getActionMessage(resolvedSearchParams.formula);
+  const snapshotPanel = await getCostingSnapshotPanelData(detail.component.id);
+  const actionMessage = getActionMessage(
+    resolvedSearchParams.formula ?? resolvedSearchParams.snapshot,
+  );
   const selectedVersion = detail.selectedVersion;
   const ingredientCount = detail.lines.filter(
     (line) => line.inputItemType === "ingredient",
@@ -290,6 +298,94 @@ export default async function ComponentFormulaDetailPage({
           </p>
         </SectionCard>
 
+        {snapshotPanel.canView ? (
+          <SectionCard
+            title="Costing snapshots"
+            description="Create a locked manual snapshot of the current component formula cost state, or review recent frozen records."
+            action={<StatusBadge tone="info">costing_snapshots.view</StatusBadge>}
+          >
+            <div className="flex flex-wrap gap-3">
+              {snapshotPanel.canCreate ? (
+                <form action={createCostingSnapshotAction}>
+                  <input
+                    name="internal_item_id"
+                    type="hidden"
+                    value={detail.component.id}
+                  />
+                  <input name="snapshot_type" type="hidden" value="component_cost" />
+                  <input
+                    name="return_path"
+                    type="hidden"
+                    value={`/components/${detail.component.id}`}
+                  />
+                  <button
+                    className="inline-flex items-center justify-center rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-90"
+                    type="submit"
+                  >
+                    Create component cost snapshot
+                  </button>
+                </form>
+              ) : (
+                <StatusBadge tone="info">Read only</StatusBadge>
+              )}
+              <PageActionButton href="/component-costs" variant="secondary">
+                Compare live component costs
+              </PageActionButton>
+            </div>
+
+            {snapshotPanel.snapshots.length === 0 ? (
+              <div className="mt-4">
+                <EmptyState
+                  title="No snapshots yet"
+                  description="Create a manual snapshot when this component cost needs a frozen review record."
+                />
+              </div>
+            ) : (
+              <div className="mt-4 overflow-x-auto rounded-md border border-slate-200">
+                <table className="min-w-full divide-y divide-slate-200 text-sm">
+                  <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
+                    <tr>
+                      <th className="px-4 py-3">Snapshot</th>
+                      <th className="px-4 py-3">Status</th>
+                      <th className="px-4 py-3">Cost</th>
+                      <th className="px-4 py-3">Created</th>
+                      <th className="px-4 py-3">Open</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 bg-white">
+                    {snapshotPanel.snapshots.map((snapshot) => (
+                      <tr key={snapshot.id}>
+                        <td className="px-4 py-3 font-semibold text-slate-900">
+                          {snapshot.typeLabel}
+                        </td>
+                        <td className="px-4 py-3">
+                          <StatusBadge tone={snapshot.statusTone}>
+                            {snapshot.statusLabel}
+                          </StatusBadge>
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {snapshot.costLabel}
+                        </td>
+                        <td className="px-4 py-3 text-slate-600">
+                          {snapshot.createdAt}
+                        </td>
+                        <td className="px-4 py-3">
+                          <Link
+                            className="font-semibold text-clean-green-700 hover:text-clean-green-900"
+                            href={snapshot.href}
+                          >
+                            View snapshot
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </SectionCard>
+        ) : null}
+
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
           <div id="formula-header" className="scroll-mt-24">
             <SectionCard
@@ -444,7 +540,7 @@ export default async function ComponentFormulaDetailPage({
 
           <SectionCard
             title="Cost readiness"
-            description="Estimated cost is shown only when each line has an exact approved price/unit match."
+            description="Estimated cost is shown when each line has an approved price and either matching units or safe kg/g and l/ml conversion."
             action={
               <StatusBadge tone={detail.costReadiness.tone}>
                 {detail.costReadiness.status}
@@ -729,6 +825,7 @@ export default async function ComponentFormulaDetailPage({
                 <input className={inputClassName()} name="unit" placeholder="kg" required />
                 <span className="mt-1 block text-xs leading-5 text-slate-500">
                   Unit should match the approved price unit until conversions are designed.
+                  Metric kg/g and l/ml conversions are handled safely; pack units still need review.
                 </span>
               </label>
               <label className="block xl:col-span-2">

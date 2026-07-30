@@ -156,7 +156,7 @@ Component formulas connect to or will later connect to:
 - Inventory receiving/stock availability: future only; no availability is calculated.
 - Supplier Invoice Intake/prices: indirect through approved supplier prices on ingredient/packaging/input internal items.
 - Costings: Component Costs reads formula and approved price readiness.
-- Costing snapshots: future; no snapshot rows are created.
+- Costing snapshots: task 192 now adds manual component cost snapshot creation and recent history; reporting, automation and production links remain future.
 - Production plans/batch recipes: future; component formula is not a production batch yet.
 - QA/non-conformance: future; no hold/release state is connected.
 - Logistics/dispatch/traceability: future; no traceability chain is connected.
@@ -181,7 +181,7 @@ Component formulas connect to or will later connect to:
 - richer component profile editing separate from formula editing
 - where-used counts for finished product formulas
 - unit conversion and UOM standardisation
-- costing snapshots
+- broader costing snapshot reporting beyond the first manual UI added in task 192
 - production method/route layer
 - inventory availability and batch stock
 - yield/loss calculation rules beyond notes
@@ -194,7 +194,7 @@ Component formulas connect to or will later connect to:
 - 189 Finished Product Formula Builder Polish - now completed as a matching sellable product formula clarity pass
 - 190 Costing Snapshot Plan - now completed as the plan for future locked component and finished product cost history
 - 191 Costing Snapshot Schema Foundation - now drafted as migration 034 for future locked component/finished product snapshot records
-- 192 Costing Snapshot UI v1
+- 192 Costing Snapshot UI v1 - now adds manual component cost snapshot creation and recent snapshot history on component detail pages
 - 196 Unit Of Measure Standardisation Plan
 - future Component Where-Used Readiness
 - future Component Profile Schema Plan

@@ -2,7 +2,7 @@
 
 Task 191 drafts the database foundation for locked costing snapshots.
 
-This task creates a reviewed SQL migration only. It does not apply the migration, build UI, build snapshot creation actions, change formula calculations, change Meal Margins calculations, change Sell Prices business logic, change Supplier Invoice Intake, change Inventory or Production logic, change auth/domain routing, add packages or use service-role keys.
+This task created a reviewed SQL migration only. Codex did not apply the migration. The migration was later manually applied in Supabase before task 192. This schema task did not build UI, build snapshot creation actions, change formula calculations, change Meal Margins calculations, change Sell Prices business logic, change Supplier Invoice Intake, change Inventory or Production logic, change auth/domain routing, add packages or use service-role keys.
 
 ## Migration
 
@@ -263,18 +263,24 @@ where schemaname = 'public'
 order by tablename, policyname;
 ```
 
-## Future Task 192 UI Plan
+## Task 192 UI Layer
 
-Task 192 should build UI only after migration 034 is manually reviewed and applied:
+Migration 034 has been manually applied in Supabase, and task 192 now adds the first controlled UI layer:
 
-- latest snapshot cards on Component detail
-- latest snapshot cards on Finished Product detail
-- snapshot history lists
-- first controlled manual create snapshot action if safe
+- latest snapshot panels on Component detail
+- latest snapshot panels on Finished Product detail
+- recent snapshot history lists
+- manual create snapshot actions
+- locked detail page at `/costing-snapshots/[id]`
+- archive action behind `costing_snapshots.manage`
 - blocked snapshot messaging
+- safe unit normalisation and metric kg/g plus l/ml conversion in the snapshot/readiness calculation helpers
 - no production batch integration
 - no report engine
 - no bulk automation
+- no pack-size conversion engine
+
+See `docs/192-costing-snapshot-ui-v1.md`.
 
 ## Behaviour Preserved
 

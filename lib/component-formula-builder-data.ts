@@ -1,6 +1,11 @@
 import { requirePermissionAccessWithPermissions } from "@/lib/auth";
 import { logDevRouteTiming } from "@/lib/dev-performance";
 import { createClient } from "@/lib/supabase/server";
+import {
+  convertQuantity,
+  describeUnitMismatch,
+  normaliseUnit,
+} from "@/lib/unit-conversions";
 
 type InternalItemRow = {
   id: string;
@@ -319,10 +324,13 @@ function getLineCostState(
   }
 
   const purchaseUnit = approvedPrice.purchase_unit ?? inputItem.base_unit ?? "";
+  const convertedQuantity = purchaseUnit
+    ? convertQuantity(quantity, line.unit, purchaseUnit)
+    : null;
 
-  if (!purchaseUnit || purchaseUnit.toLowerCase() !== line.unit.toLowerCase()) {
+  if (!purchaseUnit || convertedQuantity === null) {
     return {
-      issue: `${inputItem.display_name} uses ${line.unit}, but the current approved price is per ${purchaseUnit || "unknown unit"}.`,
+      issue: `${inputItem.display_name}: ${describeUnitMismatch(line.unit, purchaseUnit)}`,
       cost: null,
       hint: `${formatCurrency(approvedPrice.unit_price, approvedPrice.currency)} / ${
         purchaseUnit || "unknown unit"
@@ -344,10 +352,21 @@ function getLineCostState(
     };
   }
 
+  const normalisedFormulaUnit = normaliseUnit(line.unit);
+  const normalisedPurchaseUnit = normaliseUnit(purchaseUnit);
+  const conversionNote =
+    normalisedFormulaUnit &&
+    normalisedPurchaseUnit &&
+    normalisedFormulaUnit !== normalisedPurchaseUnit
+      ? ` (${formatNumber(convertedQuantity)} ${purchaseUnit} costed from ${formatNumber(
+          quantity,
+        )} ${line.unit})`
+      : "";
+
   return {
     issue: null,
-    cost: quantity * unitPrice,
-    hint: `${formatCurrency(approvedPrice.unit_price, approvedPrice.currency)} / ${purchaseUnit}`,
+    cost: convertedQuantity * unitPrice,
+    hint: `${formatCurrency(approvedPrice.unit_price, approvedPrice.currency)} / ${purchaseUnit}${conversionNote}`,
     status: "Ready",
     tone: "success" as const,
   };
@@ -401,7 +420,7 @@ function getFormulaCostReadiness(
     status: "Cost ready",
     tone: "success" as const,
     estimatedCost: formatCurrency(totalCost),
-    issues: ["All visible lines have matching approved prices and exact units."],
+    issues: ["All visible lines have matching approved prices and safe unit handling."],
     numericCost: totalCost,
   };
 }

@@ -242,6 +242,13 @@ export const supportGuides: SupportGuide[] = [
           "If a formula line cannot be costed, the page should show the reason instead of pretending the margin is complete.",
         ],
       },
+      {
+        heading: "Snapshots versus live previews",
+        body: [
+          "Meal Margins and costing subpages are live previews. They can change when formulas, approved supplier prices or sell prices change.",
+          "Use the snapshot controls on component and finished product detail pages when a cost or margin review point needs to be locked. Blocked snapshots can still be useful because they preserve the missing price, unit mismatch or sell price blocker at the time of review.",
+        ],
+      },
     ],
     relatedLinks: [
       { label: "Formula Builder basics", href: "/support/guides/formula-builder-basics" },
@@ -271,7 +278,7 @@ export const supportGuides: SupportGuide[] = [
         heading: "Review before relying on cost",
         body: [
           "Every line should be checked for the right internal item, quantity and unit before the cost is trusted.",
-          "Missing approved prices, missing child formulas, unsupported item types and unit mismatches should remain visible as readiness messages. Use Ingredient Costs, Packaging Costs and Component Costs to resolve blockers.",
+          "Missing approved prices, missing child formulas, unsupported item types and purchase-unit conversion needs should remain visible as readiness messages. Simple metric kg/g and l/ml conversions are handled safely; pack units such as bunch, box and carton still need review. Use Ingredient Costs, Packaging Costs and Component Costs to resolve blockers.",
           "Finished product margin readiness also needs an active current sell price. Draft or archived sell prices can be reviewed, but they do not count as ready.",
         ],
       },
