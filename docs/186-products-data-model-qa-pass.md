@@ -180,7 +180,7 @@ Products, Costings, Supplier Invoice Intake, Formulas, Sell Prices and Meal Marg
 - 187 Finished Product Data Entry Polish
 - 188 Component Formula Builder Polish
 - 189 Finished Product Formula Builder Polish - now completed as a focused finished product formula UX/readiness pass
-- 190 Costing Snapshot Plan
+- 190 Costing Snapshot Plan - now completed as the planning step for locked historical component, finished product and margin costs
 - 191 Costing Snapshot Schema Foundation
 - 192 Costing Snapshot UI v1
 - 193 Inventory Receiving Workflow Plan

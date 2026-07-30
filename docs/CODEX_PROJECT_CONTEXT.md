@@ -260,6 +260,18 @@ See:
 docs/189-finished-product-formula-builder-polish.md
 ```
 
+## Task 190 Costing Snapshot Plan
+
+Task 190 plans the future costing snapshot system before schema/UI work. The recommended v1 approach is a generic `costing_snapshots` header table with `snapshot_type` values for component cost, finished product cost and finished product margin, plus `costing_snapshot_lines` to copy formula input lines, price sources, supplier names, unit costs, line totals and blockers at the time of snapshot.
+
+Snapshots should preserve live formula/price/sell price assumptions at a point in time so historical reporting does not move when approved supplier prices, formulas or sell prices change later. This task is docs-only and does not create migrations, permissions, RLS policies, UI, actions or calculation changes.
+
+See:
+
+```text
+docs/190-costing-snapshot-plan.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

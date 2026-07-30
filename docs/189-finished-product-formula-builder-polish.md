@@ -197,7 +197,7 @@ Finished product formulas connect or should later connect to:
 
 ## Recommended Next Tasks
 
-- Costing Snapshot Plan
+- Costing Snapshot Plan - now completed as task 190
 - Costing Snapshot Schema Foundation
 - Costing Snapshot UI v1
 - Unit Of Measure Standardisation Plan
