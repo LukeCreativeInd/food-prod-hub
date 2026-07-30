@@ -312,6 +312,20 @@ See:
 docs/193-inventory-receiving-workflow-plan.md
 ```
 
+## Task 194 Inventory Stock Movement Schema Foundation
+
+Task 194 drafts migration `035_inventory_stock_movement_schema_foundation.sql` for the future Goods Inwards and inventory ledger foundation. It creates tenant-scoped `inventory_receipts`, `inventory_receipt_lines`, `inventory_lots` and `stock_movements`, seeds receipt/lot/movement permissions, grants conservative role permissions and enables RLS with no DELETE policies.
+
+The schema preserves Supplier Invoice Intake as a separate invoice/price workflow. Receipt records may reference suppliers and purchase documents, but no stock movements are created from invoices automatically. `purchase_order_id` is intentionally omitted because `purchase_orders` does not exist yet. Future purchase order work can add a tenant-scoped reference.
+
+Task 194 also adds `lib/inventory-movement-types.ts` for future receiving UI constants and labels. No receiving UI, posting actions, stock-on-hand summaries, purchase orders, QA workflows, production consumption, Supplier Invoice Intake changes, costing changes, auth/domain routing changes, service-role flows, sample data or migration application are included.
+
+See:
+
+```text
+docs/194-inventory-stock-movement-schema-foundation.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

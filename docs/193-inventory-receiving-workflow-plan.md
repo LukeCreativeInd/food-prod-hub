@@ -668,13 +668,31 @@ Do not remove these in task 193. They are useful until schema/UI build tasks rep
 
 ## Recommended Next Tasks
 
-- 194 Inventory Stock Movement Schema Foundation
+- 194 Inventory Stock Movement Schema Foundation drafted migration `035_inventory_stock_movement_schema_foundation.sql` for review
 - 195 Goods Inwards Receiving UI v1
 - 196 Supplier Invoice To Receiving Plan
 - 197 Supplier Invoice To Receiving v1
 - UOM Conversion Foundation
 - QA Receiving Checks Plan
 - Traceability / Recall Reporting Plan
+
+## Task 194 Follow-Up
+
+Task 194 has now drafted the receiving and stock movement schema foundation. It creates the planned receipt, receipt line, inventory lot and stock movement ledger tables with tenant-scoped foreign keys, RLS policies and dedicated inventory permissions.
+
+The schema remains conservative:
+
+- Supplier Invoice Intake can be referenced but still does not create stock.
+- Purchase orders are not referenced yet because `purchase_orders` does not exist.
+- Unknown pack-unit conversions can be captured as `needs_conversion` or `blocked`.
+- Stock movements are append-like; corrections should use future reversal or adjustment movements.
+- No receiving UI, stock balances or posting actions are included yet.
+
+See:
+
+```text
+docs/194-inventory-stock-movement-schema-foundation.md
+```
 
 ## Behaviour Preserved
 

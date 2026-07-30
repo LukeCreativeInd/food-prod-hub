@@ -200,6 +200,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Costing Snapshot UI v1 now adds manual component cost, finished product cost and finished product margin snapshot creation, recent snapshot panels and locked snapshot detail pages.
 - Cost readiness now normalises common unit labels and supports safe metric kg/g and l/ml conversion; pack units such as bunch, box and carton still need future UOM Conversion Foundation work.
 - Inventory Receiving Workflow planning now defines the future Goods Inwards, receipt line, lot, stock movement, QA hold and traceability approach before schema/UI build work.
+- Inventory Stock Movement schema foundation has been drafted with tenant-scoped receipt, receipt line, lot and stock movement ledger tables, RLS policies and inventory movement permissions for review.
 
 ## Tech Stack
 
@@ -391,6 +392,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Costing Snapshot Schema Foundation](docs/191-costing-snapshot-schema-foundation.md)
 - [Costing Snapshot UI v1](docs/192-costing-snapshot-ui-v1.md)
 - [Inventory Receiving Workflow Plan](docs/193-inventory-receiving-workflow-plan.md)
+- [Inventory Stock Movement Schema Foundation](docs/194-inventory-stock-movement-schema-foundation.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)
@@ -435,7 +437,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 
 ## Database Migrations
 
-Reviewed SQL migration and seed files live in `supabase/migrations`. They are committed for review before being applied to Supabase, including tenant foundation, organisation settings, and branding migrations.
+Reviewed SQL migration and seed files live in `supabase/migrations`. They are committed for review before being applied to Supabase, including tenant foundation, organisation settings, branding migrations, costing snapshots, support tickets and inventory stock movement foundation.
 
 The first backend foundation block is summarised in [Backend foundation review](docs/12-backend-foundation-review.md).
 
