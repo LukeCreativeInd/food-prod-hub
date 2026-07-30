@@ -202,6 +202,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Inventory Receiving Workflow planning now defines the future Goods Inwards, receipt line, lot, stock movement, QA hold and traceability approach before schema/UI build work.
 - Inventory Stock Movement schema foundation has been drafted with tenant-scoped receipt, receipt line, lot and stock movement ledger tables, RLS policies and inventory movement permissions for review.
 - Goods Inwards Receiving UI v1 now supports manual draft receipts, receipt lines, posting, inventory lot creation and receipt stock movement ledger rows.
+- Supplier Invoice to Receiving planning now defines how reviewed supplier invoice lines can become draft Goods Inwards suggestions without automatically posting stock.
 
 ## Tech Stack
 
@@ -395,6 +396,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Inventory Receiving Workflow Plan](docs/193-inventory-receiving-workflow-plan.md)
 - [Inventory Stock Movement Schema Foundation](docs/194-inventory-stock-movement-schema-foundation.md)
 - [Goods Inwards Receiving UI v1](docs/195-goods-inwards-receiving-ui-v1.md)
+- [Supplier Invoice to Receiving Plan](docs/196-supplier-invoice-to-receiving-plan.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)
@@ -635,4 +637,4 @@ Support Ticket Attachments Foundation is documented in [Support Ticket Attachmen
 - Planned support ticket attachment architecture covering private storage, tenant-scoped paths, visibility/RLS, file limits and rollout sequencing
 - Drafted support ticket attachment foundation with private bucket metadata, tenant-scoped attachment table, helper function, RLS policies and TypeScript constants
 
-No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, generic invoice commit automation, purchase orders, Goods Inwards receiving, or stock movement behavior has been added.
+No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, invoice-to-receiving automation, stock-on-hand summary or stock movement reversal behavior has been added.

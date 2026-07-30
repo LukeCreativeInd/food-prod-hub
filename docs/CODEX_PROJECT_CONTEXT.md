@@ -342,6 +342,20 @@ See:
 docs/195-goods-inwards-receiving-ui-v1.md
 ```
 
+## Task 196 Supplier Invoice To Receiving Plan
+
+Task 196 plans the future bridge from reviewed Supplier Invoice Intake lines into Goods Inwards draft receipt suggestions. The plan keeps the separation explicit: invoice approval creates commercial price/catalogue knowledge, while receiving records physical stock and only posting a reviewed receipt creates inventory lots and stock movement ledger rows.
+
+The recommended v1 uses existing links: `inventory_receipts.purchase_document_id`, `inventory_receipt_lines.purchase_document_line_id`, `supplier_item_id` and `internal_item_id`. It requires eligible mapped stock-like invoice lines, a user-selected default stock location and duplicate prevention based on existing non-archived receipt lines. Unknown pack conversions should create `needs_conversion` draft lines and continue blocking posting until UOM rules exist.
+
+No migrations, UI, receiving suggestions, parser changes, approved price changes, stock posting changes, RLS/permission changes, Platform Admin changes, Support UI changes or packages are added.
+
+See:
+
+```text
+docs/196-supplier-invoice-to-receiving-plan.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

@@ -713,6 +713,24 @@ See:
 docs/195-goods-inwards-receiving-ui-v1.md
 ```
 
+## Task 196 Follow-Up
+
+Task 196 now plans the bridge from reviewed supplier invoice lines to draft Goods Inwards receipts.
+
+The plan keeps invoice approval and receiving separate:
+
+- invoice approval creates supplier, catalogue, mapping and approved price knowledge
+- invoice-to-receiving may create draft receiving suggestions only
+- a user must review and post the receipt before inventory lots or stock movement rows are created
+- duplicate prevention can use `inventory_receipt_lines.purchase_document_line_id`
+- unknown pack-unit conversions remain `needs_conversion` and should block posting
+
+See:
+
+```text
+docs/196-supplier-invoice-to-receiving-plan.md
+```
+
 ## Behaviour Preserved
 
 - no migrations were created

@@ -171,7 +171,8 @@ Future formula/production work can use stock movements for consumption/output, b
 Recommended follow-up tasks:
 
 - Task 195: Goods Inwards / receiving UI and draft/post workflow completed as the first manual v1 workflow
-- Supplier Invoice to Receiving suggestion flow
+- Task 196: Supplier Invoice to Receiving planning completed for the future draft suggestion flow
+- Supplier Invoice to Receiving v1 implementation
 - UOM Conversion Foundation for box/carton/bunch/bottle/pack conversions
 - stock-on-hand summary/view
 - stock movement reversal/adjustment UI
