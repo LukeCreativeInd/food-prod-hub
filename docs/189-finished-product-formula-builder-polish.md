@@ -198,7 +198,7 @@ Finished product formulas connect or should later connect to:
 ## Recommended Next Tasks
 
 - Costing Snapshot Plan - now completed as task 190
-- Costing Snapshot Schema Foundation
+- Costing Snapshot Schema Foundation - now drafted as migration 034 for future locked snapshot records
 - Costing Snapshot UI v1
 - Unit Of Measure Standardisation Plan
 - Finished Product Profile/SKU Schema Plan

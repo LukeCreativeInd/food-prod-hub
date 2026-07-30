@@ -426,7 +426,7 @@ Those statements are currently true. They should become more specific once snaps
 
 ## Recommended Task 191 Scope
 
-Task 191 should create the reviewed schema migration only:
+Task 191 now drafts the reviewed schema migration only:
 
 - `public.costing_snapshots`
 - `public.costing_snapshot_lines`
@@ -437,6 +437,8 @@ Task 191 should create the reviewed schema migration only:
 - no seed data
 - no UI
 - no snapshot creation actions
+
+See `docs/191-costing-snapshot-schema-foundation.md`.
 
 ## Recommended Task 192 Scope
 

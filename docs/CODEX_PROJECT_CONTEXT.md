@@ -272,6 +272,18 @@ See:
 docs/190-costing-snapshot-plan.md
 ```
 
+## Task 191 Costing Snapshot Schema Foundation
+
+Task 191 drafts migration `034_costing_snapshot_schema_foundation.sql` for tenant-scoped locked costing snapshots. It creates `costing_snapshots` and `costing_snapshot_lines`, seeds `costing_snapshots.view`, `costing_snapshots.create` and `costing_snapshots.manage`, enables RLS and adds view/create/manage policies with platform-admin overrides.
+
+The migration is not applied by Codex. No snapshot UI, creation actions, reports, production links, formula calculation changes, Meal Margins calculation changes, Sell Prices business rule changes, Supplier Invoice Intake changes, auth/domain changes, Platform Admin logic changes or sample snapshot data are included.
+
+See:
+
+```text
+docs/191-costing-snapshot-schema-foundation.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

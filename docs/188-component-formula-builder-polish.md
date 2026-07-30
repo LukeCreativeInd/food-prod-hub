@@ -193,7 +193,7 @@ Component formulas connect to or will later connect to:
 
 - 189 Finished Product Formula Builder Polish - now completed as a matching sellable product formula clarity pass
 - 190 Costing Snapshot Plan - now completed as the plan for future locked component and finished product cost history
-- 191 Costing Snapshot Schema Foundation
+- 191 Costing Snapshot Schema Foundation - now drafted as migration 034 for future locked component/finished product snapshot records
 - 192 Costing Snapshot UI v1
 - 196 Unit Of Measure Standardisation Plan
 - future Component Where-Used Readiness
