@@ -59,6 +59,10 @@ This roadmap follows the Phase 1 Operational Review Pack. Every task from 201 on
 
 - Do not skip Admin + Support impact notes.
 - Do not skip cross-module notes.
+- Do not skip source-of-truth notes for tasks that touch records owned by another module.
+- Do not build QA, Logistics, Reports or CRM records that duplicate Products, Inventory, Production, Costings, Supplier Invoice Intake, Support or Audit Log source records.
 - Do not leave fake/demo content unlabelled.
 - If a migration is created or changed, the final response must include full SQL under `FULL SQL MIGRATION CONTENTS`.
 - Prefer plans before schema when cross-module rules are unclear.
+
+Task 201 confirms no roadmap order change is required yet. Keep UOM conversion next, then inventory/production hardening, then QA, Logistics, Reports and CRM in the planned sequence.

@@ -382,6 +382,7 @@ Every future task should include:
 - Non-goals
 - Admin + Support impact
 - Cross-module impact
+- Source-of-truth impact
 - Dummy/demo cleanup impact
 - Permission/RLS impact
 - Data model impact

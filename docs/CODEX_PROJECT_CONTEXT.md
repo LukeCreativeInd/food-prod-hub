@@ -805,3 +805,11 @@ Task 200 creates the Phase 1 Operational Review Pack after tasks 001-199. It rec
 Task 200 also adds the 201-250 roadmap and a reusable task prompt template for future work. From task 201 onward, prompts should explicitly cover Admin + Support impact, cross-module impact, dummy/demo cleanup, permission/RLS impact, data model impact, support guide/troubleshooting/release-note impact and smoke checks. If any SQL migration file is created or changed, the final Codex response must paste the full SQL under `FULL SQL MIGRATION CONTENTS`.
 
 This is documentation only. No UI, schema, migration, RLS, permission, auth/domain routing, DNS/Vercel/Supabase setting, business logic or package changes are included.
+
+## Task 201 Phase 2 Module Integration Map
+
+Task 201 documents how QA, Logistics, Reports and CRM should connect into the Phase 1 operational foundation. The map confirms that Products/internal items, Supplier Invoice Intake, Goods Inwards, inventory lots, stock movements, Production Plans/Batches and Costing Snapshots remain source-of-truth records, while QA, Logistics, Reports and CRM should attach to or read from those records instead of duplicating them.
+
+The task records QA, Logistics, Reports and CRM integration maps, a cross-module lifecycle from supplier invoice to future dispatch/reporting, permission and Platform Admin impact, Support Help Centre/troubleshooting/release-note impact and scaffold/demo cleanup findings for QA, Logistics, Reports, CRM, Production Report, Production Tasks and Facility/iPad surfaces.
+
+The 201-250 roadmap order remains unchanged: keep UOM conversion next, then inventory/production hardening, QA, Logistics, Reports and CRM in the planned sequence. The 201+ prompt template now includes source-of-truth impact checks. No UI, schema, migration, RLS, permission, auth/domain routing, business logic or package changes are included.

@@ -207,6 +207,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Production Batch Planning schema foundation has been drafted with tenant-scoped production plans, plan lines, production batches, batch inputs and production areas for review before the first real Production Plan UI.
 - Production Plan UI v1 now uses real planning records for plan list, draft creation, plan detail, planned output lines and planned batch headers without reserving or consuming stock.
 - Phase 1 Operational Review Pack now summarises tasks 001-199, separates real vs scaffolded areas, records Clean Eats data requirements and sets task standards plus a 201-250 roadmap for the next build phase.
+- Phase 2 Module Integration Map now documents how QA, Logistics, Reports and CRM should connect to Phase 1 source-of-truth records without duplicating Products, Inventory, Production, Costings, Support or Audit Log data.
 
 ## Tech Stack
 
@@ -405,6 +406,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Production Batch Planning Data Model](docs/198-production-batch-planning-data-model.md)
 - [Production Plan UI v1](docs/199-production-plan-ui-v1.md)
 - [Phase 1 Operational Review Pack](docs/200-phase-1-operational-review-pack.md)
+- [Phase 2 Module Integration Map](docs/201-phase-2-module-integration-map.md)
 - [Tasks 201-250 next roadmap](docs/201-250-next-roadmap.md)
 - [Task prompt template for 201+](docs/task-prompt-template-201-plus.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)

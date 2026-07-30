@@ -85,6 +85,14 @@ Document links or future links to:
 - Permissions
 - UOM conversion rules
 
+Source-of-truth impact requirement:
+Document:
+- which existing table/workflow owns the source record
+- whether this task creates a new source record or only reads/derives from existing records
+- whether this duplicates data owned by another module
+- whether this affects reporting dimensions
+- whether this should emit audit log events later
+
 Dummy/demo content requirement:
 Identify any fake/demo/scaffold/reference-only content touched by this task.
 Replace it with:
