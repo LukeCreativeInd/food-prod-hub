@@ -326,6 +326,22 @@ See:
 docs/194-inventory-stock-movement-schema-foundation.md
 ```
 
+## Task 195 Goods Inwards Receiving UI v1
+
+Task 195 builds the first manual Goods Inwards receiving workflow using the task 194 schema after migration 035 was manually applied. `/goods-inwards` now lists real receipt rows, `/goods-inwards/new` creates draft receipts and `/goods-inwards/[id]` supports manual line entry, draft cancellation and receipt posting for authorised users.
+
+Posting a draft receipt creates `inventory_lots` and `stock_movements` rows, then marks the receipt posted. V1 posting is sequential Supabase writes after pre-validation, not a database transaction/RPC yet. Lines needing unknown unit conversion or marked rejected block posting. Held lines post as on-hold lots.
+
+`/stock-movements` now shows real recent ledger rows or a real empty state. Supplier Invoice Intake remains separate and does not create receipts or stock automatically. No SQL migrations, purchase orders, barcode scanning, QA checklist workflow, production consumption, stock-on-hand summaries, costing changes, approved supplier price changes, auth/domain changes, Platform Admin changes, service-role flows or packages are included.
+
+Support guide, troubleshooting and release-note copy now mention Goods Inwards basics. Existing support ticket page context already maps Goods Inwards and stock movements to Inventory.
+
+See:
+
+```text
+docs/195-goods-inwards-receiving-ui-v1.md
+```
+
 ## Task 172 Support Domain And Auth-Gated Help Centre Plan
 
 Task 172 plans future `support.everybatchmrp.com` as an authenticated EveryBatch Help Centre. It should serve user-facing module guides, workflow walkthroughs, troubleshooting, release notes and future tenant-scoped support tickets.

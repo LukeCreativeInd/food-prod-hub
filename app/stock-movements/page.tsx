@@ -1,108 +1,157 @@
-import { InventoryWorkspacePage } from "@/components/inventory/inventory-workspace-page";
+import Link from "next/link";
 
-const columns = [
-  "Item",
-  "Batch/Lot",
-  "From",
-  "To",
-  "Quantity",
-  "Reason",
-  "Status",
-  "Notes",
-];
+import { AppShell } from "@/components/app-shell";
+import { EmptyState, SectionCard, StatCard, StatusBadge } from "@/components/ui";
+import {
+  fetchRecentStockMovements,
+  movementStatusTone,
+} from "@/lib/goods-inwards-data";
 
-const rows = [
-  {
-    Item: "Chicken Thigh",
-    "Batch/Lot": "CHK-2407-A",
-    From: "Cool Room",
-    To: "Kitchen Prep",
-    Quantity: "18 kg",
-    Reason: "Production issue",
-    Status: "Ready",
-    Notes: "Static movement example.",
-  },
-  {
-    Item: "Basmati Rice",
-    "Batch/Lot": "RICE-7782",
-    From: "Dry Store",
-    To: "Kitchen Prep",
-    Quantity: "25 kg",
-    Reason: "Batch recipe prep",
-    Status: "Awaiting confirmation",
-    Notes: "Placeholder confirmation state.",
-  },
-  {
-    Item: "Meal Sleeves",
-    "Batch/Lot": "SLEEVE-2190",
-    From: "Dry Store",
-    To: "Packing Room",
-    Quantity: "1,200 units",
-    Reason: "Packing issue",
-    Status: "Ready",
-    Notes: "Sample packaging movement.",
-  },
-  {
-    Item: "Napoli Sauce",
-    "Batch/Lot": "SAUCE-0710",
-    From: "Pre-Pack Room",
-    To: "Packing Room",
-    Quantity: "14 kg",
-    Reason: "Meal assembly",
-    Status: "Review",
-    Notes: "Demo issue/waste prompt only.",
-  },
-];
+export default async function StockMovementsPage() {
+  const data = await fetchRecentStockMovements();
 
-export default function StockMovementsPage() {
   return (
-    <InventoryWorkspacePage
-      title="Stock Movements"
-      description="Preview how stock could move from receiving and storage into kitchen, packing and production areas."
-      summaryCards={[
-        {
-          label: "Movements today",
-          value: "12",
-          helperText: "Sample stock movements for staff review.",
-          badge: "Sample",
-          tone: "info",
-          icon: "MV",
-        },
-        {
-          label: "To production",
-          value: "8",
-          helperText: "Placeholder issues into kitchen and packing areas.",
-          badge: "Production",
-          tone: "success",
-          icon: "PR",
-        },
-        {
-          label: "Awaiting confirmation",
-          value: "3",
-          helperText: "Static confirmation prompts only.",
-          badge: "Check",
-          tone: "warning",
-          icon: "CK",
-        },
-        {
-          label: "Issues/waste",
-          value: "1",
-          helperText: "Sample issue and waste movement prompt.",
-          badge: "Review",
-          tone: "warning",
-          icon: "!",
-        },
-      ]}
-      tableTitle="Sample stock movements"
-      tableDescription="Placeholder movement rows for reviewing source, destination, quantity, reason and confirmation fields."
-      columns={columns}
-      rows={rows}
-      badgeColumns={["Reason", "Status"]}
-      reviewPrompts={[
-        "Which movement types should staff log manually versus automatically from production tasks?",
-        "When should movements require supervisor confirmation?",
-        "How should waste or issue movements be captured later?",
-      ]}
-    />
+    <AppShell>
+      <div className="space-y-6 px-5 py-6 md:px-8">
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <StatCard
+            label="Recent movements"
+            value={String(data.summary.total)}
+            helperText="Latest tenant stock movement ledger rows."
+            badge="Live"
+            tone="info"
+            icon="MV"
+          />
+          <StatCard
+            label="Posted"
+            value={String(data.summary.posted)}
+            helperText="Ledger rows posted by controlled workflows."
+            badge="Posted"
+            tone="success"
+            icon="PO"
+          />
+          <StatCard
+            label="Receipt movements"
+            value={String(data.summary.recentReceipts)}
+            helperText="Movements created from Goods Inwards receipts."
+            badge="Goods In"
+            tone="neutral"
+            icon="GI"
+          />
+          <StatCard
+            label="Hold/release"
+            value={String(data.summary.heldOrReleased)}
+            helperText="Future QA hold/release movement states."
+            badge="QA"
+            tone={data.summary.heldOrReleased > 0 ? "warning" : "neutral"}
+            icon="QA"
+          />
+        </section>
+
+        <SectionCard
+          title="Stock Movements"
+          description="Read-only view of recent stock movement ledger rows. Goods Inwards posting creates receipt movements."
+          action={<StatusBadge tone="success">Live data</StatusBadge>}
+        >
+          {data.movements.length === 0 ? (
+            <EmptyState
+              title="No stock movements yet"
+              description="Post a Goods Inwards receipt to create the first stock movement ledger rows."
+            />
+          ) : (
+            <div className="overflow-x-auto rounded-lg border border-slate-200">
+              <table className="min-w-full divide-y divide-slate-200 text-sm">
+                <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500">
+                  <tr>
+                    <th className="px-4 py-3">Item</th>
+                    <th className="px-4 py-3">Location</th>
+                    <th className="px-4 py-3">Lot</th>
+                    <th className="px-4 py-3">Quantity</th>
+                    <th className="px-4 py-3">Movement</th>
+                    <th className="px-4 py-3">Status</th>
+                    <th className="px-4 py-3">When</th>
+                    <th className="px-4 py-3">Source</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 bg-white">
+                  {data.movements.map((movement) => (
+                    <tr key={movement.id}>
+                      <td className="px-4 py-3 font-semibold text-slate-950">
+                        {movement.internalItemName}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {movement.locationName}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {movement.lotNumber}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {movement.quantity} {movement.unit}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex flex-wrap gap-2">
+                          <StatusBadge tone="neutral">
+                            {movement.movementTypeLabel}
+                          </StatusBadge>
+                          <StatusBadge tone="info">
+                            {movement.directionLabel}
+                          </StatusBadge>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <StatusBadge tone={movementStatusTone(movement.status)}>
+                          {movement.statusLabel}
+                        </StatusBadge>
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {movement.movementAt}
+                      </td>
+                      <td className="px-4 py-3">
+                        {movement.receiptId ? (
+                          <Link
+                            href={`/goods-inwards/${movement.receiptId}`}
+                            className="text-sm font-bold text-[var(--tenant-primary)] hover:underline"
+                          >
+                            Receipt
+                          </Link>
+                        ) : (
+                          <span className="text-slate-500">Manual/future</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </SectionCard>
+
+        <SectionCard
+          title="Ledger boundaries"
+          description="This page shows movement records only. It does not calculate stock on hand, valuation or availability summaries yet."
+        >
+          <div className="grid gap-3 md:grid-cols-3">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm font-bold text-slate-950">Append-like history</p>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Corrections should use future reversal or adjustment movements.
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm font-bold text-slate-950">No stock totals yet</p>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Stock-on-hand summaries remain a future reporting task.
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-sm font-bold text-slate-950">Receiving source</p>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Goods Inwards receipt posting is the first source workflow.
+              </p>
+            </div>
+          </div>
+        </SectionCard>
+      </div>
+    </AppShell>
   );
 }

@@ -97,6 +97,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/qa-sign-offs": { title: "QA Sign-offs", context: "Quality" },
   "/qa-incidents": { title: "QA Incidents", context: "Quality" },
   "/goods-inwards": { title: "Goods Inwards", context: "Inventory" },
+  "/goods-inwards/new": { title: "New Receipt", context: "Goods Inwards" },
   "/batch-receiving": { title: "Batch Receiving", context: "Inventory" },
   "/stock-movements": { title: "Stock Movements", context: "Inventory" },
   "/purchasing": { title: "Purchasing", context: "Inventory" },
@@ -123,6 +124,10 @@ const dynamicPageTitles: Array<{
   {
     pattern: /^\/stock-locations\/[^/]+$/,
     meta: { title: "Stock Location Detail", context: "Inventory" },
+  },
+  {
+    pattern: /^\/goods-inwards\/[^/]+$/,
+    meta: { title: "Receipt Detail", context: "Goods Inwards" },
   },
   {
     pattern: /^\/purchase-documents\/[^/]+$/,

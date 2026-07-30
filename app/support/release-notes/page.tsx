@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 
 const releaseNotes = [
   {
+    label: "Inventory",
+    title: "Goods Inwards receiving",
+    description:
+      "Goods Inwards now supports manual draft receipts, receiving lines, receipt posting, inventory lot creation and receipt stock movement ledger rows.",
+  },
+  {
     label: "Costings",
     title: "Costing snapshots",
     description:

@@ -669,7 +669,7 @@ Do not remove these in task 193. They are useful until schema/UI build tasks rep
 ## Recommended Next Tasks
 
 - 194 Inventory Stock Movement Schema Foundation drafted migration `035_inventory_stock_movement_schema_foundation.sql` for review
-- 195 Goods Inwards Receiving UI v1
+- 195 Goods Inwards Receiving UI v1 built the first manual draft/add-line/post workflow
 - 196 Supplier Invoice To Receiving Plan
 - 197 Supplier Invoice To Receiving v1
 - UOM Conversion Foundation
@@ -692,6 +692,25 @@ See:
 
 ```text
 docs/194-inventory-stock-movement-schema-foundation.md
+```
+
+## Task 195 Follow-Up
+
+Task 195 has now built the first manual Goods Inwards UI. It replaces fake Goods Inwards rows with real receipts, allows authorised users to create draft receipts, add manual lines and post receipts into inventory lots and stock movement ledger rows.
+
+V1 still preserves the planning boundaries from this document:
+
+- Supplier Invoice Intake remains separate.
+- Purchase Orders are not built.
+- unknown pack-unit conversions block posting instead of being guessed.
+- rejected lines do not silently create available stock.
+- stock-on-hand summaries remain future work.
+- receipt posting should be hardened into a database transaction/RPC in a later task.
+
+See:
+
+```text
+docs/195-goods-inwards-receiving-ui-v1.md
 ```
 
 ## Behaviour Preserved

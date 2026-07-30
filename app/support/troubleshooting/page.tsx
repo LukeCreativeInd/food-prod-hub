@@ -30,6 +30,11 @@ const troubleshootingTopics = [
       "Open the snapshot detail page and review the blocked reason on the header or line. Blocked snapshots intentionally preserve missing prices, unit mismatches or sell price blockers at the time they were created.",
   },
   {
+    title: "I can't post a Goods Inwards receipt",
+    description:
+      "Check that the receipt has at least one active line, no rejected lines and no lines marked conversion required or blocked. Unknown pack conversions such as bunch to grams need future UOM rules before posting.",
+  },
+  {
     title: "Invoice upload has unknown lines",
     description:
       "Review the line source text, supplier item, classification and internal item mapping before committing.",

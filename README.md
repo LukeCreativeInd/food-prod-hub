@@ -201,6 +201,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Cost readiness now normalises common unit labels and supports safe metric kg/g and l/ml conversion; pack units such as bunch, box and carton still need future UOM Conversion Foundation work.
 - Inventory Receiving Workflow planning now defines the future Goods Inwards, receipt line, lot, stock movement, QA hold and traceability approach before schema/UI build work.
 - Inventory Stock Movement schema foundation has been drafted with tenant-scoped receipt, receipt line, lot and stock movement ledger tables, RLS policies and inventory movement permissions for review.
+- Goods Inwards Receiving UI v1 now supports manual draft receipts, receipt lines, posting, inventory lot creation and receipt stock movement ledger rows.
 
 ## Tech Stack
 
@@ -393,6 +394,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Costing Snapshot UI v1](docs/192-costing-snapshot-ui-v1.md)
 - [Inventory Receiving Workflow Plan](docs/193-inventory-receiving-workflow-plan.md)
 - [Inventory Stock Movement Schema Foundation](docs/194-inventory-stock-movement-schema-foundation.md)
+- [Goods Inwards Receiving UI v1](docs/195-goods-inwards-receiving-ui-v1.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
 - [Dashboard, card and page polish](docs/109b-dashboard-card-ui-polish.md)

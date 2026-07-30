@@ -346,7 +346,7 @@ export const supportGuides: SupportGuide[] = [
     categoryTitle: "Inventory",
     title: "Inventory overview",
     summary:
-      "How stock locations and inventory foundations prepare EveryBatch for later receiving and movement workflows.",
+      "How stock locations, Goods Inwards and stock movements work together in the current inventory foundation.",
     status: "available",
     audience: "Warehouse and operations users",
     estimatedRead: "4 min read",
@@ -354,15 +354,22 @@ export const supportGuides: SupportGuide[] = [
       {
         heading: "Current foundation",
         body: [
-          "Inventory currently focuses on structure and readiness: stock locations, operational inventory views and links to future goods-inwards and movement workflows.",
-          "Location setup helps the business describe where stock can be stored before live stock movement tracking is introduced.",
+          "Inventory now includes stock locations, manual Goods Inwards receipts and a read-only stock movement ledger.",
+          "Location setup helps the business describe where stock can be stored. Goods Inwards captures physical supplier deliveries and posting creates lot records plus receipt stock movements.",
         ],
       },
       {
-        heading: "Future flow",
+        heading: "Goods Inwards basics",
         body: [
-          "Future inventory work is expected to connect supplier invoice review, goods inwards, stock movements, batch traceability and production consumption.",
-          "Until those workflows are built, inventory pages should not imply live stock-on-hand automation.",
+          "Create a draft receipt when goods arrive, add receiving lines manually, choose the internal item and stock location, then post the receipt after review.",
+          "Lines needing unknown unit conversion or marked as rejected cannot be posted in v1. Held lines can be posted as stock on hold.",
+        ],
+      },
+      {
+        heading: "What is still separate",
+        body: [
+          "Supplier Invoice Intake can review supplier documents and prices, but it does not create receiving lines automatically yet.",
+          "Stock-on-hand totals, valuation, purchase orders, QA checklists, barcode scanning and production consumption remain future workflows.",
         ],
       },
     ],
