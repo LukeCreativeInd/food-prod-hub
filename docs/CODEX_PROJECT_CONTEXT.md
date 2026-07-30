@@ -797,3 +797,11 @@ This is schema foundation only. It does not build Production Plan UI, production
 Task 199 replaces the fake `/production-plan` demo surface with real production planning UI. Users with the right permissions can view production plans, create a draft plan, open plan detail, add planned finished product/component output lines and create planned production batch headers.
 
 This remains planning-only. It does not reserve or consume stock, create inventory lots, create `stock_movements`, create production output stock, generate production tasks, build tablet/facility execution, generate batch inputs, change Goods Inwards/Supplier Invoice Intake/costing/formula logic, alter RLS/permissions, or add packages. Support guide, troubleshooting and release-note text now mention Production Plan UI v1.
+
+## Task 200 Phase 1 Operational Review Pack
+
+Task 200 creates the Phase 1 Operational Review Pack after tasks 001-199. It records what EveryBatch / Clean Eats Hub can demonstrate now, what is real versus scaffolded, what Clean Eats data is still required, the critical operational gaps before a live cutover, manual testing coverage, risks and hardening priorities.
+
+Task 200 also adds the 201-250 roadmap and a reusable task prompt template for future work. From task 201 onward, prompts should explicitly cover Admin + Support impact, cross-module impact, dummy/demo cleanup, permission/RLS impact, data model impact, support guide/troubleshooting/release-note impact and smoke checks. If any SQL migration file is created or changed, the final Codex response must paste the full SQL under `FULL SQL MIGRATION CONTENTS`.
+
+This is documentation only. No UI, schema, migration, RLS, permission, auth/domain routing, DNS/Vercel/Supabase setting, business logic or package changes are included.
