@@ -320,7 +320,7 @@ limit 50;
 
 Recommended next sequence:
 
-1. Task 210 — Inventory Traceability Map Plan.
+1. Task 210 — Inventory Traceability Map Plan. This task now documents how Stock On Hand rows should connect back to receipt, lot and movement lineage.
 2. Task 211 — Inventory Traceability Map UI v1.
 3. Future stock adjustment/reversal workflow.
 4. Future UOM conversion rule integration into receiving and stock reporting.

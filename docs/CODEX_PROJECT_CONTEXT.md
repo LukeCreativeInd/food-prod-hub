@@ -877,3 +877,11 @@ Task 209 adds `/stock-on-hand` as the first read-only Stock On Hand page in the 
 Stock On Hand v1 separates available, held and physical quantity using `inventory_lots` status and QA context. Mixed-unit items are flagged rather than silently converted, and UOM conversion database rules are not integrated yet. The Inventory sidebar now includes Stock On Hand, the page title helper maps `/stock-on-hand`, and support ticket page context maps the route to Inventory.
 
 Support impact is limited to user-facing wording: Inventory guide, troubleshooting and release notes mention Stock On Hand. There are no Platform Admin route changes, tenant management changes, feature flag changes, RLS/permission changes, Supplier Invoice Intake changes, Goods Inwards posting changes, production/costing/formula changes, auth/domain changes or packages.
+
+## Task 210 Inventory Traceability Map Plan
+
+Task 210 is docs/planning only. It creates `docs/210-inventory-traceability-map-plan.md` as the implementation blueprint for future inventory traceability after Goods Inwards posting, stock movements and Stock On Hand are in place.
+
+The plan separates the real inbound chain available now from future recall-grade forward traceability. Current traceability can read supplier invoice evidence, purchase document lines, Goods Inwards receipt lines, inventory lots, stock movements and Stock On Hand. Production records currently remain planning-only: production batch inputs do not consume lots or write outbound stock movements, and production outputs do not create produced lots or inbound stock movements yet.
+
+The recommended route for a future real traceability screen is `/inventory-traceability`, with `/bom-traceability` either redirected or replaced later because it is currently sample/static. Task 211 is recommended as Inventory Traceability Map UI v1 using server-side TypeScript queries and no migration unless a real query/RLS blocker appears. Task 210 does not create UI, routes, migrations, views/RPCs, RLS/permission changes, stock posting changes, stock-on-hand changes, production stock movement logic, QA workflows, support release notes or packages.
