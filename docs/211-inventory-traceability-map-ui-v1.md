@@ -142,3 +142,5 @@ Future traceability should extend from inbound stock into:
 - dispatch/customer records
 - recall-style forward and backward trace reports
 - reviewed stock adjustment and reversal events
+
+Task 212 now plans those future stock adjustment and reversal events. The plan keeps this page read-only for inbound traceability while recommending that future corrections appear as additional lot-linked movement evidence rather than edits to historical receipt or movement rows.

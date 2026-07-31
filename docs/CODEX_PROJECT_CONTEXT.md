@@ -893,3 +893,11 @@ Task 211 adds `/inventory-traceability` as the first real read-only inbound trac
 Invoice-linked receiving is shown when the current role has `purchase_documents.view`; otherwise the page shows safe hidden-by-access messaging. Manual receiving is labelled as manual receiving instead of inventing invoice evidence. The route requires `stock_movements.view` and does not add migrations, SQL views, RPCs, writes, RLS/permission changes, Goods Inwards posting changes, Supplier Invoice Intake parsing changes, production usage, dispatch/customer traceability, recall workflow, UOM integration, costings/formula changes, Platform Admin changes or packages.
 
 The old `/bom-traceability` and `/inventory/bom-traceability` sample/static scaffold routes now redirect to `/inventory-traceability`. Inventory navigation now shows Traceability after Stock On Hand. Support guide, troubleshooting, release notes and support ticket page context now mention Inventory Traceability.
+
+## Task 212 Stock Adjustment/Reversal Plan
+
+Task 212 is docs/planning only. It creates `docs/212-stock-adjustment-reversal-plan.md` as the blueprint for future stock corrections after Goods Inwards posting, Stock On Hand and Inventory Traceability are in place.
+
+The plan keeps `stock_movements` as the append-only inventory ledger and recommends future `stock_adjustments` and `stock_adjustment_lines` source event tables. Corrections should create new posted movement rows rather than editing posted receipt lines, inventory lots or historical stock movement rows. Reversals should reference original movements/receipts/lines where possible, quantities should remain positive, and direction controls whether stock is added or subtracted.
+
+Task 212 documents adjustment vs reversal vs status-only correction models, movement type and reason-code recommendations, lot/location validation, conservative permissions, future `/stock-adjustments` routes, a transaction-safe `post_stock_adjustment` RPC direction, Stock On Hand and Inventory Traceability impact, audit/compliance considerations, testing, rollback and performance deferral. No migrations, UI, routes, RLS/permission changes, Goods Inwards posting changes, Stock On Hand changes, Inventory Traceability changes, Supplier Invoice Intake changes, production/QA/logistics workflows, support release notes or packages are added.
