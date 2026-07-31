@@ -411,6 +411,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Phase 2 Module Integration Map](docs/201-phase-2-module-integration-map.md)
 - [UOM Conversion Foundation Plan](docs/202-uom-conversion-foundation-plan.md)
 - [UOM Conversion Schema Foundation](docs/203-uom-conversion-schema-foundation.md)
+- [UOM Conversion UI v1](docs/204-uom-conversion-ui-v1.md)
 - [Tasks 201-250 next roadmap](docs/201-250-next-roadmap.md)
 - [Task prompt template for 201+](docs/task-prompt-template-201-plus.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)

@@ -829,3 +829,11 @@ Task 203 drafts migration `037_uom_conversion_schema_foundation.sql`. It creates
 The schema supports tenant, internal-item and supplier-item rule scopes, status/confidence/source metadata, effective dates, reviewed conversion math, `allow_reverse`, same-tenant foreign keys, duplicate active open-ended rule prevention and soft archive semantics. Tenant users with create permission can insert draft rules only; activation/update/archive require manage permission or platform admin.
 
 `lib/uom-conversion-types.ts` adds constants, labels and type guards for future UI/actions, and support ticket page context now recognises future `/uom-conversions` routes as Products-category context. This task does not build UI, add sidebar navigation, update unit conversion helper logic, apply DB rules to costing/receiving/production, alter auth/domain routing, change business logic or add packages.
+
+## Task 204 UOM Conversion UI v1
+
+Task 204 adds the first tenant-facing UOM Conversion UI at `/uom-conversions`, `/uom-conversions/new` and `/uom-conversions/[id]`. The Products sidebar now includes a permission-aware UOM Conversions item for users with `uom_conversions.view`.
+
+The UI lists real tenant conversion rules, provides a real empty state, creates draft rules, calculates `conversion_factor` from source/target quantities, validates same-tenant internal item/supplier/supplier item references, and lets manage users edit, activate, deactivate or archive rules. Duplicate active open-ended rules show a friendly message. There is no delete action and no fake/sample conversion data.
+
+Support impact is now user-facing: the Help Centre includes a UOM Conversion basics guide, troubleshooting entries for conversion blockers and duplicate active rules, a release note, and support ticket context mapping for UOM pages. No Platform Admin routes, feature flags, RLS, permissions, costing calculations, Supplier Invoice Intake logic, Goods Inwards posting, stock movements, production planning, auth/domain routing or packages changed.

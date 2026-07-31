@@ -250,18 +250,19 @@ UOM conversion rules:
 
 ## Future Task 204 UI Plan
 
-Task 204 should build UI/actions after this migration is reviewed and applied.
+Task 204 has now built the first tenant-facing UI/actions after this migration was reviewed and applied.
 
-Recommended scope:
+Implemented scope:
 
 - list conversion rules
 - create draft rule
 - edit/archive rules
 - activate/verify through manage permission
 - show examples and conversion math
-- link future blockers to UOM Conversion UI
+- add Products sidebar navigation
+- add Support guide/troubleshooting/release note content
 
-Task 204 should not automatically wire conversion rules into costing, receiving or production unless explicitly scoped.
+Task 204 does not automatically wire conversion rules into costing, receiving or production.
 
 ## Suggested SQL Smoke Checks
 

@@ -207,6 +207,46 @@ export const supportGuides: SupportGuide[] = [
     ],
     relatedLinks: [
       { label: "Formula Builder basics", href: "/support/guides/formula-builder-basics" },
+      { label: "UOM Conversion basics", href: "/support/guides/uom-conversion-basics" },
+      { label: "Supplier Invoice Intake basics", href: "/support/guides/supplier-invoice-intake-basics" },
+    ],
+  },
+  {
+    slug: "uom-conversion-basics",
+    categoryKey: "products",
+    categoryTitle: "Products",
+    title: "UOM Conversion basics",
+    summary:
+      "How reviewed pack and purchase-unit conversion rules prepare EveryBatch for costing, receiving and production workflows.",
+    status: "available",
+    audience: "Operations, purchasing, inventory and costing users",
+    estimatedRead: "5 min read",
+    sections: [
+      {
+        heading: "What UOM conversions are for",
+        body: [
+          "UOM conversion rules describe reviewed relationships between units, such as 1 bunch Basil = 100 g or 1 box Chicken Thigh = 10 kg.",
+          "Metric unit changes such as kg to g and l to ml are handled globally. Pack units such as bunch, box, carton, bottle and tray need reviewed workspace rules because pack size can vary by supplier and item.",
+        ],
+      },
+      {
+        heading: "Rule scope",
+        body: [
+          "Tenant-wide rules are generic and should be used carefully. Internal item rules are more specific. Supplier item rules are the most specific and are preferred when a supplier pack size is known.",
+          "Create rules as drafts first, then activate them after review. Duplicate active open-ended rules for the same scope and unit pair are blocked.",
+        ],
+      },
+      {
+        heading: "Source of truth",
+        body: [
+          "UOM conversion rules do not replace supplier invoices, approved prices or formula quantities.",
+          "They also do not change historical costing snapshots or stock movements. They are reviewed interpretation rules that future workflows can use when converting between purchase, inventory, costing and production units.",
+        ],
+      },
+    ],
+    relatedLinks: [
+      { label: "Products overview", href: "/support/guides/products-overview" },
+      { label: "Costings overview", href: "/support/guides/costings-overview" },
       { label: "Supplier Invoice Intake basics", href: "/support/guides/supplier-invoice-intake-basics" },
     ],
   },

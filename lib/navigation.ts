@@ -124,6 +124,12 @@ export const navigationGroups: NavigationGroup[] = [
         requiredPermission: "products.view",
         requiredModuleKey: "products",
       },
+      {
+        label: "UOM Conversions",
+        href: "/uom-conversions",
+        requiredPermission: "uom_conversions.view",
+        requiredModuleKey: "products",
+      },
     ],
   },
   {

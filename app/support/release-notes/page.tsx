@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 
 const releaseNotes = [
   {
+    label: "Products",
+    title: "UOM Conversion UI v1",
+    description:
+      "Products now includes UOM Conversions for creating, reviewing, activating and archiving tenant pack-unit rules such as bunch, carton, box and bottle conversions. These rules are not wired into costing, receiving or production calculations yet.",
+  },
+  {
     label: "Production",
     title: "Production Plan UI v1",
     description:

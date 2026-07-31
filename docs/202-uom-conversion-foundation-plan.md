@@ -625,6 +625,10 @@ Task 203 captured these schema decisions:
 
 ## Task 204 Notes
 
+Task 204 adds the first tenant-facing UOM Conversion UI at `/uom-conversions`, with Products sidebar navigation, list/create/detail/edit/status workflows, support guide/troubleshooting/release-note updates and permission-aware messaging.
+
+The UI creates real draft rules and allows manage users to activate, deactivate or archive them. It does not wire database rules into costing, Goods Inwards, Supplier Invoice Intake, stock movements, production planning or snapshots yet.
+
 Task 204 should build UI and actions after schema exists. It should keep scope controlled:
 
 - list/create/edit/archive UOM conversion rules

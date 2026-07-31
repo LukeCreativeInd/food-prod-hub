@@ -25,6 +25,11 @@ const troubleshootingTopics = [
       "Look for missing approved prices, missing formula lines, component-cost blockers, purchase-unit conversion messages or draft sell prices. Metric kg/g and l/ml conversions should not block.",
   },
   {
+    title: "Costing is blocked by unit conversion",
+    description:
+      "Check whether the item uses a pack unit such as bunch, box, carton, bottle or tray. Create and activate a reviewed UOM conversion rule before future costing workflows rely on that pack size.",
+  },
+  {
     title: "A costing snapshot is blocked",
     description:
       "Open the snapshot detail page and review the blocked reason on the header or line. Blocked snapshots intentionally preserve missing prices, unit mismatches or sell price blockers at the time they were created.",
@@ -33,6 +38,16 @@ const troubleshootingTopics = [
     title: "I can't post a Goods Inwards receipt",
     description:
       "Check that the receipt has at least one active line, no rejected lines and no lines marked conversion required or blocked. Unknown pack conversions such as bunch to grams need future UOM rules before posting.",
+  },
+  {
+    title: "Goods Inwards cannot post because conversion is required",
+    description:
+      "Confirm the receipt line unit is not a guessed pack unit. Add a reviewed UOM conversion rule in Products when a known supplier or internal item pack size is needed.",
+  },
+  {
+    title: "Duplicate active conversion rule",
+    description:
+      "Only one active open-ended UOM conversion rule is allowed for the same scope and unit pair. Deactivate, archive or end-date the current active rule before activating a replacement.",
   },
   {
     title: "I can't create a Goods Inwards draft from an invoice",

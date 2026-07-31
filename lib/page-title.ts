@@ -13,6 +13,8 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/components": { title: "Components", context: "Products" },
   "/recipes": { title: "Recipes", context: "Products" },
   "/finished-products": { title: "Finished Products", context: "Products" },
+  "/uom-conversions": { title: "UOM Conversions", context: "Products" },
+  "/uom-conversions/new": { title: "New UOM Conversion", context: "Products" },
   "/costings": { title: "Costings", context: "Financial readiness" },
   "/costing-overview": { title: "Costings", context: "Financial readiness" },
   "/ingredient-costs": { title: "Ingredient Costs", context: "Costings" },
@@ -141,6 +143,10 @@ const dynamicPageTitles: Array<{
   {
     pattern: /^\/finished-products\/[^/]+$/,
     meta: { title: "Finished Product Detail", context: "Products" },
+  },
+  {
+    pattern: /^\/uom-conversions\/[^/]+$/,
+    meta: { title: "UOM Conversion Detail", context: "Products" },
   },
   {
     pattern: /^\/production-plan\/[^/]+$/,
