@@ -407,6 +407,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Supplier Invoice to Receiving Plan](docs/196-supplier-invoice-to-receiving-plan.md)
 - [Supplier Invoice to Receiving v1](docs/197-supplier-invoice-to-receiving-v1.md)
 - [Goods Inwards Line Edit And Posting Hardening](docs/205-goods-inwards-line-edit-posting-hardening.md)
+- [Goods Inwards Posting RPC Plan](docs/206-goods-inwards-posting-rpc-plan.md)
 - [Production Batch Planning Data Model](docs/198-production-batch-planning-data-model.md)
 - [Production Plan UI v1](docs/199-production-plan-ui-v1.md)
 - [Phase 1 Operational Review Pack](docs/200-phase-1-operational-review-pack.md)

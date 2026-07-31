@@ -845,3 +845,11 @@ Task 205 improves Goods Inwards draft review before stock posting. Draft receipt
 Receipt detail now shows a real posting preflight summary with active, ready, blocked, held, rejected and conversion-required counts plus line-level blocker reasons. Posting revalidates draft status, active line readiness, conversion blockers, rejected QA lines and duplicate lot/movement indicators before creating inventory lots and stock movement rows. Posted receipts are read-only and explain that future corrections should use reversal/adjustment workflows.
 
 This task does not add migrations, change RLS/permissions, integrate database UOM rules into posting, alter Supplier Invoice Intake parsing, auto-post stock from invoices, build purchase orders, QA checklists, stock-on-hand reports, production consumption/output, auth/domain routing or packages. Support guide, troubleshooting and release notes now mention draft edits, posting blockers and posted receipt locking.
+
+## Task 206 Goods Inwards Posting RPC Plan
+
+Task 206 is docs/planning only. It creates the blueprint for replacing sequential Goods Inwards posting writes with `public.post_inventory_receipt(p_receipt_id uuid)` in task 207. The planned RPC should validate and lock the receipt/lines, enforce active tenant membership plus `inventory_receipts.post`, create inventory lots and stock movements, update receipt lines and receipt header inside one Postgres transaction, and return structured result/error data.
+
+Correct live domains remain `app.everybatchmrp.com` for central login/workspace selection, `admin.everybatchmrp.com` for Platform Admin, `cleaneats.everybatchmrp.com` for Clean Eats tenant workspace and `support.everybatchmrp.com` for authenticated support. Do not use `admin.everybatchmrp.com.au`.
+
+Task 206 does not create migrations, change app posting code, change RLS/permissions, change UOM integration, alter Supplier Invoice Intake, build stock-on-hand, change production/costing/formula behaviour, alter Admin/Support workflows or add packages.
