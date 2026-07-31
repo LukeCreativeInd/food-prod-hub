@@ -163,6 +163,8 @@ If line insertion fails after the header is created, the action marks the draft 
 
 Future hardening should move invoice-to-receiving creation into a reviewed Postgres RPC transaction.
 
+Task 205 later adds line-edit hardening on the Goods Inwards side. Invoice-linked draft lines remain linked to their source purchase document line while receiving users can correct warehouse receiving fields before posting.
+
 ## Permissions And Access
 
 The action requires:

@@ -151,6 +151,7 @@ Purchasing:
 Goods Inwards:
 
 - No receipt posting logic changed. Future posting can use active rules where pack unit conversion is required.
+- Task 205 later keeps posting blocked for `needs_conversion` and `blocked` receipt lines, but still does not integrate database UOM rules into posting calculations.
 
 Inventory lots:
 

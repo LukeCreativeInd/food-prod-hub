@@ -62,6 +62,8 @@ Draft receipts can show:
 
 Posted/cancelled receipts are read-only in the UI.
 
+Task 205 later hardens this flow by adding draft header edits, per-line draft edits, posting preflight blockers, duplicate-post protection and clearer posted read-only messaging. Posting remains sequential server-action writes until the planned RPC transaction hardening tasks.
+
 ## Add Line Flow
 
 Receipt lines are added manually.

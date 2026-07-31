@@ -402,7 +402,8 @@ export const supportGuides: SupportGuide[] = [
       {
         heading: "Goods Inwards basics",
         body: [
-          "Create a draft receipt when goods arrive, add receiving lines manually, choose the internal item and stock location, then post the receipt after review.",
+          "Create a draft receipt when goods arrive, add or edit receiving lines, choose the internal item and stock location, then post the receipt after review.",
+          "Draft receipt headers and draft lines can be corrected before posting. Invoice-linked receiving lines keep their source link, but warehouse users can still correct receiving fields such as location, quantity, lot details, QA status and notes.",
           "Lines needing unknown unit conversion or marked as rejected cannot be posted in v1. Held lines can be posted as stock on hold.",
         ],
       },
@@ -411,6 +412,7 @@ export const supportGuides: SupportGuide[] = [
         body: [
           "Supplier Invoice Intake can create a draft Goods Inwards receipt from eligible reviewed invoice lines, but it does not post stock automatically.",
           "The receiving user still reviews locations, lot/expiry details, QA status and conversion blockers before posting.",
+          "Posted receipts are locked. Future corrections should use stock adjustment or reversal workflows rather than editing posted receipt lines.",
           "Stock-on-hand totals, valuation, purchase orders, QA checklists, barcode scanning and production consumption remain future workflows.",
         ],
       },

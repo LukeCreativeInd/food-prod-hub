@@ -37,12 +37,22 @@ const troubleshootingTopics = [
   {
     title: "I can't post a Goods Inwards receipt",
     description:
-      "Check that the receipt has at least one active line, no rejected lines and no lines marked conversion required or blocked. Unknown pack conversions such as bunch to grams need future UOM rules before posting.",
+      "Open the receipt detail page and review the posting preflight. The receipt needs at least one active ready line, no rejected lines, no conversion-required lines and no missing item, location, quantity or unit fields.",
   },
   {
     title: "Goods Inwards cannot post because conversion is required",
     description:
       "Confirm the receipt line unit is not a guessed pack unit. Add a reviewed UOM conversion rule in Products when a known supplier or internal item pack size is needed.",
+  },
+  {
+    title: "A Goods Inwards line is rejected",
+    description:
+      "Rejected receipt lines block posting in v1. Change the QA status if the stock is acceptable, or cancel the draft line so it does not create stock.",
+  },
+  {
+    title: "A posted Goods Inwards receipt is locked",
+    description:
+      "Posted receipts created lot and stock movement ledger records. They are read-only; future corrections should use adjustment or reversal workflows.",
   },
   {
     title: "Duplicate active conversion rule",

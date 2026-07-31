@@ -203,6 +203,8 @@ Recommended v1 approach:
 
 If line editing is not expanded in task 197, the default stock location selector becomes mandatory before creating the draft. This avoids creating unusable receipt lines and avoids guessing locations.
 
+Task 205 later adds draft receipt line editing, so invoice-created receipt lines can preserve their source invoice links while allowing receiving users to correct location, quantity/unit, QA status, lot/expiry details and notes before posting.
+
 ## Lot, Expiry And QA Handling
 
 Supplier invoices usually do not provide reliable lot, expiry or use-by data.

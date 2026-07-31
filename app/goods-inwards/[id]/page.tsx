@@ -6,6 +6,7 @@ import {
   cancelInventoryReceiptAction,
   cancelInventoryReceiptLineAction,
   postInventoryReceiptAction,
+  updateInventoryReceiptHeaderAction,
 } from "@/app/goods-inwards/actions";
 import { AppShell } from "@/components/app-shell";
 import { AlertCard, EmptyState, PageActionButton, SectionCard, StatCard, StatusBadge } from "@/components/ui";
@@ -50,6 +51,8 @@ function actionMessage(status?: string) {
       text: "Draft receipt created from Supplier Invoice Intake. Review lines before posting.",
     },
     line_added: { tone: "success", text: "Receipt line added." },
+    line_updated: { tone: "success", text: "Receipt line updated." },
+    header_updated: { tone: "success", text: "Draft receipt header updated." },
     line_cancelled: { tone: "success", text: "Draft receipt line cancelled." },
     receipt_cancelled: { tone: "success", text: "Draft receipt cancelled." },
     posted: { tone: "success", text: "Receipt posted. Lots and stock movements were created." },
@@ -66,8 +69,15 @@ function actionMessage(status?: string) {
     missing_location: { tone: "warning", text: "Select a stock location." },
     invalid_quantity: { tone: "warning", text: "Enter a received quantity greater than zero." },
     invalid_unit: { tone: "warning", text: "Enter a received unit." },
+    invalid_dates: { tone: "warning", text: "Manufacture date cannot be after expiry or use-by date." },
     invalid_receipt: { tone: "warning", text: "The receipt could not be found." },
+    invalid_line: { tone: "warning", text: "The receipt line could not be found." },
+    invalid_supplier: { tone: "warning", text: "The selected supplier could not be found for this workspace." },
+    invalid_received_at: { tone: "warning", text: "Enter a valid received date and time." },
+    line_not_draft: { tone: "warning", text: "Only draft receipt lines can be edited." },
     receipt_not_draft: { tone: "warning", text: "Only draft receipts can be changed or posted." },
+    incomplete_line: { tone: "warning", text: "One or more active lines are missing required item, location, quantity or unit details." },
+    duplicate_post: { tone: "warning", text: "This receipt already appears to have created lots or stock movements. Reposting is blocked to avoid duplicates." },
     partial_error: {
       tone: "danger",
       text: "Posting stopped after a write failed. Review created lots/movements before retrying.",
@@ -139,6 +149,43 @@ function lineStatusTone(line: InventoryReceiptLineItem) {
   return "neutral" as const;
 }
 
+function SupplierSelect({
+  suppliers,
+  defaultValue,
+}: {
+  suppliers: { id: string; displayName: string }[];
+  defaultValue?: string;
+}) {
+  return (
+    <select className={selectClass} defaultValue={defaultValue ?? ""} name="supplier_id">
+      <option value="">No supplier selected</option>
+      {suppliers.map((supplier) => (
+        <option key={supplier.id} value={supplier.id}>
+          {supplier.displayName}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+function ReceiptLineCancelForm({
+  receiptId,
+  lineId,
+}: {
+  receiptId: string;
+  lineId: string;
+}) {
+  return (
+    <form action={cancelInventoryReceiptLineAction} className="mt-4">
+      <input name="receipt_id" type="hidden" value={receiptId} />
+      <input name="line_id" type="hidden" value={lineId} />
+      <button className={dangerButtonClass} type="submit">
+        Cancel line
+      </button>
+    </form>
+  );
+}
+
 export default async function GoodsInwardsReceiptDetailPage({
   params,
   searchParams,
@@ -152,14 +199,16 @@ export default async function GoodsInwardsReceiptDetailPage({
 
   const message = actionMessage(query.receipt);
   const isDraft = data.receipt.status === "draft";
-  const activeLines = data.lines.filter((line) => line.status !== "cancelled");
+  const activeLines = data.lines.filter(
+    (line) => line.status !== "cancelled" && line.status !== "archived",
+  );
   const canAddLines = isDraft && (data.canCreateReceipts || data.canManageReceipts);
-  const canPost =
-    isDraft && data.canPostReceipts && activeLines.length > 0;
+  const canPost = isDraft && data.canPostReceipts;
   const hasConversionBlocker = activeLines.some((line) =>
     ["needs_conversion", "blocked"].includes(line.conversionStatus),
   );
   const hasRejectedLine = activeLines.some((line) => line.qaStatus === "rejected");
+  const isPostedReadOnly = data.receipt.status === "posted";
 
   return (
     <AppShell>
@@ -217,6 +266,7 @@ export default async function GoodsInwardsReceiptDetailPage({
               ["Supplier reference", data.receipt.supplierReference],
               ["Created", data.receipt.createdAt],
               ["Posted", data.receipt.postedAt],
+              ["Posted by", data.receipt.postedBy],
               ["Cancelled", data.receipt.cancelledAt],
               ["Updated", data.receipt.updatedAt],
               ["Notes", data.receipt.notes],
@@ -252,7 +302,7 @@ export default async function GoodsInwardsReceiptDetailPage({
                 <input name="receipt_id" type="hidden" value={data.receipt.id} />
                 <button
                   className={primaryButtonClass}
-                  disabled={hasConversionBlocker || hasRejectedLine}
+                  disabled={!data.postingPreflight.canAttemptPost}
                   type="submit"
                 >
                   Post receipt
@@ -269,6 +319,117 @@ export default async function GoodsInwardsReceiptDetailPage({
             ) : null}
           </div>
         </SectionCard>
+
+        {isDraft && (data.canCreateReceipts || data.canManageReceipts) ? (
+          <SectionCard
+            title="Edit draft header"
+            description="Header details can be corrected while the receipt is still draft."
+            action={<StatusBadge tone="warning">Draft editable</StatusBadge>}
+          >
+            <form
+              action={updateInventoryReceiptHeaderAction}
+              className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4"
+            >
+              <input name="receipt_id" type="hidden" value={data.receipt.id} />
+              <FormField label="Supplier">
+                <SupplierSelect
+                  suppliers={data.formOptions.suppliers}
+                  defaultValue={data.receipt.supplierId}
+                />
+              </FormField>
+              <FormField label="Received date/time">
+                <input
+                  className={inputClass}
+                  defaultValue={data.receipt.receivedAtValue}
+                  name="received_at"
+                  required
+                  type="datetime-local"
+                />
+              </FormField>
+              <FormField label="Supplier reference">
+                <input
+                  className={inputClass}
+                  defaultValue={data.receipt.supplierReferenceValue}
+                  name="supplier_reference"
+                  placeholder="Delivery docket, invoice ref or supplier note"
+                />
+              </FormField>
+              <FormField label="Notes">
+                <input
+                  className={inputClass}
+                  defaultValue={data.receipt.notesValue}
+                  name="notes"
+                  placeholder="Optional receiving notes"
+                />
+              </FormField>
+              <div className="xl:col-span-4">
+                <button className={primaryButtonClass} type="submit">
+                  Save header
+                </button>
+              </div>
+            </form>
+          </SectionCard>
+        ) : null}
+
+        {isPostedReadOnly ? (
+          <AlertCard
+            title="Posted receipt locked"
+            description="Posted receipts are read-only. Future corrections will use stock adjustments or reversal workflows instead of editing posted receipt lines."
+            meta="Read only"
+            tone="info"
+          />
+        ) : null}
+
+        {isDraft ? (
+          <SectionCard
+            title="Posting preflight"
+            description="Posting creates inventory lots and stock movement ledger rows. Review blockers before posting."
+            action={
+              <StatusBadge tone={data.postingPreflight.canAttemptPost ? "success" : "warning"}>
+                {data.postingPreflight.canAttemptPost ? "Ready" : "Review needed"}
+              </StatusBadge>
+            }
+          >
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-6">
+              {[
+                ["Active lines", data.postingPreflight.activeLines],
+                ["Ready", data.postingPreflight.readyLines],
+                ["Blocked", data.postingPreflight.blockedLines],
+                ["Held", data.postingPreflight.heldLines],
+                ["Rejected", data.postingPreflight.rejectedLines],
+                ["Conversion review", data.postingPreflight.conversionRequiredLines],
+              ].map(([label, value]) => (
+                <div
+                  key={label}
+                  className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                >
+                  <p className="text-xs font-semibold uppercase text-slate-500">
+                    {label}
+                  </p>
+                  <p className="mt-1 text-2xl font-black text-slate-950">
+                    {value}
+                  </p>
+                </div>
+              ))}
+            </div>
+            {data.postingPreflight.blockers.length > 0 ? (
+              <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4">
+                <p className="text-sm font-black text-amber-950">
+                  Posting blockers
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-amber-900">
+                  {data.postingPreflight.blockers.map((blocker) => (
+                    <li key={blocker}>{blocker}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-900">
+                This draft receipt has no current posting blockers.
+              </p>
+            )}
+          </SectionCard>
+        ) : null}
 
         {hasConversionBlocker ? (
           <AlertCard
@@ -328,10 +489,27 @@ export default async function GoodsInwardsReceiptDetailPage({
                         {line.qaStatusLabel}
                       </StatusBadge>
                       {line.purchaseDocumentLineId ? (
-                        <StatusBadge tone="info">Invoice line</StatusBadge>
+                        <StatusBadge tone="info">{line.sourceLabel}</StatusBadge>
                       ) : null}
                     </div>
                   </div>
+                  {isDraft && line.blockerReasons.length > 0 ? (
+                    <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3">
+                      <p className="text-xs font-black uppercase text-amber-900">
+                        Line blockers
+                      </p>
+                      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-amber-900">
+                        {line.blockerReasons.map((reason) => (
+                          <li key={reason}>{reason}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                  {!isDraft && ["received", "held"].includes(line.status) ? (
+                    <p className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-900">
+                      Inventory lot and stock movement created. This line is posted and locked.
+                    </p>
+                  ) : null}
                   <div className="mt-4 grid gap-3 md:grid-cols-3 xl:grid-cols-5">
                     {[
                       ["Use-by", line.useByDate],
@@ -351,14 +529,28 @@ export default async function GoodsInwardsReceiptDetailPage({
                       </div>
                     ))}
                   </div>
-                  {isDraft && data.canManageReceipts && line.status === "draft" ? (
-                    <form action={cancelInventoryReceiptLineAction} className="mt-4">
-                      <input name="receipt_id" type="hidden" value={data.receipt.id} />
-                      <input name="line_id" type="hidden" value={line.id} />
-                      <button className={dangerButtonClass} type="submit">
-                        Cancel line
-                      </button>
-                    </form>
+                  {isDraft &&
+                  (data.canCreateReceipts || data.canManageReceipts) &&
+                  line.status === "draft" ? (
+                    <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Link
+                          className={primaryButtonClass}
+                          href={`/goods-inwards/${data.receipt.id}/lines/${line.id}/edit`}
+                        >
+                          Edit line
+                        </Link>
+                        <span className="text-xs font-semibold text-slate-500">
+                          Opens a dedicated draft line edit page.
+                        </span>
+                      </div>
+                      {data.canManageReceipts ? (
+                        <ReceiptLineCancelForm
+                          receiptId={data.receipt.id}
+                          lineId={line.id}
+                        />
+                      ) : null}
+                    </div>
                   ) : null}
                 </article>
               ))}

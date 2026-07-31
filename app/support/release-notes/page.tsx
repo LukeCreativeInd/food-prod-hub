@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 
 const releaseNotes = [
   {
+    label: "Inventory",
+    title: "Goods Inwards line edit and posting review",
+    description:
+      "Draft Goods Inwards receipts now support safer header and line editing before posting, clearer posting preflight blockers, duplicate-post protection and stronger read-only messaging once stock movements are created.",
+  },
+  {
     label: "Products",
     title: "UOM Conversion UI v1",
     description:

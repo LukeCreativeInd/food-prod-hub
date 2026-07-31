@@ -108,6 +108,7 @@ export default async function GoodsInwardsPage({ searchParams }: PageProps) {
                     <th className="px-4 py-3">Received</th>
                     <th className="px-4 py-3">Status</th>
                     <th className="px-4 py-3">Lines</th>
+                    <th className="px-4 py-3">Review</th>
                     <th className="px-4 py-3">Posted</th>
                     <th className="px-4 py-3">Action</th>
                   </tr>
@@ -141,6 +142,17 @@ export default async function GoodsInwardsPage({ searchParams }: PageProps) {
                       </td>
                       <td className="px-4 py-3 text-slate-600">
                         {receipt.lineCount}
+                      </td>
+                      <td className="px-4 py-3">
+                        {receipt.status === "draft" && receipt.blockedLineCount > 0 ? (
+                          <StatusBadge tone="warning">
+                            {`${receipt.blockedLineCount} blocker${receipt.blockedLineCount === 1 ? "" : "s"}`}
+                          </StatusBadge>
+                        ) : receipt.status === "draft" ? (
+                          <StatusBadge tone="info">Review draft</StatusBadge>
+                        ) : (
+                          <StatusBadge tone="neutral">Locked</StatusBadge>
+                        )}
                       </td>
                       <td className="px-4 py-3 text-slate-600">
                         {receipt.postedAt}

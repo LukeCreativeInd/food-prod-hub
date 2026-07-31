@@ -837,3 +837,11 @@ Task 204 adds the first tenant-facing UOM Conversion UI at `/uom-conversions`, `
 The UI lists real tenant conversion rules, provides a real empty state, creates draft rules, calculates `conversion_factor` from source/target quantities, validates same-tenant internal item/supplier/supplier item references, and lets manage users edit, activate, deactivate or archive rules. Duplicate active open-ended rules show a friendly message. There is no delete action and no fake/sample conversion data.
 
 Support impact is now user-facing: the Help Centre includes a UOM Conversion basics guide, troubleshooting entries for conversion blockers and duplicate active rules, a release note, and support ticket context mapping for UOM pages. No Platform Admin routes, feature flags, RLS, permissions, costing calculations, Supplier Invoice Intake logic, Goods Inwards posting, stock movements, production planning, auth/domain routing or packages changed.
+
+## Task 205 Goods Inwards Line Edit And Posting Hardening
+
+Task 205 improves Goods Inwards draft review before stock posting. Draft receipt headers can now be edited on receipt detail, draft receipt lines can be edited on the dedicated `/goods-inwards/[id]/lines/[lineId]/edit` route, invoice-linked receipt lines preserve their `purchase_document_line_id`, and cancelled lines remain excluded from posting.
+
+Receipt detail now shows a real posting preflight summary with active, ready, blocked, held, rejected and conversion-required counts plus line-level blocker reasons. Posting revalidates draft status, active line readiness, conversion blockers, rejected QA lines and duplicate lot/movement indicators before creating inventory lots and stock movement rows. Posted receipts are read-only and explain that future corrections should use reversal/adjustment workflows.
+
+This task does not add migrations, change RLS/permissions, integrate database UOM rules into posting, alter Supplier Invoice Intake parsing, auto-post stock from invoices, build purchase orders, QA checklists, stock-on-hand reports, production consumption/output, auth/domain routing or packages. Support guide, troubleshooting and release notes now mention draft edits, posting blockers and posted receipt locking.
