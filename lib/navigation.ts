@@ -50,6 +50,12 @@ export const navigationGroups: NavigationGroup[] = [
         requiredModuleKey: "inventory",
       },
       {
+        label: "Stock On Hand",
+        href: "/stock-on-hand",
+        requiredPermission: "stock_movements.view",
+        requiredModuleKey: "inventory",
+      },
+      {
         label: "Batch Receiving",
         href: "/batch-receiving",
         requiredPermission: "inventory.view",

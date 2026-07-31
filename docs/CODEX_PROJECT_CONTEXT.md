@@ -869,3 +869,11 @@ Task 208 is docs/planning only. It creates `docs/208-stock-on-hand-summary-plan.
 The plan confirms `stock_movements` as the append-like inventory ledger and primary quantity source for stock-on-hand, with `inventory_lots` providing traceability/status context, `inventory_receipts` and receipt lines acting as inbound source events, and supplier invoices remaining commercial evidence rather than stock source records. Stock-on-hand should be derived as read-only grouped totals from posted, non-archived stock movements and should not be manually edited.
 
 The recommended next implementation path is task 209 Stock On Hand Summary UI v1 using direct server-side aggregation from `stock_movements` first, grouped by item/location/lot/unit and warning on mixed units. SQL views/RPCs/materialized summaries should wait until the UI shape or performance needs justify them. Task 208 does not create migrations, routes, UI, navigation, RLS/permission changes, Platform Admin changes, support workflow changes, stock posting changes, UOM integration, production/costing/formula changes or packages.
+
+## Task 209 Stock On Hand Summary UI v1
+
+Task 209 adds `/stock-on-hand` as the first read-only Stock On Hand page in the tenant Inventory workspace. The page uses direct server-side aggregation from posted, non-archived `stock_movements`, grouped by internal item, stock location, inventory lot and unit. It does not create migrations, SQL views, RPCs, materialized summaries or manual stock edit actions.
+
+Stock On Hand v1 separates available, held and physical quantity using `inventory_lots` status and QA context. Mixed-unit items are flagged rather than silently converted, and UOM conversion database rules are not integrated yet. The Inventory sidebar now includes Stock On Hand, the page title helper maps `/stock-on-hand`, and support ticket page context maps the route to Inventory.
+
+Support impact is limited to user-facing wording: Inventory guide, troubleshooting and release notes mention Stock On Hand. There are no Platform Admin route changes, tenant management changes, feature flag changes, RLS/permission changes, Supplier Invoice Intake changes, Goods Inwards posting changes, production/costing/formula changes, auth/domain changes or packages.

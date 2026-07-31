@@ -408,16 +408,25 @@ export const supportGuides: SupportGuide[] = [
         ],
       },
       {
+        heading: "Stock On Hand",
+        body: [
+          "Stock On Hand is a read-only summary calculated from posted stock movement ledger rows.",
+          "The page groups stock by item, location, lot and unit. Available stock and held stock are shown separately using lot and QA status context.",
+          "Mixed units are flagged instead of silently converted. Use reviewed UOM conversion rules before relying on a single normalised total for items that appear in multiple units.",
+        ],
+      },
+      {
         heading: "What is still separate",
         body: [
           "Supplier Invoice Intake can create a draft Goods Inwards receipt from eligible reviewed invoice lines, but it does not post stock automatically.",
           "The receiving user still reviews locations, lot/expiry details, QA status and conversion blockers before posting.",
           "Posted receipts are locked. Future corrections should use stock adjustment or reversal workflows rather than editing posted receipt lines.",
-          "Stock-on-hand totals, valuation, purchase orders, QA checklists, barcode scanning and production consumption remain future workflows.",
+          "Manual stock adjustments, reversals, valuation, purchase orders, QA checklists, barcode scanning and production consumption remain future workflows.",
         ],
       },
     ],
     relatedLinks: [
+      { label: "Stock On Hand", href: "/stock-on-hand" },
       { label: "Supplier Invoice Intake basics", href: "/support/guides/supplier-invoice-intake-basics" },
       { label: "Products overview", href: "/support/guides/products-overview" },
     ],

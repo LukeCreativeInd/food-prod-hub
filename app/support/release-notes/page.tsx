@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Inventory",
+    title: "Stock On Hand summary",
+    description:
+      "Inventory now includes a read-only Stock On Hand screen calculated from posted stock movement ledger rows, with item, location, lot, unit, held stock and mixed-unit visibility.",
+  },
+  {
+    label: "Inventory",
     title: "Transaction-safe Goods Inwards posting",
     description:
       "Goods Inwards posting now uses a database transaction so receipt lots, stock movements, line updates and receipt posting complete together, with safer retry handling if a receipt has already been posted.",

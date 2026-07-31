@@ -55,6 +55,21 @@ const troubleshootingTopics = [
       "Posted receipts created lot and stock movement ledger records. They are read-only; future corrections should use adjustment or reversal workflows.",
   },
   {
+    title: "Stock quantity looks wrong",
+    description:
+      "Open Stock On Hand and compare the row to Stock Movements. Current stock is calculated from posted, non-archived stock movement ledger rows, not from supplier invoices or manual edits.",
+  },
+  {
+    title: "Item shows mixed units",
+    description:
+      "Mixed units are intentionally flagged and not silently converted. Review the item, supplier pack size and UOM conversion rules before relying on a single total.",
+  },
+  {
+    title: "Held stock is not counted as available",
+    description:
+      "Stock tied to on-hold or QA hold lots is shown separately. Held stock is physical stock, but it should not be treated as available for production or dispatch.",
+  },
+  {
     title: "Duplicate active conversion rule",
     description:
       "Only one active open-ended UOM conversion rule is allowed for the same scope and unit pair. Deactivate, archive or end-date the current active rule before activating a replacement.",

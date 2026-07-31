@@ -520,7 +520,7 @@ Current areas to keep honest in future implementation:
 
 Recommended path:
 
-1. Task 209 — Stock On Hand Summary UI v1 using direct server aggregation from `stock_movements`, with no migration unless query/RLS shape forces it.
+1. Task 209 — Stock On Hand Summary UI v1 using direct server aggregation from `stock_movements`, with no migration unless query/RLS shape forces it. This task has now added the first read-only `/stock-on-hand` screen.
 2. Task 210 — Inventory Traceability Map Plan.
 3. Task 211 — Inventory Traceability Map UI v1.
 

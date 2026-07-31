@@ -102,6 +102,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/goods-inwards": { title: "Goods Inwards", context: "Inventory" },
   "/goods-inwards/new": { title: "New Receipt", context: "Goods Inwards" },
   "/batch-receiving": { title: "Batch Receiving", context: "Inventory" },
+  "/stock-on-hand": { title: "Stock On Hand", context: "Inventory" },
   "/stock-movements": { title: "Stock Movements", context: "Inventory" },
   "/purchasing": { title: "Purchasing", context: "Inventory" },
   "/bom-traceability": { title: "BOM / Traceability", context: "Inventory" },

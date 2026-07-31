@@ -108,6 +108,10 @@ const routeContexts: Array<{
     context: { moduleKey: "costings", moduleLabel: "Costings", category: "costings" },
   },
   {
+    prefixes: ["/stock-on-hand"],
+    context: { moduleKey: "inventory", moduleLabel: "Stock On Hand", category: "inventory" },
+  },
+  {
     prefixes: [
       "/inventory",
       "/goods-inwards",
