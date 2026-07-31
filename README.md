@@ -633,6 +633,8 @@ Support Ticket Attachments Plan is documented in [Support Ticket Attachments Pla
 
 Support Ticket Attachments Foundation is documented in [Support Ticket Attachments Foundation](docs/185-support-ticket-attachments-foundation.md).
 
+QA Schema Foundation is documented in [QA Schema Foundation](docs/215-qa-schema-foundation.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -672,5 +674,6 @@ Support Ticket Attachments Foundation is documented in [Support Ticket Attachmen
 - Platform Admin support inbox pagination/search/filter polish and customer ticket list filter polish
 - Planned support ticket attachment architecture covering private storage, tenant-scoped paths, visibility/RLS, file limits and rollout sequencing
 - Drafted support ticket attachment foundation with private bucket metadata, tenant-scoped attachment table, helper function, RLS policies and TypeScript constants
+- Drafted tenant-scoped QA schema foundation with templates, immutable versions, checks, results, reviews, approvals, amendments, full-lot holds, append-only hold events, granular QA permissions and RLS
 
-No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, stock-on-hand summary or stock movement reversal behavior has been added.
+No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, QA receiving workflow, QA-driven inventory availability change, stock movement reversal behavior or full NC/CA workflow has been added.

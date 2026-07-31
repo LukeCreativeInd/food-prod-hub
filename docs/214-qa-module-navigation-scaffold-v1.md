@@ -110,9 +110,10 @@ Future Platform Admin QA readiness diagnostics remain planned only.
 
 The approved sequence remains:
 
-- 215 — QA Schema Foundation
 - 216 — Receiving QA Checks UI v1
 - 217 — QA Hold/Release Inventory Link
+
+Task 215 has now drafted the QA schema foundation in `supabase/migrations/039_qa_schema_foundation.sql`. The scaffold remains non-operational until task 216 adds receiving QA UI/actions, and inventory availability remains unchanged until task 217.
 
 Stock Adjustment/Reversal implementation remains parked.
 

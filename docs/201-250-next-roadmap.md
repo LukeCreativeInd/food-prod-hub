@@ -66,3 +66,5 @@ This roadmap follows the Phase 1 Operational Review Pack. Every task from 201 on
 - Prefer plans before schema when cross-module rules are unclear.
 
 Task 213 updates the approved sequence for tasks 213-250. Stock adjustment/reversal schema and UI work remains important, parked and not lost; it is intentionally deferred until Luke explicitly approves a later task sequence for that implementation work.
+
+Task 215 has drafted the QA schema foundation as migration `039_qa_schema_foundation.sql`. Receiving QA UI remains task 216 and formal QA-driven lot availability/hold-release integration remains task 217.
