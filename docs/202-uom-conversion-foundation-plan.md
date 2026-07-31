@@ -613,13 +613,15 @@ Current copy is acceptable because it honestly blocks unsafe conversion. Future 
 
 Task 203 should create schema only. It should not wire rules into business workflows yet unless explicitly requested.
 
-Task 203 should decide:
+Task 203 has now drafted `supabase/migrations/037_uom_conversion_schema_foundation.sql` with tenant-scoped rules, permissions, RLS policies and TypeScript constants. The migration still requires review and manual application before task 204 UI work.
 
-- whether `conversion_factor` is generated or stored
-- whether `allow_reverse` defaults to false
-- whether effective-date overlap prevention is included in v1
-- whether source/check constraints are strict enough
-- whether indexes support supplier-item, internal-item and blocker lookup patterns
+Task 203 captured these schema decisions:
+
+- `conversion_factor` is stored and calculated by future UI/actions.
+- `allow_reverse` defaults to false.
+- active open-ended duplicate rules are prevented, while full effective-date overlap prevention is left for later hardening.
+- source/status/confidence/check constraints remain practical for early reviewed rules.
+- indexes support tenant, supplier-item, internal-item and blocker lookup patterns.
 
 ## Task 204 Notes
 

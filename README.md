@@ -209,6 +209,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - Phase 1 Operational Review Pack now summarises tasks 001-199, separates real vs scaffolded areas, records Clean Eats data requirements and sets task standards plus a 201-250 roadmap for the next build phase.
 - Phase 2 Module Integration Map now documents how QA, Logistics, Reports and CRM should connect to Phase 1 source-of-truth records without duplicating Products, Inventory, Production, Costings, Support or Audit Log data.
 - UOM Conversion Foundation planning now defines safe global metric conversions versus tenant/item/supplier-specific pack conversions before schema or UI work begins.
+- UOM Conversion Schema Foundation has been drafted with tenant-scoped conversion rules, permissions, RLS policies and TypeScript constants for review before UI/workflow integration.
 
 ## Tech Stack
 
@@ -409,6 +410,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Phase 1 Operational Review Pack](docs/200-phase-1-operational-review-pack.md)
 - [Phase 2 Module Integration Map](docs/201-phase-2-module-integration-map.md)
 - [UOM Conversion Foundation Plan](docs/202-uom-conversion-foundation-plan.md)
+- [UOM Conversion Schema Foundation](docs/203-uom-conversion-schema-foundation.md)
 - [Tasks 201-250 next roadmap](docs/201-250-next-roadmap.md)
 - [Task prompt template for 201+](docs/task-prompt-template-201-plus.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)

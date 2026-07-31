@@ -87,6 +87,14 @@ const routeContexts: Array<{
     context: { moduleKey: "products", moduleLabel: "Products", category: "products" },
   },
   {
+    prefixes: ["/uom-conversions"],
+    context: {
+      moduleKey: "uom_conversions",
+      moduleLabel: "UOM Conversions",
+      category: "products",
+    },
+  },
+  {
     prefixes: [
       "/costing-overview",
       "/costings",

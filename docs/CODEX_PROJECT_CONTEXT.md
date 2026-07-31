@@ -821,3 +821,11 @@ Task 202 documents the UOM Conversion Foundation before schema or UI work. The p
 The recommended future model is tenant-scoped `uom_conversion_rules` with rule scopes for tenant, internal item and supplier item. Matching priority should prefer supplier-item-specific rules, then internal-item-specific rules, then tenant generic rules, then global metric conversion, then blocked/no conversion. The plan covers conversion math, direct/reverse conversion handling, source/review metadata, permissions/RLS planning, UI placement under Products, Admin/Support impact, cross-module impact, audit/reporting considerations and risks/controls.
 
 No UI, schema, migration, RLS, permission, unit conversion helper, costing, Goods Inwards, Supplier Invoice Intake, production planning, auth/domain routing, business logic or package changes are included.
+
+## Task 203 UOM Conversion Schema Foundation
+
+Task 203 drafts migration `037_uom_conversion_schema_foundation.sql`. It creates tenant-owned `uom_conversion_rules`, seeds `uom_conversions.view`, `uom_conversions.create` and `uom_conversions.manage`, grants conservative role permissions, enables RLS and adds SELECT/INSERT/UPDATE policies. No DELETE policy or sample conversion data is included.
+
+The schema supports tenant, internal-item and supplier-item rule scopes, status/confidence/source metadata, effective dates, reviewed conversion math, `allow_reverse`, same-tenant foreign keys, duplicate active open-ended rule prevention and soft archive semantics. Tenant users with create permission can insert draft rules only; activation/update/archive require manage permission or platform admin.
+
+`lib/uom-conversion-types.ts` adds constants, labels and type guards for future UI/actions, and support ticket page context now recognises future `/uom-conversions` routes as Products-category context. This task does not build UI, add sidebar navigation, update unit conversion helper logic, apply DB rules to costing/receiving/production, alter auth/domain routing, change business logic or add packages.
