@@ -404,7 +404,7 @@ export const supportGuides: SupportGuide[] = [
         body: [
           "Create a draft receipt when goods arrive, add or edit receiving lines, choose the internal item and stock location, then post the receipt after review.",
           "Draft receipt headers and draft lines can be corrected before posting. Invoice-linked receiving lines keep their source link, but warehouse users can still correct receiving fields such as location, quantity, lot details, QA status and notes.",
-          "Lines needing unknown unit conversion or marked as rejected cannot be posted in v1. Held lines can be posted as stock on hold.",
+          "Posting now runs through a transaction-safe database action, so lot and stock movement creation complete together or not at all. Lines needing unknown unit conversion or marked as rejected cannot be posted in v1. Held lines can be posted as stock on hold.",
         ],
       },
       {

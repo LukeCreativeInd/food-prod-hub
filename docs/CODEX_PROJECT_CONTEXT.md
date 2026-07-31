@@ -853,3 +853,11 @@ Task 206 is docs/planning only. It creates the blueprint for replacing sequentia
 Correct live domains remain `app.everybatchmrp.com` for central login/workspace selection, `admin.everybatchmrp.com` for Platform Admin, `cleaneats.everybatchmrp.com` for Clean Eats tenant workspace and `support.everybatchmrp.com` for authenticated support. Do not use `admin.everybatchmrp.com.au`.
 
 Task 206 does not create migrations, change app posting code, change RLS/permissions, change UOM integration, alter Supplier Invoice Intake, build stock-on-hand, change production/costing/formula behaviour, alter Admin/Support workflows or add packages.
+
+## Task 207 Goods Inwards Posting RPC Foundation
+
+Task 207 implements migration `038_goods_inwards_posting_rpc.sql`, creating `public.post_inventory_receipt(p_receipt_id uuid)` as a transaction-safe `jsonb` RPC for posting Goods Inwards receipts. The function uses `SECURITY DEFINER` with fixed `search_path = public`, no dynamic SQL and explicit tenant/permission checks before writing. It requires the current profile, `public.is_platform_admin()` or active tenant membership with `inventory_receipts.post`, and grants execute to `authenticated` only.
+
+`postInventoryReceiptAction` now calls the RPC instead of performing sequential TypeScript writes. The RPC locks the receipt and active lines, blocks invalid states before writing, creates inventory lots and receipt stock movement ledger rows, updates receipt lines to `received` or `held`, and marks the receipt `posted` inside one transaction. Already-posted retry/double-click calls return a controlled `already_posted` result without duplicate stock.
+
+No Supplier Invoice Intake parsing, Supplier Invoice to Receiving draft creation, purchase orders, barcode scanning, QA checklist workflows, production stock movements, stock-on-hand summaries, UOM database conversion integration, costing/formula/Meal Margins logic, auth/domain routing, DNS/Vercel/Supabase settings, RLS/permission changes, Platform Admin routes or packages are changed. Support guide, troubleshooting and release-note wording now mention transaction-safe posting reliability.

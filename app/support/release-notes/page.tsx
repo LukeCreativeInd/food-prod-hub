@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Inventory",
+    title: "Transaction-safe Goods Inwards posting",
+    description:
+      "Goods Inwards posting now uses a database transaction so receipt lots, stock movements, line updates and receipt posting complete together, with safer retry handling if a receipt has already been posted.",
+  },
+  {
+    label: "Inventory",
     title: "Goods Inwards line edit and posting review",
     description:
       "Draft Goods Inwards receipts now support safer header and line editing before posting, clearer posting preflight blockers, duplicate-post protection and stronger read-only messaging once stock movements are created.",

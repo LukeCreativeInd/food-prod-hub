@@ -56,6 +56,10 @@ function actionMessage(status?: string) {
     line_cancelled: { tone: "success", text: "Draft receipt line cancelled." },
     receipt_cancelled: { tone: "success", text: "Draft receipt cancelled." },
     posted: { tone: "success", text: "Receipt posted. Lots and stock movements were created." },
+    already_posted: {
+      tone: "info",
+      text: "This receipt was already posted. No duplicate stock was created.",
+    },
     no_lines: { tone: "warning", text: "Add at least one active line before posting." },
     conversion_required: {
       tone: "warning",
@@ -76,6 +80,7 @@ function actionMessage(status?: string) {
     invalid_received_at: { tone: "warning", text: "Enter a valid received date and time." },
     line_not_draft: { tone: "warning", text: "Only draft receipt lines can be edited." },
     receipt_not_draft: { tone: "warning", text: "Only draft receipts can be changed or posted." },
+    not_allowed: { tone: "warning", text: "You do not have permission to post this receipt." },
     incomplete_line: { tone: "warning", text: "One or more active lines are missing required item, location, quantity or unit details." },
     duplicate_post: { tone: "warning", text: "This receipt already appears to have created lots or stock movements. Reposting is blocked to avoid duplicates." },
     partial_error: {

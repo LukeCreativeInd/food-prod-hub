@@ -37,7 +37,7 @@ const troubleshootingTopics = [
   {
     title: "I can't post a Goods Inwards receipt",
     description:
-      "Open the receipt detail page and review the posting preflight. The receipt needs at least one active ready line, no rejected lines, no conversion-required lines and no missing item, location, quantity or unit fields.",
+      "Open the receipt detail page and review the posting preflight. The receipt needs at least one active ready line, no rejected lines, no conversion-required lines and no missing item, location, quantity or unit fields. Posting is transaction-safe, so retrying a failed or already-posted receipt should not create duplicate stock.",
   },
   {
     title: "Goods Inwards cannot post because conversion is required",

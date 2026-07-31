@@ -4,6 +4,8 @@ Task 206 plans the transaction-safe Goods Inwards posting RPC for task 207.
 
 This task is planning only. It does not create SQL migrations, build the RPC, change Goods Inwards posting code, change inventory schema, alter Supplier Invoice Intake, alter Supplier Invoice to Receiving, integrate UOM conversion rules, change costing/formula/production logic, change UI/routes/sidebar, change auth/domains/RLS/permissions or add packages.
 
+Task 207 later implements this plan with migration `038_goods_inwards_posting_rpc.sql` and moves `postInventoryReceiptAction` to call `public.post_inventory_receipt(p_receipt_id uuid)`.
+
 ## Current State
 
 Goods Inwards currently uses real tenant data:

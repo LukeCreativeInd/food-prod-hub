@@ -46,6 +46,7 @@ type LineStatus =
 
 type PostStatus =
   | "posted"
+  | "already_posted"
   | "no_lines"
   | "conversion_required"
   | "rejected_line"
@@ -53,6 +54,7 @@ type PostStatus =
   | "duplicate_post"
   | "invalid_receipt"
   | "receipt_not_draft"
+  | "not_allowed"
   | "partial_error"
   | "error";
 
@@ -695,210 +697,72 @@ export async function cancelInventoryReceiptAction(formData: FormData) {
   redirectToReceipt(receiptId, "receipt_cancelled");
 }
 
-type PostableLine = {
-  id: string;
-  internal_item_id: string;
-  stock_location_id: string;
-  inventory_lot_id: string | null;
-  received_quantity: number;
-  received_unit: string;
-  inventory_quantity: number | null;
-  inventory_unit: string | null;
-  conversion_status: string;
-  lot_number: string | null;
-  expiry_date: string | null;
-  use_by_date: string | null;
-  manufacture_date: string | null;
-  qa_status: string;
-  status: string;
+type PostInventoryReceiptRpcResult = {
+  ok?: boolean;
+  status?: string;
+  code?: string;
+  message?: string;
 };
+
+function mapPostInventoryReceiptRpcStatus(
+  result: PostInventoryReceiptRpcResult | null,
+): PostStatus {
+  if (result?.ok && result.status === "posted") {
+    return "posted";
+  }
+
+  if (result?.ok && result.status === "already_posted") {
+    return "already_posted";
+  }
+
+  const code = result?.code ?? result?.status;
+  const statusMap: Record<string, PostStatus> = {
+    conversion_required: "conversion_required",
+    duplicate_stock_movement: "duplicate_post",
+    inconsistent_post_state: "duplicate_post",
+    invalid_quantity: "incomplete_line",
+    invalid_unit: "incomplete_line",
+    line_already_posted: "duplicate_post",
+    missing_item: "incomplete_line",
+    missing_location: "incomplete_line",
+    no_postable_lines: "no_lines",
+    permission_denied: "not_allowed",
+    qa_rejected: "rejected_line",
+    receipt_not_draft: "receipt_not_draft",
+    receipt_not_found: "invalid_receipt",
+  };
+
+  return code ? statusMap[code] ?? "error" : "error";
+}
 
 export async function postInventoryReceiptAction(formData: FormData) {
   const timingStartedAt = Date.now();
-  const { organisationId, profileId } = await requireOrganisationId(
-    "inventory_receipts.post",
-  );
+  await requireOrganisationId("inventory_receipts.post");
   const receiptId = getString(formData, "receipt_id");
 
   if (!receiptId) {
     redirect("/goods-inwards?receipt=invalid_receipt");
   }
 
-  const draftCheck = await assertReceiptDraft({ organisationId, receiptId });
-
-  if (draftCheck.status !== "ok" || !draftCheck.receipt) {
-    redirectToReceipt(receiptId, draftCheck.status);
-  }
-
-  const receipt = draftCheck.receipt;
   const supabase = await createClient();
-  const { data: lineRows, error: linesError } = await supabase
-    .from("inventory_receipt_lines")
-    .select(
-      "id, internal_item_id, stock_location_id, inventory_lot_id, received_quantity, received_unit, inventory_quantity, inventory_unit, conversion_status, lot_number, expiry_date, use_by_date, manufacture_date, qa_status, status",
-    )
-    .eq("organisation_id", organisationId)
-    .eq("receipt_id", receiptId)
-    .is("archived_at", null)
-    .in("status", ["draft", "received", "held"]);
-
-  if (linesError) {
-    redirectToReceipt(receiptId, "error");
-  }
-
-  const lines = (lineRows ?? []) as PostableLine[];
-
-  if (lines.length === 0) {
-    redirectToReceipt(receiptId, "no_lines");
-  }
-
-  if (lines.some((line) => line.status !== "draft" || line.inventory_lot_id)) {
-    redirectToReceipt(receiptId, "duplicate_post");
-  }
-
-  const { data: existingMovements, error: existingMovementsError } = await supabase
-    .from("stock_movements")
-    .select("id")
-    .eq("organisation_id", organisationId)
-    .eq("receipt_id", receiptId)
-    .is("archived_at", null)
-    .limit(1);
-
-  if (existingMovementsError) {
-    redirectToReceipt(receiptId, "error");
-  }
-
-  if ((existingMovements ?? []).length > 0) {
-    redirectToReceipt(receiptId, "duplicate_post");
-  }
-
-  if (
-    lines.some((line) =>
-      ["needs_conversion", "blocked"].includes(line.conversion_status),
-    )
-  ) {
-    redirectToReceipt(receiptId, "conversion_required");
-  }
-
-  if (lines.some((line) => line.qa_status === "rejected")) {
-    redirectToReceipt(receiptId, "rejected_line");
-  }
-
-  if (
-    lines.some(
-      (line) =>
-        !line.internal_item_id ||
-        !line.stock_location_id ||
-        !(line.inventory_quantity ?? line.received_quantity) ||
-        !(line.inventory_unit ?? line.received_unit),
-    )
-  ) {
-    redirectToReceipt(receiptId, "incomplete_line");
-  }
-
-  const now = new Date().toISOString();
-
-  for (const line of lines) {
-    const lotStatus = line.qa_status === "hold" ? "on_hold" : "available";
-    const lineStatus = line.qa_status === "hold" ? "held" : "received";
-    const quantity = line.inventory_quantity ?? line.received_quantity;
-    const unit = line.inventory_unit ?? line.received_unit;
-
-    const { data: lotData, error: lotError } = await supabase
-      .from("inventory_lots")
-      .insert({
-        organisation_id: organisationId,
-        internal_item_id: line.internal_item_id,
-        supplier_id: receipt.supplier_id,
-        receipt_id: receiptId,
-        receipt_line_id: line.id,
-        lot_number: line.lot_number,
-        expiry_date: line.expiry_date,
-        use_by_date: line.use_by_date,
-        manufacture_date: line.manufacture_date,
-        status: lotStatus,
-        qa_status: line.qa_status,
-      })
-      .select("id")
-      .single();
-
-    if (lotError || !lotData) {
-      logDevRouteTiming("goods-inwards.receipt-post", timingStartedAt, {
-        status: "partial_error",
-        stage: "lot",
-      });
-      redirectToReceipt(receiptId, "partial_error");
-    }
-
-    const lotId = lotData.id as string;
-    const { error: movementError } = await supabase.from("stock_movements").insert({
-      organisation_id: organisationId,
-      internal_item_id: line.internal_item_id,
-      stock_location_id: line.stock_location_id,
-      inventory_lot_id: lotId,
-      receipt_id: receiptId,
-      receipt_line_id: line.id,
-      source_type: "receipt",
-      source_id: receiptId,
-      movement_type: "receipt",
-      direction: "in",
-      quantity,
-      unit,
-      status: "posted",
-      movement_at: receipt.received_at,
-      created_by_profile_id: profileId,
-      notes: line.qa_status === "hold" ? "Received into stock on hold." : null,
-    });
-
-    if (movementError) {
-      logDevRouteTiming("goods-inwards.receipt-post", timingStartedAt, {
-        status: "partial_error",
-        stage: "movement",
-      });
-      redirectToReceipt(receiptId, "partial_error");
-    }
-
-    const { error: lineUpdateError } = await supabase
-      .from("inventory_receipt_lines")
-      .update({
-        status: lineStatus,
-        inventory_lot_id: lotId,
-        updated_at: now,
-      })
-      .eq("organisation_id", organisationId)
-      .eq("id", line.id);
-
-    if (lineUpdateError) {
-      logDevRouteTiming("goods-inwards.receipt-post", timingStartedAt, {
-        status: "partial_error",
-        stage: "line_update",
-      });
-      redirectToReceipt(receiptId, "partial_error");
-    }
-  }
-
-  const { error: receiptUpdateError } = await supabase
-    .from("inventory_receipts")
-    .update({
-      status: "posted",
-      posted_by_profile_id: profileId,
-      posted_at: now,
-      updated_at: now,
-    })
-    .eq("organisation_id", organisationId)
-    .eq("id", receiptId);
+  const { data, error } = await supabase.rpc("post_inventory_receipt", {
+    p_receipt_id: receiptId,
+  });
+  const result = data as PostInventoryReceiptRpcResult | null;
+  const status = mapPostInventoryReceiptRpcStatus(result);
 
   logDevRouteTiming("goods-inwards.receipt-post", timingStartedAt, {
-    status: receiptUpdateError ? "error" : "posted",
-    lineCount: lines.length,
+    status: error ? "error" : status,
+    rpcStatus: result?.status,
+    rpcCode: result?.code,
   });
 
-  if (receiptUpdateError) {
-    redirectToReceipt(receiptId, "partial_error");
+  if (error) {
+    redirectToReceipt(receiptId, "error");
   }
 
   revalidatePath("/goods-inwards");
   revalidatePath(`/goods-inwards/${receiptId}`);
   revalidatePath("/stock-movements");
-  redirectToReceipt(receiptId, "posted");
+  redirectToReceipt(receiptId, status);
 }

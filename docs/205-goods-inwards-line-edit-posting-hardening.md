@@ -128,7 +128,7 @@ The preflight checks reduce duplicate and partial-write risk, but full transacti
 - task 206 Goods Inwards Posting RPC Plan
 - task 207 Goods Inwards Posting RPC Foundation
 
-Task 206 documents the intended `public.post_inventory_receipt(p_receipt_id uuid)` transaction boundary, locking, idempotency and security plan before the RPC is built.
+Task 206 documents the intended `public.post_inventory_receipt(p_receipt_id uuid)` transaction boundary, locking, idempotency and security plan before the RPC is built. Task 207 later implements that RPC foundation in migration 038 and moves the app posting action to the RPC.
 
 ## Posted Read-Only Behaviour
 
