@@ -434,8 +434,8 @@ limit 20;
 
 ## Future Tasks
 
-- Apply and manually test migration 038.
-- Goods Inwards Posting RPC applied review.
+- Goods Inwards Posting RPC applied review after the manually tested Supabase application of migration 038.
+- Task 208 Stock On Hand Summary Plan documents how posted stock movement ledger rows should become future read-only stock-on-hand summaries.
 - Optional idempotency unique-index hardening after live data check.
 - Stock adjustment/reversal workflow.
 - UOM conversion rule integration into receiving.

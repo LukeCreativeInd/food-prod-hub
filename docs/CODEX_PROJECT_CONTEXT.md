@@ -861,3 +861,11 @@ Task 207 implements migration `038_goods_inwards_posting_rpc.sql`, creating `pub
 `postInventoryReceiptAction` now calls the RPC instead of performing sequential TypeScript writes. The RPC locks the receipt and active lines, blocks invalid states before writing, creates inventory lots and receipt stock movement ledger rows, updates receipt lines to `received` or `held`, and marks the receipt `posted` inside one transaction. Already-posted retry/double-click calls return a controlled `already_posted` result without duplicate stock.
 
 No Supplier Invoice Intake parsing, Supplier Invoice to Receiving draft creation, purchase orders, barcode scanning, QA checklist workflows, production stock movements, stock-on-hand summaries, UOM database conversion integration, costing/formula/Meal Margins logic, auth/domain routing, DNS/Vercel/Supabase settings, RLS/permission changes, Platform Admin routes or packages are changed. Support guide, troubleshooting and release-note wording now mention transaction-safe posting reliability.
+
+## Task 208 Stock On Hand Summary Plan
+
+Task 208 is docs/planning only. It creates `docs/208-stock-on-hand-summary-plan.md` as the implementation blueprint for future stock-on-hand summaries after Goods Inwards posting moved to the transaction-safe RPC in task 207.
+
+The plan confirms `stock_movements` as the append-like inventory ledger and primary quantity source for stock-on-hand, with `inventory_lots` providing traceability/status context, `inventory_receipts` and receipt lines acting as inbound source events, and supplier invoices remaining commercial evidence rather than stock source records. Stock-on-hand should be derived as read-only grouped totals from posted, non-archived stock movements and should not be manually edited.
+
+The recommended next implementation path is task 209 Stock On Hand Summary UI v1 using direct server-side aggregation from `stock_movements` first, grouped by item/location/lot/unit and warning on mixed units. SQL views/RPCs/materialized summaries should wait until the UI shape or performance needs justify them. Task 208 does not create migrations, routes, UI, navigation, RLS/permission changes, Platform Admin changes, support workflow changes, stock posting changes, UOM integration, production/costing/formula changes or packages.
