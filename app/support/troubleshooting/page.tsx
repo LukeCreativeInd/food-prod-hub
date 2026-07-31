@@ -70,6 +70,26 @@ const troubleshootingTopics = [
       "Stock tied to on-hold or QA hold lots is shown separately. Held stock is physical stock, but it should not be treated as available for production or dispatch.",
   },
   {
+    title: "I can't find a lot in Inventory Traceability",
+    description:
+      "Inventory Traceability is built from inventory lots. Confirm the Goods Inwards receipt has been posted and created an inventory lot and stock movement ledger row.",
+  },
+  {
+    title: "Traceability stops at receiving",
+    description:
+      "That is expected in v1. The current trace map covers inbound supplier evidence, receiving, lots, movements and Stock On Hand. Production usage, dispatch and recall paths are future workflows.",
+  },
+  {
+    title: "Invoice evidence is missing from a trace card",
+    description:
+      "The stock may have been received manually, or your role may not expose Purchase Document details. Open the Goods Inwards receipt to confirm whether the receipt was linked to a supplier invoice.",
+  },
+  {
+    title: "Stock On Hand and Traceability show different context",
+    description:
+      "Stock On Hand groups posted movement balances by item, location, lot and unit. Inventory Traceability starts from the lot and shows source evidence, receiving and movement context around that same stock.",
+  },
+  {
     title: "Duplicate active conversion rule",
     description:
       "Only one active open-ended UOM conversion rule is allowed for the same scope and unit pair. Deactivate, archive or end-date the current active rule before activating a replacement.",

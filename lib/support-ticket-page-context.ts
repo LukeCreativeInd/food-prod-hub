@@ -112,6 +112,14 @@ const routeContexts: Array<{
     context: { moduleKey: "inventory", moduleLabel: "Stock On Hand", category: "inventory" },
   },
   {
+    prefixes: ["/inventory-traceability", "/bom-traceability"],
+    context: {
+      moduleKey: "inventory",
+      moduleLabel: "Inventory Traceability",
+      category: "inventory",
+    },
+  },
+  {
     prefixes: [
       "/inventory",
       "/goods-inwards",

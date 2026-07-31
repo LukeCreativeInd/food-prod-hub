@@ -33,9 +33,9 @@ const inventoryAreas = [
   {
     title: "Stock Movements",
     description:
-      "Future movement workspace. No stock ledger exists in this phase.",
+      "Read-only stock movement ledger rows created by controlled workflows.",
     href: "/stock-movements",
-    eyebrow: "Future workflow",
+    eyebrow: "Live ledger",
   },
   {
     title: "Purchasing",
@@ -45,11 +45,11 @@ const inventoryAreas = [
     eyebrow: "Future workflow",
   },
   {
-    title: "BOM / Traceability",
+    title: "Traceability",
     description:
-      "Future traceability workspace for linking inputs to finished outputs.",
-    href: "/bom-traceability",
-    eyebrow: "Future workflow",
+      "Read-only inbound trace map across supplier evidence, receiving, lots and movements.",
+    href: "/inventory-traceability",
+    eyebrow: "Live inbound map",
   },
 ];
 
@@ -72,7 +72,7 @@ export default async function InventoryPage() {
           <StatusBadge tone={canManageLocations ? "success" : "info"}>
             {canManageLocations ? "Location management available" : "Read only"}
           </StatusBadge>
-          <StatusBadge tone="neutral">No stock ledger yet</StatusBadge>
+          <StatusBadge tone="neutral">Read-only inventory foundation</StatusBadge>
         </div>
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

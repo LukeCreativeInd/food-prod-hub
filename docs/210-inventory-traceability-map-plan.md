@@ -699,11 +699,13 @@ Known scaffold area:
 
 Future task 211 should avoid fake rows. When real `/inventory-traceability` ships, either replace `/bom-traceability` with a real signpost/redirect or keep it clearly marked as sample-only until removed.
 
+Task 211 has now added `/inventory-traceability` as a real read-only inbound trace map using current inventory lots, Goods Inwards receipt lines, stock movements and optional supplier invoice evidence. The previous `/bom-traceability` scaffold now redirects to the real route so users no longer see sample-only traceability rows.
+
 ## Recommended Next Task Sequence
 
 Recommended path:
 
-1. Task 211 — Inventory Traceability Map UI v1 using current inbound trace chain, no migration unless a genuine query/RLS blocker appears.
+1. Task 211 — Inventory Traceability Map UI v1 using current inbound trace chain. Drafted as a read-only TypeScript data helper and page; no migration, SQL view or RPC was needed.
 2. Task 212 — Stock Adjustment/Reversal Plan.
 3. Task 213 — Stock Adjustment/Reversal Schema Foundation.
 4. Task 214 — Stock Adjustment UI v1.

@@ -46,6 +46,7 @@ const tenantRoutePrefixes = [
   "/inventory",
   "/stock-locations",
   "/stock-movements",
+  "/inventory-traceability",
   "/goods-inwards",
   "/batch-receiving",
   "/bom-traceability",

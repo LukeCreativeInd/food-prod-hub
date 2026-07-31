@@ -56,6 +56,12 @@ export const navigationGroups: NavigationGroup[] = [
         requiredModuleKey: "inventory",
       },
       {
+        label: "Traceability",
+        href: "/inventory-traceability",
+        requiredPermission: "stock_movements.view",
+        requiredModuleKey: "inventory",
+      },
+      {
         label: "Batch Receiving",
         href: "/batch-receiving",
         requiredPermission: "inventory.view",
@@ -70,19 +76,13 @@ export const navigationGroups: NavigationGroup[] = [
       {
         label: "Stock Movements",
         href: "/stock-movements",
-        requiredPermission: "inventory.view",
+        requiredPermission: "stock_movements.view",
         requiredModuleKey: "inventory",
       },
       {
         label: "Purchasing",
         href: "/purchasing",
         requiredPermission: "purchasing.view",
-        requiredModuleKey: "inventory",
-      },
-      {
-        label: "BOM / Traceability",
-        href: "/bom-traceability",
-        requiredPermission: "inventory.view",
         requiredModuleKey: "inventory",
       },
     ],

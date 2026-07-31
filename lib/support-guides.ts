@@ -416,6 +416,14 @@ export const supportGuides: SupportGuide[] = [
         ],
       },
       {
+        heading: "Inventory Traceability",
+        body: [
+          "Inventory Traceability is a read-only inbound map for real inventory lots. It follows each lot from supplier invoice evidence or manual Goods Inwards receiving through receipt lines, inventory lots, stock movement ledger rows and Stock On Hand context.",
+          "Invoice-linked lots can point back to the supplier invoice when the current role can view Purchase Documents. Manual receipts are clearly labelled as manual receiving instead of pretending invoice evidence exists.",
+          "The current map stops at inbound stock. Production consumption, dispatch/customer traceability and recall-style forward tracing remain future workflows.",
+        ],
+      },
+      {
         heading: "What is still separate",
         body: [
           "Supplier Invoice Intake can create a draft Goods Inwards receipt from eligible reviewed invoice lines, but it does not post stock automatically.",
@@ -427,6 +435,7 @@ export const supportGuides: SupportGuide[] = [
     ],
     relatedLinks: [
       { label: "Stock On Hand", href: "/stock-on-hand" },
+      { label: "Inventory Traceability", href: "/inventory-traceability" },
       { label: "Supplier Invoice Intake basics", href: "/support/guides/supplier-invoice-intake-basics" },
       { label: "Products overview", href: "/support/guides/products-overview" },
     ],

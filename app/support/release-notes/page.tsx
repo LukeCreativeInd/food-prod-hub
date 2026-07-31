@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "Inventory",
+    title: "Inventory Traceability map",
+    description:
+      "Inventory now includes a read-only inbound traceability map that follows real inventory lots from supplier invoice evidence or manual Goods Inwards receiving through receipt lines, stock movement ledger rows and Stock On Hand context.",
+  },
+  {
+    label: "Inventory",
     title: "Stock On Hand summary",
     description:
       "Inventory now includes a read-only Stock On Hand screen calculated from posted stock movement ledger rows, with item, location, lot, unit, held stock and mixed-unit visibility.",
