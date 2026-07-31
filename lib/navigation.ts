@@ -3,6 +3,7 @@ import type { ModuleKey } from "@/lib/tenant-types";
 export type NavigationItem = {
   label: string;
   href: string;
+  exact?: boolean;
   requiredPermission?: string;
   requiredModuleKey?: ModuleKey;
 };
@@ -230,20 +231,51 @@ export const navigationGroups: NavigationGroup[] = [
     iconKey: "qa",
     items: [
       {
-        label: "Checks",
-        href: "/qa-checks",
+        label: "QA Dashboard",
+        href: "/qa",
+        exact: true,
         requiredPermission: "qa.view",
         requiredModuleKey: "qa",
       },
       {
-        label: "Sign-offs",
-        href: "/qa-sign-offs",
+        label: "Receiving Checks",
+        href: "/qa/receiving",
         requiredPermission: "qa.view",
         requiredModuleKey: "qa",
       },
       {
-        label: "Incidents",
-        href: "/qa-incidents",
+        label: "Production Checks",
+        href: "/qa/production",
+        requiredPermission: "qa.view",
+        requiredModuleKey: "qa",
+      },
+      {
+        label: "Daily Checks",
+        href: "/qa/daily",
+        requiredPermission: "qa.view",
+        requiredModuleKey: "qa",
+      },
+      {
+        label: "Hold & Release",
+        href: "/qa/holds",
+        requiredPermission: "qa.view",
+        requiredModuleKey: "qa",
+      },
+      {
+        label: "Non-Conformance",
+        href: "/qa/non-conformance",
+        requiredPermission: "qa.view",
+        requiredModuleKey: "qa",
+      },
+      {
+        label: "Corrective Actions",
+        href: "/qa/corrective-actions",
+        requiredPermission: "qa.view",
+        requiredModuleKey: "qa",
+      },
+      {
+        label: "QA Templates",
+        href: "/qa/templates",
         requiredPermission: "qa.view",
         requiredModuleKey: "qa",
       },

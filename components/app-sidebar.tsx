@@ -382,7 +382,7 @@ export function AppSidebar({
                   {group.items.map((item) => {
                     const isActive =
                       pathname === item.href ||
-                      pathname.startsWith(`${item.href}/`);
+                      (!item.exact && pathname.startsWith(`${item.href}/`));
 
                     return (
                       <Link

@@ -1,11 +1,5 @@
-import { PlaceholderPage } from "@/components/placeholder-page";
+import { QADashboardScaffold } from "@/components/qa/qa-scaffold-page";
 
 export default function QAPage() {
-  return (
-    <PlaceholderPage
-      title="QA"
-      description="Placeholder for quality assurance checks and review workflows."
-      requiredPermission="qa.view"
-    />
-  );
+  return <QADashboardScaffold />;
 }

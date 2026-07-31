@@ -1,11 +1,5 @@
-import { PlaceholderPage } from "@/components/placeholder-page";
+import { redirect } from "next/navigation";
 
 export default function QAChecksPage() {
-  return (
-    <PlaceholderPage
-      title="QA Checks"
-      description="Placeholder for future quality assurance check workflows."
-      requiredPermission="qa.view"
-    />
-  );
+  redirect("/qa/receiving");
 }

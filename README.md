@@ -218,6 +218,7 @@ See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-
 - UOM Conversion Foundation planning now defines safe global metric conversions versus tenant/item/supplier-specific pack conversions before schema or UI work begins.
 - UOM Conversion Schema Foundation has been drafted with tenant-scoped conversion rules, permissions, RLS policies and TypeScript constants for review before UI/workflow integration.
 - QA Module Deep Planning now defines the QA workspace, receiving QA checks, future template/check records and lot-first hold/release boundaries before any QA schema or UI build.
+- QA Module Navigation + Scaffold v1 replaces the old QA placeholder pages with the approved QA workspace structure and honest empty states only.
 
 ## Tech Stack
 
@@ -422,6 +423,7 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Inventory Traceability Map UI v1](docs/211-inventory-traceability-map-ui-v1.md)
 - [Stock Adjustment/Reversal Plan](docs/212-stock-adjustment-reversal-plan.md)
 - [QA Module Deep Planning](docs/213-qa-module-deep-planning.md)
+- [QA Module Navigation + Scaffold v1](docs/214-qa-module-navigation-scaffold-v1.md)
 - [Production Batch Planning Data Model](docs/198-production-batch-planning-data-model.md)
 - [Production Plan UI v1](docs/199-production-plan-ui-v1.md)
 - [Phase 1 Operational Review Pack](docs/200-phase-1-operational-review-pack.md)

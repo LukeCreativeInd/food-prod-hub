@@ -1,11 +1,5 @@
-import { PlaceholderPage } from "@/components/placeholder-page";
+import { redirect } from "next/navigation";
 
 export default function QASignOffsPage() {
-  return (
-    <PlaceholderPage
-      title="QA Sign-offs"
-      description="Placeholder for future production and quality sign-off workflows."
-      requiredPermission="qa.view"
-    />
-  );
+  redirect("/qa");
 }
