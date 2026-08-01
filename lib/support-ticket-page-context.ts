@@ -214,6 +214,38 @@ const routeContexts: Array<{
     context: { moduleKey: "qa", moduleLabel: "QA", category: "other" },
   },
   {
+    prefixes: ["/logistics/dispatch-runs"],
+    context: {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - Dispatch Runs",
+      category: "other",
+    },
+  },
+  {
+    prefixes: ["/logistics/manifests"],
+    context: {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - Manifests",
+      category: "other",
+    },
+  },
+  {
+    prefixes: ["/logistics/carrier-exports"],
+    context: {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - Carrier Exports",
+      category: "other",
+    },
+  },
+  {
+    prefixes: ["/logistics/delivery-issues"],
+    context: {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - Delivery Issues",
+      category: "other",
+    },
+  },
+  {
     prefixes: ["/logistics"],
     context: { moduleKey: "logistics", moduleLabel: "Logistics", category: "other" },
   },

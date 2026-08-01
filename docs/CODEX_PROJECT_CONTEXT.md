@@ -957,3 +957,11 @@ Task 218 is docs/planning only. It creates `docs/218-logistics-module-deep-plann
 The plan keeps Logistics from duplicating source records owned by Inventory, QA, Production, CRM, Support or Audit Logs. Inventory remains the source of physical stock and movement history, QA remains the source of hold state, Production remains the source of plan/batch records, CRM/future order records should own customer/account data, and Logistics should own dispatch/manifest records plus historical manifest snapshots.
 
 Task 218 does not add routes, UI, schema, migrations, permissions, RLS policies, feature flags, Support guide content, Platform Admin diagnostics, carrier integrations, stock movements, auth/domain changes, middleware changes, app behaviour or packages. The recommended next sequence remains task 219 Logistics Navigation + Scaffold v1, task 220 Dispatch/Manifest Schema Foundation and task 221 Dispatch Manifest UI v1.
+
+## Task 219 Logistics Navigation + Scaffold v1
+
+Task 219 replaces the single Logistics placeholder with an honest tenant Logistics workspace scaffold. The tenant sidebar now keeps Logistics in the same primary module order and adds submenu links for Logistics Dashboard, Dispatch Runs, Manifests, Carrier Exports and Delivery Issues.
+
+The new scaffold routes are `/logistics`, `/logistics/dispatch-runs`, `/logistics/manifests`, `/logistics/carrier-exports` and `/logistics/delivery-issues`. Each route uses existing app shell behaviour and the existing `logistics.view` permission. No role mappings are changed, so users without `logistics.view`, including `phase_1_demo_user`, remain blocked by the existing no-access behaviour.
+
+The pages are deliberately empty/foundation states. They do not show fake dispatch runs, fake manifests, fake carriers, fake delivery issues, KPI counts, Detrack connection status, manifest generation actions, export downloads or issue creation workflows. Support ticket page context now distinguishes the Logistics subroutes while keeping the route related path. Task 219 does not add schema, migrations, server actions, API routes, carrier integrations, manifest generation, dispatch stock movements, Platform Admin changes, Support guide content, auth/domain/middleware changes or packages. Task 220 remains Dispatch/Manifest Schema Foundation.

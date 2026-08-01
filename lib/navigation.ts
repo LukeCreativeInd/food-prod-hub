@@ -287,11 +287,42 @@ export const navigationGroups: NavigationGroup[] = [
   {
     label: "Logistics",
     href: "/logistics",
-    isRoot: true,
     requiredPermission: "logistics.view",
     requiredModuleKey: "logistics",
     iconKey: "logistics",
-    items: [],
+    items: [
+      {
+        label: "Logistics Dashboard",
+        href: "/logistics",
+        exact: true,
+        requiredPermission: "logistics.view",
+        requiredModuleKey: "logistics",
+      },
+      {
+        label: "Dispatch Runs",
+        href: "/logistics/dispatch-runs",
+        requiredPermission: "logistics.view",
+        requiredModuleKey: "logistics",
+      },
+      {
+        label: "Manifests",
+        href: "/logistics/manifests",
+        requiredPermission: "logistics.view",
+        requiredModuleKey: "logistics",
+      },
+      {
+        label: "Carrier Exports",
+        href: "/logistics/carrier-exports",
+        requiredPermission: "logistics.view",
+        requiredModuleKey: "logistics",
+      },
+      {
+        label: "Delivery Issues",
+        href: "/logistics/delivery-issues",
+        requiredPermission: "logistics.view",
+        requiredModuleKey: "logistics",
+      },
+    ],
   },
   {
     label: "CRM",
