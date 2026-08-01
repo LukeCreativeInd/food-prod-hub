@@ -26,15 +26,15 @@ const quickLinks = [
   },
   {
     title: "Component Costs",
-    description: "Review component formula readiness before rollups exist.",
+    description: "Review component formula readiness and active cost rollup inputs.",
     href: "/component-costs",
     eyebrow: "Costings",
   },
   {
     title: "Meal Margins",
-    description: "Preview margin workspace structure without live calculations.",
+    description: "Review real margin calculations from current formula cost and sell-price data.",
     href: "/meal-margins",
-    eyebrow: "Future",
+    eyebrow: "Live calculation",
   },
   {
     title: "Price History",
@@ -143,7 +143,8 @@ export default async function CostingOverviewPage() {
           <StatusBadge tone={data.canManagePrices ? "success" : "info"}>
             {data.canManagePrices ? "Price management available" : "Read only"}
           </StatusBadge>
-          <StatusBadge tone="neutral">No costing engine yet</StatusBadge>
+          <StatusBadge tone="success">Formula costing active</StatusBadge>
+          <StatusBadge tone="info">Snapshots active</StatusBadge>
         </div>
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -252,13 +253,13 @@ export default async function CostingOverviewPage() {
 
           <SectionCard
             title="Formula readiness"
-            description="Formula data is visible for readiness only. No recipe, component or meal cost rollups are calculated here."
-            action={<StatusBadge tone="neutral">Future engine</StatusBadge>}
+            description="Setup coverage for formula versions and lines. This card reports readiness; calculated costs and margins are shown in the dedicated costing pages."
+            action={<StatusBadge tone="info">Readiness coverage</StatusBadge>}
           >
             <div className="space-y-3">
               <AlertCard
                 title="Formula versions"
-                description="Component and finished product formula records available for future rollups."
+                description="Component and finished product formula records available for active costing and margin review."
                 meta={String(data.counts.formulaVersionCount)}
                 tone={data.counts.formulaVersionCount > 0 ? "info" : "neutral"}
               />
@@ -274,12 +275,12 @@ export default async function CostingOverviewPage() {
               />
               <div className="rounded-md border border-slate-200 bg-slate-50/70 px-4 py-4">
                 <p className="text-sm font-semibold text-slate-900">
-                  Formula costing is not active yet
+                  Formula costing and snapshots are active
                 </p>
                 <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Formula costing will become available once component and
-                  finished product formulas are entered and a reviewed rollup
-                  engine is built.
+                  Use Component Costs, Meal Margins and Costing Snapshots for
+                  calculated outputs. This readiness card highlights missing
+                  versions or lines that can block trustworthy calculations.
                 </p>
               </div>
             </div>

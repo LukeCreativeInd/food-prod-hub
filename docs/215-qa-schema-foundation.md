@@ -213,6 +213,19 @@ Still deferred:
 - Device temperature feeds.
 - Operational reports.
 
+## Pre-Task 216 Maintenance Note
+
+Before task 216, an unnumbered audit hardening integration pass restored local migration `supabase/migrations/040_ledger_snapshot_immutability_triggers.sql` to match already-live ledger/snapshot immutability definitions. It does not change the QA schema or begin task 216.
+
+That maintenance pass confirms:
+
+- `stock_movements` is database-enforced append-only.
+- `costing_snapshot_lines` is immutable after insert.
+- `costing_snapshots` can only use the existing archive transition and cannot be rewritten.
+- Batch Receiving and Purchasing are explicitly preview/sample Inventory workspaces.
+- Costings copy reflects active formula costing, Costing Snapshots and Meal Margin calculations.
+- Supabase Leaked Password Protection remains a manual Studio setting.
+
 ## Cross-Module Impact
 
 Current impact:

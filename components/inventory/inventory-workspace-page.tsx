@@ -45,6 +45,13 @@ export async function InventoryWorkspacePage({
         className="space-y-6 px-5 py-6 md:px-8"
         aria-label={`${title}: ${description}`}
       >
+        <AlertCard
+          title="Sample Data — Not Live"
+          description={`${title} is a preview workspace using static example rows. It does not create purchase orders, stock movements, inventory lots or live receiving records.`}
+          meta="Preview"
+          tone="warning"
+        />
+
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {summaryCards.map((card) => (
             <StatCard key={card.label} {...card} />

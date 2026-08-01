@@ -388,8 +388,16 @@ export function AppSidebar({
                       <Link
                         key={item.href}
                         href={item.href}
-                        aria-label={item.label}
-                        title={item.label}
+                        aria-label={
+                          item.isPreview
+                            ? `${item.label} preview workspace`
+                            : item.label
+                        }
+                        title={
+                          item.isPreview
+                            ? `${item.label} preview workspace`
+                            : item.label
+                        }
                         className={clsx(
                           "group flex items-center justify-between gap-3 whitespace-nowrap rounded-md px-3 py-2.5 text-sm font-medium transition",
                           isActive
@@ -397,7 +405,22 @@ export function AppSidebar({
                             : "text-slate-500 hover:bg-slate-50 hover:text-slate-950",
                         )}
                       >
-                        <span>{item.label}</span>
+                        <span className="flex min-w-0 items-center gap-2">
+                          <span className="truncate">{item.label}</span>
+                          {item.isPreview ? (
+                            <span
+                              aria-label="Preview workspace"
+                              className={clsx(
+                                "rounded-full border px-1.5 py-0.5 text-[0.62rem] font-bold uppercase tracking-[0.08em]",
+                                isActive
+                                  ? "border-white/50 bg-white/15 text-white"
+                                  : "border-amber-200 bg-amber-50 text-amber-700",
+                              )}
+                            >
+                              Preview
+                            </span>
+                          ) : null}
+                        </span>
                         <span
                           className={clsx(
                             "hidden h-1.5 w-1.5 rounded-full md:block",

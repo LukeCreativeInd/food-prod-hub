@@ -4,6 +4,7 @@ export type NavigationItem = {
   label: string;
   href: string;
   exact?: boolean;
+  isPreview?: boolean;
   requiredPermission?: string;
   requiredModuleKey?: ModuleKey;
 };
@@ -65,6 +66,7 @@ export const navigationGroups: NavigationGroup[] = [
       {
         label: "Batch Receiving",
         href: "/batch-receiving",
+        isPreview: true,
         requiredPermission: "inventory.view",
         requiredModuleKey: "inventory",
       },
@@ -83,6 +85,7 @@ export const navigationGroups: NavigationGroup[] = [
       {
         label: "Purchasing",
         href: "/purchasing",
+        isPreview: true,
         requiredPermission: "purchasing.view",
         requiredModuleKey: "inventory",
       },
