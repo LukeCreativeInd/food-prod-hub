@@ -637,6 +637,8 @@ QA Schema Foundation is documented in [QA Schema Foundation](docs/215-qa-schema-
 
 Receiving QA Checks UI v1 is documented in [Receiving QA Checks UI v1](docs/216-receiving-qa-checks-ui-v1.md).
 
+Logistics Module Deep Planning is documented in [Logistics Module Deep Planning](docs/218-logistics-module-deep-planning.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -679,6 +681,7 @@ Receiving QA Checks UI v1 is documented in [Receiving QA Checks UI v1](docs/216-
 - Drafted tenant-scoped QA schema foundation with templates, immutable versions, checks, results, reviews, approvals, amendments, full-lot holds, append-only hold events, granular QA permissions and RLS
 - Added Receiving QA Checks UI v1 for real Goods Inwards-linked QA checks, typed result capture, completion and review decisions without inventory hold/release effects
 - Added QA Hold & Release inventory link for formal full-lot holds/releases, Stock On Hand held/available derivation through a narrow availability helper, and traceability visibility without changing stock movement quantities
+- Planned the future Logistics module for dispatch runs, manifests, carrier/export handoffs, delivery issues, carton planning and Detrack readiness without adding routes, schema or behaviour
 - Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins, and documented Leaked Password Protection as a manual Supabase Studio action before task 216
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, stock movement reversal behavior, partial QA holds or full NC/CA workflow has been added.

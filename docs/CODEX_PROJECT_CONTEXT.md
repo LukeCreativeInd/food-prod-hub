@@ -949,3 +949,11 @@ Task 217 drafts `supabase/migrations/041_qa_hold_release_inventory_link.sql` wit
 The `/qa/holds` workspace now lists real QA holds, `/qa/holds/new` places a full-lot hold against a posted lot, and `/qa/holds/[id]` shows hold detail, source context, append-only event timeline and release controls. Receiving QA detail can place a formal hold only when a result recommends hold review and a posted inventory lot exists.
 
 Stock On Hand now derives held quantity from active/release-requested formal QA holds while preserving physical quantity from posted stock movements. Inventory Traceability and Goods Inwards show linked QA hold context. Task 217 does not create partial holds, receipt-header holds, stock movements, stock adjustments/reversals, disposal/return workflows, production consumption/output logic, NC/CA workflows, direct client hold writes, auth/domain changes or packages.
+
+## Task 218 Logistics Module Deep Planning
+
+Task 218 is docs/planning only. It creates `docs/218-logistics-module-deep-planning.md` as the blueprint for the future Logistics module covering dispatch runs, delivery manifests, carrier/export handoffs, delivery issues, delivery zones, carton planning and future Detrack readiness.
+
+The plan keeps Logistics from duplicating source records owned by Inventory, QA, Production, CRM, Support or Audit Logs. Inventory remains the source of physical stock and movement history, QA remains the source of hold state, Production remains the source of plan/batch records, CRM/future order records should own customer/account data, and Logistics should own dispatch/manifest records plus historical manifest snapshots.
+
+Task 218 does not add routes, UI, schema, migrations, permissions, RLS policies, feature flags, Support guide content, Platform Admin diagnostics, carrier integrations, stock movements, auth/domain changes, middleware changes, app behaviour or packages. The recommended next sequence remains task 219 Logistics Navigation + Scaffold v1, task 220 Dispatch/Manifest Schema Foundation and task 221 Dispatch Manifest UI v1.
