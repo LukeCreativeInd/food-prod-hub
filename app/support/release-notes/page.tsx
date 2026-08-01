@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 
 const releaseNotes = [
   {
+    label: "QA",
+    title: "Receiving QA checks",
+    description:
+      "QA now includes a real Receiving Checks workflow for starting checks from Goods Inwards receipts, saving typed checklist results, completing checks and recording QA review decisions without changing stock availability.",
+  },
+  {
     label: "Inventory",
     title: "Inventory Traceability map",
     description:

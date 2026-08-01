@@ -523,12 +523,38 @@ export const supportGuides: SupportGuide[] = [
     categoryTitle: "Operations",
     title: "QA checks",
     summary:
-      "Planned guide for quality checks, sign-offs, incidents and corrective action readiness.",
-    status: "coming_soon",
+      "How Receiving QA checks attach quality results and review decisions to Goods Inwards records.",
+    status: "available",
     audience: "QA and operations users",
-    estimatedRead: "Coming soon",
-    sections: [],
-    relatedLinks: [],
+    estimatedRead: "5 min",
+    sections: [
+      {
+        heading: "Receiving QA checks",
+        body: [
+          "Receiving QA starts from a real Goods Inwards receipt or receipt line and uses a published Receiving QA template.",
+          "A check can save typed checklist results while in progress, then move to completed or needs review when the checklist is finished.",
+        ],
+      },
+      {
+        heading: "Review decisions",
+        body: [
+          "Failed, warning, uncertain or review-triggering results can mark a check as needing QA review.",
+          "QA reviewers can record accepted, conditional acceptance, rejected or escalated decisions. These decisions are QA records only and do not automatically change inventory availability.",
+        ],
+      },
+      {
+        heading: "Current boundaries",
+        body: [
+          "Receiving QA does not create inventory holds, release stock, dispose stock, create stock movements or alter Goods Inwards posting.",
+          "Hold recommendations can be recorded in notes for follow-up. Formal QA hold/release inventory control is planned for a later workflow.",
+        ],
+      },
+    ],
+    relatedLinks: [
+      { label: "Receiving Checks", href: "/qa/receiving" },
+      { label: "QA Templates", href: "/qa/templates" },
+      { label: "Goods Inwards", href: "/goods-inwards" },
+    ],
   },
   {
     slug: "logistics",

@@ -194,6 +194,14 @@ const routeContexts: Array<{
     context: { moduleKey: "production", moduleLabel: "Production", category: "production" },
   },
   {
+    prefixes: ["/qa/receiving"],
+    context: {
+      moduleKey: "qa_receiving",
+      moduleLabel: "Receiving QA",
+      category: "other",
+    },
+  },
+  {
     prefixes: ["/qa", "/qa-checks", "/qa-sign-offs", "/qa-incidents"],
     context: { moduleKey: "qa", moduleLabel: "QA", category: "other" },
   },

@@ -255,6 +255,8 @@ Out of scope:
 
 `lib/qa-schema-types.ts` records the approved QA categories, statuses, hold event types and permission keys for future UI/action work.
 
+Task 216 now adds the first Receiving QA Checks UI using this schema. It creates no migration and does not use the `qa_holds` or `qa_hold_events` tables yet.
+
 ## Manual Supabase Checks
 
 After applying the migration, run the SQL smoke checks from the Codex task response before building task 216.

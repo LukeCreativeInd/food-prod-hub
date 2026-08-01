@@ -635,6 +635,8 @@ Support Ticket Attachments Foundation is documented in [Support Ticket Attachmen
 
 QA Schema Foundation is documented in [QA Schema Foundation](docs/215-qa-schema-foundation.md).
 
+Receiving QA Checks UI v1 is documented in [Receiving QA Checks UI v1](docs/216-receiving-qa-checks-ui-v1.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -675,6 +677,7 @@ QA Schema Foundation is documented in [QA Schema Foundation](docs/215-qa-schema-
 - Planned support ticket attachment architecture covering private storage, tenant-scoped paths, visibility/RLS, file limits and rollout sequencing
 - Drafted support ticket attachment foundation with private bucket metadata, tenant-scoped attachment table, helper function, RLS policies and TypeScript constants
 - Drafted tenant-scoped QA schema foundation with templates, immutable versions, checks, results, reviews, approvals, amendments, full-lot holds, append-only hold events, granular QA permissions and RLS
+- Added Receiving QA Checks UI v1 for real Goods Inwards-linked QA checks, typed result capture, completion and review decisions without inventory hold/release effects
 - Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins, and documented Leaked Password Protection as a manual Supabase Studio action before task 216
 
-No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, QA receiving workflow, QA-driven inventory availability change, stock movement reversal behavior or full NC/CA workflow has been added.
+No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, QA-driven inventory availability change, stock movement reversal behavior or full NC/CA workflow has been added.

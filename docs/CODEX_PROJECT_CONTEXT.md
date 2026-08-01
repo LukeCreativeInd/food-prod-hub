@@ -933,3 +933,11 @@ An unnumbered maintenance pass restores local repository history for already-liv
 Current write paths were checked for compatibility: Goods Inwards posting inserts stock movements through `post_inventory_receipt`, Stock On Hand and Inventory Traceability only read movements, Costing Snapshot creation inserts headers/lines, and snapshot archive updates only the permitted archive fields.
 
 Batch Receiving and Purchasing are now explicitly marked as preview/sample Inventory workspaces with navigation preview markers and persistent `Sample Data - Not Live` banners. The Costings landing copy now states that formula costing, Costing Snapshots and real Meal Margin calculations are active where readiness inputs exist. Leaked Password Protection remains a manual Supabase Studio security toggle. Task 216 remains the next numbered step.
+
+## Task 216 Receiving QA Checks UI v1
+
+Task 216 adds the first real Receiving QA workflow using the task 215 QA schema. `/qa/receiving` lists real tenant Receiving QA checks, `/qa/receiving/new` starts a check from a real Goods Inwards receipt or receipt line using an active template with a published current version, and `/qa/receiving/[id]` saves typed in-progress results, completes checks and records QA review decisions.
+
+Receiving QA records reference Goods Inwards source records but do not alter receipt status, receipt line `qa_status`, inventory lot `qa_status`, stock movements, Stock On Hand or Inventory Traceability. Hold recommendations are recorded as notes only; formal `qa_holds` and `qa_hold_events` workflows remain task 217.
+
+The UI follows existing QA permissions: `qa.view`/`qa.checks.view` for reads, `qa.checks.create` for starting checks, `qa.checks.complete` for saving/completing results and `qa.reviews.manage` for review decisions. No migrations, fake QA templates/checks, Production QA, NC/CA workflows, evidence upload, service-role flows, auth/domain changes or packages are added.

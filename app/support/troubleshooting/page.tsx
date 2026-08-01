@@ -50,6 +50,21 @@ const troubleshootingTopics = [
       "Rejected receipt lines block posting in v1. Change the QA status if the stock is acceptable, or cancel the draft line so it does not create stock.",
   },
   {
+    title: "I can't start a Receiving QA check",
+    description:
+      "Receiving QA needs a published active Receiving template and a real Goods Inwards receipt. Users also need QA check create permission.",
+  },
+  {
+    title: "A Receiving QA check needs review",
+    description:
+      "Failed, warning or review-triggering checklist results can mark a check for QA review. A reviewer can record a decision, but formal inventory holds are not automatic yet.",
+  },
+  {
+    title: "A failed Receiving QA check did not hold stock",
+    description:
+      "That is expected in the current release. Receiving QA can recommend hold review in notes, while formal hold/release inventory availability control remains a future workflow.",
+  },
+  {
     title: "A posted Goods Inwards receipt is locked",
     description:
       "Posted receipts created lot and stock movement ledger records. They are read-only; future corrections should use adjustment or reversal workflows.",
