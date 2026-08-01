@@ -128,6 +128,40 @@ type PurchaseDocumentLineRow = {
   corrected_unit: string | null;
 };
 
+type QaHoldRow = {
+  id: string;
+  inventory_lot_id: string;
+  source_check_instance_id: string | null;
+  source_review_id: string | null;
+  status: string;
+  reason_category: string;
+  reason: string;
+  placed_at: string | null;
+  resolved_at: string | null;
+};
+
+type QaHoldEventRow = {
+  id: string;
+  qa_hold_id: string;
+  event_type: string;
+  event_at: string;
+  notes: string | null;
+  reason: string | null;
+};
+
+type QaCheckRow = {
+  id: string;
+  status: string;
+  overall_outcome: string | null;
+  requires_review: boolean;
+};
+
+type QaReviewRow = {
+  id: string;
+  decision: string;
+  reviewed_at: string | null;
+};
+
 export type InventoryTraceabilityRow = {
   id: string;
   lotId: string;
@@ -182,6 +216,23 @@ export type InventoryTraceabilityRow = {
   physicalQuantityValue: number;
   isOnHand: boolean;
   isHeld: boolean;
+  qaHoldId: string | null;
+  qaHoldStatus: string;
+  qaHoldReasonCategory: string;
+  qaHoldReason: string;
+  qaHoldPlacedAt: string;
+  qaHoldResolvedAt: string;
+  qaHoldEventCount: number;
+  qaHoldEvents: Array<{
+    id: string;
+    eventLabel: string;
+    eventAt: string;
+    notes: string;
+  }>;
+  receivingQaCheckId: string | null;
+  receivingQaCheckStatus: string;
+  receivingQaCheckOutcome: string;
+  receivingQaReviewDecision: string;
   isTraceCompleteToReceiving: boolean;
   manufactureDate: string;
   expiryDate: string;
@@ -407,6 +458,7 @@ export async function getInventoryTraceabilityPageData(): Promise<InventoryTrace
     stockMovementRows,
     itemRows,
     supplierRows,
+    qaHoldRows,
   ] = await Promise.all([
     receiptIds.length > 0
       ? safeReferenceQuery<ReceiptRow>(
@@ -466,6 +518,20 @@ export async function getInventoryTraceabilityPageData(): Promise<InventoryTrace
           "Could not load suppliers for traceability.",
         )
       : Promise.resolve([]),
+    lotIds.length > 0
+      ? safeReferenceQuery<QaHoldRow>(
+          supabase
+            .from("qa_holds")
+            .select(
+              "id, inventory_lot_id, source_check_instance_id, source_review_id, status, reason_category, reason, placed_at, resolved_at",
+            )
+            .eq("organisation_id", organisationId)
+            .in("inventory_lot_id", lotIds)
+            .is("archived_at", null)
+            .order("created_at", { ascending: false }),
+          "Could not load QA hold records for traceability.",
+        )
+      : Promise.resolve([]),
   ]);
 
   const receiptMap = mapById(receiptRows);
@@ -478,8 +544,20 @@ export async function getInventoryTraceabilityPageData(): Promise<InventoryTrace
   const purchaseDocumentLineIds = uniqueValues(
     receiptLineRows.map((line) => line.purchase_document_line_id),
   );
+  const qaHoldIds = uniqueValues(qaHoldRows.map((hold) => hold.id));
+  const qaCheckIds = uniqueValues(
+    qaHoldRows.map((hold) => hold.source_check_instance_id),
+  );
+  const qaReviewIds = uniqueValues(qaHoldRows.map((hold) => hold.source_review_id));
 
-  const [locationRows, purchaseDocumentRows, purchaseDocumentLineRows] =
+  const [
+    locationRows,
+    purchaseDocumentRows,
+    purchaseDocumentLineRows,
+    qaHoldEventRows,
+    qaCheckRows,
+    qaReviewRows,
+  ] =
     await Promise.all([
       locationIds.length > 0
         ? safeReferenceQuery<LocationRow>(
@@ -515,12 +593,48 @@ export async function getInventoryTraceabilityPageData(): Promise<InventoryTrace
             "Could not load purchase document lines for traceability.",
           )
         : Promise.resolve([]),
+      qaHoldIds.length > 0
+        ? safeReferenceQuery<QaHoldEventRow>(
+            supabase
+              .from("qa_hold_events")
+              .select("id, qa_hold_id, event_type, event_at, notes, reason")
+              .eq("organisation_id", organisationId)
+              .in("qa_hold_id", qaHoldIds)
+              .order("event_at", { ascending: true }),
+            "Could not load QA hold event records for traceability.",
+          )
+        : Promise.resolve([]),
+      qaCheckIds.length > 0
+        ? safeReferenceQuery<QaCheckRow>(
+            supabase
+              .from("qa_check_instances")
+              .select("id, status, overall_outcome, requires_review")
+              .eq("organisation_id", organisationId)
+              .in("id", qaCheckIds),
+            "Could not load Receiving QA check records for traceability.",
+          )
+        : Promise.resolve([]),
+      qaReviewIds.length > 0
+        ? safeReferenceQuery<QaReviewRow>(
+            supabase
+              .from("qa_reviews")
+              .select("id, decision, reviewed_at")
+              .eq("organisation_id", organisationId)
+              .in("id", qaReviewIds)
+              .is("archived_at", null),
+            "Could not load Receiving QA review records for traceability.",
+          )
+        : Promise.resolve([]),
     ]);
 
   const locationMap = mapById(locationRows);
   const purchaseDocumentMap = mapById(purchaseDocumentRows);
   const purchaseDocumentLineMap = mapById(purchaseDocumentLineRows);
+  const qaCheckMap = mapById(qaCheckRows);
+  const qaReviewMap = mapById(qaReviewRows);
   const movementsByLot = new Map<string, StockMovementRow[]>();
+  const holdsByLot = new Map<string, QaHoldRow[]>();
+  const eventsByHold = new Map<string, QaHoldEventRow[]>();
 
   stockMovementRows.forEach((movement) => {
     if (!movement.inventory_lot_id) {
@@ -530,6 +644,18 @@ export async function getInventoryTraceabilityPageData(): Promise<InventoryTrace
     const existing = movementsByLot.get(movement.inventory_lot_id) ?? [];
     existing.push(movement);
     movementsByLot.set(movement.inventory_lot_id, existing);
+  });
+
+  qaHoldRows.forEach((hold) => {
+    const existing = holdsByLot.get(hold.inventory_lot_id) ?? [];
+    existing.push(hold);
+    holdsByLot.set(hold.inventory_lot_id, existing);
+  });
+
+  qaHoldEventRows.forEach((event) => {
+    const existing = eventsByHold.get(event.qa_hold_id) ?? [];
+    existing.push(event);
+    eventsByHold.set(event.qa_hold_id, existing);
   });
 
   const rows = lots.map((lot): InventoryTraceabilityRow => {
@@ -549,12 +675,29 @@ export async function getInventoryTraceabilityPageData(): Promise<InventoryTrace
       ? purchaseDocumentLineMap.get(receiptLine.purchase_document_line_id)
       : undefined;
     const movements = movementsByLot.get(lot.id) ?? [];
+    const qaHolds = holdsByLot.get(lot.id) ?? [];
+    const controllingHold =
+      qaHolds.find((hold) => ["active", "release_requested"].includes(hold.status)) ??
+      qaHolds[0];
+    const qaHoldEvents = controllingHold ? eventsByHold.get(controllingHold.id) ?? [] : [];
+    const receivingQaCheck = controllingHold?.source_check_instance_id
+      ? qaCheckMap.get(controllingHold.source_check_instance_id)
+      : undefined;
+    const receivingQaReview = controllingHold?.source_review_id
+      ? qaReviewMap.get(controllingHold.source_review_id)
+      : undefined;
     const latestMovement = movements[0];
     const balance = quantitySummary(movements);
     const invoiceLinked = Boolean(
       receipt?.purchase_document_id || receiptLine?.purchase_document_line_id,
     );
-    const isHeld = lot.status === "on_hold" || lot.qa_status === "hold";
+    const isHeld =
+      Boolean(
+        controllingHold &&
+          ["active", "release_requested"].includes(controllingHold.status),
+      ) ||
+      lot.status === "on_hold" ||
+      lot.qa_status === "hold";
 
     return {
       id: lot.id,
@@ -636,6 +779,25 @@ export async function getInventoryTraceabilityPageData(): Promise<InventoryTrace
       physicalQuantityValue: balance.physicalQuantityValue,
       isOnHand: balance.physicalQuantityValue > 0 && !isHeld,
       isHeld,
+      qaHoldId: controllingHold?.id ?? null,
+      qaHoldStatus: controllingHold?.status
+        ? labelFromKey(controllingHold.status)
+        : "No formal QA hold",
+      qaHoldReasonCategory: labelFromKey(controllingHold?.reason_category),
+      qaHoldReason: controllingHold?.reason ?? "Not recorded",
+      qaHoldPlacedAt: formatDateTime(controllingHold?.placed_at),
+      qaHoldResolvedAt: formatDateTime(controllingHold?.resolved_at),
+      qaHoldEventCount: qaHoldEvents.length,
+      qaHoldEvents: qaHoldEvents.map((event) => ({
+        id: event.id,
+        eventLabel: labelFromKey(event.event_type),
+        eventAt: formatDateTime(event.event_at),
+        notes: event.notes ?? event.reason ?? "No notes recorded",
+      })),
+      receivingQaCheckId: receivingQaCheck?.id ?? null,
+      receivingQaCheckStatus: labelFromKey(receivingQaCheck?.status),
+      receivingQaCheckOutcome: labelFromKey(receivingQaCheck?.overall_outcome),
+      receivingQaReviewDecision: labelFromKey(receivingQaReview?.decision),
       isTraceCompleteToReceiving: Boolean(receipt && receiptLine && movements.length > 0),
       manufactureDate: formatDate(lot.manufacture_date ?? receiptLine?.manufacture_date),
       expiryDate: formatDate(lot.expiry_date ?? receiptLine?.expiry_date),

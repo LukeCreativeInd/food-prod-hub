@@ -46,7 +46,7 @@ This task does not create a database migration.
 
 This task does not create QA templates, fake QA records, sample checks, evidence upload, NC/CA workflows, Production QA, automatic checks, inventory holds, hold events, hold/release actions, stock movements, Stock On Hand changes, Inventory Traceability changes or Goods Inwards posting changes.
 
-Hold recommendations are note-only in this task. Formal `qa_holds` and `qa_hold_events` workflow use is reserved for task 217.
+Task 217 now promotes eligible Receiving QA hold recommendations into formal full-inventory-lot holds through controlled RPCs. Task 216 itself remains the checklist/review foundation and does not directly write `qa_holds` or `qa_hold_events`.
 
 ## Support impact
 
@@ -65,7 +65,7 @@ Support guides, troubleshooting, release notes and page-context mapping now ment
 9. Complete the check.
 10. Confirm completed checks are read-only.
 11. If results require review, record a QA review decision.
-12. Confirm no formal hold/release action is created.
+12. Confirm formal hold/release actions are available only through task 217 hold controls after a posted inventory lot exists.
 
 ## SQL smoke checks
 
@@ -108,4 +108,4 @@ Expected: task 216 itself creates no formal hold records.
 
 ## Next step
 
-Task 217 should design and implement the formal QA Hold/Release Inventory Link after Receiving QA has been tested against real templates and checks.
+Task 217 implements the formal full-lot QA Hold/Release Inventory Link. Partial holds, disposal, returns, stock adjustments, reversals and NC/CA workflows remain future scope.

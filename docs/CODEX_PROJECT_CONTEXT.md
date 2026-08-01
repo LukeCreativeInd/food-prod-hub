@@ -938,6 +938,14 @@ Batch Receiving and Purchasing are now explicitly marked as preview/sample Inven
 
 Task 216 adds the first real Receiving QA workflow using the task 215 QA schema. `/qa/receiving` lists real tenant Receiving QA checks, `/qa/receiving/new` starts a check from a real Goods Inwards receipt or receipt line using an active template with a published current version, and `/qa/receiving/[id]` saves typed in-progress results, completes checks and records QA review decisions.
 
-Receiving QA records reference Goods Inwards source records but do not alter receipt status, receipt line `qa_status`, inventory lot `qa_status`, stock movements, Stock On Hand or Inventory Traceability. Hold recommendations are recorded as notes only; formal `qa_holds` and `qa_hold_events` workflows remain task 217.
+Receiving QA records reference Goods Inwards source records but do not alter receipt status, receipt line `qa_status`, inventory lot `qa_status` or stock movements. Task 217 now promotes eligible hold recommendations into formal full-inventory-lot QA holds through controlled RPCs.
 
 The UI follows existing QA permissions: `qa.view`/`qa.checks.view` for reads, `qa.checks.create` for starting checks, `qa.checks.complete` for saving/completing results and `qa.reviews.manage` for review decisions. No migrations, fake QA templates/checks, Production QA, NC/CA workflows, evidence upload, service-role flows, auth/domain changes or packages are added.
+
+## Task 217 QA Hold/Release Inventory Link
+
+Task 217 drafts `supabase/migrations/041_qa_hold_release_inventory_link.sql` with controlled `SECURITY DEFINER` functions for Stock On Hand hold availability, full-inventory-lot QA hold placement and release. The functions use fixed `search_path = public`, contain no dynamic SQL, derive actor/organisation context, require active membership, revoke public/anon execute and grant authenticated execute only. The Stock On Hand helper requires `stock_movements.view` and returns only `inventory_lot_id`, `is_held` and `active_hold_status`, so inventory users do not need `qa.holds.view` to receive correct held/available quantities.
+
+The `/qa/holds` workspace now lists real QA holds, `/qa/holds/new` places a full-lot hold against a posted lot, and `/qa/holds/[id]` shows hold detail, source context, append-only event timeline and release controls. Receiving QA detail can place a formal hold only when a result recommends hold review and a posted inventory lot exists.
+
+Stock On Hand now derives held quantity from active/release-requested formal QA holds while preserving physical quantity from posted stock movements. Inventory Traceability and Goods Inwards show linked QA hold context. Task 217 does not create partial holds, receipt-header holds, stock movements, stock adjustments/reversals, disposal/return workflows, production consumption/output logic, NC/CA workflows, direct client hold writes, auth/domain changes or packages.

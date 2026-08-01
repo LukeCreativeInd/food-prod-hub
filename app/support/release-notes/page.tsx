@@ -10,6 +10,12 @@ export const metadata: Metadata = {
 const releaseNotes = [
   {
     label: "QA",
+    title: "QA Hold & Release",
+    description:
+      "QA can now place and release formal full-inventory-lot holds. Stock On Hand separates held from available stock using active hold state, while physical quantities and stock movement history remain unchanged.",
+  },
+  {
+    label: "QA",
     title: "Receiving QA checks",
     description:
       "QA now includes a real Receiving Checks workflow for starting checks from Goods Inwards receipts, saving typed checklist results, completing checks and recording QA review decisions without changing stock availability.",

@@ -45,6 +45,12 @@ type InventoryLotRow = {
   manufacture_date: string | null;
 };
 
+type QaHoldRow = {
+  inventory_lot_id: string;
+  is_held: boolean;
+  active_hold_status: string | null;
+};
+
 export type StockOnHandRow = {
   id: string;
   internalItemId: string;
@@ -75,6 +81,7 @@ export type StockOnHandRow = {
   lastReceiptId: string | null;
   isMixedUnitItem: boolean;
   isHeld: boolean;
+  qaHoldStatus: string;
   isUnclassified: boolean;
   expiryDate: string;
   useByDate: string;
@@ -171,12 +178,12 @@ function getGroupKey(movement: StockMovementRow) {
   ].join("::");
 }
 
-function isHeldLot(lot: InventoryLotRow | undefined) {
-  return lot?.status === "on_hold" || lot?.qa_status === "hold";
+function isHeldLot(lot: InventoryLotRow | undefined, hold: QaHoldRow | undefined) {
+  return Boolean(hold) || lot?.status === "on_hold" || lot?.qa_status === "hold";
 }
 
-function isAvailableLot(lot: InventoryLotRow | undefined) {
-  return lot?.status === "available" && lot.qa_status !== "hold";
+function isAvailableLot(lot: InventoryLotRow | undefined, hold: QaHoldRow | undefined) {
+  return !hold && lot?.status === "available" && lot.qa_status !== "hold";
 }
 
 export async function getStockOnHandPageData(): Promise<StockOnHandPageData> {
@@ -214,7 +221,7 @@ export async function getStockOnHandPageData(): Promise<StockOnHandPageData> {
     ...new Set(movements.map((movement) => movement.inventory_lot_id).filter(Boolean)),
   ];
 
-  const [itemsResult, locationsResult, lotsResult] = await Promise.all([
+  const [itemsResult, locationsResult, lotsResult, qaHoldsResult] = await Promise.all([
     itemIds.length > 0
       ? supabase
           .from("internal_items")
@@ -236,15 +243,26 @@ export async function getStockOnHandPageData(): Promise<StockOnHandPageData> {
           .eq("organisation_id", organisationId)
           .in("id", lotIds)
       : Promise.resolve({ data: [], error: null }),
+    lotIds.length > 0
+      ? supabase.rpc("get_inventory_lot_qa_hold_availability", {
+          p_inventory_lot_ids: lotIds,
+        })
+      : Promise.resolve({ data: [], error: null }),
   ]);
 
-  if (itemsResult.error || locationsResult.error || lotsResult.error) {
+  if (itemsResult.error || locationsResult.error || lotsResult.error || qaHoldsResult.error) {
     throw new Error("Could not load stock-on-hand reference records.");
   }
 
   const itemMap = mapById((itemsResult.data ?? []) as InternalItemRow[]);
   const locationMap = mapById((locationsResult.data ?? []) as LocationRow[]);
   const lotMap = mapById((lotsResult.data ?? []) as InventoryLotRow[]);
+  const holdAvailabilityMap = new Map(
+    ((qaHoldsResult.data ?? []) as QaHoldRow[]).map((hold) => [
+      hold.inventory_lot_id,
+      hold,
+    ]),
+  );
   const groups = new Map<string, StockOnHandAccumulator>();
 
   movements.forEach((movement) => {
@@ -291,9 +309,20 @@ export async function getStockOnHandPageData(): Promise<StockOnHandPageData> {
       const item = itemMap.get(group.internalItemId);
       const location = locationMap.get(group.stockLocationId);
       const lot = group.inventoryLotId ? lotMap.get(group.inventoryLotId) : undefined;
-      const availableQuantity = isAvailableLot(lot) ? group.netQuantity : 0;
-      const heldQuantity = isHeldLot(lot) ? group.netQuantity : 0;
-      const isUnclassified = !lot || (!isAvailableLot(lot) && !isHeldLot(lot));
+      const formalHold = group.inventoryLotId
+        ? holdAvailabilityMap.get(group.inventoryLotId)
+        : undefined;
+      const formalHoldIsActive = formalHold?.is_held === true;
+      const availableQuantity = isAvailableLot(lot, formalHoldIsActive ? formalHold : undefined)
+        ? group.netQuantity
+        : 0;
+      const heldQuantity = isHeldLot(lot, formalHoldIsActive ? formalHold : undefined)
+        ? group.netQuantity
+        : 0;
+      const isUnclassified =
+        !lot ||
+        (!isAvailableLot(lot, formalHoldIsActive ? formalHold : undefined) &&
+          !isHeldLot(lot, formalHoldIsActive ? formalHold : undefined));
       const lotStatus = lot?.status ?? "unclassified";
       const qaStatus = lot?.qa_status ?? "not_recorded";
 
@@ -335,7 +364,10 @@ export async function getStockOnHandPageData(): Promise<StockOnHandPageData> {
         lastMovementAt: formatDateTime(group.lastMovementAt),
         lastReceiptId: group.lastReceiptId,
         isMixedUnitItem: (itemUnits.get(group.internalItemId)?.size ?? 0) > 1,
-        isHeld: isHeldLot(lot),
+        isHeld: isHeldLot(lot, formalHoldIsActive ? formalHold : undefined),
+        qaHoldStatus: formalHoldIsActive
+          ? labelFromKey(formalHold.active_hold_status ?? "active")
+          : "No formal hold",
         isUnclassified,
         expiryDate: formatDate(lot?.expiry_date),
         useByDate: formatDate(lot?.use_by_date),

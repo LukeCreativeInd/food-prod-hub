@@ -70,6 +70,19 @@ export const QA_HOLD_STATUSES = [
   "cancelled",
 ] as const;
 
+export const QA_HOLD_REASON_CATEGORIES = [
+  "receiving",
+  "temperature",
+  "labelling",
+  "damage",
+  "foreign_matter",
+  "expiry",
+  "supplier_issue",
+  "production",
+  "qa_review",
+  "other",
+] as const;
+
 export const QA_HOLD_EVENT_TYPES = [
   "recommended",
   "placed",
@@ -119,4 +132,5 @@ export type QaCheckInstanceStatus =
 export type QaReviewDecision = (typeof QA_REVIEW_DECISIONS)[number];
 export type QaApprovalStatus = (typeof QA_APPROVAL_STATUSES)[number];
 export type QaHoldStatus = (typeof QA_HOLD_STATUSES)[number];
+export type QaHoldReasonCategory = (typeof QA_HOLD_REASON_CATEGORIES)[number];
 export type QaHoldEventType = (typeof QA_HOLD_EVENT_TYPES)[number];

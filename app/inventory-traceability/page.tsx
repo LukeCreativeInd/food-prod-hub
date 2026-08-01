@@ -37,6 +37,9 @@ function searchableText(row: InventoryTraceabilityRow) {
     row.invoiceLineDescription,
     row.lotStatusLabel,
     row.qaStatusLabel,
+    row.qaHoldStatus,
+    row.qaHoldReason,
+    row.receivingQaCheckStatus,
   ]
     .join(" ")
     .toLowerCase();
@@ -250,6 +253,63 @@ function TraceabilityCard({
           >
             View stock movement ledger
           </Link>
+        </TraceSection>
+
+        <TraceSection
+          title="QA hold and review"
+          action={
+            <StatusBadge tone={row.qaHoldId ? (row.isHeld ? "warning" : "success") : "neutral"}>
+              {row.qaHoldStatus}
+            </StatusBadge>
+          }
+        >
+          <dl className="grid gap-3 sm:grid-cols-2">
+            <Field label="Hold reason" value={row.qaHoldReason} />
+            <Field label="Reason category" value={row.qaHoldReasonCategory} />
+            <Field label="Placed" value={row.qaHoldPlacedAt} />
+            <Field label="Released" value={row.qaHoldResolvedAt} />
+            <Field label="Receiving QA" value={row.receivingQaCheckStatus} />
+            <Field label="QA decision" value={row.receivingQaReviewDecision} />
+          </dl>
+          {row.qaHoldEvents.length > 0 ? (
+            <div className="mt-4 space-y-2">
+              {row.qaHoldEvents.slice(0, 3).map((event) => (
+                <div
+                  key={event.id}
+                  className="rounded-md border border-slate-200 bg-white px-3 py-2"
+                >
+                  <p className="text-xs font-bold uppercase text-slate-500">
+                    {event.eventLabel} · {event.eventAt}
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                    {event.notes}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-3 text-sm leading-6 text-slate-600">
+              No formal QA hold events are linked to this lot.
+            </p>
+          )}
+          <div className="mt-4 flex flex-wrap gap-3">
+            {row.qaHoldId ? (
+              <Link
+                className="inline-flex text-sm font-bold text-[var(--tenant-primary)] hover:underline"
+                href={`/qa/holds/${row.qaHoldId}`}
+              >
+                Open QA hold
+              </Link>
+            ) : null}
+            {row.receivingQaCheckId ? (
+              <Link
+                className="inline-flex text-sm font-bold text-[var(--tenant-primary)] hover:underline"
+                href={`/qa/receiving/${row.receivingQaCheckId}`}
+              >
+                Open Receiving QA
+              </Link>
+            ) : null}
+          </div>
         </TraceSection>
       </div>
 

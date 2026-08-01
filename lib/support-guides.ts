@@ -539,19 +539,26 @@ export const supportGuides: SupportGuide[] = [
         heading: "Review decisions",
         body: [
           "Failed, warning, uncertain or review-triggering results can mark a check as needing QA review.",
-          "QA reviewers can record accepted, conditional acceptance, rejected or escalated decisions. These decisions are QA records only and do not automatically change inventory availability.",
+          "QA reviewers can record accepted, conditional acceptance, rejected or escalated decisions. These decisions are QA records; a formal hold action is still required before availability changes.",
+        ],
+      },
+      {
+        heading: "Hold and release",
+        body: [
+          "A hold recommendation on a posted receipt line can now be promoted into a formal full-lot QA hold when the user has hold placement permission.",
+          "Releasing a hold is a separate QA-controlled action. Hold and release do not create stock movements, alter Goods Inwards posting or change physical stock quantity.",
         ],
       },
       {
         heading: "Current boundaries",
         body: [
-          "Receiving QA does not create inventory holds, release stock, dispose stock, create stock movements or alter Goods Inwards posting.",
-          "Hold recommendations can be recorded in notes for follow-up. Formal QA hold/release inventory control is planned for a later workflow.",
+          "Hold & Release v1 only controls full inventory lots. Partial quantity holds, receipt-header holds, disposal, returns, stock adjustments, production release and NC/CA workflows remain future scope.",
         ],
       },
     ],
     relatedLinks: [
       { label: "Receiving Checks", href: "/qa/receiving" },
+      { label: "Hold & Release", href: "/qa/holds" },
       { label: "QA Templates", href: "/qa/templates" },
       { label: "Goods Inwards", href: "/goods-inwards" },
     ],

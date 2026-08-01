@@ -4,6 +4,7 @@ import {
   reviewReceivingQaCheckAction,
   saveReceivingQaCheckAction,
 } from "@/app/qa/receiving/actions";
+import { placeQaInventoryLotHoldAction } from "@/app/qa/holds/actions";
 import { AppShell } from "@/components/app-shell";
 import { AlertCard, PageActionButton, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import {
@@ -345,6 +346,82 @@ export default async function ReceivingQaDetailPage({
           </div>
         </SectionCard>
 
+        <SectionCard
+          title="Inventory hold link"
+          description="Formal QA holds control full inventory-lot availability after a posted receipt creates a lot."
+          action={
+            data.formalHold ? (
+              <StatusBadge tone="warning">{data.formalHold.status}</StatusBadge>
+            ) : data.holdRecommendation.canPlace ? (
+              <StatusBadge tone="warning">Action available</StatusBadge>
+            ) : (
+              <StatusBadge tone="neutral">No formal hold</StatusBadge>
+            )
+          }
+        >
+          {data.formalHold ? (
+            <div className="rounded-lg border border-[color:var(--tenant-warning-border)] bg-[var(--tenant-warning-bg)] p-4">
+              <p className="text-sm font-bold text-[var(--tenant-warning)]">
+                Formal QA hold exists for this lot
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                {data.formalHold.reason}
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <span className="text-xs font-semibold uppercase text-slate-500">
+                  Placed {data.formalHold.placedAt}
+                </span>
+                <PageActionButton href={`/qa/holds/${data.formalHold.id}`} variant="secondary">
+                  Open QA hold
+                </PageActionButton>
+              </div>
+            </div>
+          ) : data.holdRecommendation.canPlace && data.line?.inventoryLotId ? (
+            <form
+              action={placeQaInventoryLotHoldAction}
+              className="rounded-lg border border-[color:var(--tenant-warning-border)] bg-[var(--tenant-warning-bg)] p-4"
+            >
+              <input name="inventory_lot_id" type="hidden" value={data.line.inventoryLotId} />
+              <input name="source_check_instance_id" type="hidden" value={data.check.id} />
+              <input
+                name="source_check_result_id"
+                type="hidden"
+                value={data.holdRecommendation.resultId ?? ""}
+              />
+              <input name="reason_category" type="hidden" value="receiving" />
+              <input name="reason" type="hidden" value={data.holdRecommendation.reason} />
+              <input name="return_to" type="hidden" value={`/qa/receiving/${data.check.id}`} />
+              <p className="text-sm font-bold text-[var(--tenant-warning)]">
+                Hold recommended
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                A completed result on this check recommends holding the posted
+                inventory lot. Placing the hold creates a formal QA hold and an
+                append-only hold event.
+              </p>
+              <label className="mt-4 block">
+                <span className="text-xs font-semibold uppercase text-slate-500">
+                  Hold notes
+                </span>
+                <textarea
+                  className={inputClass}
+                  name="notes"
+                  placeholder="Optional context for release review."
+                />
+              </label>
+              <button className={`${primaryButtonClass} mt-4`} type="submit">
+                Place formal hold
+              </button>
+            </form>
+          ) : (
+            <p className="text-sm leading-6 text-slate-600">
+              No formal hold is active for this Receiving QA check. Draft receipt
+              lines cannot receive formal inventory holds until posting creates
+              a real inventory lot.
+            </p>
+          )}
+        </SectionCard>
+
         <form action={saveReceivingQaCheckAction} className="space-y-6">
           <input name="check_id" type="hidden" value={data.check.id} />
           <SectionCard
@@ -353,13 +430,6 @@ export default async function ReceivingQaDetailPage({
             action={canEdit ? <StatusBadge tone="warning">Editable</StatusBadge> : <StatusBadge tone="neutral">Read only</StatusBadge>}
           >
             <div className="space-y-5">
-              <AlertCard
-                title="No automatic hold"
-                description="Failed or uncertain Receiving QA results can require review or recommend a hold, but this task does not create qa_holds, qa_hold_events or inventory availability changes."
-                meta="Task 217"
-                tone="warning"
-              />
-
               {data.template.instructions !== "No instructions recorded" ? (
                 <AlertCard
                   title="Template instructions"

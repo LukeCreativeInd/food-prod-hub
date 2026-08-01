@@ -493,11 +493,30 @@ export default async function GoodsInwardsReceiptDetailPage({
                       <StatusBadge tone={qaTone(line.qaStatus)}>
                         {line.qaStatusLabel}
                       </StatusBadge>
+                      {line.qaHoldId ? (
+                        <StatusBadge tone="warning">{line.qaHoldStatus}</StatusBadge>
+                      ) : null}
                       {line.purchaseDocumentLineId ? (
                         <StatusBadge tone="info">{line.sourceLabel}</StatusBadge>
                       ) : null}
                     </div>
                   </div>
+                  {line.qaHoldId ? (
+                    <div className="mt-4 rounded-lg border border-[color:var(--tenant-warning-border)] bg-[var(--tenant-warning-bg)] p-3">
+                      <p className="text-sm font-bold text-[var(--tenant-warning)]">
+                        Formal QA hold active
+                      </p>
+                      <p className="mt-1 text-sm leading-6 text-slate-600">
+                        {line.qaHoldReason}
+                      </p>
+                      <Link
+                        className="mt-2 inline-flex text-sm font-bold text-[var(--tenant-primary)] hover:underline"
+                        href={`/qa/holds/${line.qaHoldId}`}
+                      >
+                        Open QA hold
+                      </Link>
+                    </div>
+                  ) : null}
                   {isDraft && line.blockerReasons.length > 0 ? (
                     <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3">
                       <p className="text-xs font-black uppercase text-amber-900">

@@ -255,7 +255,7 @@ Out of scope:
 
 `lib/qa-schema-types.ts` records the approved QA categories, statuses, hold event types and permission keys for future UI/action work.
 
-Task 216 now adds the first Receiving QA Checks UI using this schema. It creates no migration and does not use the `qa_holds` or `qa_hold_events` tables yet.
+Task 216 adds the first Receiving QA Checks UI using this schema. Task 217 then adds controlled RPC usage for full inventory-lot hold placement and release against `qa_holds` and append-only `qa_hold_events`.
 
 ## Manual Supabase Checks
 
@@ -273,7 +273,7 @@ Expected high-level results:
 - Hold events and amendments are append-only.
 - Historical completed-check result rows cannot be silently inserted, updated or deleted.
 - Result rows cannot mix template items from another template version.
-- Direct hold updates are unavailable until controlled hold/release actions are designed.
+- Direct hold updates remain unavailable to clients; task 217 uses controlled RPCs for hold placement and release instead of direct INSERT/UPDATE table policies.
 
 ## Next Tasks
 

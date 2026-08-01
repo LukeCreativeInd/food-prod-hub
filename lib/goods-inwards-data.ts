@@ -64,6 +64,7 @@ export type InventoryReceiptListItem = {
 export type InventoryReceiptLineItem = {
   id: string;
   purchaseDocumentLineId: string | null;
+  inventoryLotId: string | null;
   internalItemId: string;
   stockLocationId: string;
   internalItemName: string;
@@ -94,6 +95,9 @@ export type InventoryReceiptLineItem = {
   sourceLabel: string;
   isPostableCandidate: boolean;
   blockerReasons: string[];
+  qaHoldId: string | null;
+  qaHoldStatus: string;
+  qaHoldReason: string;
 };
 
 export type InventoryStockMovementItem = {
@@ -191,6 +195,14 @@ type ReceiptRow = {
   updated_at: string;
   posted_at: string | null;
   cancelled_at: string | null;
+};
+
+type QaHoldRow = {
+  id: string;
+  inventory_lot_id: string;
+  status: string;
+  reason: string;
+  reason_category: string;
 };
 
 type ReceiptLineRow = {
@@ -321,6 +333,17 @@ function quantityValue(value: number | null | undefined) {
   }
 
   return String(value);
+}
+
+function labelFromKey(value: string | null | undefined) {
+  if (!value) {
+    return "Not recorded";
+  }
+
+  return value
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }
 
 function receiptStatusTone(status: InventoryReceiptStatus) {
@@ -672,10 +695,16 @@ export async function fetchInventoryReceiptDetail(
     ]),
   ];
   const lotIds = [
-    ...new Set(movements.map((movement) => movement.inventory_lot_id).filter(Boolean)),
+    ...new Set(
+      [
+        ...movements.map((movement) => movement.inventory_lot_id),
+        ...lines.map((line) => line.inventory_lot_id),
+      ].filter(Boolean),
+    ),
   ];
 
-  const [itemsResult, locationsResult, lotsResult, postedByResult] = await Promise.all([
+  const [itemsResult, locationsResult, lotsResult, qaHoldsResult, postedByResult] =
+    await Promise.all([
     internalItemIds.length > 0
       ? supabase
           .from("internal_items")
@@ -697,6 +726,15 @@ export async function fetchInventoryReceiptDetail(
           .eq("organisation_id", organisationId)
           .in("id", lotIds)
       : Promise.resolve({ data: [], error: null }),
+    lotIds.length > 0
+      ? supabase
+          .from("qa_holds")
+          .select("id, inventory_lot_id, status, reason, reason_category")
+          .eq("organisation_id", organisationId)
+          .in("inventory_lot_id", lotIds)
+          .in("status", ["active", "release_requested"])
+          .is("archived_at", null)
+      : Promise.resolve({ data: [], error: null }),
     receipt.posted_by_profile_id
       ? supabase
           .from("profiles")
@@ -706,13 +744,25 @@ export async function fetchInventoryReceiptDetail(
       : Promise.resolve({ data: null, error: null }),
   ]);
 
-  if (itemsResult.error || locationsResult.error || lotsResult.error || postedByResult.error) {
+  if (
+    itemsResult.error ||
+    locationsResult.error ||
+    lotsResult.error ||
+    qaHoldsResult.error ||
+    postedByResult.error
+  ) {
     throw new Error("Could not load receipt item/location detail.");
   }
 
   const itemMap = mapById((itemsResult.data ?? []) as InternalItemRow[]);
   const locationMap = mapById((locationsResult.data ?? []) as LocationRow[]);
   const lotMap = mapById((lotsResult.data ?? []) as LotRow[]);
+  const qaHoldMap = new Map(
+    ((qaHoldsResult.data ?? []) as QaHoldRow[]).map((hold) => [
+      hold.inventory_lot_id,
+      hold,
+    ]),
+  );
   const postedByProfile = postedByResult.data as ProfileRow | null;
   const activeLines = lines.filter(
     (line) => line.status !== "cancelled" && line.status !== "archived",
@@ -776,10 +826,12 @@ export async function fetchInventoryReceiptDetail(
     },
     lines: lines.map((line) => {
       const blockerReasons = getLineBlockerReasons(line);
+      const qaHold = line.inventory_lot_id ? qaHoldMap.get(line.inventory_lot_id) : undefined;
 
       return {
         id: line.id,
         purchaseDocumentLineId: line.purchase_document_line_id,
+        inventoryLotId: line.inventory_lot_id,
         internalItemId: line.internal_item_id,
         stockLocationId: line.stock_location_id,
         internalItemName: itemMap.get(line.internal_item_id)?.display_name ?? "Unknown item",
@@ -811,6 +863,9 @@ export async function fetchInventoryReceiptDetail(
         sourceLabel: line.purchase_document_line_id ? "Invoice-linked" : "Manual",
         isPostableCandidate: blockerReasons.length === 0,
         blockerReasons,
+        qaHoldId: qaHold?.id ?? null,
+        qaHoldStatus: qaHold?.status ? labelFromKey(qaHold.status) : "No formal hold",
+        qaHoldReason: qaHold?.reason ?? "Not recorded",
       };
     }),
     movements: movements.map((movement) => ({

@@ -57,12 +57,22 @@ const troubleshootingTopics = [
   {
     title: "A Receiving QA check needs review",
     description:
-      "Failed, warning or review-triggering checklist results can mark a check for QA review. A reviewer can record a decision, but formal inventory holds are not automatic yet.",
+      "Failed, warning or review-triggering checklist results can mark a check for QA review. A reviewer can record a decision, and a separate formal hold action is available when a posted inventory lot exists.",
   },
   {
-    title: "A failed Receiving QA check did not hold stock",
+    title: "A failed Receiving QA check did not automatically hold stock",
     description:
-      "That is expected in the current release. Receiving QA can recommend hold review in notes, while formal hold/release inventory availability control remains a future workflow.",
+      "That is expected. Receiving QA can recommend a hold, but a user with QA hold permission must place the formal full-lot hold before Stock On Hand treats the lot as held.",
+  },
+  {
+    title: "I can't place a QA hold",
+    description:
+      "Formal holds need a posted inventory lot, no existing open hold on that lot and qa.holds.place permission. Draft receipt lines cannot be formally held until posting creates the inventory lot.",
+  },
+  {
+    title: "Released stock is not visible as available",
+    description:
+      "Open the QA hold detail and confirm the hold status is Released. Stock On Hand derives availability from posted movements minus active/release-requested formal holds, so released holds should restore availability without a new movement.",
   },
   {
     title: "A posted Goods Inwards receipt is locked",

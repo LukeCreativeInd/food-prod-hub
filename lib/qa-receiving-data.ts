@@ -185,6 +185,17 @@ export type ReceivingQaDetail = {
   sections: ReceivingQaTemplateSection[];
   results: ReceivingQaResult[];
   reviews: ReceivingQaReview[];
+  formalHold: {
+    id: string;
+    status: string;
+    reason: string;
+    placedAt: string;
+  } | null;
+  holdRecommendation: {
+    resultId: string | null;
+    canPlace: boolean;
+    reason: string;
+  };
 };
 
 export type ReceivingQaListData = {
@@ -210,6 +221,7 @@ type QaAccess = {
   canCreate: boolean;
   canComplete: boolean;
   canReview: boolean;
+  canPlaceHold: boolean;
 };
 
 type CheckRow = {
@@ -232,6 +244,13 @@ type CheckRow = {
   requires_approval: boolean;
   notes: string | null;
   created_at: string;
+};
+
+type QaHoldRow = {
+  id: string;
+  status: string;
+  reason: string;
+  placed_at: string | null;
 };
 
 type TemplateRow = {
@@ -445,6 +464,7 @@ async function getQaAccess(): Promise<QaAccess> {
     canCreate: permissionKeys.includes(QA_PERMISSIONS.checksCreate),
     canComplete: permissionKeys.includes(QA_PERMISSIONS.checksComplete),
     canReview: permissionKeys.includes(QA_PERMISSIONS.reviewsManage),
+    canPlaceHold: permissionKeys.includes(QA_PERMISSIONS.holdsPlace),
   };
 }
 
@@ -1059,6 +1079,7 @@ export async function fetchReceivingQaDetail(
     itemsResult,
     resultsResult,
     reviewsResult,
+    holdsResult,
     profilesResult,
   ] = await Promise.all([
     supabase
@@ -1104,6 +1125,17 @@ export async function fetchReceivingQaDetail(
       .eq("check_instance_id", check.id)
       .is("archived_at", null)
       .order("created_at", { ascending: false }),
+    check.inventory_lot_id
+      ? supabase
+          .from("qa_holds")
+          .select("id, status, reason, placed_at")
+          .eq("organisation_id", access.organisationId)
+          .eq("inventory_lot_id", check.inventory_lot_id)
+          .in("status", ["recommended", "active", "release_requested"])
+          .is("archived_at", null)
+          .order("created_at", { ascending: false })
+          .limit(1)
+      : Promise.resolve({ data: [], error: null }),
     completedProfileIds.length > 0
       ? supabase
           .from("profiles")
@@ -1119,6 +1151,7 @@ export async function fetchReceivingQaDetail(
     itemsResult.error ||
     resultsResult.error ||
     reviewsResult.error ||
+    holdsResult.error ||
     profilesResult.error
   ) {
     throw new Error("Could not load Receiving QA detail.");
@@ -1130,6 +1163,7 @@ export async function fetchReceivingQaDetail(
   const items = (itemsResult.data ?? []) as TemplateItemRow[];
   const results = (resultsResult.data ?? []) as ResultRow[];
   const reviews = (reviewsResult.data ?? []) as ReviewRow[];
+  const formalHold = ((holdsResult.data ?? []) as QaHoldRow[])[0] ?? null;
   const profileMap = mapById((profilesResult.data ?? []) as ProfileRow[]);
   const receipt = check.inventory_receipt_id
     ? receiptContext.receiptMap.get(check.inventory_receipt_id)
@@ -1209,6 +1243,9 @@ export async function fetchReceivingQaDetail(
       items: itemsWithoutSection,
     });
   }
+
+  const holdRecommendationResult =
+    results.find((result) => result.requires_hold_review) ?? null;
 
   return {
     check: {
@@ -1291,5 +1328,24 @@ export async function fetchReceivingQaDetail(
         review.reviewer_profile_id ? profileMap.get(review.reviewer_profile_id) : undefined,
       ),
     })),
+    formalHold: formalHold
+      ? {
+          id: formalHold.id,
+          status: checkStatusLabel(formalHold.status),
+          reason: formalHold.reason,
+          placedAt: formatDateTime(formalHold.placed_at),
+        }
+      : null,
+    holdRecommendation: {
+      resultId: holdRecommendationResult?.id ?? null,
+      canPlace:
+        access.canPlaceHold &&
+        Boolean(check.inventory_lot_id) &&
+        Boolean(holdRecommendationResult) &&
+        !formalHold,
+      reason: holdRecommendationResult
+        ? `Receiving QA hold recommendation from ${`QA-${check.id.slice(0, 8)}`}`
+        : "Receiving QA did not recommend a hold.",
+    },
   };
 }

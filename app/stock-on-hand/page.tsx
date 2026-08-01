@@ -68,9 +68,9 @@ export default async function StockOnHandPage({ searchParams }: PageProps) {
               </div>
               <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-600">
                 Stock On Hand is calculated from posted stock movement ledger
-                rows. Inventory lots provide traceability and status context.
-                Supplier invoices remain commercial evidence, not stock source
-                records.
+                rows. Active QA holds remove a full lot from available stock
+                without changing physical quantity. Supplier invoices remain
+                commercial evidence, not stock source records.
               </p>
             </div>
             <Link
@@ -141,8 +141,8 @@ export default async function StockOnHandPage({ searchParams }: PageProps) {
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
               <p className="text-sm font-bold text-slate-950">Lots classify stock</p>
               <p className="mt-2 text-sm leading-6 text-slate-500">
-                Available and held quantities are separated using lot and QA
-                status context.
+                Available and held quantities are separated using formal QA hold
+                state first, with lot status retained as supporting context.
               </p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
@@ -351,6 +351,9 @@ export default async function StockOnHandPage({ searchParams }: PageProps) {
                             {row.lotStatusLabel}
                           </StatusBadge>
                           <StatusBadge tone="neutral">{row.qaStatusLabel}</StatusBadge>
+                          {row.qaHoldStatus !== "No formal hold" ? (
+                            <StatusBadge tone="warning">{row.qaHoldStatus}</StatusBadge>
+                          ) : null}
                         </div>
                       </td>
                       <td className="px-4 py-3 text-slate-600">
