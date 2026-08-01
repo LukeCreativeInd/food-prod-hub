@@ -641,6 +641,8 @@ Logistics Module Deep Planning is documented in [Logistics Module Deep Planning]
 
 Logistics Navigation + Scaffold v1 is documented in [Logistics Navigation + Scaffold v1](docs/219-logistics-navigation-scaffold-v1.md).
 
+Dispatch Manifest Schema Foundation is documented in [Dispatch Manifest Schema Foundation](docs/220-dispatch-manifest-schema-foundation.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -685,6 +687,7 @@ Logistics Navigation + Scaffold v1 is documented in [Logistics Navigation + Scaf
 - Added QA Hold & Release inventory link for formal full-lot holds/releases, Stock On Hand held/available derivation through a narrow availability helper, and traceability visibility without changing stock movement quantities
 - Planned the future Logistics module for dispatch runs, manifests, carrier/export handoffs, delivery issues, carton planning and Detrack readiness without adding routes, schema or behaviour
 - Added the Logistics workspace scaffold with Dispatch Runs, Manifests, Carrier Exports and Delivery Issues routes using honest empty states only
+- Drafted the Dispatch/Manifest schema foundation migration with tenant-owned carrier, dispatch run, delivery, manifest snapshot and carrier export tables plus granular Logistics permissions and RLS. Direct writes are restricted to draft operational/manifest records and pending exports; snapshot insertion and lifecycle outcomes remain closed until controlled task 221 workflows. No operational Logistics UI, carrier export generation, integrations, stock movements or seed data is included
 - Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins, and documented Leaked Password Protection as a manual Supabase Studio action before task 216
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, stock movement reversal behavior, partial QA holds or full NC/CA workflow has been added.

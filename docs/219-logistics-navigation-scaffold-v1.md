@@ -133,17 +133,13 @@ Future Logistics records should reference the correct source records instead of 
 - carrier export payloads should remain diagnostics or export evidence, not canonical dispatch truth.
 - delivery issues may link to support tickets, but Support owns the conversation timeline.
 
-## What Remains For Task 220
+## Task 220 Drafted
 
-Task 220 should review and create the dispatch/manifest schema foundation. It should decide:
+Task 220 has drafted the dispatch/manifest schema foundation in `supabase/migrations/042_dispatch_manifest_schema_foundation.sql`.
 
-- dispatch run and line tables.
-- manifest header and line tables.
-- carrier/export handoff tables.
-- delivery issue table timing.
-- tenant-owned foreign key boundaries.
-- granular logistics permissions.
-- RLS policies.
+The task 220 migration creates carrier, carrier service, dispatch run, dispatch delivery, dispatch line, manifest, immutable manifest snapshot and carrier export foundation tables with granular permissions and RLS. Delivery issue operational tables and delivery zones remain deferred.
+
+Migration 042 still requires manual review and Supabase apply before task 221 should use the schema.
 - audit event needs.
 
 ## What Remains For Task 221
