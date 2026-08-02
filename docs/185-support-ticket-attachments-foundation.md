@@ -1,5 +1,7 @@
 # Support Ticket Attachments Foundation
 
+> **Current migration status:** Migration 033 has since been applied as part of the documented `001`-`044` sequence. The task text below preserves its pre-apply foundation review state. Attachment upload/display UI remains unavailable unless a later task explicitly adds it.
+
 Task 185 adds the reviewed database and Storage foundation for future EveryBatch support ticket attachments.
 
 No attachment upload UI or display UI is built in this task.

@@ -4,6 +4,23 @@ Use this template for EveryBatch / Clean Eats Hub tasks after task 200.
 
 Before using it, read [Codex Task Standards](./CODEX_TASK_STANDARDS.md) and confirm the task name/order against [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). The standards remain authoritative where this shorter template omits detail.
 
+Before drafting the new task, add and assess:
+
+```text
+Post-commit context from the previous task:
+- Runtime findings:
+- Product/UX decisions:
+- Architecture/source-of-truth decisions:
+- New limitations:
+- Future ideas:
+- Roadmap implications:
+- Documents to reconsider:
+```
+
+Review that delta against the previous task document, README, project context, roadmap/Future Pending register and the permanent living documents. Update only materially affected files.
+
+At the start of the new task, verify the previous task's final commit in Git. Backfill its exact commit hash and final committed status in `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and correct any previous-task wording that could not be known before commit. Never invent the current task's future commit hash.
+
 ```text
 Next task: [Task number] - [Task name].
 
@@ -151,6 +168,7 @@ Return:
 - Data model impact
 - Support guide/troubleshooting/release note impact
 - Documentation impact, including exact earlier files reviewed or corrected
+- Living-document impact, including Current Handover and Task Index plus any capability, decision, ownership, handbook or engineering changes materially required
 - Behaviour preserved
 - Migration files added/changed, if any
 - FULL SQL MIGRATION CONTENTS if any migration was created

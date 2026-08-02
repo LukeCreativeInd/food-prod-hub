@@ -2,7 +2,9 @@
 
 ## Current Roadmap And Execution Standard
 
-The active task sequence is [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). Tasks 201-222 are completed history and Task 222 is Carrier Configuration Foundation. The former `docs/201-250-next-roadmap.md` is retained only as a superseded historical plan.
+The active sequence is [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). Task 223A is the latest completed living-knowledge task and Task 223B is the next approved Production replacement/roadmap reassessment. Tasks 224-276 remain preserved but paused pending the approved 223B output. Task 223B must backfill Task 223A's exact commit hash through the post-commit context-delta workflow. The former `docs/201-250-next-roadmap.md` is retained only as a superseded historical plan.
+
+Current onboarding begins with [Current Chat Handover](./CHAT_HANDOVER_CURRENT.md), then the active roadmap, task standards, [Master Handbook](./EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](./EVERYBATCH_ENGINEERING_OPERATIONS.md), current capability/source-of-truth matrices, Decision Log and Task Index. The preserved original architect dossier is historical evidence, not current implementation authority.
 
 All numbered work follows [Codex Task Standards](./CODEX_TASK_STANDARDS.md). Confirm the branch and working tree before edits, preserve strict scope, review documentation impacts, and do not change or apply migrations without the task-specific approval required by those standards.
 
@@ -1011,3 +1013,11 @@ Task 223 is documentation-only. It creates `docs/223-276-revised-roadmap.md` as 
 The active sequence is Tasks 223-247, with Tasks 248-276 directionally approved and subject to explicit roadmap review. Task 228 Facility/iPad View v1 is decision-gated: no implementation prompt should be written until Luke approves the tablet/facility architecture direction. New ideas enter the unnumbered Future/Pending Task Register and do not alter task numbering without Luke's approval.
 
 Task 223 changes no application code, route, navigation, migration, database, RLS policy, permission, package, operational data or runtime behaviour.
+
+## Task 223A EveryBatch Master Handover And Living Knowledge System
+
+Task 223A preserves the complete original architect dossier behind a non-canonical notice and creates the permanent reconciled handbook, engineering manual, Task Index, Decision Log, concise handover, capability matrix and source-of-truth matrix. Repository and Git evidence supersede the dossier for current implementation, especially QA Tasks 213-217, Logistics Tasks 218-222, migration 044 and the current sequence.
+
+Task 223A records future multi-facility direction without schema; the Phase 1 requirement to replace the Clean Eats Shopify/Zapiet/CSV/Production Report/printed-pack workflow after parity and staff validation; an installable but provider-agnostic Shopify/order-source direction; inventory-aware planning without false physical movement; yield/variance direction; required area-specific production execution with unresolved device technology; and unresolved Recipes/formula/method/instruction ownership.
+
+Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is next and is planning/audit/source-system review only. Tasks 224-276 are not renumbered or deleted, but are paused until Luke approves Task 223B's revised sequence. Migrations `001`-`044` remain documented applied; Task 223A creates no migration or runtime change.

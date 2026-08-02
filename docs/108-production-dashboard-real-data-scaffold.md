@@ -1,5 +1,7 @@
 # Production Dashboard Real Data Scaffold
 
+> **Current direction after Task 223A:** This real-data scaffold is not the Phase 1 production replacement. Task 223B must review the live Shopify/Zapiet/CSV/report tool chain, formulas/instructions and room workflow before later Production tasks proceed. Area-scoped digital execution is required; the technology remains unresolved.
+
 ## Status
 
 The Production landing page has been changed from sample dashboard content to a real read-only operational scaffold using current tenant setup data where available.

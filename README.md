@@ -26,13 +26,13 @@ Target domain architecture:
 - `admin.everybatchmrp.com` for Platform Admin
 - `support.everybatchmrp.com` for Support and Help Centre
 
-See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-architecture.md), the active [Tasks 223-276 revised roadmap](docs/223-276-revised-roadmap.md), [Codex task standards](docs/CODEX_TASK_STANDARDS.md), and [Codex project context](docs/CODEX_PROJECT_CONTEXT.md). The older [EveryBatch implementation roadmap](docs/113-everybatch-implementation-roadmap.md) is historical planning context.
+Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the active [Tasks 223-276 revised roadmap](docs/223-276-revised-roadmap.md), [Codex task standards](docs/CODEX_TASK_STANDARDS.md), [Master Handbook](docs/EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](docs/EVERYBATCH_ENGINEERING_OPERATIONS.md), [Capability Matrix](docs/CURRENT_PLATFORM_CAPABILITY_MATRIX.md), [Source-of-Truth Matrix](docs/MODULE_SOURCE_OF_TRUTH_MATRIX.md), [Decision Log](docs/DECISION_LOG.md) and [Task Index](docs/TASK_INDEX.md). The [original architect dossier](docs/history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md) is non-canonical historical evidence only.
 
 ## Current Status
 
-- Current phase: tenant module/workspace foundation completion after Task 222
-- Tasks 201-222 are completed history; Task 222 is Carrier Configuration Foundation
-- Tasks 223-247 are the active approved working sequence, beginning with documentation realignment in Task 223
+- Latest completed task: Task 223A, EveryBatch Master Handover and Living Knowledge System
+- Next approved task: Task 223B, Phase 1 Production Replacement and Roadmap Reassessment
+- Tasks 224-276 remain preserved but paused pending Luke's approval of the Task 223B production-replacement roadmap output
 - The app shell now contains a mix of real operational foundations and explicitly honest future/empty workspaces
 - Design direction is Clean Eats-inspired while platform planning remains reusable
 - Documentation has been added for product direction, architecture, roadmap, development standards, release process, discovery notes, and Codex working rules
@@ -701,5 +701,6 @@ Carrier Configuration Foundation is documented in [Carrier Configuration Foundat
 - Added tenant carrier and service configuration using the existing Logistics schema and granular permissions. Active choices feed carrier-scoped draft dispatch selectors, service archive remains soft and history-safe, and Carrier Exports remains disconnected without credentials, files or provider calls. Applied migration 044 splits the defective shared carrier/service identity trigger into table-appropriate trigger functions without changing RLS, permissions or operational data
 - Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, and corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins. Leaked Password Protection must not be described as disabled without live evidence; its live setting and older warning-era documentation are pending an approved Task 261/security review
 - Realigned the active roadmap at Task 223, established permanent Codex task standards, and retained the old Tasks 201-250 sequence as clearly superseded historical context
+- Task 223A preserves the original architect dossier as non-canonical history and establishes the permanent EveryBatch handbook, engineering manual, task/decision indexes, concise handover and current capability/source-of-truth matrices; Task 223B is next and Tasks 224-276 are paused pending its Production replacement reassessment
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, stock movement reversal behavior, partial QA holds or full NC/CA workflow has been added.

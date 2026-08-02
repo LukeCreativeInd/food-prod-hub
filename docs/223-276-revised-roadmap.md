@@ -2,7 +2,9 @@
 
 ## Authority And Status
 
-This is the active EveryBatch roadmap after Task 222. It supersedes the future sequence formerly recorded in `docs/201-250-next-roadmap.md`; that file remains available as historical planning context only.
+This is the active EveryBatch roadmap after Task 223. It supersedes the future sequence formerly recorded in `docs/201-250-next-roadmap.md`; that file remains available as historical planning context only.
+
+Task 223A is the latest completed documentation/handover task. Task 223B is the next approved planning task. Tasks 224-276 remain preserved and unrenumbered, but are paused pending Luke's approval of the Task 223B reassessment.
 
 EveryBatch is the product brand. Clean Eats Hub is the Clean Eats tenant/workspace. Food Prod Hub and Food Operations Hub are internal repository or historical concept terminology only, not public product names.
 
@@ -35,6 +37,8 @@ Current migration truth at this checkpoint:
 | Task | Approved title | Foundation intent |
 | --- | --- | --- |
 | 223 | Roadmap and Project Context Realignment | Establish this roadmap, permanent task standards and consistent current context. |
+| 223A | EveryBatch Master Handover and Living Knowledge System | **Completed.** Preserves historical architect evidence and establishes the permanent reconciled living knowledge system. |
+| 223B | Phase 1 Production Replacement and Roadmap Reassessment | **Next approved; planning/audit only.** Review current Production, legacy Vercel tools, Shopify/Zapiet/CSV/report sources and dependencies, then propose replacement scope, parity/decommission criteria and a revised sequence. |
 | 224 | Production Module Current-State Review and Workspace Completion Plan | Review real Production ownership, incomplete workspaces, dependencies and honest empty states before more implementation. |
 | 225 | Production Areas UI v1 | Add useful tenant-aware Production Area configuration from the existing foundation. |
 | 226 | Production Tasks Schema Foundation | Add the reviewed task data model only after Production ownership and lifecycle rules are confirmed. |
@@ -59,6 +63,10 @@ Current migration truth at this checkpoint:
 | 245 | Costing and Margin Reports v1 | Read costing snapshots, prices and margin sources without recalculation side effects. |
 | 246 | Production, QA and Logistics Reports v1 | Add reporting only where source workflows provide reliable real records. |
 | 247 | Tenant Module Foundation Completion Review | Review every tenant module/workspace against the approved foundation-completion definition. |
+
+### Pause Before Task 224
+
+Tasks 224-276 are directionally preserved exactly as numbered, but no task from 224 onward should begin until Task 223B is completed and Luke approves its proposed Phase 1 production-replacement definition and roadmap reassessment. Task 223A does not perform Task 223B or renumber/delete the existing sequence.
 
 ## Task 228 Decision Gate
 
@@ -134,6 +142,14 @@ Future ideas, defects and dependencies must enter this register before promotion
 | Platform Admin full review supporting ideas | Platform Admin | Task 223 / Task 263 | Retain tenant health, readiness, modules/features, memberships, onboarding, first admin, branding, domains, Support, storage, diagnostics, provisioning, lifecycle and later billing-readiness ideas until the formal review starts. | Task 263 | High | Promoted to roadmap |
 | Documentation consistency audit | Documentation | Task 223 / Task 261 | Report first, obtain approval before broad rewrites, then use Task 262 for corrections. | Task 261 | High | Promoted to roadmap |
 | Leaked Password Protection live-setting verification | Security/documentation | Task 223, 2026-08-02 | Earlier project context records it as enabled after the Supabase upgrade, while older documents retain warning-era language. Do not call it disabled without live evidence. Verify during Task 261 or a security review and correct stale references. | Approved live-setting verification | Normal | Pending review |
+| Phase 1 legacy production replacement and decommission | Production | Task 223A, 2026-08-02 | Replace the Shopify/Zapiet/CSV/aggregation/Production Report/printed-pack chain only after parity, real production-day comparison and staff approval. | Task 223B source review; demand, inventory, QA and execution architecture | Critical roadmap candidate | Reassessment required |
+| Facility/site architecture | Platform architecture | Task 223A, 2026-08-02 | Future tenants may have multiple sites; operational scope cannot permanently assume organisation equals facility. | Dedicated architecture task before facility-scoped schema | Critical roadmap candidate | Pending review |
+| External order source, Shopify App and demand architecture | Integration/Production | Task 223A, 2026-08-02 | Clean Eats Shopify/Zapiet is first evidence, but the connector and demand model must remain tenant-installable and provider-agnostic. | Task 223B then dedicated current-official-doc architecture | Critical roadmap candidate | Pending review |
+| Formula, Production Method and Recipes ownership | Products/Production | Task 223A, 2026-08-02 | Formula/BOM, method, work instruction and run/report are distinct; current Recipes route is ambiguous. | Products/Production capability review | Critical roadmap candidate | Unresolved |
+| Production allocation, transfer, issue, consumption and output | Production/Inventory | Task 223A, 2026-08-02 | Planning must not falsely post physical movement; FEFO/FIFO, held stock and confirmed movement need explicit lifecycle. | Demand, facility, inventory and execution design | Critical roadmap candidate | Pending review |
+| Yield, waste and variance | Production/Costings | Task 223A, 2026-08-02 | Separate theoretical, yield-adjusted, allocated, actual consumed/output and variance; history informs review, never silent rewrites. | Digital execution and costing evidence | High | Pending review |
+| Product compliance, NC/CAPA/recall, equipment, supplier quality, competency and shelf life | Platform capability | Task 223A, 2026-08-02 | Required long-term Food Manufacturing OS depth without pretending it is operational today. | Source-module architecture and roadmap promotion | High | Future/Pending |
+| Action Centre, timelines, saved views, notifications, governance and integration health | Cross-module | Task 223A, 2026-08-02 | Make exceptions visible work and provide controlled operational awareness. | Mature source workflows and notification/integration architecture | High | Future/Pending |
 
 ## E. Parked And Hardening Backlog
 

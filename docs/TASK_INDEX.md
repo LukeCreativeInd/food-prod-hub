@@ -1,0 +1,288 @@
+# EveryBatch Task Index
+
+## Authority And Method
+
+This is a navigation index, not a replacement for task documents. Titles/status are based on repository documents and Git history. Task 223A is the latest completed task; Task 223B is next approved. The original architect dossier is used only for reconstructed historical work packages and direct rationale strongest through Task 212.
+
+## Historical Work Packages
+
+Before reliable numbered-task evidence, work evolved through Clean Eats costing/formula discovery, UI shell prototypes, Supabase/Auth/RLS foundation, tenant navigation, Supplier Invoice Intake, Products/Costings foundations, production/inventory scaffolds and commercial platform planning. These are **reconstructed work packages**, not invented task numbers. See `history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md` and the individual repository task documents for evidence.
+
+## Verified Task Eras
+
+| Task range | Status | Major outcome / current relevance | Evidence |
+| --- | --- | --- | --- |
+| 001-015 | Committed/applied where migration-backed | Core organisation/auth/module/audit foundations, RLS helpers and first policies | `supabase/migrations/001*`-`015*`; docs 13-37 |
+| 016-041 | Committed/applied where migration-backed | Demo access, visual/product planning, tenant navigation, RLS completion and early platform planning | migrations 016 and docs 38-41 |
+| 042-079 | Committed | Products/Costings/Production/Inventory UI foundations, performance/auth optimisation and Purchase Document Intake/extraction/real-data views | numbered docs 42-79 |
+| 080-112 | Committed | Analytics, formulas, supplier parsers, manual master data, app-shell polish, permissions/performance and global search | numbered docs 80-112 |
+| 113-143 | Committed | EveryBatch domains, multi-tenant/platform separation, tenant selection/routing/provisioning and Platform tenant views | numbered docs 113-143; migrations 026-031 where applicable |
+| 144-170 | Committed | Real Costings pages, formula builders, domain app modes, brand assets and sell-price foundations | numbered docs 144-170; migrations 030-032 where applicable |
+| 171-200 | Committed | Margin calculations, Support workflows, product/formula polish, costing snapshots, inventory receiving/production planning and Phase 1 review | numbered docs 171-200; migrations 033-036 where applicable |
+
+## Verified Recent Tasks
+
+| Task | Exact title | Status / commit | Migration(s) | Major outcome and validation/current relevance |
+| --- | --- | --- | --- | --- |
+| 201 | Phase 2 Module Integration Map | Committed `b7119a2` | None | Cross-module ownership/dependency map; predecessor to current ownership matrix. |
+| 202 | UOM Conversion Foundation Plan | Committed `b088032` | None | Planned contextual UOM safety. |
+| 203 | UOM Conversion Schema Foundation | Committed `0ab4f4b` | Migration 035 | Tenant-scoped conversion rules and permissions/RLS. |
+| 204 | UOM Conversion UI v1 | Committed `034cbe0` | None | Real conversion rule UI and conservative use. |
+| 205 | Goods Inwards Line Edit and Posting Hardening | Committed `2c2ee97` | None | Dedicated edit route, validation/preflight and posted read-only polish; browser issues corrected. |
+| 206 | Goods Inwards Posting RPC Plan | Committed `801ba8a` | None | Transaction-safe posting design. |
+| 207 | Goods Inwards Posting RPC Foundation | Committed `b195cdf` | Migration 038 | Atomic receipt posting RPC; applied and runtime validated in later workflow. |
+| 208 | Stock On Hand Summary Plan | Committed `5c4b9c9` | None | Defined derived inventory balance view. |
+| 209 | Stock On Hand Summary UI v1 | Committed `33f14dc` | None | Real derived stock visibility. |
+| 210 | Inventory Traceability Map Plan | Committed `765f357` | None | Defined source-link reader model. |
+| 211 | Inventory Traceability Map UI v1 | Committed `7f4737a` | None | Real traceability reader; first-load performance remains backlog. |
+| 212 | Stock Adjustment/Reversal Plan | Committed `46ff6cc` | None | Preserved append-ledger correction direction; implementation pending. |
+| 213 | QA Module Deep Planning | Committed `bbe3158` | None | Current QA ownership/lifecycle planning; later corrected/hardened before schema. |
+| 214 | QA Module Navigation + Scaffold v1 | Committed `e0bb21f` | None | QA routes/navigation with honest workspaces. |
+| 215 | QA Schema Foundation | Committed `7a7d6fe` | Migration 039 | Eleven tenant-owned QA tables, permissions/RLS/history controls; applied. |
+| Maintenance | Audit Hardening Recovery | Committed `b4657dd` | Migration 040 | Audit integration required before QA runtime work; applied. |
+| 216 | Receiving QA Checks UI v1 | Committed `93bfbe2` | None | Receiving-linked checks/results/review workflow. |
+| 217 | QA Hold/Release Inventory Link | Committed `c716d40` | Migration 041 | Controlled full-lot holds/releases plus permission-independent minimal availability read; applied/browser validated. |
+| 218 | Logistics Module Deep Planning | Committed `6d78d5e` | None | Logistics ownership/lifecycle plan. |
+| 219 | Logistics Navigation + Scaffold v1 | Committed `9e15cb8` | None | Logistics routes/navigation and honest workspaces. |
+| 220 | Dispatch/Manifest Schema Foundation | Committed `f5b2857` | Migration 042 | Nine tenant Logistics tables, granular policies/permissions; applied. |
+| 221 | Dispatch Manifest UI v1 | Committed `6b35b80` | Migration 043 | Controlled dispatch/manifest RPC workflow and UI; applied/browser validated. Follow-up UI/action feedback committed `613293b`. |
+| 222 | Carrier Configuration Foundation | Committed `acf302f` | Migration 044 | Real carrier/service configuration and archival; trigger defect fixed/applied/runtime validated. |
+| 223 | Roadmap and Project Context Realignment | Committed `eb99f2d` | None | Active roadmap, standards and corrected current QA/Logistics context. |
+| 223A | EveryBatch Master Handover and Living Knowledge System | **Complete.** Suggested commit title: `Add EveryBatch living knowledge system`. Exact commit hash: **To be backfilled by Task 223B through the post-commit context-delta workflow.** | None | Preserves historical dossier; creates living handbook, operations, task/decision/handover and truth matrices. |
+| 223B | Phase 1 Production Replacement and Roadmap Reassessment | **Next approved; not started** | None expected | Planning/audit/source-system review only; must propose revised sequence and decommission criteria. |
+| 224-276 | Existing revised roadmap sequence | **Paused pending 223B** | None by this task | Direction preserved without renumbering; not approved to start until reassessment. |
+
+## Numbered Document Register
+
+Numbered files in `docs/` remain the exact task-level evidence. Where follow-up fixes amended an uncommitted task, the original task document records the consolidated result rather than creating a new task number. Missing numbers/titles are not invented. Use `rg --files docs | sort -V` and Git history when a precise earlier task must be audited; Task 261 remains the planned repository-wide documentation consistency audit.
+
+## Verified Numbered Task Document Register
+
+This register includes every numbered task document currently evidenced in the repository. Numbers 096, 109 and 164 have no standalone canonical task document and are not invented. Task 113 also has a historical implementation-roadmap companion; the task evidence link below uses the brand/domain document. Exact recent commits and migrations are listed above.
+
+| Task | Exact document title | Status | Task document | Current relevance / validation note |
+| --- | --- | --- | --- | --- |
+| 001 | Product Vision | Committed | [`01-product-vision.md`](./01-product-vision.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 002 | Platform Architecture | Committed | [`02-platform-architecture.md`](./02-platform-architecture.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 003 | Module Roadmap | Committed | [`03-module-roadmap.md`](./03-module-roadmap.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 004 | Development Standards | Committed | [`04-development-standards.md`](./04-development-standards.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 005 | Release Process | Committed | [`05-release-process.md`](./05-release-process.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 006 | Clean Eats Discovery Notes | Committed | [`06-clean-eats-discovery-notes.md`](./06-clean-eats-discovery-notes.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 007 | Codex Working Rules | Committed | [`07-codex-working-rules.md`](./07-codex-working-rules.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 008 | Tenant / Organisation Architecture v0.1 | Committed | [`08-tenant-organisation-architecture.md`](./08-tenant-organisation-architecture.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 009 | Database Foundation Plan v0.1 | Committed | [`09-database-foundation-plan.md`](./09-database-foundation-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 010 | Supabase / Auth Plan v0.1 | Committed | [`10-supabase-auth-plan.md`](./10-supabase-auth-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 011 | First Database Migrations Plan v0.1 | Committed | [`11-first-database-migrations-plan.md`](./11-first-database-migrations-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 012 | Backend Foundation Review | Committed | [`12-backend-foundation-review.md`](./12-backend-foundation-review.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 013 | Auth and RLS Planning | Committed | [`13-auth-and-rls-planning.md`](./13-auth-and-rls-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 014 | Auth Implementation Checklist | Committed | [`14-auth-implementation-checklist.md`](./14-auth-implementation-checklist.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 015 | Auth Helper Foundation | Committed | [`15-auth-helper-foundation.md`](./15-auth-helper-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 016 | Login and Logout UI | Committed | [`16-login-and-logout-ui.md`](./16-login-and-logout-ui.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 017 | First Admin Setup | Committed | [`17-first-admin-setup.md`](./17-first-admin-setup.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 018 | Profile, Membership and Organisation Helpers | Committed | [`18-profile-membership-organisation-helpers.md`](./18-profile-membership-organisation-helpers.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 019 | Auth Context Status | Committed | [`19-auth-context-status.md`](./19-auth-context-status.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 020 | Basic Route Protection | Committed | [`20-basic-route-protection.md`](./20-basic-route-protection.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 021 | Public Auth and Protected App Layouts | Committed | [`21-public-auth-and-protected-app-layouts.md`](./21-public-auth-and-protected-app-layouts.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 022 | Membership-Aware Route Guard | Committed | [`22-membership-aware-route-guard.md`](./22-membership-aware-route-guard.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 023 | Admin Permission Route Guard | Committed | [`23-admin-permission-route-guard.md`](./23-admin-permission-route-guard.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 024 | Permission-Aware Sidebar | Committed | [`24-permission-aware-sidebar.md`](./24-permission-aware-sidebar.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 025 | Enabled-Module-Aware Navigation | Committed | [`25-enabled-module-aware-navigation.md`](./25-enabled-module-aware-navigation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 026 | Auth and Navigation Foundation Review | Committed | [`26-auth-and-navigation-foundation-review.md`](./26-auth-and-navigation-foundation-review.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 027 | RLS Planning | Committed | [`27-rls-planning.md`](./27-rls-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 028 | RLS Helper Functions | Committed | [`28-rls-helper-functions.md`](./28-rls-helper-functions.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 029 | First RLS Policies Plan | Committed | [`29-first-rls-policies-plan.md`](./29-first-rls-policies-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 030 | Foundation RLS SELECT Policies | Committed | [`30-foundation-rls-select-policies.md`](./30-foundation-rls-select-policies.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 031 | Foundation RLS Applied Review | Committed | [`31-foundation-rls-applied-review.md`](./31-foundation-rls-applied-review.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 032 | Roles and Permissions RLS Planning | Committed | [`32-roles-permissions-rls-planning.md`](./32-roles-permissions-rls-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 033 | RLS Helper Function Search Path Fix | Committed | [`33-rls-helper-function-search-path-fix.md`](./33-rls-helper-function-search-path-fix.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 034 | Roles and Permissions RLS SELECT Policies | Committed | [`34-roles-permissions-rls-select-policies.md`](./34-roles-permissions-rls-select-policies.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 035 | Roles and Permissions RLS Applied Review | Committed | [`35-roles-permissions-rls-applied-review.md`](./35-roles-permissions-rls-applied-review.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 036 | Audit Logs RLS Planning | Committed | [`36-audit-logs-rls-planning.md`](./36-audit-logs-rls-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 037 | Audit Logs RLS SELECT Policy | Committed | [`37-audit-logs-rls-select-policy.md`](./37-audit-logs-rls-select-policy.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 038 | Audit Logs RLS Applied Review | Committed | [`38-audit-logs-rls-applied-review.md`](./38-audit-logs-rls-applied-review.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 039 | RLS Foundation Complete Review and Next Phase Plan | Committed | [`39-rls-foundation-complete-review-and-next-phase.md`](./39-rls-foundation-complete-review-and-next-phase.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 040 | Products/UI Foundation Plan | Committed | [`40-products-ui-foundation-plan.md`](./40-products-ui-foundation-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 041 | Global Visual Direction Polish | Committed | [`41-global-visual-direction-polish.md`](./41-global-visual-direction-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 042 | Products Module UI Skeleton | Committed | [`42-products-module-ui-skeleton.md`](./42-products-module-ui-skeleton.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 043 | Staff Review Pack - Products/UI Foundation | Committed | [`43-staff-review-pack-products-ui.md`](./43-staff-review-pack-products-ui.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 044 | Staff Meeting Outcomes and Phase 1 Demo Plan | Committed | [`44-staff-meeting-outcomes-phase-1-demo-plan.md`](./44-staff-meeting-outcomes-phase-1-demo-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 045 | Costings Module UI Skeleton | Committed | [`45-costings-module-ui-skeleton.md`](./45-costings-module-ui-skeleton.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 046 | Production Module UI Skeleton | Committed | [`46-production-module-ui-skeleton.md`](./46-production-module-ui-skeleton.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 047 | Inventory Module UI Skeleton | Committed | [`47-inventory-module-ui-skeleton.md`](./47-inventory-module-ui-skeleton.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 048 | Phase 1 Dashboard Refresh | Committed | [`48-phase-1-dashboard-refresh.md`](./48-phase-1-dashboard-refresh.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 049 | Demo/Test User Access Plan | Committed | [`49-demo-test-user-access-plan.md`](./49-demo-test-user-access-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 050 | Phase 1 Demo User Role | Committed | [`50-phase-1-demo-user-role.md`](./50-phase-1-demo-user-role.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 051 | Module-Level Permission-Aware Navigation | Committed | [`51-module-level-permission-aware-navigation.md`](./51-module-level-permission-aware-navigation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 052 | Demo/Test User Manual Setup | Committed | [`52-demo-test-user-manual-setup.md`](./52-demo-test-user-manual-setup.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 053 | Staff Demo Review Round | Committed | [`53-staff-demo-review-round.md`](./53-staff-demo-review-round.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 054 | Staff Feedback Capture and Phase 1 Review Tracker | Committed | [`54-staff-feedback-capture-phase-1-review-tracker.md`](./54-staff-feedback-capture-phase-1-review-tracker.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 055 | Performance and Hosting Architecture Review | Committed | [`55-performance-and-hosting-architecture-review.md`](./55-performance-and-hosting-architecture-review.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 056 | Auth Context and Navigation Query Audit | Committed | [`56-auth-context-navigation-query-audit.md`](./56-auth-context-navigation-query-audit.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 057 | Auth Context Query Optimisation | Committed | [`57-auth-context-query-optimisation.md`](./57-auth-context-query-optimisation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 058 | Hosting Region and Vercel/Supabase Configuration Check | Committed | [`58-hosting-region-vercel-supabase-check.md`](./58-hosting-region-vercel-supabase-check.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 059 | Vercel Speed Insights | Committed | [`59-vercel-speed-insights.md`](./59-vercel-speed-insights.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 060 | Module Registry Alignment Review | Committed | [`60-module-registry-alignment-review.md`](./60-module-registry-alignment-review.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 061 | Module Registry Cleanup Plan | Committed | [`61-module-registry-cleanup-plan.md`](./61-module-registry-cleanup-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 062 | Master Admin Portal Planning | Committed | [`62-master-admin-portal-planning.md`](./62-master-admin-portal-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 063 | Platform Admin Read-Only Skeleton | Committed | [`63-platform-admin-read-only-skeleton.md`](./63-platform-admin-read-only-skeleton.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 064 | Platform Tenant Detail Read-Only Skeleton | Committed | [`64-platform-tenant-detail-read-only-skeleton.md`](./64-platform-tenant-detail-read-only-skeleton.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 065 | Tenant Creation and Provisioning Plan | Committed | [`65-tenant-creation-and-provisioning-plan.md`](./65-tenant-creation-and-provisioning-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 066 | Billing and Subscription Planning | Committed | [`66-billing-and-subscription-planning.md`](./66-billing-and-subscription-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 067 | Commercial Platform Architecture and Domain Model | Committed | [`67-commercial-platform-architecture-domain-model.md`](./67-commercial-platform-architecture-domain-model.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 068 | Naming and Brand Direction Planning | Committed | [`68-naming-and-brand-direction-planning.md`](./68-naming-and-brand-direction-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 069 | Platform Admin v1 Build Plan | Committed | [`69-platform-admin-v1-build-plan.md`](./69-platform-admin-v1-build-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 070 | Platform Admin v1 Design Polish | Committed | [`70-platform-admin-v1-design-polish.md`](./70-platform-admin-v1-design-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 071 | Purchase Document Intake v1 Foundation | Committed | [`71-purchase-document-intake-v1-foundation.md`](./71-purchase-document-intake-v1-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 072 | Purchase Document Upload and Review Actions | Committed | [`72-purchase-document-upload-review-actions.md`](./72-purchase-document-upload-review-actions.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 073 | Cammaroto Sample Commit Flow | Committed | [`73-cammaroto-sample-commit-flow.md`](./73-cammaroto-sample-commit-flow.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 074 | Purchase Document Intake Generalisation UX Polish | Committed | [`74-purchase-document-intake-generalisation-ux-polish.md`](./74-purchase-document-intake-generalisation-ux-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 075 | Generic Invoice Extraction and Commit Planning | Committed | [`75-generic-invoice-extraction-and-commit-planning.md`](./75-generic-invoice-extraction-and-commit-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 076 | Purchase Document Upload and Extraction Foundation | Committed | [`76-purchase-document-upload-extraction-foundation.md`](./76-purchase-document-upload-extraction-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 077 | Purchase Document Extraction Prototype | Committed | [`77-purchase-document-extraction-prototype.md`](./77-purchase-document-extraction-prototype.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 078 | Repeat Invoice and Price Change Behaviour | Committed | [`78-repeat-invoice-price-change-behaviour.md`](./78-repeat-invoice-price-change-behaviour.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 079 | Products and Costings Real Data Views | Committed | [`79-products-costings-real-data-views.md`](./79-products-costings-real-data-views.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 080 | Vercel Web Analytics | Committed | [`80-vercel-web-analytics.md`](./80-vercel-web-analytics.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 081 | Phase 1 Demo Real Data Read Access | Committed | [`81-phase-1-demo-real-data-read-access.md`](./81-phase-1-demo-real-data-read-access.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 082 | Supplier and Internal Item Detail Pages | Committed | [`82-supplier-internal-item-detail-pages.md`](./82-supplier-internal-item-detail-pages.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 083 | Component and Formula Data Model Planning | Committed | [`83-component-formula-data-model-planning.md`](./83-component-formula-data-model-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 084 | Staff Formula Collection Template Planning | Committed | [`84-staff-formula-collection-template-planning.md`](./84-staff-formula-collection-template-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 085 | Staff Formula Collection Templates | Committed | [`85-staff-formula-collection-templates.md`](./85-staff-formula-collection-templates.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 086 | Component Formula Schema Foundation | Committed | [`86-component-formula-schema-foundation.md`](./86-component-formula-schema-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 087 | First Component Formula UI Scaffold | Committed | [`87-first-component-formula-ui-scaffold.md`](./87-first-component-formula-ui-scaffold.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 088 | First Finished Product Formula UI Scaffold | Committed | [`88-first-finished-product-formula-ui-scaffold.md`](./88-first-finished-product-formula-ui-scaffold.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 089 | Formula Import Planning | Committed | [`89-formula-import-planning.md`](./89-formula-import-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 090 | Multi-Supplier Parser Registry and Unknown Invoice Diagnostics | Committed | [`90-multi-supplier-parser-registry-diagnostics.md`](./90-multi-supplier-parser-registry-diagnostics.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 091 | Melbourne Produce Merchants Parser | Committed | [`91-melbourne-produce-parser.md`](./91-melbourne-produce-parser.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 092 | Generic Purchase Document Commit Flow | Committed | [`92-generic-purchase-document-commit-flow.md`](./92-generic-purchase-document-commit-flow.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 093 | Del-Re National Food Group Parser | Committed | [`93-del-re-parser.md`](./93-del-re-parser.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 094 | Purchase Document Review UI Compaction | Committed | [`94-purchase-document-review-ui-compaction.md`](./94-purchase-document-review-ui-compaction.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 095 | Purchase Document Commit Performance Feedback | Committed | [`95-purchase-document-commit-performance-feedback.md`](./95-purchase-document-commit-performance-feedback.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 097 | Pacific Meat Sales Parser | Committed | [`97-pacific-meats-parser.md`](./97-pacific-meats-parser.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 098 | Alba Cheese Parser | Committed | [`98-alba-cheese-parser.md`](./98-alba-cheese-parser.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 099 | Grange Meat Co Parser | Committed | [`99-grange-meat-parser.md`](./99-grange-meat-parser.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 100 | Il Nonno Parser | Committed | [`100-il-nonno-parser.md`](./100-il-nonno-parser.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 101 | Tools Module and Supplier Invoice Intake | Committed | [`101-tools-module-supplier-invoice-intake.md`](./101-tools-module-supplier-invoice-intake.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 102 | Performance Audit and Route Load Optimisation | Committed | [`102-performance-audit-route-load-optimisation.md`](./102-performance-audit-route-load-optimisation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 103 | Products Module Real Dashboard | Committed | [`103-products-module-real-dashboard.md`](./103-products-module-real-dashboard.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 104 | Suppliers Manual Create/Edit Foundation | Committed | [`104-suppliers-manual-create-edit-foundation.md`](./104-suppliers-manual-create-edit-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 105 | Internal Items Manual Create/Edit Foundation | Committed | [`105-internal-items-manual-create-edit-foundation.md`](./105-internal-items-manual-create-edit-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 106 | Inventory Locations Foundation | Committed | [`106-inventory-locations-foundation.md`](./106-inventory-locations-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 107 | Costings Dashboard Real Data Summary | Committed | [`107-costings-dashboard-real-data-summary.md`](./107-costings-dashboard-real-data-summary.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 108 | Production Dashboard Real Data Scaffold | Committed | [`108-production-dashboard-real-data-scaffold.md`](./108-production-dashboard-real-data-scaffold.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 110 | Speed and Performance Overhaul | Committed | [`110-speed-performance-overhaul.md`](./110-speed-performance-overhaul.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 111 | Loading UX and Route Transition Polish | Committed | [`111-loading-ux-route-transition-polish.md`](./111-loading-ux-route-transition-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 112 | Global Search Foundation | Committed | [`112-global-search-foundation.md`](./112-global-search-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 113 | EveryBatch Brand And Domain Architecture | Committed | [`113-everybatch-brand-domain-architecture.md`](./113-everybatch-brand-domain-architecture.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 114 | Multi-Tenant Platform Architecture And Update Strategy | Committed | [`114-multi-tenant-platform-architecture-update-strategy.md`](./114-multi-tenant-platform-architecture-update-strategy.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 115 | Platform Admin Separation Plan | Committed | [`115-platform-admin-separation-plan.md`](./115-platform-admin-separation-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 116 | Tenant Subdomain Routing Plan | Committed | [`116-tenant-subdomain-routing-plan.md`](./116-tenant-subdomain-routing-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 117 | EveryBatch Brand Foundation Implementation | Committed | [`117-everybatch-brand-foundation-implementation.md`](./117-everybatch-brand-foundation-implementation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 118 | App Header and Page Title Layout Refactor | Committed | [`118-app-header-page-title-layout-refactor.md`](./118-app-header-page-title-layout-refactor.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 119 | Help / Support Menu Foundation | Committed | [`119-help-support-menu-foundation.md`](./119-help-support-menu-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 120 | Login Branding Split | Committed | [`120-login-branding-split.md`](./120-login-branding-split.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 121 | Feature Flag Foundation | Committed | [`121-feature-flag-foundation.md`](./121-feature-flag-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 122 | EveryBatch Domain Setup and Environment Plan | Committed | [`122-everybatch-domain-setup-environment-plan.md`](./122-everybatch-domain-setup-environment-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 123 | app.everybatchmrp.com Domain Connection Notes | Committed | [`123-app-domain-connection-notes.md`](./123-app-domain-connection-notes.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 124 | Tenant Resolver Foundation | Committed | [`124-tenant-resolver-foundation.md`](./124-tenant-resolver-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 125 | Central Login And Tenant Selector Plan | Committed | [`125-central-login-tenant-selector-plan.md`](./125-central-login-tenant-selector-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 126 | Workspace Options Helper Foundation | Committed | [`126-workspace-options-helper-foundation.md`](./126-workspace-options-helper-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 127 | Tenant Selector UI Foundation | Committed | [`127-tenant-selector-ui-foundation.md`](./127-tenant-selector-ui-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 128 | Login Redirect To Workspace Selector | Committed | [`128-login-redirect-to-workspace-selector.md`](./128-login-redirect-to-workspace-selector.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 129 | Workspace Switcher Foundation | Committed | [`129-workspace-switcher-foundation.md`](./129-workspace-switcher-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 130 | Multi-Tenant Smoke Test Checklist | Committed | [`130-multi-tenant-smoke-test-checklist.md`](./130-multi-tenant-smoke-test-checklist.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 131 | Platform Admin Information Architecture | Committed | [`131-platform-admin-information-architecture.md`](./131-platform-admin-information-architecture.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 132 | Platform Shell Separation v1 | Committed | [`132-platform-shell-separation-v1.md`](./132-platform-shell-separation-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 133 | Platform Tenant Overview v1 | Committed | [`133-platform-tenant-overview-v1.md`](./133-platform-tenant-overview-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 134 | Platform Tenant Module / Feature Flag Overview | Committed | [`134-platform-tenant-module-feature-overview.md`](./134-platform-tenant-module-feature-overview.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 135 | Remove Platform From Tenant Navigation | Committed | [`135-remove-platform-from-tenant-navigation.md`](./135-remove-platform-from-tenant-navigation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 136 | Tenant Provisioning Plan | Committed | [`136-tenant-provisioning-plan.md`](./136-tenant-provisioning-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 137 | Tenant Sidebar Accordion Behaviour Fix | Committed | [`137-tenant-sidebar-accordion-behaviour-fix.md`](./137-tenant-sidebar-accordion-behaviour-fix.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 138 | Platform Admin Responsive Layout Fix | Committed | [`138-platform-admin-responsive-layout-fix.md`](./138-platform-admin-responsive-layout-fix.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 139 | Platform Provisioning Templates Foundation | Committed | [`139-platform-provisioning-templates-foundation.md`](./139-platform-provisioning-templates-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 140 | New Tenant Wizard Scaffold | Committed | [`140-new-tenant-wizard-scaffold.md`](./140-new-tenant-wizard-scaffold.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 141 | Tenant Create Action v1 | Committed | [`141-tenant-create-action-v1.md`](./141-tenant-create-action-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 142 | First Tenant Admin Invite / Membership Plan | Committed | [`142-first-tenant-admin-invite-membership-plan.md`](./142-first-tenant-admin-invite-membership-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 143 | Tenant Onboarding Checklist Foundation | Committed | [`143-tenant-onboarding-checklist-foundation.md`](./143-tenant-onboarding-checklist-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 144 | Costings Subpages Real Data Pass | Committed | [`144-costings-subpages-real-data-pass.md`](./144-costings-subpages-real-data-pass.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 145 | Component / Formula Import Foundation Plan | Committed | [`145-component-formula-import-foundation-plan.md`](./145-component-formula-import-foundation-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 146 | Component / Formula Builder v1 | Committed | [`146-component-formula-builder-v1.md`](./146-component-formula-builder-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 147 | FCP/LCP Frontend Optimisation Pass | Committed | [`147-fcp-lcp-frontend-optimisation-pass.md`](./147-fcp-lcp-frontend-optimisation-pass.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 148 | Tenant Route Redirect Consistency | Committed | [`148-tenant-route-redirect-consistency.md`](./148-tenant-route-redirect-consistency.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 149 | Tenant Page Heading Cleanup | Committed | [`149-tenant-page-heading-cleanup.md`](./149-tenant-page-heading-cleanup.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 150 | Finished Product Formula Builder Plan | Committed | [`150-finished-product-formula-builder-plan.md`](./150-finished-product-formula-builder-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 151 | Finished Product Formula Builder v1 | Committed | [`151-finished-product-formula-builder-v1.md`](./151-finished-product-formula-builder-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 152 | Sell Price Storage And Margin Readiness Plan | Committed | [`152-sell-price-storage-and-margin-readiness-plan.md`](./152-sell-price-storage-and-margin-readiness-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 153 | Sell Price Schema Foundation | Committed | [`153-sell-price-schema-foundation.md`](./153-sell-price-schema-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 154 | Domain / App Mode Routing Foundation | Committed | [`154-domain-app-mode-routing-foundation.md`](./154-domain-app-mode-routing-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 155 | Platform Admin App Mode Guarding | Committed | [`155-platform-admin-app-mode-guarding.md`](./155-platform-admin-app-mode-guarding.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 156 | Platform Admin Domain Setup | Committed | [`156-platform-admin-domain-setup.md`](./156-platform-admin-domain-setup.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 157 | Platform Admin Brand/UI Polish | Committed | [`157-platform-admin-brand-ui-polish.md`](./157-platform-admin-brand-ui-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 158 | Tenant Subdomain Routing v1 | Committed | [`158-tenant-subdomain-routing-v1.md`](./158-tenant-subdomain-routing-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 159 | Multi-Domain Smoke Test and Redirect Hardening | Committed | [`159-multi-domain-smoke-test-and-redirect-hardening.md`](./159-multi-domain-smoke-test-and-redirect-hardening.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 160 | Live Multi-Domain Smoke Test Results | Committed | [`160-live-multi-domain-smoke-test-results.md`](./160-live-multi-domain-smoke-test-results.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 161 | Central App Tenant Redirect Hardening | Committed | [`161-central-app-tenant-redirect-hardening.md`](./161-central-app-tenant-redirect-hardening.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 162 | Live Domain Redirect QA Pass | Committed | [`162-live-domain-redirect-qa-pass.md`](./162-live-domain-redirect-qa-pass.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 163 | Workspace Selector Live Domain QA / Polish | Committed | [`163-workspace-selector-live-domain-qa-polish.md`](./163-workspace-selector-live-domain-qa-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 165 | Tenant App Shell, Login and Metadata Polish | Committed | [`165-tenant-app-shell-login-metadata-polish.md`](./165-tenant-app-shell-login-metadata-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 166 | Brand Asset Logo/Icon Storage Plan | Committed | [`166-brand-asset-logo-icon-storage-plan.md`](./166-brand-asset-logo-icon-storage-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 167 | EveryBatch Icon + Tenant Metadata Fix | Committed | [`167-everybatch-icon-tenant-metadata-fix.md`](./167-everybatch-icon-tenant-metadata-fix.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 168 | Brand Asset Schema Foundation | Committed | [`168-brand-asset-schema-foundation.md`](./168-brand-asset-schema-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 169 | Tenant / Platform Logo + Icon Upload UI v1 | Committed | [`169-tenant-platform-logo-icon-upload-ui-v1.md`](./169-tenant-platform-logo-icon-upload-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 170 | Sell Price Management UI v1 | Committed | [`170-sell-price-management-ui-v1.md`](./170-sell-price-management-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 171 | Meal Margins Real Calculation v1 | Committed | [`171-meal-margins-real-calculation-v1.md`](./171-meal-margins-real-calculation-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 172 | Support Domain And Auth-Gated Help Centre Plan | Committed | [`172-support-domain-auth-gated-help-centre-plan.md`](./172-support-domain-auth-gated-help-centre-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 173 | Support Domain Setup | Committed | [`173-support-domain-setup.md`](./173-support-domain-setup.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 174 | Support Help Centre Scaffold | Committed | [`174-support-help-centre-scaffold.md`](./174-support-help-centre-scaffold.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 175 | App Shell And Auth Page UI Cleanup | Committed | [`175-app-shell-auth-page-ui-cleanup.md`](./175-app-shell-auth-page-ui-cleanup.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 176 | Support Guides Static Content v1 | Committed | [`176-support-guides-static-content-v1.md`](./176-support-guides-static-content-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 177 | Support Tickets Schema Foundation | Committed | [`177-support-tickets-schema-foundation.md`](./177-support-tickets-schema-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 178 | Support Ticket UI v1 | Committed | [`178-support-ticket-ui-v1.md`](./178-support-ticket-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 179 | Platform Admin Support Inbox v1 | Committed | [`179-platform-admin-support-inbox-v1.md`](./179-platform-admin-support-inbox-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 180 | Support Ticket Polish And Permission QA | Committed | [`180-support-ticket-polish-permission-qa.md`](./180-support-ticket-polish-permission-qa.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 181 | Support Ticket Status Workflow Polish | Committed | [`181-support-ticket-status-workflow-polish.md`](./181-support-ticket-status-workflow-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 182 | Support Ticket Context-Aware Creation | Committed | [`182-support-ticket-context-aware-creation.md`](./182-support-ticket-context-aware-creation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 183 | Support Inbox Search And Pagination Polish | Committed | [`183-support-inbox-search-pagination-polish.md`](./183-support-inbox-search-pagination-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 184 | Support Ticket Attachments Plan | Committed | [`184-support-ticket-attachments-plan.md`](./184-support-ticket-attachments-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 185 | Support Ticket Attachments Foundation | Committed | [`185-support-ticket-attachments-foundation.md`](./185-support-ticket-attachments-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 186 | Products Data Model QA Pass | Committed | [`186-products-data-model-qa-pass.md`](./186-products-data-model-qa-pass.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 187 | Finished Product Data Entry Polish | Committed | [`187-finished-product-data-entry-polish.md`](./187-finished-product-data-entry-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 188 | Component Formula Builder Polish | Committed | [`188-component-formula-builder-polish.md`](./188-component-formula-builder-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 189 | Finished Product Formula Builder Polish | Committed | [`189-finished-product-formula-builder-polish.md`](./189-finished-product-formula-builder-polish.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 190 | Costing Snapshot Plan | Committed | [`190-costing-snapshot-plan.md`](./190-costing-snapshot-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 191 | Costing Snapshot Schema Foundation | Committed | [`191-costing-snapshot-schema-foundation.md`](./191-costing-snapshot-schema-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 192 | Costing Snapshot UI v1 | Committed | [`192-costing-snapshot-ui-v1.md`](./192-costing-snapshot-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 193 | Inventory Receiving Workflow Plan | Committed | [`193-inventory-receiving-workflow-plan.md`](./193-inventory-receiving-workflow-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 194 | Inventory Stock Movement Schema Foundation | Committed | [`194-inventory-stock-movement-schema-foundation.md`](./194-inventory-stock-movement-schema-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 195 | Goods Inwards Receiving UI v1 | Committed | [`195-goods-inwards-receiving-ui-v1.md`](./195-goods-inwards-receiving-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 196 | Supplier Invoice To Receiving Plan | Committed | [`196-supplier-invoice-to-receiving-plan.md`](./196-supplier-invoice-to-receiving-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 197 | Supplier Invoice To Receiving v1 | Committed | [`197-supplier-invoice-to-receiving-v1.md`](./197-supplier-invoice-to-receiving-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 198 | Production Batch Planning Data Model | Committed | [`198-production-batch-planning-data-model.md`](./198-production-batch-planning-data-model.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 199 | Production Plan UI v1 | Committed | [`199-production-plan-ui-v1.md`](./199-production-plan-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 200 | Phase 1 Operational Review Pack | Committed | [`200-phase-1-operational-review-pack.md`](./200-phase-1-operational-review-pack.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 201 | Phase 2 Module Integration Map | Committed | [`201-phase-2-module-integration-map.md`](./201-phase-2-module-integration-map.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 202 | UOM Conversion Foundation Plan | Committed | [`202-uom-conversion-foundation-plan.md`](./202-uom-conversion-foundation-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 203 | UOM Conversion Schema Foundation | Committed | [`203-uom-conversion-schema-foundation.md`](./203-uom-conversion-schema-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 204 | UOM Conversion UI v1 | Committed | [`204-uom-conversion-ui-v1.md`](./204-uom-conversion-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 205 | Goods Inwards Line Edit And Posting Hardening | Committed | [`205-goods-inwards-line-edit-posting-hardening.md`](./205-goods-inwards-line-edit-posting-hardening.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 206 | Goods Inwards Posting RPC Plan | Committed | [`206-goods-inwards-posting-rpc-plan.md`](./206-goods-inwards-posting-rpc-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 207 | Goods Inwards Posting RPC Foundation | Committed | [`207-goods-inwards-posting-rpc-foundation.md`](./207-goods-inwards-posting-rpc-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 208 | Stock On Hand Summary Plan | Committed | [`208-stock-on-hand-summary-plan.md`](./208-stock-on-hand-summary-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 209 | Stock On Hand Summary UI v1 | Committed | [`209-stock-on-hand-summary-ui-v1.md`](./209-stock-on-hand-summary-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 210 | Inventory Traceability Map Plan | Committed | [`210-inventory-traceability-map-plan.md`](./210-inventory-traceability-map-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 211 | Inventory Traceability Map UI v1 | Committed | [`211-inventory-traceability-map-ui-v1.md`](./211-inventory-traceability-map-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 212 | Stock Adjustment/Reversal Plan | Committed | [`212-stock-adjustment-reversal-plan.md`](./212-stock-adjustment-reversal-plan.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 213 | QA Module Deep Planning | Committed | [`213-qa-module-deep-planning.md`](./213-qa-module-deep-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 214 | QA Module Navigation + Scaffold v1 | Committed | [`214-qa-module-navigation-scaffold-v1.md`](./214-qa-module-navigation-scaffold-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 215 | QA Schema Foundation | Committed | [`215-qa-schema-foundation.md`](./215-qa-schema-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 216 | Receiving QA Checks UI v1 | Committed | [`216-receiving-qa-checks-ui-v1.md`](./216-receiving-qa-checks-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 217 | QA Hold/Release Inventory Link | Committed | [`217-qa-hold-release-inventory-link.md`](./217-qa-hold-release-inventory-link.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 218 | Logistics Module Deep Planning | Committed | [`218-logistics-module-deep-planning.md`](./218-logistics-module-deep-planning.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 219 | Logistics Navigation + Scaffold v1 | Committed | [`219-logistics-navigation-scaffold-v1.md`](./219-logistics-navigation-scaffold-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 220 | Dispatch Manifest Schema Foundation | Committed | [`220-dispatch-manifest-schema-foundation.md`](./220-dispatch-manifest-schema-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 221 | Dispatch Manifest UI v1 | Committed | [`221-dispatch-manifest-ui-v1.md`](./221-dispatch-manifest-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 222 | Carrier Configuration Foundation | Committed | [`222-carrier-configuration-foundation.md`](./222-carrier-configuration-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 223 | Task 223 - Roadmap And Project Context Realignment | Committed | [`223-roadmap-project-context-realignment.md`](./223-roadmap-project-context-realignment.md) | Task-specific evidence; see era/recent summary for current relevance. |
+
+## Update Rule
+
+Every future numbered task updates this index with title, status, task document, commit when available, migration, major outcome, validation and any later supersession. The next task must verify the previous task's final commit in Git, backfill its exact hash and committed status, and correct wording that was necessarily unknown before commit.

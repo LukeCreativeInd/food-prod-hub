@@ -1,5 +1,7 @@
 # Formula Import Planning
 
+> **Current terminology after Task 223A:** Formula/BOM, Production Method/Route, human-facing Work Instruction/Recipe Card and Production Run/Report are distinct concepts. The final purpose and module ownership of the current Recipes workspace remains unresolved; this planning document does not settle it.
+
 ## Planning Status
 
 This is planning only.

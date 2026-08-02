@@ -1,5 +1,7 @@
 # Production Batch Planning Data Model
 
+> **Current direction after Task 223A:** This foundation remains valid, but the next Production sequence is paused for Task 223B. Future demand, yield-adjusted requirements, lot allocation, transfer/staging, confirmed issue/consumption and output must remain distinct. Planning must never be treated as physical stock movement.
+
 Task 198 defines and drafts the database/schema foundation for production batch planning.
 
 This task does not build Production Plan UI, production task execution UI, tablet/facility/iPad UI, stock consumption, inventory stock movements from production, Goods Inwards changes, Supplier Invoice Intake changes, costing snapshot changes, formula changes, Meal Margins changes, QA checks, Logistics/dispatch, reports, UOM conversion tables, auth/domain routing, DNS/Vercel/Supabase settings or packages.

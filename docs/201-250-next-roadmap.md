@@ -1,6 +1,6 @@
 # Tasks 201-250 Historical Roadmap
 
-> **Superseded after Task 222.** This file preserves the roadmap as it was originally planned. It is not the current source for task names, numbering or order after Task 222. Task 222 was completed as **Carrier Configuration Foundation**, not Reports Module Deep Planning. Use [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) for the active approved sequence.
+> **Superseded after Task 222.** This file preserves the roadmap as it was originally planned. It is not the current source for task names, numbering or order after Task 222. Task 222 was completed as **Carrier Configuration Foundation**, not Reports Module Deep Planning. Use [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) for the active sequence, including Task 223A, next-approved Task 223B and the pause before Task 224.
 
 This roadmap followed the Phase 1 Operational Review Pack. Its table is retained unchanged as historical planning evidence. Current execution requirements are defined in [Codex Task Standards](./CODEX_TASK_STANDARDS.md).
 

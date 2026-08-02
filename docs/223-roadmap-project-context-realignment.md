@@ -6,6 +6,10 @@ EveryBatch reached a point where the repository's old post-Task-222 roadmap no l
 
 Task 223 is therefore a documentation-only control point. It aligns current project truth, replaces the active roadmap, establishes permanent execution standards and keeps future ideas visible without silently renumbering approved work. It does not implement Task 224 or any later task.
 
+## Task 223A/223B Insertion
+
+Task 223A subsequently inserts the permanent EveryBatch handover/living knowledge system immediately after this task. Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is the next approved documentation/planning/source-system review. Tasks 224-276 remain preserved and unrenumbered but are paused pending Luke's approval of the Task 223B output. This is a deliberate clarification of the sequence, not Production implementation or a final roadmap redesign.
+
 ## Approved Build Philosophy
 
 Complete coherent module and workspace foundations before broad dashboard polish or commercial expansion. A foundation must be safe, tenant-aware, permission-aware, demonstrable and honest about limitations. It may provide real read data, real create/edit behaviour, useful configuration, an operational queue, or a deliberately useful empty state. It does not need every enterprise edge case before Clean Eats staff validate it.

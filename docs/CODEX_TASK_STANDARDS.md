@@ -71,6 +71,42 @@ Documentation impact:
 - No earlier documents required correction.
 ```
 
+## Living Knowledge And Post-Commit Context
+
+Before a new numbered task begins, capture context discovered after the previous commit:
+
+```text
+Post-commit context from the previous task:
+- Runtime findings:
+- Product/UX decisions:
+- Architecture/source-of-truth decisions:
+- New limitations:
+- Future ideas:
+- Roadmap implications:
+- Documents to reconsider:
+```
+
+Assess that delta against the previous task document, README, project context, active roadmap, Future/Pending register, Master Handbook, Engineering Operations, Task Index, Decision Log, Current Handover, Capability Matrix, Source-of-Truth Matrix, Support/troubleshooting/release notes and relevant planning/schema/UI documents. Update only materially affected files; do not touch everything merely to create churn.
+
+At the start of the next task, verify the previous task's final commit in Git. Backfill its exact commit hash and final committed status in `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and correct any previous-task wording that was necessarily unknown before commit. Never invent a commit hash in the task being committed.
+
+Every future numbered task must review living-document impact, update `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and update the capability, decision, ownership, product or engineering living document only when its specific truth changes.
+
+Every task response must also include one of:
+
+```text
+Living-document impact:
+- Updated: [files and why]
+```
+
+or:
+
+```text
+Living-document impact:
+- Reviewed all relevant living documents.
+- No living-document changes were required.
+```
+
 ## Required Architectural Review
 
 Every substantial task must consider and report:

@@ -1,5 +1,7 @@
 # Production Module UI Skeleton
 
+> **Current direction after Task 223A:** This document is a historical UI-skeleton record. The external Shopify/Zapiet/CSV/aggregation/Production Report tools and printed packs are temporary operational bridges, not permanent parallel systems. Phase 1 must replace the validated daily workflow after parity and staff approval. Facility/iPad is now a required area-execution business outcome, although its delivery technology remains architecture-gated. Use the active roadmap and Master Handbook for current direction.
+
 ## Status
 
 Step 046 has created the Production module UI skeleton using safe sample data only.
