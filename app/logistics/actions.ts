@@ -151,7 +151,10 @@ async function editableDeliveryExists(
 }
 
 function mapRpcStatus(result: LogisticsRpcResult | null, fallback: string) {
-  return result?.status ?? result?.code ?? fallback;
+  if (!result) return fallback;
+  return result.ok
+    ? result.status ?? result.code ?? fallback
+    : result.code ?? result.status ?? fallback;
 }
 
 export async function createDispatchRunAction(formData: FormData) {

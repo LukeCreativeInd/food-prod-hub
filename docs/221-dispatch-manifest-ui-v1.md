@@ -1,8 +1,8 @@
 # Dispatch Manifest UI v1
 
-Task 221 replaces the Dispatch Runs and Manifests scaffolds with the first real tenant-owned Logistics workflow. It builds on applied migration 042 and drafts migration 043 for controlled numbering, validation, immutable manifest generation and lifecycle transitions.
+Task 221 replaces the Dispatch Runs and Manifests scaffolds with the first real tenant-owned Logistics workflow. It builds on applied migrations 042 and 043 for controlled numbering, validation, immutable manifest generation and lifecycle transitions.
 
-Migration 043 is reviewed source only. It has not been applied and must be manually reviewed before use.
+Migration 043 has been applied and the complete workflow has been tested against the live tenant workspace. The post-runtime correction described below changes presentation and action feedback only; it does not change schema, RPCs, RLS, permissions or lifecycle rules.
 
 ## Routes
 
@@ -31,6 +31,19 @@ Support ticket context distinguishes the run list, new run, run detail, manifest
 9. Draft runs can be cancelled with a reason. Ready runs can be cancelled only before generation; generated, dispatched and completed history cannot be casually cancelled.
 
 Generated manifest correction, regeneration and supersession UI are deferred. Migration 043 leaves the schema linkage in place but deliberately prevents a second generated version in this first workflow.
+
+## Runtime Verification And UI Correction
+
+The live Task 221 workflow passed draft run creation, blocked validation, delivery and line creation, successful validation, ready-state locking, manifest draft creation, immutable manifest generation, generated-manifest cancellation protection and the dispatched transition.
+
+The runtime UI correction then addressed three presentation issues without changing that proven workflow:
+
+- blocked validation now preserves the RPC failure code and displays warning feedback instead of a generic green completion banner;
+- the delivery form groups recipient, address, delivery, contact, routing and notes fields while preserving every existing field name and write;
+- draft and generated manifests link clearly back to the dispatch run, with generated-manifest guidance reflecting whether the linked run is ready, dispatched, cancelled or otherwise read-only;
+- Logistics summary cards use responsive breakpoints that preserve badge containment at narrow and half-screen desktop widths.
+
+Unknown action outcomes now use an error fallback rather than implying success. Successful validation still reports `Dispatch validation passed.`
 
 ## Manifest Draft Decision
 
@@ -102,23 +115,15 @@ Platform Admin routes and tenant-management behaviour are unchanged. Platform Ad
 
 Support creation can carry the precise Logistics workspace label and related route. No user-facing guide, release note, support inbox action or automatic ticket creation was added.
 
-## Migration Apply Requirements
+## Applied Migration Verification
 
-1. Confirm migration 042 is already applied and reviewed.
-2. Review the complete `supabase/migrations/043_dispatch_manifest_workflow.sql` file, line count and SHA-256 from the task result.
-3. Confirm the two direct INSERT policies are intentionally removed.
-4. Confirm manifest draft creation and generation require an active ready run.
-5. Confirm ready cancellation is rejected after a generated manifest exists.
-6. Confirm every privileged function has fixed search path, explicit membership/permission checks, authenticated-only execute and no dynamic SQL.
-7. Apply migration 043 manually through the approved Supabase process. Codex does not apply it.
-8. Verify function grants, policy removal, the active-draft unique index and replacement trigger functions.
-9. Run the browser test plan with approved test users and clean up any test records manually if required.
+Migration 043 was applied after its approved line count and SHA-256 were confirmed. Post-apply checks confirmed the workflow RPCs, fixed search paths, authenticated-only execute grants, removal of direct dispatch-run and manifest INSERT policies, SELECT-only manifest snapshot policies, absence of Logistics DELETE policies and unchanged role mappings. The migration did not seed operational records or write to Inventory, QA, Production or carrier-export data.
 
 ## Browser Test Plan
 
 1. Full-workflow user: create a draft run and confirm an authoritative run number appears.
 2. Add two deliveries and item lines, edit sequence/address/quantity, and remove one draft line.
-3. Validate an incomplete run and confirm clear blockers; resolve them and confirm validation passes.
+3. Validate an incomplete run and confirm the blocker plus amber feedback appear without a green success banner; resolve the blockers and confirm validation passes.
 4. Confirm manifest creation/generation is unavailable while the run remains draft.
 5. Mark the validated run ready and confirm all source edit controls disappear.
 6. Create/reopen the manifest draft, then generate it once.
@@ -131,6 +136,8 @@ Support creation can carry the precise Logistics workspace label and related rou
 13. Confirm `/qa` and `/logistics` parents remain clickable and no duplicate dashboard submenu entries appear.
 14. Confirm Carrier Exports and Delivery Issues do not imply connected workflows.
 15. Confirm no Inventory, stock movement, QA, Production, CRM, order, Support or carrier-export record is written.
+16. Confirm the grouped delivery form remains readable without horizontal overflow at narrow and half-screen widths.
+17. Confirm draft and generated manifests link back to the dispatch run, and generated manifests show the return-to-run CTA without dispatching automatically.
 
 ## Deferred Work
 

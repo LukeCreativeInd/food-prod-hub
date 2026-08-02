@@ -13,6 +13,7 @@ import { AppShell } from "@/components/app-shell";
 import { DispatchDeliveryForm } from "@/components/logistics/dispatch-delivery-form";
 import { DispatchLineForm } from "@/components/logistics/dispatch-line-form";
 import { DispatchRunForm } from "@/components/logistics/dispatch-run-form";
+import { LogisticsActionFeedback } from "@/components/logistics/logistics-action-feedback";
 import { EmptyState, PageActionButton, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { getDispatchActionMessage } from "@/lib/logistics-action-messages";
 import { fetchDispatchRunDetail } from "@/lib/logistics-data";
@@ -37,6 +38,8 @@ export default async function DispatchRunDetailPage({ params, searchParams }: Pa
   const canCreateManifest = detail.canCreateManifest && detail.run.status === "ready" && !detail.hasGeneratedManifest && !draftManifest;
   const canGenerateManifest = detail.canManageManifest && detail.run.status === "ready" && !detail.hasGeneratedManifest && Boolean(draftManifest);
   const canCancelRun = detail.run.status === "draft" || (detail.run.status === "ready" && !detail.hasGeneratedManifest);
+  const cancelled = detail.run.status === "cancelled";
+  const showLifecycleControls = detail.canManage && (detail.run.status === "draft" || detail.run.status === "ready");
 
   return (
     <AppShell>
@@ -48,14 +51,15 @@ export default async function DispatchRunDetailPage({ params, searchParams }: Pa
           {detail.hasGeneratedManifest ? <StatusBadge tone="success">Manifest generated</StatusBadge> : null}
         </div>
 
-        {message ? <div className="rounded-md border border-[color:var(--tenant-primary-border)] bg-[var(--tenant-primary-soft)] px-4 py-3 text-sm font-semibold text-[var(--tenant-primary)]">{message}</div> : null}
+        <LogisticsActionFeedback feedback={message} />
 
         <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase text-slate-500">{detail.run.runNumber}</p>
               <h2 className="mt-1 text-xl font-bold text-slate-950">{detail.run.name}</h2>
-              <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-600">Manual outbound planning record. Delivery and item snapshots belong to Logistics; no customer master, order, inventory, production or QA record is changed.</p>
+              <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-600">Plan and track this dispatch run. Delivery details entered here apply to this dispatch only.</p>
+              <p className="mt-1 max-w-4xl text-xs leading-5 text-slate-500">Orders, stock allocation, QA, Production and carrier exports remain separate.</p>
             </div>
             <div className="flex flex-wrap gap-2">
               {detail.canManage && detail.run.status === "draft" && !detail.hasGeneratedManifest ? (
@@ -67,6 +71,9 @@ export default async function DispatchRunDetailPage({ params, searchParams }: Pa
               {draftManifest ? <PageActionButton href={`/logistics/manifests/${draftManifest.id}`} variant="secondary">Open manifest draft</PageActionButton> : null}
               {canGenerateManifest && draftManifest ? (
                 <form action={generateManifestAction}><input name="manifest_id" type="hidden" value={draftManifest.id} /><input name="dispatch_run_id" type="hidden" value={detail.run.id} /><button className="rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white hover:brightness-90">Generate manifest</button></form>
+              ) : null}
+              {detail.canManage && detail.run.status === "ready" && detail.hasGeneratedManifest ? (
+                <form action={transitionDispatchRunAction}><input name="dispatch_run_id" type="hidden" value={detail.run.id} /><input name="target_status" type="hidden" value="dispatched" /><button className="rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white hover:brightness-90">Mark dispatched</button></form>
               ) : null}
             </div>
           </div>
@@ -90,13 +97,13 @@ export default async function DispatchRunDetailPage({ params, searchParams }: Pa
           )}
         </SectionCard>
 
-        <SectionCard title="Validation and lifecycle" description="Only Logistics-owned required data is checked. Stock, QA, production and carrier systems are intentionally outside this validation." action={<StatusBadge tone={validationTone(detail.validation.status)}>{detail.validation.status}</StatusBadge>}>
+        <SectionCard title={cancelled ? "Last validation result" : "Validation and lifecycle"} description={cancelled ? "This stored result records the run's final validation state before cancellation." : "Only Logistics-owned required data is checked. Stock, QA, production and carrier systems are intentionally outside this validation."} action={<StatusBadge tone={validationTone(detail.validation.status)}>{detail.validation.status}</StatusBadge>}>
           {detail.validation.errors.length > 0 ? <ul className="space-y-2">{detail.validation.errors.map((error) => <li className="rounded-md border border-[color:var(--tenant-warning-border)] bg-[var(--tenant-warning-bg)] px-3 py-2 text-sm text-slate-700" key={error}>{error}</li>)}</ul> : <p className="text-sm leading-6 text-slate-600">{detail.validation.status === "valid" ? "Required run, delivery and line data passed deterministic server validation." : "Run validation has not recorded blockers yet."}</p>}
-          {detail.canManage ? (
+          {showLifecycleControls ? (
             <div className="mt-5 flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:flex-wrap sm:items-end">
               {detail.run.status === "draft" && detail.validation.status === "valid" ? <form action={transitionDispatchRunAction}><input name="dispatch_run_id" type="hidden" value={detail.run.id} /><input name="target_status" type="hidden" value="ready" /><button className="rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white hover:brightness-90">Mark ready</button></form> : null}
               {detail.run.status === "draft" && detail.validation.status !== "valid" ? <p className="text-sm text-slate-500">Validate the completed run before marking it ready.</p> : null}
-              {detail.run.status === "ready" && detail.hasGeneratedManifest ? <form action={transitionDispatchRunAction}><input name="dispatch_run_id" type="hidden" value={detail.run.id} /><input name="target_status" type="hidden" value="dispatched" /><button className="rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white hover:brightness-90">Mark dispatched</button></form> : null}
+              {detail.run.status === "ready" && detail.hasGeneratedManifest ? <p className="text-sm text-slate-600">A generated manifest is linked. This run can now be marked dispatched from the action above.</p> : null}
               {detail.run.status === "ready" && !detail.hasGeneratedManifest ? <p className="text-sm text-slate-500">Generate the manifest before marking this run dispatched.</p> : null}
               {canCancelRun ? <form action={transitionDispatchRunAction} className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row"><input name="dispatch_run_id" type="hidden" value={detail.run.id} /><input name="target_status" type="hidden" value="cancelled" /><input className="min-w-64 rounded-md border border-slate-200 px-3 py-2 text-sm" name="cancellation_reason" placeholder="Cancellation reason" required /><button className="rounded-md border border-[color:var(--tenant-danger-border)] bg-white px-3.5 py-2 text-sm font-semibold text-[var(--tenant-danger)] hover:bg-[var(--tenant-danger-bg)]">Cancel run</button></form> : null}
             </div>
@@ -125,7 +132,7 @@ export default async function DispatchRunDetailPage({ params, searchParams }: Pa
 
         {detail.canAddToDraft ? <SectionCard title="Add delivery" description="Capture reviewed recipient, address and carton details for this dispatch only."><DispatchDeliveryForm defaultDeliveryDate={detail.run.deliveryDateValue} mode="create" options={detail.formOptions} runId={detail.run.id} /></SectionCard> : null}
 
-        <SectionCard title="Manifest history" description="Generated records remain immutable snapshots and do not render from mutable delivery source rows." action={<PageActionButton href="/logistics/manifests" variant="secondary">All manifests</PageActionButton>}>
+        <SectionCard title="Manifest history" description="Generated manifests preserve the reviewed delivery and item details for history." action={<PageActionButton href="/logistics/manifests" variant="secondary">All manifests</PageActionButton>}>
           {detail.manifests.length === 0 ? <EmptyState title="No manifest records yet" description={detail.run.status === "draft" ? "Validate and mark the run ready before creating its manifest draft." : "Create a draft manifest when the ready dispatch data is prepared for generation."} /> : <div className="grid gap-3 md:grid-cols-2">{detail.manifests.map((manifest) => <Link className="rounded-md border border-slate-200 bg-slate-50 p-4 transition hover:border-[color:var(--tenant-primary-border)] hover:bg-white" href={`/logistics/manifests/${manifest.id}`} key={manifest.id}><div className="flex items-start justify-between gap-3"><div><p className="font-bold text-slate-900">{manifest.manifestNumber}</p><p className="mt-1 text-xs text-slate-500">Version {manifest.versionNumber} · {manifest.generatedAt}</p></div><StatusBadge tone={manifest.statusTone}>{manifest.statusLabel}</StatusBadge></div></Link>)}</div>}
         </SectionCard>
       </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { AppShell } from "@/components/app-shell";
+import { LogisticsActionFeedback } from "@/components/logistics/logistics-action-feedback";
 import { EmptyState, PageActionButton, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { getDispatchActionMessage } from "@/lib/logistics-action-messages";
 import { fetchDispatchRunList } from "@/lib/logistics-data";
@@ -43,11 +44,9 @@ export default async function DispatchRunsPage({ searchParams }: PageProps) {
           </div>
         </section>
 
-        {message ? (
-          <div className="rounded-md border border-[color:var(--tenant-primary-border)] bg-[var(--tenant-primary-soft)] px-4 py-3 text-sm font-semibold text-[var(--tenant-primary)]">{message}</div>
-        ) : null}
+        <LogisticsActionFeedback feedback={message} />
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
           <StatCard label="Dispatch runs" value={String(data.summary.total)} helperText="Real tenant dispatch records." badge="Total" tone="info" icon="DR" />
           <StatCard label="Draft" value={String(data.summary.draft)} helperText="Open for delivery and item entry." badge="Editable" tone="warning" icon="DF" />
           <StatCard label="Ready" value={String(data.summary.ready)} helperText="Validated and locked for dispatch." badge="Ready" tone="info" icon="RD" />
