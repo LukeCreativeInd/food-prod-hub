@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, SectionCard, StatCard, StatusBadge } from "@/components/ui";
+import { EmptyState, PageActionButton, SectionCard, StatCard, StatusBadge } from "@/components/ui";
 import { fetchDispatchRunList, fetchManifestList } from "@/lib/logistics-data";
 
 export default async function LogisticsPage() {
@@ -21,7 +21,7 @@ export default async function LogisticsPage() {
           <StatCard label="Generated manifests" value={String(manifestData.summary.generated)} helperText="Immutable manifest snapshots." badge="History" tone="success" icon="MF" />
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
+        <section className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
           <Link className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:border-[color:var(--tenant-primary-border)] hover:shadow-md" href="/logistics/dispatch-runs">
             <div className="flex items-center justify-between gap-3"><StatusBadge tone="info">Operational</StatusBadge><span className="text-sm font-bold text-[var(--tenant-primary)]">Open runs</span></div>
             <h2 className="mt-4 text-lg font-bold text-slate-950">Dispatch planning</h2>
@@ -32,6 +32,13 @@ export default async function LogisticsPage() {
             <h2 className="mt-4 text-lg font-bold text-slate-950">Manifest records</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">Review draft headers and generated immutable delivery and line snapshots. Carrier file generation remains deliberately disconnected.</p>
           </Link>
+          {dispatchData.formOptions.canViewConfiguration ? (
+            <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-3"><StatusBadge tone="info">Tenant setup</StatusBadge><PageActionButton href="/logistics/carriers" variant="secondary">{dispatchData.formOptions.canManageConfiguration ? "Manage carriers" : "View carriers"}</PageActionButton></div>
+              <h2 className="mt-4 text-lg font-bold text-slate-950">Carrier configuration</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{dispatchData.formOptions.carriers.length} active carriers and {dispatchData.formOptions.services.length} active services are available to new dispatch work.</p>
+            </div>
+          ) : null}
         </section>
 
         <SectionCard title="Recent dispatch runs" description="Latest real dispatch activity for the current organisation." action={dispatchData.canCreate ? <Link className="rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white hover:brightness-90" href="/logistics/dispatch-runs/new">New dispatch run</Link> : <StatusBadge tone="neutral">Read only</StatusBadge>}>

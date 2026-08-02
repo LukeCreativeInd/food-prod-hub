@@ -2,6 +2,9 @@ import {
   createDispatchRunAction,
   updateDispatchRunAction,
 } from "@/app/logistics/actions";
+import Link from "next/link";
+
+import { CarrierServiceSelect } from "@/components/logistics/carrier-service-select";
 import type { LogisticsFormOptions } from "@/lib/logistics-data";
 import { dispatchTypeLabels, dispatchTypes } from "@/lib/logistics-types";
 
@@ -52,25 +55,17 @@ export function DispatchRunForm({ mode, options, values }: DispatchRunFormProps)
           <span className={labelClassName}>Name</span>
           <input className={fieldClassName} defaultValue={values?.name} name="name" placeholder="Optional operational name" />
         </label>
-        <label className="block">
-          <span className={labelClassName}>Default carrier</span>
-          <select className={fieldClassName} defaultValue={values?.defaultCarrierId ?? ""} name="default_carrier_id">
-            <option value="">No default carrier</option>
-            {options.carriers.map((carrier) => (
-              <option key={carrier.id} value={carrier.id}>{carrier.name} ({carrier.code})</option>
-            ))}
-          </select>
-        </label>
-        <label className="block">
-          <span className={labelClassName}>Default service</span>
-          <select className={fieldClassName} defaultValue={values?.defaultCarrierServiceId ?? ""} name="default_carrier_service_id">
-            <option value="">No default service</option>
-            {options.services.map((service) => (
-              <option key={service.id} value={service.id}>{service.name} ({service.code})</option>
-            ))}
-          </select>
-          <span className="mt-1 block text-xs leading-5 text-slate-500">Services must belong to the selected carrier.</span>
-        </label>
+        <CarrierServiceSelect
+          carrierEmptyLabel="No default carrier"
+          carrierLabel="Default carrier"
+          carrierName="default_carrier_id"
+          defaultCarrierId={values?.defaultCarrierId}
+          defaultServiceId={values?.defaultCarrierServiceId}
+          options={options}
+          serviceEmptyLabel="No default service"
+          serviceLabel="Default service"
+          serviceName="default_carrier_service_id"
+        />
       </div>
       <label className="block">
         <span className={labelClassName}>Notes</span>
@@ -79,6 +74,11 @@ export function DispatchRunForm({ mode, options, values }: DispatchRunFormProps)
       {options.carriers.length === 0 ? (
         <p className="rounded-md border border-dashed border-slate-200 bg-slate-50 px-3 py-2 text-xs leading-5 text-slate-500">
           No carrier configuration exists yet. Carrier assignment is optional, so the run can still be created and reviewed manually.
+        </p>
+      ) : null}
+      {options.canManageConfiguration ? (
+        <p className="text-xs leading-5 text-slate-500">
+          Need another option? <Link className="font-semibold text-[var(--tenant-primary)] hover:underline" href="/logistics/carriers">Manage carriers and services</Link>.
         </p>
       ) : null}
       <button className="inline-flex w-full items-center justify-center rounded-md bg-[var(--tenant-primary)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-90 sm:w-auto" type="submit">

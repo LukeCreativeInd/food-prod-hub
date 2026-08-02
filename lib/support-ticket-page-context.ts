@@ -230,6 +230,14 @@ const routeContexts: Array<{
     },
   },
   {
+    prefixes: ["/logistics/carriers"],
+    context: {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - Carrier Configuration",
+      category: "other",
+    },
+  },
+  {
     prefixes: ["/logistics/carrier-exports"],
     context: {
       moduleKey: "logistics",
@@ -280,6 +288,22 @@ function pathMatchesPrefix(pathname: string, prefix: string) {
 }
 
 function getLogisticsPageContext(pathname: string): ModuleContext | null {
+  if (pathname === "/logistics/carriers/new") {
+    return {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - New Carrier",
+      category: "other",
+    };
+  }
+
+  if (/^\/logistics\/carriers\/[^/]+$/.test(pathname)) {
+    return {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - Carrier Detail",
+      category: "other",
+    };
+  }
+
   if (pathname === "/logistics/dispatch-runs/new") {
     return {
       moduleKey: "logistics",

@@ -40,6 +40,8 @@ export type LogisticsFormOptions = {
   carriers: LogisticsCarrierOption[];
   services: LogisticsCarrierServiceOption[];
   items: LogisticsItemOption[];
+  canViewConfiguration: boolean;
+  canManageConfiguration: boolean;
 };
 
 export type DispatchRunListItem = {
@@ -399,7 +401,10 @@ async function requireLogisticsPermission(permissionKey: string) {
   };
 }
 
-async function fetchFormOptions(organisationId: string): Promise<LogisticsFormOptions> {
+async function fetchFormOptions(
+  organisationId: string,
+  permissionKeys: string[],
+): Promise<LogisticsFormOptions> {
   const supabase = await createClient();
   const [carrierResult, serviceResult, itemResult] = await Promise.all([
     supabase
@@ -444,6 +449,58 @@ async function fetchFormOptions(organisationId: string): Promise<LogisticsFormOp
       itemType: row.item_type,
       baseUnit: row.base_unit ?? "",
     })),
+    canViewConfiguration: permissionKeys.includes("logistics_configuration.view"),
+    canManageConfiguration: permissionKeys.includes(
+      "logistics_configuration.manage",
+    ),
+  };
+}
+
+async function fetchCarrierReferenceNames(
+  organisationId: string,
+  permissionKeys: string[],
+  carrierIds: Array<string | null>,
+  serviceIds: Array<string | null>,
+) {
+  if (!permissionKeys.includes("logistics_configuration.view")) {
+    return {
+      carrierNames: new Map<string, string>(),
+      serviceNames: new Map<string, string>(),
+    };
+  }
+  const uniqueCarrierIds = [...new Set(carrierIds.filter((id): id is string => Boolean(id)))];
+  const uniqueServiceIds = [...new Set(serviceIds.filter((id): id is string => Boolean(id)))];
+  const supabase = await createClient();
+  const [carrierResult, serviceResult] = await Promise.all([
+    uniqueCarrierIds.length
+      ? supabase
+          .from("logistics_carriers")
+          .select("id, name")
+          .eq("organisation_id", organisationId)
+          .in("id", uniqueCarrierIds)
+      : Promise.resolve({ data: [], error: null }),
+    uniqueServiceIds.length
+      ? supabase
+          .from("logistics_carrier_services")
+          .select("id, name")
+          .eq("organisation_id", organisationId)
+          .in("id", uniqueServiceIds)
+      : Promise.resolve({ data: [], error: null }),
+  ]);
+  if (carrierResult.error || serviceResult.error) {
+    throw new Error("Could not load historical carrier references.");
+  }
+  return {
+    carrierNames: new Map(
+      ((carrierResult.data as Array<{ id: string; name: string }> | null) ?? []).map(
+        (row) => [row.id, row.name],
+      ),
+    ),
+    serviceNames: new Map(
+      ((serviceResult.data as Array<{ id: string; name: string }> | null) ?? []).map(
+        (row) => [row.id, row.name],
+      ),
+    ),
   };
 }
 
@@ -459,7 +516,7 @@ export async function fetchDispatchRunList(): Promise<DispatchRunListData> {
       .is("archived_at", null)
       .order("dispatch_date", { ascending: false })
       .order("created_at", { ascending: false }),
-    fetchFormOptions(access.organisationId),
+    fetchFormOptions(access.organisationId, access.permissionKeys),
   ]);
 
   if (runResult.error) throw new Error("Could not load dispatch runs.");
@@ -482,8 +539,13 @@ export async function fetchDispatchRunList(): Promise<DispatchRunListData> {
     current.cartons += Number(row.carton_count ?? 0);
     totals.set(row.dispatch_run_id, current);
   }
-  const carriers = new Map(options.carriers.map((row) => [row.id, row.name]));
-  const services = new Map(options.services.map((row) => [row.id, row.name]));
+  const { carrierNames: carriers, serviceNames: services } =
+    await fetchCarrierReferenceNames(
+      access.organisationId,
+      access.permissionKeys,
+      rows.map((row) => row.default_carrier_id),
+      rows.map((row) => row.default_carrier_service_id),
+    );
   const runs = rows.map((row) => {
     const total = totals.get(row.id) ?? { deliveries: 0, cartons: 0 };
     return {
@@ -534,7 +596,7 @@ export async function fetchDispatchRunDetail(id: string): Promise<DispatchRunDet
       .eq("id", id)
       .is("archived_at", null)
       .maybeSingle(),
-    fetchFormOptions(access.organisationId),
+    fetchFormOptions(access.organisationId, access.permissionKeys),
   ]);
   if (runResult.error) throw new Error("Could not load dispatch run.");
   if (!runResult.data) return null;
@@ -574,8 +636,15 @@ export async function fetchDispatchRunDetail(id: string): Promise<DispatchRunDet
   for (const line of (lineResult.data as LineRow[] | null) ?? []) {
     linesByDelivery.set(line.dispatch_delivery_id, [...(linesByDelivery.get(line.dispatch_delivery_id) ?? []), line]);
   }
-  const carrierNames = new Map(options.carriers.map((carrier) => [carrier.id, carrier.name]));
-  const serviceNames = new Map(options.services.map((service) => [service.id, service.name]));
+  const { carrierNames, serviceNames } = await fetchCarrierReferenceNames(
+    access.organisationId,
+    access.permissionKeys,
+    [row.default_carrier_id, ...deliveryRows.map((delivery) => delivery.carrier_id)],
+    [
+      row.default_carrier_service_id,
+      ...deliveryRows.map((delivery) => delivery.carrier_service_id),
+    ],
+  );
   const deliveries = deliveryRows.map((delivery) => ({
     id: delivery.id,
     sequenceNumber: delivery.sequence_number,
@@ -681,7 +750,7 @@ export async function fetchDispatchRunDetail(id: string): Promise<DispatchRunDet
 
 export async function fetchDispatchRunCreateOptions() {
   const access = await requireLogisticsPermission("dispatch_runs.create");
-  return fetchFormOptions(access.organisationId);
+  return fetchFormOptions(access.organisationId, access.permissionKeys);
 }
 
 function manifestListItem(

@@ -123,6 +123,8 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/logistics/dispatch-runs": { title: "Dispatch Runs", context: "Logistics" },
   "/logistics/dispatch-runs/new": { title: "New Dispatch Run", context: "Logistics" },
   "/logistics/manifests": { title: "Manifests", context: "Logistics" },
+  "/logistics/carriers": { title: "Carrier Configuration", context: "Logistics" },
+  "/logistics/carriers/new": { title: "New Carrier", context: "Logistics" },
   "/logistics/carrier-exports": { title: "Carrier Exports", context: "Logistics" },
   "/logistics/delivery-issues": { title: "Delivery Issues", context: "Logistics" },
   "/crm": { title: "CRM", context: "Commercial" },
@@ -135,6 +137,10 @@ const dynamicPageTitles: Array<{
   pattern: RegExp;
   meta: PageTitleMeta;
 }> = [
+  {
+    pattern: /^\/logistics\/carriers\/[^/]+$/,
+    meta: { title: "Carrier Detail", context: "Logistics" },
+  },
   {
     pattern: /^\/logistics\/dispatch-runs\/[^/]+\/deliveries\/[^/]+\/lines\/[^/]+\/edit$/,
     meta: { title: "Edit Dispatch Item", context: "Logistics" },

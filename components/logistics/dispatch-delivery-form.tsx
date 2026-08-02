@@ -2,6 +2,9 @@ import {
   addDispatchDeliveryAction,
   updateDispatchDeliveryAction,
 } from "@/app/logistics/actions";
+import Link from "next/link";
+
+import { CarrierServiceSelect } from "@/components/logistics/carrier-service-select";
 import type {
   DispatchDeliveryDetail,
   LogisticsFormOptions,
@@ -146,25 +149,23 @@ export function DispatchDeliveryForm({
               <span className={labelClassName}>Source reference</span>
               <input className={fieldClassName} defaultValue={delivery?.sourceReference} name="source_reference" />
             </label>
-            <label className="block min-w-0">
-              <span className={labelClassName}>Carrier override</span>
-              <select className={fieldClassName} defaultValue={delivery?.carrierId ?? ""} name="carrier_id">
-                <option value="">Use run default</option>
-                {options.carriers.map((carrier) => (
-                  <option key={carrier.id} value={carrier.id}>{carrier.name}</option>
-                ))}
-              </select>
-            </label>
-            <label className="block min-w-0">
-              <span className={labelClassName}>Service override</span>
-              <select className={fieldClassName} defaultValue={delivery?.carrierServiceId ?? ""} name="carrier_service_id">
-                <option value="">Use run default</option>
-                {options.services.map((service) => (
-                  <option key={service.id} value={service.id}>{service.name}</option>
-                ))}
-              </select>
-            </label>
+            <CarrierServiceSelect
+              carrierEmptyLabel="Use run default"
+              carrierLabel="Carrier override"
+              carrierName="carrier_id"
+              defaultCarrierId={delivery?.carrierId}
+              defaultServiceId={delivery?.carrierServiceId}
+              options={options}
+              serviceEmptyLabel="Use run default"
+              serviceLabel="Service override"
+              serviceName="carrier_service_id"
+            />
           </div>
+          {options.canManageConfiguration ? (
+            <p className="text-xs leading-5 text-slate-500">
+              <Link className="font-semibold text-[var(--tenant-primary)] hover:underline" href="/logistics/carriers">Manage carriers and services</Link> in Logistics configuration.
+            </p>
+          ) : null}
         </section>
 
         <section className="min-w-0 space-y-4 border-t border-slate-200 pt-5">

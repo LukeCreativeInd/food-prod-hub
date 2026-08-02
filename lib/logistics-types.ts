@@ -29,11 +29,41 @@ export const deliveryTemperatureClasses = [
   "mixed",
 ] as const;
 
+export const logisticsCarrierProviderTypes = [
+  "internal",
+  "carrier",
+  "dispatch_platform",
+  "export_destination",
+] as const;
+
+export const logisticsConfigurationStatuses = [
+  "active",
+  "inactive",
+  "archived",
+] as const;
+
+export const logisticsCarrierServiceTypes = [
+  "standard",
+  "same_day",
+  "next_day",
+  "temperature_controlled",
+  "pickup",
+  "internal_run",
+  "export_profile",
+  "other",
+] as const;
+
 export type DispatchType = (typeof dispatchTypes)[number];
 export type DispatchRunStatus = (typeof dispatchRunStatuses)[number];
 export type ManifestStatus = (typeof manifestStatuses)[number];
 export type DeliveryTemperatureClass =
   (typeof deliveryTemperatureClasses)[number];
+export type LogisticsCarrierProviderType =
+  (typeof logisticsCarrierProviderTypes)[number];
+export type LogisticsConfigurationStatus =
+  (typeof logisticsConfigurationStatuses)[number];
+export type LogisticsCarrierServiceType =
+  (typeof logisticsCarrierServiceTypes)[number];
 
 export const dispatchTypeLabels: Record<DispatchType, string> = {
   residential: "Residential",
@@ -66,6 +96,39 @@ export const temperatureClassLabels: Record<DeliveryTemperatureClass, string> = 
   mixed: "Mixed",
 };
 
+export const logisticsCarrierProviderTypeLabels: Record<
+  LogisticsCarrierProviderType,
+  string
+> = {
+  internal: "Internal",
+  carrier: "Carrier",
+  dispatch_platform: "Dispatch platform",
+  export_destination: "Export destination",
+};
+
+export const logisticsConfigurationStatusLabels: Record<
+  LogisticsConfigurationStatus,
+  string
+> = {
+  active: "Active",
+  inactive: "Inactive",
+  archived: "Archived",
+};
+
+export const logisticsCarrierServiceTypeLabels: Record<
+  LogisticsCarrierServiceType,
+  string
+> = {
+  standard: "Standard",
+  same_day: "Same day",
+  next_day: "Next day",
+  temperature_controlled: "Temperature controlled",
+  pickup: "Pickup",
+  internal_run: "Internal run",
+  export_profile: "Export profile",
+  other: "Other",
+};
+
 export type LogisticsStatusTone =
   | "neutral"
   | "success"
@@ -88,6 +151,14 @@ export function manifestStatusTone(status: ManifestStatus): LogisticsStatusTone 
   return "neutral";
 }
 
+export function logisticsConfigurationStatusTone(
+  status: LogisticsConfigurationStatus,
+): LogisticsStatusTone {
+  if (status === "active") return "success";
+  if (status === "inactive") return "warning";
+  return "neutral";
+}
+
 export function isDispatchType(value: string): value is DispatchType {
   return (dispatchTypes as readonly string[]).includes(value);
 }
@@ -96,4 +167,22 @@ export function isDeliveryTemperatureClass(
   value: string,
 ): value is DeliveryTemperatureClass {
   return (deliveryTemperatureClasses as readonly string[]).includes(value);
+}
+
+export function isLogisticsCarrierProviderType(
+  value: string,
+): value is LogisticsCarrierProviderType {
+  return (logisticsCarrierProviderTypes as readonly string[]).includes(value);
+}
+
+export function isLogisticsConfigurationStatus(
+  value: string,
+): value is LogisticsConfigurationStatus {
+  return (logisticsConfigurationStatuses as readonly string[]).includes(value);
+}
+
+export function isLogisticsCarrierServiceType(
+  value: string,
+): value is LogisticsCarrierServiceType {
+  return (logisticsCarrierServiceTypes as readonly string[]).includes(value);
 }

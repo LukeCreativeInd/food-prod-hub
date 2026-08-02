@@ -85,3 +85,53 @@ export function getManifestActionMessage(status: string | undefined) {
   };
   return messages[status] ?? feedback("The manifest action could not be completed.", "error");
 }
+
+export function getCarrierConfigurationActionMessage(
+  status: string | undefined,
+) {
+  if (!status) return null;
+  const messages: Record<string, LogisticsActionFeedback> = {
+    carrier_created: feedback("Carrier created.", "success"),
+    carrier_updated: feedback("Carrier details saved.", "success"),
+    carrier_archived: feedback("Carrier archived.", "success"),
+    service_created: feedback("Carrier service created.", "success"),
+    service_updated: feedback("Carrier service details saved.", "success"),
+    service_archived: feedback("Carrier service archived.", "success"),
+    missing_name: feedback("Enter a name.", "warning"),
+    missing_code: feedback("Enter a code.", "warning"),
+    invalid_code: feedback(
+      "Use lowercase letters, numbers, underscores or hyphens for the code.",
+      "warning",
+    ),
+    invalid_provider_type: feedback("Choose a valid provider type.", "warning"),
+    invalid_status: feedback("Choose Active or Inactive.", "warning"),
+    invalid_service_type: feedback("Choose a valid service type.", "warning"),
+    invalid_temperature_class: feedback(
+      "Choose a valid temperature class or leave it blank.",
+      "warning",
+    ),
+    duplicate_carrier_code: feedback(
+      "An active or inactive carrier already uses that code.",
+      "warning",
+    ),
+    duplicate_service_code: feedback(
+      "An active or inactive service already uses that code for this carrier.",
+      "warning",
+    ),
+    active_services: feedback(
+      "Deactivate or archive active carrier services before archiving this carrier.",
+      "warning",
+    ),
+    carrier_unavailable: feedback(
+      "The carrier is archived or no longer available for configuration.",
+      "warning",
+    ),
+    not_found: feedback("The carrier configuration record could not be found.", "error"),
+    permission_denied: feedback(
+      "You do not have permission to manage carrier configuration.",
+      "error",
+    ),
+    error: feedback("The carrier configuration change could not be completed.", "error"),
+  };
+  return messages[status] ?? messages.error;
+}

@@ -645,6 +645,8 @@ Dispatch Manifest Schema Foundation is documented in [Dispatch Manifest Schema F
 
 Dispatch Manifest UI v1 is documented in [Dispatch Manifest UI v1](docs/221-dispatch-manifest-ui-v1.md).
 
+Carrier Configuration Foundation is documented in [Carrier Configuration Foundation](docs/222-carrier-configuration-foundation.md).
+
 ## Current Scope
 
 - Clean internal app shell with grouped module navigation
@@ -691,6 +693,7 @@ Dispatch Manifest UI v1 is documented in [Dispatch Manifest UI v1](docs/221-disp
 - Added the Logistics workspace scaffold with Dispatch Runs, Manifests, Carrier Exports and Delivery Issues routes using honest empty states only
 - Drafted the Dispatch/Manifest schema foundation migration with tenant-owned carrier, dispatch run, delivery, manifest snapshot and carrier export tables plus granular Logistics permissions and RLS. Direct writes are restricted to draft operational/manifest records and pending exports; snapshot insertion and lifecycle outcomes remain closed until controlled task 221 workflows. No operational Logistics UI, carrier export generation, integrations, stock movements or seed data is included
 - Added the first real Dispatch Manifest workflow with tenant-scoped draft editing, deterministic validation, explicit readiness before manifest creation/generation, authoritative numbering, atomic immutable snapshots and controlled dispatch/cancellation rules. QA and Logistics parent links now own their dashboard destinations without duplicate dashboard submenu entries; carrier exports, delivery issues, orders, Inventory, QA, Production and external integrations remain disconnected
+- Added tenant carrier and service configuration using the existing Logistics schema and granular permissions. Active choices now feed carrier-scoped draft dispatch selectors, service archive remains soft and history-safe, and Carrier Exports remains disconnected without credentials, files or provider calls. A focused runtime check identified an existing migration 042 trigger defect that must be corrected separately before carrier archive can complete
 - Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins, and documented Leaked Password Protection as a manual Supabase Studio action before task 216
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, stock movement reversal behavior, partial QA holds or full NC/CA workflow has been added.
