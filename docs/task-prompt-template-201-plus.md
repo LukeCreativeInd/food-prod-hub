@@ -2,6 +2,8 @@
 
 Use this template for EveryBatch / Clean Eats Hub tasks after task 200.
 
+Before using it, read [Codex Task Standards](./CODEX_TASK_STANDARDS.md) and confirm the task name/order against [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). The standards remain authoritative where this shorter template omits detail.
+
 ```text
 Next task: [Task number] - [Task name].
 
@@ -128,11 +130,13 @@ Run:
 - pnpm lint
 - pnpm exec tsc --noEmit
 - pnpm build
+- git diff --check
 
 If pnpm hangs/fails due shim/network verification:
 - ./node_modules/.bin/eslint .
 - ./node_modules/.bin/tsc --noEmit
 - ./node_modules/.bin/next build
+- git diff --check
 
 Do not repeatedly retry pnpm if shim issue appears.
 
@@ -146,6 +150,7 @@ Return:
 - Permission/RLS impact
 - Data model impact
 - Support guide/troubleshooting/release note impact
+- Documentation impact, including exact earlier files reviewed or corrected
 - Behaviour preserved
 - Migration files added/changed, if any
 - FULL SQL MIGRATION CONTENTS if any migration was created

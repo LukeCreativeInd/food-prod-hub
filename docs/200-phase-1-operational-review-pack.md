@@ -1,5 +1,7 @@
 # Phase 1 Operational Review Pack
 
+> **Task 200 checkpoint snapshot.** The module states and recommended next tasks below describe the repository after Task 199. Tasks 201-222 have since been completed. Use [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) for current task order.
+
 Task 200 is the checkpoint after tasks 001-199. It reviews what EveryBatch / Clean Eats Hub can demonstrate now, what is real, what remains scaffolded, and what should guide tasks 201 onward.
 
 This is documentation only. It does not create UI, migrations, schema, RLS, permissions, auth/domain routing, DNS/Vercel/Supabase setting changes, business logic, packages or sample data.

@@ -224,7 +224,7 @@ That maintenance pass confirms:
 - `costing_snapshots` can only use the existing archive transition and cannot be rewritten.
 - Batch Receiving and Purchasing are explicitly preview/sample Inventory workspaces.
 - Costings copy reflects active formula costing, Costing Snapshots and Meal Margin calculations.
-- Supabase Leaked Password Protection remains a manual Studio setting.
+- Supabase Leaked Password Protection is a Studio-managed setting outside migration 039. Its live state must be verified before current documentation calls it enabled or disabled.
 
 ## Cross-Module Impact
 

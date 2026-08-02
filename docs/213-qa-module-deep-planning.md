@@ -1,5 +1,7 @@
 # QA Module Deep Planning
 
+> **Task 213 planning snapshot.** The placeholder descriptions and proposed follow-on numbering below describe the repository when this plan was written. Tasks 214-217 subsequently delivered QA navigation, schema, Receiving Checks and lot hold/release foundations. QA Production Checks and QA Daily Checks now belong to Tasks 229 and 230; Audit Log Business Events are Tasks 273 and 274. Current task order is maintained in [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md).
+
 Task 213 is a planning-only task for the EveryBatch QA module.
 
 No QA routes, UI, schema, migrations, permissions, RLS policies, feature flags, Support guides, troubleshooting pages, release notes or operational behaviour are changed in this task.
@@ -964,7 +966,7 @@ Do not implement tablet UI in tasks 213–217 unless Luke explicitly scopes it.
 | Tools | Supplier invoice tools exist. | QA template import/export later. | Tools owning QA data. |
 | Platform Admin | Tenant/module diagnostics scaffold. | QA readiness diagnostics. | Tenant QA editing authority by default. |
 | Support | Tickets/help centre exist. | QA page context, guides and troubleshooting later. | User-facing support update in task 213. |
-| Audit logs | Table exists; business writes later. | QA business audit events. | Implementing audit writes before tasks 244–245. |
+| Audit logs | Table exists; business writes later. | QA business audit events. | Implementing audit writes before Tasks 273-274. |
 | Permissions | Broad QA permissions exist. | Granular QA permission set. | Adding permissions in task 213. |
 
 ## Source-Of-Truth Impact
@@ -1010,7 +1012,7 @@ Future business audit events:
 | `qa.non_conformance.opened` | NC opened | QA/reviewer | NC | deferred likely | yes |
 | `qa.corrective_action.completed` | CA completed | owner | CA | deferred likely | yes |
 
-These are user-visible business events, not merely technical row changes. Do not implement audit writes in task 213. Tasks 244 and 245 remain the approved Audit Log Business Events tasks.
+These are user-visible business events, not merely technical row changes. Task 213 did not implement audit writes. Tasks 273 and 274 are now the approved Audit Log Business Events tasks.
 
 ## Platform Admin Impact
 
@@ -1190,7 +1192,7 @@ Task 215 must account for:
 Parked warnings remain parked:
 
 - Signed-In Users Can Execute SECURITY DEFINER Function for `public.post_inventory_receipt(uuid)`.
-- Leaked Password Protection Disabled.
+- Leaked Password Protection warning state requires live verification before it is described as disabled or enabled; Task 223 records that check for Task 261 or an approved security review.
 
 ## Task 214 Implementation Guidance
 

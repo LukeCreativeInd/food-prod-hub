@@ -1,5 +1,7 @@
 # Logistics Module Deep Planning
 
+> **Task 218 planning snapshot.** The future-state and placeholder wording below records the repository before implementation. Tasks 219-222 subsequently delivered the Logistics workspace scaffold, dispatch/manifest schema and workflow, and Carrier Configuration Foundation. Migrations 042-044 are applied. Use [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) for current task order.
+
 Task 218 is a planning-only task for the future EveryBatch Logistics module. It does not create routes, UI, schema, migrations, permissions, RLS policies, feature flags, data, exports, integrations, domain changes, middleware changes, package changes or user-facing behaviour.
 
 Correct domain references for this plan are:

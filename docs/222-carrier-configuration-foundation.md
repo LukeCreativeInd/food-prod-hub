@@ -22,7 +22,7 @@ The forms expose name, code, provider type, status and notes. They do not expose
 
 Carrier archive is designed as a soft archive. It sets the record to archived and preserves historical dispatch foreign keys. The server action refuses archive while any active, unarchived service remains and tells the operator to deactivate or archive those services first. No DELETE action exists.
 
-Focused runtime testing found that migration 042's shared `logistics_protect_configuration_identity()` trigger reads the service-only `NEW.carrier_id` field while processing a `logistics_carriers` update. PostgreSQL rejects the carrier update with error `42703` before RLS or the archive response can complete. Migration 044, `044_logistics_configuration_identity_trigger_fix.sql`, is now drafted to split the shared trigger into table-appropriate carrier and carrier-service identity functions. It preserves the existing trigger names, identity protections, invoker security, fixed search path and service-parent immutability, then drops the defective shared function without `CASCADE`. Migration 044 is not applied.
+Focused runtime testing found that migration 042's shared `logistics_protect_configuration_identity()` trigger read the service-only `NEW.carrier_id` field while processing a `logistics_carriers` update. Migration 044, `044_logistics_configuration_identity_trigger_fix.sql`, split the shared trigger into table-appropriate carrier and carrier-service identity functions. It preserves the existing trigger names, identity protections, invoker security, fixed search path and service-parent immutability, then drops the defective shared function without `CASCADE`. Migration 044 has been reviewed and applied.
 
 ## Service Workflow
 
@@ -81,10 +81,10 @@ No fake carrier/service data, provider seeds, Detrack setup, carrier rates, trac
 - Duplicate carrier-code submission remains on `/logistics/carriers/new`, places the warning beside Code, and preserves name, code, provider type, status and notes for correction.
 - Carrier and service create/edit actions return recoverable validation and uniqueness failures to their own form instead of redirecting to an unrelated list state. The service path uses the same reviewed action-state pattern; no duplicate service row was created during this correction.
 - Logistics dashboard renders the permission-aware Manage/View carriers action with the established secondary link-button treatment.
-- Carrier archive correctly passes the zero-active-service precheck, then the live database rejects the carrier update because the migration 042 identity trigger accesses `NEW.carrier_id` on `logistics_carriers`. Migration 044 contains the reviewed trigger split; no carrier, service or historical dispatch record was changed by the failed attempt.
+- The original carrier-archive runtime test exposed migration 042's invalid shared-trigger field reference. Migration 044 contains the reviewed and applied trigger split; it changes no carrier, service or historical dispatch data.
 - Historical dispatch `DR-20260808-0001` continues to retain its carrier and service references.
 
-Task 222 is not ready to claim working carrier archival until migration 044 is manually reviewed, applied and followed by the focused archive retest. Migration 044 changes trigger functions and trigger wiring only; it does not change table schemas, RLS policies, grants, permissions, role mappings or operational data.
+Task 222 is complete and committed. Migration 044 is applied and changes trigger functions and trigger wiring only; it does not change table schemas, RLS policies, grants, permissions, role mappings or operational data. Carrier archival retains its zero-active-service precheck and history-preserving soft-archive design.
 
 ## Deferred UI Consistency Backlog
 
@@ -97,4 +97,4 @@ These are explicit non-blocking follow-ups and are not implemented by Task 222:
 
 Migration file: `supabase/migrations/044_logistics_configuration_identity_trigger_fix.sql`
 
-Migration 044 must be manually reviewed before application. After application, archive the existing Task 222 test carrier and confirm its archived detail remains readable, it disappears from new dispatch selectors, and historical dispatch `DR-20260808-0001` still shows `Task 222 Test Carrier` and `Chilled Next Day`.
+Migration 044 has been manually reviewed and applied. The focused post-apply runtime check is to confirm carrier archive succeeds after all services are inactive/archived, archived detail remains readable, the carrier disappears from new dispatch selectors and historical dispatch references remain intact.

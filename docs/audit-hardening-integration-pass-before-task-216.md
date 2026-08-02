@@ -54,9 +54,9 @@ The Costings landing copy now reflects the current state:
 
 No Costings queries, formulas, snapshots, sell-price logic or margin calculations changed in this pass.
 
-## Manual Supabase Security Action
+## Historical Manual Supabase Security Action
 
-Leaked Password Protection must be enabled manually in Supabase Studio:
+At the time of this maintenance pass, Leaked Password Protection required a manual Supabase Studio action. Later project context records it as enabled after upgrade, but Task 223 requires live verification before repeating or changing the setting. The original steps were:
 
 1. Open the Supabase project.
 2. Go to Authentication.

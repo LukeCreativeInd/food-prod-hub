@@ -1,5 +1,11 @@
 # Codex Project Context
 
+## Current Roadmap And Execution Standard
+
+The active task sequence is [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). Tasks 201-222 are completed history and Task 222 is Carrier Configuration Foundation. The former `docs/201-250-next-roadmap.md` is retained only as a superseded historical plan.
+
+All numbered work follows [Codex Task Standards](./CODEX_TASK_STANDARDS.md). Confirm the branch and working tree before edits, preserve strict scope, review documentation impacts, and do not change or apply migrations without the task-specific approval required by those standards.
+
 ## Current Naming
 
 EveryBatch is the real product/platform brand.
@@ -34,13 +40,13 @@ everybatchmrp.app
 
 Do not plan around `everybatch.com`; it is not available.
 
-Target domains:
+Current domain roles:
 
-- `everybatchmrp.com` for public marketing
-- `app.everybatchmrp.com` for central login
-- `cleaneats.everybatchmrp.com` for Clean Eats tenant workspace
-- `admin.everybatchmrp.com` for future Platform Admin
-- `support.everybatchmrp.com` for support and knowledge base
+- `everybatchmrp.com` for the future public marketing website
+- `app.everybatchmrp.com` for central login and workspace selection
+- `cleaneats.everybatchmrp.com` for the Clean Eats tenant workspace
+- `admin.everybatchmrp.com` for Platform Admin
+- `support.everybatchmrp.com` for Support and Help Centre
 
 Current domain setup:
 
@@ -50,9 +56,9 @@ Current domain setup:
 - the Vercel production URL currently redirects to `app.everybatchmrp.com`, but remains available in Vercel if needed
 - login and dashboard smoke tests passed on `app.everybatchmrp.com`
 - do not point `everybatchmrp.com` root to the tenant app; reserve it for marketing or a coming-soon page
-- do not connect `cleaneats.everybatchmrp.com` until tenant workspace host routing is implemented
-- do not connect `admin.everybatchmrp.com` until Platform Admin domain routing is explicitly implemented
-- do not connect `support.everybatchmrp.com` until the support/knowledge-base target exists
+- `cleaneats.everybatchmrp.com` is the Clean Eats tenant host
+- `admin.everybatchmrp.com` is the separated Platform Admin host
+- `support.everybatchmrp.com` is the Support and Help Centre host
 - do not change Vercel, DNS, Supabase Auth redirect URLs or env vars from a code task without explicit user instruction
 
 Task 123 domain connection is complete. `app.everybatchmrp.com` is the first stable EveryBatch app/login URL.
@@ -812,7 +818,7 @@ Task 201 documents how QA, Logistics, Reports and CRM should connect into the Ph
 
 The task records QA, Logistics, Reports and CRM integration maps, a cross-module lifecycle from supplier invoice to future dispatch/reporting, permission and Platform Admin impact, Support Help Centre/troubleshooting/release-note impact and scaffold/demo cleanup findings for QA, Logistics, Reports, CRM, Production Report, Production Tasks and Facility/iPad surfaces.
 
-The 201-250 roadmap order remains unchanged: keep UOM conversion next, then inventory/production hardening, QA, Logistics, Reports and CRM in the planned sequence. The 201+ prompt template now includes source-of-truth impact checks. No UI, schema, migration, RLS, permission, auth/domain routing, business logic or package changes are included.
+This was the Task 201 sequencing recommendation at the time. It is now historical: Tasks 201-222 are complete and [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) is the active source for task order. The 201+ prompt template includes source-of-truth impact checks. No UI, schema, migration, RLS, permission, auth/domain routing, business logic or package changes were included by Task 201.
 
 ## Task 202 UOM Conversion Foundation Plan
 
@@ -908,11 +914,11 @@ Task 213 is docs/planning only. It creates `docs/213-qa-module-deep-planning.md`
 
 The plan defines QA ownership boundaries, personas, future routes, a shared template/check/result model, receiving QA checks, production QA checks, daily/pre-op checks, temperature result handling, HACCP/CCP boundaries, future non-conformance/corrective-action concepts, QA document boundaries, conservative future permissions, audit events, Platform Admin impact, Support impact and cross-module source-of-truth rules.
 
-The approved near-term sequence is task 213 QA Module Deep Planning, task 214 QA Module Navigation + Scaffold v1, task 215 QA Schema Foundation, task 216 Receiving QA Checks UI v1 and task 217 QA Hold/Release Inventory Link. Task 215 must include QA hold and append-only hold-event schema foundation, while formal QA-driven inventory availability control begins only in task 217. Full operational NC/CA schema and workflows are deferred beyond tasks 215-217. Stock adjustment/reversal implementation remains parked. No migrations, UI, routes, navigation, app code, RLS/permission changes, support guides, release notes, auth/domain routing, business logic or packages are added.
+The approved near-term sequence at Task 213 was QA planning, navigation, schema, Receiving Checks and Hold/Release across Tasks 213-217. Those tasks were subsequently completed. Full operational NC/CA schema and workflows remain deferred, and stock adjustment/reversal implementation remains parked. Task 213 itself added no migrations, UI, routes, navigation, app code, RLS/permission changes, support guides, release notes, auth/domain routing, business logic or packages.
 
 ## Task 214 QA Module Navigation + Scaffold v1
 
-Task 214 replaces generic QA placeholders with the approved tenant QA workspace scaffold. The QA sidebar now shows QA Dashboard, Receiving Checks, Production Checks, Daily Checks, Hold & Release, Non-Conformance, Corrective Actions and QA Templates. QA Documents remains deferred.
+Task 214 replaced generic QA placeholders with the approved tenant QA workspace scaffold. Task 221 later removed the duplicate QA Dashboard child because the `/qa` parent owns that destination. The current QA submenu is Receiving Checks, Production Checks, Daily Checks and Hold & Release; later QA workspaces remain governed by the active roadmap.
 
 The new QA routes are `/qa`, `/qa/receiving`, `/qa/production`, `/qa/daily`, `/qa/holds`, `/qa/non-conformance`, `/qa/corrective-actions` and `/qa/templates`. Old routes redirect: `/qa-checks` to `/qa/receiving`, `/qa-sign-offs` to `/qa` and `/qa-incidents` to `/qa/non-conformance`.
 
@@ -932,7 +938,7 @@ An unnumbered maintenance pass restores local repository history for already-liv
 
 Current write paths were checked for compatibility: Goods Inwards posting inserts stock movements through `post_inventory_receipt`, Stock On Hand and Inventory Traceability only read movements, Costing Snapshot creation inserts headers/lines, and snapshot archive updates only the permitted archive fields.
 
-Batch Receiving and Purchasing are now explicitly marked as preview/sample Inventory workspaces with navigation preview markers and persistent `Sample Data - Not Live` banners. The Costings landing copy now states that formula costing, Costing Snapshots and real Meal Margin calculations are active where readiness inputs exist. Leaked Password Protection remains a manual Supabase Studio security toggle. Task 216 remains the next numbered step.
+Batch Receiving and Purchasing are explicitly marked as preview/sample Inventory workspaces with navigation preview markers and persistent `Sample Data - Not Live` banners. The Costings landing copy states that formula costing, Costing Snapshots and real Meal Margin calculations are active where readiness inputs exist. Earlier context records Leaked Password Protection as enabled after the Supabase upgrade, while older warning-era references remain; Task 223 schedules live-setting/documentation verification during Task 261 or an approved security review. Task 216 was subsequently completed.
 
 ## Task 216 Receiving QA Checks UI v1
 
@@ -956,25 +962,25 @@ Task 218 is docs/planning only. It creates `docs/218-logistics-module-deep-plann
 
 The plan keeps Logistics from duplicating source records owned by Inventory, QA, Production, CRM, Support or Audit Logs. Inventory remains the source of physical stock and movement history, QA remains the source of hold state, Production remains the source of plan/batch records, CRM/future order records should own customer/account data, and Logistics should own dispatch/manifest records plus historical manifest snapshots.
 
-Task 218 does not add routes, UI, schema, migrations, permissions, RLS policies, feature flags, Support guide content, Platform Admin diagnostics, carrier integrations, stock movements, auth/domain changes, middleware changes, app behaviour or packages. The recommended next sequence remains task 219 Logistics Navigation + Scaffold v1, task 220 Dispatch/Manifest Schema Foundation and task 221 Dispatch Manifest UI v1.
+Task 218 did not add routes, UI, schema, migrations, permissions, RLS policies, feature flags, Support guide content, Platform Admin diagnostics, carrier integrations, stock movements, auth/domain changes, middleware changes, app behaviour or packages. Its recommended Tasks 219-221 were subsequently completed, followed by Task 222 Carrier Configuration Foundation.
 
 ## Task 219 Logistics Navigation + Scaffold v1
 
-Task 219 replaces the single Logistics placeholder with an honest tenant Logistics workspace scaffold. The tenant sidebar now keeps Logistics in the same primary module order and adds submenu links for Logistics Dashboard, Dispatch Runs, Manifests, Carrier Exports and Delivery Issues.
+Task 219 replaced the single Logistics placeholder with an honest tenant Logistics workspace scaffold. Task 221 later removed the duplicate Logistics Dashboard child because the `/logistics` parent owns that destination. The current Logistics submenu is Dispatch Runs, Manifests, Carrier Exports and Delivery Issues.
 
 The new scaffold routes are `/logistics`, `/logistics/dispatch-runs`, `/logistics/manifests`, `/logistics/carrier-exports` and `/logistics/delivery-issues`. Each route uses existing app shell behaviour and the existing `logistics.view` permission. No role mappings are changed, so users without `logistics.view`, including `phase_1_demo_user`, remain blocked by the existing no-access behaviour.
 
-The pages are deliberately empty/foundation states. They do not show fake dispatch runs, fake manifests, fake carriers, fake delivery issues, KPI counts, Detrack connection status, manifest generation actions, export downloads or issue creation workflows. Support ticket page context now distinguishes the Logistics subroutes while keeping the route related path. Task 219 does not add schema, migrations, server actions, API routes, carrier integrations, manifest generation, dispatch stock movements, Platform Admin changes, Support guide content, auth/domain/middleware changes or packages. Task 220 remains Dispatch/Manifest Schema Foundation.
+The pages were deliberately empty/foundation states at Task 219. They did not show fake dispatch runs, fake manifests, fake carriers, fake delivery issues, KPI counts, Detrack connection status, manifest generation actions, export downloads or issue creation workflows. Support ticket page context distinguished the Logistics subroutes while keeping the route related path. Task 219 added no schema, migrations, server actions, API routes, carrier integrations, manifest generation, dispatch stock movements, Platform Admin changes, Support guide content, auth/domain/middleware changes or packages. Tasks 220-222 subsequently delivered the approved schema, workflow and carrier configuration foundations.
 
 ## Task 220 Dispatch Manifest Schema Foundation
 
-Task 220 drafts `supabase/migrations/042_dispatch_manifest_schema_foundation.sql` and documents it in `docs/220-dispatch-manifest-schema-foundation.md`. The migration creates the minimum tenant-owned Logistics foundation for carriers, carrier services, dispatch runs, dispatch deliveries, dispatch lines, manifests, immutable manifest delivery/line snapshots and carrier export history.
+Task 220 created and applied `supabase/migrations/042_dispatch_manifest_schema_foundation.sql`, documented in `docs/220-dispatch-manifest-schema-foundation.md`. The migration creates the minimum tenant-owned Logistics foundation for carriers, carrier services, dispatch runs, dispatch deliveries, dispatch lines, manifests, immutable manifest delivery/line snapshots and carrier export history.
 
 Every new Logistics table has `organisation_id`, tenant-safe foreign key boundaries and RLS enabled. Policies use the existing active membership, platform admin and permission helpers. No anon policies or DELETE policies are created. Direct operational writes are active draft-only, direct manifest writes are draft-only, direct carrier export writes are pending-only and Platform Admin follows the same state restrictions. Manifest snapshot tables expose SELECT only; their INSERT path is withheld until task 221 adds a reviewed atomic generation function. Generated/failed history, immutable identity/parent fields and tenant-safe actor references are protected by trigger helpers.
 
 The migration seeds granular permissions for dispatch runs, manifests, carrier exports, logistics configuration and future delivery issues. `phase_1_demo_user`, `staff` and `tablet_user` receive no new task 220 Logistics permissions. Existing broad `logistics.view` and `logistics.manage` permissions remain unchanged.
 
-Delivery issue operational tables, delivery zones, task 221 UI, atomic manifest generation/snapshot creation, controlled dispatch lifecycle transitions, carrier export outcomes/files, carrier integrations, Shopify/order imports, stock allocation, stock movements, QA/stock dispatch blocking and audit events remain future work. Correct live domains remain `app.everybatchmrp.com`, `admin.everybatchmrp.com`, `cleaneats.everybatchmrp.com` and `support.everybatchmrp.com`; do not use `admin.everybatchmrp.com.au`.
+At Task 220, delivery issue operational tables, delivery zones, Task 221 UI, atomic manifest generation/snapshot creation, controlled dispatch lifecycle transitions, carrier export outcomes/files, carrier integrations, Shopify/order imports, stock allocation, stock movements, QA/stock dispatch blocking and audit events remained future work. Task 221 subsequently delivered the controlled UI and workflow; the other listed integrations remain future work. Correct live domains remain `app.everybatchmrp.com`, `admin.everybatchmrp.com`, `cleaneats.everybatchmrp.com` and `support.everybatchmrp.com`; do not use `admin.everybatchmrp.com.au`.
 
 ## Task 221 Dispatch Manifest UI v1
 
@@ -990,8 +996,18 @@ The post-runtime Task 221 correction makes blocked validation feedback warning-t
 
 ## Task 222 Carrier Configuration Foundation
 
-Task 222 adds real protected tenant routes at `/logistics/carriers`, `/logistics/carriers/new` and `/logistics/carriers/[id]` using migration 042's existing carrier/service schema, RLS policies, actor triggers and granular `logistics_configuration.view/manage` permissions. Authorised managers can create, edit and deactivate carriers and services, while view-only roles receive real read-only pages without disabled write controls. Service soft archive works and carrier archive is blocked while active unarchived services remain. Focused runtime testing found migration 042's shared configuration identity trigger accesses the service-only `NEW.carrier_id` field during carrier updates. Migration 044 is drafted, but not applied, to split carrier and carrier-service identity triggers without changing table schema, RLS, permissions, lifecycle rules or data. Carrier archive must be retested after manual application. No delete path, seed provider, credential, secret, integration or export generation is added.
+Task 222 adds real protected tenant routes at `/logistics/carriers`, `/logistics/carriers/new` and `/logistics/carriers/[id]` using migration 042's existing carrier/service schema, RLS policies, actor triggers and granular `logistics_configuration.view/manage` permissions. Authorised managers can create, edit and deactivate carriers and services, while view-only roles receive real read-only pages without disabled write controls. Service soft archive works and carrier archive is blocked while active unarchived services remain. Focused runtime testing found migration 042's shared configuration identity trigger accessed the service-only `NEW.carrier_id` field during carrier updates. Applied migration 044 splits carrier and carrier-service identity triggers without changing table schema, RLS, permissions, lifecycle rules or data. No delete path, seed provider, credential, secret, integration or export generation is added.
 
 Draft dispatch forms now show only active, unarchived carriers and carrier-scoped active services, with the same relationship revalidated server-side. Historical dispatch references are not rewritten and retain readable carrier/service labels for configuration viewers. Logistics dashboard and Carrier Exports link to configuration, while Carrier Exports remains disconnected and foundation-only. The Logistics sidebar order and submenu are unchanged. Platform Admin UI and Support content are unchanged; support ticket context now identifies the carrier list, create and entity routes.
 
 No migration, permission mapping, RLS, package or unrelated module change is included. Deferred non-blocking UI consistency work is recorded, not implemented: plan short canonical secondary-workspace routes for QA/Logistics with redirects, and add visible app-shell-preserving loading states to QA/Logistics routes.
+
+Task 222, Carrier Configuration Foundation, is complete and committed. Migrations 039, 040, 041, 042, 043 and 044 are applied.
+
+## Task 223 Roadmap And Project Context Realignment
+
+Task 223 is documentation-only. It creates `docs/223-276-revised-roadmap.md` as the active roadmap, creates `docs/CODEX_TASK_STANDARDS.md` as the permanent execution standard, and marks the former Tasks 201-250 sequence as superseded historical planning after Task 222.
+
+The active sequence is Tasks 223-247, with Tasks 248-276 directionally approved and subject to explicit roadmap review. Task 228 Facility/iPad View v1 is decision-gated: no implementation prompt should be written until Luke approves the tablet/facility architecture direction. New ideas enter the unnumbered Future/Pending Task Register and do not alter task numbering without Luke's approval.
+
+Task 223 changes no application code, route, navigation, migration, database, RLS policy, permission, package, operational data or runtime behaviour.

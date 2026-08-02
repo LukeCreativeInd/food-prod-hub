@@ -1,8 +1,8 @@
 # Dispatch Manifest Schema Foundation
 
-Task 220 drafts the first Logistics dispatch/manifest database foundation for EveryBatch.
+Task 220 created the first Logistics dispatch/manifest database foundation for EveryBatch. Migration 042 has since been reviewed, applied and verified.
 
-This is schema, permission and RLS foundation only. It does not apply the migration, run Supabase CLI, build task 221 UI, generate carrier files, connect Detrack/Cold Xpress/DK/Meal Cart, import Shopify orders, create fake operational data, allocate inventory lots, create stock movements, change QA holds, change Production, change Support, change domains or add packages.
+The original task was schema, permission and RLS foundation only. Task 221 later added the controlled dispatch/manifest UI and workflow. Carrier files, external carrier connections, Shopify imports, inventory allocation/movements and unrelated module changes remain outside Task 220.
 
 Correct domains remain:
 
@@ -15,11 +15,11 @@ Do not use `admin.everybatchmrp.com.au`.
 
 ## Migration
 
-Drafted migration:
+Applied migration:
 
 - `supabase/migrations/042_dispatch_manifest_schema_foundation.sql`
 
-The migration must be manually reviewed before applying to Supabase.
+Migration 042 was manually reviewed, applied and verified before Task 221 implementation.
 
 ## Tables Added
 
@@ -162,9 +162,9 @@ Actor-validation triggers cover every actor column in the migration. Non-null ac
 
 Immutable-field triggers protect `id`, `organisation_id`, `created_at`, `created_by_profile_id` where present, and historical parent/version identity. Carrier services cannot move between carriers; deliveries cannot move between runs; lines cannot move between deliveries; manifest/export parent and version identity cannot be rewritten.
 
-## Task 221 Controlled Boundaries
+## Task 221 Controlled Boundaries - Historical Handoff
 
-Task 221 should introduce reviewed `SECURITY DEFINER` lifecycle functions rather than reopening direct table policies. The manifest-generation transaction is expected to:
+At the end of Task 220, the approved handoff required Task 221 to introduce reviewed `SECURITY DEFINER` lifecycle functions rather than reopening direct table policies. Task 221 subsequently delivered that controlled workflow. The planned manifest-generation transaction was expected to:
 
 1. derive and validate the authenticated actor and tenant membership;
 2. lock the draft dispatch run and manifest inputs;
@@ -178,7 +178,7 @@ Controlled functions should also own dispatch-run lifecycle transitions and any 
 
 ## What Is Deferred
 
-Task 221 should build the first reviewed Dispatch Manifest UI after this migration is reviewed/applied.
+Task 221 subsequently built and verified the first reviewed Dispatch Manifest UI after migration 042 was applied.
 
 Deferred items:
 
@@ -198,7 +198,7 @@ Deferred items:
 
 ## Pre-Apply Review Checklist
 
-Before applying migration 042:
+Historical pre-apply checklist used before migration 042 was applied:
 
 - confirm migration 041 has been applied first;
 - confirm no duplicate table, index, trigger, function or policy names conflict with live Supabase;

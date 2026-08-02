@@ -20,18 +20,20 @@ Purchased domains:
 
 Target domain architecture:
 
-- `everybatchmrp.com` for the public marketing site
-- `app.everybatchmrp.com` for central login
+- `everybatchmrp.com` for the future public marketing site
+- `app.everybatchmrp.com` for central login and workspace selection
 - `cleaneats.everybatchmrp.com` for the Clean Eats tenant workspace
-- `admin.everybatchmrp.com` for future Platform Admin
-- `support.everybatchmrp.com` for support and knowledge base
+- `admin.everybatchmrp.com` for Platform Admin
+- `support.everybatchmrp.com` for Support and Help Centre
 
-See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-architecture.md), [EveryBatch implementation roadmap](docs/113-everybatch-implementation-roadmap.md), and [Codex project context](docs/CODEX_PROJECT_CONTEXT.md).
+See [EveryBatch brand and domain architecture](docs/113-everybatch-brand-domain-architecture.md), the active [Tasks 223-276 revised roadmap](docs/223-276-revised-roadmap.md), [Codex task standards](docs/CODEX_TASK_STANDARDS.md), and [Codex project context](docs/CODEX_PROJECT_CONTEXT.md). The older [EveryBatch implementation roadmap](docs/113-everybatch-implementation-roadmap.md) is historical planning context.
 
 ## Current Status
 
-- Current phase: Platform foundation
-- App shell and placeholder module pages exist
+- Current phase: tenant module/workspace foundation completion after Task 222
+- Tasks 201-222 are completed history; Task 222 is Carrier Configuration Foundation
+- Tasks 223-247 are the active approved working sequence, beginning with documentation realignment in Task 223
+- The app shell now contains a mix of real operational foundations and explicitly honest future/empty workspaces
 - Design direction is Clean Eats-inspired while platform planning remains reusable
 - Documentation has been added for product direction, architecture, roadmap, development standards, release process, discovery notes, and Codex working rules
 - Supabase Auth helper foundation and basic login/logout UI exist
@@ -431,7 +433,10 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [UOM Conversion Foundation Plan](docs/202-uom-conversion-foundation-plan.md)
 - [UOM Conversion Schema Foundation](docs/203-uom-conversion-schema-foundation.md)
 - [UOM Conversion UI v1](docs/204-uom-conversion-ui-v1.md)
-- [Tasks 201-250 next roadmap](docs/201-250-next-roadmap.md)
+- [Tasks 223-276 revised roadmap (active)](docs/223-276-revised-roadmap.md)
+- [Roadmap and project context realignment](docs/223-roadmap-project-context-realignment.md)
+- [Codex task standards](docs/CODEX_TASK_STANDARDS.md)
+- [Tasks 201-250 historical roadmap (superseded after Task 222)](docs/201-250-next-roadmap.md)
 - [Task prompt template for 201+](docs/task-prompt-template-201-plus.md)
 - [Production dashboard real data scaffold](docs/108-production-dashboard-real-data-scaffold.md)
 - [App shell, navigation and branding](docs/109a-app-shell-navigation-branding.md)
@@ -693,7 +698,8 @@ Carrier Configuration Foundation is documented in [Carrier Configuration Foundat
 - Added the Logistics workspace scaffold with Dispatch Runs, Manifests, Carrier Exports and Delivery Issues routes using honest empty states only
 - Drafted the Dispatch/Manifest schema foundation migration with tenant-owned carrier, dispatch run, delivery, manifest snapshot and carrier export tables plus granular Logistics permissions and RLS. Direct writes are restricted to draft operational/manifest records and pending exports; snapshot insertion and lifecycle outcomes remain closed until controlled task 221 workflows. No operational Logistics UI, carrier export generation, integrations, stock movements or seed data is included
 - Added the first real Dispatch Manifest workflow with tenant-scoped draft editing, deterministic validation, explicit readiness before manifest creation/generation, authoritative numbering, atomic immutable snapshots and controlled dispatch/cancellation rules. QA and Logistics parent links now own their dashboard destinations without duplicate dashboard submenu entries; carrier exports, delivery issues, orders, Inventory, QA, Production and external integrations remain disconnected
-- Added tenant carrier and service configuration using the existing Logistics schema and granular permissions. Active choices now feed carrier-scoped draft dispatch selectors, service archive remains soft and history-safe, and Carrier Exports remains disconnected without credentials, files or provider calls. A focused runtime check identified an existing migration 042 trigger defect that must be corrected separately before carrier archive can complete
-- Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins, and documented Leaked Password Protection as a manual Supabase Studio action before task 216
+- Added tenant carrier and service configuration using the existing Logistics schema and granular permissions. Active choices feed carrier-scoped draft dispatch selectors, service archive remains soft and history-safe, and Carrier Exports remains disconnected without credentials, files or provider calls. Applied migration 044 splits the defective shared carrier/service identity trigger into table-appropriate trigger functions without changing RLS, permissions or operational data
+- Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, and corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins. Leaked Password Protection must not be described as disabled without live evidence; its live setting and older warning-era documentation are pending an approved Task 261/security review
+- Realigned the active roadmap at Task 223, established permanent Codex task standards, and retained the old Tasks 201-250 sequence as clearly superseded historical context
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, stock movement reversal behavior, partial QA holds or full NC/CA workflow has been added.

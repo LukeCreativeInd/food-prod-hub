@@ -631,9 +631,9 @@ Known scaffold or future-facing areas:
 - Transfer, stocktake, QA hold/release and production stock movement workflows do not exist yet.
 - Inventory Traceability is real for inbound records, but forward production/dispatch/customer trace remains future.
 
-## Recommended Next Tasks
+## Historical Recommended Next Tasks
 
-Recommended sequence:
+The following sequence was proposed in Task 212 but was not promoted. Those task numbers were subsequently used by approved QA work, so this list is historical only:
 
 1. Task 213 — Stock Adjustment/Reversal Schema Foundation.
 2. Task 214 — Stock Adjustment UI v1 with draft/list/detail/edit only.
@@ -641,4 +641,4 @@ Recommended sequence:
 4. Task 216 — Stock Movement Detail and Reversal Entry.
 5. Task 217 — Stock On Hand Negative/Mixed Unit Diagnostics.
 
-This keeps schema, draft UI and transaction-safe posting separated for review.
+The underlying stock adjustment/reversal work remains preserved in the parked backlog of [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). It must receive newly approved task numbers before implementation.

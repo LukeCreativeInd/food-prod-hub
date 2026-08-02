@@ -1,5 +1,7 @@
 # Logistics Navigation + Scaffold v1
 
+> **Task 219 implementation snapshot.** Tasks 220-222 subsequently delivered the dispatch/manifest schema and workflow plus Carrier Configuration Foundation. Migrations 042-044 are applied, and Task 221 removed the duplicate Logistics Dashboard submenu entry. Current task order is maintained in [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md).
+
 Task 219 replaces the single Logistics placeholder with the approved Logistics workspace structure from task 218.
 
 This task adds navigation and honest scaffold pages only. It does not create logistics schema, migrations, seed data, server actions, API routes, carrier integrations, manifest generation, dispatch workflows, stock movements, permission changes, RLS changes, Platform Admin changes, Support guide content, domain routing changes, middleware changes or packages.

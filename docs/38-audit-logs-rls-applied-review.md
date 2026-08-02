@@ -85,10 +85,10 @@ Expected advisor state:
 
 - RLS Disabled in Public errors are cleared for current public tables.
 - Function Search Path Mutable warnings are cleared.
-- Remaining warning:
+- Warning recorded at the time of this review:
   - Leaked Password Protection Disabled
 
-Leaked Password Protection is an Auth hardening setting. It is not caused by app code or migrations. It should be reviewed before onboarding real staff/users, and it may depend on Supabase plan/features.
+Leaked Password Protection is an Auth hardening setting. It is not caused by app code or migrations. Later project context records it as enabled after the Supabase upgrade, but Task 223 requires live verification before current documentation describes it as enabled or disabled.
 
 ## What RLS Still Does Not Cover
 
@@ -110,7 +110,7 @@ Writes require stricter permission design. Audit writes should be trusted/server
 
 ## Remaining Security / Auth Hardening Items
 
-- Review Supabase Leaked Password Protection warning.
+- Verify the current Supabase Leaked Password Protection setting during Task 261 or an approved security review, then correct older warning-era references.
 - Add password reset flow later.
 - Add invite/onboarding flow later.
 - Add role/user management write policies later.

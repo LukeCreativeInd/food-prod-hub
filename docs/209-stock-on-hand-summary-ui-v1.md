@@ -318,10 +318,12 @@ limit 50;
 
 ## Future Tasks
 
-Recommended next sequence:
+Historical next sequence recorded at Task 209:
 
-1. Task 210 — Inventory Traceability Map Plan. This task now documents how Stock On Hand rows should connect back to receipt, lot and movement lineage.
+1. Task 210 — Inventory Traceability Map Plan. This task documented how Stock On Hand rows should connect back to receipt, lot and movement lineage.
 2. Task 211 — Inventory Traceability Map UI v1.
 3. Future stock adjustment/reversal workflow.
 4. Future UOM conversion rule integration into receiving and stock reporting.
 5. Future production availability checks using Stock On Hand.
+
+Tasks 210-211 were subsequently completed. Remaining work is governed by [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) and its parked backlog.

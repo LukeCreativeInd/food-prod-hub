@@ -1,5 +1,7 @@
 # Phase 2 Module Integration Map
 
+> **Task 201 historical snapshot.** This document records the system state and proposed numbering at Task 201. QA and Logistics are no longer placeholder-only: Tasks 214-217 delivered the first QA foundations and Tasks 219-222 delivered the Logistics scaffold, dispatch/manifest workflow and carrier configuration. Use [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) for current numbering and sequencing. Reports and CRM remain in the active roadmap at Tasks 242-246 and 236-241 respectively.
+
 Task 201 maps how QA, Logistics, Reports and CRM should connect into the current Phase 1 EveryBatch / Clean Eats Hub operational foundation.
 
 This is documentation only. It does not create UI, migrations, schema, RLS, permissions, auth/domain routing, DNS/Vercel/Supabase setting changes, business logic, packages or sample data.
@@ -442,7 +444,7 @@ Current QA/Logistics/Reports/CRM placeholder copy is not misleading enough to ch
 
 ## Recommended Task Order Notes
 
-The current 201-250 roadmap order still looks sensible:
+At Task 201, the then-current 201-250 roadmap order looked sensible:
 
 - Keep 202 UOM Conversion Foundation Plan next because UOM rules affect receiving, costing, inventory, production and reports.
 - Keep stock-on-hand planning/UI before production stock availability and release.
@@ -452,7 +454,7 @@ The current 201-250 roadmap order still looks sensible:
 - Keep Reports planning after more operational records exist, but define reporting dimensions early.
 - Keep CRM later unless Clean Eats identifies a specific wholesale/customer operational need.
 
-No task order change is required from this map.
+No task order change was required from this map at Task 201. Task 223 now supersedes that future sequence with the approved Tasks 223-276 roadmap.
 
 ## Admin + Support Impact
 

@@ -1,6 +1,8 @@
-# Tasks 201-250 Next Roadmap
+# Tasks 201-250 Historical Roadmap
 
-This roadmap follows the Phase 1 Operational Review Pack. Every task from 201 onward must document Admin impact, Support impact, cross-module impact, permission/RLS impact and dummy/demo cleanup impact.
+> **Superseded after Task 222.** This file preserves the roadmap as it was originally planned. It is not the current source for task names, numbering or order after Task 222. Task 222 was completed as **Carrier Configuration Foundation**, not Reports Module Deep Planning. Use [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) for the active approved sequence.
+
+This roadmap followed the Phase 1 Operational Review Pack. Its table is retained unchanged as historical planning evidence. Current execution requirements are defined in [Codex Task Standards](./CODEX_TASK_STANDARDS.md).
 
 | Task | Purpose | Why It Matters | Affected Modules | Admin Impact | Support Impact | Cross-Module Notes | Expected Output | Type | Risk |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -56,6 +58,8 @@ This roadmap follows the Phase 1 Operational Review Pack. Every task from 201 on
 | 250 Phase 2 Build Roadmap Reset | Review 201-249 and plan 251-300. | Keeps roadmap honest. | All modules | Reassess | Reassess | Reassess | Roadmap doc | Docs | Low |
 
 ## Roadmap Rules
+
+The rules below describe the planning standard at the time this historical roadmap was written. They do not reactivate its superseded post-Task-222 sequence.
 
 - Do not skip Admin + Support impact notes.
 - Do not skip cross-module notes.

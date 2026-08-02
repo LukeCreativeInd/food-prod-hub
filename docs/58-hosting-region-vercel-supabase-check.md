@@ -119,7 +119,7 @@ Checklist:
 - Check advisor warnings/errors.
 - Confirm RLS errors are clear.
 - Confirm function `search_path` warnings are clear.
-- Note remaining known warnings. One remaining warning may be Leaked Password Protection Disabled.
+- Note remaining known warnings. Verify Leaked Password Protection live before reporting its current state; older reviews recorded a disabled warning, while later project context records it as enabled after upgrade.
 
 Fields to fill:
 

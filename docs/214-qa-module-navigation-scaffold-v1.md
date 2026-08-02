@@ -1,5 +1,7 @@
 # QA Module Navigation + Scaffold v1
 
+> **Task 214 implementation snapshot.** Tasks 215-217 subsequently delivered QA schema, Receiving Checks and hold/release foundations. Task 221 removed the duplicate QA Dashboard submenu entry. Current task order is maintained in [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md).
+
 Task 214 replaces the generic QA placeholder structure with the approved QA workspace scaffold from task 213.
 
 This task is navigation and scaffold only. It does not create QA schema, database records, migrations, permissions, RLS policies, feature flags, server actions, check forms, template forms, Receiving Check actions, review actions, hold actions, release actions, Goods Inwards changes, Inventory changes, Stock On Hand changes, Inventory Traceability changes, Production changes, Support UI changes or Platform Admin changes.
@@ -106,14 +108,14 @@ Task 214 has no Platform Admin route change, no Platform Admin support inbox cha
 
 Future Platform Admin QA readiness diagnostics remain planned only.
 
-## Next Tasks
+## Historical Next Tasks
 
-The approved sequence remains:
+At the end of Task 214, the approved sequence was:
 
 - 216 — Receiving QA Checks UI v1
 - 217 — QA Hold/Release Inventory Link
 
-Task 215 has now drafted the QA schema foundation in `supabase/migrations/039_qa_schema_foundation.sql`. The scaffold remains non-operational until task 216 adds receiving QA UI/actions, and inventory availability remains unchanged until task 217.
+Tasks 215-217 were subsequently completed, and migrations 039 and 041 are applied. Current task order is maintained in [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md).
 
 Stock Adjustment/Reversal implementation remains parked.
 

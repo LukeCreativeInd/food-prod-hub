@@ -1,5 +1,7 @@
 # EveryBatch Domain Setup and Environment Plan
 
+> **Historical setup plan.** Domain implementation progressed after this document was written. Current domain truth is maintained in `README.md`, `docs/CODEX_PROJECT_CONTEXT.md` and [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). The future task numbering in this file is not active.
+
 ## Purpose
 
 Task 122 documents the recommended EveryBatch domain setup and environment plan before any Vercel, DNS, Supabase Auth, environment variable, routing or middleware changes are made.

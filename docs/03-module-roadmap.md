@@ -1,5 +1,7 @@
 # Module Roadmap
 
+This is a conceptual module maturity map, not the active numbered task sequence. Use [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) for approved task order and [Codex Task Standards](./CODEX_TASK_STANDARDS.md) for execution rules.
+
 The platform should use a central module registry as the source list for available modules. Each organisation/tenant should eventually enable or disable modules through configuration instead of client-specific code forks.
 
 ## Phase 0 — Platform foundation

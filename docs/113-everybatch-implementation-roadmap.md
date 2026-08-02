@@ -1,5 +1,7 @@
 # EveryBatch Implementation Roadmap
 
+> **Historical brand/domain implementation plan.** The work described here informed earlier tasks and remains useful context, but it is not the active numbered roadmap. Use [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) for current task order.
+
 ## Planning Status
 
 This roadmap is documentation only.
