@@ -7,7 +7,7 @@ export default function CarrierExportsPage() {
       statusLabel="Not connected"
       summary="Carrier Exports will later track reviewed handoffs to generic carrier files and provider-specific destinations such as Detrack."
       emptyTitle="No carrier export records exist yet"
-      emptyDescription="Task 219 does not connect Detrack, create carrier files, show export history or display provider connection status."
+      emptyDescription="The first dispatch and manifest workflow does not connect Detrack, create carrier files, show export history or display provider connection status."
       readiness={[
         {
           label: "Carrier configuration",

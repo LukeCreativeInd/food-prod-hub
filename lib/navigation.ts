@@ -234,13 +234,6 @@ export const navigationGroups: NavigationGroup[] = [
     iconKey: "qa",
     items: [
       {
-        label: "QA Dashboard",
-        href: "/qa",
-        exact: true,
-        requiredPermission: "qa.view",
-        requiredModuleKey: "qa",
-      },
-      {
         label: "Receiving Checks",
         href: "/qa/receiving",
         requiredPermission: "qa.view",
@@ -264,24 +257,6 @@ export const navigationGroups: NavigationGroup[] = [
         requiredPermission: "qa.view",
         requiredModuleKey: "qa",
       },
-      {
-        label: "Non-Conformance",
-        href: "/qa/non-conformance",
-        requiredPermission: "qa.view",
-        requiredModuleKey: "qa",
-      },
-      {
-        label: "Corrective Actions",
-        href: "/qa/corrective-actions",
-        requiredPermission: "qa.view",
-        requiredModuleKey: "qa",
-      },
-      {
-        label: "QA Templates",
-        href: "/qa/templates",
-        requiredPermission: "qa.view",
-        requiredModuleKey: "qa",
-      },
     ],
   },
   {
@@ -291,13 +266,6 @@ export const navigationGroups: NavigationGroup[] = [
     requiredModuleKey: "logistics",
     iconKey: "logistics",
     items: [
-      {
-        label: "Logistics Dashboard",
-        href: "/logistics",
-        exact: true,
-        requiredPermission: "logistics.view",
-        requiredModuleKey: "logistics",
-      },
       {
         label: "Dispatch Runs",
         href: "/logistics/dispatch-runs",

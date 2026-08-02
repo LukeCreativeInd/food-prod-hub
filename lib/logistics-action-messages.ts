@@ -1,0 +1,72 @@
+export function getDispatchActionMessage(status: string | undefined) {
+  if (!status) return null;
+  const messages: Record<string, string> = {
+    created: "Draft dispatch run created with an authoritative run number.",
+    run_updated: "Dispatch run details saved.",
+    delivery_added: "Delivery added to the draft dispatch run.",
+    delivery_updated: "Delivery details saved.",
+    delivery_archived: "Delivery removed from the draft dispatch run.",
+    line_added: "Item line added to the delivery.",
+    line_updated: "Item line saved.",
+    line_archived: "Item line removed from the draft delivery.",
+    validation_passed: "Dispatch validation passed.",
+    validation_failed: "Dispatch validation found required fields or item lines that need attention.",
+    ready: "Dispatch run marked ready.",
+    already_ready: "Dispatch run was already ready.",
+    dispatched: "Dispatch run marked dispatched.",
+    already_dispatched: "Dispatch run was already dispatched.",
+    cancelled: "Dispatch run cancelled.",
+    already_cancelled: "Dispatch run was already cancelled.",
+    generated_manifest_exists: "A generated manifest already exists. Regeneration and cancellation require a future reviewed correction workflow.",
+    generated_manifest_required: "Generate an active manifest before marking the run dispatched.",
+    dispatch_run_not_ready: "Mark the dispatch run ready before creating or generating its manifest.",
+    cancellation_reason_required: "Enter a cancellation reason.",
+    invalid_transition: "That dispatch lifecycle transition is not allowed.",
+    invalid_dispatch_type: "Choose a valid dispatch type.",
+    invalid_dates: "Delivery date must be on or after dispatch date.",
+    invalid_delivery_date: "Enter a valid delivery date.",
+    invalid_carrier_service: "The selected service must belong to the selected active carrier.",
+    invalid_carrier: "The selected carrier is not available.",
+    missing_delivery_fields: "Complete the required recipient and address fields.",
+    invalid_carton_count: "Carton count must be a whole number of zero or more.",
+    invalid_weight: "Weight cannot be negative.",
+    invalid_sequence: "Sequence number must be a positive whole number.",
+    invalid_temperature_class: "Choose a valid temperature class.",
+    invalid_email: "Enter a valid email address or leave it blank.",
+    invalid_source_type: "Source type must use lowercase letters, numbers, underscores or hyphens.",
+    missing_item_name: "Enter the item name snapshot.",
+    invalid_quantity: "Enter a positive item quantity.",
+    invalid_unit: "Enter the dispatch unit.",
+    invalid_line_number: "Line number must be a positive whole number.",
+    duplicate_line_number: "That line number is already used by this delivery.",
+    invalid_internal_item: "The selected internal item is not available in this organisation.",
+    dispatch_run_locked: "This dispatch run is read-only because of its status or generated manifest.",
+    dispatch_run_not_found: "The dispatch run could not be found.",
+    dispatch_delivery_not_found: "The editable delivery could not be found.",
+    dispatch_line_not_found: "The editable item line could not be found.",
+    permission_denied: "You do not have permission to perform that Logistics action.",
+    organisation_not_found: "The current tenant workspace could not be resolved.",
+    number_sequence_exhausted: "The daily authoritative number sequence is full.",
+    error: "The Logistics action could not be completed.",
+  };
+  return messages[status] ?? "The Logistics action finished.";
+}
+
+export function getManifestActionMessage(status: string | undefined) {
+  if (!status) return null;
+  const messages: Record<string, string> = {
+    draft_created: "Manifest draft created for this dispatch run.",
+    existing_draft: "The existing manifest draft was opened.",
+    generated: "Manifest generated atomically from immutable delivery and item snapshots.",
+    already_generated: "This manifest was already generated; no duplicate snapshots were created.",
+    validation_failed: "Resolve the dispatch validation issues before generating this manifest.",
+    manifest_not_found: "The manifest could not be found.",
+    manifest_not_draft: "Only draft manifests can be generated.",
+    dispatch_run_not_ready: "Mark the linked dispatch run ready before generating this manifest.",
+    dispatch_run_locked: "The source dispatch run is not available for generation.",
+    snapshot_state_conflict: "This draft has an unexpected snapshot state and was not generated.",
+    permission_denied: "You do not have permission to perform that manifest action.",
+    error: "The manifest action could not be completed.",
+  };
+  return messages[status] ?? "The manifest action finished.";
+}

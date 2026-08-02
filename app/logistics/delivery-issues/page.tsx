@@ -7,7 +7,7 @@ export default function DeliveryIssuesPage() {
       statusLabel="Planned"
       summary="Delivery Issues will later capture outbound exceptions such as failed delivery, damage, missing items, temperature concerns and carrier issues."
       emptyTitle="No delivery issue records exist yet"
-      emptyDescription="Task 219 does not create delivery issue schema, issue counts, fake incidents or issue creation workflows."
+      emptyDescription="The first dispatch and manifest workflow does not create delivery issue schema, issue counts, fake incidents or issue creation workflows."
       readiness={[
         {
           label: "Issue schema",

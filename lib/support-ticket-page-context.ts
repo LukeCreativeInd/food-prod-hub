@@ -279,6 +279,34 @@ function pathMatchesPrefix(pathname: string, prefix: string) {
   return pathname === prefix || pathname.startsWith(`${prefix}/`);
 }
 
+function getLogisticsPageContext(pathname: string): ModuleContext | null {
+  if (pathname === "/logistics/dispatch-runs/new") {
+    return {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - New Dispatch Run",
+      category: "other",
+    };
+  }
+
+  if (/^\/logistics\/dispatch-runs\/[^/]+(?:\/.*)?$/.test(pathname)) {
+    return {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - Dispatch Run Detail",
+      category: "other",
+    };
+  }
+
+  if (/^\/logistics\/manifests\/[^/]+$/.test(pathname)) {
+    return {
+      moduleKey: "logistics",
+      moduleLabel: "Logistics - Manifest Detail",
+      category: "other",
+    };
+  }
+
+  return null;
+}
+
 function normalisePathname(pathname: string) {
   const normalised = pathname.startsWith("/") ? pathname : `/${pathname}`;
 
@@ -341,7 +369,8 @@ export function getSupportTicketContextFromPath(
   const relatedPath = normaliseSupportRelatedPath(pathname);
   const pathOnly = relatedPath?.split("?")[0] ?? null;
   const routeContext = pathOnly
-    ? routeContexts.find(({ prefixes }) =>
+    ? getLogisticsPageContext(pathOnly) ??
+      routeContexts.find(({ prefixes }) =>
         prefixes.some((prefix) => pathMatchesPrefix(pathOnly, prefix)),
       )?.context
     : null;

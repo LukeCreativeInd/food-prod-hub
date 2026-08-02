@@ -121,6 +121,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/bom-traceability": { title: "Inventory Traceability", context: "Inventory" },
   "/logistics": { title: "Logistics", context: "Operations" },
   "/logistics/dispatch-runs": { title: "Dispatch Runs", context: "Logistics" },
+  "/logistics/dispatch-runs/new": { title: "New Dispatch Run", context: "Logistics" },
   "/logistics/manifests": { title: "Manifests", context: "Logistics" },
   "/logistics/carrier-exports": { title: "Carrier Exports", context: "Logistics" },
   "/logistics/delivery-issues": { title: "Delivery Issues", context: "Logistics" },
@@ -134,6 +135,22 @@ const dynamicPageTitles: Array<{
   pattern: RegExp;
   meta: PageTitleMeta;
 }> = [
+  {
+    pattern: /^\/logistics\/dispatch-runs\/[^/]+\/deliveries\/[^/]+\/lines\/[^/]+\/edit$/,
+    meta: { title: "Edit Dispatch Item", context: "Logistics" },
+  },
+  {
+    pattern: /^\/logistics\/dispatch-runs\/[^/]+\/deliveries\/[^/]+\/edit$/,
+    meta: { title: "Edit Delivery", context: "Logistics" },
+  },
+  {
+    pattern: /^\/logistics\/dispatch-runs\/[^/]+$/,
+    meta: { title: "Dispatch Run Detail", context: "Logistics" },
+  },
+  {
+    pattern: /^\/logistics\/manifests\/[^/]+$/,
+    meta: { title: "Manifest Detail", context: "Logistics" },
+  },
   {
     pattern: /^\/suppliers\/[^/]+$/,
     meta: { title: "Supplier Detail", context: "Products" },
