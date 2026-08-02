@@ -71,7 +71,7 @@ The final model is unresolved. Every future operational table must answer whethe
 
 Components are first-class manufactured items. Formulas/BOMs describe what goes into an output, quantities and output unit. Versioning protects approved and historical meaning. Contextual UOM conversions must be explicit; unsafe unit assumptions block calculation.
 
-The Recipes workspace is unresolved. A formula/BOM is not a production method/route, a human-facing work instruction/recipe card, or a production run/report. The workspace may become Methods & Instructions, Recipe Cards, move to Production, or disappear into item pages. Task 223A does not choose.
+The Recipes workspace is unresolved. A formula/BOM is not a production method/route, a human-facing work instruction/recipe card, or a production run/report. The workspace may become Methods & Instructions, Recipe Cards, move to Production, or disappear into item pages. Task 223B recommends a dedicated ownership decision before execution work but does not choose.
 
 ## 9. Phase 1 Production Replacement
 
@@ -84,6 +84,8 @@ The target chain is:
 External order demand -> delivery/production date interpretation -> finished-product demand -> formula explosion -> yield-adjusted requirements -> available stock by facility/location/lot/expiry -> shortage/staging -> batches -> area tasks -> QA -> room execution -> actual consumption -> finished output -> yield/waste/variance -> dispatch readiness.
 
 The global PDF should become a live Production Admin/control view, area-specific task views, optional room packs and an optional full printable fallback. Legacy tools retire only after logic parity, real production-day comparison, resolved differences, staff usability validation and an approved decommission decision.
+
+Task 223B confirms that current EveryBatch plans, batches, formula, Inventory, Receiving QA and Logistics foundations are useful but do not yet replace the daily workflow. The external tool source, paired CSVs, configuration CSV and generated PDF were unavailable, so exact calculation/instruction parity remains unassessed. The evidence pack, gap matrix and proposed roadmap make that boundary explicit.
 
 ## 10. Inventory-Aware Production
 
@@ -139,7 +141,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 223B is the next approved task; Task 224 onward is paused until that reassessment is approved.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 223B is the latest completed task after its changeset is committed. Task 224 is recommended but requires explicit approval; Review Gate 0 follows it, and all later proposed sequencing remains provisional.
 
 ## 19. Current Risks And Read Next
 

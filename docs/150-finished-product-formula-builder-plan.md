@@ -1,5 +1,7 @@
 # Finished Product Formula Builder Plan
 
+> **Task 223B ownership note:** A formula/BOM defines composition and quantity. Production methods/routes, human-facing work instructions/recipe cards and dated production runs/reports are separate concerns. The current Recipes workspace remains unresolved; no rename, merge or ownership change is approved by Task 223B.
+
 Task 150 plans Finished Product Formula Builder v1 before implementation.
 
 This is planning/static-helper work only. It does not add finished product formula write actions, UI forms, imports, parsers, migrations, sell price management, margin calculations, production tasks, iPad workflows, QA checks, Platform Admin changes, tenant provisioning changes or Supplier Invoice Intake changes.

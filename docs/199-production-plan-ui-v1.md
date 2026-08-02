@@ -1,6 +1,6 @@
 # Production Plan UI v1
 
-> **Current direction after Task 223A:** This is an operational planning foundation, not a replacement for the current Clean Eats production tools. Task 223B must define source parity, live demand, area execution and decommission criteria before Task 224 onward resumes.
+> **Task 223B current-state note:** The UI is a real planning foundation, not the daily Clean Eats production replacement. It has no Shopify/order intake, demand freeze/delta, formula-expansion engine, inventory allocation, floor-task execution, production consumption/output or report parity. Proposed extensions remain paused pending Luke's roadmap approval.
 
 Task 199 builds the first real Production Plan UI using the schema foundation from task 198 and migration 036.
 

@@ -2,7 +2,7 @@
 
 ## Durable Status
 
-Task 223A is the latest completed task. Task 223B is the next approved task, and Tasks 224-276 remain paused pending its approved roadmap reassessment. Task 223B must backfill Task 223A's exact commit hash after that commit exists.
+Task 223A is committed as `a8c2761` (`Add EveryBatch living knowledge system`). Task 223B is the latest completed task after its changeset is committed. Task 224 is recommended but not approved automatically; the previous Tasks 224-276 remain paused.
 
 ## Why This Task Was Inserted
 
@@ -84,9 +84,9 @@ The following critical clarifications are also current:
 
 ## Roadmap Implication
 
-Task 223A was inserted after 223. The next approved task is **223B - Phase 1 Production Replacement and Roadmap Reassessment**, a documentation/planning/source-system review. It will examine current EveryBatch Production, Shopify/Zapiet/CSV tools, report/configuration sources, room responsibilities and Inventory/QA/facility dependencies, then propose replacement scope, parity/decommission gates and a revised sequence.
+Task 223A was inserted after 223. **223B - Phase 1 Production Replacement and Roadmap Reassessment** completed the documentation/planning/source-system review. Its proposed sequence remains separate from the active roadmap; Review Gate 0 follows Task 224 only if Luke first approves that task.
 
-Tasks 224-276 remain preserved and unrenumbered but are paused pending Luke's approval of Task 223B output. Critical candidates are recorded in the roadmap Future/Pending register rather than pulled into implementation.
+The previous Tasks 224-276 remain preserved, unrenumbered and paused until an official roadmap update is approved. Critical candidates are recorded in the roadmap Future/Pending register rather than pulled into implementation.
 
 ## Permanent Update Rules
 

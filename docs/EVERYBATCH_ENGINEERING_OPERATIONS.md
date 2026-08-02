@@ -8,7 +8,9 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Latest completed task: 223A; next approved: 223B; Tasks 224-276 paused pending reassessment
+- Latest completed task after the current changeset is committed: 223B; exact hash to be backfilled by the next approved task
+- Task 224 is recommended but requires explicit approval; Review Gate 0 keeps proposed Tasks 225-257 provisional
+- Previous Tasks 224-276 remain paused; no migration is pending
 
 ## Branch And Task Workflow
 
@@ -110,7 +112,9 @@ Known deferred performance backlog: AppShell/navigation context, dashboard query
 
 ## Current Migrations And Warnings
 
-Repository/documentation evidence records migrations `001`-`044` applied, including QA `039`, audit hardening `040`, QA hold/release `041`, Logistics schema `042`, dispatch workflow `043` and Logistics trigger fix `044`. Task 223A adds no migration.
+Repository/documentation evidence records migrations `001`-`044` applied, including QA `039`, audit hardening `040`, QA hold/release `041`, Logistics schema `042`, dispatch workflow `043` and Logistics trigger fix `044`. Tasks 223A and 223B add no migration.
+
+Production-replacement architecture must keep external source evidence, normalised intake, frozen demand, formula calculations, planning intentions, physical Inventory movements, QA evidence and Logistics records in their owning domains. Golden fixtures from representative legacy input/output pairs are required before calculation parity is claimed. Missing legacy source/configuration evidence must be reported, not reverse-engineered from narrative alone.
 
 Supabase Advisor warnings include reviewed intentional `SECURITY DEFINER` exceptions and require contextual review, not automatic removal. Earlier context says Leaked Password Protection was enabled after upgrade; verify the live setting later before making a present-tense claim.
 

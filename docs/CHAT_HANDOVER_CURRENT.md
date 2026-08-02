@@ -14,10 +14,14 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Tenant 1 and proving ground: **Clean Eats Hub**
 - Repository: `/Users/cealukemichalowsky/Development/food-prod-hub`
 - Required working branch: `main`
-- Latest completed task: **223A - EveryBatch Master Handover and Living Knowledge System**
-- Task 223A exact commit hash: to be backfilled by Task 223B through the post-commit context-delta workflow
-- Next approved task: **223B - Phase 1 Production Replacement and Roadmap Reassessment**
-- Tasks 224-276: preserved without renumbering, but paused pending the approved Task 223B output
+- Latest completed task after the current changeset is committed: **223B - Phase 1 Production Replacement and Roadmap Reassessment**
+- Task 223A exact commit hash: `a8c2761`
+- Task 223B exact commit hash: to be backfilled by the next approved task through the post-commit context-delta workflow
+- Recommended next task: **224 - Production Replacement Evidence Collection And Legacy Logic Audit**, requiring Luke's explicit approval before its prompt is issued
+- Review Gate 0: mandatory Luke/architect review after Task 224 before later proposed tasks activate
+- Proposed Tasks 225-257: provisional and subject to Task 224 evidence
+- Previous Tasks 224-276: preserved without renumbering and paused until an official roadmap update is approved
+- No migration is pending
 
 ## Database And Security
 
@@ -40,7 +44,7 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 
 ## Current Risks And Backlog
 
-- Task 223B must establish production replacement scope, source-system parity and a revised sequence before Task 224 starts.
+- Task 223B establishes production replacement scope, evidence requirements, decommission gates, a conditional legacy-data transition workstream and a provisional sequence. External source/configuration/CSV/PDF evidence was unavailable, so parity has not been assessed.
 - Facility/site architecture is required before operational tables become multi-facility; do not add speculative `facility_id` fields ad hoc.
 - Shopify/order demand must remain provider-agnostic even though Clean Eats and its Zapiet date tag are the first implementation.
 - Recipes may mean formula, production method, work instruction or run/report; the workspace remains unresolved.
@@ -58,7 +62,7 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 7. `MODULE_SOURCE_OF_TRUTH_MATRIX.md`
 8. `DECISION_LOG.md`
 9. `TASK_INDEX.md`
-10. The current task document
+10. The current Task 223B document and production replacement package
 11. `history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md` only for deeper historical rationale
 
 ## Working Model

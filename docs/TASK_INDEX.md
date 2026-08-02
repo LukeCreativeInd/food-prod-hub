@@ -2,7 +2,7 @@
 
 ## Authority And Method
 
-This is a navigation index, not a replacement for task documents. Titles/status are based on repository documents and Git history. Task 223A is the latest completed task; Task 223B is next approved. The original architect dossier is used only for reconstructed historical work packages and direct rationale strongest through Task 212.
+This is a navigation index, not a replacement for task documents. Titles/status are based on repository documents and Git history. Task 223B is the latest completed task after the current changeset is committed; its exact hash must be backfilled by the next approved task. The original architect dossier is used only for reconstructed historical work packages and direct rationale strongest through Task 212.
 
 ## Historical Work Packages
 
@@ -48,9 +48,11 @@ Before reliable numbered-task evidence, work evolved through Clean Eats costing/
 | 221 | Dispatch Manifest UI v1 | Committed `6b35b80` | Migration 043 | Controlled dispatch/manifest RPC workflow and UI; applied/browser validated. Follow-up UI/action feedback committed `613293b`. |
 | 222 | Carrier Configuration Foundation | Committed `acf302f` | Migration 044 | Real carrier/service configuration and archival; trigger defect fixed/applied/runtime validated. |
 | 223 | Roadmap and Project Context Realignment | Committed `eb99f2d` | None | Active roadmap, standards and corrected current QA/Logistics context. |
-| 223A | EveryBatch Master Handover and Living Knowledge System | **Complete.** Suggested commit title: `Add EveryBatch living knowledge system`. Exact commit hash: **To be backfilled by Task 223B through the post-commit context-delta workflow.** | None | Preserves historical dossier; creates living handbook, operations, task/decision/handover and truth matrices. |
-| 223B | Phase 1 Production Replacement and Roadmap Reassessment | **Next approved; not started** | None expected | Planning/audit/source-system review only; must propose revised sequence and decommission criteria. |
-| 224-276 | Existing revised roadmap sequence | **Paused pending 223B** | None by this task | Direction preserved without renumbering; not approved to start until reassessment. |
+| 223A | EveryBatch Master Handover and Living Knowledge System | Committed `a8c2761` (`Add EveryBatch living knowledge system`) | None | Preserves historical dossier; creates living handbook, operations, task/decision/handover and truth matrices. |
+| 223B | Phase 1 Production Replacement and Roadmap Reassessment | **Complete.** Suggested commit title: `Plan Phase 1 production replacement roadmap`. Exact commit hash: **To be backfilled by the next approved task through the post-commit context-delta workflow.** | None | Defines the replacement operating model, evidence request, gap/tool inventories, decommission gates, Review Gate 0 and an unapproved provisional sequence. |
+| 224 | Production Replacement Evidence Collection And Legacy Logic Audit | **Recommended next; not approved automatically** | None expected | Requires Luke's explicit approval; Review Gate 0 follows it. |
+| 225-257 proposed | Provisional production replacement sequence | **Not active** | Determined per reviewed task | Subject to Task 224 evidence and Luke's approval. |
+| Previous 224-276 | Existing paused roadmap sequence | **Preserved and paused** | None by Task 223B | No official renumbering or activation occurred. |
 
 ## Numbered Document Register
 
@@ -282,6 +284,8 @@ This register includes every numbered task document currently evidenced in the r
 | 221 | Dispatch Manifest UI v1 | Committed | [`221-dispatch-manifest-ui-v1.md`](./221-dispatch-manifest-ui-v1.md) | Task-specific evidence; see era/recent summary for current relevance. |
 | 222 | Carrier Configuration Foundation | Committed | [`222-carrier-configuration-foundation.md`](./222-carrier-configuration-foundation.md) | Task-specific evidence; see era/recent summary for current relevance. |
 | 223 | Task 223 - Roadmap And Project Context Realignment | Committed | [`223-roadmap-project-context-realignment.md`](./223-roadmap-project-context-realignment.md) | Task-specific evidence; see era/recent summary for current relevance. |
+| 223A | EveryBatch Master Handover And Living Knowledge System | Committed `a8c2761` | [`223a-everybatch-master-handover-living-knowledge-system.md`](./223a-everybatch-master-handover-living-knowledge-system.md) | Established the permanent living knowledge system and historical evidence boundary. |
+| 223B | Phase 1 Production Replacement And Roadmap Reassessment | Complete; suggested commit `Plan Phase 1 production replacement roadmap`; exact hash to be backfilled by the next approved task | [`223b-phase-1-production-replacement-roadmap-reassessment.md`](./223b-phase-1-production-replacement-roadmap-reassessment.md) | Defines the production replacement operating model, evidence gaps, Review Gate 0 and an unapproved provisional post-223B sequence. |
 
 ## Update Rule
 

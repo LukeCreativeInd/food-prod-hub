@@ -1,6 +1,6 @@
 # Production Batch Planning Data Model
 
-> **Current direction after Task 223A:** This foundation remains valid, but the next Production sequence is paused for Task 223B. Future demand, yield-adjusted requirements, lot allocation, transfer/staging, confirmed issue/consumption and output must remain distinct. Planning must never be treated as physical stock movement.
+> **Task 223B current-state note:** This foundation provides areas, plans, lines, batches and planned input fields. It does not ingest external demand, expand frozen demand into requirements, allocate/transfer/consume stock, create production output, generate area tasks or replace the current Production Report. Future demand, yield-adjusted requirements, allocation, transfer/staging, confirmed issue/consumption and output must remain distinct. Planning must never be treated as physical stock movement, and the proposed extension sequence remains unapproved.
 
 Task 198 defines and drafts the database/schema foundation for production batch planning.
 

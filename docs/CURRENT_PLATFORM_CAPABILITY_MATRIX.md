@@ -10,15 +10,15 @@
 | Inventory / Goods Inwards | `/goods-inwards` | Browser validated operational foundation | Receipts/lines; create, edit, QA-linked review and transaction-safe posting | No PO matching; production issue/output future |
 | Inventory / Stock On Hand | `/stock-on-hand` | Browser validated read foundation | Derived movements and narrow QA hold availability | No adjustment workflow yet; scaling backlog |
 | Inventory / Traceability | `/inventory-traceability` | Browser validated read foundation | Receipt, lot, movement and source links | First-load performance and recall-grade forward trace future |
-| Inventory / Batch Receiving | `/batch-receiving` | Navigation/scaffold | Honest preview | Ownership/workflow review required |
+| Inventory / Batch Receiving | `/batch-receiving` | Navigation/scaffold | Static preview; Goods Inwards is the real receipt source | Ownership/rename or merge review required; must not duplicate Goods Inwards |
 | Inventory / Stock Locations | `/stock-locations` | Operational foundation | `inventory_locations`; view/create/edit | Future facility scope |
 | Inventory / Stock Movements | `/stock-movements` | Read foundation | Append-oriented movement ledger | Adjust/reverse plan exists; actions future |
-| Inventory / Purchasing | `/purchasing` | Navigation/scaffold | Honest preview | Purchasing architecture and demand dependencies |
+| Inventory / Purchasing | `/purchasing` | Navigation/scaffold | Static preview only | Purchasing architecture and demand dependencies; not required merely to reproduce the current production report |
 | Products / Suppliers | `/suppliers` | Operational foundation | Supplier master/catalogue; view/create/edit/archive | Staff validation ongoing |
 | Products / Ingredients | `/ingredients` | Operational foundation | Ingredient internal items; view/create/edit | UOM/price/formula data quality affects downstream |
 | Products / Packaging | `/packaging` | Operational foundation | Packaging internal items; view/create/edit | Same as Ingredients |
 | Products / Components | `/components` | Operational foundation | Component items and formula builder | Methods/instructions separate; cost readiness blockers shown |
-| Products / Recipes | `/recipes` | Paused/reassessment required | Current workspace is ambiguous | Formula vs method vs instruction vs run decision required |
+| Products / Recipes | `/recipes` | Paused/reassessment required | Honest scaffold; no separate recipe records/source | Formula vs method vs instruction vs run decision required before production execution; Task 223B does not resolve it |
 | Products / Finished Products | `/finished-products` | Operational foundation | Finished items and formula builder | Demand, method and execution links future |
 | Products / UOM Conversions | `/uom-conversions` | Operational foundation | Contextual conversion rules | Broader calculation integration remains incremental |
 | Costings / Ingredient Costs | `/ingredient-costs` | Read foundation | Approved supplier prices and item data | Missing/unsafe UOM blocks calculation |
@@ -28,10 +28,10 @@
 | Costings / Meal Margins | `/meal-margins` | Operational read foundation | Active formulas, costs and active current sell prices | Conservative gross margin preview; no full tax/discount engine |
 | Costings / Price History | `/price-history` | Read foundation | Price observations/approved history | Intake evidence remains separate |
 | Costings / Snapshots | Product detail costing routes | UI/schema foundation | Immutable snapshot create/read | Requires safe units/prices; broader reporting future |
-| Production / Production Report | `/production` | Paused/reassessment required | Real setup summaries, not replacement workflow | Task 223B must map legacy report parity and decommission criteria |
+| Production / Production Report | `/production` | Paused/reassessment required | Real setup/readiness summaries, not demand, report or floor execution | External tool/config/PDF evidence was unavailable in Task 223B; parity remains unassessed |
 | Production / Production Plan | `/production-plan` | Operational foundation | Plans/lines and planned batch creation for ready lines | No live order demand, actual issue/output or floor execution |
-| Production / Areas | `/production-areas` | Schema/readiness foundation | Existing area setup/readiness | UI/workflow is paused for Task 223B reassessment |
-| Production / Tasks | `/production-tasks` | Navigation/scaffold | Preview only | Schema, ownership and area workflow pending |
+| Production / Areas | `/production-areas` | Schema plus scaffold | `production_areas` exists; current page is not the complete live area-management workflow | Future facility scope and real configuration UI required |
+| Production / Tasks | `/production-tasks` | Navigation/scaffold | Static sample/preview only; no task records or actions | Schema, method linkage, area workflow and execution pending |
 | Production / Facility/iPad | `/facility-tasks` (compatibility redirects include `/facility-ipad-view`) | Critical architecture gate | Visual direction only today | Business requirement approved; technology/device model unresolved |
 | Production / Demand intake | None | Critical future architecture | Legacy Shopify/Zapiet/CSV flow external | Provider-agnostic order/demand model required |
 | Production / consumption/output | None | Future/Pending | No physical production movements | Must distinguish plan/allocation/transfer/issue/consume/produce |
@@ -54,7 +54,7 @@
 | Tenant Admin / Organisation Settings | `/organisation-settings` | Operational configuration | Branding/theme/settings | Facility/integration configuration future |
 | Tenant Admin / Users | `/users` | Foundation | Membership/user visibility | Full invite/lifecycle remains controlled future work |
 | Tenant Admin / Modules | `/modules` | Operational configuration/read foundation | Enabled module registry | Platform provisioning remains separate |
-| Tenant Admin / Integrations | `/integrations` | Navigation/scaffold | Honest placeholder | Shopify and integration-health architecture critical |
+| Tenant Admin / Integrations | `/integrations` | Navigation/scaffold | Static integration catalogue/log preview; no live Shopify connection | Installable connector, tenant configuration and sync-health architecture critical |
 | Platform Admin | `/platform` | Read/configuration foundation | Tenant overview, provisioning foundation, module/feature diagnostics, support inbox | SaaS health/billing/lifecycle depth future |
 | Support / Help Centre | `/support` | Static + operational foundation | Authenticated guides, tickets, comments, attachments; Platform inbox | Product guides must track user-facing capabilities |
 
@@ -62,10 +62,10 @@
 
 | Workflow | Current state | Role in target architecture |
 | --- | --- | --- |
-| Shopify + Zapiet delivery-date filtering | Legacy external workflow | First order source; EveryBatch connector must remain provider-agnostic and tag/date interpretation configurable |
-| Shopify CSV export and meal aggregation tool | Legacy external workflow | Replace with controlled demand ingestion, product mapping, aggregation and exceptions |
-| Current Production Report tool | Legacy external workflow used daily | Reproduce validated logic in Production Admin and area workspaces before decommission |
-| Approximately 24-page printed pack, about five copies | Legacy physical workflow | Replace with area-scoped digital work plus optional area/full printable fallback |
-| Streamlit/Python/Vercel supporting tools | Legacy bridges; exact inventory requires Task 223B source review | Compare outputs, preserve necessary configuration and decommission only after parity and staff approval |
+| Shopify + Zapiet delivery-date filtering | Luke-confirmed legacy external workflow; source examples not supplied | First order source; EveryBatch connector must remain provider-agnostic and date interpretation configurable |
+| Shopify CSV export and meal aggregation tool | Luke-confirmed daily handoff; tool source and paired CSVs not supplied | Replace with controlled demand ingestion, mapping, aggregation, freeze/deltas and exceptions |
+| Current Production Report tool | Luke-confirmed daily workflow; source/configuration and exact logic not supplied | Reproduce validated calculation, instruction and area behaviour before decommission |
+| Approximately 24-page printed pack, about five copies | Luke-confirmed physical workflow; sample PDF/room mapping not supplied | Replace with area-scoped digital work plus controlled area/full printable fallback |
+| External/Vercel supporting tools | Exact repository/deployment inventory unavailable | Inspect requested evidence, compare outputs and retire only after parity, staff validation and approval |
 
 No current foundation in this matrix is labelled staff validated unless a later task records that evidence explicitly.

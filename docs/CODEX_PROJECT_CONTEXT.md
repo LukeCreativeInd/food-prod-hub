@@ -2,7 +2,7 @@
 
 ## Current Roadmap And Execution Standard
 
-The active sequence is [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). Task 223A is the latest completed living-knowledge task and Task 223B is the next approved Production replacement/roadmap reassessment. Tasks 224-276 remain preserved but paused pending the approved 223B output. Task 223B must backfill Task 223A's exact commit hash through the post-commit context-delta workflow. The former `docs/201-250-next-roadmap.md` is retained only as a superseded historical plan.
+The active sequence is [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). Task 223B is the latest completed task after the current changeset is committed; its exact hash must be backfilled by the next approved task. Task 224 is recommended but requires Luke's explicit approval. Review Gate 0 follows Task 224, and proposed Tasks 225-257 remain provisional. The previous Tasks 224-276 remain paused until an official roadmap update is approved. The former `docs/201-250-next-roadmap.md` is retained only as a superseded historical plan.
 
 Current onboarding begins with [Current Chat Handover](./CHAT_HANDOVER_CURRENT.md), then the active roadmap, task standards, [Master Handbook](./EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](./EVERYBATCH_ENGINEERING_OPERATIONS.md), current capability/source-of-truth matrices, Decision Log and Task Index. The preserved original architect dossier is historical evidence, not current implementation authority.
 
@@ -1020,4 +1020,14 @@ Task 223A preserves the complete original architect dossier behind a non-canonic
 
 Task 223A records future multi-facility direction without schema; the Phase 1 requirement to replace the Clean Eats Shopify/Zapiet/CSV/Production Report/printed-pack workflow after parity and staff validation; an installable but provider-agnostic Shopify/order-source direction; inventory-aware planning without false physical movement; yield/variance direction; required area-specific production execution with unresolved device technology; and unresolved Recipes/formula/method/instruction ownership.
 
-Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is next and is planning/audit/source-system review only. Tasks 224-276 are not renumbered or deleted, but are paused until Luke approves Task 223B's revised sequence. Migrations `001`-`044` remain documented applied; Task 223A creates no migration or runtime change.
+Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is complete after the current changeset is committed. It documents but does not activate the Production replacement proposal. Task 224 is recommended and requires explicit approval; Review Gate 0 keeps Tasks 225-257 provisional. Previous Tasks 224-276 remain paused. Migrations `001`-`044` remain documented applied, and no migration is pending.
+
+## Task 223B Phase 1 Production Replacement And Roadmap Reassessment
+
+Task 223B verifies that EveryBatch has real formula, UOM, Goods Inwards, Stock On Hand, Production plan/batch, Receiving QA/hold and Logistics foundations, while external demand intake, demand freeze/deltas, legacy calculation/instruction parity, inventory allocation/transfer/staging, production task execution and production consumption/output remain missing. Current Production Report, Production Tasks and Facility/iPad surfaces do not replace the daily legacy workflow.
+
+Luke-confirmed context records the Shopify/Zapiet filter, CSV export, meal aggregation, aggregated CSV, older Production Report configuration, approximately 24-page PDF and about five printed room copies. The external tool repositories, paired CSVs, configuration CSV and PDF were not available in Task 223B, so exact logic and parity are not claimed. `PRODUCTION_REPLACEMENT_EVIDENCE_PACK.md` records the focused evidence request.
+
+The durable success criterion is daily Clean Eats planning and floor execution in EveryBatch without the current production tools/global print-pack dependency, after calculation/instruction parity, real production-day comparison, staff validation, fallback/support and explicit retirement approval. Task 224 is the recommended evidence task, subject to explicit approval. Review Gate 0 prevents the provisional Tasks 225-257 from activating before the evidence is reviewed. No migration or runtime behaviour changes in Task 223B, and no migration is pending.
+
+Task 224 must also determine whether legacy formulas, methods and instructions require a controlled data-transition workstream. Potential import planning, staging/parser, mapping/review and controlled-apply tasks remain unnumbered until evidence establishes source volume, quality, provenance, duplicate/UOM/item handling and whether import is required for parity.
