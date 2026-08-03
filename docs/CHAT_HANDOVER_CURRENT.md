@@ -14,13 +14,15 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Tenant 1 and proving ground: **Clean Eats Hub**
 - Repository: `/Users/cealukemichalowsky/Development/food-prod-hub`
 - Required working branch: `main`
-- Latest completed task after the current changeset is committed: **224 - Production Replacement Evidence Collection And Legacy Logic Audit**
+- Latest completed task after the current changeset is committed: **225 - Review Gate 0 Roadmap Approval And Official Realignment**
 - Task 223A exact commit hash: `a8c2761`
 - Task 223B exact commit hash: `f8f576603d97732d9fa1f29702fec78fccb05036`
-- Task 224 exact commit hash: to be backfilled after Review Gate 0 through the post-commit context-delta workflow
-- Current project stage: **Review Gate 0**; no next implementation task is approved
-- Proposed Tasks 225-257: provisional and subject to Luke/architect review of Task 224 evidence
-- Previous Tasks 224-276: preserved without renumbering and paused until an official roadmap update is approved
+- Task 224 exact commit hash: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
+- Task 225 exact commit hash: to be backfilled by Task 226 through the post-commit context-delta workflow
+- Official roadmap: `docs/225-348-official-roadmap.md`
+- Review Gate 0: **closed through Luke's Task 225 approval**
+- Next approved task: **226 - Facility and Site Architecture Decision**
+- Approved architecture phase: Tasks 226-230; Architecture Gate 1 follows Task 230
 - No migration is pending
 
 ## Database And Security
@@ -45,7 +47,7 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 ## Current Risks And Backlog
 
 - Task 224 inspected both legacy sources and one matched raw-to-cleaned-to-PDF day. The 3,626 raw units reconcile to 3,614 report units after 12 known parent-pack exclusions. The current tools use exact-title filters, merge CEA/CEW attribution, ignore source product/variant IDs and retain no order/line/date provenance. Legacy formulas and setup values remain non-canonical.
-- Review Gate 0 must decide the official sequence, facility/calendar boundaries, commerce mapping, controlled current-data import, Recipes ownership, minimum transfer/staging and physical actuals classification. No later implementation is approved.
+- The official roadmap now sequences facility, commerce/manufacturing relationship, order/demand, Shopify security and calendar architecture before schema. Those architecture decisions remain unresolved until Tasks 226-230 and Architecture Gate 1.
 - Facility/site architecture is required before operational tables become multi-facility; do not add speculative `facility_id` fields ad hoc.
 - Shopify/order demand must remain provider-agnostic even though Clean Eats and its Zapiet date tag are the first implementation.
 - Recipes may mean formula, production method, work instruction or run/report; the workspace remains unresolved.
@@ -55,7 +57,7 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 ## Required Reading Order
 
 1. `CHAT_HANDOVER_CURRENT.md`
-2. `223-276-revised-roadmap.md`
+2. `225-348-official-roadmap.md`
 3. `CODEX_TASK_STANDARDS.md`
 4. `EVERYBATCH_MASTER_HANDBOOK.md`
 5. `EVERYBATCH_ENGINEERING_OPERATIONS.md`
@@ -63,7 +65,7 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 7. `MODULE_SOURCE_OF_TRUTH_MATRIX.md`
 8. `DECISION_LOG.md`
 9. `TASK_INDEX.md`
-10. The Task 224 audit, evidence manifest, rule catalogue and Review Gate 0 recommendation
+10. The Task 225 approval record, then the Task 224 audit/evidence package where production rationale is needed
 11. `history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md` only for deeper historical rationale
 
 ## Working Model

@@ -71,7 +71,7 @@ The final model is unresolved. Every future operational table must answer whethe
 
 Components are first-class manufactured items. Formulas/BOMs describe what goes into an output, quantities and output unit. Versioning protects approved and historical meaning. Contextual UOM conversions must be explicit; unsafe unit assumptions block calculation.
 
-The Recipes workspace is unresolved. A formula/BOM is not a production method/route, a human-facing work instruction/recipe card, or a production run/report. Task 224 confirms the legacy report mixes these categories and presentation concerns, strengthening the need to separate ownership. The workspace may become Methods & Instructions, Recipe Cards, move to Production, or disappear into item pages; Review Gate 0 must decide before execution work.
+The Recipes workspace is unresolved. A formula/BOM is not a production method/route, a human-facing work instruction/recipe card, or a production run/report. Task 224 confirms the legacy report mixes these categories and presentation concerns. The official roadmap resolves ownership in Task 239 before production-data transition and execution work.
 
 ## 9. Phase 1 Production Replacement
 
@@ -141,10 +141,10 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 224 is the latest completed task after the current changeset is committed. Review Gate 0 is current, no implementation task is approved, and all later proposed sequencing remains provisional.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 225 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 226 is next and Architecture Gate 1 follows Task 230.
 
 ## 19. Current Risks And Read Next
 
 Major risks are production parity and demand architecture, single-site assumptions, ambiguous Recipes ownership, incomplete external integration health, staff-validation gaps, performance backlog and future external-tenant hardening.
 
-Read next: `CHAT_HANDOVER_CURRENT.md`, `223-276-revised-roadmap.md`, `CODEX_TASK_STANDARDS.md`, `EVERYBATCH_ENGINEERING_OPERATIONS.md`, both current matrices, `DECISION_LOG.md`, `TASK_INDEX.md`, then the current task document.
+Read next: `CHAT_HANDOVER_CURRENT.md`, `225-348-official-roadmap.md`, `CODEX_TASK_STANDARDS.md`, `EVERYBATCH_ENGINEERING_OPERATIONS.md`, both current matrices, `DECISION_LOG.md`, `TASK_INDEX.md`, then the current task document.

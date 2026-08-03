@@ -8,10 +8,11 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Latest completed task after the current changeset is committed: 224; exact hash to be backfilled after Review Gate 0
+- Latest completed task after the current changeset is committed: 225; exact hash to be backfilled by Task 226
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
-- Review Gate 0 is current; no implementation task is approved and proposed Tasks 225-257 remain provisional
-- Previous Tasks 224-276 remain paused; no migration is pending
+- Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
+- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Task 226 is next
+- Architecture Gate 1 follows Task 230; no migration is pending
 
 ## Branch And Task Workflow
 
@@ -23,6 +24,8 @@ This is the durable technical handover. Repository code/migrations override pros
 6. Run static checks and proportionate browser/data verification.
 7. Reconcile documentation and report living-document impact.
 8. Do not commit, push or perform live actions without exact approval.
+
+Task order and gate authority come from `docs/225-348-official-roadmap.md`. Tasks may be added, split, merged, renamed, delayed or resequenced only through explicit Luke approval and synchronized roadmap/handover/index updates. Recommendations are allowed; silent resequencing is not.
 
 ## Domain And App Modes
 

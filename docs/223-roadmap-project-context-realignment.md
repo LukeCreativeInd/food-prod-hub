@@ -1,5 +1,7 @@
 # Task 223 - Roadmap And Project Context Realignment
 
+> **Historical roadmap-control task:** Task 225 superseded this task's roadmap authority on 4 August 2026. The current authority is [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md); the decisions below describe the Task 223 checkpoint.
+
 ## Why The Roadmap Paused
 
 EveryBatch reached a point where the repository's old post-Task-222 roadmap no longer matched completed work or the approved foundation-first direction. Logistics and Carrier Configuration had advanced beyond placeholder planning, migration 044 had been applied, and Task 222 had become Carrier Configuration Foundation rather than Reports planning. Continuing from the stale sequence would have created conflicting task identities and encouraged work in the wrong order.
@@ -8,7 +10,7 @@ Task 223 is therefore a documentation-only control point. It aligns current proj
 
 ## Task 223A/223B Insertion
 
-Task 223A subsequently inserts the permanent EveryBatch handover/living knowledge system immediately after this task. Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is the next approved documentation/planning/source-system review. Tasks 224-276 remain preserved and unrenumbered but are paused pending Luke's approval of the Task 223B output. This is a deliberate clarification of the sequence, not Production implementation or a final roadmap redesign.
+At this historical checkpoint, Task 223A inserted the permanent EveryBatch handover/living knowledge system and Task 223B was next. Tasks 224-276 were preserved and paused. Task 225 later superseded that sequence with the official Tasks 225-348 roadmap.
 
 ## Approved Build Philosophy
 
@@ -37,7 +39,7 @@ Current domains are:
 
 ## Roadmap Authority
 
-The active roadmap is [223-276 Revised Roadmap](./223-276-revised-roadmap.md). Tasks 201-222 remain completed history, with Task 222 explicitly recorded as Carrier Configuration Foundation. Tasks 223-247 are the active approved working sequence. Tasks 248-276 are directionally approved and may have their boundaries refined through an approved roadmap review, but they must not be renumbered or reordered without Luke's approval.
+At Task 223, [223-276 Revised Roadmap](./223-276-revised-roadmap.md) became active. Task 225 later superseded it with [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). Tasks 201-222 remain completed history, and roadmap changes still require Luke approval.
 
 The former [Tasks 201-250 Roadmap](./201-250-next-roadmap.md) is retained as historical planning context and is no longer an active source of future task numbering.
 
@@ -53,7 +55,7 @@ The initial register preserves:
 - the demo lead and controlled commercial onboarding pipeline;
 - future real screenshot and demo-tenant preparation;
 - Platform Admin review ideas supporting Task 263;
-- the report-first documentation audit supporting Task 261;
+- the then-planned report-first documentation audit, now superseded by official Tasks 325-326;
 - live verification of Leaked Password Protection before stale warning-era documentation is broadly corrected.
 
 Clean Eats preparation remains timing-dependent and unnumbered. Meeting timing must not become a blocking dependency, and Luke decides when preparation work is promoted.
@@ -78,7 +80,7 @@ Tasks 268-272 cover a separate marketing and commercial workstream. The public `
 
 ## Documentation Checkpoint
 
-Task 261 is the formal Documentation and Module Consistency Audit. It is report-first: broad rewriting requires review and approval, with Task 262 reserved for the correction pass. Task 223 only corrects current roadmap and context conflicts caused directly by this realignment.
+At Task 223, Tasks 261-262 were reserved for the report-first Documentation and Module Consistency Audit and correction pass. The Task 225 official roadmap supersedes those numbers with Tasks 325-326 while preserving the report-first rule. Task 223 itself corrected only roadmap and context conflicts caused directly by that historical realignment.
 
 All future tasks follow [Codex Task Standards](./CODEX_TASK_STANDARDS.md). A later task that changes earlier decisions must update every materially affected document instead of leaving contradictory instructions in place.
 

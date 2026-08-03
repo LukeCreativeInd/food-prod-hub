@@ -1,5 +1,7 @@
 # Task 223B - Phase 1 Production Replacement And Roadmap Reassessment
 
+> **Historical planning status:** Task 225 closed Review Gate 0 on 4 August 2026 and superseded this task's provisional sequence with [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). The evidence gaps and rationale below remain historical context.
+
 ## Purpose And Status
 
 Task 223B is a completed and committed planning, architecture, capability-review and roadmap-proposal task. Its exact commit is `f8f576603d97732d9fa1f29702fec78fccb05036` (`Plan Phase 1 production replacement roadmap`). It documents the direction needed for Clean Eats to replace its daily legacy production chain with EveryBatch.
@@ -125,15 +127,15 @@ The current `/recipes` route is an honest scaffold and not a separate operationa
 
 The proposed sequence in `PROPOSED_POST_223B_ROADMAP.md` prioritises evidence, facility and demand architecture, Shopify intake, demand review, method/instruction ownership, expansion/yield requirements, inventory availability and movement planning, real area configuration, QA-informed execution tasks, consumption/output and a parallel-run retirement gate.
 
-Task 224 was subsequently approved and completed. Review Gate 0 is current. Tasks 225-257 remain a provisional sequence subject to Task 224 evidence and Luke/architect approval. The previous Tasks 224-276 remain preserved and paused until an official roadmap update is approved.
+Task 224 was subsequently approved and completed. Task 225 then closed Review Gate 0 and replaced this provisional sequence with the official Tasks 225-348 roadmap.
 
 ## Review Gate 0
 
-Task 224 found missing source/date/order provenance, hidden exact-title and bundle-parent behaviour, non-canonical report constants, contradictory source residue and an additional report-history/weekly-summary surface. Luke and the architect must review its findings before any later proposed task becomes active. Correcting provisional numbering or scope after that evidence is expected and is not roadmap failure.
+Task 224 found missing source/date/order provenance, hidden exact-title and bundle-parent behaviour, non-canonical report constants, contradictory source residue and an additional report-history/weekly-summary surface. Luke and the architect reviewed those findings through Task 225 before activating the official roadmap. Correcting provisional numbering or scope after evidence was expected and was not roadmap failure.
 
 ## Conditional Legacy Production Data Transition
 
-After formula/method/instruction ownership is decided, Task 224 evidence may activate an unnumbered workstream covering an import plan, staging/parser foundation, mapping/validation/review UI and controlled apply/reconciliation. Task 224 must determine record volume, source/configuration quality, manual-entry practicality, Formula Import promotion, Mapping QA reuse, source-row provenance, duplicate/missing-item/UOM/invalid-method handling and whether import is needed before parity testing. No import is implemented or numbered by Task 223B.
+Task 223B proposed an unnumbered workstream after formula/method/instruction ownership covering an import plan, staging/parser foundation, mapping/validation/review UI and controlled apply/reconciliation. Task 224 supplied evidence about record volume, source/configuration quality, manual-entry practicality, Formula Import promotion, Mapping QA reuse, source-row provenance, duplicate/missing-item/UOM/invalid-method handling and the need for review before parity testing. Task 225 then numbered the approved transition as Tasks 238-243. No import was implemented by Tasks 223B-225.
 
 ## Phase 1 Minimum Capability Classification
 
@@ -158,7 +160,7 @@ Planning a move never posts it. Physical movement is posted only after authorise
 
 ## Evidence Required
 
-The collection request is in `PRODUCTION_REPLACEMENT_EVIDENCE_PACK.md`. Missing source evidence blocks parity and implementation detail and keeps Tasks 225-257 provisional, but it does not invalidate the documented architecture direction.
+The collection request is in `PRODUCTION_REPLACEMENT_EVIDENCE_PACK.md`. At the Task 223B checkpoint, missing source evidence kept the proposed sequence provisional. Task 224 supplied the first evidence baseline, and Task 225 later approved the official sequence without claiming complete parity.
 
 ## Behaviour Preserved
 
@@ -166,4 +168,4 @@ No application, route, navigation, auth, middleware, domain, schema, RLS, permis
 
 ## Checks
 
-Task 223B passed its documented checks before commit. Task 224 runs a new full check set for its documentation changes.
+Task 223B and Task 224 passed their documented check sets before their commits.

@@ -26,18 +26,19 @@ Target domain architecture:
 - `admin.everybatchmrp.com` for Platform Admin
 - `support.everybatchmrp.com` for Support and Help Centre
 
-Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the active [Tasks 223-276 revised roadmap](docs/223-276-revised-roadmap.md), [Codex task standards](docs/CODEX_TASK_STANDARDS.md), [Master Handbook](docs/EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](docs/EVERYBATCH_ENGINEERING_OPERATIONS.md), [Capability Matrix](docs/CURRENT_PLATFORM_CAPABILITY_MATRIX.md), [Source-of-Truth Matrix](docs/MODULE_SOURCE_OF_TRUTH_MATRIX.md), [Decision Log](docs/DECISION_LOG.md) and [Task Index](docs/TASK_INDEX.md). The [original architect dossier](docs/history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md) is non-canonical historical evidence only.
+Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the official [Tasks 225-348 roadmap](docs/225-348-official-roadmap.md), [Codex task standards](docs/CODEX_TASK_STANDARDS.md), [Master Handbook](docs/EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](docs/EVERYBATCH_ENGINEERING_OPERATIONS.md), [Capability Matrix](docs/CURRENT_PLATFORM_CAPABILITY_MATRIX.md), [Source-of-Truth Matrix](docs/MODULE_SOURCE_OF_TRUTH_MATRIX.md), [Decision Log](docs/DECISION_LOG.md) and [Task Index](docs/TASK_INDEX.md). The [original architect dossier](docs/history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md) and earlier roadmaps are non-canonical historical evidence only.
 
 ## Current Status
 
-- Latest completed task after the current changeset is committed: Task 224, Production Replacement Evidence Collection and Legacy Logic Audit
+- Latest completed task after the current changeset is committed: Task 225, Review Gate 0 Roadmap Approval and Official Realignment
 - Task 223A commit: `a8c2761`
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
-- Task 224 commit hash: to be backfilled after Review Gate 0 through the post-commit context-delta workflow
-- Review Gate 0 is the current project stage; no next implementation task is approved
-- Proposed Tasks 225-257 remain provisional and subject to the Review Gate 0 decision
-- Previous Tasks 224-276 remain preserved but paused until an official roadmap update is approved
-- Task 224's [evidence audit](docs/224-production-replacement-evidence-collection-legacy-logic-audit.md) and [Review Gate 0 recommendation](docs/REVIEW_GATE_0_FINDINGS_AND_ROADMAP_RECOMMENDATION.md) inform the [proposed post-223B roadmap](docs/PROPOSED_POST_223B_ROADMAP.md), which remains inactive and unapproved
+- Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
+- Task 225 commit hash: to be backfilled by Task 226 through the post-commit context-delta workflow
+- Review Gate 0 is closed; the [Tasks 225-348 roadmap](docs/225-348-official-roadmap.md) is authoritative
+- Next approved task: Task 226, Facility and Site Architecture Decision
+- Tasks 226-230 form the approved architecture phase; Architecture Gate 1 follows Task 230
+- Earlier roadmaps remain preserved as superseded historical evidence
 - The app shell now contains a mix of real operational foundations and explicitly honest future/empty workspaces
 - Design direction is Clean Eats-inspired while platform planning remains reusable
 - Documentation has been added for product direction, architecture, roadmap, development standards, release process, discovery notes, and Codex working rules
@@ -438,7 +439,8 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [UOM Conversion Foundation Plan](docs/202-uom-conversion-foundation-plan.md)
 - [UOM Conversion Schema Foundation](docs/203-uom-conversion-schema-foundation.md)
 - [UOM Conversion UI v1](docs/204-uom-conversion-ui-v1.md)
-- [Tasks 223-276 revised roadmap (active)](docs/223-276-revised-roadmap.md)
+- [Tasks 225-348 official roadmap (active)](docs/225-348-official-roadmap.md)
+- [Tasks 223-276 revised roadmap (historical)](docs/223-276-revised-roadmap.md)
 - [Roadmap and project context realignment](docs/223-roadmap-project-context-realignment.md)
 - [Codex task standards](docs/CODEX_TASK_STANDARDS.md)
 - [Tasks 201-250 historical roadmap (superseded after Task 222)](docs/201-250-next-roadmap.md)
@@ -704,8 +706,8 @@ Carrier Configuration Foundation is documented in [Carrier Configuration Foundat
 - Drafted the Dispatch/Manifest schema foundation migration with tenant-owned carrier, dispatch run, delivery, manifest snapshot and carrier export tables plus granular Logistics permissions and RLS. Direct writes are restricted to draft operational/manifest records and pending exports; snapshot insertion and lifecycle outcomes remain closed until controlled task 221 workflows. No operational Logistics UI, carrier export generation, integrations, stock movements or seed data is included
 - Added the first real Dispatch Manifest workflow with tenant-scoped draft editing, deterministic validation, explicit readiness before manifest creation/generation, authoritative numbering, atomic immutable snapshots and controlled dispatch/cancellation rules. QA and Logistics parent links now own their dashboard destinations without duplicate dashboard submenu entries; carrier exports, delivery issues, orders, Inventory, QA, Production and external integrations remain disconnected
 - Added tenant carrier and service configuration using the existing Logistics schema and granular permissions. Active choices feed carrier-scoped draft dispatch selectors, service archive remains soft and history-safe, and Carrier Exports remains disconnected without credentials, files or provider calls. Applied migration 044 splits the defective shared carrier/service identity trigger into table-appropriate trigger functions without changing RLS, permissions or operational data
-- Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, and corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins. Leaked Password Protection must not be described as disabled without live evidence; its live setting and older warning-era documentation are pending an approved Task 261/security review
+- Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, and corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins. Leaked Password Protection must not be described as disabled without live evidence; its live setting and older warning-era documentation are pending the approved Task 343 External-Tenant Security Review or another explicitly approved live verification
 - Realigned the active roadmap at Task 223, established permanent Codex task standards, and retained the old Tasks 201-250 sequence as clearly superseded historical context
-- Task 223A (`a8c2761`) preserves the original architect dossier as non-canonical history and establishes the permanent living knowledge system. Task 223B (`f8f576603d97732d9fa1f29702fec78fccb05036`) defines the [production replacement plan](docs/PHASE_1_PRODUCTION_REPLACEMENT_PLAN.md) and provisional sequence. Task 224 adds the matched-fixture audit, evidence manifest, legacy-rule catalogue, transition assessment and Review Gate 0 recommendation. Proposed Tasks 225-257 and the former paused roadmap remain inactive until an official decision.
+- Task 223A (`a8c2761`) establishes the living knowledge system. Task 223B (`f8f576603d97732d9fa1f29702fec78fccb05036`) defines the production-replacement direction. Task 224 (`8b8e94a87f6e94fef78c05317f87cad4bb01caea`) adds the matched evidence audit. Task 225 closes Review Gate 0 and establishes the official Tasks 225-348 sequence, with Task 226 next.
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, stock movement reversal behavior, partial QA holds or full NC/CA workflow has been added.

@@ -89,7 +89,7 @@ All current public tables now have RLS enabled. Future public tables must includ
 
 ## Remaining Security/Auth Hardening Items
 
-- Verify the current Supabase Leaked Password Protection setting during Task 261 or an approved security review; do not infer its current state from this historical warning.
+- Verify the current Supabase Leaked Password Protection setting during the approved Task 343 External-Tenant Security Review or another explicitly approved live verification; do not infer its current state from this historical warning.
 - Add password reset flow.
 - Add invite flow.
 - Add audit write path.

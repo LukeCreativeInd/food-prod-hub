@@ -1,5 +1,7 @@
 # Proposed Post-223B Roadmap
 
+> **Historical proposal, superseded by Task 225 on 4 August 2026.** Luke reviewed the Task 224 evidence and approved the final sequence recorded in [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). The proposal below is retained as decision history and is not current task authority.
+
 > **Proposed after Task 224 - awaiting Review Gate 0 approval.** This document does not replace the active roadmap. Task 224 is complete, Tasks 225 onward remain provisional, the former paused roadmap is preserved and no later task has been officially activated or renumbered.
 
 ## Optimisation Goal
@@ -15,7 +17,7 @@ The proposed sequence prioritises truthful source architecture, retirement of th
 ### Review Gate 0 - Mandatory Evidence Review
 
 - Task 224 is complete as an evidence and documentation task.
-- Tasks 225-257 remain provisional and are now subject to the recorded Task 224 findings.
+- Tasks 225-257 were provisional and subject to the recorded Task 224 findings at the time of this proposal.
 - Task 224 found missing provenance, hidden exact-title behaviour, non-canonical hard-coded rules, contradictory source residue and additional report-history helpers.
 - Luke and the architect must review these findings before Tasks 225 onward become active.
 - No task after 224 should begin merely because it appears in this proposal.
@@ -179,8 +181,8 @@ The following approved work is preserved and must be resequenced after Task 257 
 - This proposal is not approved or active.
 - No active-roadmap row is replaced by this document.
 - Task 224 is complete; no migration is pending.
-- Review Gate 0 is current and no next implementation task is approved.
-- Tasks 225-257 remain provisional until Luke and the architect approve a corrected sequence.
-- The former paused roadmap remains preserved pending official replacement.
+- At this proposal checkpoint, Review Gate 0 was current and no next implementation task was approved.
+- Tasks 225-257 were provisional until Luke and the architect approved the corrected sequence through Task 225.
+- At this checkpoint, the former paused roadmap remained preserved pending official replacement.
 - Luke may approve, correct, merge, split or reject the sequence.
 - Official numbering changes require a later explicit documentation update.

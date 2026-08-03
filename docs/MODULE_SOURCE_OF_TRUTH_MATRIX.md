@@ -4,6 +4,8 @@
 
 This matrix defines current canonical ownership. Operational modules own records; dashboards, Reports and cross-module timelines read them. No consumer should create a competing source of truth.
 
+Future ownership direction is sequenced by `225-348-official-roadmap.md`. Proposed records remain future until their approved schema/workflow task is implemented; this matrix does not turn roadmap concepts into current tables.
+
 | Record/domain | Canonical owner and source | Readers/derived views | History and tenant rule | Facility direction / prohibited duplication | Status |
 | --- | --- | --- | --- | --- | --- |
 | Organisations | Platform foundation: `organisations` | Platform Admin, selector, tenant resolver | `id` establishes `organisation_id` boundary | Organisation identity remains global to the tenant | Implemented |

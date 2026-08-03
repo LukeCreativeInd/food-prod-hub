@@ -2,7 +2,7 @@
 
 ## Authority And Method
 
-This is a navigation index, not a replacement for task documents. Titles/status are based on repository documents and Git history. Task 224 is the latest completed task after the current changeset is committed. Task 223B's exact hash has been backfilled; Task 224's exact hash must be backfilled after Review Gate 0 through the post-commit context-delta workflow. The original architect dossier is used only for reconstructed historical work packages and direct rationale strongest through Task 212.
+This is a navigation index, not a replacement for task documents. Titles/status are based on repository documents and Git history. Task 225 is the latest completed task after the current changeset is committed. Task 224's exact hash is backfilled; Task 225's exact hash must be backfilled by Task 226 through the post-commit context-delta workflow. Current task order is authoritative in `225-348-official-roadmap.md`. The original architect dossier is used only for reconstructed historical work packages and direct rationale strongest through Task 212.
 
 ## Historical Work Packages
 
@@ -50,13 +50,15 @@ Before reliable numbered-task evidence, work evolved through Clean Eats costing/
 | 223 | Roadmap and Project Context Realignment | Committed `eb99f2d` | None | Active roadmap, standards and corrected current QA/Logistics context. |
 | 223A | EveryBatch Master Handover and Living Knowledge System | Committed `a8c2761` (`Add EveryBatch living knowledge system`) | None | Preserves historical dossier; creates living handbook, operations, task/decision/handover and truth matrices. |
 | 223B | Phase 1 Production Replacement and Roadmap Reassessment | Committed `f8f576603d97732d9fa1f29702fec78fccb05036` (`Plan Phase 1 production replacement roadmap`) | None | Defines the replacement operating model, evidence request, gap/tool inventories, decommission gates, Review Gate 0 and an unapproved provisional sequence. |
-| 224 | Production Replacement Evidence Collection And Legacy Logic Audit | **Complete.** Suggested commit title: `Audit legacy production logic and evidence`. Exact commit hash: **To be backfilled after Review Gate 0 through the post-commit context-delta workflow.** | None | Audits both source archives and one matched production day; creates evidence, parity, legacy-rule, transition and roadmap-recommendation records. Review Gate 0 is current. |
-| 225-257 proposed | Provisional production replacement sequence | **Not active** | Determined per reviewed task | Subject to Review Gate 0 and Luke's approval. |
-| Previous 224-276 | Existing paused roadmap sequence | **Preserved and paused** | None by Task 223B | No official renumbering or activation occurred. |
+| 224 | Production Replacement Evidence Collection And Legacy Logic Audit | Committed `8b8e94a87f6e94fef78c05317f87cad4bb01caea` (`Audit legacy production logic and evidence`) | None | Audits both source archives and one matched production day; creates evidence, parity, legacy-rule, transition and roadmap-recommendation records. |
+| 225 | Review Gate 0 Roadmap Approval And Official Realignment | **Complete.** Suggested commit title: `Approve Review Gate 0 roadmap`. Exact commit hash: **To be backfilled by Task 226 through the post-commit context-delta workflow.** | None | Closes Review Gate 0, establishes the official Tasks 225-348 roadmap, preserves historical roadmaps and makes Task 226 next. |
+| 226 | Facility And Site Architecture Decision | **Next approved task** | None expected | Begins the approved architecture phase; Architecture Gate 1 follows Task 230. |
+| 227-348 | Official approved roadmap direction | **Approved sequencing, not implemented by Task 225** | Per task | See `225-348-official-roadmap.md`; later changes require explicit Luke approval. |
+| Earlier roadmaps | Historical sequences/proposals | **Preserved and superseded** | None by Task 225 | `201-250`, `223-276` and post-223B proposal remain evidence, not current task authority. |
 
 ## Numbered Document Register
 
-Numbered files in `docs/` remain the exact task-level evidence. Where follow-up fixes amended an uncommitted task, the original task document records the consolidated result rather than creating a new task number. Missing numbers/titles are not invented. Use `rg --files docs | sort -V` and Git history when a precise earlier task must be audited; Task 261 remains the planned repository-wide documentation consistency audit.
+Numbered files in `docs/` remain the exact task-level evidence. Where follow-up fixes amended an uncommitted task, the original task document records the consolidated result rather than creating a new task number. Missing numbers/titles are not invented. Use `rg --files docs | sort -V` and Git history when a precise earlier task must be audited; the official repository-wide documentation consistency audit is Task 325, followed by the approved correction pass in Task 326.
 
 ## Verified Numbered Task Document Register
 
@@ -286,7 +288,8 @@ This register includes every numbered task document currently evidenced in the r
 | 223 | Task 223 - Roadmap And Project Context Realignment | Committed | [`223-roadmap-project-context-realignment.md`](./223-roadmap-project-context-realignment.md) | Task-specific evidence; see era/recent summary for current relevance. |
 | 223A | EveryBatch Master Handover And Living Knowledge System | Committed `a8c2761` | [`223a-everybatch-master-handover-living-knowledge-system.md`](./223a-everybatch-master-handover-living-knowledge-system.md) | Established the permanent living knowledge system and historical evidence boundary. |
 | 223B | Phase 1 Production Replacement And Roadmap Reassessment | Committed `f8f576603d97732d9fa1f29702fec78fccb05036` | [`223b-phase-1-production-replacement-roadmap-reassessment.md`](./223b-phase-1-production-replacement-roadmap-reassessment.md) | Defines the production replacement operating model, evidence gaps, Review Gate 0 and an unapproved provisional post-223B sequence. |
-| 224 | Production Replacement Evidence Collection And Legacy Logic Audit | Complete; suggested commit `Audit legacy production logic and evidence`; exact hash to be backfilled after Review Gate 0 | [`224-production-replacement-evidence-collection-legacy-logic-audit.md`](./224-production-replacement-evidence-collection-legacy-logic-audit.md) | Establishes source fingerprints, matched-day parity, legacy rules, transition restrictions and Review Gate 0 recommendations without implementation. |
+| 224 | Production Replacement Evidence Collection And Legacy Logic Audit | Committed `8b8e94a87f6e94fef78c05317f87cad4bb01caea` | [`224-production-replacement-evidence-collection-legacy-logic-audit.md`](./224-production-replacement-evidence-collection-legacy-logic-audit.md) | Establishes source fingerprints, matched-day parity, legacy rules, transition restrictions and Review Gate 0 recommendations without implementation. |
+| 225 | Review Gate 0 Roadmap Approval And Official Realignment | Complete; suggested commit `Approve Review Gate 0 roadmap`; exact hash to be backfilled by Task 226 | [`225-review-gate-0-roadmap-approval-official-realignment.md`](./225-review-gate-0-roadmap-approval-official-realignment.md) | Closes Review Gate 0 and establishes `225-348-official-roadmap.md` as task-order authority without runtime implementation. |
 
 ## Update Rule
 

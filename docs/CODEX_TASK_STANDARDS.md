@@ -4,6 +4,8 @@
 
 These are the permanent execution standards for numbered EveryBatch tasks. Every task must also follow its task-specific prompt. Where a task changes approved roadmap order, terminology, architecture or prior decisions, the affected documentation must be corrected in the same task.
 
+The current task-order authority is `docs/225-348-official-roadmap.md`. Every future prompt must read it before work begins and must respect its dependencies and review gates.
+
 ## Branch And Repository Safeguards
 
 - Confirm the current branch before editing. The expected branch is `main` unless Luke explicitly approves another branch.
@@ -21,6 +23,7 @@ These are the permanent execution standards for numbered EveryBatch tasks. Every
 - Do not bypass RLS or weaken tenant isolation to make a feature work.
 - Do not create fake operational data or present mock data as real records.
 - Do not implement a subsequent roadmap task early.
+- Do not silently add, split, merge, rename, delay or resequence roadmap tasks. Codex and the product architect may recommend evidence-led changes, but Luke must explicitly approve them and the approved change task must update the official roadmap, Current Handover, Task Index and affected living documents.
 
 ## Product And Architecture Language
 
@@ -55,6 +58,7 @@ Foundation work must be safe, tenant-aware, permission-aware, coherent, demonstr
 - Preserve parked items, unresolved decisions and known limitations.
 - Do not leave conflicting current guidance merely because a newer task document exists.
 - Keep historical documents, but label superseded planning clearly and point to the current authority.
+- Treat Architecture Gate 1 after Task 230, Demand Gate 2 after Task 237, Materials Gate 3 after Task 251 and Production Replacement Readiness/Review Gate 4 after Task 268 as approval boundaries, not optional commentary.
 
 Every task response must explicitly include one of:
 

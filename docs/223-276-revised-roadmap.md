@@ -1,12 +1,14 @@
-# Tasks 223-276 Revised Roadmap
+# Tasks 223-276 Revised Roadmap - Historical
+
+> **Superseded by Task 225 on 4 August 2026.** This document preserves the approved-at-the-time Task 223 sequence and Review Gate 0 context. It is no longer authoritative for current task order. Use [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md).
 
 ## Authority And Status
 
-This is the active EveryBatch roadmap after Task 223. It supersedes the future sequence formerly recorded in `docs/201-250-next-roadmap.md`; that file remains available as historical planning context only.
+This was the active EveryBatch roadmap after Task 223 and before Task 225. Its remaining content is retained as historical planning context and must be read in that time-bound state.
 
-Task 224 is the latest completed task after the current changeset is committed. Task 223B is committed at `f8f576603d97732d9fa1f29702fec78fccb05036`; Task 224's exact hash must be backfilled after Review Gate 0. The former Tasks 224-276 remain preserved as prior planning context, while Tasks 225 onward are paused until an official roadmap update is approved.
+At this historical checkpoint, Task 224 was the latest completed task and Tasks 225 onward were paused pending roadmap approval. Task 224 was later committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`, and Task 225 superseded this sequence.
 
-Task 223B's proposed revised sequence is stored in `docs/PROPOSED_POST_223B_ROADMAP.md` and now carries Task 224 evidence annotations. Review Gate 0 is the current project stage. Proposed Tasks 225-257 remain provisional and do not become active until Luke and the architect approve the corrected sequence. No later task has been officially renumbered or activated.
+Task 223B's proposal and Task 224 annotations are preserved in `docs/PROPOSED_POST_223B_ROADMAP.md`. Review Gate 0 was the project stage represented here; Task 225 later closed it and established the official Tasks 225-348 sequence.
 
 EveryBatch is the product brand. Clean Eats Hub is the Clean Eats tenant/workspace. Food Prod Hub and Food Operations Hub are internal repository or historical concept terminology only, not public product names.
 

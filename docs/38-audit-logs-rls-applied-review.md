@@ -110,7 +110,7 @@ Writes require stricter permission design. Audit writes should be trusted/server
 
 ## Remaining Security / Auth Hardening Items
 
-- Verify the current Supabase Leaked Password Protection setting during Task 261 or an approved security review, then correct older warning-era references.
+- Verify the current Supabase Leaked Password Protection setting during the approved Task 343 External-Tenant Security Review or another explicitly approved live verification, then correct older warning-era references.
 - Add password reset flow later.
 - Add invite/onboarding flow later.
 - Add role/user management write policies later.

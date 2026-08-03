@@ -37,7 +37,7 @@ A controlled future import workstream is likely useful once current Clean Eats f
 
 ## Controlled Import Recommendation
 
-The existing Formula Import planning and review-first patterns should move earlier in the provisional replacement sequence, after Formula/Method/Instruction ownership is approved. Recommended conditional stages:
+The official roadmap places review-first production-data transition in Tasks 238-243, after demand validation and Formula/Method/Instruction ownership decisions. Its approved stages are:
 
 1. Approved current-data inventory and import contract.
 2. Staging/parser with source file/row fingerprints.
@@ -50,7 +50,7 @@ The Item/Supplier Mapping QA design may supply generic review UI patterns, but s
 
 ## Manual Entry Versus Import
 
-Manual entry remains suitable for a small, well-owned set of current records. The source shows at least 26 finished meals, nested component requirements, multiple area calculations and many special rules; this volume and ambiguity make a reviewable import/staging path likely safer than ad hoc transcription. Review Gate 0 should not mandate import until Luke supplies the approved current formula/method/instruction source and staff confirm ownership.
+Manual entry remains suitable for a small, well-owned set of current records. The source shows at least 26 finished meals, nested component requirements, multiple area calculations and many special rules; this volume and ambiguity make a reviewable import/staging path likely safer than ad hoc transcription. Review Gate 0 approved the transition sequence, but Tasks 238-243 must still use Luke-supplied approved current formula/method/instruction sources and confirmed ownership.
 
 ## Prohibited Transition
 

@@ -1,8 +1,10 @@
 # Task 223A - EveryBatch Master Handover And Living Knowledge System
 
+> **Historical task context:** The living-knowledge system remains active, but Task 225 superseded the roadmap status described below. Current task order is authoritative in [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md).
+
 ## Durable Status
 
-Task 223A is committed as `a8c2761` (`Add EveryBatch living knowledge system`). Task 223B is the latest completed task after its changeset is committed. Task 224 is recommended but not approved automatically; the previous Tasks 224-276 remain paused.
+Task 223A is committed as `a8c2761` (`Add EveryBatch living knowledge system`). Task 224 is committed as `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Task 225 later closed Review Gate 0 and established the official Tasks 225-348 roadmap.
 
 ## Why This Task Was Inserted
 
@@ -84,9 +86,9 @@ The following critical clarifications are also current:
 
 ## Roadmap Implication
 
-Task 223A was inserted after 223. **223B - Phase 1 Production Replacement and Roadmap Reassessment** completed the documentation/planning/source-system review. Its proposed sequence remains separate from the active roadmap; Review Gate 0 follows Task 224 only if Luke first approves that task.
+Task 223A was inserted after 223. **223B - Phase 1 Production Replacement and Roadmap Reassessment** completed the documentation/planning/source-system review, and Task 224 supplied the required evidence. Task 225 later closed Review Gate 0 and replaced the provisional sequence with the official roadmap.
 
-The previous Tasks 224-276 remain preserved, unrenumbered and paused until an official roadmap update is approved. Critical candidates are recorded in the roadmap Future/Pending register rather than pulled into implementation.
+At the Task 223A checkpoint, Tasks 224-276 were preserved and paused. Task 225 later approved Tasks 225-348. Critical candidates still remain in the current Future/Pending register until Luke approves promotion.
 
 ## Permanent Update Rules
 
@@ -104,7 +106,7 @@ No application code, route, navigation, middleware, authentication, domain, sche
 
 ## Limitations And Future Review
 
-This is not a database audit, code implementation, Shopify implementation, Production implementation, full Task 261 documentation audit or final roadmap redesign. Live security settings and connected-tool availability were not assumed. Early task indexing remains concise and evidence-driven; Task 261 still owns the broad consistency audit.
+This was not a database audit, code implementation, Shopify implementation, Production implementation, repository-wide documentation audit or final roadmap redesign. Live security settings and connected-tool availability were not assumed. Early task indexing remains concise and evidence-driven; the superseding official roadmap now assigns the report-first documentation audit to Task 325 and corrections to Task 326.
 
 ## Checks
 

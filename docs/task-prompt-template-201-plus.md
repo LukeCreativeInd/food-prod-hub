@@ -2,7 +2,7 @@
 
 Use this template for EveryBatch / Clean Eats Hub tasks after task 200.
 
-Before using it, read [Codex Task Standards](./CODEX_TASK_STANDARDS.md) and confirm the task name/order against [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). The standards remain authoritative where this shorter template omits detail.
+Before using it, read [Codex Task Standards](./CODEX_TASK_STANDARDS.md) and confirm the task name, order, dependencies and review-gate position against [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). The standards remain authoritative where this shorter template omits detail.
 
 Before drafting the new task, add and assess:
 
@@ -18,6 +18,8 @@ Post-commit context from the previous task:
 ```
 
 Review that delta against the previous task document, README, project context, roadmap/Future Pending register and the permanent living documents. Update only materially affected files.
+
+Do not silently add, split, merge, rename, delay or resequence roadmap tasks. Codex or the product architect may recommend a change, but Luke must approve it explicitly before the official roadmap changes.
 
 At the start of the new task, verify the previous task's final commit in Git. Backfill its exact commit hash and final committed status in `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and correct any previous-task wording that could not be known before commit. Never invent the current task's future commit hash.
 

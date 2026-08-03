@@ -1192,7 +1192,7 @@ Task 215 must account for:
 Parked warnings remain parked:
 
 - Signed-In Users Can Execute SECURITY DEFINER Function for `public.post_inventory_receipt(uuid)`.
-- Leaked Password Protection warning state requires live verification before it is described as disabled or enabled; Task 223 records that check for Task 261 or an approved security review.
+- Leaked Password Protection warning state requires live verification before it is described as disabled or enabled; the official roadmap now records that check for Task 343 or another explicitly approved security review.
 
 ## Task 214 Implementation Guidance
 

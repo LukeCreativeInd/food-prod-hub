@@ -2,9 +2,9 @@
 
 ## Current Roadmap And Execution Standard
 
-The active sequence is [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md). Task 224 is the latest completed task after the current changeset is committed. Task 223B is committed at `f8f576603d97732d9fa1f29702fec78fccb05036`; Task 224's exact hash must be backfilled after Review Gate 0. Review Gate 0 is current, no next implementation is approved, and proposed Tasks 225-257 remain provisional. The previous Tasks 224-276 remain paused until an official roadmap update is approved. The former `docs/201-250-next-roadmap.md` is retained only as a superseded historical plan.
+The active sequence is [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). Task 225 is the latest completed task after the current changeset is committed. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`; Task 225's exact hash must be backfilled by Task 226. Review Gate 0 is closed, Task 226 is next, Tasks 226-230 form the approved architecture phase, and Architecture Gate 1 follows Task 230. Earlier roadmap files are preserved as superseded historical planning.
 
-Current onboarding begins with [Current Chat Handover](./CHAT_HANDOVER_CURRENT.md), then the active roadmap, task standards, [Master Handbook](./EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](./EVERYBATCH_ENGINEERING_OPERATIONS.md), current capability/source-of-truth matrices, Decision Log and Task Index. The preserved original architect dossier is historical evidence, not current implementation authority.
+Current onboarding begins with [Current Chat Handover](./CHAT_HANDOVER_CURRENT.md), then the [official roadmap](./225-348-official-roadmap.md), task standards, [Master Handbook](./EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](./EVERYBATCH_ENGINEERING_OPERATIONS.md), current capability/source-of-truth matrices, Decision Log and Task Index. The preserved original architect dossier and earlier roadmaps are historical evidence, not current implementation authority.
 
 All numbered work follows [Codex Task Standards](./CODEX_TASK_STANDARDS.md). Confirm the branch and working tree before edits, preserve strict scope, review documentation impacts, and do not change or apply migrations without the task-specific approval required by those standards.
 
@@ -820,7 +820,7 @@ Task 201 documents how QA, Logistics, Reports and CRM should connect into the Ph
 
 The task records QA, Logistics, Reports and CRM integration maps, a cross-module lifecycle from supplier invoice to future dispatch/reporting, permission and Platform Admin impact, Support Help Centre/troubleshooting/release-note impact and scaffold/demo cleanup findings for QA, Logistics, Reports, CRM, Production Report, Production Tasks and Facility/iPad surfaces.
 
-This was the Task 201 sequencing recommendation at the time. It is now historical: Tasks 201-222 are complete and [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md) is the active source for task order. The 201+ prompt template includes source-of-truth impact checks. No UI, schema, migration, RLS, permission, auth/domain routing, business logic or package changes were included by Task 201.
+This was the Task 201 sequencing recommendation at the time. It is now historical: Tasks 201-222 are complete and [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md) is the active source for task order. The 201+ prompt template includes source-of-truth impact checks. No UI, schema, migration, RLS, permission, auth/domain routing, business logic or package changes were included by Task 201.
 
 ## Task 202 UOM Conversion Foundation Plan
 
@@ -940,7 +940,7 @@ An unnumbered maintenance pass restores local repository history for already-liv
 
 Current write paths were checked for compatibility: Goods Inwards posting inserts stock movements through `post_inventory_receipt`, Stock On Hand and Inventory Traceability only read movements, Costing Snapshot creation inserts headers/lines, and snapshot archive updates only the permitted archive fields.
 
-Batch Receiving and Purchasing are explicitly marked as preview/sample Inventory workspaces with navigation preview markers and persistent `Sample Data - Not Live` banners. The Costings landing copy states that formula costing, Costing Snapshots and real Meal Margin calculations are active where readiness inputs exist. Earlier context records Leaked Password Protection as enabled after the Supabase upgrade, while older warning-era references remain; Task 223 schedules live-setting/documentation verification during Task 261 or an approved security review. Task 216 was subsequently completed.
+Batch Receiving and Purchasing are explicitly marked as preview/sample Inventory workspaces with navigation preview markers and persistent `Sample Data - Not Live` banners. The Costings landing copy states that formula costing, Costing Snapshots and real Meal Margin calculations are active where readiness inputs exist. Earlier context records Leaked Password Protection as enabled after the Supabase upgrade, while older warning-era references remain; the official roadmap schedules live-setting/documentation verification during Task 343 or another explicitly approved security review. Task 216 was subsequently completed.
 
 ## Task 216 Receiving QA Checks UI v1
 
@@ -1008,7 +1008,7 @@ Task 222, Carrier Configuration Foundation, is complete and committed. Migration
 
 ## Task 223 Roadmap And Project Context Realignment
 
-Task 223 is documentation-only. It creates `docs/223-276-revised-roadmap.md` as the active roadmap, creates `docs/CODEX_TASK_STANDARDS.md` as the permanent execution standard, and marks the former Tasks 201-250 sequence as superseded historical planning after Task 222.
+Task 223 was documentation-only. It created `docs/223-276-revised-roadmap.md` as the active roadmap at that checkpoint, created `docs/CODEX_TASK_STANDARDS.md` as the permanent execution standard, and marked the former Tasks 201-250 sequence as historical. Task 225 later superseded its roadmap authority.
 
 The active sequence is Tasks 223-247, with Tasks 248-276 directionally approved and subject to explicit roadmap review. Task 228 Facility/iPad View v1 is decision-gated: no implementation prompt should be written until Luke approves the tablet/facility architecture direction. New ideas enter the unnumbered Future/Pending Task Register and do not alter task numbering without Luke's approval.
 
@@ -1020,7 +1020,7 @@ Task 223A preserves the complete original architect dossier behind a non-canonic
 
 Task 223A records future multi-facility direction without schema; the Phase 1 requirement to replace the Clean Eats Shopify/Zapiet/CSV/Production Report/printed-pack workflow after parity and staff validation; an installable but provider-agnostic Shopify/order-source direction; inventory-aware planning without false physical movement; yield/variance direction; required area-specific production execution with unresolved device technology; and unresolved Recipes/formula/method/instruction ownership.
 
-Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is committed at `f8f576603d97732d9fa1f29702fec78fccb05036`. Task 224 is the latest completed task after the current changeset is committed. Review Gate 0 keeps Tasks 225-257 provisional, the previous Tasks 224-276 remain preserved and paused, and no implementation task is approved. Migrations `001`-`044` remain documented applied, and no migration is pending.
+Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is committed at `f8f576603d97732d9fa1f29702fec78fccb05036`. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Task 225 closes Review Gate 0 and makes `docs/225-348-official-roadmap.md` authoritative. Migrations `001`-`044` remain documented applied, and no migration is pending.
 
 ## Task 223B Phase 1 Production Replacement And Roadmap Reassessment
 
@@ -1028,7 +1028,7 @@ Task 223B verifies that EveryBatch has real formula, UOM, Goods Inwards, Stock O
 
 Luke-confirmed context records the Shopify/Zapiet filter, CSV export, meal aggregation, aggregated CSV, older Production Report configuration and printed room copies. Task 223B did not have the external evidence. Task 224 subsequently inspected both source archives, three raw exports, two cleaned workbooks and the matched 22-page PDF. The fixture reconciles 3,626 raw units to 3,614 report units after 12 identified parent-pack exclusions, with no unexplained quantity variance. Source order, line, store and date provenance is absent or discarded before the report.
 
-The durable success criterion is daily Clean Eats planning and floor execution in EveryBatch without the current production tools/global print-pack dependency, after calculation/instruction parity, real production-day comparison, staff validation, fallback/support and explicit retirement approval. Task 224 is complete as an evidence and documentation task. Review Gate 0 prevents provisional Tasks 225-257 from activating until Luke and the architect approve an official sequence. No migration or runtime behaviour changed, and no migration is pending.
+The durable success criterion is daily Clean Eats planning and floor execution in EveryBatch without the current production tools/global print-pack dependency, after calculation/instruction parity, real production-day comparison, staff validation, fallback/support and explicit retirement approval. The approved Tasks 226-268 sequence now governs that programme, with architecture, demand, materials and readiness gates. No migration or runtime behaviour changed in Tasks 223B-225, and no migration is pending.
 
 Task 224 finds that a controlled data-transition workstream is likely for approved current formulas, methods and instructions, but legacy source constants are not canonical and must not be imported directly. Import planning, staging/parser, mapping/review and controlled apply remain unnumbered until ownership, current source data, duplicate/UOM/item handling and staff validation are approved.
 
@@ -1036,4 +1036,10 @@ Task 224 finds that a controlled data-transition workstream is likely for approv
 
 Task 224 records stable source fingerprints, privacy classification, raw-to-cleaned and cleaned-to-PDF reconciliation, store-specific cleanup behaviour, report calculations and presentation, legacy rule ownership, transition restrictions and parity fixtures. It verifies a 22-page report with 26 recognised production meal rows and a final requirement of 3,614 units for the matched 3 August 2026 production day.
 
-The audit does not approve legacy formulas, yields, water additions, batch rules, mappings, methods, instructions, room routing or report constants as EveryBatch master data. Facility/calendar boundaries, commerce mapping, controlled current-data import, `/recipes` ownership, minimum transfer/staging and production actuals classification remain Review Gate 0 decisions. No later task is active.
+The audit does not approve legacy formulas, yields, water additions, batch rules, mappings, methods, instructions, room routing or report constants as EveryBatch master data. The official roadmap now sequences those unresolved decisions and implementations through Tasks 226-268; approval of the sequence does not approve any legacy value or implement any capability.
+
+## Task 225 Review Gate 0 Approval And Official Realignment
+
+Luke approved the official Tasks 225-348 roadmap. Task 225 is documentation/governance only, closes Review Gate 0, preserves earlier roadmaps as historical evidence and makes Task 226 the next approved task. Architecture Gate 1 follows Task 230, Demand Gate 2 follows Task 237, Materials Gate 3 follows Task 251 and Production Replacement Readiness/Review Gate 4 follows Task 268.
+
+Roadmap changes remain allowed only through explicit Luke approval and synchronized living-document updates. Codex and the product architect may recommend additions, splits, merges or resequencing but cannot make them silently.

@@ -1,8 +1,10 @@
 # Task 224 - Production Replacement Evidence Collection And Legacy Logic Audit
 
+> **Committed and accepted:** Task 224 was committed as `8b8e94a87f6e94fef78c05317f87cad4bb01caea` (`Audit legacy production logic and evidence`). Luke accepted its evidence through Task 225, which closed Review Gate 0 and established [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md).
+
 ## Status And Purpose
 
-Task 224 is a completed read-only evidence and documentation audit once this changeset is committed. It inspects the supplied cleanup/report source, matched CSV/XLSX/PDF fixture, current EveryBatch foundations and provisional roadmap.
+Task 224 is a completed and committed read-only evidence/documentation audit. It inspected the supplied cleanup/report source, matched CSV/XLSX/PDF fixture, current EveryBatch foundations and the then-provisional roadmap.
 
 It audits current behaviour. It does not approve legacy formulas or methods, implement replacement functionality, activate the proposed roadmap, retire a tool or change a live system.
 
@@ -82,7 +84,7 @@ No application code, route, navigation, auth, middleware, domain, schema, migrat
 
 ## Checks
 
-Task 224 requires lint, TypeScript, production build and `git diff --check`, plus branch/status/name/stat verification. Results are recorded in the final task response.
+Task 224 passed lint, TypeScript, production build and `git diff --check` before commit; its final response records the detailed results.
 
 ## Unresolved Questions
 

@@ -23,17 +23,17 @@ External demand -> interpreted delivery/production date -> mapped and reviewed d
 - QA owns checks and holds; Logistics owns dispatch; CRM may later own customer/account master data.
 - Reports, printable packs and dashboards are readers, never competing operational truth.
 
-## Review Gate 0
+## Review Gate 0 - Closed
 
-Task 224, Production Replacement Evidence Collection And Legacy Logic Audit, is complete once its changeset is committed. Review Gate 0 is now the current project stage. Tasks 225-257 remain provisional until Luke and the architect review the evidence-derived findings and approve an official corrected sequence.
+Task 224, Production Replacement Evidence Collection And Legacy Logic Audit, is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Luke reviewed its findings and closed Review Gate 0 through Task 225. The official replacement sequence is Tasks 226-268 in `225-348-official-roadmap.md`.
 
-No task after Task 224 should begin merely because it appears in the proposal. Evidence-led corrections to numbering or scope at Review Gate 0 are expected refinement, not roadmap failure.
+Task 226 is the next approved task. Architecture Gate 1, Demand Gate 2, Materials Gate 3 and Production Replacement Readiness/Review Gate 4 remain mandatory approval boundaries. Future sequence changes require explicit Luke approval.
 
 ## Conditional Legacy Production Data Transition
 
 Task 224 found a large mixed hard-coded rule surface but not an approved current formula/method/instruction source. A controlled current-data staging/review workstream is likely safer than ad hoc transcription, conditional on Luke supplying approved current data and deciding ownership. Formula Import patterns should move earlier after that decision; Mapping QA interaction patterns may be reused. Legacy Python constants must not be imported automatically.
 
-Potential import planning, staging/parser, mapping/review and controlled-apply tasks remain conditional and unnumbered until Review Gate 0 approval. No import is implemented by this plan or Task 224.
+The approved sequence now includes import ownership, planning, staging/parser, mapping/review and controlled apply in Tasks 238-243, after Demand Gate 2 and before method/instruction implementation. No import is implemented by this plan, Task 224 or Task 225.
 
 ## Stage Model
 
@@ -96,12 +96,12 @@ Each legacy stage progresses through: Inventory documented -> Replacement planne
 
 No stage may retire until inputs, mappings, calculations, report/task behaviour, exceptions, permissions, performance, support, fallback and real production-day comparisons are accepted by the responsible staff.
 
-Minimum pick, transfer and staging requirements remain A/E: the PDF proves warehouse/prep requirement pages exist, but staff must confirm the minimum physical workflow needed to retire them. Planning a move does not post Inventory movement; only authorised confirmation of the physical move posts it. Formal reservation/allocation beyond that minimum, production consumption/output and deeper traceability remain B unless Review Gate 0 promotes them with staff/safety evidence.
+Minimum pick, transfer and staging requirements remain A/E: the PDF proves warehouse/prep requirement pages exist, but staff must confirm the minimum physical workflow needed to retire them. Planning a move does not post Inventory movement; only authorised confirmation of the physical move posts it. Tasks 249-251 cover the approved minimum material-preparation boundary. Tasks 261-265 preserve the separately reviewed production consumption, output and traceability work.
 
 ## Minimum Versus Later Capability
 
 - **A - required to retire the current production tools:** external order intake; delivery-date and production-date interpretation; product/variant mapping; the bundle/exclusion handling used by current Clean Eats orders; demand aggregation; reviewed/frozen demand and post-freeze exceptions; formula/component expansion; basic expected-yield-adjusted requirement calculation; validated method/instruction parity; production plans and batches; production areas; Production Admin/control view; area-specific digital tasks; task completion; hold-aware inventory availability; facility/location-aware shortage visibility; warehouse pick requirements; transfer/staging requirements; lot recommendation where current data supports FEFO/FIFO; authorised confirmation that required physical transfers occurred; optional controlled printable fallback; and parallel-run comparison with staff acceptance. Planning a move must not post it; physical movement is posted only after authorised confirmation.
-- **B - required for safer operational depth shortly after replacement unless Task 224 promotes it to A:** formal reservation/allocation depth beyond the minimum pick/transfer workflow; production issue/consumption transactions; production output lots and movements; finished-stock and dispatch linkage; advanced reversal/adjustment integration; and deeper production traceability.
+- **B - required for safer operational depth shortly after replacement:** formal reservation/allocation depth beyond the minimum pick/transfer workflow; production issue/consumption transactions; production output lots and movements; finished-stock and dispatch linkage; advanced reversal/adjustment integration; and deeper production traceability. The official roadmap retains the required transaction and traceability foundations in Tasks 261-265 before the retirement gate.
 - **C - valuable Phase 1 improvement or later operational optimisation:** historical yield analytics, advanced waste analysis, predictive planning and efficiency optimisation. Basic expected yield used to calculate required inputs remains in A.
 - **D - later commercial or checkout expansion:** replacing Zapiet; checkout/calendar extensions; capacity, cut-off and zone optimisation; and broader commerce providers.
 - **E - requires source or staff validation:** unknown method details, rounding, room distribution, bundle/exclusion rules, device architecture, current FEFO/FIFO data fitness and the final boundary between minimum transfer/pick confirmation and deeper allocation/physical execution. E identifies unknown design details; it does not make the underlying business capability optional.
