@@ -4,7 +4,7 @@
 
 Task 225 closes Review Gate 0 and makes the Luke-approved post-Task-224 sequence the official EveryBatch roadmap. It is a documentation and governance task only. It does not implement facility architecture, Shopify, commerce/order intake, Production, schema, migrations or legacy-tool retirement.
 
-Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea` (`Audit legacy production logic and evidence`). Task 225 is the latest completed task after this changeset is committed. Its exact commit hash must be backfilled by Task 226 through the post-commit context-delta workflow.
+Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea` (`Audit legacy production logic and evidence`). Task 225 is committed at `82a81613556c311198449670b0425106f062a4ef` (`Approve Review Gate 0 roadmap`). Task 226 subsequently completed the first approved architecture decision.
 
 ## Why Review Gate 0 Existed
 
@@ -14,7 +14,7 @@ The gate prevented schema and implementation work from starting against assumed 
 
 ## Approval
 
-Luke reviewed the Task 224 evidence and explicitly approved the sequence now recorded in `docs/225-348-official-roadmap.md`. Review Gate 0 is closed. Task 226, Facility and Site Architecture Decision, is the next approved task.
+Luke reviewed the Task 224 evidence and explicitly approved the sequence now recorded in `docs/225-348-official-roadmap.md`. Review Gate 0 is closed. Task 226 subsequently completed the Facility and Site Architecture Decision; Task 227 is now next.
 
 The roadmap makes production-tool replacement the central Phase 1 programme while preserving Inventory, QA, Logistics, Tools, Reports, UI, dashboards, Support, Platform Admin, marketing, commercial, audit and hardening work.
 
@@ -77,4 +77,3 @@ Task 225 requires lint, TypeScript, production build, `git diff --check`, branch
 ## Next Approved Task
 
 Task 226 - Facility and Site Architecture Decision.
-

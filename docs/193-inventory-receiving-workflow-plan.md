@@ -1,5 +1,7 @@
 # Inventory Receiving Workflow Plan
 
+> **Task 226 facility decision:** every inventory location belongs to exactly one organisation-owned facility, and every receipt is a direct one-facility receiving root. Receipt lines derive facility from the receipt and must use a location in that facility. Inventory lots do not gain one mutable current-facility field; their distribution derives from movement locations. This schema is not implemented, and Task 231 remains blocked until Architecture Gate 1.
+
 Task 193 plans the real Goods Inwards / Inventory Receiving workflow before schema or UI build work.
 
 This is a docs/planning task only. It does not create receiving tables, stock movement tables, migrations, receiving UI, stock balances, purchase orders, QA checks, production consumption, report logic, RLS policies, permissions, auth/domain routing changes, packages or sample data.
@@ -23,6 +25,7 @@ Current inventory foundation:
 - Supplier Invoice Intake can parse/review supplier invoices and commit supplier catalogue/price data.
 - `approved_supplier_prices` is the reviewed costing source.
 - `inventory_locations` exists as the first real inventory master table.
+- Current `inventory_locations` rows are still organisation-scoped only; Task 231 is expected to attach them to the reviewed Clean Eats default facility.
 - Starter Clean Eats locations include receiving, storage, production, dispatch, quarantine and waste locations.
 - `/inventory` uses real location setup data but has no stock ledger.
 - `/goods-inwards`, `/batch-receiving` and `/stock-movements` still show static placeholder/sample rows.
@@ -42,6 +45,7 @@ Receiving should:
 - create stock movement ledger entries when posted
 - keep stock available, held or rejected based on line status and future QA state
 - support traceability from supplier through production and dispatch
+- identify one receiving facility at the receipt header and prevent a receipt spanning facilities once Task 231 is implemented
 
 Receiving is separate from invoice approval.
 

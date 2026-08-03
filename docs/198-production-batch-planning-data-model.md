@@ -1,6 +1,8 @@
 # Production Batch Planning Data Model
 
-> **Task 224 current-state note:** This foundation provides areas, plans, lines, batches and planned input fields. The matched legacy audit confirms the replacement also needs preserved demand provenance, reviewed mappings, approved formula/yield semantics and area-specific work. It still does not allocate/transfer/consume stock, create output, generate tasks or replace the report. Planning must never be treated as physical movement, and the proposed extension sequence remains unapproved.
+> **Task 224 evidence note:** This foundation provides areas, plans, lines, batches and planned input fields. The matched legacy audit confirms the replacement also needs preserved demand provenance, reviewed mappings, approved formula/yield semantics and area-specific work. It still does not allocate/transfer/consume stock, create output, generate tasks or replace the report. Planning must never be treated as physical movement. Task 225 later approved the current sequence in `225-348-official-roadmap.md`.
+
+> **Task 226 facility decision:** `production_areas`, `production_plans` and `production_batches` require one organisation-owned facility. Plan lines and batch inputs derive facility through their parent, and selected areas/locations must match. Formula versions remain organisation-wide. This facility schema is not implemented; Task 231 remains blocked until Architecture Gate 1.
 
 Task 198 defines and drafts the database/schema foundation for production batch planning.
 
@@ -28,6 +30,8 @@ This is configuration only. It does not create tasks, staffing assignments, tabl
 
 Tenant production areas, rooms or work zones.
 
+Each area will belong to exactly one facility after the approved Task 231 foundation. The current table remains organisation-scoped until then.
+
 Examples later may include kitchen, prep, packing, dispatch or finished-goods staging. No seed data is added in this task.
 
 Key fields:
@@ -43,6 +47,8 @@ Key fields:
 ### `production_plans`
 
 Production planning header for a day or planning window.
+
+Each plan will belong to exactly one facility. Demand from several storefronts or brands may be combined only after it is assigned to that same facility.
 
 Purpose:
 
@@ -70,6 +76,8 @@ V1 supports planned outputs for finished products and components at the applicat
 ### `production_batches`
 
 Specific production batch/run records.
+
+Each batch will retain direct facility identity because batches may exist independently of a plan and require stable historical scope.
 
 Purpose:
 

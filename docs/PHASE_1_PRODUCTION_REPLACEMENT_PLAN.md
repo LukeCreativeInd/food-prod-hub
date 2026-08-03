@@ -27,7 +27,7 @@ External demand -> interpreted delivery/production date -> mapped and reviewed d
 
 Task 224, Production Replacement Evidence Collection And Legacy Logic Audit, is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Luke reviewed its findings and closed Review Gate 0 through Task 225. The official replacement sequence is Tasks 226-268 in `225-348-official-roadmap.md`.
 
-Task 226 is the next approved task. Architecture Gate 1, Demand Gate 2, Materials Gate 3 and Production Replacement Readiness/Review Gate 4 remain mandatory approval boundaries. Future sequence changes require explicit Luke approval.
+Task 226 is complete and selects organisation-owned facilities with selective direct operational-root scope and stable derivation. Task 227 is the next approved task. Architecture Gate 1, Demand Gate 2, Materials Gate 3 and Production Replacement Readiness/Review Gate 4 remain mandatory approval boundaries. Future sequence changes require explicit Luke approval.
 
 ## Conditional Legacy Production Data Transition
 

@@ -21,6 +21,8 @@ Review that delta against the previous task document, README, project context, r
 
 Do not silently add, split, merge, rename, delay or resequence roadmap tasks. Codex or the product architect may recommend a change, but Luke must approve it explicitly before the official roadmap changes.
 
+For any task touching physical operations, classify each affected record against the Task 226 facility decision: organisation-wide, directly facility-scoped, derived through an authoritative parent, organisation default with facility override, cross-facility, external/source-owned with target assignment, reporting-only or explicitly unresolved. Preserve `organisation_id` as the tenant boundary, do not trust client facility identifiers and do not add facility schema before Architecture Gate 1 and the approved Task 231 scope.
+
 At the start of the new task, verify the previous task's final commit in Git. Backfill its exact commit hash and final committed status in `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and correct any previous-task wording that could not be known before commit. Never invent the current task's future commit hash.
 
 ```text
@@ -114,6 +116,7 @@ Document:
 - whether this affects reporting dimensions
 - whether this should emit audit log events later
 - whether unit-of-measure conversion rules are needed instead of guessing pack sizes
+- whether physical facility identity is direct, parent-derived, organisation-wide or deferred under Task 226
 
 Dummy/demo content requirement:
 Identify any fake/demo/scaffold/reference-only content touched by this task.

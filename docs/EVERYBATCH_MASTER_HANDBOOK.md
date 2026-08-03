@@ -61,11 +61,11 @@ History is preserved deliberately: published formula/QA versions, completed evid
 
 ## 7. Multi-Facility Direction
 
-Clean Eats currently has one manufacturing facility, but one organisation must not mean one site forever. Multi-facility is approved direction, not current schema.
+Clean Eats currently has one manufacturing facility, but one organisation must not mean one physical facility forever. Task 226 selects organisation-owned facilities with selective direct operational-root ownership and stable parent derivation. `organisation_id` remains the tenant/security boundary on facility-scoped records.
 
-Likely organisation-wide data includes suppliers, internal items, core formulas/specifications, customers and settings. Likely facility-scoped data includes locations, receiving, on-hand stock, production areas/plans/batches/tasks, QA checks, equipment, devices and dispatch origin. Some domains may need organisation defaults with facility overrides or shared formulas with site-specific method/capacity.
+Suppliers, internal items, formulas, UOM rules and other master data remain organisation-wide. Inventory locations, production areas, receipts, production plans/batches and dispatch origins require direct facility scope; stable children derive it. QA templates remain shared while execution evidence is facility-aware. Methods, instructions, calendars and selected capability/configuration may later use organisation defaults with explicit facility overrides.
 
-The final model is unresolved. Every future operational table must answer whether it is organisation-wide, facility-scoped, optionally scoped, or an organisation default with facility override. A dedicated architecture task must decide the schema; do not add speculative `facility_id` columns piecemeal.
+Single-facility tenants resolve an active default automatically and do not need a selector. Facility-specific memberships are deferred. The schema is not implemented: Task 231 remains blocked until Architecture Gate 1 after Task 230. Use `226-facility-site-architecture-decision.md` and `FACILITY_SCOPE_AND_OWNERSHIP_MATRIX.md`; do not add speculative facility fields piecemeal.
 
 ## 8. Product And Formula Model
 
@@ -141,7 +141,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 225 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 226 is next and Architecture Gate 1 follows Task 230.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 226 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 227 is next and Architecture Gate 1 follows Task 230.
 
 ## 19. Current Risks And Read Next
 

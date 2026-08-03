@@ -125,6 +125,8 @@ Every substantial task must consider and report:
 - current versus future functionality;
 - behaviour preserved.
 
+For physical operations, apply the Task 226 facility rule: preserve `organisation_id`, classify direct versus parent-derived facility scope, keep organisation-wide master data shared, and treat client facility identifiers as untrusted. Facility schema is not permission to begin until Architecture Gate 1 and the approved Task 231 task.
+
 ## Migration Requirements
 
 - Inspect existing migration numbering before creating a migration.

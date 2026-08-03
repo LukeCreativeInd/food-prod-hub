@@ -4,7 +4,7 @@
 
 This is the official EveryBatch roadmap approved by Luke through Task 225 after Review Gate 0. It supersedes `201-250-next-roadmap.md`, `223-276-revised-roadmap.md` and `PROPOSED_POST_223B_ROADMAP.md` for current task order while preserving those documents as historical evidence.
 
-Task 225 is the latest completed task after the current changeset is committed. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Task 225's exact hash must be backfilled by Task 226. Task 226 is the next approved task. No migration is pending.
+Task 226 is the latest completed task after the current changeset is committed. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`; Task 225 is committed at `82a81613556c311198449670b0425106f062a4ef`. Task 226's exact hash must be backfilled by Task 227. Task 227 is the next approved task. No migration is pending.
 
 ## A. Completed Project Baseline
 
@@ -24,7 +24,7 @@ Task 225 closes Review Gate 0 through documentation and governance only.
 
 | Task | Title | Purpose and major dependency | Type | Migration | Production-tool retirement effect |
 | --- | --- | --- | --- | --- | --- |
-| 226 | Facility and Site Architecture Decision | Define organisation/facility ownership, defaults, overrides, history, permissions and migration strategy before facility-scoped schema. | Planning/architecture | No | Prevents demand, Inventory, QA and dispatch rework. |
+| 226 | Facility and Site Architecture Decision | **Complete in durable post-commit wording.** Defines organisation-owned facilities, selective direct roots, derivation, defaults, lifecycle, permissions direction and the Task 231 strategy. Exact commit hash is backfilled by Task 227. | Planning/architecture | No | Prevents demand, Inventory, QA and dispatch rework. |
 | 227 | Commerce Connections and Contract Manufacturing Architecture | Define multi-store/brand ownership, manufacturing organisation/facility, authorisation and Made Active relationship; depends on 226. | Planning/architecture | No | Establishes trustworthy cross-business demand routing. |
 | 228 | External Order Intake and Production Demand Architecture | Define provider-neutral source orders/lines, bundles, mappings, changes, demand states and source traceability; depends on 226-227. | Planning/architecture | No | Defines replacement for CSV aggregation and mutable demand. |
 | 229 | Shopify App Architecture and Security Plan | Use current official Shopify documentation to define installation, auth, scopes, webhooks, backfill, retries, uninstall, protected data and diagnostics; depends on 227-228. | Planning/security | No | Makes the first connector safely implementable. |

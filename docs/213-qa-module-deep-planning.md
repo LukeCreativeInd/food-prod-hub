@@ -1,6 +1,8 @@
 # QA Module Deep Planning
 
-> **Task 213 planning snapshot.** The placeholder descriptions and proposed follow-on numbering below describe the repository when this plan was written. Tasks 214-217 subsequently delivered QA navigation, schema, Receiving Checks and lot hold/release foundations. QA Production Checks and QA Daily Checks now belong to Tasks 229 and 230; Audit Log Business Events are Tasks 273 and 274. Current task order is maintained in [Tasks 223-276 Revised Roadmap](./223-276-revised-roadmap.md).
+> **Task 213 planning snapshot.** The placeholder descriptions and proposed follow-on numbering below describe the repository when this plan was written. Tasks 214-217 subsequently delivered QA navigation, schema, Receiving Checks and lot hold/release foundations. Its old follow-on numbering is historical; current task order is maintained in [Tasks 225-348](./225-348-official-roadmap.md).
+
+> **Task 226 facility decision:** QA templates remain organisation-wide and versioned. QA execution derives facility from a stable receipt, lot/location, production plan/batch or area source; independent manual/daily checks need explicit facility context later. Results/reviews derive through the check, and holds continue to reference Inventory quantities rather than duplicate them. No QA schema changed in Task 226; the official order is in [Tasks 225-348](./225-348-official-roadmap.md).
 
 Task 213 is a planning-only task for the EveryBatch QA module.
 

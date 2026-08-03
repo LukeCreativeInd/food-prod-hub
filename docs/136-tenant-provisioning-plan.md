@@ -8,6 +8,8 @@ This is a planning document only.
 
 No app code, routes, database schema, migrations, RLS policies, permissions, navigation, Platform Admin implementation, domain configuration, middleware, package metadata or Supabase settings are changed by this task.
 
+> **Task 226 facility decision:** an organisation may have zero facilities while provisioning, but operational readiness requires at least one active default facility. Tenant provisioning may create the first facility through a later controlled workflow or leave it for onboarding; it must not invent addresses or create generic operational data. Facility schema and provisioning behaviour are not implemented, and Task 231 remains blocked until Architecture Gate 1.
+
 ## Current State
 
 Current Platform Admin state:
@@ -35,6 +37,7 @@ Tenant provisioning should eventually create:
 - organisation
 - organisation settings
 - organisation branding placeholder
+- first/default facility before operational activation, once the Task 231 foundation exists
 - enabled modules
 - feature flag overrides
 - default roles/permissions/memberships
@@ -44,6 +47,8 @@ Tenant provisioning should eventually create:
 - optional starter data/templates
 - smoke test checklist
 - audit/provisioning event records later
+
+The default facility is tenant configuration, not a storefront, domain or Platform-owned operational record.
 
 Provisioning should be previewed before any records are created.
 

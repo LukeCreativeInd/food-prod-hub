@@ -8,10 +8,11 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Latest completed task after the current changeset is committed: 225; exact hash to be backfilled by Task 226
+- Latest completed task after the current changeset is committed: 226; exact hash to be backfilled by Task 227
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
-- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Task 226 is next
+- Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
+- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Task 227 is next
 - Architecture Gate 1 follows Task 230; no migration is pending
 
 ## Branch And Task Workflow
@@ -44,7 +45,7 @@ Supabase SSR browser/server clients share established cookie options. Server hel
 
 `organisation_id` is the current tenant boundary. Cross-organisation foreign keys use same-tenant composite relationships where required. Derive actor/tenant from authenticated context for privileged workflows; never trust an arbitrary client organisation ID. Never use a service-role key in tenant application flows.
 
-Future schema review must classify each operational record as organisation-wide, facility-scoped, optionally facility-scoped, or organisation default with facility override. Do not invent the final facility schema in an unrelated task.
+Task 226 selects organisation-owned facilities with selective direct root ownership and stable parent derivation. `organisation_id` remains on facility-scoped records and remains the RLS tenant boundary. Master data is not duplicated per facility. Task 231 may implement only the approved foundation after Architecture Gate 1; do not add facility fields in unrelated work.
 
 ## RLS, Permissions And Workflow RPCs
 

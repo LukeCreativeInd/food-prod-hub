@@ -14,6 +14,7 @@ Future task references use the official `225-348-official-roadmap.md`. A roadmap
 | Inventory / Traceability | `/inventory-traceability` | Browser validated read foundation | Receipt, lot, movement and source links | First-load performance and recall-grade forward trace future |
 | Inventory / Batch Receiving | `/batch-receiving` | Navigation/scaffold | Static preview; Goods Inwards is the real receipt source | Ownership/rename or merge review required; must not duplicate Goods Inwards |
 | Inventory / Stock Locations | `/stock-locations` | Operational foundation | `inventory_locations`; view/create/edit | Future facility scope |
+| Cross-module / Facility architecture | No runtime route | Architecture decision complete | Organisation-owned physical scope, selective direct roots, parent derivation, single-facility default direction | Schema/UI unavailable; Task 231 blocked until Architecture Gate 1 |
 | Inventory / Stock Movements | `/stock-movements` | Read foundation | Append-oriented movement ledger | Adjust/reverse plan exists; actions future |
 | Inventory / Purchasing | `/purchasing` | Navigation/scaffold | Static preview only | Purchasing architecture and demand dependencies; not required merely to reproduce the current production report |
 | Products / Suppliers | `/suppliers` | Operational foundation | Supplier master/catalogue; view/create/edit/archive | Staff validation ongoing |

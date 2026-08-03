@@ -2,7 +2,7 @@
 
 ## Current Roadmap And Execution Standard
 
-The active sequence is [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). Task 225 is the latest completed task after the current changeset is committed. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`; Task 225's exact hash must be backfilled by Task 226. Review Gate 0 is closed, Task 226 is next, Tasks 226-230 form the approved architecture phase, and Architecture Gate 1 follows Task 230. Earlier roadmap files are preserved as superseded historical planning.
+The active sequence is [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). Task 226 is the latest completed task after the current changeset is committed. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`; Task 225 is committed at `82a81613556c311198449670b0425106f062a4ef`; Task 226's exact hash must be backfilled by Task 227. Review Gate 0 is closed, Task 227 is next, Tasks 226-230 form the approved architecture phase, and Architecture Gate 1 follows Task 230. Earlier roadmap files are preserved as superseded historical planning.
 
 Current onboarding begins with [Current Chat Handover](./CHAT_HANDOVER_CURRENT.md), then the [official roadmap](./225-348-official-roadmap.md), task standards, [Master Handbook](./EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](./EVERYBATCH_ENGINEERING_OPERATIONS.md), current capability/source-of-truth matrices, Decision Log and Task Index. The preserved original architect dossier and earlier roadmaps are historical evidence, not current implementation authority.
 
@@ -1020,7 +1020,7 @@ Task 223A preserves the complete original architect dossier behind a non-canonic
 
 Task 223A records future multi-facility direction without schema; the Phase 1 requirement to replace the Clean Eats Shopify/Zapiet/CSV/Production Report/printed-pack workflow after parity and staff validation; an installable but provider-agnostic Shopify/order-source direction; inventory-aware planning without false physical movement; yield/variance direction; required area-specific production execution with unresolved device technology; and unresolved Recipes/formula/method/instruction ownership.
 
-Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is committed at `f8f576603d97732d9fa1f29702fec78fccb05036`. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Task 225 closes Review Gate 0 and makes `docs/225-348-official-roadmap.md` authoritative. Migrations `001`-`044` remain documented applied, and no migration is pending.
+Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is committed at `f8f576603d97732d9fa1f29702fec78fccb05036`. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Task 225 is committed at `82a81613556c311198449670b0425106f062a4ef`, closes Review Gate 0 and makes `docs/225-348-official-roadmap.md` authoritative. Task 226 decides facility scope without implementing it. Migrations `001`-`044` remain documented applied, and no migration is pending.
 
 ## Task 223B Phase 1 Production Replacement And Roadmap Reassessment
 
@@ -1040,6 +1040,14 @@ The audit does not approve legacy formulas, yields, water additions, batch rules
 
 ## Task 225 Review Gate 0 Approval And Official Realignment
 
-Luke approved the official Tasks 225-348 roadmap. Task 225 is documentation/governance only, closes Review Gate 0, preserves earlier roadmaps as historical evidence and makes Task 226 the next approved task. Architecture Gate 1 follows Task 230, Demand Gate 2 follows Task 237, Materials Gate 3 follows Task 251 and Production Replacement Readiness/Review Gate 4 follows Task 268.
+Luke approved the official Tasks 225-348 roadmap. Task 225 is documentation/governance only, closes Review Gate 0 and preserves earlier roadmaps as historical evidence. It made Task 226 next at that checkpoint; Task 226 has since completed and Task 227 is now next. Architecture Gate 1 follows Task 230, Demand Gate 2 follows Task 237, Materials Gate 3 follows Task 251 and Production Replacement Readiness/Review Gate 4 follows Task 268.
 
 Roadmap changes remain allowed only through explicit Luke approval and synchronized living-document updates. Codex and the product architect may recommend additions, splits, merges or resequencing but cannot make them silently.
+
+## Task 226 Facility And Site Architecture Decision
+
+Task 226 selects selective direct facility ownership with derivation. `organisation_id` remains the tenant/security boundary; a facility is an organisation-owned physical operational scope and is not a storefront, brand, domain or manufacturing customer. Organisation-wide suppliers, internal items, formulas, UOM rules and other master data are not duplicated per facility.
+
+The proposed Task 231 foundation creates facility identity/defaults, attaches `inventory_locations` and `production_areas`, and backfills direct facility identity on `inventory_receipts`, `production_plans`, `production_batches` and `logistics_dispatch_runs`. Children derive facility through stable parents. Inventory lots derive current distribution from movement locations rather than one mutable lot facility. QA templates remain organisation-wide; execution derives facility from its operational source, with direct scope added later for independent daily/manual checks.
+
+Clean Eats remains a single-facility tenant with an automatically resolved default and no selector friction. The provisional reviewed concept is `Clean Eats Manufacturing Facility`, code `MAIN`, timezone `Australia/Melbourne`, country `AU`, with address left unpopulated until verified. No schema, facility record, UI or migration was created in Task 226. Task 227 is next; Architecture Gate 1 remains after Task 230 and Task 231 remains blocked.
