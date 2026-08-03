@@ -97,6 +97,10 @@ Production must eventually distinguish theoretical formula requirement, expected
 
 An installable EveryBatch Shopify app/connector is approved strategic direction. Clean Eats is the first tenant implementation, not the permanent architecture. Clean Eats V1 may read its existing configurable Zapiet delivery-date tag without replacing Zapiet initially.
 
+Task 227 establishes the ownership model before connector/schema work. CEA and CEW are separate Clean Eats-owned storefront connections. Made Active owns its storefront and is represented initially by a narrow external business/manufacturing-customer identity plus a mutually accepted contract-manufacturing relationship with Clean Eats; it is not forced to become a full tenant. Later tenant conversion links that identity rather than rewriting history.
+
+Provider/storefront identity, store owner, connection, brand, manufacturing customer, target manufacturer and facility remain distinct. Provider key plus provider-assigned store ID is canonical; prefix, display label and domain are metadata. The store owner controls provider consent, the manufacturer controls acceptance/mapping/facility, and connection business status remains separate from technical health.
+
 The core remains provider-agnostic: Shopify, other commerce systems, wholesale, recurring orders, CSV, API and manual demand may all feed controlled demand. Future foundations likely cover connections, stores, external orders/lines, SKU mapping, date rules, sync events, production demand/snapshots and exceptions, but no schema or OAuth/webhook/distribution decision is made here.
 
 Order creation, edit, cancellation, refund, quantity or date changes mean demand is mutable. EveryBatch must eventually distinguish live expected demand, reviewed demand, frozen production demand and post-freeze deltas. Upstream changes cannot silently rewrite approved or completed production history.
@@ -141,7 +145,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 226 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 227 is next and Architecture Gate 1 follows Task 230.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 227 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 228 is next and Architecture Gate 1 follows Task 230.
 
 ## 19. Current Risks And Read Next
 

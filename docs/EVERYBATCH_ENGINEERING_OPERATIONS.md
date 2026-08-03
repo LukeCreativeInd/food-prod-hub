@@ -8,11 +8,12 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Latest completed task after the current changeset is committed: 226; exact hash to be backfilled by Task 227
+- Latest completed task after the current changeset is committed: 227; exact hash to be backfilled by Task 228
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
-- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Task 227 is next
+- Task 226 commit: `36d53894579e0e8762d7ed441187e5c23552678e`
+- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Task 228 is next
 - Architecture Gate 1 follows Task 230; no migration is pending
 
 ## Branch And Task Workflow
@@ -46,6 +47,8 @@ Supabase SSR browser/server clients share established cookie options. Server hel
 `organisation_id` is the current tenant boundary. Cross-organisation foreign keys use same-tenant composite relationships where required. Derive actor/tenant from authenticated context for privileged workflows; never trust an arbitrary client organisation ID. Never use a service-role key in tenant application flows.
 
 Task 226 selects organisation-owned facilities with selective direct root ownership and stable parent derivation. `organisation_id` remains on facility-scoped records and remains the RLS tenant boundary. Master data is not duplicated per facility. Task 231 may implement only the approved foundation after Architecture Gate 1; do not add facility fields in unrelated work.
+
+Task 227 separates provider storefront, store owner, connection, manufacturing customer, target manufacturer and facility. Externally owned demand requires store-owner consent plus manufacturer acceptance through an explicit relationship; an external identity grants no tenant access. Preserve stable provider/store IDs, historical mapping/target attribution and separate business status from connector health. No commerce schema exists yet; do not invent cross-tenant links before Architecture Gate 1 and Task 232.
 
 ## RLS, Permissions And Workflow RPCs
 

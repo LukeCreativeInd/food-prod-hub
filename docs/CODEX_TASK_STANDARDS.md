@@ -94,6 +94,8 @@ Assess that delta against the previous task document, README, project context, a
 
 At the start of the next task, verify the previous task's final commit in Git. Backfill its exact commit hash and final committed status in `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and correct any previous-task wording that was necessarily unknown before commit. Never invent a commit hash in the task being committed.
 
+Commerce, external-demand and contract-manufacturing tasks must preserve Task 227's separation of provider storefront, store owner, connection, manufacturing customer, target organisation and facility. Store-owner consent and manufacturer acceptance are distinct; external identities do not grant tenant access; business status and technical health remain separate; provider prefixes/domains are not canonical identity; and customer data is minimised by workflow.
+
 Every future numbered task must review living-document impact, update `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and update the capability, decision, ownership, product or engineering living document only when its specific truth changes.
 
 Every task response must also include one of:

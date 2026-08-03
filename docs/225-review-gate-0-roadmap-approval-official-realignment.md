@@ -14,7 +14,7 @@ The gate prevented schema and implementation work from starting against assumed 
 
 ## Approval
 
-Luke reviewed the Task 224 evidence and explicitly approved the sequence now recorded in `docs/225-348-official-roadmap.md`. Review Gate 0 is closed. Task 226 subsequently completed the Facility and Site Architecture Decision; Task 227 is now next.
+Luke reviewed the Task 224 evidence and explicitly approved the sequence now recorded in `docs/225-348-official-roadmap.md`. Review Gate 0 is closed. Tasks 226 and 227 subsequently completed the facility and commerce/manufacturing-relationship decisions; Task 228 is now next.
 
 The roadmap makes production-tool replacement the central Phase 1 programme while preserving Inventory, QA, Logistics, Tools, Reports, UI, dashboards, Support, Platform Admin, marketing, commercial, audit and hardening work.
 

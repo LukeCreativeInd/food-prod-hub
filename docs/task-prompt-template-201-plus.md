@@ -23,6 +23,8 @@ Do not silently add, split, merge, rename, delay or resequence roadmap tasks. Co
 
 For any task touching physical operations, classify each affected record against the Task 226 facility decision: organisation-wide, directly facility-scoped, derived through an authoritative parent, organisation default with facility override, cross-facility, external/source-owned with target assignment, reporting-only or explicitly unresolved. Preserve `organisation_id` as the tenant boundary, do not trust client facility identifiers and do not add facility schema before Architecture Gate 1 and the approved Task 231 scope.
 
+For any task touching commerce, external demand or contract manufacturing, classify provider/store identity, store owner, connection, manufacturing customer, target organisation, target facility and historical attribution against Task 227. Preserve owner consent and manufacturer acceptance as separate evidence, keep business status separate from technical health, minimise PII, do not treat prefixes/domains/brands as canonical identity and do not add commerce schema before Architecture Gate 1 and the approved Task 232 scope.
+
 At the start of the new task, verify the previous task's final commit in Git. Backfill its exact commit hash and final committed status in `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and correct any previous-task wording that could not be known before commit. Never invent the current task's future commit hash.
 
 ```text

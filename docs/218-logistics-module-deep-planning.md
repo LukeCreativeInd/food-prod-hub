@@ -4,6 +4,8 @@
 
 > **Task 226 facility decision:** each dispatch run will retain one direct origin facility; deliveries, lines, manifests and exports derive that origin through the run. Generated manifests must preserve facility identity in immutable snapshots. Carriers/services stay organisation-wide, with facility availability added only if evidence requires it. No Logistics schema changed in Task 226; the official order is in [Tasks 225-348](./225-348-official-roadmap.md).
 
+> **Task 227 commerce decision:** provider/storefront, store owner, manufacturing customer, target manufacturer and facility remain distinct. Commerce owns source order/line and connection attribution; Logistics receives only reviewed delivery/dispatch fields and preserves historical snapshots. Made Active is an external manufacturing customer, not a Clean Eats-owned store or a Logistics special case. No Logistics schema changed in Task 227.
+
 Task 218 is a planning-only task for the future EveryBatch Logistics module. It does not create routes, UI, schema, migrations, permissions, RLS policies, feature flags, data, exports, integrations, domain changes, middleware changes, package changes or user-facing behaviour.
 
 Correct domain references for this plan are:

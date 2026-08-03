@@ -34,6 +34,8 @@ Each tenant may have its own branding, modules, users, and data. The app should 
 
 ## Integration Layer Pattern
 
+Task 227 refines this pattern for commerce: provider/storefront identity and connection evidence remain separate from organisation-owned manufacturing data. Externally owned storefront demand requires store-owner consent plus manufacturer acceptance, while the target facility remains a separate physical assignment. No commerce schema or connector is implemented yet.
+
 Future integrations should follow this pattern where possible:
 
 1. External system

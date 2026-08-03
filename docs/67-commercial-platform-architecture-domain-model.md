@@ -1,5 +1,7 @@
 # Commercial Platform Architecture and Domain Model
 
+> **Task 227 refinement:** commerce store ownership and contract manufacturing are now separated from tenant subscription/account ownership. CEA and CEW are Clean Eats-owned storefront contexts; Made Active remains an externally owned storefront/manufacturing-customer identity with explicit manufacturer acceptance. A later Made Active tenant links to the same external identity rather than rewriting history. No commerce or CRM schema exists yet.
+
 ## Planning Status
 
 This is a planning document only.

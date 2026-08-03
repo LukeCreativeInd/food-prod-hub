@@ -30,16 +30,19 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 
 ## Current Status
 
-- Latest completed task after the current changeset is committed: Task 226, Facility and Site Architecture Decision
+- Latest completed task after the current changeset is committed: Task 227, Commerce Connections and Contract Manufacturing Architecture
 - Task 223A commit: `a8c2761`
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
-- Task 226 exact commit hash: to be backfilled by Task 227 through the post-commit context-delta workflow
+- Task 226 commit: `36d53894579e0e8762d7ed441187e5c23552678e` (`Decide facility architecture`)
+- Task 227 exact commit hash: to be backfilled by Task 228 through the post-commit context-delta workflow
 - Review Gate 0 is closed; the [Tasks 225-348 roadmap](docs/225-348-official-roadmap.md) is authoritative
-- Next approved task: Task 227, Commerce Connections and Contract Manufacturing Architecture
+- Next approved task: Task 228, External Order Intake and Production Demand Architecture
 - Tasks 226-230 form the approved architecture phase; Architecture Gate 1 follows Task 230
 - Task 226 selects organisation-owned facilities with selective direct operational-root ownership and stable parent derivation; no facility schema or UI is implemented
+- Task 227 selects a staged external-business and accepted contract-manufacturing relationship model: CEA/CEW remain Clean Eats-owned, Made Active remains externally owned, and no commerce schema or connector is implemented
+- Commerce business status and technical health remain separate; provider/store identity cannot rely on order prefix, display label or domain alone
 - Earlier roadmaps remain preserved as superseded historical evidence
 - The app shell now contains a mix of real operational foundations and explicitly honest future/empty workspaces
 - Design direction is Clean Eats-inspired while platform planning remains reusable
@@ -710,6 +713,6 @@ Carrier Configuration Foundation is documented in [Carrier Configuration Foundat
 - Added tenant carrier and service configuration using the existing Logistics schema and granular permissions. Active choices feed carrier-scoped draft dispatch selectors, service archive remains soft and history-safe, and Carrier Exports remains disconnected without credentials, files or provider calls. Applied migration 044 splits the defective shared carrier/service identity trigger into table-appropriate trigger functions without changing RLS, permissions or operational data
 - Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, and corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins. Leaked Password Protection must not be described as disabled without live evidence; its live setting and older warning-era documentation are pending the approved Task 343 External-Tenant Security Review or another explicitly approved live verification
 - Realigned the active roadmap at Task 223, established permanent Codex task standards, and retained the old Tasks 201-250 sequence as clearly superseded historical context
-- Task 223A (`a8c2761`) establishes the living knowledge system. Task 223B (`f8f576603d97732d9fa1f29702fec78fccb05036`) defines the production-replacement direction. Task 224 (`8b8e94a87f6e94fef78c05317f87cad4bb01caea`) adds the matched evidence audit. Task 225 (`82a81613556c311198449670b0425106f062a4ef`) closes Review Gate 0. Task 226 decides the facility architecture, with Task 227 next and Task 231 still blocked until Architecture Gate 1.
+- Task 223A (`a8c2761`) establishes the living knowledge system. Task 223B (`f8f576603d97732d9fa1f29702fec78fccb05036`) defines the production-replacement direction. Task 224 (`8b8e94a87f6e94fef78c05317f87cad4bb01caea`) adds the matched evidence audit. Task 225 (`82a81613556c311198449670b0425106f062a4ef`) closes Review Gate 0. Task 226 decides the facility architecture, Task 227 decides commerce/manufacturing ownership, Task 228 is next, and Task 231 remains blocked until Architecture Gate 1.
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, stock movement reversal behavior, partial QA holds or full NC/CA workflow has been added.

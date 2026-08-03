@@ -209,7 +209,7 @@ No `NOT NULL` constraint should be added before the corresponding backfill has p
 
 ## Tables That Wait For Owning Tasks
 
-- Commerce connections, storefronts and source orders: Tasks 227, 229, 232-233.
+- Commerce connections, storefronts and source orders: ownership/consent architecture is decided in Task 227; implementation remains Tasks 229, 232-233 after Gate 1.
 - Mapping, bundle and exception records: Tasks 234-235.
 - Production demand, snapshots and deltas: Tasks 228, 236-237.
 - Production Methods and Work Instructions: Tasks 239-245.

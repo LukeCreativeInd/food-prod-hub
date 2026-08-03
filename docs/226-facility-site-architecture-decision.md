@@ -312,7 +312,7 @@ Task 231 should not add facility membership, selector UI, route changes, commerc
 
 ## Deferred Decisions For Tasks 227-230
 
-- **Task 227:** commerce connection ownership, external manufacturer authorisation, storefront/brand/customer relationships and connection-to-facility defaults.
+- **Task 227 (now complete):** selects stable provider/store identity, internal/external store ownership, a narrow external business identity, explicit owner consent plus manufacturer acceptance, and a default-facility readiness direction. No commerce schema is implemented.
 - **Task 228:** source order/demand ownership, when facility assignment becomes mandatory, reassignment evidence, freeze/delta behaviour and plan splitting.
 - **Task 229:** Shopify installation/credential/security model and trusted connection context. Shopify IDs must not become facility IDs.
 - **Task 230:** delivery zones, calendars, cut-offs, public holidays, production-date calculation and automatic target-facility routing.
@@ -356,7 +356,7 @@ These tasks must preserve organisation tenancy, facility ownership, provider-neu
 
 ## Roadmap Implications
 
-Task 226 is complete in durable post-commit wording. Task 227 is next approved. Tasks 227-230 must conform to this facility boundary. Architecture Gate 1 remains after Task 230, and Task 231 cannot begin before Luke's gate approval. Detailed transfer design remains Tasks 249-251.
+Task 226 is committed at `36d53894579e0e8762d7ed441187e5c23552678e`. Task 227 is complete and Task 228 is next approved. Tasks 228-230 must conform to this facility boundary and the Task 227 commerce/authorisation model. Architecture Gate 1 remains after Task 230, and Task 231 cannot begin before Luke's gate approval. Detailed transfer design remains Tasks 249-251.
 
 ## Behaviour Preserved
 
@@ -368,4 +368,4 @@ Task 226 requires lint, TypeScript, production build, `git diff --check`, branch
 
 ## Next Task
 
-Task 227 - Commerce Connections and Contract Manufacturing Architecture.
+Task 227 is complete. The next approved task is Task 228 - External Order Intake and Production Demand Architecture.

@@ -1,5 +1,7 @@
 # Support Domain And Auth-Gated Help Centre Plan
 
+> **Task 227 commerce boundary:** future Support may receive safe provider/store references, connection status/health and redacted mapping/calendar diagnostics. It must not receive unrestricted source-order PII, raw provider payloads, credentials or cross-tenant operational access. No commerce Support behaviour is implemented by Task 227.
+
 Task 172 plans the future authenticated EveryBatch support/help centre.
 
 This is a planning-only task. It does not create support routes, support UI, support domain routing, ticket tables, migrations, RLS policies, permissions, Supabase Auth settings, DNS/Vercel settings, middleware changes, sidebars/design changes, tenant app business logic, Platform Admin business logic or packages.

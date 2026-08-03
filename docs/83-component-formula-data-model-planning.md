@@ -2,6 +2,8 @@
 
 ## Planning Status
 
+> **Task 227 commerce boundary:** provider products/variants remain external Commerce identity. Manufacturer-approved connection-scoped mappings target organisation-owned `internal_items`; storefront names and SKUs do not become formula or item master truth. Mapping changes must not rewrite historical Production contributions.
+
 This is planning only.
 
 No migrations, Supabase operations, RLS changes, permissions, UI, production routes, stock movements or integrations are added by this task.

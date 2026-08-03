@@ -10,6 +10,8 @@ No app code, routes, database schema, migrations, RLS policies, permissions, nav
 
 > **Task 226 facility decision:** an organisation may have zero facilities while provisioning, but operational readiness requires at least one active default facility. Tenant provisioning may create the first facility through a later controlled workflow or leave it for onboarding; it must not invent addresses or create generic operational data. Facility schema and provisioning behaviour are not implemented, and Task 231 remains blocked until Architecture Gate 1.
 
+> **Task 227 commerce decision:** an external manufacturing customer such as Made Active is not provisioned as a full tenant merely to authorise demand. A narrow external business identity may later link to an organisation through a controlled conversion without rewriting history. Tenant provisioning remains separate from commerce connection consent and contract-manufacturing acceptance.
+
 ## Current State
 
 Current Platform Admin state:
