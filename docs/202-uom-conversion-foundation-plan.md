@@ -1,5 +1,7 @@
 # UOM Conversion Foundation Plan
 
+> **Task 224 evidence note:** Legacy report units and conversion-like constants are not approved UOM rules. Production parity must use current approved formula/output units and explicit EveryBatch conversion evidence; ambiguous legacy values remain staff-validation items.
+
 Task 202 plans the EveryBatch unit-of-measure conversion foundation before schema, UI or workflow changes are built.
 
 This is documentation only. It does not create UOM tables, UI, migrations, RLS, permissions, auth/domain routing, DNS/Vercel/Supabase setting changes, business logic, packages or sample data. It does not change `lib/unit-conversions.ts`, costing calculations, costing snapshots, Supplier Invoice Intake, Goods Inwards posting, inventory schema or production planning logic.

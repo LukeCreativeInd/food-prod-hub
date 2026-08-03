@@ -8,8 +8,9 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Latest completed task after the current changeset is committed: 223B; exact hash to be backfilled by the next approved task
-- Task 224 is recommended but requires explicit approval; Review Gate 0 keeps proposed Tasks 225-257 provisional
+- Latest completed task after the current changeset is committed: 224; exact hash to be backfilled after Review Gate 0
+- Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
+- Review Gate 0 is current; no implementation task is approved and proposed Tasks 225-257 remain provisional
 - Previous Tasks 224-276 remain paused; no migration is pending
 
 ## Branch And Task Workflow
@@ -112,9 +113,9 @@ Known deferred performance backlog: AppShell/navigation context, dashboard query
 
 ## Current Migrations And Warnings
 
-Repository/documentation evidence records migrations `001`-`044` applied, including QA `039`, audit hardening `040`, QA hold/release `041`, Logistics schema `042`, dispatch workflow `043` and Logistics trigger fix `044`. Tasks 223A and 223B add no migration.
+Repository/documentation evidence records migrations `001`-`044` applied, including QA `039`, audit hardening `040`, QA hold/release `041`, Logistics schema `042`, dispatch workflow `043` and Logistics trigger fix `044`. Tasks 223A, 223B and 224 add no migration.
 
-Production-replacement architecture must keep external source evidence, normalised intake, frozen demand, formula calculations, planning intentions, physical Inventory movements, QA evidence and Logistics records in their owning domains. Golden fixtures from representative legacy input/output pairs are required before calculation parity is claimed. Missing legacy source/configuration evidence must be reported, not reverse-engineered from narrative alone.
+Production-replacement architecture must keep external source evidence, normalised intake, frozen demand, formula calculations, planning intentions, physical Inventory movements, QA evidence and Logistics records in their owning domains. Task 224 registers the first matched golden fixture and legacy source fingerprints. Further edited/cancelled/date-change, calendar, shortage, hold and room-execution fixtures remain required before complete parity or retirement is claimed. Legacy constants are behavioural evidence only until current Clean Eats data and staff approval establish canonical values.
 
 Supabase Advisor warnings include reviewed intentional `SECURITY DEFINER` exceptions and require contextual review, not automatic removal. Earlier context says Leaked Password Protection was enabled after upgrade; verify the live setting later before making a present-tense claim.
 

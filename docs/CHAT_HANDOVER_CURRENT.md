@@ -14,12 +14,12 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Tenant 1 and proving ground: **Clean Eats Hub**
 - Repository: `/Users/cealukemichalowsky/Development/food-prod-hub`
 - Required working branch: `main`
-- Latest completed task after the current changeset is committed: **223B - Phase 1 Production Replacement and Roadmap Reassessment**
+- Latest completed task after the current changeset is committed: **224 - Production Replacement Evidence Collection And Legacy Logic Audit**
 - Task 223A exact commit hash: `a8c2761`
-- Task 223B exact commit hash: to be backfilled by the next approved task through the post-commit context-delta workflow
-- Recommended next task: **224 - Production Replacement Evidence Collection And Legacy Logic Audit**, requiring Luke's explicit approval before its prompt is issued
-- Review Gate 0: mandatory Luke/architect review after Task 224 before later proposed tasks activate
-- Proposed Tasks 225-257: provisional and subject to Task 224 evidence
+- Task 223B exact commit hash: `f8f576603d97732d9fa1f29702fec78fccb05036`
+- Task 224 exact commit hash: to be backfilled after Review Gate 0 through the post-commit context-delta workflow
+- Current project stage: **Review Gate 0**; no next implementation task is approved
+- Proposed Tasks 225-257: provisional and subject to Luke/architect review of Task 224 evidence
 - Previous Tasks 224-276: preserved without renumbering and paused until an official roadmap update is approved
 - No migration is pending
 
@@ -44,7 +44,8 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 
 ## Current Risks And Backlog
 
-- Task 223B establishes production replacement scope, evidence requirements, decommission gates, a conditional legacy-data transition workstream and a provisional sequence. External source/configuration/CSV/PDF evidence was unavailable, so parity has not been assessed.
+- Task 224 inspected both legacy sources and one matched raw-to-cleaned-to-PDF day. The 3,626 raw units reconcile to 3,614 report units after 12 known parent-pack exclusions. The current tools use exact-title filters, merge CEA/CEW attribution, ignore source product/variant IDs and retain no order/line/date provenance. Legacy formulas and setup values remain non-canonical.
+- Review Gate 0 must decide the official sequence, facility/calendar boundaries, commerce mapping, controlled current-data import, Recipes ownership, minimum transfer/staging and physical actuals classification. No later implementation is approved.
 - Facility/site architecture is required before operational tables become multi-facility; do not add speculative `facility_id` fields ad hoc.
 - Shopify/order demand must remain provider-agnostic even though Clean Eats and its Zapiet date tag are the first implementation.
 - Recipes may mean formula, production method, work instruction or run/report; the workspace remains unresolved.
@@ -62,7 +63,7 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 7. `MODULE_SOURCE_OF_TRUTH_MATRIX.md`
 8. `DECISION_LOG.md`
 9. `TASK_INDEX.md`
-10. The current Task 223B document and production replacement package
+10. The Task 224 audit, evidence manifest, rule catalogue and Review Gate 0 recommendation
 11. `history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md` only for deeper historical rationale
 
 ## Working Model

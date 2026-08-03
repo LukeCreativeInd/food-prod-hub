@@ -4,6 +4,14 @@
 
 This is the minimum practical collection request needed to inspect current logic, plan implementation and later prove parity. Redact customer names, addresses, email, phone, payment data, access tokens and secrets. Keep stable synthetic IDs only where needed to connect rows across files. Evidence can block implementation/parity without blocking high-level planning.
 
+## Task 224 Collection Status
+
+Received and audited: both legacy source archives; three matched raw Zapiet exports; combined Clean Eats and Made Active workbooks; and the matched 22-page PDF. The files were privacy-safe for production analysis and are registered in `PRODUCTION_REPLACEMENT_EVIDENCE_MANIFEST.md`.
+
+The matched pack proves current title-based cleanup, two observed bundle metadata families, the 3,473/141/0/3,614 report reconciliation, downstream report sections, copy counts, hard-coded requirement logic, GitHub report history and weekly summaries.
+
+Still required for implementation/decommission: pre-export order/line examples; definitive CEA/CEW source identity; edited/cancelled/refunded/free/subscription cases; Zapiet field/filter/calendar configuration; current approved formulas/methods/instructions/yields; area/print distribution; shortage/hold/transfer/actual-output cases; deployment ownership; outage procedure; and staff validation. Task 224 evidence is a baseline, not the full retirement pack.
+
 ## A. Tool Source And Deployment Evidence
 
 | Request | Why / decision supported | Blocking level | Privacy-safe preparation |
@@ -39,7 +47,7 @@ This is the minimum practical collection request needed to inspect current logic
 | --- | --- | --- | --- |
 | Aggregated CSV uploaded to the report tool | Define report input contract | Blocks parity | Use matched redacted production day |
 | Current source/configuration CSV | Classify formula, method, yield, rounding, area and layout rules | Blocks implementation/parity | Preserve operational values; remove secrets only |
-| Generated approximately 24-page PDF | Inventory sections, calculations and instructions | Blocks decommission scope | Redact customer/order personal data |
+| Matched generated PDF (22 pages in the Task 224 baseline) | Inventory sections, calculations and instructions | Blocks decommission scope | Redact customer/order personal data |
 | Section definition and room distribution list | Design area tasks/views and fallback packs | Blocks area acceptance | Area/role names are sufficient |
 | Print count and outage/fallback procedure | Define resilience requirement | Blocks retirement | No personal data |
 | Known shortages/errors and workarounds | Design exceptions and comparison tests | Blocks safe replacement | Use dates/items without customer data |
@@ -88,4 +96,4 @@ Use a real production-day walkthrough with privacy-safe records and compare what
 3. **Exception day:** bundle/non-production line, shortage, held lot or schedule exception.
 4. **Room pack:** annotated page-to-area map with each field marked required, useful or obsolete.
 
-The evidence should be versioned and read-only during analysis. It must not be imported into production systems by Task 223B.
+The evidence must remain versioned and read-only. Task 224 did not import it into production systems or copy raw evidence into EveryBatch.

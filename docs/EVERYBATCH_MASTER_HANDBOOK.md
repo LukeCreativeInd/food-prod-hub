@@ -71,13 +71,13 @@ The final model is unresolved. Every future operational table must answer whethe
 
 Components are first-class manufactured items. Formulas/BOMs describe what goes into an output, quantities and output unit. Versioning protects approved and historical meaning. Contextual UOM conversions must be explicit; unsafe unit assumptions block calculation.
 
-The Recipes workspace is unresolved. A formula/BOM is not a production method/route, a human-facing work instruction/recipe card, or a production run/report. The workspace may become Methods & Instructions, Recipe Cards, move to Production, or disappear into item pages. Task 223B recommends a dedicated ownership decision before execution work but does not choose.
+The Recipes workspace is unresolved. A formula/BOM is not a production method/route, a human-facing work instruction/recipe card, or a production run/report. Task 224 confirms the legacy report mixes these categories and presentation concerns, strengthening the need to separate ownership. The workspace may become Methods & Instructions, Recipe Cards, move to Production, or disappear into item pages; Review Gate 0 must decide before execution work.
 
 ## 9. Phase 1 Production Replacement
 
 The current Clean Eats production tools are temporary operational bridges, not permanent parallel systems. Phase 1 succeeds when Clean Eats can plan and execute daily production inside EveryBatch without the current three-to-four Vercel tools or five printed copies of the global Production Report.
 
-Today Tony filters Shopify orders using a Zapiet delivery-date tag, exports CSV, runs a separate meal-total aggregation, uploads another CSV to the Production Report tool, applies older recipe/instruction configuration, generates an approximately 24-page PDF and prints roughly five copies across facility rooms. The report is operationally important but static, not fully inventory/yield aware and can leave production short.
+Today Tony filters Shopify orders using a Zapiet delivery-date tag, exports CSV, runs a separate meal-total aggregation, uploads another CSV to the Production Report tool, applies older recipe/instruction configuration and prints repeated room packs. Task 224 verifies that the matched 3 August 2026 PDF is 22 pages; the earlier approximately 24-page description was operational recollection rather than a fixed report size. The report is operationally important but static, not fully inventory/yield aware and can leave production short.
 
 The target chain is:
 
@@ -85,7 +85,7 @@ External order demand -> delivery/production date interpretation -> finished-pro
 
 The global PDF should become a live Production Admin/control view, area-specific task views, optional room packs and an optional full printable fallback. Legacy tools retire only after logic parity, real production-day comparison, resolved differences, staff usability validation and an approved decommission decision.
 
-Task 223B confirms that current EveryBatch plans, batches, formula, Inventory, Receiving QA and Logistics foundations are useful but do not yet replace the daily workflow. The external tool source, paired CSVs, configuration CSV and generated PDF were unavailable, so exact calculation/instruction parity remains unassessed. The evidence pack, gap matrix and proposed roadmap make that boundary explicit.
+Task 224 confirms that current EveryBatch plans, batches, formula, Inventory, Receiving QA and Logistics foundations are useful but do not yet replace the daily workflow. Its matched fixture reconciles 3,626 raw units to 3,614 report units after 12 known parent-pack exclusions and verifies a 22-page, 26-meal report. It also exposes exact-title filtering, merged Clean Eats store attribution, missing order/date provenance, hard-coded calculation rules and contradictory source residue. These findings define parity tests; they do not approve legacy values as master data.
 
 ## 10. Inventory-Aware Production
 
@@ -141,7 +141,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 223B is the latest completed task after its changeset is committed. Task 224 is recommended but requires explicit approval; Review Gate 0 follows it, and all later proposed sequencing remains provisional.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 224 is the latest completed task after the current changeset is committed. Review Gate 0 is current, no implementation task is approved, and all later proposed sequencing remains provisional.
 
 ## 19. Current Risks And Read Next
 

@@ -1,6 +1,6 @@
 # Production Plan UI v1
 
-> **Task 223B current-state note:** The UI is a real planning foundation, not the daily Clean Eats production replacement. It has no Shopify/order intake, demand freeze/delta, formula-expansion engine, inventory allocation, floor-task execution, production consumption/output or report parity. Proposed extensions remain paused pending Luke's roadmap approval.
+> **Task 224 current-state note:** The UI is a real planning foundation, not the daily Clean Eats production replacement. The matched fixture now defines one parity baseline, but this UI still has no Shopify/order intake, demand freeze/delta, formula expansion, inventory allocation, floor tasks, production actuals or report replacement. Proposed extensions remain paused at Review Gate 0.
 
 Task 199 builds the first real Production Plan UI using the schema foundation from task 198 and migration 036.
 

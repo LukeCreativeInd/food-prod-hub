@@ -1,6 +1,6 @@
 # Proposed Post-223B Roadmap
 
-> **Proposed - awaiting Luke's approval.** This document does not replace the active roadmap. Tasks 224-276 remain paused and no task has been officially renumbered. Task 224 is the recommended next task, but it requires Luke's explicit approval before an implementation prompt is issued.
+> **Proposed after Task 224 - awaiting Review Gate 0 approval.** This document does not replace the active roadmap. Task 224 is complete, Tasks 225 onward remain provisional, the former paused roadmap is preserved and no later task has been officially activated or renumbered.
 
 ## Optimisation Goal
 
@@ -10,16 +10,27 @@ The proposed sequence prioritises truthful source architecture, retirement of th
 
 | Task | Title | Purpose, scope and dependencies | Non-goals | Migration | Completion evidence | Decommission effect |
 | --- | --- | --- | --- | --- | --- | --- |
-| 224 | Production Replacement Evidence Collection And Legacy Logic Audit | Collect the Task 223B evidence pack; inspect actual tool source, CSV pairs, config and PDF; create rule/parity inventory. Depends on Luke supplying evidence. | No implementation, import or retirement | No | Traceable rule inventory, representative fixtures and open questions | Converts assumed parity into testable requirements |
+| 224 | Production Replacement Evidence Collection And Legacy Logic Audit | Completed evidence audit of both source archives, three raw exports, two cleaned workbooks and one matched PDF. | No implementation, import or retirement | No | Stable evidence fingerprints, reconciled matched fixture, rule catalogue and open questions | Converts assumed parity into testable requirements |
 
 ### Review Gate 0 - Mandatory Evidence Review
 
-- Task 224 is the only proposed near-term task ready to be considered for immediate approval. It is recommended, not automatically approved by Task 223B.
-- Tasks 225-257 remain provisional and subject to evidence from Task 224.
-- Task 224 may reveal missing tools, unexpected rules, data-quality issues, import requirements, workflow differences or dependencies.
-- Luke and the architect must review Task 224 before Tasks 225 onward become active.
+- Task 224 is complete as an evidence and documentation task.
+- Tasks 225-257 remain provisional and are now subject to the recorded Task 224 findings.
+- Task 224 found missing provenance, hidden exact-title behaviour, non-canonical hard-coded rules, contradictory source residue and additional report-history helpers.
+- Luke and the architect must review these findings before Tasks 225 onward become active.
 - No task after 224 should begin merely because it appears in this proposal.
 - Exact numbering and scope after Task 224 may be corrected without treating that as roadmap failure.
+
+### Task 224 Evidence Annotations
+
+- Facility architecture still precedes facility-scoped demand and execution schema; the matched files do not contain facility identity.
+- Provider-neutral order intake and an installable Shopify connector remain the recommended architecture. Clean Eats has multiple storefronts and Made Active is an external brand/store feeding Clean Eats manufacturing.
+- A dedicated commerce mapping and exception workflow should move early because the current tools ignore stable product/variant identity, merge Clean Eats store attribution and silently drop unknown titles.
+- Formula Import should become an earlier conditional workstream only after ownership and current approved source data are settled. Legacy report constants must not be imported as canonical data.
+- Item/Supplier Mapping QA patterns may be reused for review/provenance, but supplier mapping work should not be moved wholesale into production replacement.
+- Production QA integration remains required before task schema. Staff must validate which checks block completion and which paper controls are required before pack retirement.
+- Minimum pick/transfer/staging confirmation and formal consumption/output remain Review Gate 0 classification decisions; planning must never create physical movements.
+- `/recipes` should likely separate Products-owned formulas from Production-owned methods/instructions, but no route disposition is approved.
 
 ## Provisional Sequence After Review Gate 0 - Subject To Task 224 Evidence And Luke's Approval
 
@@ -50,14 +61,14 @@ The proposed sequence prioritises truthful source architecture, retirement of th
 
 ### Conditional Legacy Production Data Transition Workstream
 
-Task 224 must determine whether existing formulas, methods and instructions can be entered safely by staff or require a controlled import. Potential tasks, to be activated and numbered only after the Task 224 evidence review, are:
+Task 224 finds that approved current formulas, methods and instructions may require controlled import, while the inspected legacy constants are unsuitable for direct migration. Potential tasks, to be activated and numbered only after Review Gate 0, are:
 
 - Legacy Formula, Method And Instruction Import Plan
 - Legacy Production Data Staging And Parser Foundation
 - Legacy Production Data Mapping, Validation And Review UI
 - Controlled Apply And Import Reconciliation
 
-Task 224 must establish:
+Review Gate 0 and later source collection must establish:
 
 - the volume of legacy formula, method and instruction records;
 - the structure and quality of the source/configuration CSV;
@@ -68,7 +79,7 @@ Task 224 must establish:
 - how duplicates, missing items, UOM mismatches and invalid methods are handled;
 - whether import is required before parity testing.
 
-No import task is activated or numbered by Task 223B. The original later Formula Import and Mapping QA work remains preserved until evidence determines whether it is promoted, expanded or partially reused.
+No import task is activated or numbered by Task 224. The original later Formula Import and Mapping QA work remains preserved until Review Gate 0 determines whether it is promoted, expanded or partially reused.
 
 | Task | Title | Purpose, scope and dependencies | Non-goals | Migration | Completion evidence | Decommission effect |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -167,8 +178,9 @@ The following approved work is preserved and must be resequenced after Task 257 
 
 - This proposal is not approved or active.
 - No active-roadmap row is replaced by this document.
-- Tasks 224-276 remain paused.
-- Task 224 is recommended next but requires Luke's explicit approval before its prompt is issued.
-- Review Gate 0 follows Task 224; Tasks 225-257 remain provisional until that evidence is reviewed and Luke approves the corrected sequence.
+- Task 224 is complete; no migration is pending.
+- Review Gate 0 is current and no next implementation task is approved.
+- Tasks 225-257 remain provisional until Luke and the architect approve a corrected sequence.
+- The former paused roadmap remains preserved pending official replacement.
 - Luke may approve, correct, merge, split or reject the sequence.
 - Official numbering changes require a later explicit documentation update.

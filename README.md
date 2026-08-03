@@ -30,13 +30,14 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 
 ## Current Status
 
-- Latest completed task after the Task 223B changeset is committed: Task 223B, Phase 1 Production Replacement and Roadmap Reassessment
+- Latest completed task after the current changeset is committed: Task 224, Production Replacement Evidence Collection and Legacy Logic Audit
 - Task 223A commit: `a8c2761`
-- Task 223B commit hash: to be backfilled by the next approved task through the post-commit context-delta workflow
-- Task 224 is the recommended next evidence task but requires Luke's explicit approval before its prompt is issued
-- Review Gate 0 follows Task 224; proposed Tasks 225-257 remain provisional and subject to Task 224 evidence
+- Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
+- Task 224 commit hash: to be backfilled after Review Gate 0 through the post-commit context-delta workflow
+- Review Gate 0 is the current project stage; no next implementation task is approved
+- Proposed Tasks 225-257 remain provisional and subject to the Review Gate 0 decision
 - Previous Tasks 224-276 remain preserved but paused until an official roadmap update is approved
-- Task 223B's [proposed post-223B roadmap](docs/PROPOSED_POST_223B_ROADMAP.md) is documented but not active or officially approved
+- Task 224's [evidence audit](docs/224-production-replacement-evidence-collection-legacy-logic-audit.md) and [Review Gate 0 recommendation](docs/REVIEW_GATE_0_FINDINGS_AND_ROADMAP_RECOMMENDATION.md) inform the [proposed post-223B roadmap](docs/PROPOSED_POST_223B_ROADMAP.md), which remains inactive and unapproved
 - The app shell now contains a mix of real operational foundations and explicitly honest future/empty workspaces
 - Design direction is Clean Eats-inspired while platform planning remains reusable
 - Documentation has been added for product direction, architecture, roadmap, development standards, release process, discovery notes, and Codex working rules
@@ -705,6 +706,6 @@ Carrier Configuration Foundation is documented in [Carrier Configuration Foundat
 - Added tenant carrier and service configuration using the existing Logistics schema and granular permissions. Active choices feed carrier-scoped draft dispatch selectors, service archive remains soft and history-safe, and Carrier Exports remains disconnected without credentials, files or provider calls. Applied migration 044 splits the defective shared carrier/service identity trigger into table-appropriate trigger functions without changing RLS, permissions or operational data
 - Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, and corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins. Leaked Password Protection must not be described as disabled without live evidence; its live setting and older warning-era documentation are pending an approved Task 261/security review
 - Realigned the active roadmap at Task 223, established permanent Codex task standards, and retained the old Tasks 201-250 sequence as clearly superseded historical context
-- Task 223A (`a8c2761`) preserves the original architect dossier as non-canonical history and establishes the permanent living knowledge system. Task 223B adds the [production replacement plan](docs/PHASE_1_PRODUCTION_REPLACEMENT_PLAN.md), [legacy tool inventory](docs/LEGACY_PRODUCTION_TOOL_INVENTORY.md), [gap matrix](docs/PRODUCTION_REPLACEMENT_GAP_MATRIX.md), [evidence pack](docs/PRODUCTION_REPLACEMENT_EVIDENCE_PACK.md) and an unapproved [proposed roadmap](docs/PROPOSED_POST_223B_ROADMAP.md); Tasks 224-276 remain paused
+- Task 223A (`a8c2761`) preserves the original architect dossier as non-canonical history and establishes the permanent living knowledge system. Task 223B (`f8f576603d97732d9fa1f29702fec78fccb05036`) defines the [production replacement plan](docs/PHASE_1_PRODUCTION_REPLACEMENT_PLAN.md) and provisional sequence. Task 224 adds the matched-fixture audit, evidence manifest, legacy-rule catalogue, transition assessment and Review Gate 0 recommendation. Proposed Tasks 225-257 and the former paused roadmap remain inactive until an official decision.
 
 No broad costing engine, GST/tax normalisation, production business logic, audit log write policies, OCR, AI extraction, purchase orders, automatic invoice-to-stock posting, stock movement reversal behavior, partial QA holds or full NC/CA workflow has been added.

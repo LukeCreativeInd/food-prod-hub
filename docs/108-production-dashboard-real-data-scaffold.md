@@ -1,6 +1,6 @@
 # Production Dashboard Real Data Scaffold
 
-> **Current direction after Task 223A:** This real-data scaffold is not the Phase 1 production replacement. Task 223B must review the live Shopify/Zapiet/CSV/report tool chain, formulas/instructions and room workflow before later Production tasks proceed. Area-scoped digital execution is required; the technology remains unresolved.
+> **Task 224 evidence note:** This real-data scaffold is not the Phase 1 production replacement. The audited legacy chain uses filtered Shopify/Zapiet exports, exact-title cleanup, hard-coded report calculations and repeated room packs. Area-scoped digital execution remains required, while facility/device architecture and staff-validated replacement rules remain unresolved at Review Gate 0.
 
 ## Status
 

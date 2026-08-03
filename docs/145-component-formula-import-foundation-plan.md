@@ -1,5 +1,7 @@
 # Component / Formula Import Foundation Plan
 
+> **Task 224 evidence note:** Legacy Production Report formulas, yields, water additions, batch rules and mappings are behavioural evidence only and must not be imported as canonical data. This import pattern may move earlier only for current approved Clean Eats source data, with source-row provenance, UOM/item validation, review and controlled apply.
+
 Task 145 creates the planning and schema-alignment foundation for importing Clean Eats component formulas and finished product formulas.
 
 This is planning/static helper work only. It does not add upload UI, parser actions, import commits, database migrations, Supabase writes, production task logic, Supplier Invoice Intake changes, Costings changes, Platform Admin changes or navigation changes.

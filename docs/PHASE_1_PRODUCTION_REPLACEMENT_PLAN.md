@@ -6,7 +6,7 @@ Clean Eats can plan and execute each production day in EveryBatch, with area-spe
 
 ## Current Operating Workflow
 
-Shopify/Zapiet filter -> CSV export -> meal aggregation -> aggregated CSV -> Production Report/configuration logic -> approximately 24-page PDF -> about five printed room copies. This workflow is Luke-confirmed; exact tool logic still requires source and staff evidence.
+Shopify/Zapiet filter -> six-column CSV exports -> exact-title cleanup/aggregation -> combined Clean Eats and separate Made summaries -> manual Production Report upload/date/adjustments -> hard-coded calculation modules -> matched 22-page PDF and paired CSV -> repeated printed room sections. Task 224 verified the source and one matched day; pre-export order/date evidence, exact room distribution and current staff-approved formulas/methods still require evidence.
 
 ## Target Operating Workflow
 
@@ -25,15 +25,15 @@ External demand -> interpreted delivery/production date -> mapped and reviewed d
 
 ## Review Gate 0
 
-Task 224, Production Replacement Evidence Collection And Legacy Logic Audit, is the only proposed near-term task ready to be considered for immediate approval. It is not automatically approved by committing Task 223B. Tasks 225-257 remain provisional until Task 224 identifies the actual tools, rules, source quality, import needs, workflow differences and dependencies, and Luke and the architect approve the corrected sequence.
+Task 224, Production Replacement Evidence Collection And Legacy Logic Audit, is complete once its changeset is committed. Review Gate 0 is now the current project stage. Tasks 225-257 remain provisional until Luke and the architect review the evidence-derived findings and approve an official corrected sequence.
 
-No task after Task 224 should begin merely because it appears in the proposal. Evidence-led corrections to numbering or scope after Review Gate 0 are expected refinement, not roadmap failure.
+No task after Task 224 should begin merely because it appears in the proposal. Evidence-led corrections to numbering or scope at Review Gate 0 are expected refinement, not roadmap failure.
 
 ## Conditional Legacy Production Data Transition
 
-Task 224 must determine the volume, structure and quality of legacy formulas, methods and instructions; whether safe manual entry is practical; whether Formula Import should move earlier; whether Mapping QA patterns can be reused; and whether import is required before parity testing. Any import must retain source-row provenance and review duplicates, missing items, UOM mismatches and invalid methods.
+Task 224 found a large mixed hard-coded rule surface but not an approved current formula/method/instruction source. A controlled current-data staging/review workstream is likely safer than ad hoc transcription, conditional on Luke supplying approved current data and deciding ownership. Formula Import patterns should move earlier after that decision; Mapping QA interaction patterns may be reused. Legacy Python constants must not be imported automatically.
 
-Potential import planning, staging/parser, mapping/review and controlled-apply tasks remain conditional and unnumbered until Review Gate 0. No import is implemented by this plan.
+Potential import planning, staging/parser, mapping/review and controlled-apply tasks remain conditional and unnumbered until Review Gate 0 approval. No import is implemented by this plan or Task 224.
 
 ## Stage Model
 
@@ -96,7 +96,7 @@ Each legacy stage progresses through: Inventory documented -> Replacement planne
 
 No stage may retire until inputs, mappings, calculations, report/task behaviour, exceptions, permissions, performance, support, fallback and real production-day comparisons are accepted by the responsible staff.
 
-Minimum pick, transfer and staging requirements belong to the replacement gate. Planning a move does not post Inventory movement; only authorised confirmation of the physical move posts it. Formal reservation/allocation beyond that minimum, production consumption/output and deeper traceability remain B unless Task 224 evidence promotes them to A.
+Minimum pick, transfer and staging requirements remain A/E: the PDF proves warehouse/prep requirement pages exist, but staff must confirm the minimum physical workflow needed to retire them. Planning a move does not post Inventory movement; only authorised confirmation of the physical move posts it. Formal reservation/allocation beyond that minimum, production consumption/output and deeper traceability remain B unless Review Gate 0 promotes them with staff/safety evidence.
 
 ## Minimum Versus Later Capability
 

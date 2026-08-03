@@ -2,7 +2,7 @@
 
 ## Purpose And Status
 
-Task 223B is a completed planning, architecture, capability-review and roadmap-proposal task once this changeset is committed. It documents the direction needed for Clean Eats to replace its daily legacy production chain with EveryBatch.
+Task 223B is a completed and committed planning, architecture, capability-review and roadmap-proposal task. Its exact commit is `f8f576603d97732d9fa1f29702fec78fccb05036` (`Plan Phase 1 production replacement roadmap`). It documents the direction needed for Clean Eats to replace its daily legacy production chain with EveryBatch.
 
 It is not Production implementation, Shopify implementation, facility implementation, a migration, a parity test, a legacy-tool decommission or final approval of the proposed roadmap. The proposal remains subject to Luke's review.
 
@@ -23,12 +23,12 @@ It is not Production implementation, Shopify implementation, facility implementa
 - Clean Eats uses Shopify orders filtered by a Zapiet delivery-date tag.
 - Staff export a filtered CSV, upload it to a meal aggregation tool, then upload the aggregated CSV to a Production Report tool.
 - The report tool applies logic from an approximately six-year-old source/configuration CSV.
-- The tool generates an approximately 24-page PDF and about five copies are printed and distributed to production rooms.
+- The tool was described during Task 223B as generating an approximately 24-page PDF with about five printed copies. Task 224 later verified 22 pages for the supplied matched fixture and the exact repeated section/copy structure; actual room distribution still requires staff validation.
 - This workflow is used every production day and is operationally critical.
 
-## Evidence Unavailable
+## Evidence Unavailable During Task 223B
 
-The current task environment did not contain the source repositories for the external tools, privacy-safe Shopify exports, aggregated CSVs, source/configuration CSV, generated PDF, deployment configuration or room-specific staff validation. Exact logic, filenames, URLs and parity are therefore not claimed.
+The Task 223B environment did not contain the source repositories for the external tools, privacy-safe Shopify exports, aggregated workbooks, generated PDF, deployment configuration or room-specific staff validation. Task 224 later inspected the supplied source archives and matched files; deployment configuration, current approved master data and room-specific staff validation remain unavailable.
 
 Conclusions in this package are labelled as repository verified, Luke-confirmed operational context, architecturally inferred, requires source inspection or requires Clean Eats staff validation.
 
@@ -125,11 +125,11 @@ The current `/recipes` route is an honest scaffold and not a separate operationa
 
 The proposed sequence in `PROPOSED_POST_223B_ROADMAP.md` prioritises evidence, facility and demand architecture, Shopify intake, demand review, method/instruction ownership, expansion/yield requirements, inventory availability and movement planning, real area configuration, QA-informed execution tasks, consumption/output and a parallel-run retirement gate.
 
-Task 224 is the recommended next evidence task but is not approved merely by committing Task 223B. Review Gate 0 follows Task 224. Tasks 225-257 are a provisional sequence subject to Task 224 evidence and Luke's approval. The previous Tasks 224-276 remain paused until an official roadmap update is approved.
+Task 224 was subsequently approved and completed. Review Gate 0 is current. Tasks 225-257 remain a provisional sequence subject to Task 224 evidence and Luke/architect approval. The previous Tasks 224-276 remain preserved and paused until an official roadmap update is approved.
 
 ## Review Gate 0
 
-Task 224 is the only proposed near-term task ready to be considered for immediate approval. It may reveal missing tools, unexpected rules, data-quality issues, import requirements, workflow differences or dependencies. Luke and the architect must review its findings before any later proposed task becomes active. Correcting the provisional numbering or scope after that evidence is expected and is not roadmap failure.
+Task 224 found missing source/date/order provenance, hidden exact-title and bundle-parent behaviour, non-canonical report constants, contradictory source residue and an additional report-history/weekly-summary surface. Luke and the architect must review its findings before any later proposed task becomes active. Correcting provisional numbering or scope after that evidence is expected and is not roadmap failure.
 
 ## Conditional Legacy Production Data Transition
 
@@ -166,4 +166,4 @@ No application, route, navigation, auth, middleware, domain, schema, RLS, permis
 
 ## Checks
 
-The standard lint, TypeScript, build and diff checks are required before Task 223B is presented for review.
+Task 223B passed its documented checks before commit. Task 224 runs a new full check set for its documentation changes.

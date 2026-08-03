@@ -4,9 +4,9 @@
 
 This is the active EveryBatch roadmap after Task 223. It supersedes the future sequence formerly recorded in `docs/201-250-next-roadmap.md`; that file remains available as historical planning context only.
 
-Task 223B is the latest completed task after the current changeset is committed. Its exact commit hash must be backfilled by the next approved task. The previous Tasks 224-276 remain preserved and unrenumbered but paused until an official roadmap update is approved.
+Task 224 is the latest completed task after the current changeset is committed. Task 223B is committed at `f8f576603d97732d9fa1f29702fec78fccb05036`; Task 224's exact hash must be backfilled after Review Gate 0. The former Tasks 224-276 remain preserved as prior planning context, while Tasks 225 onward are paused until an official roadmap update is approved.
 
-Task 223B's proposed revised sequence is stored in `docs/PROPOSED_POST_223B_ROADMAP.md`. Task 224 is the recommended next evidence task but requires Luke's explicit approval before its prompt is issued. Review Gate 0 follows Task 224. Proposed Tasks 225-257 remain provisional and do not become active until Task 224 evidence is reviewed and Luke approves the corrected sequence. No task has been officially renumbered.
+Task 223B's proposed revised sequence is stored in `docs/PROPOSED_POST_223B_ROADMAP.md` and now carries Task 224 evidence annotations. Review Gate 0 is the current project stage. Proposed Tasks 225-257 remain provisional and do not become active until Luke and the architect approve the corrected sequence. No later task has been officially renumbered or activated.
 
 EveryBatch is the product brand. Clean Eats Hub is the Clean Eats tenant/workspace. Food Prod Hub and Food Operations Hub are internal repository or historical concept terminology only, not public product names.
 
@@ -40,8 +40,8 @@ Current migration truth at this checkpoint:
 | --- | --- | --- |
 | 223 | Roadmap and Project Context Realignment | Establish this roadmap, permanent task standards and consistent current context. |
 | 223A | EveryBatch Master Handover and Living Knowledge System | **Completed.** Preserves historical architect evidence and establishes the permanent reconciled living knowledge system. |
-| 223B | Phase 1 Production Replacement and Roadmap Reassessment | **Completed by the current changeset.** Documents replacement scope, evidence gaps, parity/decommission criteria, Review Gate 0 and a provisional sequence without activating it. |
-| 224 | Production Module Current-State Review and Workspace Completion Plan | Review real Production ownership, incomplete workspaces, dependencies and honest empty states before more implementation. |
+| 223B | Phase 1 Production Replacement and Roadmap Reassessment | **Completed and committed.** Documents replacement scope, evidence gaps, parity/decommission criteria, Review Gate 0 and a provisional sequence without activating it. |
+| 224 | Production Replacement Evidence Collection And Legacy Logic Audit | **Completed by the current changeset.** Audits both source archives and the matched production-day fixture; creates the evidence, parity, rule, transition and Review Gate 0 package without implementation. |
 | 225 | Production Areas UI v1 | Add useful tenant-aware Production Area configuration from the existing foundation. |
 | 226 | Production Tasks Schema Foundation | Add the reviewed task data model only after Production ownership and lifecycle rules are confirmed. |
 | 227 | Production Tasks UI v1 | Add permission-aware operational task queues and actions against real task records. |
@@ -66,9 +66,9 @@ Current migration truth at this checkpoint:
 | 246 | Production, QA and Logistics Reports v1 | Add reporting only where source workflows provide reliable real records. |
 | 247 | Tenant Module Foundation Completion Review | Review every tenant module/workspace against the approved foundation-completion definition. |
 
-### Pause Before Task 224
+### Review Gate 0 - Current Stage
 
-Tasks 224-276 are directionally preserved exactly as numbered and remain paused. Task 224 is recommended but cannot begin until Luke explicitly approves it. Review Gate 0 then requires Luke and the architect to review Task 224 evidence before any proposed Task 225 onward is activated. The proposal does not renumber or delete the existing sequence.
+Task 224 is complete. Luke and the architect must now review its evidence before any proposed Task 225 onward is activated. The former paused roadmap remains preserved for comparison; the provisional proposal does not become official through Task 224.
 
 ## Task 228 Decision Gate
 
@@ -144,7 +144,7 @@ Future ideas, defects and dependencies must enter this register before promotion
 | Platform Admin full review supporting ideas | Platform Admin | Task 223 / Task 263 | Retain tenant health, readiness, modules/features, memberships, onboarding, first admin, branding, domains, Support, storage, diagnostics, provisioning, lifecycle and later billing-readiness ideas until the formal review starts. | Task 263 | High | Promoted to roadmap |
 | Documentation consistency audit | Documentation | Task 223 / Task 261 | Report first, obtain approval before broad rewrites, then use Task 262 for corrections. | Task 261 | High | Promoted to roadmap |
 | Leaked Password Protection live-setting verification | Security/documentation | Task 223, 2026-08-02 | Earlier project context records it as enabled after the Supabase upgrade, while older documents retain warning-era language. Do not call it disabled without live evidence. Verify during Task 261 or a security review and correct stale references. | Approved live-setting verification | Normal | Pending review |
-| Phase 1 legacy production replacement and decommission | Production | Tasks 223A-223B, 2026-08-03 | Replace the Shopify/Zapiet/CSV/aggregation/Production Report/printed-pack chain only after parity, real production-day comparison and staff approval. | Requested external evidence; approved demand, facility, inventory, QA and execution sequence | Critical roadmap candidate | Proposal awaiting Luke approval |
+| Phase 1 legacy production replacement and decommission | Production | Tasks 223A-224, 2026-08-03 | Replace the Shopify/Zapiet/CSV/aggregation/Production Report/printed-pack chain only after parity, real production-day comparison and staff approval. | Task 224 baseline complete; official sequence, additional exception/current-data evidence and staff gates remain | Critical roadmap candidate | Review Gate 0 |
 | Facility/site architecture | Platform architecture | Tasks 223A-223B, 2026-08-03 | Future tenants may have multiple sites; operational scope cannot permanently assume organisation equals facility. | Dedicated architecture decision before facility-scoped schema | Critical roadmap candidate | Proposed early dependency; not approved |
 | External order source, Shopify App and demand architecture | Integration/Production | Tasks 223A-223B, 2026-08-03 | Clean Eats Shopify/Zapiet is first evidence, but the connector and demand model must remain tenant-installable and provider-agnostic. | Dedicated source/demand architecture, then current-official-Shopify-doc security task | Critical roadmap candidate | Proposed early dependency; not approved |
 | Formula, Production Method and Recipes ownership | Products/Production | Tasks 223A-223B, 2026-08-03 | Formula/BOM, method, work instruction and run/report are distinct; current Recipes route is an honest scaffold, not a separate source. | Dedicated Luke-approved ownership decision using legacy evidence | Critical roadmap candidate | Unresolved; decision task proposed |

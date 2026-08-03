@@ -18,7 +18,7 @@
 | Products / Ingredients | `/ingredients` | Operational foundation | Ingredient internal items; view/create/edit | UOM/price/formula data quality affects downstream |
 | Products / Packaging | `/packaging` | Operational foundation | Packaging internal items; view/create/edit | Same as Ingredients |
 | Products / Components | `/components` | Operational foundation | Component items and formula builder | Methods/instructions separate; cost readiness blockers shown |
-| Products / Recipes | `/recipes` | Paused/reassessment required | Honest scaffold; no separate recipe records/source | Formula vs method vs instruction vs run decision required before production execution; Task 223B does not resolve it |
+| Products / Recipes | `/recipes` | Paused/reassessment required | Honest scaffold; no separate recipe records/source | Task 224 confirms the legacy tool mixes formula, planning, instruction and presentation concerns; Review Gate 0 must resolve ownership |
 | Products / Finished Products | `/finished-products` | Operational foundation | Finished items and formula builder | Demand, method and execution links future |
 | Products / UOM Conversions | `/uom-conversions` | Operational foundation | Contextual conversion rules | Broader calculation integration remains incremental |
 | Costings / Ingredient Costs | `/ingredient-costs` | Read foundation | Approved supplier prices and item data | Missing/unsafe UOM blocks calculation |
@@ -28,7 +28,7 @@
 | Costings / Meal Margins | `/meal-margins` | Operational read foundation | Active formulas, costs and active current sell prices | Conservative gross margin preview; no full tax/discount engine |
 | Costings / Price History | `/price-history` | Read foundation | Price observations/approved history | Intake evidence remains separate |
 | Costings / Snapshots | Product detail costing routes | UI/schema foundation | Immutable snapshot create/read | Requires safe units/prices; broader reporting future |
-| Production / Production Report | `/production` | Paused/reassessment required | Real setup/readiness summaries, not demand, report or floor execution | External tool/config/PDF evidence was unavailable in Task 223B; parity remains unassessed |
+| Production / Production Report | `/production` | Paused/reassessment required | Real setup/readiness summaries, not demand, report or floor execution | Task 224 audits one matched 22-page fixture and legacy source rules; implementation and full parity remain missing |
 | Production / Production Plan | `/production-plan` | Operational foundation | Plans/lines and planned batch creation for ready lines | No live order demand, actual issue/output or floor execution |
 | Production / Areas | `/production-areas` | Schema plus scaffold | `production_areas` exists; current page is not the complete live area-management workflow | Future facility scope and real configuration UI required |
 | Production / Tasks | `/production-tasks` | Navigation/scaffold | Static sample/preview only; no task records or actions | Schema, method linkage, area workflow and execution pending |
@@ -62,10 +62,10 @@
 
 | Workflow | Current state | Role in target architecture |
 | --- | --- | --- |
-| Shopify + Zapiet delivery-date filtering | Luke-confirmed legacy external workflow; source examples not supplied | First order source; EveryBatch connector must remain provider-agnostic and date interpretation configurable |
-| Shopify CSV export and meal aggregation tool | Luke-confirmed daily handoff; tool source and paired CSVs not supplied | Replace with controlled demand ingestion, mapping, aggregation, freeze/deltas and exceptions |
-| Current Production Report tool | Luke-confirmed daily workflow; source/configuration and exact logic not supplied | Reproduce validated calculation, instruction and area behaviour before decommission |
-| Approximately 24-page printed pack, about five copies | Luke-confirmed physical workflow; sample PDF/room mapping not supplied | Replace with area-scoped digital work plus controlled area/full printable fallback |
-| External/Vercel supporting tools | Exact repository/deployment inventory unavailable | Inspect requested evidence, compare outputs and retire only after parity, staff validation and approval |
+| Shopify + Zapiet delivery-date filtering | Operational context confirmed; supplied exports contain no delivery, region, order or line fields, so the upstream filter decision cannot be reconstructed | First order source; connector must retain source/date evidence and keep date interpretation configurable |
+| Shopify CSV export and meal aggregation tool | Source and matched fixture audited; exact-title filters, store-specific aliases and parent exclusions reduce 3,626 raw units to 3,614 accepted report units | Replace with controlled intake, mapping, line classification, aggregation, freeze/deltas and explicit exceptions |
+| Current Production Report tool | Source and matched 22-page PDF audited; hard-coded formulas/planning/presentation rules remain non-canonical | Reproduce only staff-approved calculation, instruction and area behaviour before decommission |
+| Printed global production pack | Matched PDF verifies 2 summary, 3 bulk, 2 meal-raw, 1 prepack and 3 meat/veg copy sets; actual room use still needs staff validation | Replace with area-scoped digital work plus controlled area/full printable fallback |
+| Legacy report history/weekly helpers | Source audit found stored daily PDF/CSV history, deletion and weekly summary behaviour not previously inventoried | Decide reporting retention and ownership without making the legacy tool a future source of truth |
 
 No current foundation in this matrix is labelled staff validated unless a later task records that evidence explicitly.
