@@ -103,7 +103,7 @@ Provider/storefront identity, store owner, connection, brand, manufacturing cust
 
 The core remains provider-agnostic: Shopify, other commerce systems, wholesale, recurring orders, CSV, API and manual demand may all feed controlled demand. Future foundations likely cover connections, stores, external orders/lines, SKU mapping, date rules, sync events, production demand/snapshots and exceptions, but no schema or OAuth/webhook/distribution decision is made here.
 
-Order creation, edit, cancellation, refund, quantity or date changes mean demand is mutable. EveryBatch must eventually distinguish live expected demand, reviewed demand, frozen production demand and post-freeze deltas. Upstream changes cannot silently rewrite approved or completed production history.
+Task 228 selects source evidence plus controlled current projections, immutable versioned interpretation/contribution revisions, recalculable live demand, reviewed demand, immutable frozen snapshots, explicit post-freeze deltas and separate authorised adjustments. One source line may create zero, one or many contributions; excluded and unresolved lines remain visible; mapping and bundle-rule versions remain reproducible. Production Plans consume frozen demand through explicit allocations. Upstream changes cannot silently rewrite approved or completed production history.
 
 ## 12. Production Admin And Floor Execution
 
@@ -145,7 +145,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 227 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 228 is next and Architecture Gate 1 follows Task 230.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 228 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 229 is next and Architecture Gate 1 follows Task 230.
 
 ## 19. Current Risks And Read Next
 

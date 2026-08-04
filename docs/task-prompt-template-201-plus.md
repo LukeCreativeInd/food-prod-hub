@@ -25,6 +25,8 @@ For any task touching physical operations, classify each affected record against
 
 For any task touching commerce, external demand or contract manufacturing, classify provider/store identity, store owner, connection, manufacturing customer, target organisation, target facility and historical attribution against Task 227. Preserve owner consent and manufacturer acceptance as separate evidence, keep business status separate from technical health, minimise PII, do not treat prefixes/domains/brands as canonical identity and do not add commerce schema before Architecture Gate 1 and the approved Task 232 scope.
 
+For any task touching external order intake or Production Demand, classify source observations, current projections, interpretation/contribution revisions, live/reviewed/frozen demand, deltas, manual adjustments and Production Plan allocations against Task 228. Frozen snapshots and source links remain immutable; mapping/rule/calendar/facility changes create new revisions, deltas or controlled supersession; Production views do not receive broad customer PII; and no demand schema is added before Architecture Gate 1 and the approved Task 236 scope.
+
 At the start of the new task, verify the previous task's final commit in Git. Backfill its exact commit hash and final committed status in `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and correct any previous-task wording that could not be known before commit. Never invent the current task's future commit hash.
 
 ```text

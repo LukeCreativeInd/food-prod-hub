@@ -36,7 +36,7 @@ Future task references use the official `225-348-official-roadmap.md`. A roadmap
 | Production / Areas | `/production-areas` | Schema plus scaffold | `production_areas` exists; current page is not the complete live area-management workflow | Facility scope follows 226/231; real configuration is Task 252 |
 | Production / Tasks | `/production-tasks` | Navigation/scaffold | Static sample/preview only; no task records or actions | QA plan 253, schema 254 and execution 257-258 |
 | Production / Facility/iPad | `/facility-tasks` (compatibility redirects include `/facility-ipad-view`) | Critical architecture gate | Visual direction only today | Delivery architecture is Task 256; implementation is Task 258 |
-| Production / Demand intake | None | Critical future architecture | Legacy Shopify/Zapiet/CSV flow external; Task 227 ownership/consent architecture complete | Order/demand architecture 228, Shopify security 229, calendar/routing 230 and foundations 232-237 |
+| Production / Demand intake | None | Critical future architecture | Legacy Shopify/Zapiet/CSV flow external; Tasks 227-228 ownership and provider-neutral order/demand architecture complete | Shopify security 229, calendar/routing 230 and foundations 232-237; no runtime/schema yet |
 | Production / consumption/output | None | Future/Pending | No physical production movements | Tasks 261-265 preserve plan/issue/consume/output distinctions |
 | QA / Receiving Checks | `/qa/receiving` | Browser validated operational foundation | QA checks/results/reviews linked to receiving | Permission-aware; broader templates/admin future |
 | QA / Production Checks | `/qa/production` | Navigation/scaffold | Honest workspace | Integration plan 253 and UI Task 259 |
@@ -57,7 +57,7 @@ Future task references use the official `225-348-official-roadmap.md`. A roadmap
 | Tenant Admin / Organisation Settings | `/organisation-settings` | Operational configuration | Branding/theme/settings | Facility/integration configuration future |
 | Tenant Admin / Users | `/users` | Foundation | Membership/user visibility | Full invite/lifecycle remains controlled future work |
 | Tenant Admin / Modules | `/modules` | Operational configuration/read foundation | Enabled module registry | Platform provisioning remains separate |
-| Tenant Admin / Integrations | `/integrations` | Navigation/scaffold | Static catalogue/log preview only; Task 227 commerce/contract-manufacturing architecture is documented, but no live connection, relationship or order data exists | Architecture detail 228-230, foundations 232-235 and diagnostics 301 |
+| Tenant Admin / Integrations | `/integrations` | Navigation/scaffold | Static catalogue/log preview only; Tasks 227-228 commerce ownership and order/demand architecture are documented, but no live connection, relationship, order or demand data exists | Shopify/calendar architecture 229-230, foundations 232-235 and diagnostics 301 |
 | Platform Admin | `/platform` | Read/configuration foundation | Tenant overview, provisioning foundation, module/feature diagnostics, support inbox | SaaS health/billing/lifecycle depth future |
 | Support / Help Centre | `/support` | Static + operational foundation | Authenticated guides, tickets, comments, attachments; Platform inbox | Product guides must track user-facing capabilities |
 

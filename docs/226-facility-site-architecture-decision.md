@@ -356,7 +356,7 @@ These tasks must preserve organisation tenancy, facility ownership, provider-neu
 
 ## Roadmap Implications
 
-Task 226 is committed at `36d53894579e0e8762d7ed441187e5c23552678e`. Task 227 is complete and Task 228 is next approved. Tasks 228-230 must conform to this facility boundary and the Task 227 commerce/authorisation model. Architecture Gate 1 remains after Task 230, and Task 231 cannot begin before Luke's gate approval. Detailed transfer design remains Tasks 249-251.
+Task 226 is committed at `36d53894579e0e8762d7ed441187e5c23552678e`. Tasks 227-228 are complete and Task 229 is next approved. Tasks 229-230 must conform to this facility boundary, the Task 227 commerce/authorisation model and the Task 228 order/demand lifecycle. Architecture Gate 1 remains after Task 230, and Task 231 cannot begin before Luke's gate approval. Detailed transfer design remains Tasks 249-251.
 
 ## Behaviour Preserved
 

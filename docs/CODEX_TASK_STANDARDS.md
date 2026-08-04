@@ -96,6 +96,8 @@ At the start of the next task, verify the previous task's final commit in Git. B
 
 Commerce, external-demand and contract-manufacturing tasks must preserve Task 227's separation of provider storefront, store owner, connection, manufacturing customer, target organisation and facility. Store-owner consent and manufacturer acceptance are distinct; external identities do not grant tenant access; business status and technical health remain separate; provider prefixes/domains are not canonical identity; and customer data is minimised by workflow.
 
+Order-intake and Production Demand tasks must also preserve Task 228's layered truth model: provider source identity and observations, controlled current source projections, immutable versioned interpretation/contribution revisions, recalculable live demand, reviewed demand, immutable frozen snapshots, explicit post-freeze deltas, separate reversible manual adjustments and explicit Production Plan allocation. Never silently recalculate frozen history from new mappings, bundle rules, facilities or calendars, and never put broad customer PII in Production Demand.
+
 Every future numbered task must review living-document impact, update `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and update the capability, decision, ownership, product or engineering living document only when its specific truth changes.
 
 Every task response must also include one of:

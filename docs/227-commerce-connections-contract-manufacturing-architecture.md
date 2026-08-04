@@ -419,14 +419,14 @@ Backfill/onboarding should create only reviewed CEA, CEW and Made Active configu
 
 Future migration review must include read-only baselines, idempotent reviewed seeds, same-tenant and cross-party validation, RLS/policy/grant matrices, no anon access, secret isolation, count/null/uniqueness checks, browser role tests and rollback that disables new intake without deleting imported history.
 
-## Deferred Decisions For Task 228
+## Decisions Resolved By Task 228
 
-- source-order and line revision/lifecycle model;
-- cancellation, refund and quantity/date changes;
-- production contribution schema and state;
-- live/reviewed/frozen demand and post-freeze deltas;
-- exact facility assignment timing and reassignment evidence;
-- relationship from contributions/demand to plans and batches.
+- source orders/lines use retained material observations plus a controlled current projection rather than full event sourcing;
+- cancellation, refund and quantity/date changes create new source/interpretation evidence and, after freeze, explicit deltas rather than deletion;
+- production contributions are immutable versioned interpretations with a selected-current projection;
+- live demand is recalculable, review captures a candidate/watermark and frozen snapshots/source links are immutable;
+- facility and production date may be unresolved on ingestion but are mandatory before actionable review/freeze, with exact routing rules still owned by Task 230;
+- frozen demand links to Production Plans through explicit quantity allocations, with broader batch/execution links later.
 
 ## Deferred Decisions For Task 229
 
@@ -508,7 +508,7 @@ Future migration review must include read-only baselines, idempotent reviewed se
 
 ## Roadmap Implications
 
-Task 227 is complete in durable post-commit wording. Task 228 is next approved. The roadmap order is unchanged. Tasks 228-230 must preserve this ownership/consent model and Task 226's facility boundary. Architecture Gate 1 remains after Task 230. Task 231 remains blocked until that gate, and Task 232 cannot begin before both the gate and Task 231 sequence.
+Task 227 is committed at `fa59c928f8f94a2c320f53144c36d632a140e74c`. Task 228 has completed the order/demand architecture in durable post-commit wording. Task 229 is next approved. The roadmap order is unchanged. Tasks 229-230 must preserve this ownership/consent model, Task 228's source/demand lifecycle and Task 226's facility boundary. Architecture Gate 1 remains after Task 230. Task 231 remains blocked until that gate, and Task 232 cannot begin before both the gate and Task 231 sequence.
 
 ## Behaviour Preserved
 
@@ -520,4 +520,4 @@ Task 227 requires lint, TypeScript, production build, `git diff --check`, branch
 
 ## Next Task
 
-Task 228 - External Order Intake and Production Demand Architecture.
+Task 229 - Shopify App Architecture and Security Plan.

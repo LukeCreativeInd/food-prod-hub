@@ -33,6 +33,8 @@ This fixture can support deterministic tests for:
 
 It cannot establish correct production-calendar assignment, cancellations/edits, approved formulas, yields, methods, room ownership, stock allocation, QA execution or actual output.
 
+Task 228 defines how later privacy-safe fixtures should retain stable synthetic/redacted source order and line references, source observations, exact mapping/bundle-rule versions, contribution revisions, reviewed/frozen totals and delta decisions. The current matched fixture does not contain that lost provenance and must not be represented as if it does.
+
 ## Future Required Fixtures
 
 | Fixture category | Evidence still required | Test purpose |
