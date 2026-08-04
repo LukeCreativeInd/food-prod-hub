@@ -86,6 +86,8 @@ No fake carrier/service data, provider seeds, Detrack setup, carrier rates, trac
 
 Task 222 is complete and committed. Migration 044 is applied and changes trigger functions and trigger wiring only; it does not change table schemas, RLS policies, grants, permissions, role mappings or operational data. Carrier archival retains its zero-active-service precheck and history-preserving soft-archive design.
 
+Task 230 preserves these records as Logistics-owned operational carrier truth. Future customer-facing delivery services remain separate tenant calendar configuration and may reference carrier services through effective-dated mappings; no calendar work may duplicate or repurpose these masters.
+
 ## Deferred UI Consistency Backlog
 
 These are explicit non-blocking follow-ups and are not implemented by Task 222:

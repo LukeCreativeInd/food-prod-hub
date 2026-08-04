@@ -191,3 +191,5 @@ Return:
 ## Notes
 
 For docs-only tasks, still run checks unless the task explicitly says otherwise. For migration tasks, do not apply migrations or run Supabase CLI unless the task explicitly says to do so.
+
+For work after Task 230, verify `ARCHITECTURE_GATE_1_REVIEW_PACKAGE.md` and the recorded Luke/product-architect gate decision before starting Task 231 or any later schema task. Architecture completion is not gate approval. Do not encode Clean Eats weekday schedules globally, conflate postcode/zone, delivery/production date, service/carrier or storefront/facility, and never reinterpret frozen demand with current rules.

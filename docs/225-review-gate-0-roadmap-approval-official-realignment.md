@@ -14,7 +14,7 @@ The gate prevented schema and implementation work from starting against assumed 
 
 ## Approval
 
-Luke reviewed the Task 224 evidence and explicitly approved the sequence now recorded in `docs/225-348-official-roadmap.md`. Review Gate 0 is closed. Tasks 226-229 subsequently completed the facility, commerce/manufacturing-relationship, order-intake/demand and Shopify-app architecture decisions; Task 230 is now next.
+Luke reviewed the Task 224 evidence and explicitly approved the sequence now recorded in `docs/225-348-official-roadmap.md`. Review Gate 0 is closed. Tasks 226-230 subsequently completed the facility, commerce/manufacturing-relationship, order-intake/demand, Shopify-app and delivery/calendar architecture decisions; Architecture Gate 1 review is current.
 
 The roadmap makes production-tool replacement the central Phase 1 programme while preserving Inventory, QA, Logistics, Tools, Reports, UI, dashboards, Support, Platform Admin, marketing, commercial, audit and hardening work.
 

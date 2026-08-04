@@ -2,7 +2,7 @@
 
 ## Current Roadmap And Execution Standard
 
-The active sequence is [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). Task 229 is the latest completed task after the current changeset is committed. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`; Task 225 is committed at `82a81613556c311198449670b0425106f062a4ef`; Task 226 is committed at `36d53894579e0e8762d7ed441187e5c23552678e`; Task 227 is committed at `fa59c928f8f94a2c320f53144c36d632a140e74c`; Task 228 is committed at `bdd50b0d5890ea58306406d25854adc2d6d32c6c`; Task 229's exact hash must be backfilled by Task 230. Review Gate 0 is closed, Task 230 is next, Tasks 226-230 form the approved architecture phase, and Architecture Gate 1 follows Task 230. Earlier roadmap files are preserved as superseded historical planning.
+The active sequence is [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). Task 230 is the latest completed task after the current changeset is committed. Task 228 is committed at `bdd50b0d5890ea58306406d25854adc2d6d32c6c`; Task 229 is committed at `800591a2947fa25f5675f80bc70a6473138ec126`; Task 230's exact hash must be backfilled by the first task approved after Architecture Gate 1. Review Gate 0 is closed, Tasks 226-230 complete the architecture phase, Architecture Gate 1 review is current, and Task 231 remains blocked until explicit Luke/product-architect approval. Earlier roadmap files are preserved as superseded historical planning.
 
 Current onboarding begins with [Current Chat Handover](./CHAT_HANDOVER_CURRENT.md), then the [official roadmap](./225-348-official-roadmap.md), task standards, [Master Handbook](./EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](./EVERYBATCH_ENGINEERING_OPERATIONS.md), current capability/source-of-truth matrices, Decision Log and Task Index. The preserved original architect dossier and earlier roadmaps are historical evidence, not current implementation authority.
 
@@ -1020,7 +1020,7 @@ Task 223A preserves the complete original architect dossier behind a non-canonic
 
 Task 223A records future multi-facility direction without schema; the Phase 1 requirement to replace the Clean Eats Shopify/Zapiet/CSV/Production Report/printed-pack workflow after parity and staff validation; an installable but provider-agnostic Shopify/order-source direction; inventory-aware planning without false physical movement; yield/variance direction; required area-specific production execution with unresolved device technology; and unresolved Recipes/formula/method/instruction ownership.
 
-Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is committed at `f8f576603d97732d9fa1f29702fec78fccb05036`. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Task 225 is committed at `82a81613556c311198449670b0425106f062a4ef`, closes Review Gate 0 and makes `docs/225-348-official-roadmap.md` authoritative. Task 226 is committed at `36d53894579e0e8762d7ed441187e5c23552678e` and decides facility scope without implementing it. Task 227 is committed at `fa59c928f8f94a2c320f53144c36d632a140e74c` and decides commerce ownership/authorisation without implementing it. Task 228 is committed at `bdd50b0d5890ea58306406d25854adc2d6d32c6c` and decides order-intake and Production Demand architecture without implementing it. Task 229 completes Shopify app/security architecture without registering or implementing an app. Migrations `001`-`044` remain documented applied, and no migration is pending.
+Task 223B, Phase 1 Production Replacement and Roadmap Reassessment, is committed at `f8f576603d97732d9fa1f29702fec78fccb05036`. Task 224 is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Task 225 is committed at `82a81613556c311198449670b0425106f062a4ef`, closes Review Gate 0 and makes `docs/225-348-official-roadmap.md` authoritative. Task 226 is committed at `36d53894579e0e8762d7ed441187e5c23552678e`; Task 227 at `fa59c928f8f94a2c320f53144c36d632a140e74c`; Task 228 at `bdd50b0d5890ea58306406d25854adc2d6d32c6c`; and Task 229 at `800591a2947fa25f5675f80bc70a6473138ec126`. Task 230 completes delivery/calendar architecture and the Gate 1 package without implementation. Migrations `001`-`044` remain documented applied, and no migration is pending.
 
 ## Task 223B Phase 1 Production Replacement And Roadmap Reassessment
 
@@ -1040,7 +1040,7 @@ The audit does not approve legacy formulas, yields, water additions, batch rules
 
 ## Task 225 Review Gate 0 Approval And Official Realignment
 
-Luke approved the official Tasks 225-348 roadmap. Task 225 is documentation/governance only, closes Review Gate 0 and preserves earlier roadmaps as historical evidence. It made Task 226 next at that checkpoint; Tasks 226-229 have since completed and Task 230 is now next. Architecture Gate 1 follows Task 230, Demand Gate 2 follows Task 237, Materials Gate 3 follows Task 251 and Production Replacement Readiness/Review Gate 4 follows Task 268.
+Luke approved the official Tasks 225-348 roadmap. Task 225 is documentation/governance only, closes Review Gate 0 and preserves earlier roadmaps as historical evidence. Tasks 226-230 have since completed and Architecture Gate 1 review is current. Demand Gate 2 follows Task 237, Materials Gate 3 follows Task 251 and Production Replacement Readiness/Review Gate 4 follows Task 268.
 
 Roadmap changes remain allowed only through explicit Luke approval and synchronized living-document updates. Codex and the product architect may recommend additions, splits, merges or resequencing but cannot make them silently.
 
@@ -1050,7 +1050,7 @@ Task 226 selects selective direct facility ownership with derivation. `organisat
 
 The proposed Task 231 foundation creates facility identity/defaults, attaches `inventory_locations` and `production_areas`, and backfills direct facility identity on `inventory_receipts`, `production_plans`, `production_batches` and `logistics_dispatch_runs`. Children derive facility through stable parents. Inventory lots derive current distribution from movement locations rather than one mutable lot facility. QA templates remain organisation-wide; execution derives facility from its operational source, with direct scope added later for independent daily/manual checks.
 
-Clean Eats remains a single-facility tenant with an automatically resolved default and no selector friction. The provisional reviewed concept is `Clean Eats Manufacturing Facility`, code `MAIN`, timezone `Australia/Melbourne`, country `AU`, with address left unpopulated until verified. No schema, facility record, UI or migration was created in Task 226. Task 227 subsequently completed the commerce relationship decision; Architecture Gate 1 remains after Task 230 and Task 231 remains blocked.
+Clean Eats remains a single-facility tenant with an automatically resolved default and no selector friction. The provisional reviewed concept is `Clean Eats Manufacturing Facility`, code `MAIN`, timezone `Australia/Melbourne`, country `AU`, with address left unpopulated until verified. No schema, facility record, UI or migration was created. Tasks 227-230 complete the related commerce, demand, Shopify and calendar decisions; Architecture Gate 1 review is current and Task 231 remains blocked.
 
 ## Task 227 Commerce Connections And Contract Manufacturing Architecture
 
@@ -1060,7 +1060,7 @@ Externally owned actionable intake requires both store-owner consent and target-
 
 Connection business status and technical health remain separate. A default target facility may be incomplete during onboarding but is required before actionable demand, and it must belong to the target manufacturer under Task 226. Customer data is minimised: Production receives manufacturing fields, Logistics receives reviewed delivery fields, CRM owns richer customer/account truth later, and Support/Platform Admin receive safe diagnostics only.
 
-No commerce tables, relationships, permissions, RLS, Shopify code, orders, mappings, demand, facility records or live actions were added. Task 228 subsequently completed the provider-neutral order/demand decision and Task 229 completed Shopify security architecture. Task 230 still owns calendar/routing detail before Architecture Gate 1; Tasks 231-232 remain blocked until that gate.
+No commerce tables, relationships, permissions, RLS, Shopify code, orders, mappings, demand, facility records or live actions were added. Tasks 228-230 subsequently completed provider-neutral order/demand, Shopify security and calendar/routing architecture. Architecture Gate 1 review is current; Tasks 231-232 remain blocked until that gate.
 
 ## Task 228 External Order Intake And Production Demand Architecture
 
@@ -1070,7 +1070,7 @@ One source line may produce zero, one or many immutable interpretation/contribut
 
 Live demand is recalculable by organisation, facility, production date, internal item and compatible unit. Review captures a candidate/watermark and becomes stale on material changes. Freeze creates immutable snapshot headers, lines and source-contribution links. No ordinary unfreeze exists: pre-start corrections use controlled supersession, while post-freeze source changes become signed deltas with explicit decisions. Manual adjustments remain separate, authorised and reversible through append-only evidence. Production Plans consume frozen demand through explicit allocation links.
 
-Production Demand does not contain broad customer PII. Platform Admin and Support receive only redacted operational diagnostics; later Logistics/CRM boundaries own delivery/contact and customer-account detail. No source/order/demand tables, Shopify integration, facility/calendar records, permissions, RLS or live data were added. Task 229 subsequently resolved Shopify-specific security/mechanics, Task 230 completes the architecture phase, Architecture Gate 1 remains after Task 230, and Tasks 231-232 remain blocked until that gate.
+Production Demand does not contain broad customer PII. Platform Admin and Support receive only redacted operational diagnostics; later Logistics/CRM boundaries own delivery/contact and customer-account detail. No source/order/demand tables, Shopify integration, facility/calendar records, permissions, RLS or live data were added. Tasks 229-230 complete Shopify and calendar architecture; Architecture Gate 1 review is current and Tasks 231-232 remain blocked.
 
 ## Task 229 Shopify App Architecture And Security Plan
 
@@ -1082,4 +1082,14 @@ Phase 1 proposes read-only `read_orders` and `read_products` only, with `read_al
 
 GraphQL Admin API is primary, pinned to a suitable stable version at Task 233 start with quarterly governance, cost/error/userError handling and bulk queries only for justified backfills. Verified raw-body-HMAC webhooks commit durable jobs before fast acknowledgement; an asynchronous worker performs normalization/API calls. Duplicate, stale, missed and out-of-order events are handled through idempotency plus authoritative reconciliation. Raw payloads and bulk URLs are not retained unrestrictedly.
 
-Deployment follows a staged hybrid: same repository initially, dedicated integration host/routes, durable state, separate worker/executor and isolated environment credentials. Exact host, queue/workflow, worker hosting, key management and monitoring selections remain Task 233/Luke decisions. No Shopify app, configuration, token, webhook, schema, protected data, package or live connection was added. Task 230 is next; Architecture Gate 1 and Task 231 remain unchanged.
+Deployment follows a staged hybrid: same repository initially, dedicated integration host/routes, durable state, separate worker/executor and isolated environment credentials. Exact host, queue/workflow, worker hosting, key management and monitoring selections remain Task 233/Luke decisions. No Shopify app, configuration, token, webhook, schema, protected data, package or live connection was added. Task 230 now completes calendar architecture; Architecture Gate 1 review is current and Task 231 remains blocked.
+
+## Task 230 Delivery Zones, Calendars And Production-Date Architecture
+
+Task 230 selects organisation-owned zones with normalized exact-postcode membership as the initial deterministic resolver and explicit region/state metadata. Postcode remains optional restricted/protected input: trusted delivery-date/region evidence may support manufacturing assignment without retaining postcode where the published rule permits. Customer-facing delivery services remain separate from Logistics-owned carriers/carrier services and may map to them through effective-dated configuration.
+
+Delivery and production calendars use reviewed, immutable published versions with explicit effective periods, recurring rules, exact-date exceptions, cutoffs, blackouts and manually reviewed holiday inputs. Production assignment is delivery-date-driven, supports several delivery dates/regions/storefronts feeding one production date/facility, and retains source/parser/rule/version evidence. Open assignments revise, reviewed demand stales and frozen demand never changes in place.
+
+The current Clean Eats Monday/Tuesday/Thursday patterns are Luke-confirmed operating examples requiring staff validation before future tenant configuration; no postcode, cutoff, courier, service, holiday, capacity or Zapiet key is invented. Zapiet parsing is connection-specific and versioned. Capacity and customer-facing Shopify calendar replacement remain Future/Pending.
+
+The Gate 1 package finds Tasks 226-230 coherent and recommends readiness for Luke/product-architect review with non-blocking evidence follow-ups. It does not approve the gate. Task 231 and all later implementation remain blocked; no schema, migration, code, route, permission, RLS, package, data or live system changed.

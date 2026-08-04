@@ -733,9 +733,9 @@ This document is not legal advice.
 
 ## Roadmap Implications
 
-- Task 229 is complete in durable post-commit wording.
-- Task 230 is next and must resolve delivery/calendar/date architecture and protected-field necessity.
-- Architecture Gate 1 remains after Task 230.
+- Task 229 is committed at `800591a2947fa25f5675f80bc70a6473138ec126`.
+- Task 230 completes delivery/calendar/date architecture while keeping postcode optional and protected.
+- Architecture Gate 1 review is current.
 - Task 231 remains blocked until Gate 1.
 - Task 232 uses this plan plus Tasks 226-230 for schema.
 - Task 233 implements the connector only after prerequisites.
@@ -757,4 +757,4 @@ Task completion requires lint, TypeScript, build, `git diff --check`, branch/sta
 
 ## Next Task
 
-Task 230 - Delivery Zones, Calendars And Production-Date Architecture.
+Luke/product-architect Architecture Gate 1 review. No implementation task is approved yet.

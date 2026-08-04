@@ -2,14 +2,14 @@
 
 ## Status
 
-This is the Task 226 strategy for the future Task 231 Facility Schema Foundation. It is not a migration and contains no executable SQL. Task 231 is blocked until Architecture Gate 1 after Task 230.
+This is the Task 226 strategy refined by Task 230 for the future Task 231 Facility Schema Foundation. It is not a migration and contains no executable SQL. Tasks 226-230 are complete, Architecture Gate 1 review is current, and Task 231 remains blocked until explicit Luke/product-architect approval.
 
 ## Preconditions
 
 Before Task 231 migration drafting:
 
 1. Tasks 227-230 are complete.
-2. Luke has approved Architecture Gate 1.
+2. Luke and the product architect have approved Architecture Gate 1 and explicitly approved Task 231.
 3. The Clean Eats facility display name and code are approved.
 4. The Clean Eats address is either verified from an approved tenant source or explicitly left null.
 5. Existing organisation, settings, location, receipt, production, QA and Logistics row counts are captured read-only.
@@ -58,6 +58,7 @@ Task 231 should not add:
 - commerce connections, storefronts or source orders;
 - demand, freeze/delta or facility-routing records;
 - delivery zones or calendars;
+- customer-facing delivery services, parser profiles or facility-routing rules;
 - inter-facility transfer headers/lines/actions;
 - stock movement or physical quantity changes;
 - duplicated facility item/supplier/formula masters;
@@ -209,8 +210,9 @@ No `NOT NULL` constraint should be added before the corresponding backfill has p
 
 ## Tables That Wait For Owning Tasks
 
-- Commerce connections, storefronts and source orders: ownership/consent architecture is decided in Task 227; implementation remains Tasks 229, 232-233 after Gate 1.
-- Mapping, bundle and exception records: Tasks 234-235.
+- Commerce connections, storefronts and source orders: ownership/consent and Shopify architecture are decided in Tasks 227-230; implementation remains Tasks 232-233 after Gate 1.
+- Mapping, bundle and source-interpretation records: Task 234.
+- Delivery zones, customer services, calendars, parser profiles and routing rules: Task 235. They reference Task 231 facilities but are not added by Task 231.
 - Production demand, snapshots and deltas: Tasks 228, 236-237.
 - Production Methods and Work Instructions: Tasks 239-245.
 - Requirements and plan integration: Tasks 246-247.
@@ -319,4 +321,4 @@ Task 231 owns facility identity, default, foundational physical children and the
 
 ## No-SQL Statement
 
-Task 226 creates no SQL migration, executable SQL, Supabase change or data backfill. This strategy is not permission to begin Task 231. Architecture Gate 1 remains mandatory after Task 230.
+Tasks 226 and 230 create no SQL migration, executable SQL, Supabase change or data backfill. This strategy is not permission to begin Task 231. Architecture Gate 1 review is current and explicit approval remains mandatory.

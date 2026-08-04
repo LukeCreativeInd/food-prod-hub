@@ -251,7 +251,7 @@ Raw delivery evidence and interpreted decisions remain separate. Commerce retain
 - A frozen contribution never moves facilities in place; later reassignment creates a delta and, before production start where approved, a superseding snapshot.
 - Archived facilities remain on history but block new/actionable assignment.
 
-Task 230 owns routing precedence and override rules; Task 226 owns facility identity/security.
+Task 230 selects routing precedence and override rules; Task 226 owns facility identity/security.
 
 ## Production-Date Assignment
 
@@ -601,7 +601,7 @@ Before Task 233 completion: provider IDs, webhook/backfill duplicate/out-of-orde
 
 ## Roadmap Implications
 
-Task order is unchanged. Task 229 has completed Shopify app/security architecture without implementing a connector. Task 230 is next and finalises date/routing architecture. Architecture Gate 1 remains after Task 230. Task 231 remains blocked, and Tasks 232-237 cannot begin before their approved gates/dependencies.
+Task order is unchanged. Tasks 229-230 have completed Shopify security and delivery/calendar/routing architecture without implementation. Task 230 confirms revisioned assignment evidence, immutable published rules, connection-specific parsing and no silent reinterpretation of frozen demand. Architecture Gate 1 review is current. Task 231 remains blocked, and Tasks 232-237 cannot begin before their approved gates/dependencies.
 
 ## Behaviour Preserved
 
@@ -613,4 +613,4 @@ Task 228 requires lint, TypeScript, production build, `git diff --check`, branch
 
 ## Next Task
 
-Task 230 - Delivery Zones, Calendars And Production-Date Architecture.
+Luke/product-architect Architecture Gate 1 review. No implementation task is approved yet.

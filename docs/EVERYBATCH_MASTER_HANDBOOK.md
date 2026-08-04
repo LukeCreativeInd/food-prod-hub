@@ -65,7 +65,7 @@ Clean Eats currently has one manufacturing facility, but one organisation must n
 
 Suppliers, internal items, formulas, UOM rules and other master data remain organisation-wide. Inventory locations, production areas, receipts, production plans/batches and dispatch origins require direct facility scope; stable children derive it. QA templates remain shared while execution evidence is facility-aware. Methods, instructions, calendars and selected capability/configuration may later use organisation defaults with explicit facility overrides.
 
-Single-facility tenants resolve an active default automatically and do not need a selector. Facility-specific memberships are deferred. The schema is not implemented: Task 231 remains blocked until Architecture Gate 1 after Task 230. Use `226-facility-site-architecture-decision.md` and `FACILITY_SCOPE_AND_OWNERSHIP_MATRIX.md`; do not add speculative facility fields piecemeal.
+Single-facility tenants resolve an active default automatically and do not need a selector. Facility-specific memberships are deferred. The schema is not implemented: Architecture Gate 1 review is current and Task 231 remains blocked. Use `226-facility-site-architecture-decision.md`, `FACILITY_SCOPE_AND_OWNERSHIP_MATRIX.md` and the Gate 1 package; do not add speculative facility fields piecemeal.
 
 ## 8. Product And Formula Model
 
@@ -105,9 +105,11 @@ Task 227 establishes the ownership model before connector/schema work. CEA and C
 
 Provider/storefront identity, store owner, connection, brand, manufacturing customer, target manufacturer and facility remain distinct. Provider key plus provider-assigned store ID is canonical; prefix, display label and domain are metadata. The store owner controls provider consent, the manufacturer controls acceptance/mapping/facility, and connection business status remains separate from technical health.
 
-The core remains provider-agnostic: Shopify, other commerce systems, wholesale, recurring orders, CSV, API and manual demand may all feed controlled demand. Shopify owns shop/product/variant/order/line identity; Commerce owns privacy-minimized imported evidence and connection health; Production owns contributions and demand. Orders/order webhooks are protected customer data even when direct fields are omitted. Phase 1 excludes customer name, email, phone, full addresses and postcode unless Task 230 proves a protected-field need and the legal/privacy/Shopify review boundary is approved.
+The core remains provider-agnostic: Shopify, other commerce systems, wholesale, recurring orders, CSV, API and manual demand may all feed controlled demand. Shopify owns shop/product/variant/order/line identity; Commerce owns privacy-minimized imported evidence and connection health; Production owns contributions and demand. Orders/order webhooks are protected customer data even when direct fields are omitted. Phase 1 excludes customer name, email, phone and full addresses. Postcode remains optional restricted routing input and cannot be collected until necessity and the legal/privacy/Shopify review boundary are approved.
 
 Task 228 selects source evidence plus controlled current projections, immutable versioned interpretation/contribution revisions, recalculable live demand, reviewed demand, immutable frozen snapshots, explicit post-freeze deltas and separate authorised adjustments. One source line may create zero, one or many contributions; excluded and unresolved lines remain visible; mapping and bundle-rule versions remain reproducible. Production Plans consume frozen demand through explicit allocations. Upstream changes cannot silently rewrite approved or completed production history.
+
+Task 230 selects organisation-owned exact-postcode zones with explicit region/state metadata, customer-facing delivery services separate from Logistics carriers, immutable published effective-dated delivery and production calendars, connection-specific Zapiet parsing and delivery-date-driven production/facility assignment evidence. Current Clean Eats Monday/Tuesday/Thursday production patterns are tenant configuration subject to staff review, not global logic. Several delivery dates may feed one production date; frozen demand is never reinterpreted by later rule changes. Architecture Gate 1 review is current and Task 231 remains blocked.
 
 ## 12. Production Admin And Floor Execution
 
@@ -149,7 +151,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 229 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 230 is next and Architecture Gate 1 follows Task 230.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 230 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Architecture Gate 1 review is current and Task 231 is not approved.
 
 ## 19. Current Risks And Read Next
 

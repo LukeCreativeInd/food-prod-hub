@@ -548,6 +548,7 @@ Future Platform Admin should expose Logistics module readiness, carrier/export d
 - Manifest lines may snapshot delivery/export details for historical accuracy.
 - Provider payloads are diagnostics/export evidence, not canonical business truth.
 - Immutable or append-like delivery status and issue events should preserve history.
+- Task 230 keeps customer-facing delivery services and calendars outside Logistics carrier masters. Effective configuration may map a delivery service to `logistics_carrier_services`; courier changes never rewrite the customer promise or historical dispatch evidence.
 
 ## Permission And RLS Impact
 

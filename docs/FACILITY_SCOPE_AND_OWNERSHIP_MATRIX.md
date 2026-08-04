@@ -156,3 +156,4 @@ Classification terms:
 5. Client-supplied facility IDs are always untrusted and server/database validated.
 6. Archived facility history remains readable.
 7. Reports expose scope but do not own facility assignment.
+8. Delivery zones and customer-facing services do not own facilities. Task 230 permits only validated same-tenant default/rule assignment, with facility mandatory before demand review/freeze.

@@ -198,13 +198,14 @@ Duplicate and out-of-order observations remain governed by idempotent no-op and 
 - Reviewed demand is not frozen demand.
 - Frozen snapshots and their source links are immutable.
 - Mapping, calendar and facility rule changes do not rewrite frozen history.
+- Parser, courier, delivery-date and production-date changes also create explicit post-freeze delta/supersession evidence rather than reinterpretation.
 - Signed reductions live in revision differences/deltas; a selected current contribution quantity is nonnegative.
 - Physical stock movements, production outputs and dispatch history are outside this lifecycle and cannot be fabricated by demand decisions.
 
 ## Task Boundaries
 
 - Task 229 owns Shopify OAuth, webhook/event mechanics, provider identifiers, payload minimisation and security specifics.
-- Task 230 owns delivery-zone, calendar, cut-off and production-date routing semantics.
+- Task 230 has selected delivery-zone, calendar, cutoff and production-date routing semantics; Task 235 owns configuration implementation after Gate 1.
 - Task 232 owns provider-neutral Commerce schema boundaries and idempotency foundations after Gate 1.
 - Task 234 owns mapping, bundle and exclusion configuration/version workflows.
 - Task 235 owns delivery/calendar configuration implementation.

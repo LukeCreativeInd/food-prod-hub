@@ -100,3 +100,4 @@ Classification language follows Task 227: provider-owned external identity, Ever
 7. Historical source, mapping, relationship, target and lifecycle attribution is preserved.
 8. A target facility is validated under its manufacturing organisation and is never the storefront identity.
 9. No normal hard delete, silent mapping rewrite, silent source-line drop or service-role tenant bypass.
+10. Organisation-owned zones/services/calendars may be shared across connections; parser profiles and applicability may be connection-specific. External store owners cannot publish manufacturer calendar or facility rules.

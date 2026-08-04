@@ -149,7 +149,7 @@ Limited listing visibility controls discovery, not authorization. Any merchant w
 
 ## Implementation Ownership
 
-- Task 230 owns delivery zones, calendars, cutoffs and production-date readiness.
+- Task 230 selects exact-postcode tenant zones, separate customer delivery services, immutable effective calendars and versioned production-date/facility readiness; Task 235 implements configuration after Gate 1.
 - Task 232 owns lifecycle records, credential references, relationships, source observations, checkpoints, readiness fields, constraints, RLS and audit foundations.
 - Task 233 owns Shopify app registration/configuration, install/auth/token/webhook/API/backfill/reconciliation and health transitions.
 - Task 234 owns mappings, bundle/exclusion rules and interpretation configuration.

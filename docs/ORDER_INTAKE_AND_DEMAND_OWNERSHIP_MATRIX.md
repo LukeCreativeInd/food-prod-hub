@@ -103,6 +103,7 @@ Classifications use the canonical Task 228 terms. `Mutable` means controlled cur
 - Products owns internal items and formulas. Commerce mappings select Products records but do not become product or formula truth.
 - Live demand is recalculable. Reviewed evidence, frozen snapshots, deltas, manual adjustments and plan allocations retain history appropriate to their lifecycle.
 - Facility and production date may be unresolved during ingestion but are mandatory before a contribution becomes actionable or demand is frozen.
+- Assignment uses retained parser/calendar/rule evidence from Task 230. Open assignments revise, reviewed demand stales, and frozen assignment never changes in place.
 - Customer identity/contact/address are not Production Demand fields. Store only the least delivery/routing attribution proven necessary.
 - Platform Admin and Support receive redacted diagnostics, not ownership of tenant operational records.
 - No future table or RLS policy is approved by this matrix. Tasks 229-237 must implement and review those boundaries explicitly.

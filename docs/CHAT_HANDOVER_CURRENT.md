@@ -14,7 +14,7 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Tenant 1 and proving ground: **Clean Eats Hub**
 - Repository: `/Users/cealukemichalowsky/Development/food-prod-hub`
 - Required working branch: `main`
-- Latest completed task after the current changeset is committed: **229 - Shopify App Architecture And Security Plan**
+- Latest completed task after the current changeset is committed: **230 - Delivery Zones, Calendars And Production-Date Architecture**
 - Task 223A exact commit hash: `a8c2761`
 - Task 223B exact commit hash: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 exact commit hash: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
@@ -22,11 +22,12 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Task 226 exact commit hash: `36d53894579e0e8762d7ed441187e5c23552678e`
 - Task 227 exact commit hash: `fa59c928f8f94a2c320f53144c36d632a140e74c`
 - Task 228 exact commit hash: `bdd50b0d5890ea58306406d25854adc2d6d32c6c`
-- Task 229 suggested commit title: `Plan Shopify app architecture and security`; exact hash to be backfilled by Task 230 through the post-commit context-delta workflow
+- Task 229 exact commit hash: `800591a2947fa25f5675f80bc70a6473138ec126`
+- Task 230 suggested commit title: `Define delivery and production calendar architecture`; exact hash to be backfilled by the first task approved after Architecture Gate 1
 - Official roadmap: `docs/225-348-official-roadmap.md`
 - Review Gate 0: **closed through Luke's Task 225 approval**
-- Next approved task: **230 - Delivery Zones, Calendars And Production-Date Architecture**
-- Approved architecture phase: Tasks 226-230; Architecture Gate 1 follows Task 230
+- Current stage: **Architecture Gate 1 review**
+- No next implementation task is approved; Task 231 remains blocked pending Luke/product-architect gate approval
 - No migration is pending
 
 ## Database And Security
@@ -54,7 +55,8 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 - Task 227 defines stable provider/storefront identity, internal and external store ownership, mutual manufacturing authorisation, Made Active's non-tenant Phase 1 identity, separate business/health lifecycles and connection-to-facility constraints.
 - Task 228 now defines provider-neutral source observations/orders/lines, versioned interpretation and contributions, recalculable live demand, reviewed demand, immutable frozen snapshots, explicit post-freeze deltas, authorised adjustments and source-to-plan traceability. Commerce and demand schema/runtime remain unimplemented.
 - Task 229 now defines a public, App-Store-reviewed Shopify app with controlled limited visibility, a hybrid embedded/EveryBatch experience, Shopify-managed installation, expiring offline credentials, read-only least-privilege Phase 1 scope, verified asynchronous webhooks, durable processing and reconciliation. No Shopify app, schema or connector is implemented.
-- Task 230 still owns delivery/calendar/routing detail before Architecture Gate 1. Postcode and other protected location fields remain excluded unless Task 230 proves necessity and the Shopify/legal/privacy review boundary is approved.
+- Task 230 selects exact-postcode tenant zones, explicit region metadata, customer delivery services separate from Logistics carriers, immutable effective-dated calendars, connection-specific Zapiet parser profiles and delivery-date-driven production/facility assignment evidence. Postcode remains optional/restricted and excluded from Shopify intake unless necessity and legal/privacy approval are established.
+- Current Clean Eats Monday/Tuesday/Thursday patterns are reviewable tenant configuration only. Exact postcodes, cutoffs, services, couriers, holidays and Zapiet keys still require staff evidence before activation.
 - Facility architecture is authoritative in `226-facility-site-architecture-decision.md`: facilities are organisation-owned physical scopes; storefronts/brands/domains are not facilities; master data stays organisation-wide; do not add `facility_id` fields outside the approved Task 231 blueprint.
 - Shopify/order demand must remain provider-agnostic even though Clean Eats and its Zapiet date tag are the first implementation.
 - Recipes may mean formula, production method, work instruction or run/report; the workspace remains unresolved.
@@ -76,8 +78,9 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 11. `227-commerce-connections-contract-manufacturing-architecture.md`, `COMMERCE_CONNECTION_AND_MANUFACTURING_OWNERSHIP_MATRIX.md` and `COMMERCE_CONNECTION_LIFECYCLE_AND_AUTHORISATION_MODEL.md` for commerce ownership and consent
 12. `228-external-order-intake-production-demand-architecture.md`, `ORDER_INTAKE_AND_DEMAND_OWNERSHIP_MATRIX.md`, `PRODUCTION_DEMAND_LIFECYCLE_AND_FREEZE_MODEL.md` and `ORDER_TO_PRODUCTION_TRACEABILITY_MODEL.md` for source-to-demand architecture
 13. `229-shopify-app-architecture-security-plan.md`, `SHOPIFY_OFFICIAL_SOURCE_REGISTER.md`, `SHOPIFY_CONNECTOR_THREAT_MODEL.md`, `SHOPIFY_CONNECTION_LIFECYCLE_AND_READINESS_MODEL.md` and `SHOPIFY_DATA_SCOPE_AND_PRIVACY_MATRIX.md` for Shopify-specific security and connector constraints
-14. The Task 225 approval record, then the Task 224 audit/evidence package where production rationale is needed
-15. `history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md` only for deeper historical rationale
+14. `230-delivery-zones-calendars-production-date-architecture.md`, `DELIVERY_CALENDAR_AND_PRODUCTION_DATE_OWNERSHIP_MATRIX.md`, `DELIVERY_AND_PRODUCTION_CALENDAR_RULE_MODEL.md` and `ARCHITECTURE_GATE_1_REVIEW_PACKAGE.md` for the current gate review
+15. The Task 225 approval record, then the Task 224 audit/evidence package where production rationale is needed
+16. `history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md` only for deeper historical rationale
 
 ## Working Model
 

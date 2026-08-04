@@ -188,7 +188,7 @@ CEA and CEW each require a separate verified storefront identity and separate co
 - A connection may exist in draft/onboarding before a facility is configured.
 - A default target facility is optional while onboarding and mandatory before actionable Production contribution/demand.
 - For Clean Eats, the future single active default facility should resolve automatically after Task 231. Users should not repeatedly select it.
-- Task 228 decides when source records receive tentative/final facility assignment. Task 230 owns zone/calendar/product routing rules.
+- Task 228 decides when source records receive tentative/final facility assignment. Task 230 selects zone/calendar routing rules; product mappings remain Task 234.
 - Product, delivery-zone or calendar rules may override the connection default later, but each override must be server-validated against the target organisation and active relationship.
 - Archiving the default facility makes new intake not ready. The connection may remain configured while a replacement is reviewed.
 - Historical source records, contributions, frozen demand, plans, batches and dispatch evidence retain the facility assignment that applied at the relevant decision point.
@@ -213,7 +213,7 @@ CEA and CEW each require a separate verified storefront identity and separate co
 - Rules are versioned/effective and their applied version or result is preserved on each production contribution.
 - Exclusion must be explicit and reviewable. No line is silently dropped by exact title.
 - Bundle handling must preserve parent and child source evidence and avoid double counting.
-- Delivery metadata rules are connection-scoped but Task 230 owns their calendar/zone interpretation.
+- Delivery metadata rules are connection-scoped; Task 230 selects their calendar/zone interpretation and Task 235 owns implementation.
 
 ## Source-Order Visibility
 
@@ -509,7 +509,7 @@ Future migration review must include read-only baselines, idempotent reviewed se
 
 ## Roadmap Implications
 
-Task 227 is committed at `fa59c928f8f94a2c320f53144c36d632a140e74c`. Task 228 is committed at `bdd50b0d5890ea58306406d25854adc2d6d32c6c`. Task 229 has completed Shopify app/security architecture in durable post-commit wording. Task 230 is next approved. The roadmap order is unchanged. Task 230 must preserve this ownership/consent model, Task 228's source/demand lifecycle, Task 229's connector security and Task 226's facility boundary. Architecture Gate 1 remains after Task 230. Task 231 remains blocked until that gate, and Task 232 cannot begin before both the gate and Task 231 sequence.
+Task 227 is committed at `fa59c928f8f94a2c320f53144c36d632a140e74c`. Tasks 228-230 are complete. Task 230 preserves this ownership/consent model: organisation-owned zones/services/calendars may be shared across accepted connections, parser/applicability may be connection-specific, and a storefront never owns or becomes a facility. Architecture Gate 1 review is current. Task 231 remains blocked, and Task 232 cannot begin before the gate and approved sequence.
 
 ## Behaviour Preserved
 
@@ -521,4 +521,4 @@ Task 227 requires lint, TypeScript, production build, `git diff --check`, branch
 
 ## Next Task
 
-Task 230 - Delivery Zones, Calendars And Production-Date Architecture.
+Luke/product-architect Architecture Gate 1 review. No implementation task is approved yet.
