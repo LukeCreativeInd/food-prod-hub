@@ -4,7 +4,7 @@
 
 This is the official EveryBatch roadmap approved by Luke through Task 225 after Review Gate 0. It supersedes `201-250-next-roadmap.md`, `223-276-revised-roadmap.md` and `PROPOSED_POST_223B_ROADMAP.md` for current task order while preserving those documents as historical evidence.
 
-Task 231 is the latest completed task after the current changeset is committed. Task 230 is committed at `f424817e99990f34447c4822d9d86330b13a38f9`. Architecture Gate 1 is approved through Luke's Task 231 prompt. Migration `045_facility_schema_foundation.sql` was manually applied through SQL Editor and schema/backfill checks passed; SQL Editor did not register version `045`, the live privilege reset is a separate Luke action, and browser smoke testing remains pending. Task 232 has not started.
+Task 232 is the latest completed task after the current changeset is committed. Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`. Architecture Gate 1 is approved. Migration `045_facility_schema_foundation.sql` is live and browser validated, but SQL Editor did not register version 045. Migration `046_commerce_connection_order_intake_foundation.sql` is created but unapplied. Task 233 is next after migration 046 review/application and validation.
 
 ## A. Completed Project Baseline
 
@@ -30,14 +30,14 @@ Task 225 closes Review Gate 0 through documentation and governance only.
 | 229 | Shopify App Architecture and Security Plan | **Complete and committed at `800591a2947fa25f5675f80bc70a6473138ec126`.** Selects public reviewed distribution, controlled limited visibility, hybrid merchant/EveryBatch surfaces, managed installation, expiring offline credentials, least-privilege GraphQL, verified asynchronous webhooks, reconciliation and protected-data minimisation. | Planning/security | No | Makes the first connector safely implementable. |
 | 230 | Delivery Zones, Calendars and Production-Date Architecture | **Complete and committed at `f424817e99990f34447c4822d9d86330b13a38f9`.** Selects organisation-owned exact-postcode zones, separate delivery-service/carrier truth, immutable effective-dated calendars, delivery-date-driven production assignments, connection-specific Zapiet parsing and the Gate 1 review package. | Planning/architecture | No | Replaces unverifiable Zapiet/staff date interpretation without global constants. |
 
-**Architecture Gate 1 is approved through Luke's Task 231 prompt.** Task 231 is complete after the current changeset is committed; migration `045` is applied at schema/backfill level and browser smoke testing remains pending.
+**Architecture Gate 1 is approved.** Task 231 is committed and migration 045 is live/browser validated. Task 232 is complete after this changeset is committed; migration 046 remains unapplied.
 
 ### Phase C - Facility, Commerce And Demand Foundations
 
 | Task | Title | Purpose and major dependency | Type | Migration | Production-tool retirement effect |
 | --- | --- | --- | --- | --- | --- |
-| 231 | Facility Schema Foundation | **Complete after the current changeset is committed; browser smoke testing pending.** Migration `045` implements approved facility identity, defaults, Clean Eats `MAIN` backfill and conservative direct/derived relationships. Its SQL was manually applied; migration-history reconciliation remains separate. | Schema | Yes, `045` manually applied | Enables correctly scoped intake, Production and execution. |
-| 232 | Commerce Connection and Order Intake Schema Foundation | Add tenant/facility-safe connections, source orders/lines, sync evidence and mapping foundations from 227-230. | Schema | Yes | Creates durable source evidence replacing disposable exports. |
+| 231 | Facility Schema Foundation | **Complete and committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`.** Migration 045 is live/browser validated; migration-history reconciliation remains separate. | Schema | Yes, `045` manually applied | Enables correctly scoped intake, Production and execution. |
+| 232 | Commerce Connection and Order Intake Schema Foundation | **Complete after the current changeset is committed.** Migration 046 adds tenant/facility-safe provider-neutral connections, external manufacturing authority, privacy-minimised source orders/lines and sync evidence. It is unapplied and empty; mappings remain Task 234. | Schema | Yes, `046` created/unapplied | Creates durable source evidence replacing disposable exports. |
 | 233 | Shopify Connector Foundation v1 | Implement install/sync, retry/idempotency and health for required Clean Eats fields; depends on 229, 231-232. | Integration | To be determined | Establishes replacement for manual extraction. |
 | 234 | Commerce Product, Variant and Bundle Mapping v1 | Review product/variant/SKU, bundle, exclusion and unknown-line contributions; depends on 232-233. | UI/configuration | No unless 232 intentionally defers mapping schema | Replaces hidden exact-title mappings and silent drops. |
 | 235 | Delivery and Production Calendar Configuration Foundation | Implement reviewed effective-dated date/routing configuration from 230. | Schema/configuration/UI foundation | To be determined | Makes production-date assignment explainable and repeatable. |

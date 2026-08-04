@@ -1,6 +1,6 @@
 # Platform Admin Information Architecture
 
-> **Task 227 commerce boundary:** future Platform Admin may inspect non-secret connection identity, relationship state, health and readiness, and may apply an audited security suspension. It must not silently create store-owner consent, manufacturer acceptance or tenant product mappings. No commerce diagnostics or actions are implemented by Task 227.
+> **Task 232 commerce boundary:** migration 046 provides non-secret connection identity, relationship state, health and redacted sync-readiness schema for future diagnostics. Platform Admin must not own tenant acceptance/mappings, expose credentials or receive unrestricted cross-tenant source-order/line access. No Platform Admin Commerce route or action is implemented.
 
 ## Planning Status
 

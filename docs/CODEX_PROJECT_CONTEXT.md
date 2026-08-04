@@ -2,7 +2,7 @@
 
 ## Current Roadmap And Execution Standard
 
-The active sequence is [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). Task 231 is the latest completed task after the current changeset is committed. Task 230 is committed at `f424817e99990f34447c4822d9d86330b13a38f9`; Task 231's exact hash must be backfilled by Task 232 after this commit exists. Review Gate 0 is closed and Architecture Gate 1 is approved. Luke manually applied migration `045_facility_schema_foundation.sql` through SQL Editor and schema/backfill checks passed; SQL Editor did not create a version `045` migration-history row, the live privilege reset is a separate Luke action, and browser smoke testing remains pending. Task 232 has not started. Earlier roadmap files are preserved as superseded historical planning.
+The active sequence is [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). Task 232 is the latest completed task after the current changeset is committed. Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`. Review Gate 0 is closed and Architecture Gate 1 is approved. Migration `045_facility_schema_foundation.sql` is live and browser validated, but SQL Editor did not create a version `045` migration-history row. Migration `046_commerce_connection_order_intake_foundation.sql` is created but unapplied. It adds provider-neutral Commerce connection/source-evidence schema only, including same-tenant-only replacement lineage; no cross-tenant connection transfer, Shopify app, credential, connection, order, mapping or Production Demand exists. Task 233 is next after migration review/application and validation. Earlier roadmap files are preserved as superseded historical planning.
 
 Current onboarding begins with [Current Chat Handover](./CHAT_HANDOVER_CURRENT.md), then the [official roadmap](./225-348-official-roadmap.md), task standards, [Master Handbook](./EVERYBATCH_MASTER_HANDBOOK.md), [Engineering Operations](./EVERYBATCH_ENGINEERING_OPERATIONS.md), current capability/source-of-truth matrices, Decision Log and Task Index. The preserved original architect dossier and earlier roadmaps are historical evidence, not current implementation authority.
 
@@ -1050,7 +1050,7 @@ Task 226 selects selective direct facility ownership with derivation. `organisat
 
 Migration `045_facility_schema_foundation.sql` creates facility identity/defaults, attaches `inventory_locations` and `production_areas`, and backfills direct facility identity on `inventory_receipts`, `production_plans`, `production_batches` and `logistics_dispatch_runs`. Children derive facility through stable parents. Inventory lots derive current distribution from movement locations rather than one mutable lot facility. QA templates remain organisation-wide; execution derives facility from its operational source, with direct scope added later for independent daily/manual checks.
 
-Clean Eats remains a single-facility tenant with an automatically resolved default and no selector friction. Applied migration `045` created `Clean Eats Manufacturing Facility`, code `MAIN`, timezone `Australia/Melbourne`, country `AU`, with address left null. It adds no facility UI or selector. Browser smoke testing remains pending and Task 232 has not started.
+Clean Eats remains a single-facility tenant with an automatically resolved default and no selector friction. Applied migration `045` created `Clean Eats Manufacturing Facility`, code `MAIN`, timezone `Australia/Melbourne`, country `AU`, with address left null. It adds no facility UI or selector; browser smoke tests passed. Task 232 adds only the unapplied provider-neutral Commerce schema that may reference a same-tenant facility.
 
 ## Task 227 Commerce Connections And Contract Manufacturing Architecture
 
@@ -1060,7 +1060,7 @@ Externally owned actionable intake requires both store-owner consent and target-
 
 Connection business status and technical health remain separate. A default target facility may be incomplete during onboarding but is required before actionable demand, and it must belong to the target manufacturer under Task 226. Customer data is minimised: Production receives manufacturing fields, Logistics receives reviewed delivery fields, CRM owns richer customer/account truth later, and Support/Platform Admin receive safe diagnostics only.
 
-Task 227 added no commerce tables, relationships, permissions, RLS, Shopify code, orders, mappings, demand, facility records or live actions. Tasks 228-230 subsequently completed provider-neutral order/demand, Shopify security and calendar/routing architecture. Architecture Gate 1 is now approved; Task 231 drafts only the facility foundation, while Commerce remains Task 232 scope.
+Task 227 added architecture only. Tasks 228-230 completed provider-neutral order/demand, Shopify security and calendar/routing architecture; Task 231 delivered the live facility prerequisite. Task 232 now drafts migration 046 with provider-neutral Commerce connection, authority and source-evidence tables/RLS, but no provider runtime, records, mappings or demand.
 
 ## Task 228 External Order Intake And Production Demand Architecture
 
@@ -1070,7 +1070,7 @@ One source line may produce zero, one or many immutable interpretation/contribut
 
 Live demand is recalculable by organisation, facility, production date, internal item and compatible unit. Review captures a candidate/watermark and becomes stale on material changes. Freeze creates immutable snapshot headers, lines and source-contribution links. No ordinary unfreeze exists: pre-start corrections use controlled supersession, while post-freeze source changes become signed deltas with explicit decisions. Manual adjustments remain separate, authorised and reversible through append-only evidence. Production Plans consume frozen demand through explicit allocation links.
 
-Production Demand does not contain broad customer PII. Platform Admin and Support receive only redacted operational diagnostics; later Logistics/CRM boundaries own delivery/contact and customer-account detail. Task 228 added no source/order/demand tables, Shopify integration, facility/calendar records, permissions, RLS or live data. Architecture Gate 1 is now approved; Task 231 adds only the facility foundation, and demand implementation remains later.
+Production Demand must not contain broad customer PII. Platform Admin and Support receive only redacted operational diagnostics; later Logistics/CRM boundaries own delivery/contact and customer-account detail. Task 232 adds privacy-minimised source-order/line schema only. Production contributions, live/reviewed/frozen demand and plan links remain Tasks 236-237.
 
 ## Task 229 Shopify App Architecture And Security Plan
 

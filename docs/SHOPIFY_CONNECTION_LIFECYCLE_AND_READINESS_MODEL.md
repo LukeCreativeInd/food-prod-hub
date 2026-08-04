@@ -1,5 +1,11 @@
 # Shopify Connection Lifecycle And Readiness Model
 
+## Task 232 Schema Mapping
+
+The provider-neutral implementation is `commerce_connections`. It records `business_status`, `owner_authorisation_status`, `manufacturer_acceptance_status`, `technical_health`, `installation_status`, and separate facility/mapping/bundle/parser/calendar/discovery/backfill/reconciliation/demand readiness fields. Append-only `commerce_connection_authorisations` preserves owner/manufacturer evidence; `commerce_sync_checkpoints` and `commerce_sync_runs` preserve sync state.
+
+No Shopify connection, credential, app, webhook or runtime exists. Task 233 must map verified Shopify semantics into these provider-neutral fields without merging business authority, technical health and demand readiness.
+
 ## Purpose
 
 This Task 229 model separates the lifecycle of a public Shopify app installation from the business authority and operational readiness needed to turn a store's source lines into EveryBatch Production Demand. It refines the provider-neutral Commerce lifecycle from Tasks 227 and 228 without creating SQL or runtime behaviour.

@@ -1,5 +1,20 @@
 # Order Intake And Demand Ownership Matrix
 
+## Task 232 Implemented Intake Boundary
+
+Migration 046 implements only the source side of the approved chain:
+
+| Implemented table | Source of truth | Organisation/facility | Mutable/history split | Current access |
+| --- | --- | --- | --- | --- |
+| `commerce_source_orders` | Provider identity/lifecycle normalized by Commerce | Target manufacturer direct; facility nullable/provisional same-tenant | Mutable current projection; identity/version protected | Same-tenant `admin.integrations.view` only |
+| `commerce_source_order_lines` | Provider line/product/quantity evidence normalized by Commerce | Derived through order/connection | Mutable current projection; removed/cancelled evidence retained | Same-tenant `admin.integrations.view` only |
+| `commerce_source_observations` | Commerce ingestion evidence | Same connection tenant | Retained identity/digest/redacted evidence; processing status mutable | Redacted diagnostics; tenant fabrication blocked |
+| `commerce_processing_attempts` | Commerce processing evidence | Same observation/connection tenant | Attempt identity retained; status/timing mutable | Read-only authenticated table access behind RLS |
+| `commerce_sync_checkpoints` | Commerce sync cursor projection | Same connection tenant | Mutable current stream checkpoint | Read-only authenticated table access behind RLS |
+| `commerce_sync_runs` | Commerce backfill/reconciliation evidence | Same connection tenant | Run identity retained; lifecycle mutable | Read-only authenticated table access behind RLS |
+
+Interpretations, mappings, contributions, Production Demand, freeze/deltas and plan allocations remain unimplemented and owned by Tasks 234-237. Source orders are not Production Plans.
+
 ## Authority
 
 This matrix is the Task 228 ownership contract for provider-neutral external order intake and Production Demand. It describes future records only. No listed concept is implemented merely because it appears here, and no current provider, Production or tenant data has been changed.

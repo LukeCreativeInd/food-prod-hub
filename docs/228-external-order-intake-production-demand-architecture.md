@@ -1,5 +1,7 @@
 # External Order Intake And Production Demand Architecture
 
+> **Task 232 implementation update:** Migration 046 now implements source-order, source-line, observation, attempt, checkpoint and sync-run foundations. It remains unapplied and empty. Mapping, contribution, Production Demand, freeze and Production Plan allocation remain Tasks 234-237.
+
 ## Purpose
 
 Task 228 defines the provider-neutral path from external commerce evidence to trustworthy manufacturing demand. It preserves source order and line identity while giving Production a controlled live, reviewed, frozen and changed-demand lifecycle.

@@ -2,7 +2,7 @@
 
 ## Current Facility Foundation
 
-Architecture Gate 1 is approved. Task 231 implements the reviewed facility model at repository schema-foundation level through unapplied migration `045`: one organisation-owned physical-scope master, a nullable organisation default during provisioning, and direct facility identity only on Inventory locations/receipts, Production areas/plans/batches and Logistics dispatch-run origins. Clean Eats remains a single-facility tenant using `MAIN`; facility management UI, selection and multi-facility workflows remain future work.
+Architecture Gate 1 is approved. Migration 045 is live and implements the reviewed organisation-owned facility model; Clean Eats remains a single-facility tenant using `MAIN`, while facility management UI/selection remain future. Task 232 adds unapplied migration 046: provider-neutral external-business, manufacturing-authority, storefront connection, privacy-minimised source-order/line and ingestion/sync evidence foundations. It adds no Shopify runtime, credentials, live connections, mappings or Production Demand.
 
 ## 1. Purpose And Authority
 
@@ -155,7 +155,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 231 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Architecture Gate 1 is approved and Task 232 follows migration review/application.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 232 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 233 follows only after migration 046 review/application and validation.
 
 ## 19. Current Risks And Read Next
 

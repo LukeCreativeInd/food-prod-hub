@@ -1,6 +1,6 @@
 # Support Domain And Auth-Gated Help Centre Plan
 
-> **Task 227 commerce boundary:** future Support may receive safe provider/store references, connection status/health and redacted mapping/calendar diagnostics. It must not receive unrestricted source-order PII, raw provider payloads, credentials or cross-tenant operational access. No commerce Support behaviour is implemented by Task 227.
+> **Task 232 commerce boundary:** future Support may use safe connection/order references, readiness blockers and redacted error categories from the Commerce foundation. Credentials, raw provider payloads, customer PII and cross-tenant operational access remain excluded. Migration 046 changes no Support route, ticket workflow or permission.
 
 Task 172 plans the future authenticated EveryBatch support/help centre.
 

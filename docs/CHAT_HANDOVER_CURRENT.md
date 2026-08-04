@@ -14,7 +14,7 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Tenant 1 and proving ground: **Clean Eats Hub**
 - Repository: `/Users/cealukemichalowsky/Development/food-prod-hub`
 - Required working branch: `main`
-- Latest completed task after the current changeset is committed: **231 - Facility Schema Foundation**
+- Latest completed task after the current changeset is committed: **232 - Commerce Connection and Order Intake Schema Foundation**
 - Task 223A exact commit hash: `a8c2761`
 - Task 223B exact commit hash: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 exact commit hash: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
@@ -24,17 +24,20 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Task 228 exact commit hash: `bdd50b0d5890ea58306406d25854adc2d6d32c6c`
 - Task 229 exact commit hash: `800591a2947fa25f5675f80bc70a6473138ec126`
 - Task 230 exact commit hash: `f424817e99990f34447c4822d9d86330b13a38f9`
-- Task 231 suggested commit title: `Add facility schema foundation`; exact hash must be backfilled by Task 232 after this commit exists
+- Task 231 exact commit hash: `58d1171d7b6ad1e32943b538ea35b841f5f437b6`
+- Task 232 suggested commit title: `Add commerce order intake foundation`; exact hash must be backfilled by Task 233 after this commit exists
 - Official roadmap: `docs/225-348-official-roadmap.md`
 - Review Gate 0: **closed through Luke's Task 225 approval**
 - Architecture Gate 1: **approved through Luke's Task 231 prompt**
-- Current stage: **Task 231 post-application correction and pending browser smoke testing**
-- Next approved task after Task 231 commit and remaining validation: **232 - Commerce Connection and Order Intake Schema Foundation**
-- Luke manually applied migration `045_facility_schema_foundation.sql` through SQL Editor and schema/backfill checks passed; the live privilege reset is a separate Luke action, and browser smoke testing remains pending
+- Current stage: **Task 232 schema foundation complete in repository; migration 046 pending review/application**
+- Next approved task after migration review/application and validation: **233 - Shopify Connector Foundation v1**
+- Luke manually applied migration `045_facility_schema_foundation.sql`; schema/backfill and browser smoke tests passed, but SQL Editor did not register version 045 in migration history
+- Migration `046_commerce_connection_order_intake_foundation.sql` is created but unapplied; no provider, connection, external business, source order or Production Demand data exists
+- Commerce replacement-connection lineage is constrained to a revoked/archived predecessor in the same manufacturing tenant; cross-tenant connection transfer is not implemented
 
 ## Database And Security
 
-- Repository migrations `001` through `044` are documented as applied. Migration `045` SQL was manually applied, but SQL Editor execution did not create a `supabase_migrations.schema_migrations` row; history reconciliation must use the approved migration-management workflow before future CLI deployment where required.
+- Repository migrations `001` through `044` are documented as applied. Migration `045` SQL is live but absent from `supabase_migrations.schema_migrations`; migration 046 is local/unapplied. History reconciliation must use an approved migration-management workflow before future automated deployment.
 - `organisation_id` remains the tenant boundary. Migration `045` adds organisation-owned facilities, a nullable organisation default, and validated direct facility identity on the six approved operational roots. Facility UI and multi-facility workflows are not implemented.
 - Current tenant data access uses Supabase Auth, active membership, permission helpers and RLS.
 - Intentional `SECURITY DEFINER` workflow boundaries exist for Goods Inwards posting, narrow QA hold availability/actions and Logistics dispatch/manifest actions. Reviewed controls include fixed `search_path`, no dynamic SQL, revoked public/anon execution and authenticated execution only where intended.

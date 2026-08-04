@@ -1,5 +1,17 @@
 # Module Source-Of-Truth Matrix
 
+## Task 232 Commerce Foundation
+
+| Concern | Canonical source now | Runtime status | Boundary |
+| --- | --- | --- | --- |
+| Storefront/connection identity | `commerce_connections` | Schema only; migration 046 unapplied | Provider-neutral Commerce, not universal Integrations |
+| External manufacturing-customer identity | `commerce_external_businesses` | Schema only | Narrow identity, not CRM or membership |
+| Manufacturing authority | `commerce_manufacturing_relationships` plus events | Schema only | Manufacturer acceptance separate from provider consent |
+| Source order/line projections | `commerce_source_orders`, `commerce_source_order_lines` | Schema only; zero rows | Commerce evidence, not Production Plans |
+| Provider observation/sync evidence | Commerce observation/attempt/checkpoint/run tables | Schema only | No raw payloads, credentials, queue or worker |
+
+Xero remains accounting-owned, Detrack remains Logistics-owned, Klaviyo remains marketing-owned, CSV remains Tools/import-owned, notifications remain notification-owned, and future APIs remain platform integration surfaces. The shared Tenant Admin catalogue does not collapse those domains into Commerce.
+
 ## Authority
 
 This matrix defines current canonical ownership. Operational modules own records; dashboards, Reports and cross-module timelines read them. No consumer should create a competing source of truth.

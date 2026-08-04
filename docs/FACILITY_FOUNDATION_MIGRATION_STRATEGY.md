@@ -13,7 +13,7 @@ This is the Task 226 strategy refined by Task 230 and implemented by Task 231 mi
 - Same-tenant composite foreign keys and derived-child validation prevent facility contradictions.
 - Existing single-facility insert paths resolve the active default in database triggers; no selector or route change is introduced.
 - Facilities RLS uses active membership, explicit platform-admin access and the existing `admin.organisation.manage` permission for writes. No DELETE policy or grant is added.
-- Migration `045` SQL was manually applied. The repository version explicitly resets `authenticated` privileges before granting SELECT, INSERT and UPDATE; the corresponding live privilege correction is a separate Luke-run action. Browser smoke testing remains pending.
+- Migration `045` SQL was manually applied. Live authenticated privileges are SELECT, INSERT and UPDATE only, and Facility/Inventory/Production/QA/Logistics browser smoke tests passed. SQL Editor did not register version 045; migration-history reconciliation remains controlled.
 
 ## Preconditions
 

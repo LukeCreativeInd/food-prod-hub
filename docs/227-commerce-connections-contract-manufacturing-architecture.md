@@ -1,5 +1,7 @@
 # Commerce Connections And Contract Manufacturing Architecture
 
+> **Task 232 implementation update:** Migration 046 now implements the provider-neutral external business, contract-manufacturing relationship, connection and authority-evidence foundations described here. It is unapplied; no Shopify connection, external business or operational data exists.
+
 ## Purpose
 
 Task 227 defines how EveryBatch should identify commerce storefronts, store owners, manufacturing customers, target manufacturers and target facilities before any commerce schema or Shopify connector is built. It gives Tasks 228-230 and the later Task 232 foundation a stable ownership and authorisation boundary.

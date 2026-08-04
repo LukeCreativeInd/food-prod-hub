@@ -30,7 +30,7 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 
 ## Current Status
 
-- Latest completed task after the current changeset is committed: Task 231, Facility Schema Foundation
+- Latest completed task after the current changeset is committed: Task 232, Commerce Connection and Order Intake Schema Foundation
 - Task 223A commit: `a8c2761`
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
@@ -40,15 +40,16 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 - Task 228 commit: `bdd50b0d5890ea58306406d25854adc2d6d32c6c` (`Define order intake and demand architecture`)
 - Task 229 commit: `800591a2947fa25f5675f80bc70a6473138ec126` (`Plan Shopify app architecture and security`)
 - Task 230 commit: `f424817e99990f34447c4822d9d86330b13a38f9` (`Define delivery and production calendar architecture`)
-- Task 231 suggested commit title: `Add facility schema foundation`; exact hash must be backfilled by Task 232 after this commit exists
+- Task 231 commit: `58d1171d7b6ad1e32943b538ea35b841f5f437b6` (`Add facility schema foundation`)
+- Task 232 suggested commit title: `Add commerce order intake foundation`; exact hash must be backfilled by Task 233 after this commit exists
 - Review Gate 0 is closed; the [Tasks 225-348 roadmap](docs/225-348-official-roadmap.md) is authoritative
 - Architecture Gate 1 is approved through Luke's Task 231 prompt
 - Migration `045_facility_schema_foundation.sql` was manually applied through Supabase SQL Editor and the facility schema/backfill checks passed; SQL Editor did not create a version `045` migration-history row
-- The repository migration explicitly resets authenticated table privileges before granting SELECT, INSERT and UPDATE; the live privilege correction is a separate Luke action, and browser smoke testing remains pending
-- Task 231 implements the reviewed facility schema foundation and conservative Clean Eats `MAIN` backfill; facility UI, selection and multi-facility workflows remain deferred
-- Task 227 selects a staged external-business and accepted contract-manufacturing relationship model: CEA/CEW remain Clean Eats-owned, Made Active remains externally owned, and no commerce schema or connector is implemented
-- Task 228 selects provider-neutral source evidence plus versioned interpretation/contributions, recalculable live demand, reviewed demand, immutable frozen snapshots, explicit deltas and source-to-plan traceability; no commerce or demand schema/runtime is implemented
-- Task 229 selects a publicly distributed, App-Store-reviewed Shopify app with initial limited visibility where current policy permits, a minimal embedded merchant surface plus EveryBatch operations, Shopify-managed installation, expiring offline credentials, least-privilege read-only Phase 1 scopes, verified asynchronous webhooks and mandatory reconciliation; no app, schema or connector is implemented
+- Migration 045 live privileges are authenticated SELECT/INSERT/UPDATE only, and Facility/Inventory/Production/QA/Logistics browser smoke tests passed; facility UI, selection and multi-facility workflows remain deferred
+- Migration `046_commerce_connection_order_intake_foundation.sql` creates provider-neutral external-business, manufacturing-authority, connection, source-order/line, observation/attempt and sync evidence schema; it is not applied and contains no live connection/order data
+- CEA/CEW remain Clean Eats-owned, Made Active remains externally owned, and no records for them are seeded
+- Source evidence can later feed versioned interpretation/contributions, reviewed/frozen Production Demand and Production Plans; mappings, demand and connector runtime remain unimplemented
+- Task 229 selects a publicly distributed, App-Store-reviewed Shopify app with initial limited visibility where current policy permits, a minimal embedded merchant surface plus EveryBatch operations, Shopify-managed installation, expiring offline credentials, least-privilege read-only Phase 1 scopes, verified asynchronous webhooks and mandatory reconciliation; no app, credential, connection or connector runtime is implemented
 - Task 230 selects organisation-owned exact-postcode zones, separate customer delivery services and Logistics carriers, immutable effective-dated delivery/production calendars, connection-specific Zapiet parsing and versioned facility/production-date assignments; no zone, calendar, parser or engine is implemented
 - Commerce business status and technical health remain separate; provider/store identity cannot rely on order prefix, display label or domain alone
 - Earlier roadmaps remain preserved as superseded historical evidence
@@ -721,7 +722,7 @@ Carrier Configuration Foundation is documented in [Carrier Configuration Foundat
 - Added tenant carrier and service configuration using the existing Logistics schema and granular permissions. Active choices feed carrier-scoped draft dispatch selectors, service archive remains soft and history-safe, and Carrier Exports remains disconnected without credentials, files or provider calls. Applied migration 044 splits the defective shared carrier/service identity trigger into table-appropriate trigger functions without changing RLS, permissions or operational data
 - Recovered local migration 040 for already-live ledger/snapshot immutability triggers, marked Batch Receiving and Purchasing as preview/sample Inventory workspaces, and corrected Costings copy for active formula costing, Costing Snapshots and Meal Margins. Leaked Password Protection must not be described as disabled without live evidence; its live setting and older warning-era documentation are pending the approved Task 343 External-Tenant Security Review or another explicitly approved live verification
 - Realigned the active roadmap at Task 223, established permanent Codex task standards, and retained the old Tasks 201-250 sequence as clearly superseded historical context
-- Task 223A (`a8c2761`) establishes the living knowledge system. Task 223B (`f8f576603d97732d9fa1f29702fec78fccb05036`) defines the production-replacement direction. Task 224 (`8b8e94a87f6e94fef78c05317f87cad4bb01caea`) adds the matched evidence audit. Task 225 (`82a81613556c311198449670b0425106f062a4ef`) closes Review Gate 0. Tasks 226-230 complete facility, commerce, demand, Shopify and delivery/calendar architecture; Task 230 is committed at `f424817e99990f34447c4822d9d86330b13a38f9`. Architecture Gate 1 is approved, and Task 231 drafts the unapplied facility migration `045`.
+- Task 223A (`a8c2761`) establishes the living knowledge system. Task 223B (`f8f576603d97732d9fa1f29702fec78fccb05036`) defines the production-replacement direction. Task 224 (`8b8e94a87f6e94fef78c05317f87cad4bb01caea`) adds the matched evidence audit. Task 225 (`82a81613556c311198449670b0425106f062a4ef`) closes Review Gate 0. Tasks 226-230 complete facility, commerce, demand, Shopify and delivery/calendar architecture. Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`; migration 045 is live, while Task 232 creates unapplied migration 046 for provider-neutral Commerce/source evidence.
 
 Shopify architecture and security planning is documented in [Shopify App Architecture and Security Plan](docs/229-shopify-app-architecture-security-plan.md), with the [Official Source Register](docs/SHOPIFY_OFFICIAL_SOURCE_REGISTER.md), [Connector Threat Model](docs/SHOPIFY_CONNECTOR_THREAT_MODEL.md), [Connection Lifecycle and Readiness Model](docs/SHOPIFY_CONNECTION_LIFECYCLE_AND_READINESS_MODEL.md), and [Data Scope and Privacy Matrix](docs/SHOPIFY_DATA_SCOPE_AND_PRIVACY_MATRIX.md). These are architecture records only: the Shopify app is not registered, reviewed, installed or connected, and no protected customer data has been imported.
 

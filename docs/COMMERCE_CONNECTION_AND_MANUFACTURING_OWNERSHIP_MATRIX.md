@@ -1,5 +1,18 @@
 # Commerce Connection And Manufacturing Ownership Matrix
 
+## Task 232 Implemented Foundation
+
+Migration `046_commerce_connection_order_intake_foundation.sql` implements the provider-neutral ownership roots described by this matrix:
+
+| Implemented table | Direct tenant owner | External/store owner | Facility relevance | Lifecycle/history | Access boundary |
+| --- | --- | --- | --- | --- | --- |
+| `commerce_external_businesses` | Manufacturing `organisation_id` | Narrow external identity; optional later linked organisation | None directly | Draft/active/suspended/archive; no hard delete | Integration view; no tenant writes in 232 |
+| `commerce_manufacturing_relationships` | Manufacturing `organisation_id` | References same-tenant external business | None directly | Pending/accepted/suspended/revoked/archive plus event history | Integration view; no tenant writes in 232 |
+| `commerce_connections` | Target manufacturing `organisation_id` | Same organisation or same-tenant external business | Nullable same-tenant default | Separate business, owner authority, manufacturer acceptance, technical and readiness projections; replacement lineage is same-tenant only | Integration view; trusted mutations deferred |
+| `commerce_connection_authorisations` | Connection/manufacturing organisation | Store-owner or manufacturer authority evidence | None | Append-only | Integration view; no direct tenant writes |
+
+Provider + environment + provider storefront ID is canonical storefront identity. A replacement may reference only a revoked/archived predecessor from the same manufacturing tenant, enforced by a composite `(organisation_id, previous_connection_id)` foreign key and trigger validation. Cross-tenant transfer/reassignment is not implemented. Domain, display name, CEA/CEW/MADE prefix, brand and channel are attributes. Clean Eats Australia, Clean Eats Wholesale and Made Active records are not seeded. Shopify is not connected.
+
 ## Status And Reading Rules
 
 This is the Task 227 architecture matrix. It contains no executable schema. **Proposed** means a future concept, not an implemented table or capability. Current implementation status is based on repository migrations and code through Task 226.

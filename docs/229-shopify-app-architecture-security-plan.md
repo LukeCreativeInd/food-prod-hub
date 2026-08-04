@@ -1,5 +1,7 @@
 # Task 229 - Shopify App Architecture And Security Plan
 
+> **Task 232 implementation update:** The provider-neutral persistence boundary is now drafted in unapplied migration 046. No Shopify app, credential, scope grant, webhook, worker, connection or source order exists. Task 233 remains responsible for current official Shopify implementation decisions and trusted ingress.
+
 ## Purpose
 
 Define the Shopify-specific architecture that will implement the provider-neutral Commerce, source-order and Production Demand decisions from Tasks 227 and 228. This is current-source research and planning only.

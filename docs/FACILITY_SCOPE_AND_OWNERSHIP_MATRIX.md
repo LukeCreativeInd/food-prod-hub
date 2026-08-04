@@ -2,7 +2,7 @@
 
 ## Authority
 
-This matrix records the Task 226 architecture decision and Task 231 implementation shape. Luke manually applied migration `045_facility_schema_foundation.sql` through SQL Editor and verified the facility schema/backfill. SQL Editor did not register version `045`; browser smoke testing remains pending. Multi-facility UI, facility selection and facility-specific membership remain deferred.
+This matrix records the Task 226 architecture decision and Task 231 implementation shape. Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`; Luke manually applied migration `045_facility_schema_foundation.sql`, verified schema/backfill and completed browser smoke tests. SQL Editor did not register version 045. Multi-facility UI, facility selection and facility-specific membership remain deferred.
 
 ## Task 231 Implementation Status
 

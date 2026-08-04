@@ -1,5 +1,7 @@
 # Task 230 - Delivery Zones, Calendars and Production-Date Architecture
 
+> **Task 232 implementation update:** Source orders can retain nullable delivery-date/region/service candidates and provisional same-tenant facility identity. Migration 046 adds no postcode, zone, parser, calendar or production-date calculation; those remain Task 235.
+
 ## Purpose
 
 Define the tenant-owned, effective-dated delivery and production calendar architecture that completes the Tasks 226-230 architecture phase and supplies the review evidence for Architecture Gate 1.
@@ -323,7 +325,7 @@ Task 235 requires deterministic rule/precedence/history tests. Demand Gate 2 req
 
 ## Architecture Gate 1 Review
 
-Post-task status: Luke approved Architecture Gate 1 through the Task 231 prompt. Task 231 then created migration `045_facility_schema_foundation.sql`; Luke manually applied its SQL and verified the schema/backfill. SQL Editor did not register version `045`, and browser smoke testing remains pending. The original recommendation below is retained as Task 230 decision history.
+Post-task status: Luke approved Architecture Gate 1 through the Task 231 prompt. Task 231 is committed; migration 045 is live and browser validated, though SQL Editor did not register version 045. Task 232 then created unapplied migration 046. The original recommendation below is retained as Task 230 decision history.
 
 Tasks 226-230 are coherent: organisation remains tenant boundary; facilities are manufacturer-owned physical scope; storefront ownership and manufacturer acceptance remain separate; Commerce preserves source evidence; Production Demand owns review/freeze/delta; Shopify uses privacy-minimised read-only intake; calendars provide versioned assignment evidence without stealing Logistics carrier truth. No direct contradiction was found.
 
@@ -364,7 +366,7 @@ Whether postcode is necessary; Shopify protected-data approval; retention/redact
 
 ## Roadmap Implications
 
-Task 230 completed the architecture phase. Luke subsequently approved Architecture Gate 1 and Task 231 through the Task 231 prompt. Task 231 is complete after its current changeset is committed; migration `045` was manually applied, browser smoke testing remains pending and task order remains unchanged.
+Task 230 completed the architecture phase. Luke subsequently approved Architecture Gate 1 and Task 231. Task 231 is committed, migration 045 is live/browser validated, and Task 232 creates the next unapplied Commerce foundation without changing task order.
 
 ## Behaviour Preserved
 

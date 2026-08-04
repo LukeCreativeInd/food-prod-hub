@@ -1,5 +1,7 @@
 # Task 231 - Facility Schema Foundation
 
+> **Post-commit update from Task 232:** Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`. Migration 045 is live and browser smoke tests passed. SQL Editor did not register version 045 in migration history; reconciliation remains a controlled future operation. Migration 046 references the existing `(organisation_id, facility_id)` boundary without changing facility behaviour.
+
 ## Purpose
 
 Implement the minimum facility schema foundation approved by Architecture Gate 1 while retaining `organisation_id` as the tenant and RLS boundary.
@@ -186,7 +188,7 @@ Migration 045 SQL was manually applied through Supabase SQL Editor and the facil
 1. Luke manually applied migration 045 SQL through Supabase SQL Editor.
 2. Live schema and Clean Eats backfill verification passed.
 3. SQL Editor execution did not add a version `045` row to `supabase_migrations.schema_migrations`.
-4. The live privilege correction is a separate Luke-run action that resets `authenticated` and grants only SELECT, INSERT and UPDATE; Codex did not run it.
+4. Live authenticated privileges were corrected to SELECT, INSERT and UPDATE only.
 5. Repository migration 045 contains the same intended final privilege state for reproducible fresh environments.
 6. Browser smoke testing remains pending.
 7. Before future Supabase CLI migration deployment, migration-history reconciliation must follow the project's approved migration-management workflow.
@@ -449,7 +451,7 @@ No runtime change. Future support context may use validated facility ID/code, wi
 
 ## Behaviour Preserved
 
-Existing routes, navigation, auth, domains, modules, Products, Costings, stock quantities, lots, movements, Goods Inwards posting, QA holds, Production statuses, dispatch statuses and manifest snapshots remain unchanged. Migration 045 SQL has been manually applied and its facility schema/backfill verified; browser smoke testing remains pending.
+Existing routes, navigation, auth, domains, modules, Products, Costings, stock quantities, lots, movements, Goods Inwards posting, QA holds, Production statuses, dispatch statuses and manifest snapshots remain unchanged. Migration 045 SQL is live; facility schema/backfill and browser smoke tests passed.
 
 ## Known Limitations
 
@@ -471,4 +473,4 @@ The migration and documentation require lint, TypeScript, production build, `git
 
 ## Next Task
 
-Task 232 - Commerce Connection and Order Intake Schema Foundation remains next after Task 231 is committed, pending browser smoke testing is resolved and migration-history reconciliation is handled through the approved workflow where required. Task 231 does not begin Task 232.
+Task 232 - Commerce Connection and Order Intake Schema Foundation now follows this committed/live facility foundation. Migration 046 is created but unapplied and does not change facility runtime behaviour.

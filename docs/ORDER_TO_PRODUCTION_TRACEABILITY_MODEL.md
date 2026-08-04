@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document defines the Task 228 traceability chain required to explain how provider-owned order lines become EveryBatch manufacturing quantities. It is a future architecture contract, not a claim that current schema or runtime provides the chain.
+This document defines the traceability chain required to explain how provider-owned order lines become EveryBatch manufacturing quantities. Task 232 implements provider-neutral connection, source observation, source order and source line identity foundations in migration 046. Interpretation, contribution, demand, freeze, allocation and execution links remain future work; no live provider runtime or source rows exist.
 
 ## Canonical Chain
 
@@ -72,9 +72,9 @@ Production Report retirement additionally requires approved method/task/area sem
 
 | Link/stage | Current implementation status | Future owner | Identity retained | Historical requirement | Phase 1 requirement | Later dependency | Privacy consideration | Failure/exception behaviour |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Connection -> source observation | Not implemented | Commerce connector/intake | Connection, provider event/import key, observed time/digest | Retain processing and material observation evidence | Required before export retirement | 229, 232-233 | No secrets/raw unrestricted payload in broad reads | Invalid authority/signature blocks processing; duplicate is no-op |
-| Source observation -> source order | Not implemented | Commerce intake | Provider order ID in connection context | Preserve all accepted material observations and projection selection | Required before export retirement | 232-233 | Safe order reference only outside restricted views | Malformed/reused identity becomes exception; do not merge silently |
-| Source order -> source line | Not implemented | Commerce intake | Provider line ID plus parent order | Removed/cancelled lines remain | Required before cleanup retirement | 232 | Minimise line properties; no customer contact needed | Missing/ambiguous ID blocks interpretation or uses reviewed provider-specific fallback |
+| Connection -> source observation | Schema foundation in migration 046; runtime absent | Commerce connector/intake | Connection, provider event/import key, observed time/digest | Retain processing and material observation evidence | Required before export retirement | 233 | No secrets/raw unrestricted payload in broad reads | Invalid authority/signature blocks processing; duplicate is no-op |
+| Source observation -> source order | Schema foundation in migration 046; runtime absent | Commerce intake | Provider order ID in connection context plus optional resolved links | Preserve accepted material observations and projection selection | Required before export retirement | 233 | Safe order reference only outside restricted views | Malformed/reused identity becomes exception; do not merge silently |
+| Source order -> source line | Schema foundation in migration 046; runtime absent | Commerce intake | EveryBatch order ID plus provider line identity | Removed/cancelled lines remain | Required before cleanup retirement | 233 | Minimise line properties; no customer contact needed | Missing/ambiguous ID blocks interpretation or uses reviewed provider-specific fallback |
 | Source line -> interpretation | Not implemented | Commerce mapping/interpretation | Source line and observation/revision IDs | Every accepted interpretation revision retained | Required before cleanup retirement | 234/236 | Product/rule evidence only | Unknown/conflicting line remains visible and blocked |
 | Mapping/rules -> contribution | Not implemented | Commerce-to-Production boundary | Exact mapping, bundle and exclusion version IDs | Immutable contribution revisions | Required before cleanup retirement | 234/236 | No customer PII | Missing rules yield explicit zero/unresolved contribution, never silent loss |
 | Contribution -> live demand | Not implemented | Production Demand | Selected contribution revision and aggregation dimensions | Rebuildable projection; source revisions retained | Required before cleanup retirement | 236 | Attribution restricted by purpose | Invalid facility/date/UOM excluded from actionable total but shown as exception |
