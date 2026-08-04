@@ -27,6 +27,8 @@ For any task touching commerce, external demand or contract manufacturing, class
 
 For any task touching external order intake or Production Demand, classify source observations, current projections, interpretation/contribution revisions, live/reviewed/frozen demand, deltas, manual adjustments and Production Plan allocations against Task 228. Frozen snapshots and source links remain immutable; mapping/rule/calendar/facility changes create new revisions, deltas or controlled supersession; Production views do not receive broad customer PII; and no demand schema is added before Architecture Gate 1 and the approved Task 236 scope.
 
+For any task touching Shopify, follow Task 229 and recheck current official Shopify documentation. Preserve public reviewed production distribution, limited-visibility initial rollout where current policy permits, hybrid merchant/EveryBatch surfaces, Shopify-managed installation, expiring offline credentials, least-privilege read-only Phase 1 access, raw-body-verified asynchronous webhooks, reconciliation, protected-data minimisation and separate manufacturer acceptance. Do not treat an install as tenant membership or actionable demand, retain unrestricted raw payloads, use custom distribution for production, request speculative scopes, or implement the connector before its approved prerequisites.
+
 At the start of the new task, verify the previous task's final commit in Git. Backfill its exact commit hash and final committed status in `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and correct any previous-task wording that could not be known before commit. Never invent the current task's future commit hash.
 
 ```text

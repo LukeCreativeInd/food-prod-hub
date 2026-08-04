@@ -8,12 +8,12 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Latest completed task after the current changeset is committed: 228; exact hash to be backfilled by Task 229
+- Latest completed task after the current changeset is committed: 229; Task 228 is committed at `bdd50b0d5890ea58306406d25854adc2d6d32c6c`, and Task 229's exact hash is backfilled by Task 230
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
 - Task 226 commit: `36d53894579e0e8762d7ed441187e5c23552678e`
-- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Task 229 is next
+- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Task 230 is next
 - Architecture Gate 1 follows Task 230; no migration is pending
 
 ## Branch And Task Workflow
@@ -150,3 +150,13 @@ Then update only affected documents. Always update Current Handover and Task Ind
 Every task reviews Tenant Admin, Platform Admin, Support, cross-module ownership, permissions/RLS, tenant isolation and demo data. Platform Admin is SaaS operations, not tenant truth. Support tickets are not QA or Logistics operational records. User-facing changes may require Help Centre/release notes; internal documentation infrastructure does not.
 
 Never bypass RLS, expose secrets, invent operational data, rewrite completed history, silently change roadmap order, apply live changes under old approval, make Clean Eats assumptions global, implement a later task early, or claim browser/staff validation that was not performed.
+
+## Shopify Connector Engineering Boundary
+
+Task 229 is the current Shopify security contract. Production uses public reviewed distribution with initial limited visibility where policy permits, not custom distribution. Use separate development/staging/production registrations, stores, hosts, secrets, queues and observability. Preview deployments receive no production callbacks or credentials.
+
+Embedded requests and EveryBatch tenant sessions are different authentication systems. Validate Shopify session tokens with the current official library; never turn them into Supabase membership. Background calls use encrypted per-store expiring offline access/refresh credentials in a restricted boundary. Tokens, app secrets, session tokens, HMACs, authorization codes and bulk result URLs never enter source control, browser code, tenant tables, Support/Platform views or logs.
+
+Webhook handlers verify raw bytes and environment identity, durably commit an event/job, then acknowledge within Shopify's requirement. Workers perform API calls, normalization, backfill and reconciliation. Webhooks are duplicated, delayed, missed and out of order; every path is idempotent and reconciliation remains mandatory. Supabase may hold durable state, but the repository currently has no selected worker, queue or scheduler. Task 233 must choose and verify those categories before implementation.
+
+Shopify-specific facts are version/policy sensitive. Recheck `SHOPIFY_OFFICIAL_SOURCE_REGISTER.md`, pin a supported stable GraphQL Admin API version, inspect top-level errors, mutation `userErrors` and cost metadata, and contract-test selected fields/topics/scopes. Production order access is protected customer data; direct customer/location fields stay excluded unless later approved.

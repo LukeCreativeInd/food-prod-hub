@@ -373,7 +373,7 @@ Production does not need customer name, email, phone or full address in broad de
 
 - Core source-order/demand tables should avoid full customer PII initially.
 - Privacy-sensitive delivery contact/address should live in a separately protected source/handoff record or Logistics snapshot with narrower access.
-- Postcode/zone may be retained where Task 230 proves planning need.
+- Postcode/zone is excluded by default. Current Shopify policy treats postcode/location as protected customer fields; Task 230 must prove planning need and the Shopify/legal/privacy review boundary before collection.
 - Raw payloads are not retained by default merely for convenience.
 - Any retained raw payload requires Task 229 approval for field minimisation, encryption, access, retention expiry and deletion handling.
 - Provider IDs and manufacturing evidence are retained as long as required for idempotency, traceability and legal/operational history.
@@ -523,13 +523,15 @@ Additional synthetic/redacted fixtures: edited order, full/partial cancellation,
 
 Before Task 233 completion: provider IDs, webhook/backfill duplicate/out-of-order/reconciliation fixtures. Before Demand Gate 2: mapping, cancellation/refund, date/facility, freeze/delta/adjustment and supersession fixtures. Before cleanup-tool retirement: raw-to-contribution-to-frozen totals across real parallel days. Before Production Report retirement: the full frozen-demand-to-requirements/tasks/report chain, staff validation and explicit Luke approval.
 
-## Deferred Decisions For Task 229
+## Decisions Resolved By Task 229
 
-- Shopify order/line/event IDs and revision ordering;
-- install/OAuth/token/secret storage and protected-customer-data requirements;
-- webhook topics, retries, uninstall, backfill and reconciliation mechanics;
-- raw payload necessity, encryption and retention;
-- exact Shopify payment, cancellation, refund, test-order and fulfilment mapping.
+- GraphQL order and line GIDs under a stable verified connection are canonical provider identities; display references, domains, prefixes and SKU are not.
+- Production uses a public reviewed Shopify app with controlled limited visibility, hybrid embedded/EveryBatch surfaces and separate manufacturer acceptance.
+- Managed installation, verified session tokens, token exchange and encrypted expiring offline credentials are the direction.
+- Phase 1 proposes `read_orders` and `read_products`; `read_all_orders` and direct customer/location fields are conditional or excluded.
+- Webhooks use raw-body HMAC verification, durable asynchronous idempotent processing and authoritative reconciliation because delivery can be duplicated, missed and out of order.
+- Raw bodies are transient by default; retain allowlisted metadata, digest, normalized material evidence and attempts, not unrestricted payloads.
+- Edits, cancellations and refunds create source observations/revisions and post-freeze deltas rather than rewriting frozen demand. Exact eligibility remains tenant/business validation.
 
 ## Deferred Decisions For Task 230
 
@@ -594,12 +596,12 @@ Before Task 233 completion: provider IDs, webhook/backfill duplicate/out-of-orde
 - When operations review/freeze demand and which roles perform it.
 - How late increases/decreases are accepted once planning or production starts.
 - CEA/CEW store identity and attribution, Made Active mappings and current manual overrides.
-- Minimum delivery/postcode fields required before Logistics handoff.
+- Minimum delivery fields required before Logistics handoff; postcode/address are not approved unless Task 230 proves necessity and protected-data approval is obtained.
 - Whether plans may combine multiple compatible frozen snapshots and how plan uplift is approved.
 
 ## Roadmap Implications
 
-Task order is unchanged. Task 229 is next approved and must implement no connector yet. Task 230 then finalises date/routing architecture. Architecture Gate 1 remains after Task 230. Task 231 remains blocked, and Tasks 232-237 cannot begin before their approved gates/dependencies.
+Task order is unchanged. Task 229 has completed Shopify app/security architecture without implementing a connector. Task 230 is next and finalises date/routing architecture. Architecture Gate 1 remains after Task 230. Task 231 remains blocked, and Tasks 232-237 cannot begin before their approved gates/dependencies.
 
 ## Behaviour Preserved
 
@@ -611,4 +613,4 @@ Task 228 requires lint, TypeScript, production build, `git diff --check`, branch
 
 ## Next Task
 
-Task 229 - Shopify App Architecture And Security Plan.
+Task 230 - Delivery Zones, Calendars And Production-Date Architecture.

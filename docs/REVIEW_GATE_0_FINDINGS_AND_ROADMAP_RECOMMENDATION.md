@@ -94,4 +94,4 @@ The evidence is sufficient to plan the next architecture and evidence work safel
 
 ## Gate Outcome
 
-Task 224 was accepted as the evidence baseline and Review Gate 0 was closed by Luke's Task 225 approval. The recommendation itself retired no tool and created no migration. Tasks 226-228 have since completed the facility, commerce/manufacturing-relationship and order-intake/demand decisions; Task 229 is next under the official roadmap.
+Task 224 was accepted as the evidence baseline and Review Gate 0 was closed by Luke's Task 225 approval. The recommendation itself retired no tool and created no migration. Tasks 226-229 have since completed the facility, commerce/manufacturing-relationship, order-intake/demand and Shopify-app architecture decisions; Task 230 is next under the official roadmap.

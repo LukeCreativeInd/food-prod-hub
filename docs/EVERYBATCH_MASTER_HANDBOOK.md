@@ -95,13 +95,17 @@ Production must eventually distinguish theoretical formula requirement, expected
 
 ## 11. Shopify, Order Sources And Demand
 
-An installable EveryBatch Shopify app/connector is approved strategic direction. Clean Eats is the first tenant implementation, not the permanent architecture. Clean Eats V1 may read its existing configurable Zapiet delivery-date tag without replacing Zapiet initially.
+Task 229 selects a publicly distributed, App-Store-reviewed EveryBatch Shopify app that supports unrelated merchants. The controlled initial production rollout uses limited App Store visibility where current policy permits; a later fully visible listing requires Luke approval. Custom distribution is rejected for production because it cannot support the durable unrelated-merchant model.
+
+The app uses a hybrid boundary: a minimal embedded Shopify Admin surface handles merchant authorization, connection claim/status, privacy and disconnect/reconnect; EveryBatch handles manufacturer acceptance, facility, mappings, calendars, source exceptions and Production Demand. Shopify-managed installation, verified session tokens, expiring offline credentials, pinned GraphQL Admin operations, verified asynchronous webhooks, durable processing and reconciliation are the approved direction. No app, registration, token, webhook, schema or connector exists yet.
+
+Clean Eats is the first tenant implementation, not the permanent architecture. Clean Eats V1 may read its existing configurable Zapiet delivery-date metadata without replacing Zapiet initially. CEA and CEW remain separate connections. Made Active authorizes its own store and gains no Clean Eats membership; Clean Eats must independently accept the manufacturing relationship.
 
 Task 227 establishes the ownership model before connector/schema work. CEA and CEW are separate Clean Eats-owned storefront connections. Made Active owns its storefront and is represented initially by a narrow external business/manufacturing-customer identity plus a mutually accepted contract-manufacturing relationship with Clean Eats; it is not forced to become a full tenant. Later tenant conversion links that identity rather than rewriting history.
 
 Provider/storefront identity, store owner, connection, brand, manufacturing customer, target manufacturer and facility remain distinct. Provider key plus provider-assigned store ID is canonical; prefix, display label and domain are metadata. The store owner controls provider consent, the manufacturer controls acceptance/mapping/facility, and connection business status remains separate from technical health.
 
-The core remains provider-agnostic: Shopify, other commerce systems, wholesale, recurring orders, CSV, API and manual demand may all feed controlled demand. Future foundations likely cover connections, stores, external orders/lines, SKU mapping, date rules, sync events, production demand/snapshots and exceptions, but no schema or OAuth/webhook/distribution decision is made here.
+The core remains provider-agnostic: Shopify, other commerce systems, wholesale, recurring orders, CSV, API and manual demand may all feed controlled demand. Shopify owns shop/product/variant/order/line identity; Commerce owns privacy-minimized imported evidence and connection health; Production owns contributions and demand. Orders/order webhooks are protected customer data even when direct fields are omitted. Phase 1 excludes customer name, email, phone, full addresses and postcode unless Task 230 proves a protected-field need and the legal/privacy/Shopify review boundary is approved.
 
 Task 228 selects source evidence plus controlled current projections, immutable versioned interpretation/contribution revisions, recalculable live demand, reviewed demand, immutable frozen snapshots, explicit post-freeze deltas and separate authorised adjustments. One source line may create zero, one or many contributions; excluded and unresolved lines remain visible; mapping and bundle-rule versions remain reproducible. Production Plans consume frozen demand through explicit allocations. Upstream changes cannot silently rewrite approved or completed production history.
 
@@ -145,7 +149,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 228 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 229 is next and Architecture Gate 1 follows Task 230.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 229 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 230 is next and Architecture Gate 1 follows Task 230.
 
 ## 19. Current Risks And Read Next
 

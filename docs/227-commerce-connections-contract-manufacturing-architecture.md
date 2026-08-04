@@ -238,7 +238,7 @@ The manufacturer may view only fields needed for manufacturing, Logistics and ex
 - Logistics may need recipient, address, phone, instructions and delivery windows when dispatch is prepared. Logistics snapshots the reviewed dispatch data; it does not become CRM master truth.
 - CRM may later own canonical customer/account identity.
 - Support receives non-secret diagnostic references and redacted issue context, not unrestricted order payloads or PII.
-- Task 229 must verify Shopify protected-customer-data requirements and scopes against current official documentation before implementation.
+- Task 229 verified Shopify protected-customer-data requirements and selected a read-only least-privilege scope direction; Task 233 must reverify exact operations, scopes and review requirements against then-current official documentation before implementation.
 
 ## Connection Lifecycle
 
@@ -428,14 +428,15 @@ Future migration review must include read-only baselines, idempotent reviewed se
 - facility and production date may be unresolved on ingestion but are mandatory before actionable review/freeze, with exact routing rules still owned by Task 230;
 - frozen demand links to Production Plans through explicit quantity allocations, with broader batch/execution links later.
 
-## Deferred Decisions For Task 229
+## Decisions Resolved By Task 229
 
-- Shopify app distribution and installation flow;
-- OAuth, tokens, secret storage and rotation;
-- API version/scopes, protected customer data and provider terms;
-- webhooks, backfill, retries, uninstall and duplicate delivery mechanics;
-- provider callback authentication and deployment architecture;
-- exact provider IDs/fields retrieved and health diagnostics.
+- Production uses public distribution and Shopify App Review, with limited App Store visibility for the controlled initial rollout where current policy permits; custom distribution is rejected.
+- A minimal embedded merchant surface plus EveryBatch operational configuration separates store authorisation from manufacturer acceptance.
+- Shopify-managed installation, verified session-token requests, token exchange and encrypted expiring offline credentials are the direction.
+- Phase 1 is read-only and least privilege, provisionally `read_orders` plus `read_products`; broad history/direct customer fields remain excluded or conditional.
+- Raw-body-HMAC-verified webhooks enqueue durable asynchronous work and reconciliation is mandatory.
+- Credentials remain separate and non-tenant-readable; Platform Admin and Support receive redacted health only.
+- Orders/order webhooks remain protected customer data, and postcode/location is not approved unless Task 230 proves necessity and the review/legal/privacy boundary is satisfied.
 
 ## Deferred Decisions For Task 230
 
@@ -503,12 +504,12 @@ Future migration review must include read-only baselines, idempotent reviewed se
 - Who may legally/operationally authorise Made Active and who accepts for Clean Eats.
 - Exact connection/product scope, effective dates and revocation expectations.
 - Current bundle, exclusion, subscription and store-specific mapping behaviour.
-- Minimum customer/postcode/address fields needed by Production versus Logistics.
+- Minimum delivery metadata needed by Production versus Logistics; postcode/address remain excluded unless Task 230 proves necessity and protected-data approval is obtained.
 - Whether Made Active needs future tenant or limited portal access and which statuses are appropriate.
 
 ## Roadmap Implications
 
-Task 227 is committed at `fa59c928f8f94a2c320f53144c36d632a140e74c`. Task 228 has completed the order/demand architecture in durable post-commit wording. Task 229 is next approved. The roadmap order is unchanged. Tasks 229-230 must preserve this ownership/consent model, Task 228's source/demand lifecycle and Task 226's facility boundary. Architecture Gate 1 remains after Task 230. Task 231 remains blocked until that gate, and Task 232 cannot begin before both the gate and Task 231 sequence.
+Task 227 is committed at `fa59c928f8f94a2c320f53144c36d632a140e74c`. Task 228 is committed at `bdd50b0d5890ea58306406d25854adc2d6d32c6c`. Task 229 has completed Shopify app/security architecture in durable post-commit wording. Task 230 is next approved. The roadmap order is unchanged. Task 230 must preserve this ownership/consent model, Task 228's source/demand lifecycle, Task 229's connector security and Task 226's facility boundary. Architecture Gate 1 remains after Task 230. Task 231 remains blocked until that gate, and Task 232 cannot begin before both the gate and Task 231 sequence.
 
 ## Behaviour Preserved
 
@@ -520,4 +521,4 @@ Task 227 requires lint, TypeScript, production build, `git diff --check`, branch
 
 ## Next Task
 
-Task 229 - Shopify App Architecture and Security Plan.
+Task 230 - Delivery Zones, Calendars And Production-Date Architecture.

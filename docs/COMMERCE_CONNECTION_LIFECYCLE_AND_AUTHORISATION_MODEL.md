@@ -159,7 +159,7 @@ Provider uninstall is a technical event and may also indicate owner intent, but 
 - source, demand and audit history is preserved;
 - Support and Platform Admin receive non-secret diagnostics only.
 
-Task 229 must verify exact Shopify uninstall semantics using current official documentation.
+Task 229 verified the Shopify uninstall delivery model from current official documentation: app-uninstalled processing must use verified webhook ingress, remain idempotent, and be backed by reconciliation because webhook delivery is not a complete ordered event log. Task 233 must reverify the then-current topic, payload and retry contract before implementation.
 
 ## Reconnect And Reauthorisation
 
@@ -337,7 +337,7 @@ It must not expose Clean Eats formulas, costs, inventory, other customers, inter
 ## Task Boundaries
 
 - Task 228: order/line lifecycle, contribution, demand freeze/deltas and facility assignment timing.
-- Task 229: provider installation, OAuth, tokens, scopes, webhooks, backfill, uninstall and technical security.
+- Task 229: public reviewed distribution, hybrid merchant/EveryBatch surfaces, managed installation, expiring offline credentials, scopes, webhooks, backfill/reconciliation, uninstall, protected-data and technical security architecture.
 - Task 230: delivery zones, calendars, cutoffs, date interpretation and routing.
 - Task 232: reviewed schema/RLS foundation after Architecture Gate 1.
 - Task 234: mapping/bundle/exclusion review workflow.
