@@ -162,6 +162,6 @@ Limited listing visibility controls discovery, not authorization. Any merchant w
 - Task 235 owns delivery/calendar configuration runtime.
 - Tasks 236-237 own actionable contributions, demand, freeze and delta behaviour.
 
-## No-SQL And No-Implementation Statement
+## Task 233 Implementation Status
 
-Task 229 creates no schema, SQL, migration, app registration, token, webhook, Shopify API call, connection or operational state. Every state and transition in this document is a future architecture contract.
+Migration 047 implements unclaimed/claimed installation identity, separate owner/manufacturer authority, install/reinstall/uninstall credential state, technical health and discovery/backfill/reconciliation job state. Environment is enforced on installation, credentials, jobs, worker lease recovery, claim and completion; a worker cannot mutate another environment's queue. Reconnect restores an accepted connection to active or otherwise returns it to pending manufacturer acceptance. Migration 047 is live/registered, its six Shopify tables are empty, and unapplied Migration 048 repairs only the strict-domain PostgreSQL regex. No app/store/token/connection exists and scheduled execution/live lifecycle evidence remains blocked.

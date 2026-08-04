@@ -760,3 +760,7 @@ Task completion requires lint, TypeScript, build, `git diff --check`, branch/sta
 ## Next Task
 
 Luke/product-architect Architecture Gate 1 review. No implementation task is approved yet.
+
+## Task 233 Implementation Update
+
+The approved architecture is implemented locally with `@shopify/shopify-api` `13.1.0`, GraphQL Admin API `2026-07`, Shopify-managed installation/token exchange, expiring offline tokens, AES-256-GCM credential storage, raw-body HMAC verification, mandatory privacy topics, durable reference-only jobs and authoritative refetch/reconciliation. Migration 047 is live/registered; strict-domain corrective Migration 048 is unapplied. App registration, App Review, development/live store installation, production scheduling and protected-data approval remain blocked manual validation steps.

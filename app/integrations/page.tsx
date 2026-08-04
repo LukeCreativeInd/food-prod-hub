@@ -1,290 +1,226 @@
 import { AppShell } from "@/components/app-shell";
-import {
-  EmptyState,
-  PageActionButton,
-  SectionCard,
-  StatusBadge,
-} from "@/components/ui";
-import { requirePermissionAccess } from "@/lib/auth";
+import { EmptyState, SectionCard, StatusBadge } from "@/components/ui";
+import { getShopifyIntegrationPageData } from "@/lib/shopify-integration-data";
 
-const mockIntegrations = [
-  {
-    name: "Shopify Retail",
-    purpose: "Import retail orders, customers and products.",
-    status: "Planned",
-    direction: "Import",
-    futureUse: "Retail order intake and customer/product references.",
-  },
-  {
-    name: "Shopify Wholesale",
-    purpose: "Import wholesale orders and account data.",
-    status: "Planned",
-    direction: "Import",
-    futureUse: "Wholesale account order intake and customer matching.",
-  },
-  {
-    name: "Xero",
-    purpose: "Send purchase orders, bills or financial references.",
-    status: "Future",
-    direction: "Export",
-    futureUse: "Accounting handoff for purchasing and financial workflows.",
-  },
-  {
-    name: "Detrack",
-    purpose: "Send manifests and delivery data.",
-    status: "Future",
-    direction: "Export",
-    futureUse: "Delivery manifests and logistics dispatch support.",
-  },
-  {
-    name: "Klaviyo",
-    purpose: "Future customer/marketing insights.",
-    status: "Future",
-    direction: "Import",
-    futureUse: "Customer insights for marketing and retention reporting.",
-  },
-  {
-    name: "CSV Imports",
-    purpose: "Manual upload pathway for early-stage workflows.",
-    status: "Placeholder",
-    direction: "Import",
-    futureUse: "Controlled imports for ingredients, suppliers, and setup data.",
-  },
-  {
-    name: "Barcode / Label Printing",
-    purpose: "Future scanning and label generation support.",
-    status: "Future",
-    direction: "Two-way",
-    futureUse: "Label generation, scanning events, and production traceability.",
-  },
-  {
-    name: "Email Notifications",
-    purpose: "Future automated operational notifications.",
-    status: "Placeholder",
-    direction: "Export",
-    futureUse: "Operational alerts, task reminders, and exception emails.",
-  },
-  {
-    name: "Future API",
-    purpose: "Future custom client integrations.",
-    status: "Future",
-    direction: "Two-way",
-    futureUse: "Approved client-specific or partner system connections.",
-  },
-];
+import { acceptShopifyManufacturingConnectionAction } from "./actions";
+import { ShopifyInstallIntentForm } from "./shopify-install-intent-form";
 
-const mockSyncLogs = [
-  {
-    event: "Shopify Retail order sync",
-    status: "Planned",
-    direction: "Import",
-    lastRun: "Not connected",
-  },
-  {
-    event: "Xero purchase order export",
-    status: "Future",
-    direction: "Export",
-    lastRun: "Not connected",
-  },
-  {
-    event: "Detrack manifest export",
-    status: "Future",
-    direction: "Export",
-    lastRun: "Not connected",
-  },
-  {
-    event: "CSV ingredient import",
-    status: "Placeholder",
-    direction: "Import",
-    lastRun: "Static example",
-  },
-];
+const futureIntegrations = [
+  ["Xero", "Accounting", "Future"],
+  ["Detrack", "Logistics", "Future"],
+  ["Klaviyo", "Marketing", "Future"],
+  ["CSV / file imports", "Tools", "Planned"],
+  ["Barcode and label printing", "Operations", "Future"],
+  ["Email notifications", "Notifications", "Future"],
+  ["EveryBatch API", "Platform API", "Future"],
+] as const;
 
-const tenantSummary = {
-  organisation: "Clean Eats Australia",
-  tenantSlug: "cleaneats",
-  connectedSystems: "0 live connections",
-  integrationMode: "Placeholder",
+function label(value: string) {
+  return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function connectionTone(status: string) {
+  if (status === "active" || status === "healthy" || status === "accepted") {
+    return "success" as const;
+  }
+  if (status === "revoked" || status === "error" || status === "uninstalled") {
+    return "danger" as const;
+  }
+  if (status.includes("pending") || status === "degraded") {
+    return "warning" as const;
+  }
+  return "neutral" as const;
+}
+
+type PageProps = {
+  searchParams: Promise<{ shopify?: string }>;
 };
 
-const summaryFields = [
-  ["Organisation", tenantSummary.organisation],
-  ["Tenant slug", tenantSummary.tenantSlug],
-  ["Connected systems", tenantSummary.connectedSystems],
-  ["Integration mode", tenantSummary.integrationMode],
-];
-
-const workflowSteps = [
-  "External system",
-  "Integration layer",
-  "Normalised Hub data",
-  "Modules use normalised data",
-];
-
-function DetailGrid({ items }: { items: string[][] }) {
-  return (
-    <dl className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      {items.map(([label, value]) => (
-        <div
-          key={label}
-          className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3"
-        >
-          <dt className="text-xs font-semibold uppercase text-slate-500">
-            {label}
-          </dt>
-          <dd className="mt-1 text-sm font-semibold text-slate-950">{value}</dd>
-        </div>
-      ))}
-    </dl>
-  );
-}
-
-function statusTone(status: string) {
-  if (status === "Planned") {
-    return "info";
-  }
-
-  if (status === "Placeholder") {
-    return "neutral";
-  }
-
-  return "warning";
-}
-
-export default async function IntegrationsPage() {
-  await requirePermissionAccess("admin.integrations.view");
+export default async function IntegrationsPage({ searchParams }: PageProps) {
+  const [{ shopify }, data] = await Promise.all([
+    searchParams,
+    getShopifyIntegrationPageData(),
+  ]);
 
   return (
     <AppShell>
       <div className="space-y-6 px-5 py-6 md:px-8">
-        <SectionCard
-          title="Current Tenant Summary"
-          description="Static Clean Eats integration summary for the platform foundation."
-          action={<StatusBadge tone="info">Placeholder</StatusBadge>}
-        >
-          <DetailGrid items={summaryFields} />
-        </SectionCard>
+        {shopify ? (
+          <div
+            className={`rounded-lg border px-4 py-3 text-sm ${
+              shopify === "accepted"
+                ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                : "border-red-200 bg-red-50 text-red-800"
+            }`}
+          >
+            {shopify === "accepted"
+              ? "Manufacturing intake accepted for this Shopify connection. Mapping and delivery readiness remain separate."
+              : "The Shopify connection action could not be completed. Review the connection readiness and try again."}
+          </div>
+        ) : null}
 
         <SectionCard
-          title="Integration Catalogue"
-          description="Future connection options for tenant-specific external systems."
+          title="Shopify"
+          description="One provider, with separate tenant-scoped storefront connections and source attribution."
           action={
-            <PageActionButton variant="secondary">
-              Connect disabled
-            </PageActionButton>
+            <StatusBadge tone={data.runtimeConfigured && data.connectorSchemaReady ? "info" : "warning"}>
+              {!data.connectorSchemaReady
+                ? "Migration 047 pending"
+                : data.runtimeConfigured
+                  ? "Runtime configured"
+                  : "External setup required"}
+            </StatusBadge>
           }
         >
-          <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-            {mockIntegrations.map((integration) => (
-              <article
-                key={integration.name}
-                className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
-              >
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-semibold uppercase text-slate-500">Organisation</p>
+              <p className="mt-1 text-sm font-semibold text-slate-950">{data.organisation.name}</p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-semibold uppercase text-slate-500">Connections</p>
+              <p className="mt-1 text-sm font-semibold text-slate-950">{data.connections.length}</p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-semibold uppercase text-slate-500">Discovered variants</p>
+              <p className="mt-1 text-sm font-semibold text-slate-950">
+                {data.connections.reduce((total, connection) => total + connection.catalogueItemCount, 0)}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs font-semibold uppercase text-slate-500">Demand readiness</p>
+              <p className="mt-1 text-sm font-semibold text-slate-950">Blocked until mapping and date rules</p>
+            </div>
+          </div>
+
+          {data.connections.length === 0 ? (
+            <div className="mt-5">
+              <EmptyState
+                title="No Shopify connection"
+                description="No storefront is connected. App registration, Migration 047 and the server environment must be reviewed before a development-store installation can be claimed."
+              />
+            </div>
+          ) : (
+            <div className="mt-5 space-y-4">
+              {data.connections.map((connection) => (
+                <article key={connection.id} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <h3 className="text-base font-semibold text-slate-950">{connection.storefrontDisplayName}</h3>
+                      <p className="mt-1 text-sm text-slate-500">
+                        {connection.shopDomain ?? "Verified domain pending"} · {label(connection.environment)}
+                      </p>
+                    </div>
+                    <StatusBadge tone={connectionTone(connection.businessStatus)}>
+                      {label(connection.businessStatus)}
+                    </StatusBadge>
+                  </div>
+
+                  <dl className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    {[
+                      ["Owner authority", connection.ownerAuthorisationStatus],
+                      ["Manufacturer", connection.manufacturerAcceptanceStatus],
+                      ["Technical health", connection.technicalHealth],
+                      ["Installation", connection.installationStatus],
+                      ["Facility", connection.facilityReadiness],
+                      ["Discovery", connection.discoveryStatus],
+                      ["Mapping", connection.mappingReadiness],
+                      ["Bundle rules", connection.bundleReadiness],
+                      ["Delivery parser", connection.deliveryParserReadiness],
+                      ["Delivery calendar", connection.deliveryCalendarReadiness],
+                      ["Backfill", connection.backfillStatus],
+                      ["Reconciliation", connection.reconciliationStatus],
+                    ].map(([term, value]) => (
+                      <div key={term} className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
+                        <dt className="text-xs font-semibold uppercase text-slate-500">{term}</dt>
+                        <dd className="mt-1 text-sm font-semibold text-slate-800">{label(value)}</dd>
+                      </div>
+                    ))}
+                  </dl>
+
+                  {connection.safeErrorCategory ? (
+                    <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
+                      Safe diagnostic: {label(connection.safeErrorCategory)}
+                    </p>
+                  ) : null}
+
+                  {data.canManage &&
+                  connection.ownerAuthorisationStatus === "authorised" &&
+                  connection.manufacturerAcceptanceStatus === "pending" ? (
+                    <form action={acceptShopifyManufacturingConnectionAction} className="mt-4 flex flex-wrap items-end gap-3">
+                      <input type="hidden" name="connection_id" value={connection.id} />
+                      <label className="min-w-56 flex-1 space-y-1.5 text-sm font-semibold text-slate-700">
+                        <span>Target facility</span>
+                        <select name="facility_id" defaultValue="" className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+                          <option value="">Keep current / resolve later</option>
+                          {data.facilities.map((facility) => (
+                            <option key={facility.id} value={facility.id}>
+                              {facility.facility_name} ({facility.facility_code})
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <button type="submit" className="rounded-md bg-[var(--tenant-primary)] px-3.5 py-2 text-sm font-semibold text-white">
+                        Accept manufacturing intake
+                      </button>
+                    </form>
+                  ) : null}
+                </article>
+              ))}
+            </div>
+          )}
+        </SectionCard>
+
+        {data.canManage ? (
+          <SectionCard
+            title="Development-store installation claim"
+            description="Prepare a short-lived claim only after Migration 047 and Shopify development app configuration are reviewed."
+          >
+            <ShopifyInstallIntentForm
+              facilities={data.facilities}
+              runtimeConfigured={data.runtimeConfigured && data.connectorSchemaReady}
+            />
+          </SectionCard>
+        ) : null}
+
+        <SectionCard
+          title="Integration catalogue"
+          description="Future providers keep their own operational ownership; they are not forced into Commerce tables."
+        >
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {futureIntegrations.map(([name, owner, status]) => (
+              <article key={name} className="rounded-lg border border-slate-200 bg-white p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-base font-semibold text-slate-950">
-                      {integration.name}
-                    </h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-500">
-                      {integration.purpose}
-                    </p>
+                    <h3 className="text-sm font-semibold text-slate-950">{name}</h3>
+                    <p className="mt-1 text-sm text-slate-500">Owned by {owner}</p>
                   </div>
-                  <StatusBadge tone={statusTone(integration.status)}>
-                    {integration.status}
-                  </StatusBadge>
+                  <StatusBadge tone="neutral">{status}</StatusBadge>
                 </div>
-                <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
-                  <p className="text-xs font-semibold uppercase text-slate-500">
-                    Data direction
-                  </p>
-                  <p className="mt-1 text-sm font-semibold text-slate-950">
-                    {integration.direction}
-                  </p>
-                </div>
-                <p className="mt-4 text-xs font-semibold uppercase text-slate-500">
-                  Example future use
-                </p>
-                <p className="mt-1 text-sm leading-6 text-slate-600">
-                  {integration.futureUse}
-                </p>
               </article>
             ))}
           </div>
         </SectionCard>
 
         <SectionCard
-          title="Integration Workflow Notes"
-          description="Preferred architecture for external system connections."
+          title="Recent synchronization evidence"
+          description="Redacted Commerce run status only. Tokens, raw webhook bodies and customer PII are never shown here."
         >
-          <div className="grid gap-4 lg:grid-cols-4">
-            {workflowSteps.map((step, index) => (
-              <div
-                key={step}
-                className="rounded-lg border border-slate-200 bg-slate-50 p-4"
-              >
-                <p className="text-xs font-semibold uppercase text-clean-green-700">
-                  Step {index + 1}
-                </p>
-                <h3 className="mt-2 text-sm font-semibold text-slate-950">
-                  {step}
-                </h3>
-              </div>
-            ))}
-          </div>
-          <p className="mt-5 text-sm leading-6 text-slate-600">
-            Modules should use normalised Hub data where possible, instead of
-            being tightly coupled directly to one external provider.
-          </p>
-        </SectionCard>
-
-        <SectionCard
-          title="API / Sync Log Placeholder"
-          description="Example future sync activity records for tenant integrations."
-        >
-          <div className="overflow-hidden rounded-lg border border-slate-200">
-            <div className="grid grid-cols-[1fr_auto] gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase text-slate-500 lg:grid-cols-[1.4fr_auto_auto_1fr]">
-              <span>Sync event</span>
-              <span>Status</span>
-              <span className="hidden lg:block">Direction</span>
-              <span className="hidden lg:block">Last run</span>
-            </div>
-            <div className="divide-y divide-slate-200 bg-white">
-              {mockSyncLogs.map((log) => (
-                <div
-                  key={log.event}
-                  className="grid grid-cols-[1fr_auto] gap-3 px-4 py-4 lg:grid-cols-[1.4fr_auto_auto_1fr] lg:items-center"
-                >
+          {data.syncRuns.length === 0 ? (
+            <EmptyState title="No synchronization runs" description="No backfill, discovery or reconciliation run has been requested." />
+          ) : (
+            <div className="divide-y divide-slate-200 rounded-lg border border-slate-200">
+              {data.syncRuns.map((run) => (
+                <div key={run.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
                   <div>
-                    <h3 className="text-sm font-semibold text-slate-950">
-                      {log.event}
-                    </h3>
-                    <p className="mt-1 text-xs font-semibold uppercase text-slate-500 lg:hidden">
-                      {log.direction} / {log.lastRun}
-                    </p>
+                    <p className="text-sm font-semibold text-slate-950">{label(run.run_type)}</p>
+                    <p className="text-xs text-slate-500">{new Date(run.created_at).toLocaleString("en-AU")}</p>
                   </div>
-                  <StatusBadge tone={statusTone(log.status)}>
-                    {log.status}
-                  </StatusBadge>
-                  <p className="hidden text-sm text-slate-600 lg:block">
-                    {log.direction}
-                  </p>
-                  <p className="hidden text-sm text-slate-600 lg:block">
-                    {log.lastRun}
-                  </p>
+                  <StatusBadge tone={connectionTone(run.status)}>{label(run.status)}</StatusBadge>
                 </div>
               ))}
             </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          title="Future Notes"
-          description="Architecture preparation for safe, tenant-specific integrations."
-        >
-          <EmptyState
-            title="Integrations are not connected yet"
-            description="Integrations will eventually be configured per organisation. Credentials and secrets will need secure storage. Sync activity should be logged, and failures should create alerts. This version is static only and does not save or connect anything."
-          />
+          )}
         </SectionCard>
       </div>
     </AppShell>

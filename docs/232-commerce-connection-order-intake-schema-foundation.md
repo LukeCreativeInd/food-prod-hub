@@ -476,3 +476,7 @@ Run `pnpm lint`, `pnpm exec tsc --noEmit`, `pnpm build` and `git diff --check`. 
 ## Next Task
 
 Task 233 - Shopify Connector Foundation v1 is next only after migration 046 is reviewed, applied through an approved method and validated.
+
+## Task 233 Post-Commit Update
+
+Task 232 is committed at `4922b125232720902080e2827665f71b67b46244`; Migration 046 is live/registered as `20260804115803 commerce_connection_order_intake_foundation`. Task 233 adds the trusted Shopify ingress/normalisation boundary in live/registered Migration 047 without broad authenticated writes. Strict-domain corrective Migration 048 is unapplied and no Commerce operational rows were created by Task 233.

@@ -122,3 +122,7 @@ Classifications use the canonical Task 228 terms. `Mutable` means controlled cur
 - Customer identity/contact/address are not Production Demand fields. Store only the least delivery/routing attribution proven necessary.
 - Platform Admin and Support receive redacted diagnostics, not ownership of tenant operational records.
 - No future table or RLS policy is approved by this matrix. Tasks 229-237 must implement and review those boundaries explicitly.
+
+## Task 233 Implementation Status
+
+Shopify authoritative refetch may populate Task 232 source observations/orders/lines after validation. Product/variant discovery stays provider-neutral and unmapped. No connector action creates contributions, demand, freeze state or Production Plans; those remain downstream reviewed tasks.

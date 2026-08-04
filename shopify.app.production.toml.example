@@ -1,0 +1,34 @@
+client_id = "REPLACE_WITH_PRODUCTION_PUBLIC_APP_CLIENT_ID"
+name = "EveryBatch"
+application_url = "https://app.everybatchmrp.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = false
+
+[access_scopes]
+scopes = "read_orders,read_products"
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = []
+
+[webhooks]
+api_version = "2026-07"
+
+[[webhooks.subscriptions]]
+topics = [
+  "app/uninstalled",
+  "orders/create",
+  "orders/updated",
+  "orders/cancelled",
+  "refunds/create",
+  "products/create",
+  "products/update",
+  "products/delete"
+]
+uri = "/api/integrations/shopify/webhooks"
+
+[[webhooks.subscriptions]]
+compliance_topics = ["customers/data_request", "customers/redact", "shop/redact"]
+uri = "/api/integrations/shopify/webhooks"

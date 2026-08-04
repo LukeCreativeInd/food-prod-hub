@@ -7,9 +7,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:shopify": "node --experimental-strip-types --test tests/shopify/*.test.mjs"
   },
   "dependencies": {
+    "@shopify/shopify-api": "13.1.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.45.4",
     "@vercel/analytics": "^2.0.1",

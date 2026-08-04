@@ -59,3 +59,7 @@ No third-party blog, forum, package documentation or remembered behaviour is aut
 ## Behaviour Preserved
 
 This register performs no Shopify API call, app registration, configuration, installation, token exchange, webhook subscription or live-system change.
+
+## Task 233 Implementation Verification
+
+Rechecked on 4 August 2026 against official Shopify authentication/installation/token-exchange/offline-token, API-versioning, webhook/subscription/privacy, protected-customer-data, Order and bulk-operation documentation. Task 233 selected `@shopify/shopify-api` `13.1.0`, GraphQL Admin API `2026-07`, managed installation with expiring offline tokens, raw-body HMAC verification, configured compliance topics and a default 60-day bounded order window. Version/policy-sensitive decisions require quarterly and pre-App-Review revalidation.

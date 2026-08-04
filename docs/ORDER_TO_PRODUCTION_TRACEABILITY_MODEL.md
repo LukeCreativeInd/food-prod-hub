@@ -196,3 +196,7 @@ No current system can yet provide this complete chain. Tasks 229-237 must implem
 ## Behaviour Preserved
 
 No schema, RLS, permission, connector, source order, demand, Production Plan, batch, inventory, QA, Logistics or live system was changed by this model.
+
+## Task 233 Implementation Status
+
+The local connector preserves connection, Shopify order GID, Shopify line-item GID, product/variant identity, provider timestamps, source lifecycle and bounded source metadata. That supplies the first source-evidence segment only. Mapping, contribution, demand, review/freeze, plan allocation, batch and dispatch links remain absent.

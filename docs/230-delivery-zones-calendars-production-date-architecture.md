@@ -379,3 +379,7 @@ Required completion checks are lint, TypeScript, production build, `git diff --c
 ## Next Step
 
 Luke and the product architect review `ARCHITECTURE_GATE_1_REVIEW_PACKAGE.md`. No next implementation task is approved until that review closes the gate explicitly.
+
+## Task 233 Implementation Update
+
+Order and line tags/custom attributes are preserved only as bounded allowlisted source metadata for later connection-specific parsing. Task 233 does not interpret Zapiet keys, resolve delivery/production dates, add postcode/customer fields, publish calendars or replace Zapiet. Delivery/calendar readiness therefore remains blocked.

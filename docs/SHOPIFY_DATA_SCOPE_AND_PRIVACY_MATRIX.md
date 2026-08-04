@@ -73,3 +73,7 @@ Order access and order webhooks are protected customer data even when direct cus
 ## Behaviour Preserved
 
 No scope, API access, token, protected data, schema, RLS policy, permission or runtime connector was added by this matrix.
+
+## Task 233 Implementation Status
+
+The local connector requests `read_orders` and `read_products`; `read_all_orders` is conditional for explicitly approved history beyond the default 60-day window. Direct customer name/email/phone/address/postcode, broad customer objects and raw payloads are excluded. Bounded tags and custom attributes are retained for later Zapiet parsing. Verified compliance events are reference-only; customer/shop redaction execution and lawful manufacturing-traceability retention still require legal/privacy and development-store validation.

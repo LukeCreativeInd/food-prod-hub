@@ -616,3 +616,7 @@ Task 228 requires lint, TypeScript, production build, `git diff --check`, branch
 ## Next Task
 
 Luke/product-architect Architecture Gate 1 review. No implementation task is approved yet.
+
+## Task 233 Implementation Update
+
+The connector foundation can write privacy-minimised current source-order/source-line projections and append observation/attempt evidence through service-role-only RPCs. It does not create mappings, contributions, Production Demand, frozen demand or Production Plans. Stale provider timestamps cannot regress a current projection; edits/refunds remain source evidence pending Task 234 interpretation.

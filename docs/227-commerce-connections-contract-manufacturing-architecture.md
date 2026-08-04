@@ -524,3 +524,7 @@ Task 227 requires lint, TypeScript, production build, `git diff --check`, branch
 ## Next Task
 
 Luke/product-architect Architecture Gate 1 review. No implementation task is approved yet.
+
+## Task 233 Implementation Update
+
+Migration 046 is live/registered. The local Shopify adapter creates or reuses provider-neutral connections only through verified Shopify identity plus a short-lived tenant claim. Store-owner authority and manufacturer acceptance remain separate; external owners gain no EveryBatch membership. Migration 047 is live/registered, corrective Migration 048 is unapplied, and no store is connected.

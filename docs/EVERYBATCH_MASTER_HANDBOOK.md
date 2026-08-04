@@ -155,7 +155,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 232 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Task 233 follows only after migration 046 review/application and validation.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 232 is the latest committed task; Task 233 remains uncommitted and in correction/review. The official authority is `225-348-official-roadmap.md`; Task 234 follows only after Migration 048 application/verification, Task 233 commit and Shopify development-store validation.
 
 ## 19. Current Risks And Read Next
 
