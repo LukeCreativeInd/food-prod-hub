@@ -14,7 +14,7 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Tenant 1 and proving ground: **Clean Eats Hub**
 - Repository: `/Users/cealukemichalowsky/Development/food-prod-hub`
 - Required working branch: `main`
-- Latest completed task after the current changeset is committed: **230 - Delivery Zones, Calendars And Production-Date Architecture**
+- Latest completed task after the current changeset is committed: **231 - Facility Schema Foundation**
 - Task 223A exact commit hash: `a8c2761`
 - Task 223B exact commit hash: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 exact commit hash: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
@@ -23,17 +23,19 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Task 227 exact commit hash: `fa59c928f8f94a2c320f53144c36d632a140e74c`
 - Task 228 exact commit hash: `bdd50b0d5890ea58306406d25854adc2d6d32c6c`
 - Task 229 exact commit hash: `800591a2947fa25f5675f80bc70a6473138ec126`
-- Task 230 suggested commit title: `Define delivery and production calendar architecture`; exact hash to be backfilled by the first task approved after Architecture Gate 1
+- Task 230 exact commit hash: `f424817e99990f34447c4822d9d86330b13a38f9`
+- Task 231 suggested commit title: `Add facility schema foundation`; exact hash must be backfilled by Task 232 after this commit exists
 - Official roadmap: `docs/225-348-official-roadmap.md`
 - Review Gate 0: **closed through Luke's Task 225 approval**
-- Current stage: **Architecture Gate 1 review**
-- No next implementation task is approved; Task 231 remains blocked pending Luke/product-architect gate approval
-- No migration is pending
+- Architecture Gate 1: **approved through Luke's Task 231 prompt**
+- Current stage: **Task 231 post-application correction and pending browser smoke testing**
+- Next approved task after Task 231 commit and remaining validation: **232 - Commerce Connection and Order Intake Schema Foundation**
+- Luke manually applied migration `045_facility_schema_foundation.sql` through SQL Editor and schema/backfill checks passed; the live privilege reset is a separate Luke action, and browser smoke testing remains pending
 
 ## Database And Security
 
-- Repository migrations `001` through `044` are documented as applied; there is no unapplied migration in this task.
-- `organisation_id` remains the tenant boundary. Task 226 selects organisation-owned facilities with selective direct operational-root ownership and parent derivation, but facility schema and UI are not implemented.
+- Repository migrations `001` through `044` are documented as applied. Migration `045` SQL was manually applied, but SQL Editor execution did not create a `supabase_migrations.schema_migrations` row; history reconciliation must use the approved migration-management workflow before future CLI deployment where required.
+- `organisation_id` remains the tenant boundary. Migration `045` adds organisation-owned facilities, a nullable organisation default, and validated direct facility identity on the six approved operational roots. Facility UI and multi-facility workflows are not implemented.
 - Current tenant data access uses Supabase Auth, active membership, permission helpers and RLS.
 - Intentional `SECURITY DEFINER` workflow boundaries exist for Goods Inwards posting, narrow QA hold availability/actions and Logistics dispatch/manifest actions. Reviewed controls include fixed `search_path`, no dynamic SQL, revoked public/anon execution and authenticated execution only where intended.
 - Supabase Advisor findings include reviewed intentional exceptions and remain candidates for later external-tenant hardening. They must not be described automatically as vulnerabilities or as resolved.
@@ -57,7 +59,7 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 - Task 229 now defines a public, App-Store-reviewed Shopify app with controlled limited visibility, a hybrid embedded/EveryBatch experience, Shopify-managed installation, expiring offline credentials, read-only least-privilege Phase 1 scope, verified asynchronous webhooks, durable processing and reconciliation. No Shopify app, schema or connector is implemented.
 - Task 230 selects exact-postcode tenant zones, explicit region metadata, customer delivery services separate from Logistics carriers, immutable effective-dated calendars, connection-specific Zapiet parser profiles and delivery-date-driven production/facility assignment evidence. Postcode remains optional/restricted and excluded from Shopify intake unless necessity and legal/privacy approval are established.
 - Current Clean Eats Monday/Tuesday/Thursday patterns are reviewable tenant configuration only. Exact postcodes, cutoffs, services, couriers, holidays and Zapiet keys still require staff evidence before activation.
-- Facility architecture is authoritative in `226-facility-site-architecture-decision.md`: facilities are organisation-owned physical scopes; storefronts/brands/domains are not facilities; master data stays organisation-wide; do not add `facility_id` fields outside the approved Task 231 blueprint.
+- Facility architecture is authoritative in `226-facility-site-architecture-decision.md` and implemented at schema-foundation level by migration `045`: facilities are organisation-owned physical scopes; storefronts/brands/domains are not facilities; master data stays organisation-wide; direct facility fields remain limited to the approved roots.
 - Shopify/order demand must remain provider-agnostic even though Clean Eats and its Zapiet date tag are the first implementation.
 - Recipes may mean formula, production method, work instruction or run/report; the workspace remains unresolved.
 - Known performance backlog: app-shell/navigation context, dashboard queries, Traceability first load, large lists/ledgers and route-loading consistency.

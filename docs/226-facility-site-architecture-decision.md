@@ -6,7 +6,7 @@ This document decides how EveryBatch represents physical operational facilities 
 
 ## Scope
 
-Task 226 is architecture, ownership, migration strategy and roadmap-gate planning only. It creates no schema, migration, permissions, RLS, routes, selector, facility record or operational data. Task 231 remains blocked until Architecture Gate 1 after Task 230.
+Task 226 is architecture, ownership, migration strategy and roadmap-gate planning only. It created no schema, migration, permissions, RLS, routes, selector, facility record or operational data. Luke later approved Architecture Gate 1 through the Task 231 prompt, and Task 231 created migration `045_facility_schema_foundation.sql`, which Luke manually applied through SQL Editor.
 
 ## Explicit Decision
 
@@ -356,7 +356,7 @@ These tasks must preserve organisation tenancy, facility ownership, provider-neu
 
 ## Roadmap Implications
 
-Task 226 is committed at `36d53894579e0e8762d7ed441187e5c23552678e`. Tasks 227-230 are complete. Task 230 confirms that a connection default may resolve the active manufacturer facility and that published calendar/routing rules may later provide narrow same-tenant overrides, while Task 231 adds no calendar or routing schema. Architecture Gate 1 review is current and Task 231 cannot begin before explicit Luke/product-architect approval. Detailed transfer design remains Tasks 249-251.
+Task 226 is committed at `36d53894579e0e8762d7ed441187e5c23552678e`. Tasks 227-230 are complete, Task 230 is committed at `f424817e99990f34447c4822d9d86330b13a38f9`, and Architecture Gate 1 is approved. Task 231 drafts only facility schema migration `045`, with no calendar or routing schema. Detailed transfer design remains Tasks 249-251.
 
 ## Behaviour Preserved
 

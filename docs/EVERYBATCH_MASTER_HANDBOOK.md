@@ -1,5 +1,9 @@
 # EveryBatch Master Product And Architect Handbook
 
+## Current Facility Foundation
+
+Architecture Gate 1 is approved. Task 231 implements the reviewed facility model at repository schema-foundation level through unapplied migration `045`: one organisation-owned physical-scope master, a nullable organisation default during provisioning, and direct facility identity only on Inventory locations/receipts, Production areas/plans/batches and Logistics dispatch-run origins. Clean Eats remains a single-facility tenant using `MAIN`; facility management UI, selection and multi-facility workflows remain future work.
+
 ## 1. Purpose And Authority
 
 This is the durable product and architecture handover for EveryBatch. It reconciles current repository truth, Git and migration history, approved roadmap decisions and the useful rationale in the original architect dossier. It is not a substitute for code, migrations or task-specific evidence.
@@ -65,7 +69,7 @@ Clean Eats currently has one manufacturing facility, but one organisation must n
 
 Suppliers, internal items, formulas, UOM rules and other master data remain organisation-wide. Inventory locations, production areas, receipts, production plans/batches and dispatch origins require direct facility scope; stable children derive it. QA templates remain shared while execution evidence is facility-aware. Methods, instructions, calendars and selected capability/configuration may later use organisation defaults with explicit facility overrides.
 
-Single-facility tenants resolve an active default automatically and do not need a selector. Facility-specific memberships are deferred. The schema is not implemented: Architecture Gate 1 review is current and Task 231 remains blocked. Use `226-facility-site-architecture-decision.md`, `FACILITY_SCOPE_AND_OWNERSHIP_MATRIX.md` and the Gate 1 package; do not add speculative facility fields piecemeal.
+Single-facility tenants resolve an active default automatically and do not need a selector. Facility-specific memberships are deferred. Migration `045` implements the reviewed schema foundation and was manually applied through SQL Editor; browser smoke testing and approved migration-history reconciliation remain follow-ups. No facility UI or multi-facility workflow exists. Use `226-facility-site-architecture-decision.md`, `231-facility-schema-foundation.md` and the facility matrices; do not add speculative facility fields piecemeal.
 
 ## 8. Product And Formula Model
 
@@ -109,7 +113,7 @@ The core remains provider-agnostic: Shopify, other commerce systems, wholesale, 
 
 Task 228 selects source evidence plus controlled current projections, immutable versioned interpretation/contribution revisions, recalculable live demand, reviewed demand, immutable frozen snapshots, explicit post-freeze deltas and separate authorised adjustments. One source line may create zero, one or many contributions; excluded and unresolved lines remain visible; mapping and bundle-rule versions remain reproducible. Production Plans consume frozen demand through explicit allocations. Upstream changes cannot silently rewrite approved or completed production history.
 
-Task 230 selects organisation-owned exact-postcode zones with explicit region/state metadata, customer-facing delivery services separate from Logistics carriers, immutable published effective-dated delivery and production calendars, connection-specific Zapiet parsing and delivery-date-driven production/facility assignment evidence. Current Clean Eats Monday/Tuesday/Thursday production patterns are tenant configuration subject to staff review, not global logic. Several delivery dates may feed one production date; frozen demand is never reinterpreted by later rule changes. Architecture Gate 1 review is current and Task 231 remains blocked.
+Task 230 selects organisation-owned exact-postcode zones with explicit region/state metadata, customer-facing delivery services separate from Logistics carriers, immutable published effective-dated delivery and production calendars, connection-specific Zapiet parsing and delivery-date-driven production/facility assignment evidence. Current Clean Eats Monday/Tuesday/Thursday production patterns are tenant configuration subject to staff review, not global logic. Several delivery dates may feed one production date; frozen demand is never reinterpreted by later rule changes. Architecture Gate 1 is approved, and Task 231 implements only the facility prerequisite.
 
 ## 12. Production Admin And Floor Execution
 
@@ -151,7 +155,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 230 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Architecture Gate 1 review is current and Task 231 is not approved.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 231 is the latest completed task after the current changeset is committed. The official authority is `225-348-official-roadmap.md`; Architecture Gate 1 is approved and Task 232 follows migration review/application.
 
 ## 19. Current Risks And Read Next
 

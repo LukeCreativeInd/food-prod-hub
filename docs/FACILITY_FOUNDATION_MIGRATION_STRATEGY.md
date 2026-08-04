@@ -2,7 +2,18 @@
 
 ## Status
 
-This is the Task 226 strategy refined by Task 230 for the future Task 231 Facility Schema Foundation. It is not a migration and contains no executable SQL. Tasks 226-230 are complete, Architecture Gate 1 review is current, and Task 231 remains blocked until explicit Luke/product-architect approval.
+This is the Task 226 strategy refined by Task 230 and implemented by Task 231 migration `045_facility_schema_foundation.sql`. Architecture Gate 1 is approved through Luke's Task 231 prompt. Luke manually applied migration 045 SQL through Supabase SQL Editor and schema/backfill verification passed. SQL Editor did not create a version `045` row in `supabase_migrations.schema_migrations`; that history must be reconciled only through the approved migration-management workflow before future CLI deployment. The sections below preserve the planning rationale; `231-facility-schema-foundation.md` and migration `045` are authoritative for actual fields, nullability, constraints, RLS and backfill.
+
+## Implemented Migration 045 Result
+
+- `public.facilities` is the organisation-owned facility source.
+- `organisation_settings.default_facility_id` remains nullable for zero-facility provisioning.
+- `inventory_locations.facility_id`, `inventory_receipts.facility_id`, `production_areas.facility_id`, `production_plans.facility_id`, `production_batches.facility_id` and `logistics_dispatch_runs.origin_facility_id` become required only after guarded backfill.
+- Clean Eats receives only `MAIN`, with verified name/code/timezone/country and a null address; no other organisation is seeded.
+- Same-tenant composite foreign keys and derived-child validation prevent facility contradictions.
+- Existing single-facility insert paths resolve the active default in database triggers; no selector or route change is introduced.
+- Facilities RLS uses active membership, explicit platform-admin access and the existing `admin.organisation.manage` permission for writes. No DELETE policy or grant is added.
+- Migration `045` SQL was manually applied. The repository version explicitly resets `authenticated` privileges before granting SELECT, INSERT and UPDATE; the corresponding live privilege correction is a separate Luke-run action. Browser smoke testing remains pending.
 
 ## Preconditions
 
@@ -305,7 +316,7 @@ After approved application and app compatibility work:
 
 After Luke explicitly approves and applies the future migration:
 
-- migration history contains the exact migration name;
+- live schema objects match migration `045`; SQL Editor execution is not expected to create a migration-history row;
 - expected tables, columns, constraints, indexes and triggers exist;
 - RLS and policy commands match the reviewed migration;
 - grants and function execution rights match the reviewed security boundary;
@@ -321,4 +332,4 @@ Task 231 owns facility identity, default, foundational physical children and the
 
 ## No-SQL Statement
 
-Tasks 226 and 230 create no SQL migration, executable SQL, Supabase change or data backfill. This strategy is not permission to begin Task 231. Architecture Gate 1 review is current and explicit approval remains mandatory.
+Tasks 226 and 230 created no SQL migration, executable SQL, Supabase change or data backfill. Luke later approved Architecture Gate 1 and Task 231, which created migration `045`. Luke manually applied its SQL and verified the schema/backfill. Migration-history reconciliation is deliberately not performed by this correction.

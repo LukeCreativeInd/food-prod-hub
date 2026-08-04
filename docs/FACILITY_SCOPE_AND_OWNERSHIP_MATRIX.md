@@ -2,7 +2,21 @@
 
 ## Authority
 
-This matrix records the Task 226 architecture decision. It does not create schema. Proposed entities and fields remain unimplemented until their approved roadmap tasks.
+This matrix records the Task 226 architecture decision and Task 231 implementation shape. Luke manually applied migration `045_facility_schema_foundation.sql` through SQL Editor and verified the facility schema/backfill. SQL Editor did not register version `045`; browser smoke testing remains pending. Multi-facility UI, facility selection and facility-specific membership remain deferred.
+
+## Task 231 Implementation Status
+
+| Owner | Field | Migration nullability after backfill | Integrity |
+| --- | --- | --- | --- |
+| `organisation_settings` | `default_facility_id` | Nullable for incomplete provisioning | Same-tenant composite FK plus active/default validation trigger |
+| `inventory_locations` | `facility_id` | Required | Same-tenant composite FK; immutable after insert |
+| `inventory_receipts` | `facility_id` | Required | Same-tenant composite FK; receipt-line location derives and is validated |
+| `production_areas` | `facility_id` | Required | Same-tenant composite FK; immutable after insert |
+| `production_plans` | `facility_id` | Required | Same-tenant composite FK; plan-line area derives and is validated |
+| `production_batches` | `facility_id` | Required | Same-tenant composite FK; plan, plan-line, area and input-location consistency triggers |
+| `logistics_dispatch_runs` | `origin_facility_id` | Required | Same-tenant composite FK; deliveries, lines and manifests derive through run |
+
+Clean Eats is the only organisation with existing affected operational rows. Migration `045` creates/reuses only its `MAIN` facility using the verified organisation ID and leaves both test tenants with no facility/default. Facilities use active/inactive/archived lifecycle, retain historical references, have RLS for active-member/platform-admin reads and organisation-management-gated writes, and expose no DELETE path.
 
 Classification terms:
 

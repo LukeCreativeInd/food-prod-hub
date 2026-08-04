@@ -259,7 +259,7 @@ Reports group by stored production date/facility and preserve delivery-date, con
 | `logistics_dispatch_runs` | Org-owned dispatch header | One origin facility | `origin_facility_id` | Delivery assignments feed run | 231/later Logistics |
 | `logistics_dispatch_deliveries` | Delivery snapshot | Reads service/date/zone evidence | No facility duplication | Derives origin from run | Later Logistics |
 | `logistics_dispatch_lines` | Delivery item lines | Source/demand attribution later | None now | Derive parent | Later Logistics |
-| `logistics_manifests` | Immutable generated manifest | Snapshot origin/service evidence | Origin snapshot via Task 231 | Never reinterpret | 231/later Logistics |
+| `logistics_manifests` | Immutable generated manifest | Snapshot origin/service evidence | No direct facility field in Task 231 | Derives origin from the protected dispatch run; existing snapshots are not rewritten | 231/later Logistics |
 | Integrations placeholder | Static UI only | Future Commerce readiness | None implemented | N/A | 232-233 |
 | Support tickets | Tenant support context | Safe diagnostic references only | No calendar FK initially | Snapshot safe context | Later Support |
 | `audit_logs` | Generic audit table | Publication/override events later | Reference metadata only | Append business events later | 235/348 |
@@ -323,13 +323,15 @@ Task 235 requires deterministic rule/precedence/history tests. Demand Gate 2 req
 
 ## Architecture Gate 1 Review
 
+Post-task status: Luke approved Architecture Gate 1 through the Task 231 prompt. Task 231 then created migration `045_facility_schema_foundation.sql`; Luke manually applied its SQL and verified the schema/backfill. SQL Editor did not register version `045`, and browser smoke testing remains pending. The original recommendation below is retained as Task 230 decision history.
+
 Tasks 226-230 are coherent: organisation remains tenant boundary; facilities are manufacturer-owned physical scope; storefront ownership and manufacturer acceptance remain separate; Commerce preserves source evidence; Production Demand owns review/freeze/delta; Shopify uses privacy-minimised read-only intake; calendars provide versioned assignment evidence without stealing Logistics carrier truth. No direct contradiction was found.
 
 Open items do not block review of the architecture model: exact postcodes, current Zapiet keys, cutoffs, courier/service names, holiday responses and schedule effective dates need staff evidence; postcode collection and retention need legal/privacy confirmation before use. Gate approval itself and Task 231 authorization remain Luke/product-architect decisions.
 
 ## Architecture Gate 1 Recommended Outcome
 
-**Ready for Luke/product-architect Architecture Gate 1 review with listed non-blocking evidence follow-ups.** This document does not approve the gate. Task 231 remains blocked until explicit approval.
+**Original Task 230 recommendation: ready for Luke/product-architect Architecture Gate 1 review with listed non-blocking evidence follow-ups.** This document did not approve the gate; Luke subsequently approved it through the Task 231 prompt.
 
 ## Risks
 
@@ -362,11 +364,11 @@ Whether postcode is necessary; Shopify protected-data approval; retention/redact
 
 ## Roadmap Implications
 
-Task 230 completes the approved architecture phase. Architecture Gate 1 is now the current review stage. Task 231 is not approved and no implementation task may begin until Luke/product-architect gate approval. Task order remains unchanged.
+Task 230 completed the architecture phase. Luke subsequently approved Architecture Gate 1 and Task 231 through the Task 231 prompt. Task 231 is complete after its current changeset is committed; migration `045` was manually applied, browser smoke testing remains pending and task order remains unchanged.
 
 ## Behaviour Preserved
 
-No schema, code, routes, permissions, RLS, packages, live settings, source orders, facilities, calendar rules, parser, demand or operational data changed. Current Zapiet/manual exports and legacy Production tools remain operational. No migration is pending.
+Task 230 changed no schema, code, routes, permissions, RLS, packages, live settings, source orders, facilities, calendar rules, parser, demand or operational data. Current Zapiet/manual exports and legacy Production tools remain operational. Migration `045` was created and manually applied later by Task 231.
 
 ## Checks
 

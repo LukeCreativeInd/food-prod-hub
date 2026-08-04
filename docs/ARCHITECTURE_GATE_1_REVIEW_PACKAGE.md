@@ -2,7 +2,7 @@
 
 ## Gate Purpose
 
-Review the complete Tasks 226-230 architecture before any facility, Commerce, connector, calendar or Production Demand schema begins. This package recommends an outcome; it does not approve the gate.
+Review the complete Tasks 226-230 architecture before any facility, Commerce, connector, calendar or Production Demand schema begins. This package originally recommended approval. Luke approved Architecture Gate 1 through the Task 231 prompt; this document remains the evidence package for that decision.
 
 ## Tasks Reviewed
 
@@ -96,7 +96,7 @@ Each migration remains separately reviewed/applied; no migration is created by T
 
 ## Task 231 Readiness
 
-Architecturally ready **only after Gate 1 approval**. Scope stays facilities, default facility and selected operational roots. It must not add zones, calendars, Commerce routing or Production Demand. Exact Clean Eats facility identity/address needs Luke validation before operational seed/backfill.
+Approved and implemented by Task 231 migration `045`. Luke manually applied its SQL through Supabase SQL Editor and verified the schema/backfill. Scope stays facilities, default facility and selected operational roots. It adds no zones, calendars, Commerce routing or Production Demand. The Clean Eats facility uses the approved identity with address left null; browser smoke testing and approved migration-history reconciliation remain follow-ups.
 
 ## Task 232 Readiness
 
@@ -146,7 +146,7 @@ Postcode necessity and retention; Shopify protected-data approval; public resolv
 
 **Ready for Luke/product-architect Architecture Gate 1 review with listed non-blocking evidence follow-ups.**
 
-The gate is not approved by this document. Task 231 remains blocked.
+This package did not itself approve the gate. Luke subsequently approved Architecture Gate 1 through the Task 231 prompt.
 
 ## Exact Next Actions After Approval
 

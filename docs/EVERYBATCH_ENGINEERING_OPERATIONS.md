@@ -1,5 +1,9 @@
 # EveryBatch Engineering Operations Manual
 
+## Current Facility Migration State
+
+Architecture Gate 1 is approved. Luke manually applied Task 231 migration `045_facility_schema_foundation.sql` through SQL Editor and schema/backfill checks passed. SQL Editor did not register version `045` in `supabase_migrations.schema_migrations`; reconcile history only through the approved migration-management workflow before future CLI deployment. The live authenticated-privilege reset is a separate Luke action, and browser smoke testing remains pending. Treat `organisation_id` as the tenant/security boundary, use only the six approved direct facility roots, derive facility through stable parents elsewhere, and do not add selector or multi-facility runtime behaviour ahead of its roadmap task. Task 232 must backfill Task 231's exact commit hash before new work.
+
 ## Authority And Stack
 
 This is the durable technical handover. Repository code/migrations override prose; task-specific scope and `CODEX_TASK_STANDARDS.md` remain mandatory.
@@ -8,13 +12,13 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Latest completed task after the current changeset is committed: 230; Task 229 is committed at `800591a2947fa25f5675f80bc70a6473138ec126`, and Task 230's exact hash is backfilled by the first task approved after Architecture Gate 1
+- Latest completed task after the current changeset is committed: 231; Task 230 is committed at `f424817e99990f34447c4822d9d86330b13a38f9`, and Task 231's exact hash is backfilled by Task 232
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
 - Task 226 commit: `36d53894579e0e8762d7ed441187e5c23552678e`
-- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Architecture Gate 1 review is current
-- Task 231 remains blocked until explicit Gate 1 approval; no migration is pending
+- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Architecture Gate 1 is approved
+- Migration `045` SQL is manually applied and schema/backfill verified; browser validation and approved migration-history reconciliation remain outstanding before future CLI deployment
 
 ## Branch And Task Workflow
 
@@ -48,7 +52,7 @@ Supabase SSR browser/server clients share established cookie options. Server hel
 
 Task 226 selects organisation-owned facilities with selective direct root ownership and stable parent derivation. `organisation_id` remains on facility-scoped records and remains the RLS tenant boundary. Master data is not duplicated per facility. Task 231 may implement only the approved foundation after Architecture Gate 1; do not add facility fields in unrelated work.
 
-Task 227 separates provider storefront, store owner, connection, manufacturing customer, target manufacturer and facility. Externally owned demand requires store-owner consent plus manufacturer acceptance through an explicit relationship; an external identity grants no tenant access. Preserve stable provider/store IDs, historical mapping/target attribution and separate business status from connector health. No commerce schema exists yet; do not invent cross-tenant links before Architecture Gate 1 and Task 232.
+Task 227 separates provider storefront, store owner, connection, manufacturing customer, target manufacturer and facility. Externally owned demand requires store-owner consent plus manufacturer acceptance through an explicit relationship; an external identity grants no tenant access. Preserve stable provider/store IDs, historical mapping/target attribution and separate business status from connector health. No commerce schema exists yet; do not invent cross-tenant links before the approved Task 232 scope.
 
 Task 228 separates imported source observations/current projections from immutable versioned manufacturing interpretations. Live demand is recalculable; reviewed demand is a versioned decision; frozen snapshots and their source links are immutable; post-freeze source changes become signed deltas; manual adjustments remain separate and reversible; Production Plans consume demand through explicit allocations. Keep customer PII outside broad Production views. No order-intake or demand schema exists yet; Architecture Gate 1 still precedes implementation.
 
