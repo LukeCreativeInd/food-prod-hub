@@ -8,7 +8,7 @@ import {
 } from "./actions";
 
 type Props = {
-  facilities: Array<{ id: string; facility_name: string; facility_code: string }>;
+  facilities: Array<{ id: string; name: string; code: string }>;
   runtimeConfigured: boolean;
 };
 
@@ -56,7 +56,7 @@ export function ShopifyInstallIntentForm({ facilities, runtimeConfigured }: Prop
             <option value="">Resolve later</option>
             {facilities.map((facility) => (
               <option key={facility.id} value={facility.id}>
-                {facility.facility_name} ({facility.facility_code})
+                {facility.name} ({facility.code})
               </option>
             ))}
           </select>

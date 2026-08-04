@@ -14,7 +14,7 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Tenant 1 and proving ground: **Clean Eats Hub**
 - Repository: `/Users/cealukemichalowsky/Development/food-prod-hub`
 - Required working branch: `main`
-- Latest committed task: **232 - Commerce Connection and Order Intake Schema Foundation**; Task 233 remains uncommitted and in correction/review
+- Latest committed task: **233 - Shopify Connector Foundation v1** at `ebe3330514a160cd1820bd35ed804abd85d4e316`; its production correction remains uncommitted and undeployed
 - Task 223A exact commit hash: `a8c2761`
 - Task 223B exact commit hash: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 exact commit hash: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
@@ -26,20 +26,20 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Task 230 exact commit hash: `f424817e99990f34447c4822d9d86330b13a38f9`
 - Task 231 exact commit hash: `58d1171d7b6ad1e32943b538ea35b841f5f437b6`
 - Task 232 exact commit hash: `4922b125232720902080e2827665f71b67b46244`
-- Task 233 suggested commit title: `Build Shopify connector foundation`; exact hash must be backfilled by Task 234 through the post-commit context-delta workflow
+- Task 233 exact commit hash: `ebe3330514a160cd1820bd35ed804abd85d4e316` (`Build Shopify connector foundation`)
 - Official roadmap: `docs/225-348-official-roadmap.md`
 - Review Gate 0: **closed through Luke's Task 225 approval**
 - Architecture Gate 1: **approved through Luke's Task 231 prompt**
-- Current stage: **Task 233 live correction in review; Migration 047 is live/registered and Migration 048 is pending review/application/verification**
-- Next approved task after Migration 048 application and connector validation: **234 - Commerce Product, Variant and Bundle Mapping v1**
+- Current stage: **Task 233 production correction in review and not deployed; Migrations 047 and 048 are live/registered**
+- Next approved task after successful post-correction browser validation: **234 - Commerce Product, Variant and Bundle Mapping v1**
 - Luke manually applied migration `045_facility_schema_foundation.sql`; schema/backfill and browser smoke tests passed, but SQL Editor did not register version 045 in migration history
 - Migration `046_commerce_connection_order_intake_foundation.sql` is live and registered as `20260804115803 commerce_connection_order_intake_foundation`; its eleven Commerce tables were empty at Task 233 preflight
-- Migration `047_shopify_connector_foundation.sql` is live/registered as `20260804142108 shopify_connector_foundation`; its six Shopify tables are empty. Migration `048_shopify_domain_regex_fix.sql` is the unapplied strict-domain-regex repair; no Shopify registration, installation, credential, connection, order, mapping or Production Demand data exists
+- Migration `047_shopify_connector_foundation.sql` is live/registered as `20260804142108 shopify_connector_foundation`; Migration `048_shopify_domain_regex_fix.sql` is live/registered as `20260804145903 shopify_domain_regex_fix`. Shopify and Commerce operational tables remain empty; no Shopify registration, installation, credential, connection, order, mapping or Production Demand data exists
 - Commerce replacement-connection lineage is constrained to a revoked/archived predecessor in the same manufacturing tenant; cross-tenant connection transfer is not implemented
 
 ## Database And Security
 
-- Repository migrations `001` through `044`, `046` and `047` are documented as applied. Migration `045` SQL is live but absent from `supabase_migrations.schema_migrations`; Migration 048 is local/unapplied. History reconciliation must use an approved migration-management workflow before future automated deployment.
+- Repository migrations `001` through `044` and `046` through `048` are documented as applied. Migration `045` SQL is live but absent from `supabase_migrations.schema_migrations`. History reconciliation must use an approved migration-management workflow before future automated deployment.
 - `organisation_id` remains the tenant boundary. Migration `045` adds organisation-owned facilities, a nullable organisation default, and validated direct facility identity on the six approved operational roots. Facility UI and multi-facility workflows are not implemented.
 - Current tenant data access uses Supabase Auth, active membership, permission helpers and RLS.
 - Intentional `SECURITY DEFINER` workflow boundaries exist for Goods Inwards posting, narrow QA hold availability/actions and Logistics dispatch/manifest actions. Reviewed controls include fixed `search_path`, no dynamic SQL, revoked public/anon execution and authenticated execution only where intended.
@@ -61,7 +61,7 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 - Task 224 inspected both legacy sources and one matched raw-to-cleaned-to-PDF day. The 3,626 raw units reconcile to 3,614 report units after 12 known parent-pack exclusions. The current tools use exact-title filters, merge CEA/CEW attribution, ignore source product/variant IDs and retain no order/line/date provenance. Legacy formulas and setup values remain non-canonical.
 - Task 227 defines stable provider/storefront identity, internal and external store ownership, mutual manufacturing authorisation, Made Active's non-tenant Phase 1 identity, separate business/health lifecycles and connection-to-facility constraints.
 - Task 228 now defines provider-neutral source observations/orders/lines, versioned interpretation and contributions, recalculable live demand, reviewed demand, immutable frozen snapshots, explicit post-freeze deltas, authorised adjustments and source-to-plan traceability. Commerce and demand schema/runtime remain unimplemented.
-- Task 233 implements the non-live Shopify adapter foundation with official library `13.1.0`, API `2026-07`, managed-install token exchange, encrypted expiring offline credentials, verified reference-only webhook intake, mandatory privacy topics, durable jobs, environment-scoped claim/completion, bounded manual worker execution and data-backed Tenant Admin readiness. Migration 047 is live/registered but its domain checks require unapplied Migration 048; app registration, App Review, development/live installation, scheduled execution and imported Shopify data remain unvalidated/unimplemented.
+- Task 233 implements the non-live Shopify adapter foundation with official library `13.1.0`, API `2026-07`, managed-install token exchange, encrypted expiring offline credentials, verified reference-only webhook intake, mandatory privacy topics, durable jobs, environment-scoped claim/completion, bounded manual worker execution and data-backed Tenant Admin readiness. Post-deployment verification found a stale `facilities.facility_name`/`facility_code` query and tenant `/shopify` route rejection; the repository correction uses `facilities.name`/`code`, safe readiness states and exact tenant route admission but is not deployed or browser-accepted. App registration, App Review, development/live installation, scheduled execution and imported Shopify data remain unvalidated/unimplemented.
 - Task 230 selects exact-postcode tenant zones, explicit region metadata, customer delivery services separate from Logistics carriers, immutable effective-dated calendars, connection-specific Zapiet parser profiles and delivery-date-driven production/facility assignment evidence. Postcode remains optional/restricted and excluded from Shopify intake unless necessity and legal/privacy approval are established.
 - Current Clean Eats Monday/Tuesday/Thursday patterns are reviewable tenant configuration only. Exact postcodes, cutoffs, services, couriers, holidays and Zapiet keys still require staff evidence before activation.
 - Facility architecture is authoritative in `226-facility-site-architecture-decision.md` and implemented at schema-foundation level by migration `045`: facilities are organisation-owned physical scopes; storefronts/brands/domains are not facilities; master data stays organisation-wide; direct facility fields remain limited to the approved roots.

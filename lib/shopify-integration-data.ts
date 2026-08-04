@@ -2,31 +2,14 @@ import { requirePermissionAccessWithPermissions } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 
 import { isShopifyRuntimeConfigured } from "./shopify/config";
+import {
+  buildShopifyConnectionSummaries,
+  classifyShopifyReadinessFailures,
+  shopifyReadinessMessage,
+  type ShopifyConnectionReadinessSummary,
+} from "./shopify/integration-readiness";
 
-export type ShopifyConnectionSummary = {
-  id: string;
-  storefrontDisplayName: string;
-  shopDomain: string | null;
-  environment: string;
-  businessStatus: string;
-  ownerAuthorisationStatus: string;
-  manufacturerAcceptanceStatus: string;
-  installationStatus: string;
-  technicalHealth: string;
-  facilityReadiness: string;
-  mappingReadiness: string;
-  bundleReadiness: string;
-  deliveryParserReadiness: string;
-  deliveryCalendarReadiness: string;
-  discoveryStatus: string;
-  backfillStatus: string;
-  reconciliationStatus: string;
-  demandReadiness: string;
-  lastSyncAttemptedAt: string | null;
-  lastSyncSucceededAt: string | null;
-  safeErrorCategory: string | null;
-  catalogueItemCount: number;
-};
+export type ShopifyConnectionSummary = ShopifyConnectionReadinessSummary;
 
 export async function getShopifyIntegrationPageData() {
   const { authContext, permissionKeys } =
@@ -56,11 +39,11 @@ export async function getShopifyIntegrationPageData() {
         .is("archived_at", null),
       supabase
         .from("facilities")
-        .select("id,facility_name,facility_code")
+        .select("id,name,code")
         .eq("organisation_id", organisationId)
         .eq("status", "active")
         .is("archived_at", null)
-        .order("facility_name"),
+        .order("name"),
       supabase
         .from("commerce_sync_runs")
         .select("id,connection_id,run_type,status,created_at,completed_at,safe_error_category")
@@ -69,60 +52,33 @@ export async function getShopifyIntegrationPageData() {
         .limit(10),
     ]);
 
-  const connectorSchemaUnavailable =
-    catalogueResult.error?.code === "42P01" ||
-    catalogueResult.error?.code === "PGRST205";
+  const queryFailures = [
+    { query: "commerce_connections", error: connectionsResult.error },
+    { query: "commerce_external_catalogue_items", error: catalogueResult.error },
+    { query: "facilities", error: facilitiesResult.error },
+    { query: "commerce_sync_runs", error: syncRunsResult.error },
+  ];
+  const readinessStatus = classifyShopifyReadinessFailures(queryFailures);
 
-  for (const result of [connectionsResult, facilitiesResult, syncRunsResult]) {
-    if (result.error) {
-      console.error("Shopify integration data query failed", {
-        message: result.error.message,
-      });
-      throw new Error("Could not load Shopify integration readiness.");
-    }
-  }
-
-  if (catalogueResult.error && !connectorSchemaUnavailable) {
-    console.error("Shopify catalogue readiness query failed", {
-      message: catalogueResult.error.message,
+  if (readinessStatus !== "ready") {
+    console.error("[shopify] integration readiness unavailable", {
+      category: readinessStatus,
+      queries: queryFailures
+        .filter((failure) => failure.error)
+        .map((failure) => ({
+          query: failure.query,
+          code: failure.error?.code ?? "unknown",
+        })),
     });
-    throw new Error("Could not load Shopify integration readiness.");
   }
 
-  const catalogueCounts = new Map<string, number>();
-  for (const item of catalogueResult.data ?? []) {
-    catalogueCounts.set(
-      item.connection_id,
-      (catalogueCounts.get(item.connection_id) ?? 0) + 1,
-    );
-  }
-
-  const connections: ShopifyConnectionSummary[] = (
-    connectionsResult.data ?? []
-  ).map((connection) => ({
-    id: connection.id,
-    storefrontDisplayName: connection.storefront_display_name,
-    shopDomain: connection.provider_domain,
-    environment: connection.environment,
-    businessStatus: connection.business_status,
-    ownerAuthorisationStatus: connection.owner_authorisation_status,
-    manufacturerAcceptanceStatus: connection.manufacturer_acceptance_status,
-    installationStatus: connection.installation_status,
-    technicalHealth: connection.technical_health,
-    facilityReadiness: connection.facility_readiness,
-    mappingReadiness: connection.mapping_readiness,
-    bundleReadiness: connection.bundle_readiness,
-    deliveryParserReadiness: connection.delivery_parser_readiness,
-    deliveryCalendarReadiness: connection.delivery_calendar_readiness,
-    discoveryStatus: connection.discovery_status,
-    backfillStatus: connection.backfill_status,
-    reconciliationStatus: connection.reconciliation_status,
-    demandReadiness: connection.demand_readiness,
-    lastSyncAttemptedAt: connection.last_sync_attempted_at,
-    lastSyncSucceededAt: connection.last_sync_succeeded_at,
-    safeErrorCategory: connection.unresolved_error_category,
-    catalogueItemCount: catalogueCounts.get(connection.id) ?? 0,
-  }));
+  const connections: ShopifyConnectionSummary[] =
+    readinessStatus === "ready"
+      ? buildShopifyConnectionSummaries(
+          connectionsResult.data ?? [],
+          catalogueResult.data ?? [],
+        )
+      : [];
 
   return {
     organisation: {
@@ -131,10 +87,12 @@ export async function getShopifyIntegrationPageData() {
       slug: authContext.organisation.slug,
     },
     connections,
-    facilities: facilitiesResult.data ?? [],
-    syncRuns: syncRunsResult.data ?? [],
+    facilities: readinessStatus === "ready" ? facilitiesResult.data ?? [] : [],
+    syncRuns: readinessStatus === "ready" ? syncRunsResult.data ?? [] : [],
     canManage: permissionKeys.includes("admin.integrations.manage"),
     runtimeConfigured: isShopifyRuntimeConfigured(),
-    connectorSchemaReady: !connectorSchemaUnavailable,
+    connectorSchemaReady: readinessStatus !== "schema_missing",
+    readinessStatus,
+    readinessMessage: shopifyReadinessMessage(readinessStatus),
   };
 }

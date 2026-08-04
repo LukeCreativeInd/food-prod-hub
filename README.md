@@ -30,7 +30,7 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 
 ## Current Status
 
-- Latest committed task: Task 232; Task 233 remains uncommitted and in correction/review until Migration 048 is applied and verified
+- Latest committed task: Task 233 at `ebe3330514a160cd1820bd35ed804abd85d4e316`; its production correction remains uncommitted and undeployed
 - Task 223A commit: `a8c2761`
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
@@ -42,16 +42,16 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 - Task 230 commit: `f424817e99990f34447c4822d9d86330b13a38f9` (`Define delivery and production calendar architecture`)
 - Task 231 commit: `58d1171d7b6ad1e32943b538ea35b841f5f437b6` (`Add facility schema foundation`)
 - Task 232 commit: `4922b125232720902080e2827665f71b67b46244` (`Add commerce order intake foundation`)
-- Task 233 suggested commit title: `Build Shopify connector foundation`; exact hash must be backfilled by Task 234 after this commit exists
+- Task 233 commit: `ebe3330514a160cd1820bd35ed804abd85d4e316` (`Build Shopify connector foundation`)
 - Review Gate 0 is closed; the [Tasks 225-348 roadmap](docs/225-348-official-roadmap.md) is authoritative
 - Architecture Gate 1 is approved through Luke's Task 231 prompt
 - Migration `045_facility_schema_foundation.sql` was manually applied through Supabase SQL Editor and the facility schema/backfill checks passed; SQL Editor did not create a version `045` migration-history row
 - Migration 045 live privileges are authenticated SELECT/INSERT/UPDATE only, and Facility/Inventory/Production/QA/Logistics browser smoke tests passed; facility UI, selection and multi-facility workflows remain deferred
 - Migration `046_commerce_connection_order_intake_foundation.sql` is live and registered as `20260804115803 commerce_connection_order_intake_foundation`; its Commerce tables were empty at Task 233 preflight
-- Migration `047_shopify_connector_foundation.sql` is live/registered as `20260804142108 shopify_connector_foundation`; its six Shopify tables are empty. Rollback-only verification found a PostgreSQL domain-regex escaping defect, and the narrow corrective Migration `048_shopify_domain_regex_fix.sql` is created but unapplied. No Shopify connection, credential, order, mapping or Production Demand data exists
+- Migration `047_shopify_connector_foundation.sql` is live/registered as `20260804142108 shopify_connector_foundation`; Migration `048_shopify_domain_regex_fix.sql` is live/registered as `20260804145903 shopify_domain_regex_fix`. Shopify and Commerce operational tables remain empty; no Shopify connection, credential, order, mapping or Production Demand data exists
 - CEA/CEW remain Clean Eats-owned, Made Active remains externally owned, and no records for them are seeded
 - Source evidence can later feed versioned interpretation/contributions, reviewed/frozen Production Demand and Production Plans; mappings and demand remain unimplemented
-- Task 233 adds a non-live Shopify connector foundation using `@shopify/shopify-api` `13.1.0`, GraphQL Admin API `2026-07`, managed-install token exchange, encrypted expiring offline credentials, verified reference-only webhook intake, durable jobs, bounded manual worker execution and real Tenant Admin readiness views. No app registration, development-store install, live callback, scheduled executor or imported Shopify data exists
+- Task 233 adds a non-live Shopify connector foundation using `@shopify/shopify-api` `13.1.0`, GraphQL Admin API `2026-07`, managed-install token exchange, encrypted expiring offline credentials, verified reference-only webhook intake, durable jobs, bounded manual worker execution and real Tenant Admin readiness views. Its pending production correction fixes the Integrations facility-column contract, safe zero/error states and tenant `/shopify` admission. No app registration, development-store install, live callback, scheduled executor or imported Shopify data exists
 - Task 230 selects organisation-owned exact-postcode zones, separate customer delivery services and Logistics carriers, immutable effective-dated delivery/production calendars, connection-specific Zapiet parsing and versioned facility/production-date assignments; no zone, calendar, parser or engine is implemented
 - Commerce business status and technical health remain separate; provider/store identity cannot rely on order prefix, display label or domain alone
 - Earlier roadmaps remain preserved as superseded historical evidence

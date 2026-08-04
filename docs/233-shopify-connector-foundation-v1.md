@@ -58,15 +58,15 @@ The service-role and Shopify values are server-only. Localhost keeps development
 
 ## Route/host strategy
 
-The existing approved central host is used; no new domain is invented:
+The existing approved host boundaries are used; no new domain is invented:
 
 - `POST /api/integrations/shopify/session`
 - `POST /api/integrations/shopify/webhooks`
 - `POST /api/integrations/shopify/worker`
 - `GET /api/integrations/shopify/health`
-- `/shopify` truthful merchant-facing placeholder
+- tenant `/shopify` truthful authenticated setup/readiness surface
 
-Routes compare the request host with `SHOPIFY_APP_HOST`, allow localhost, reject preview and do not run on tenant, Platform Admin or Support hosts.
+Provider API routes compare the request host with `SHOPIFY_APP_HOST`, allow localhost and reject preview. Tenant `/shopify` is admitted only on the tenant host (plus permissive localhost development), uses the normal EveryBatch permission boundary and creates no records. Central app requests resolve through workspace selection; Platform Admin and Support hosts do not expose the tenant surface.
 
 ## Installation model
 
@@ -142,11 +142,11 @@ Order tags and filtered custom/note attributes are retained in `source_tags` and
 
 ## Tenant Admin Integrations
 
-`/integrations` now shows one Shopify provider and real tenant connection/readiness rows, discovered variant counts, redacted run evidence, one-time installation claims and separate manufacturer acceptance. While Migration 048 remains unapplied, the connector must not be used for installation claims; the page remains usable and the six live Shopify tables remain empty. Future Xero/Detrack/Klaviyo/etc cards remain truthful and are not placed into Commerce schema.
+`/integrations` shows one Shopify provider and real tenant connection/readiness rows, discovered variant counts, redacted run evidence, one-time installation claims and separate manufacturer acceptance. The initial deployed query incorrectly selected non-existent `facilities.facility_name` and `facilities.facility_code` fields; the live schema uses `facilities.name` and `facilities.code`. The production correction uses the real columns, treats successful zero-row results as the normal unconnected state, and distinguishes schema, permission and genuine query failures without querying credential/job/privacy tables. Future Xero/Detrack/Klaviyo/etc cards remain truthful and are not placed into Commerce schema.
 
 ## Merchant-facing surface
 
-`/shopify` and the session endpoint form the safe route/backend shell. The embedded App Bridge frontend is not claimed complete because app registration/development-store installation is absent. It exposes no Clean Eats tenant data.
+Tenant `/shopify` is a minimal authenticated EveryBatch setup/readiness surface using `admin.integrations.view`; it does not require a Shopify session token, submit forms or create data. Actual embedded Shopify identity remains isolated in the dedicated session endpoint, which still validates a Shopify session token before token exchange. The embedded App Bridge frontend is not claimed complete because app registration/development-store installation is absent. Platform Admin, Support and central-app host isolation is preserved.
 
 ## Manufacturer acceptance
 
@@ -174,7 +174,7 @@ Forged session/webhook, open cross-host use, replay/duplicate, stale event, cros
 
 Migration `047_shopify_connector_foundation.sql` is live and registered as `20260804142108 shopify_connector_foundation`. Its six Shopify foundation tables remain empty and no app/store is connected. Rollback-only verification exposed a PostgreSQL standard-string escaping defect in the strict Shopify-domain checks. The applied 2,137-line Migration 047 remains immutable at SHA-256 `cf28720d98bfc08b5b6ad06da9e5501bc558548cee1b532918eebfc7dc27e855`.
 
-Migration `048_shopify_domain_regex_fix.sql` is the narrow unapplied repair. It recreates only the two affected constraints and the two affected function definitions with the corrected `\.myshopify\.com` PostgreSQL pattern, then reasserts their existing grants. It changes no tables, RLS policies, role mappings, Shopify data or connector lifecycle behaviour.
+Migration `048_shopify_domain_regex_fix.sql` is live and registered as `20260804145903 shopify_domain_regex_fix`. It recreates only the two affected constraints and the two affected function definitions with the corrected `\.myshopify\.com` PostgreSQL pattern, then reasserts their existing grants. It changes no tables, RLS policies, role mappings, Shopify data or connector lifecycle behaviour.
 
 ## RLS/permissions
 
@@ -182,13 +182,13 @@ All six tables have RLS. Only `commerce_external_catalogue_items` grants authent
 
 ## Automated tests
 
-`pnpm test:shopify` covers domain/session destination validation, AES-GCM round trip/wrong key, PII filtering, order edits/refunds, selling-plan/bundle evidence, stale timestamps, redacted webhook references, official raw-body HMAC accept/reject, SQL secret-grant contracts and worker environment-isolation contracts. The regex regression suite pins Migration 047's applied SHA/line count, Migration 048's two constraints and two full replacement functions, the corrected PostgreSQL pattern, unchanged function behaviour/security, canonical and hostile domain cases, and the absence of Migration 049. Database RLS/RPC integration checks remain required after reviewed Migration 048 application.
+`pnpm test:shopify` covers domain/session destination validation, AES-GCM round trip/wrong key, PII filtering, order edits/refunds, selling-plan/bundle evidence, stale timestamps, redacted webhook references, official raw-body HMAC accept/reject, SQL secret-grant contracts and worker environment-isolation contracts. It also covers successful zero-row readiness, safe schema/permission/query failure classification, exclusion of credential/job/privacy tables, one-provider presentation, tenant-only `/shopify` admission and separation from embedded session validation. The regex regression suite pins Migration 047's applied SHA/line count, Migration 048's two constraints and two full replacement functions, the corrected PostgreSQL pattern, unchanged function behaviour/security, canonical and hostile domain cases, and the absence of Migration 049.
 
 ## Development-store validation
 
-Not performed. Use the plan below only after app registration and Migration 048 approval:
+Not performed. Use the plan below only after app registration and explicit development-store approval:
 
-1. Apply reviewed Migration 048 to development Supabase and run the post-048 SQL checks below.
+1. Confirm the live Migration 048 checks below still pass in the approved development environment.
 2. Create a Shopify development app/store and copy the development example TOML.
 3. Configure approved HTTPS tunnel/host and server secrets; never use production values.
 4. Deploy config-managed subscriptions and install in the test store.
@@ -203,7 +203,7 @@ Not performed. Use the plan below only after app registration and Migration 048 
 
 ## SQL verification
 
-Read-only object checks after reviewed Migration 048 application:
+Read-only object checks for the live reviewed Migration 048 state:
 
 ```sql
 select version, name
@@ -317,11 +317,11 @@ The function-signature query must return only:
 
 Both must have fixed `search_path=public`, no dynamic SQL, service-role execution only, and no public/anon/authenticated execution. The old environment-free signatures must be absent.
 
-The migration-history query must show registered Migration 047 and, after approved application, registered Migration 048. Migration 045 remains the documented unregistered live exception; do not repair or replay either 045 or 047. Both constraint/function definitions must contain one PostgreSQL regex escape before each literal dot. The expression result must be `true, true, false, false, false`.
+The migration-history query must show registered Migrations 047 and 048. Migration 045 remains the documented unregistered live exception; do not repair or replay 045, 047 or 048. Both constraint/function definitions must contain one PostgreSQL regex escape before each literal dot. The expression result must be `true, true, false, false, false`.
 
 Before the worker fixture, run a rollback-only installation fixture that inserts a synthetic `task233-dev.myshopify.com` installation, confirms the valid constraint passes, catches a strict lookalike-domain constraint violation, and rolls back. Use synthetic prerequisite IDs only and persist no credentials or connection data.
 
-Run this isolated rollback-only environment test after applying Migration 048 in development. It creates all prerequisite installation/job rows inside the transaction and leaves no data:
+Run this isolated rollback-only environment test only in an approved development database. It creates all prerequisite installation/job rows inside the transaction and leaves no data:
 
 ```sql
 begin;
@@ -435,10 +435,15 @@ rollback;
 
 ## Browser smoke tests
 
-- Organisation admin: `/integrations` loads one Shopify provider, no fake connection, no token/raw body, claim disabled until runtime configured.
+The deployed Task 233 commit `ebe3330514a160cd1820bd35ed804abd85d4e316` exposed two production defects: `/integrations` failed on the stale facility-column query and tenant `/shopify` redirected to `/dashboard`. The repository correction fixes both without data writes, but is not deployed or production-accepted yet.
+
+Required post-correction verification:
+
+- Organisation admin: `/integrations` loads one Shopify provider, zero connections and no fake sync or readiness success.
+- Tenant `/shopify`: loads the read-only unconnected setup state without a Shopify session token.
 - Operations/read-only manager: sees only permitted readiness; no manage forms without `admin.integrations.manage`.
-- Demo user: Integrations remains blocked under existing permissions.
-- Platform Admin: no new connector page/token/raw PII surface.
+- Demo user: Integrations and tenant Shopify setup remain blocked under the existing permission guard.
+- Platform Admin and Support: no tenant connector page, token or raw PII surface.
 - Dashboard, Organisation Settings, Users, Inventory, Production, QA, Logistics and Support remain unchanged.
 
 ## App Store implications
@@ -459,7 +464,7 @@ No new Support UI. Safe error categories/connection references exist for future 
 
 ## Known limitations
 
-Migration 047 is live but Migration 048 is unapplied; no app/store registered; no scheduler; no development/live validation; embedded frontend blocked; >250 nested entities blocked; shop-redact retention needs legal review; no mappings, parser/calendar, demand or Zapiet replacement.
+Migrations 047 and 048 are live; no app/store is registered, installed or connected; no scheduler; no development-store validation; embedded frontend blocked; >250 nested entities blocked; shop-redact retention needs legal review; no mappings, parser/calendar, demand or Zapiet replacement. The application correction still requires deployment and browser regression testing. The unrelated `/stock-on-hand` redirect predates Task 233 and remains separately tracked.
 
 ## Deferred Task 234
 
@@ -483,4 +488,4 @@ Focused tests, ESLint, TypeScript, Next build and `git diff --check` are require
 
 ## Next task
 
-Review and apply Migration 048, then complete its rollback-only SQL fixtures and Shopify development-store validation. Task 234 remains blocked until that evidence exists.
+Deploy and browser-test the Task 233 production correction. Confirm `/integrations`, tenant `/shopify`, restricted-role behavior and host isolation before production acceptance. Task 234 remains blocked until that evidence exists; development-store validation remains a later controlled gate and must not create live operational data during this correction.

@@ -32,6 +32,22 @@ function connectionTone(status: string) {
   return "neutral" as const;
 }
 
+function readinessBadge(data: Awaited<ReturnType<typeof getShopifyIntegrationPageData>>) {
+  if (data.readinessStatus === "schema_missing") {
+    return "Schema unavailable";
+  }
+  if (data.readinessStatus === "permission_denied") {
+    return "Access unavailable";
+  }
+  if (data.readinessStatus === "query_error") {
+    return "Readiness unavailable";
+  }
+  if (data.runtimeConfigured) {
+    return "Runtime configured";
+  }
+  return "External setup required";
+}
+
 type PageProps = {
   searchParams: Promise<{ shopify?: string }>;
 };
@@ -63,16 +79,19 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
           title="Shopify"
           description="One provider, with separate tenant-scoped storefront connections and source attribution."
           action={
-            <StatusBadge tone={data.runtimeConfigured && data.connectorSchemaReady ? "info" : "warning"}>
-              {!data.connectorSchemaReady
-                ? "Migration 047 pending"
-                : data.runtimeConfigured
-                  ? "Runtime configured"
-                  : "External setup required"}
+            <StatusBadge tone={data.readinessStatus === "ready" && data.runtimeConfigured ? "info" : "warning"}>
+              {readinessBadge(data)}
             </StatusBadge>
           }
         >
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {data.readinessStatus !== "ready" ? (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
+              <p className="font-semibold">Shopify readiness is temporarily unavailable</p>
+              <p className="mt-1">{data.readinessMessage}</p>
+            </div>
+          ) : (
+            <>
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
               <p className="text-xs font-semibold uppercase text-slate-500">Organisation</p>
               <p className="mt-1 text-sm font-semibold text-slate-950">{data.organisation.name}</p>
@@ -91,18 +110,18 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
               <p className="text-xs font-semibold uppercase text-slate-500">Demand readiness</p>
               <p className="mt-1 text-sm font-semibold text-slate-950">Blocked until mapping and date rules</p>
             </div>
-          </div>
+              </div>
 
-          {data.connections.length === 0 ? (
-            <div className="mt-5">
-              <EmptyState
-                title="No Shopify connection"
-                description="No storefront is connected. App registration, Migration 047 and the server environment must be reviewed before a development-store installation can be claimed."
-              />
-            </div>
-          ) : (
-            <div className="mt-5 space-y-4">
-              {data.connections.map((connection) => (
+              {data.connections.length === 0 ? (
+                <div className="mt-5">
+                  <EmptyState
+                    title="No Shopify connection"
+                    description="No storefront is connected. App registration and the server environment must be reviewed before a development-store installation can be claimed."
+                  />
+                </div>
+              ) : (
+                <div className="mt-5 space-y-4">
+                  {data.connections.map((connection) => (
                 <article key={connection.id} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
@@ -155,7 +174,7 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
                           <option value="">Keep current / resolve later</option>
                           {data.facilities.map((facility) => (
                             <option key={facility.id} value={facility.id}>
-                              {facility.facility_name} ({facility.facility_code})
+                              {facility.name} ({facility.code})
                             </option>
                           ))}
                         </select>
@@ -166,12 +185,14 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
                     </form>
                   ) : null}
                 </article>
-              ))}
-            </div>
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </SectionCard>
 
-        {data.canManage ? (
+        {data.canManage && data.readinessStatus === "ready" ? (
           <SectionCard
             title="Development-store installation claim"
             description="Prepare a short-lived claim only after Migration 047 and Shopify development app configuration are reviewed."
@@ -206,7 +227,12 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
           title="Recent synchronization evidence"
           description="Redacted Commerce run status only. Tokens, raw webhook bodies and customer PII are never shown here."
         >
-          {data.syncRuns.length === 0 ? (
+          {data.readinessStatus !== "ready" ? (
+            <EmptyState
+              title="Synchronization evidence unavailable"
+              description="The readiness query did not complete, so no synchronization state is being assumed."
+            />
+          ) : data.syncRuns.length === 0 ? (
             <EmptyState title="No synchronization runs" description="No backfill, discovery or reconciliation run has been requested." />
           ) : (
             <div className="divide-y divide-slate-200 rounded-lg border border-slate-200">

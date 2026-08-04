@@ -62,6 +62,7 @@ const tenantRoutePrefixes = [
   "/modules",
   "/users",
   "/integrations",
+  "/shopify",
   "/admin",
 ];
 
