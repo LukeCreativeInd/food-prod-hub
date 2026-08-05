@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies, headers } from "next/headers";
+import { cache } from "react";
 
 import { getSupabaseAuthCookieOptionsForHost } from "@/lib/supabase/cookie-options";
 
@@ -14,7 +15,7 @@ function getSupabasePublicConfig() {
   return { supabaseUrl, supabaseAnonKey };
 }
 
-export async function createClient() {
+const createRequestClient = cache(async function createRequestClient() {
   const [cookieStore, requestHeaders] = await Promise.all([cookies(), headers()]);
   const { supabaseUrl, supabaseAnonKey } = getSupabasePublicConfig();
   const currentHost =
@@ -37,4 +38,8 @@ export async function createClient() {
       },
     },
   });
+});
+
+export async function createClient() {
+  return createRequestClient();
 }

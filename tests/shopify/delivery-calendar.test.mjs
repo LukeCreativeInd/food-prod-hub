@@ -66,7 +66,7 @@ function sha256(source) {
   return createHash("sha256").update(source).digest("hex");
 }
 
-test("Migration 050 is the single unapplied delivery foundation draft", () => {
+test("Migration 050 remains the single delivery foundation migration after 049", () => {
   const migrations = readdirSync(migrationDirectory);
   const schemaSection = migration050.slice(
     0,

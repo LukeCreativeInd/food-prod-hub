@@ -34,6 +34,14 @@ Not implemented:
 
 Task 234 is production accepted at commit `ee755514b2cbbbccd3697d5a14a3f86af148191c` (`Build commerce product mappings`). Migration 049 is live and registered as `20260805001610 commerce_catalogue_mapping_foundation`. Its operational tables remain empty.
 
+## Task 235 Production Acceptance Correction
+
+Task 235 is deployed at commit `8d9059c31c11e7019bf610c031b3433cff7ee03b` (`Build delivery calendar configuration`) through Vercel deployment `dpl_5dDJHXiUekJAyBgcnA2Kcuojv3dS`. Migration 050 is live and registered as `20260805035435 delivery_calendar_production_date_foundation`; database verification passed and all Task 235 operational tables remained empty.
+
+Production browser verification reached the Shopify workspace and all delivery routes before eight Supabase Auth `429 over_request_rate_limit` failures destabilised the session. The failure was not caused by delivery queries or Migration 050. Production route prefetch rendered the seven-link Shopify workspace, six configuration cards and dense authenticated shell navigation as parallel sibling Server Component requests. Each independent request tree performed the required `auth.getUser()` network verification. A support-domain cookie exception also allowed a host-only Support cookie to diverge from the shared `.everybatchmrp.com` session during cross-domain refresh.
+
+The correction keeps one verified user lookup and one Supabase server client per request tree, uses one browser client per browser runtime, disables automatic prefetch in dense authenticated shell/Shopify navigation, and includes Support in the shared production cookie scope. Missing, expired and revoked sessions still resolve as signed out. A 429 or Auth infrastructure failure now throws a safe temporary error and retry state rather than becoming `/login`, `/no-access` or zero tenant data. No RLS, membership, permission, tenant, Platform Admin or Support isolation boundary is weakened.
+
 ## Current Source-Delivery Evidence
 
 `commerce_source_orders` retains privacy-minimised candidates and bounded `source_attributes`. No source orders exist. Task 235 keeps that imported projection unchanged and appends reviewed interpretation revisions separately.
@@ -174,11 +182,11 @@ All new table privileges are revoked from `PUBLIC`, `anon` and `authenticated`, 
 
 File: `supabase/migrations/050_delivery_calendar_production_date_foundation.sql`
 
-Status: drafted, locally reviewed and unapplied. It is transactional, creates no seed/operational data, and does not modify Migrations 045-049.
+Status: live and registered as `20260805035435 delivery_calendar_production_date_foundation`. It remains transactional, created no seed/operational data, and did not modify Migrations 045-049.
 
 ## Automated Tests
 
-`tests/shopify/delivery-calendar.test.mjs` verifies Migration 050 numbering, tables, RLS, same-tenant constraints, immutable publication, historical superseded-calendar resolution, source-order-date parser selection, DST-aware timezone conversion, parser ambiguity blocking, Phase 1 source-location bounds, precedence, privacy exclusions, RPC permissions, no demand/operational writes and UI ownership. Existing Task 233/234 tests remain part of the Shopify suite.
+`tests/shopify/delivery-calendar.test.mjs` verifies Migration 050 numbering, tables, RLS, same-tenant constraints, immutable publication, historical superseded-calendar resolution, source-order-date parser selection, DST-aware timezone conversion, parser ambiguity blocking, Phase 1 source-location bounds, precedence, privacy exclusions, RPC permissions, no demand/operational writes and UI ownership. `tests/shopify/auth-request-stability.test.mjs` verifies request-scoped reuse, browser singleton behavior, shared Support cookies, prefetch suppression, genuine signed-out states and fail-safe 429 handling. Existing Task 233/234 tests remain part of the Shopify suite.
 
 ## SQL Verification
 
@@ -284,7 +292,7 @@ No detailed cross-tenant read or mutation is added. Later redacted readiness/cou
 
 ## Support Impact
 
-No Support route or permission changes. Later diagnostics may expose only safe references, version IDs, status and safe error category.
+No Support route or permission changes. The production Support host now uses the same `.everybatchmrp.com` Supabase Auth cookie scope as the central, tenant and Platform Admin hosts. Localhost, previews and the marketing root retain default host behavior. Existing users may need one fresh sign-in after deployment to replace a legacy support-only cookie. Later diagnostics may expose only safe references, version IDs, status and safe error category.
 
 ## Logistics Impact
 
@@ -296,7 +304,8 @@ Reviewed production dates can now be resolved as evidence, but no contribution, 
 
 ## Known Limitations
 
-- Migration 050 is unapplied.
+- Migration 050 is live and its database verification passed.
+- Final production acceptance remains blocked until the Auth request correction is deployed and the cross-domain navigation regression is rerun.
 - No Shopify connection or source order exists for runtime interpretation.
 - Initial UI creates top-level drafts; detailed rule/field replacement and lifecycle controls remain RPC-backed and require later runtime UI refinement.
 - Exact postcode resolution is deliberately absent.
@@ -312,11 +321,11 @@ Capacity planning, cut-off enforcement, courier pricing and route optimisation a
 
 ## Deferred Task 236
 
-Task 236 Production Demand schema/UI work must not begin until Migration 050 is reviewed, applied and validated and Task 235 receives explicit approval.
+Task 236 Production Demand schema/UI work must not begin until the Auth request correction is redeployed, production browser acceptance passes and Task 235 receives explicit approval.
 
 ## Behaviour Preserved
 
-Task 233/234 routes, auth, host isolation, facilities, mappings, Products, Inventory, Production, QA, Logistics, Support and Platform Admin remain unchanged. Zero Commerce/Shopify operational state is preserved.
+Task 233/234 routes, host isolation, facilities, mappings, Products, Inventory, Production, QA, Logistics, Support and Platform Admin remain unchanged. Auth verification, membership, permissions and RLS remain authoritative; only request reuse, prefetch behavior, cookie consistency and transient-failure handling change. Zero Commerce/Shopify operational state is preserved.
 
 ## Checks
 
@@ -324,4 +333,4 @@ Required completion checks are lint, TypeScript, production build, Shopify suite
 
 ## Next Task
 
-Task 236 is next only after manual Migration 050 review/application, SQL/browser validation and explicit approval.
+Task 236 is next only after redeployment, production browser validation of stable tenant/Support/Platform navigation and explicit approval.

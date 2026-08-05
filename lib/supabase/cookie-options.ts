@@ -18,8 +18,7 @@ export function getSupabaseAuthCookieOptionsForHost(
     !parsedHost.isEveryBatchDomain ||
     parsedHost.isLocalhost ||
     parsedHost.isPreview ||
-    parsedHost.mode === "marketing" ||
-    parsedHost.mode === "support"
+    parsedHost.mode === "marketing"
   ) {
     return undefined;
   }

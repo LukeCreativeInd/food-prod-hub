@@ -1,5 +1,6 @@
 import { cache } from "react";
 
+import { resolveAuthUserError } from "@/lib/auth/auth-errors";
 import { createClient } from "@/lib/supabase/server";
 
 export const getCurrentUser = cache(async function getCurrentUser() {
@@ -7,7 +8,7 @@ export const getCurrentUser = cache(async function getCurrentUser() {
   const { data, error } = await supabase.auth.getUser();
 
   if (error) {
-    return null;
+    return resolveAuthUserError(error);
   }
 
   return data.user ?? null;

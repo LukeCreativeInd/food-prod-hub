@@ -4,6 +4,10 @@ import { createBrowserClient } from "@supabase/ssr";
 
 import { getBrowserSupabaseAuthCookieOptions } from "@/lib/supabase/cookie-options";
 
+type BrowserClient = ReturnType<typeof createBrowserClient>;
+
+let browserClient: BrowserClient | undefined;
+
 function getSupabasePublicConfig() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -16,9 +20,15 @@ function getSupabasePublicConfig() {
 }
 
 export function createClient() {
+  if (browserClient) {
+    return browserClient;
+  }
+
   const { supabaseUrl, supabaseAnonKey } = getSupabasePublicConfig();
 
-  return createBrowserClient(supabaseUrl, supabaseAnonKey, {
+  browserClient = createBrowserClient(supabaseUrl, supabaseAnonKey, {
     cookieOptions: getBrowserSupabaseAuthCookieOptions(),
   });
+
+  return browserClient;
 }

@@ -18,6 +18,7 @@ export function ShopifyWorkspaceNav() {
           <Link
             key={href}
             href={href}
+            prefetch={false}
             className="inline-flex items-center rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 hover:border-[color:var(--tenant-primary-border)] hover:bg-[var(--tenant-primary-soft)] hover:text-[var(--tenant-primary)]"
           >
             {label}

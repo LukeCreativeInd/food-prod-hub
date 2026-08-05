@@ -143,6 +143,7 @@ export function SupportShell({
               <Link
                 key={item.href}
                 href={getSupportHref(item.href, isSupportHost)}
+                prefetch={false}
                 className="rounded-full border border-transparent px-3 py-2 text-sm font-semibold text-slate-600 transition hover:border-green-200 hover:bg-green-50 hover:text-green-900"
               >
                 {item.label}
@@ -178,6 +179,7 @@ export function SupportShell({
                 <Link
                   key={`${link.label}-${link.href}`}
                   href={link.href}
+                  prefetch={false}
                   className="block rounded-lg border border-slate-200 bg-slate-50 px-3 py-3 transition hover:border-green-200 hover:bg-green-50"
                 >
                   <span className="block text-sm font-bold text-slate-950">
@@ -190,6 +192,7 @@ export function SupportShell({
               ))}
               <Link
                 href={getCentralSelectorHref(currentHost)}
+                prefetch={false}
                 className="block rounded-lg border border-slate-200 bg-white px-3 py-3 text-sm font-bold text-slate-700 transition hover:border-green-200 hover:bg-green-50"
               >
                 Workspace selector

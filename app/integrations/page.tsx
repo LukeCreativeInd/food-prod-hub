@@ -44,7 +44,7 @@ export default async function IntegrationsPage() {
                     <p className="font-semibold text-slate-950">{connection.storefrontDisplayName}</p>
                     <p className="mt-1 text-sm text-slate-500">Shopify storefront connection</p>
                   </div>
-                  <PageActionButton href="/shopify" variant="secondary">Manage</PageActionButton>
+                  <PageActionButton href="/shopify" prefetch={false} variant="secondary">Manage</PageActionButton>
                 </article>
               ))}
             </div>
@@ -62,7 +62,7 @@ export default async function IntegrationsPage() {
               </div>
               <p className="mt-1 text-sm text-slate-500">Commerce orders, product mappings and reviewed delivery-date configuration.</p>
             </div>
-            <PageActionButton href="/shopify" variant="secondary">
+            <PageActionButton href="/shopify" prefetch={false} variant="secondary">
               {connectedCount > 0 ? "Manage" : "Configure"}
             </PageActionButton>
           </article>

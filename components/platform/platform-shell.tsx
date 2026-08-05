@@ -224,6 +224,7 @@ function PlatformNavItem({
       return (
         <Link
           href={item.href}
+          prefetch={false}
           onClick={onNavigate}
           className={clsx(
             "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold transition",
@@ -249,6 +250,7 @@ function PlatformNavItem({
     return (
       <Link
         href={item.href}
+        prefetch={false}
         onClick={onNavigate}
         className={clsx(
           "group flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-sm font-semibold transition",
@@ -529,6 +531,7 @@ function PlatformAccountMenu({ isCollapsed }: { isCollapsed: boolean }) {
         <div className="mt-3 border-t border-white/10 pt-3">
           <Link
             href="/select-workspace"
+            prefetch={false}
             className="block rounded-lg px-3 py-2 text-sm font-bold text-emerald-50 transition hover:bg-white/10 hover:text-white"
           >
             Switch workspace
@@ -565,6 +568,7 @@ export function PlatformShell({ children }: PlatformShellProps) {
         >
           <Link
             href="/platform"
+            prefetch={false}
             className={clsx(
               "flex items-center gap-3",
               isCollapsed && "lg:justify-center",
@@ -586,6 +590,7 @@ export function PlatformShell({ children }: PlatformShellProps) {
           </Link>
           <Link
             href="/select-workspace"
+            prefetch={false}
             className="inline-flex rounded-lg border border-white/15 px-3 py-2 text-xs font-bold text-emerald-50 transition hover:bg-white/10 hover:text-white lg:hidden"
           >
             Switch

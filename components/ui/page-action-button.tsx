@@ -6,6 +6,7 @@ type PageActionButtonVariant = "primary" | "secondary";
 type PageActionButtonProps = {
   children: string;
   href?: string;
+  prefetch?: boolean;
   variant?: PageActionButtonVariant;
 };
 
@@ -19,6 +20,7 @@ const variantStyles: Record<PageActionButtonVariant, string> = {
 export function PageActionButton({
   children,
   href,
+  prefetch,
   variant = "primary",
 }: PageActionButtonProps) {
   const className = clsx(
@@ -28,7 +30,7 @@ export function PageActionButton({
 
   if (href) {
     return (
-      <Link href={href} className={className}>
+      <Link href={href} prefetch={prefetch} className={className}>
         {children}
       </Link>
     );

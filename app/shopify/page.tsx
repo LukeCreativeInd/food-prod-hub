@@ -143,7 +143,7 @@ export default async function ShopifyWorkspacePage() {
                   <p className="font-semibold text-slate-950">{title}</p>
                   <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
                 </div>
-                <PageActionButton href={href} variant="secondary">Open</PageActionButton>
+                <PageActionButton href={href} prefetch={false} variant="secondary">Open</PageActionButton>
               </article>
             ))}
           </div>

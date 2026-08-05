@@ -181,6 +181,7 @@ export function AppSidebar({
       >
         <Link
           href="/dashboard"
+          prefetch={false}
           className={clsx(
             "flex items-center gap-3 rounded-xl text-slate-950 transition hover:text-[var(--tenant-primary)]",
             isCollapsed && "md:justify-center",
@@ -319,6 +320,7 @@ export function AppSidebar({
               >
                 <Link
                   href={parentHref}
+                  prefetch={false}
                   className={clsx(
                     "flex min-w-0 flex-1 items-center gap-3 px-3 py-3 text-base font-semibold",
                     isCollapsed && "md:justify-center md:px-2",
@@ -388,6 +390,7 @@ export function AppSidebar({
                       <Link
                         key={item.href}
                         href={item.href}
+                        prefetch={false}
                         aria-label={
                           item.isPreview
                             ? `${item.label} preview workspace`
@@ -505,6 +508,7 @@ export function AppSidebar({
                   <Link
                     key={`${workspace.href}-${workspace.label}`}
                     href={workspace.href}
+                    prefetch={false}
                     className={clsx(
                       "flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm transition",
                       workspace.isCurrent
