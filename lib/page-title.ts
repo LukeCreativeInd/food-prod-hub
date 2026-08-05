@@ -48,7 +48,18 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
     title: "Shopify Product Mappings",
     context: "Admin",
   },
-  "/shopify": { title: "Shopify Setup", context: "Admin" },
+  "/shopify": { title: "Shopify", context: "Admin" },
+  "/shopify/delivery-zones": { title: "Delivery Zones", context: "Shopify" },
+  "/shopify/delivery-services": { title: "Delivery Services", context: "Shopify" },
+  "/shopify/delivery-calendars": {
+    title: "Delivery Calendars",
+    context: "Shopify",
+  },
+  "/shopify/delivery-parser": { title: "Delivery Parser", context: "Shopify" },
+  "/shopify/delivery-exceptions": {
+    title: "Delivery Exceptions",
+    context: "Shopify",
+  },
   "/platform": { title: "Platform Admin", context: "EveryBatch" },
   "/platform/branding": { title: "Platform Branding", context: "Platform" },
   "/platform/support": {

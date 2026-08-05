@@ -139,10 +139,13 @@ test("tenant readiness uses only safe readable projections", () => {
 });
 
 test("Integrations presents Shopify once without invented retail or wholesale providers", () => {
-  assert.equal(integrationsPage.match(/title="Shopify"/g)?.length, 1);
+  assert.equal(integrationsPage.match(/>Shopify</g)?.length, 1);
   assert.doesNotMatch(integrationsPage, /Shopify Retail|Shopify Wholesale/);
-  assert.match(integrationsPage, /No Shopify connection/);
-  assert.match(integrationsPage, /No synchronization runs/);
+  assert.match(integrationsPage, /No connected systems/);
+  assert.match(integrationsPage, /Connected integrations/);
+  assert.match(integrationsPage, /Available integrations/);
+  assert.match(integrationsPage, /Coming soon/);
+  assert.doesNotMatch(integrationsPage, /Product mappings|Recent synchronization evidence|Development-store installation claim/);
   assert.doesNotMatch(integrationsPage, /Sync successful|Backfill complete|Reconciliation complete/);
 });
 
@@ -154,14 +157,15 @@ test("tenant Shopify route is narrowly admitted while other host boundaries rema
   assert.match(appModeRouting, /if \(resolvedMode\.mode === "tenant_app"\)/);
 });
 
-test("Shopify tenant setup is read-only and retains the Integrations permission guard", () => {
+test("Shopify becomes the provider workspace and retains the Integrations permission guard", () => {
   assert.match(shopifyPage, /getShopifyIntegrationPageData\(\)/);
+  assert.match(shopifyPage, /getDeliveryConfigurationData\(\)/);
   assert.match(shopifyPage, /mode\.mode !== "tenant_app"/);
   assert.match(shopifyPage, /mode\.mode === "central_app"/);
   assert.match(shopifyPage, /mode\.mode === "platform_admin"/);
   assert.match(shopifyPage, /mode\.mode === "support"/);
   assert.match(shopifyPage, /No Shopify store connected/);
-  assert.match(pageTitles, /"\/shopify": \{ title: "Shopify Setup", context: "Admin" \}/);
+  assert.match(pageTitles, /"\/shopify": \{ title: "Shopify", context: "Admin" \}/);
   assert.doesNotMatch(shopifyPage, /<form|\.insert\(|\.update\(|\.upsert\(|\.rpc\(/);
   assert.doesNotMatch(shopifyPage, /access[_-]?token|refresh[_-]?token|ciphertext|customer_email/i);
 });

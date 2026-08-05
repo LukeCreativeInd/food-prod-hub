@@ -1,5 +1,7 @@
 # Order Intake And Demand Ownership Matrix
 
+> **Task 235 implementation update:** Delivery interpretation becomes an append-oriented reviewed layer in unapplied Migration 050. Source evidence remains Commerce truth and Production Demand remains unimplemented.
+
 ## Task 232 Implemented Intake Boundary
 
 Migration 046 implements only the source side of the approved chain:
@@ -129,3 +131,7 @@ Shopify authoritative refetch may populate Task 232 source observations/orders/l
 ## Task 234 Mapping Readiness Update
 
 Task 234 may refresh only source-line interpretation status from approved mapping evidence. It does not alter provider quantities, create contributions, assign facilities or production dates, freeze demand, or create Production Plans. Mapping event history records review provenance without becoming demand history.
+
+## Task 235 Delivery Interpretation Update
+
+Task 235 adds append-oriented delivery interpretation and approved override evidence without changing provider source facts. Production-date resolution may become reviewed input to Task 236, but Migration 050 does not create contributions, demand snapshots, freezes or plans.

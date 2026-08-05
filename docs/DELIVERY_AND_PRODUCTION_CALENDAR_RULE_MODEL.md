@@ -6,7 +6,7 @@ Architecture only. No SQL, schema, engine, tenant configuration or runtime behav
 
 ## Core Model
 
-A tenant owns stable zones, customer-facing delivery services and calendars. Mutable drafts are reviewed and published as immutable effective-dated versions. Source metadata is interpreted by a connection-specific parser version. Resolution appends assignment evidence containing inputs, the selected rule/version, result, facility and decision time.
+A tenant owns stable zones, customer-facing delivery services and calendars. Mutable drafts are reviewed and published as immutable effective-dated versions. Supersession closes, but does not erase, a predecessor's effective period. Source metadata is interpreted by the one connection-specific parser version effective on the source order's business date, not the later execution date. Resolution appends assignment evidence containing inputs, selected parser/rule/version, result, facility and decision time.
 
 ## Zone Lifecycle
 
@@ -166,4 +166,4 @@ A later explicit route selects a facility by approved scope. Contribution splitt
 
 ## Implementation Boundary
 
-Task 235 may implement the constrained rule/configuration foundation after Architecture Gate 1 and its prerequisites. It must not implement a generic expression engine, customer Shopify UI, real-time reservations, Production Demand or duplicate Logistics carrier tables.
+Task 235 implements the constrained rule/configuration repository foundation in unapplied Migration 050. Historical resolution includes effective `superseded` calendar/parser versions; current readiness remains a separate current-published calculation. Phase 1 parsing supports exact order attributes and source tags only, with line attributes deferred. It does not implement a generic expression engine, customer-facing Shopify calendar, real-time reservations, Production Demand or duplicate Logistics carrier tables. The exact approved precedence is encoded and same-precedence ambiguity blocks resolution.

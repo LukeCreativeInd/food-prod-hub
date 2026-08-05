@@ -41,7 +41,7 @@ test("Migrations 045 through 048 remain exact immutable artifacts", () => {
   assert.equal(sha256(migration048), "51f31ab3b079853994ff1026759e1eb509d21d330c70a37c640a84213591a26b");
 });
 
-test("Migration 049 creates the complete mapping schema and no Migration 050", () => {
+test("Migration 049 remains the complete immutable mapping schema before Migration 050", () => {
   for (const table of [
     "commerce_catalogue_mappings",
     "commerce_catalogue_mapping_outputs",
@@ -53,7 +53,12 @@ test("Migration 049 creates the complete mapping schema and no Migration 050", (
 
   const migrations = readdirSync(migrationsDirectory);
   assert.equal(migrations.filter((name) => name.startsWith("049_")).length, 1);
-  assert.equal(migrations.some((name) => name.startsWith("050_")), false);
+  assert.equal(
+    sha256(migration049),
+    "b1f17b57dc3fb29b0f91503c1985f680e4386732be3c9eced13da4be9a2d4583",
+  );
+  assert.equal(migrations.filter((name) => name.startsWith("050_")).length, 1);
+  assert.equal(migrations.some((name) => name.startsWith("051_")), false);
 });
 
 test("same-tenant source, output and supersession constraints are relational", () => {
@@ -243,7 +248,7 @@ test("Tenant Admin mapping UI is privacy-safe and RPC-backed", () => {
   assert.match(mappingListPage, /No catalogue discovered/);
   assert.match(mappingDetailPage, /Create superseding draft/);
   assert.match(mappingDetailPage, /Explicit exclusion/);
-  assert.equal(integrationsPage.match(/title="Shopify"/g)?.length, 1);
+  assert.equal(integrationsPage.match(/>Shopify</g)?.length, 1);
   assert.doesNotMatch(integrationsPage, /Shopify Retail|Shopify Wholesale/);
   assert.match(mappingLoader, /getCommerceMappingListData\(\{ catalogueItemId \}\)/);
   assert.match(mappingDetailPage, /You have read-only mapping access/);

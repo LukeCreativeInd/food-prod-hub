@@ -531,3 +531,7 @@ Migration 046 is live/registered. The local Shopify adapter creates or reuses pr
 ## Task 234 Implementation Update
 
 Task 234 implements the manufacturer-owned catalogue interpretation boundary described here. Drafted Migration 049 scopes each direct, bundle/pack or exclusion mapping to the same organisation, Commerce connection, external catalogue item and provider variant. Approved revisions are history preserving; no provider title/SKU heuristic becomes canonical, and no connection, catalogue, mapping or Production Demand data is seeded.
+
+## Task 235 Delivery Configuration Update
+
+Migration 049 is now live/registered. Task 235's unapplied Migration 050 adds organisation-owned zones, services, calendar/parser versions and append-oriented order interpretation while preserving connection/storefront identity as applicability rather than ownership. It seeds no connection or delivery configuration and creates no Production Demand.

@@ -1,5 +1,7 @@
 # Commerce Connection And Manufacturing Ownership Matrix
 
+> **Current implementation state:** Migration 049 is live/registered with zero operational rows. Task 235 drafts Migration 050 for same-tenant delivery configuration and interpretation without changing Commerce connection ownership.
+
 ## Task 232 Implemented Foundation
 
 Migration `046_commerce_connection_order_intake_foundation.sql` implements the provider-neutral ownership roots described by this matrix:
@@ -119,5 +121,11 @@ Classification language follows Task 227: provider-owned external identity, Ever
 
 Verified Shopify shop identity plus a single-use tenant claim establishes the connection association. Tenant Admin separately accepts manufacturing intake using `admin.integrations.manage`; same-tenant facility and external-owner relationship checks remain server-side. No Shopify install creates membership, and no provider-supplied tenant/facility ID is trusted. Migration 047 is live/registered; corrective Migration 048 is unapplied and no shop is connected.
 ## Task 234 Mapping Ownership Update
+
+Task 234 is production accepted at `ee755514b2cbbbccd3697d5a14a3f86af148191c`; Migration 049 is live/registered and no connection/catalogue/mapping rows exist.
+
+## Task 235 Delivery Configuration Ownership Update
+
+Task 235 keeps zones, services, calendars and parser profiles manufacturer-tenant owned. Storefront connections only scope applicability; they never become zones, facilities or carriers. Migration 050 is drafted/unapplied and contains no operational seed data.
 
 Commerce catalogue mappings are owned by the target manufacturer organisation and scoped to a same-tenant connection plus provider catalogue variant. Provider catalogue evidence remains Commerce-owned; selected output items remain Products-owned; formulas remain Products/Costings-owned; Production Demand remains Production-owned. Platform Admin and Support receive no new detailed mapping access.

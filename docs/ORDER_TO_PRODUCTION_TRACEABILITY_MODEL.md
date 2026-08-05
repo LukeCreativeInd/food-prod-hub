@@ -1,5 +1,7 @@
 # Order-To-Production Traceability Model
 
+> **Task 235 implementation update:** The repository now includes an unapplied parser/calendar/rule interpretation stage between source orders and future Production contributions. Historical attribution selects effective superseded configuration from source-order business time and preserves parser/calendar identities without rewriting prior interpretations. No contribution, demand, freeze or plan rows are created.
+
 ## Purpose
 
 This document defines the traceability chain required to explain how provider-owned order lines become EveryBatch manufacturing quantities. Task 232 implements provider-neutral connection, source observation, source order and source line identity foundations in migration 046. Interpretation, contribution, demand, freeze, allocation and execution links remain future work; no live provider runtime or source rows exist.
@@ -202,4 +204,4 @@ No schema, RLS, permission, connector, source order, demand, Production Plan, ba
 The local connector preserves connection, Shopify order GID, Shopify line-item GID, product/variant identity, provider timestamps, source lifecycle and bounded source metadata. That supplies the first source-evidence segment only. Mapping, contribution, demand, review/freeze, plan allocation, batch and dispatch links remain absent.
 ## Task 234 Traceability Update
 
-The source-to-production chain now has a repository-level mapping evidence stage: external catalogue variant -> approved mapping revision -> immutable mapping outputs or approved exclusion. Migration 049 remains unapplied, and contribution, demand, freeze and plan-allocation links remain future stages rather than inferred records.
+The source-to-production chain now has a production-accepted mapping evidence stage: external catalogue variant -> approved mapping revision -> immutable mapping outputs or approved exclusion. Migration 049 is live/registered. Task 235 adds the next repository-level interpretation stage, source order -> parser/calendar/rule evidence -> reviewed delivery and production dates, through unapplied Migration 050. Contribution, demand, freeze and plan-allocation links remain future stages rather than inferred records.

@@ -51,8 +51,8 @@ export default async function CommerceMappingsPage({ searchParams }: PageProps) 
     <AppShell>
       <div className="space-y-6 px-5 py-6 md:px-8">
         <div className="flex flex-wrap items-center gap-3 text-sm">
-          <Link href="/integrations" className="font-semibold text-[var(--tenant-primary)]">
-            Back to Integrations
+          <Link href="/shopify" className="font-semibold text-[var(--tenant-primary)]">
+            Back to Shopify
           </Link>
           <span className="text-slate-300">/</span>
           <span className="text-slate-500">Shopify product mappings</span>
@@ -76,8 +76,8 @@ export default async function CommerceMappingsPage({ searchParams }: PageProps) 
               title="No Shopify connection"
               description="Product mapping becomes available after a reviewed Shopify connection exists and catalogue discovery records provider product and variant identities. No connection or mapping is fabricated here."
               action={
-                <PageActionButton href="/integrations" variant="secondary">
-                  Review Integrations
+                <PageActionButton href="/shopify" variant="secondary">
+                  Review Shopify setup
                 </PageActionButton>
               }
             />

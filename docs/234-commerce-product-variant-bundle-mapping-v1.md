@@ -45,7 +45,7 @@ Production verification confirmed `/integrations` and `/shopify`, truthful zero-
 
 ## Current Commerce Catalogue State
 
-At Task 234 preflight there is no live Shopify connection, catalogue item, source order, source line, credential or mapping data. The UI therefore presents a truthful empty workspace. Migration 049 is drafted and must be reviewed and manually applied before mapping tables or actions are available.
+At Task 234 preflight there was no live Shopify connection, catalogue item, source order, source line, credential or mapping data. The UI therefore presents a truthful empty workspace. Migration 049 was subsequently applied and registered as `20260805001610 commerce_catalogue_mapping_foundation`; the operational tables remain empty.
 
 ## Mapping Ownership
 
@@ -235,14 +235,14 @@ Material lifecycle events are append-only: draft created, outputs replaced, subm
 
 File: `supabase/migrations/049_commerce_catalogue_mapping_foundation.sql`
 
-Status: drafted, locally reviewed and unapplied. It must be manually reviewed before application. Migrations 045-048 are unchanged and Migration 050 does not exist.
+Status: live and registered as `20260805001610 commerce_catalogue_mapping_foundation`. Migrations 045-048 remain unchanged. Task 235 subsequently drafts Migration 050 without applying it.
 
 ## Automated Tests
 
 `tests/shopify/commerce-mapping.test.mjs` covers:
 
 - immutable fingerprints for Migrations 045-048;
-- Migration 049 objects and absence of Migration 050;
+- Migration 049 objects and its production-accepted registration;
 - same-tenant composite constraints;
 - current-working/current-approved uniqueness;
 - RLS, SELECT-only grants and RPC ACLs;
@@ -400,7 +400,7 @@ Production receives no new row or action. Mapping approval only marks source-lin
 ## Known Limitations
 
 - no live connection/catalogue to runtime-test mappings;
-- Migration 049 is unapplied;
+- Migration 049 is live/registered and its operational tables remain empty;
 - output UOM must equal item base unit rather than using conversions;
 - approval/rejection currently use the same manage permission;
 - no Platform redacted mapping metrics;
@@ -408,9 +408,9 @@ Production receives no new row or action. Mapping approval only marks source-lin
 - no Production contribution/freeze behavior;
 - Stock On Hand redirect remains unrelated.
 
-## Deferred Task 235
+## Task 235 Handoff
 
-Task 235 owns delivery zones/calendars, connection-specific Zapiet/date parsing and production-date readiness. Task 234 does not set delivery parser/calendar or demand readiness.
+Task 235 implements delivery zones/calendars, connection-specific Zapiet/date parsing and production-date readiness in drafted, unapplied Migration 050. It also establishes `/shopify` as the provider-specific configuration workspace while keeping `/integrations` compact. No configuration is seeded and demand readiness remains unchanged.
 
 ## Deferred Task 236
 
@@ -433,4 +433,4 @@ The package-manager shim stalled once and was not retried. Local binaries are us
 
 ## Next Task
 
-Task 235 - Delivery and Production Calendar Configuration Foundation is next only after Migration 049 review/application and Task 234 approval. Task 235 has not begun.
+Task 234 was committed at `ee755514b2cbbbccd3697d5a14a3f86af148191c` and production accepted. Task 235 is the latest completed repository task; Task 236 follows only after Migration 050 review/application/validation.

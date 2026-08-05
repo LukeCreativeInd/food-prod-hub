@@ -383,3 +383,7 @@ Luke and the product architect review `ARCHITECTURE_GATE_1_REVIEW_PACKAGE.md`. N
 ## Task 233 Implementation Update
 
 Order and line tags/custom attributes are preserved only as bounded allowlisted source metadata for later connection-specific parsing. Task 233 does not interpret Zapiet keys, resolve delivery/production dates, add postcode/customer fields, publish calendars or replace Zapiet. Delivery/calendar readiness therefore remains blocked.
+
+## Task 235 Implementation Update
+
+Task 235 implements the constrained repository foundation in unapplied Migration 050. It uses organisation-owned zones, separate delivery services with optional same-tenant Logistics references, immutable effective-dated calendar/parser versions, reviewed exact-date exceptions and approved order overrides. The resolver enforces the approved precedence and blocks same-precedence ambiguity. The Phase 1 model deliberately omits postcode/customer PII storage, capacity, customer-facing calendar work, Zapiet replacement and Production Demand.

@@ -1,8 +1,10 @@
 # Delivery Calendar and Production-Date Ownership Matrix
 
+> **Task 235 implementation update:** Unapplied Migration 050 now provides the organisation-owned zone/service/calendar/parser and append-oriented interpretation foundation described here. Historical dates resolve through effective superseded calendar/parser versions, parser choice uses source-order business time rather than execution day, and Phase 1 parser inputs are limited to exact order attributes and source tags. It deliberately stores no postcode/customer PII, seeds no configuration, creates no Production Demand and leaves Zapiet customer-facing calendar ownership unchanged.
+
 ## Purpose
 
-Classify the proposed Task 230 concepts without implying that schema or runtime behavior exists. `Proposed` means architecture only.
+Classify Task 230 concepts and Task 235 repository implementation without implying that unapplied Migration 050 is live. `Proposed` continues to mean architecture only where Task 235 did not implement a concept.
 
 ## Location and Eligibility
 

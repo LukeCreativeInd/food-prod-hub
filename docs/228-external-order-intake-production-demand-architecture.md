@@ -623,3 +623,7 @@ The connector foundation can write privacy-minimised current source-order/source
 ## Task 234 Implementation Update
 
 Task 234 implements mapping evidence and source-line interpretation readiness only. Approved direct/bundle mappings can mark source lines mapped and approved exclusions can mark them excluded, while unresolved lines remain visible. Migration 049 does not create contributions, demand snapshots, facility/date assignments or Production Plans; those remain Task 236-237 responsibilities.
+
+## Task 235 Delivery Interpretation Update
+
+Task 235 keeps imported source-order evidence unchanged and adds a separate append-oriented interpretation layer in unapplied Migration 050. Resolved zone, service, delivery date, production date, parser version, calendar version, matched rule/exception/override and safe result status are attributable without creating contributions, Production Demand or Production Plans.

@@ -2,7 +2,7 @@
 
 ## Current Facility Migration State
 
-Architecture Gate 1 is approved. Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`; migration 045 is live/browser validated but unregistered. SQL Editor did not register version 045 in `supabase_migrations.schema_migrations`, so reconcile history only through an approved migration-management workflow. Task 232 is committed at `4922b125232720902080e2827665f71b67b46244`; Migration 046 is live/registered. Migrations 047-048 are live/registered, and the Task 233 production hotfix is deployed/browser accepted. Migration 049 is drafted/unapplied. No app/store is connected and no provider data has been written.
+Architecture Gate 1 is approved. Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`; migration 045 is live/browser validated but unregistered. SQL Editor did not register version 045 in `supabase_migrations.schema_migrations`, so reconcile history only through an approved migration-management workflow. Task 232 is committed at `4922b125232720902080e2827665f71b67b46244`; Migrations 046-049 are live/registered. Task 234 is committed at `ee755514b2cbbbccd3697d5a14a3f86af148191c`. Migration 050 is drafted/unapplied; it resolves historical dates through effective superseded configuration and chooses parser semantics from source-order business time, with line-attribute parsing deferred. No app/store is connected and no provider or delivery-configuration data has been written.
 
 ## Authority And Stack
 
@@ -12,7 +12,7 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Latest completed repository task: 234; its exact commit hash must be backfilled by Task 235 after completion. Task 233 commits are `ebe3330514a160cd1820bd35ed804abd85d4e316` and `ad501246ed2c762341ce6e550fa1cbbbc58a6549`
+- Latest completed repository task: 235; its exact commit hash must be backfilled by Task 236 after completion. Task 234 is `ee755514b2cbbbccd3697d5a14a3f86af148191c`; Task 233 commits are `ebe3330514a160cd1820bd35ed804abd85d4e316` and `ad501246ed2c762341ce6e550fa1cbbbc58a6549`
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
