@@ -44,6 +44,10 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/users": { title: "Users", context: "Admin" },
   "/modules": { title: "Modules", context: "Admin" },
   "/integrations": { title: "Integrations", context: "Admin" },
+  "/integrations/shopify/mappings": {
+    title: "Shopify Product Mappings",
+    context: "Admin",
+  },
   "/shopify": { title: "Shopify Setup", context: "Admin" },
   "/platform": { title: "Platform Admin", context: "EveryBatch" },
   "/platform/branding": { title: "Platform Branding", context: "Platform" },
@@ -138,6 +142,10 @@ const dynamicPageTitles: Array<{
   pattern: RegExp;
   meta: PageTitleMeta;
 }> = [
+  {
+    pattern: /^\/integrations\/shopify\/mappings\/[^/]+$/,
+    meta: { title: "Product Mapping Detail", context: "Admin" },
+  },
   {
     pattern: /^\/logistics\/carriers\/[^/]+$/,
     meta: { title: "Carrier Detail", context: "Logistics" },

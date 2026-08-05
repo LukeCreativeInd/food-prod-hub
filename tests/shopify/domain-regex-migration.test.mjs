@@ -111,7 +111,7 @@ test("the repaired contract accepts canonical domains and rejects lookalikes", (
   assert.equal(pattern.test("example.com"), false);
 });
 
-test("Migration 049 does not exist", () => {
+test("Migration 050 does not exist", () => {
   const migrations = readdirSync(new URL("../../supabase/migrations/", import.meta.url));
-  assert.equal(migrations.some((name) => name.startsWith("049_")), false);
+  assert.equal(migrations.some((name) => name.startsWith("050_")), false);
 });

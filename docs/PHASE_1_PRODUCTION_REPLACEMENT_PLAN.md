@@ -107,3 +107,6 @@ Minimum pick, transfer and staging requirements remain A/E: the PDF proves wareh
 - **E - requires source or staff validation:** unknown method details, rounding, room distribution, bundle/exclusion rules, device architecture, current FEFO/FIFO data fitness and the final boundary between minimum transfer/pick confirmation and deeper allocation/physical execution. E identifies unknown design details; it does not make the underlying business capability optional.
 
 Phase 1 does not require every enterprise optimisation, but it cannot call a static PDF clone a production replacement.
+## Task 234 Progress Note
+
+Task 234 implements the reviewable product/variant interpretation foundation needed to replace hidden exact-title filters and silent exclusions. Migration 049 remains unapplied and no live source data exists, so this does not satisfy parity, parallel-run or decommission gates. Production Demand, calendar assignment and staff validation remain required.

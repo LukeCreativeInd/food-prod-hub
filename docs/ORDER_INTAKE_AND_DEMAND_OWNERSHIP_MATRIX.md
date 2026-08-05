@@ -126,3 +126,6 @@ Classifications use the canonical Task 228 terms. `Mutable` means controlled cur
 ## Task 233 Implementation Status
 
 Shopify authoritative refetch may populate Task 232 source observations/orders/lines after validation. Product/variant discovery stays provider-neutral and unmapped. No connector action creates contributions, demand, freeze state or Production Plans; those remain downstream reviewed tasks.
+## Task 234 Mapping Readiness Update
+
+Task 234 may refresh only source-line interpretation status from approved mapping evidence. It does not alter provider quantities, create contributions, assign facilities or production dates, freeze demand, or create Production Plans. Mapping event history records review provenance without becoming demand history.

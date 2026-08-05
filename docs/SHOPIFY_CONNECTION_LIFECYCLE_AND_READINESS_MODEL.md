@@ -165,3 +165,6 @@ Limited listing visibility controls discovery, not authorization. Any merchant w
 ## Task 233 Implementation Status
 
 Migration 047 implements unclaimed/claimed installation identity, separate owner/manufacturer authority, install/reinstall/uninstall credential state, technical health and discovery/backfill/reconciliation job state. Environment is enforced on installation, credentials, jobs, worker lease recovery, claim and completion; a worker cannot mutate another environment's queue. Reconnect restores an accepted connection to active or otherwise returns it to pending manufacturer acceptance. Migrations 047 and 048 are live/registered, the Shopify tables are empty, and no app/store/token/connection exists. The pending application correction makes tenant readiness query failures explicit and keeps a successful zero-row result distinct from unavailable state; scheduled execution/live lifecycle evidence remains blocked.
+## Task 234 Mapping Readiness Update
+
+Configuration readiness now has a designed mapping component: unresolved discovered variants remain not ready; approved direct/bundle mappings or approved exclusions supply explicit interpretation evidence. This does not imply technical sync health, merchant installation, demand readiness or a live connection. Migration 049 is drafted and unapplied.

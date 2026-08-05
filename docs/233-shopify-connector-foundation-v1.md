@@ -486,6 +486,8 @@ No live Shopify/Supabase action occurred during this corrective repository pass.
 
 Focused tests, ESLint, TypeScript, Next build and `git diff --check` are required before handoff.
 
-## Next task
+## Production Acceptance And Task 234 Handoff
 
-Deploy and browser-test the Task 233 production correction. Confirm `/integrations`, tenant `/shopify`, restricted-role behavior and host isolation before production acceptance. Task 234 remains blocked until that evidence exists; development-store validation remains a later controlled gate and must not create live operational data during this correction.
+The production route/query hotfix was committed at `ad501246ed2c762341ce6e550fa1cbbbc58a6549`, deployed and browser accepted. The foundation commit remains `ebe3330514a160cd1820bd35ed804abd85d4e316`. Migrations 047 and 048 are live/registered, while no Shopify app/store, connection, catalogue, order, mapping or Production Demand data exists.
+
+Task 234 subsequently adds the repository mapping foundation through drafted, unapplied Migration 049 and Tenant Admin mapping pages. Controlled development-store validation remains a later gate and must not be represented as completed by either task.

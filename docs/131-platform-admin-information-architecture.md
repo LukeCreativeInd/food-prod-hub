@@ -669,3 +669,6 @@ Task 131 does not add:
 No SQL migration was created.
 
 No manual Supabase setup is required for this planning task.
+## Task 234 Commerce Mapping Boundary
+
+Task 234 does not add Platform Admin mapping ownership or mutation. A later platform surface may show redacted completion, unresolved and blocked counts, but detailed mapping contents remain tenant-owned and require explicit future authorisation. Credentials, raw provider evidence and customer data remain excluded.

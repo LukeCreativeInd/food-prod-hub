@@ -384,3 +384,6 @@ Task 172 does not include:
 - support impersonation
 - packages
 - migrations
+## Task 234 Commerce Mapping Boundary
+
+Task 234 adds no Support mapping action or detailed mapping access. Future diagnostics may use a safe connection reference, external variant reference, mapping status and bounded error category only; credentials, raw payloads, customer PII and tenant mapping mutation remain prohibited.

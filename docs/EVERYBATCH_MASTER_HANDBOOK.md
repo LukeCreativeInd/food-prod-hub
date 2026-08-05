@@ -2,7 +2,7 @@
 
 ## Current Facility Foundation
 
-Architecture Gate 1 is approved. Migration 045 is live and implements the reviewed organisation-owned facility model; Clean Eats remains a single-facility tenant using `MAIN`, while facility management UI/selection remain future. Task 232 adds unapplied migration 046: provider-neutral external-business, manufacturing-authority, storefront connection, privacy-minimised source-order/line and ingestion/sync evidence foundations. It adds no Shopify runtime, credentials, live connections, mappings or Production Demand.
+Architecture Gate 1 is approved. Migration 045 is live and implements the reviewed organisation-owned facility model; Clean Eats remains a single-facility tenant using `MAIN`, while facility management UI/selection remain future. Migrations 046-048 are live and provide provider-neutral Commerce evidence plus the non-live Shopify connector boundary. Task 234 adds reviewed direct, bundle/pack and exclusion mapping foundations through drafted, unapplied Migration 049. No Shopify store, catalogue, mapping or Production Demand data exists.
 
 ## 1. Purpose And Authority
 

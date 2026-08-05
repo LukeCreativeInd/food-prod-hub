@@ -527,4 +527,7 @@ Luke/product-architect Architecture Gate 1 review. No implementation task is app
 
 ## Task 233 Implementation Update
 
-Migration 046 is live/registered. The local Shopify adapter creates or reuses provider-neutral connections only through verified Shopify identity plus a short-lived tenant claim. Store-owner authority and manufacturer acceptance remain separate; external owners gain no EveryBatch membership. Migration 047 is live/registered, corrective Migration 048 is unapplied, and no store is connected.
+Migration 046 is live/registered. The local Shopify adapter creates or reuses provider-neutral connections only through verified Shopify identity plus a short-lived tenant claim. Store-owner authority and manufacturer acceptance remain separate; external owners gain no EveryBatch membership. Migrations 047-048 are live/registered, the production route/query hotfix is browser accepted, and no store is connected.
+## Task 234 Implementation Update
+
+Task 234 implements the manufacturer-owned catalogue interpretation boundary described here. Drafted Migration 049 scopes each direct, bundle/pack or exclusion mapping to the same organisation, Commerce connection, external catalogue item and provider variant. Approved revisions are history preserving; no provider title/SKU heuristic becomes canonical, and no connection, catalogue, mapping or Production Demand data is seeded.

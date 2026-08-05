@@ -2,7 +2,7 @@
 
 ## Current Facility Migration State
 
-Architecture Gate 1 is approved. Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`; migration 045 is live/browser validated but unregistered. SQL Editor did not register version 045 in `supabase_migrations.schema_migrations`, so reconcile history only through an approved migration-management workflow. Task 232 is committed at `4922b125232720902080e2827665f71b67b46244`; Migration 046 is live/registered. Migration 047 is live/registered as `20260804142108 shopify_connector_foundation`; rollback-only regex verification exposed a strict-domain escaping defect and corrective Migration 048 is created/unapplied. No app/store is connected and no provider data has been written.
+Architecture Gate 1 is approved. Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`; migration 045 is live/browser validated but unregistered. SQL Editor did not register version 045 in `supabase_migrations.schema_migrations`, so reconcile history only through an approved migration-management workflow. Task 232 is committed at `4922b125232720902080e2827665f71b67b46244`; Migration 046 is live/registered. Migrations 047-048 are live/registered, and the Task 233 production hotfix is deployed/browser accepted. Migration 049 is drafted/unapplied. No app/store is connected and no provider data has been written.
 
 ## Authority And Stack
 
@@ -12,7 +12,7 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Latest committed task: 232 at `4922b125232720902080e2827665f71b67b46244`; Task 233 remains uncommitted and in correction/review, and its exact hash must be backfilled by Task 234 after completion
+- Latest completed repository task: 234; its exact commit hash must be backfilled by Task 235 after completion. Task 233 commits are `ebe3330514a160cd1820bd35ed804abd85d4e316` and `ad501246ed2c762341ce6e550fa1cbbbc58a6549`
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
@@ -157,13 +157,15 @@ Never bypass RLS, expose secrets, invent operational data, rewrite completed his
 
 ## Shopify Connector Engineering Boundary
 
-Tasks 229 and 233 are the current Shopify security and implementation contracts. Production uses public reviewed distribution with initial limited visibility where policy permits, not custom distribution. Use separate development/staging/production registrations, stores, hosts, secrets, queues and observability. Preview deployments receive no production callbacks or credentials.
+Tasks 229 and 233 are the current Shopify security and connector contracts; Task 234 adds the manufacturer-owned mapping boundary. Production uses public reviewed distribution with initial limited visibility where policy permits, not custom distribution. Use separate development/staging/production registrations, stores, hosts, secrets, queues and observability. Preview deployments receive no production callbacks or credentials.
 
 Embedded requests and EveryBatch tenant sessions are different authentication systems. Validate Shopify session tokens with the current official library; never turn them into Supabase membership. Background calls use encrypted per-store expiring offline access/refresh credentials in a restricted boundary. Tokens, app secrets, session tokens, HMACs, authorization codes and bulk result URLs never enter source control, browser code, tenant tables, Support/Platform views or logs.
 
 Webhook handlers verify raw bytes and environment identity, durably commit an event/job, then acknowledge within Shopify's requirement. Workers perform API calls, normalization, backfill and reconciliation. Webhooks are duplicated, delayed, missed and out of order; every path is idempotent and reconciliation remains mandatory. Task 233 implements Supabase-backed durable job state plus a bounded, secret-authenticated manual executor endpoint. This is a development-safe boundary, not a production scheduler or live-connector readiness claim.
 
 Shopify-specific facts are version/policy sensitive. Recheck `SHOPIFY_OFFICIAL_SOURCE_REGISTER.md`; Task 233 currently pins `@shopify/shopify-api` `13.1.0` and GraphQL Admin API `2026-07`. Inspect top-level errors and throttle metadata, and contract-test selected fields/topics/scopes. Production order access is protected customer data; direct customer/location fields stay excluded unless later approved.
+
+Catalogue mappings never match silently by title or SKU. Task 234 resolves an explicit provider variant to a direct output, a bundle/pack of positive decimal outputs, or an exclusion. Approved evidence is immutable and superseded through a reviewed revision; outputs must reference active same-tenant component or finished-product items in their active base UOM. Mapping readiness may update source-line interpretation status, but it does not create demand, alter source quantities, mutate formulas or assign facilities/dates.
 
 ## Delivery And Production Calendar Engineering Boundary
 

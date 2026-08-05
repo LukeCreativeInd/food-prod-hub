@@ -764,3 +764,6 @@ Luke/product-architect Architecture Gate 1 review. No implementation task is app
 ## Task 233 Implementation Update
 
 The approved architecture is implemented with `@shopify/shopify-api` `13.1.0`, GraphQL Admin API `2026-07`, Shopify-managed installation/token exchange, expiring offline tokens, AES-256-GCM credential storage, raw-body HMAC verification, mandatory privacy topics, durable reference-only jobs and authoritative refetch/reconciliation. Migrations 047 and 048 are live/registered. The deployed connector still awaits its application-level readiness/tenant-route correction and post-correction browser validation. App registration, App Review, development/live store installation, production scheduling and protected-data approval remain blocked manual validation steps.
+## Task 234 Implementation Update
+
+Task 234 consumes provider-neutral discovered catalogue evidence through Tenant Admin mapping review. It does not expand Shopify scopes, access credentials, call Shopify, create installations or expose protected customer data. Migration 049 is drafted and unapplied, and the mapping UI truthfully remains empty until a controlled connection and catalogue discovery exist.

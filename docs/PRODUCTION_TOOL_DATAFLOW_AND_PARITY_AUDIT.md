@@ -172,3 +172,6 @@ Every page repeats the report title, production date/copy position and static HA
 ## Parity Conclusion
 
 The supplied day provides a valid golden fixture for raw parsing, current title-based normalisation, aggregation and PDF summary/section comparison. It is not sufficient to approve legacy formulas, scheduling rules, methods, Work Instructions, room ownership or decommission. Those require current approved data, more exception fixtures, parallel runs and staff validation.
+## Task 234 Progress Note
+
+The proposed mapping layer now supports explicit direct, bundle/pack and exclusion evidence with immutable approval history. It does not import the audited fixture, reproduce legacy totals or prove parity. The legacy exact-title mapping and exclusion results remain evidence until controlled source data, mapping review and parallel-run comparison occur.

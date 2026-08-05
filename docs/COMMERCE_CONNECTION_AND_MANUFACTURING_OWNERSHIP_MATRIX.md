@@ -118,3 +118,6 @@ Classification language follows Task 227: provider-owned external identity, Ever
 ## Task 233 Implementation Status
 
 Verified Shopify shop identity plus a single-use tenant claim establishes the connection association. Tenant Admin separately accepts manufacturing intake using `admin.integrations.manage`; same-tenant facility and external-owner relationship checks remain server-side. No Shopify install creates membership, and no provider-supplied tenant/facility ID is trusted. Migration 047 is live/registered; corrective Migration 048 is unapplied and no shop is connected.
+## Task 234 Mapping Ownership Update
+
+Commerce catalogue mappings are owned by the target manufacturer organisation and scoped to a same-tenant connection plus provider catalogue variant. Provider catalogue evidence remains Commerce-owned; selected output items remain Products-owned; formulas remain Products/Costings-owned; Production Demand remains Production-owned. Platform Admin and Support receive no new detailed mapping access.

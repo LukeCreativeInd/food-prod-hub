@@ -620,3 +620,6 @@ Luke/product-architect Architecture Gate 1 review. No implementation task is app
 ## Task 233 Implementation Update
 
 The connector foundation can write privacy-minimised current source-order/source-line projections and append observation/attempt evidence through service-role-only RPCs. It does not create mappings, contributions, Production Demand, frozen demand or Production Plans. Stale provider timestamps cannot regress a current projection; edits/refunds remain source evidence pending Task 234 interpretation.
+## Task 234 Implementation Update
+
+Task 234 implements mapping evidence and source-line interpretation readiness only. Approved direct/bundle mappings can mark source lines mapped and approved exclusions can mark them excluded, while unresolved lines remain visible. Migration 049 does not create contributions, demand snapshots, facility/date assignments or Production Plans; those remain Task 236-237 responsibilities.

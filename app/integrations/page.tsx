@@ -1,5 +1,10 @@
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, SectionCard, StatusBadge } from "@/components/ui";
+import {
+  EmptyState,
+  PageActionButton,
+  SectionCard,
+  StatusBadge,
+} from "@/components/ui";
 import { getShopifyIntegrationPageData } from "@/lib/shopify-integration-data";
 
 import { acceptShopifyManufacturingConnectionAction } from "./actions";
@@ -189,6 +194,65 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
                 </div>
               )}
             </>
+          )}
+        </SectionCard>
+
+        <SectionCard
+          title="Product mappings"
+          description="Review connection-scoped Shopify variants, bundle outputs and explicit exclusions before later Production Demand interpretation."
+          action={
+            data.readinessStatus === "ready" ? (
+              <PageActionButton
+                href="/integrations/shopify/mappings"
+                variant="secondary"
+              >
+                Open mappings
+              </PageActionButton>
+            ) : undefined
+          }
+        >
+          {data.readinessStatus !== "ready" ? (
+            <EmptyState
+              title="Mapping readiness unavailable"
+              description="The Integrations readiness query did not complete, so no catalogue or mapping state is being assumed."
+            />
+          ) : data.connections.length === 0 ? (
+            <EmptyState
+              title="No connection to map"
+              description="The mapping workspace is available, but product decisions begin only after a reviewed Shopify connection and catalogue discovery exist."
+              action={
+                <PageActionButton
+                  href="/integrations/shopify/mappings"
+                  variant="secondary"
+                >
+                  View empty workspace
+                </PageActionButton>
+              }
+            />
+          ) : (
+            <div className="grid gap-3 md:grid-cols-2">
+              {data.connections.map((connection) => (
+                <div
+                  key={connection.id}
+                  className="flex flex-col gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-slate-950">
+                      {connection.storefrontDisplayName}
+                    </p>
+                    <p className="mt-1 text-sm text-slate-500">
+                      {connection.catalogueItemCount} discovered variant(s) · {label(connection.mappingReadiness)}
+                    </p>
+                  </div>
+                  <PageActionButton
+                    href={`/integrations/shopify/mappings?connection=${connection.id}`}
+                    variant="secondary"
+                  >
+                    Review mappings
+                  </PageActionButton>
+                </div>
+              ))}
+            </div>
           )}
         </SectionCard>
 

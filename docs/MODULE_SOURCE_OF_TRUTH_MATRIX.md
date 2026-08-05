@@ -1,13 +1,24 @@
 # Module Source-Of-Truth Matrix
 
+## Task 234 Commerce Catalogue Mapping Foundation
+
+| Data or capability | Canonical owner | Consumers | Rules | Current limitation | Status |
+| --- | --- | --- | --- | --- | --- |
+| Product/variant interpretation | `commerce_catalogue_mappings` | Source-line readiness and later Production Demand contribution logic | Organisation, connection, catalogue item and provider variant identity; direct, bundle or exclusion; one current working revision | Migration 049 unapplied; no rows | Repository foundation |
+| Mapping outputs | `commerce_catalogue_mapping_outputs` | Later contribution calculation | Manufacturer-owned active component/finished-product item; positive decimal quantity; exact active base UOM | No automatic UOM conversion or formula mutation | Repository foundation |
+| Mapping approval/history | Mapping status, supersession link and `commerce_catalogue_mapping_events` | Tenant Admin review and later traceability | Approved mappings immutable; revisions supersede rather than rewrite; events append only | No Platform Admin or Support detail surface | Repository foundation |
+| Source-line interpretation readiness | `commerce_source_order_lines.interpretation_status` refreshed from approved mapping evidence | Integrations summaries and later Demand review | Exclusion resolves to excluded; direct/bundle resolve to mapped; otherwise unresolved | Does not create contributions, quantities, facility/date assignment or Production Demand | Repository foundation |
+
+Migration 049 remains drafted and unapplied. Commerce mapping is owned by the manufacturer tenant; provider catalogue evidence remains external Commerce truth and internal items/formulas remain Products truth.
+
 ## Task 233 Shopify Connector Foundation
 
 | Data or capability | Canonical owner | Consumers | Rules | Current limitation | Status |
 | --- | --- | --- | --- | --- | --- |
-| Shopify installation/shop identity | Restricted `shopify_installations` boundary | Commerce connection readiness and trusted connector runtime | Canonical Shopify Shop GID plus verified `myshopify.com` domain and environment; never tenant-selected | Migration 047 live/registered; Migration 048 unapplied; no app/store installed | Local foundation |
+| Shopify installation/shop identity | Restricted `shopify_installations` boundary | Commerce connection readiness and trusted connector runtime | Canonical Shopify Shop GID plus verified `myshopify.com` domain and environment; never tenant-selected | Migrations 047-048 live/registered; no app/store installed | Local foundation |
 | Shopify credentials | Restricted `shopify_connection_credentials` boundary | Server-only Shopify GraphQL runtime | AES-256-GCM ciphertext in database, key outside database, no authenticated/public/anon read | No external KMS or live token; rotation requires environment operations | Local foundation |
 | Shopify provider observations/jobs | `commerce_source_observations`, `commerce_processing_attempts`, `shopify_connector_jobs` | Trusted reconciliation worker | Raw-body HMAC, event ID idempotency, reference-only durable job, authoritative refetch | Manual development-safe executor only; no production scheduler | Local foundation |
-| Shopify product/variant discovery | Provider-neutral `commerce_external_catalogue_items` | Task 234 mapping review | Discovery never maps by title/SKU and retains connection/provider identity | No discovered data or mapping UI | Local foundation |
+| Shopify product/variant discovery | Provider-neutral `commerce_external_catalogue_items` | Task 234 mapping review | Discovery never maps by title/SKU and retains connection/provider identity | No discovered data; Task 234 UI remains empty until controlled discovery | Local foundation |
 | Shopify source orders/lines | Task 232 Commerce projections | Task 234 interpretation and later Demand | Privacy-minimised authoritative refetch; stale provider updates cannot regress projection | No live import, mapping, demand or delivery-date interpretation | Local foundation |
 
 ## Task 232 Commerce Foundation

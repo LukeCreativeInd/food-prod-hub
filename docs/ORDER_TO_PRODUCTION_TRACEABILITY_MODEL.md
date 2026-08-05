@@ -200,3 +200,6 @@ No schema, RLS, permission, connector, source order, demand, Production Plan, ba
 ## Task 233 Implementation Status
 
 The local connector preserves connection, Shopify order GID, Shopify line-item GID, product/variant identity, provider timestamps, source lifecycle and bounded source metadata. That supplies the first source-evidence segment only. Mapping, contribution, demand, review/freeze, plan allocation, batch and dispatch links remain absent.
+## Task 234 Traceability Update
+
+The source-to-production chain now has a repository-level mapping evidence stage: external catalogue variant -> approved mapping revision -> immutable mapping outputs or approved exclusion. Migration 049 remains unapplied, and contribution, demand, freeze and plan-allocation links remain future stages rather than inferred records.

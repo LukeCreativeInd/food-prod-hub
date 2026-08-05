@@ -201,3 +201,6 @@ Products, Costings, Supplier Invoice Intake, Formulas, Sell Prices and Meal Marg
 - Supplier Invoice Intake behaviour is unchanged
 - Platform Admin behaviour is unchanged
 - tenant route/domain/auth behaviour is unchanged
+## Task 234 Commerce Mapping Boundary
+
+Task 234 mapping outputs reference active same-tenant `internal_items` limited to component or finished-product types and use the item's active base UOM. The mapping does not own or rewrite item identity, formulas, supplier mappings, approved supplier prices or sell prices. Bundle quantities are commerce interpretation evidence, not formula lines.
