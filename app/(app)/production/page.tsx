@@ -40,8 +40,14 @@ const setupLinks = [
 
 const productionLinks = [
   {
+    title: "Production Demand",
+    description: "View recalculable manufacturing demand from reviewed Commerce evidence.",
+    href: "/production-demand",
+    eyebrow: "Production",
+  },
+  {
     title: "Production Report",
-    description: "Future report workspace for demand and production needs.",
+    description: "Future report workspace for reviewed production needs.",
     href: "/production-report",
     eyebrow: "Production",
   },
@@ -411,8 +417,8 @@ export default async function ProductionPage() {
 
           <SectionCard
             title="Production workspaces"
-            description="Open existing scaffold workspaces. These do not generate production orders, tasks or reports yet."
-            action={<StatusBadge tone="neutral">Scaffold</StatusBadge>}
+            description="Open Production Demand and the existing planning, report and execution workspaces. Live demand does not allocate plans or create tasks."
+            action={<StatusBadge tone="neutral">Demand + scaffold</StatusBadge>}
           >
             <div className="grid gap-4 md:grid-cols-2">
               {productionLinks.map((area) => (

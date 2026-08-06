@@ -58,7 +58,9 @@ test("Migration 049 remains the complete immutable mapping schema before Migrati
     "b1f17b57dc3fb29b0f91503c1985f680e4386732be3c9eced13da4be9a2d4583",
   );
   assert.equal(migrations.filter((name) => name.startsWith("050_")).length, 1);
-  assert.equal(migrations.some((name) => name.startsWith("051_")), false);
+  assert.equal(migrations.filter((name) => name.startsWith("051_")).length, 1);
+  assert.equal(migrations.filter((name) => name.startsWith("052_")).length, 1);
+  assert.equal(migrations.some((name) => name.startsWith("053_")), false);
 });
 
 test("same-tenant source, output and supersession constraints are relational", () => {

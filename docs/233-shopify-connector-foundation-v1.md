@@ -490,4 +490,8 @@ Focused tests, ESLint, TypeScript, Next build and `git diff --check` are require
 
 The production route/query hotfix was committed at `ad501246ed2c762341ce6e550fa1cbbbc58a6549`, deployed and browser accepted. The foundation commit remains `ebe3330514a160cd1820bd35ed804abd85d4e316`. Migrations 047 and 048 are live/registered, while no Shopify app/store, connection, catalogue, order, mapping or Production Demand data exists.
 
-Task 234 subsequently added the production-accepted mapping foundation through live/registered Migration 049 and Tenant Admin mapping pages. Task 235 adds the unapplied delivery configuration foundation and keeps all Shopify-specific setup under `/shopify`. Controlled development-store validation remains a later gate and must not be represented as completed.
+Task 234 subsequently added the production-accepted mapping foundation through live/registered Migration 049 and Tenant Admin mapping pages. Task 235 adds the production-accepted live/registered delivery configuration foundation and keeps all Shopify-specific setup under `/shopify`. Controlled development-store validation remains a later gate and must not be represented as completed.
+
+## Task 236 Implementation Update
+
+Task 235 and Migration 050 are production accepted. Live Migrations 051-052 add database/runtime-accepted provider-neutral contribution generation downstream of retained Commerce source evidence, with deployment/browser acceptance pending. They create no Shopify installation, connection, job, source order or catalogue record, use no tenant-side service role, and expose no credentials, raw payloads or customer PII.

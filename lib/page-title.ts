@@ -25,6 +25,7 @@ const exactPageTitles: Record<string, PageTitleMeta> = {
   "/costing-snapshots": { title: "Costing Snapshots", context: "Costings" },
   "/price-history": { title: "Price History", context: "Costings" },
   "/production": { title: "Production", context: "Operations" },
+  "/production-demand": { title: "Production Demand", context: "Production" },
   "/production-report": { title: "Production Report", context: "Production" },
   "/production-plan": { title: "Production Plan", context: "Production" },
   "/production-plan/new": { title: "New Production Plan", context: "Production" },

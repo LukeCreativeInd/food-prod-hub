@@ -2,7 +2,7 @@
 
 ## Current Facility Foundation
 
-Architecture Gate 1 is approved. Migration 045 is live and implements the reviewed organisation-owned facility model; Clean Eats remains a single-facility tenant using `MAIN`, while facility management UI/selection remain future. Migrations 046-050 are live and provide provider-neutral Commerce evidence, the non-live Shopify connector boundary, reviewed catalogue mappings and delivery configuration/date resolution. Task 235 database acceptance passed; production acceptance awaits redeployment/browser verification of its Auth request-rate correction. No Shopify store, source order, delivery configuration or Production Demand data exists.
+Architecture Gate 1 is approved. Migration 045 is live and implements the reviewed organisation-owned facility model; Clean Eats remains a single-facility tenant using `MAIN`, while facility management UI/selection remain future. Migrations 046-052 are live and provide provider-neutral Commerce evidence, the non-live Shopify connector boundary, reviewed catalogue mappings, delivery configuration/date resolution and database/runtime-accepted Production Demand contributions. Task 235 is production accepted. Task 236 is safe to commit/deploy after full rollback-only verification passed; deployment/browser acceptance remains pending. No Shopify store, source order, mapping, delivery configuration, contribution, live-demand or frozen-demand data exists.
 
 ## 1. Purpose And Authority
 
@@ -53,7 +53,7 @@ Progress is judged by the connected chain:
 
 ## 5. Operational Model And Ownership
 
-Modules own source records and expose relationships. Dashboards and Reports are readers. Goods Inwards owns receipts and lines; Inventory owns lots and the movement ledger; Stock On Hand is derived; Traceability reads source links. Products owns suppliers, catalogue identity, internal items and formulas. Supplier Invoice Intake owns uploaded commercial evidence and price observations, while approved supplier prices are reviewed commercial master data consumed by Costings. Costings owns calculations, sell prices, margins and immutable snapshots. Production owns plans, batches, areas and future tasks. QA owns templates, results, reviews, approvals, holds and QA events. Logistics owns carriers, dispatch runs, deliveries, generated manifest snapshots and future delivery issues. CRM should own customer/account master data. Support owns tickets and help content. Platform Admin owns SaaS provisioning and diagnostics, never tenant operational truth.
+Modules own source records and expose relationships. Dashboards and Reports are readers. Goods Inwards owns receipts and lines; Inventory owns lots and the movement ledger; Stock On Hand is derived; Traceability reads source links. Products owns suppliers, catalogue identity, internal items and formulas. Supplier Invoice Intake owns uploaded commercial evidence and price observations, while approved supplier prices are reviewed commercial master data consumed by Costings. Costings owns calculations, sell prices, margins and immutable snapshots. Production owns live demand, later review/freeze, plans, batches, areas and future tasks. QA owns templates, results, reviews, approvals, holds and QA events. Logistics owns carriers, dispatch runs, deliveries, generated manifest snapshots and future delivery issues. CRM should own customer/account master data. Support owns tickets and help content. Platform Admin owns SaaS provisioning and diagnostics, never tenant operational truth.
 
 The authoritative detail is in `MODULE_SOURCE_OF_TRUTH_MATRIX.md`.
 
@@ -155,7 +155,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 232 is the latest committed task; Task 233 remains uncommitted and in correction/review. The official authority is `225-348-official-roadmap.md`; Task 234 follows only after Migration 048 application/verification, Task 233 commit and Shopify development-store validation.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 236 remains the current uncommitted task: Migrations 051 and 052 are live/registered, full runtime validation passed with zero residue, and deployment/browser acceptance remains pending. The official authority is `225-348-official-roadmap.md`; Task 237 follows only after Task 236 deployment/browser acceptance and Luke approval. Stock On Hand remains a separate known issue.
 
 ## 19. Current Risks And Read Next
 

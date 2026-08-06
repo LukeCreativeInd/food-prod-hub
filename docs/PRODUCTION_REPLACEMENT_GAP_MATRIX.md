@@ -75,3 +75,7 @@ Task 228 now settles the provider-neutral order-to-demand direction: stable sour
 | Legacy Production data transition | No reviewed EveryBatch workflow | Likely controlled current-data staging/review after ownership; legacy constants are evidence only. Promote Formula Import patterns conditionally; reuse Mapping QA patterns without moving supplier mapping wholesale. |
 | Integrations | Honest scaffold | Shopify connection and health work must move earlier |
 | Platform readiness | Foundation only | Add connection/facility/mapping readiness after source workflows exist |
+
+## Task 236 Progress Note
+
+Unapplied Migration 051 closes only the repository foundation portion of the demand-aggregation gap: approved direct/bundle outputs can produce traceable exact-UOM contributions and a current facility/date/item aggregate, while exclusions and blockers remain visible. Review/freeze/deltas, representative source fixtures, formula expansion, requirements, execution, parallel runs and staff acceptance remain open.

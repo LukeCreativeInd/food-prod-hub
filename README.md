@@ -30,7 +30,7 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 
 ## Current Status
 
-- Latest completed repository task: Task 235 - Delivery Zones, Delivery Calendars and Production-Date Configuration v1; its exact commit hash must be backfilled by Task 236 after commit
+- Latest completed repository task after this change is committed: Task 236 - Production Demand Schema and Contribution Generation v1; its exact commit hash must be backfilled by Task 237
 - Task 223A commit: `a8c2761`
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
@@ -45,6 +45,8 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 - Task 233 commit: `ebe3330514a160cd1820bd35ed804abd85d4e316` (`Build Shopify connector foundation`)
 - Task 233 production hotfix commit: `ad501246ed2c762341ce6e550fa1cbbbc58a6549` (`Fix Shopify integration routes`)
 - Task 234 commit: `ee755514b2cbbbccd3697d5a14a3f86af148191c` (`Build commerce product mappings`)
+- Task 235 commits: `8d9059c31c11e7019bf610c031b3433cff7ee03b` (`Build delivery calendar configuration`), `9982a4ee41886702337afc6f3b80947d106155f3` (`Reduce repeated Supabase auth requests`) and `f57f2b14ac6774628c3bbb4f45dc7ffc1714dd8c` (`Harden Supabase auth error handling`); production accepted
+- Task 236 suggested commit: `Build production demand contributions`; exact hash to be backfilled by Task 237
 - Review Gate 0 is closed; the [Tasks 225-348 roadmap](docs/225-348-official-roadmap.md) is authoritative
 - Architecture Gate 1 is approved through Luke's Task 231 prompt
 - Migration `045_facility_schema_foundation.sql` was manually applied through Supabase SQL Editor and the facility schema/backfill checks passed; SQL Editor did not create a version `045` migration-history row
@@ -52,11 +54,11 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 - Migration `046_commerce_connection_order_intake_foundation.sql` is live and registered as `20260804115803 commerce_connection_order_intake_foundation`; its Commerce tables were empty at Task 233 preflight
 - Migration `047_shopify_connector_foundation.sql` is live/registered as `20260804142108 shopify_connector_foundation`; Migration `048_shopify_domain_regex_fix.sql` is live/registered as `20260804145903 shopify_domain_regex_fix`. Shopify and Commerce operational tables remain empty; no Shopify connection, credential, order, mapping or Production Demand data exists
 - CEA/CEW remain Clean Eats-owned, Made Active remains externally owned, and no records for them are seeded
-- Migration `049_commerce_catalogue_mapping_foundation.sql` is live/registered as `20260805001610 commerce_catalogue_mapping_foundation`. Migration `050_delivery_calendar_production_date_foundation.sql` is live/registered as `20260805035435 delivery_calendar_production_date_foundation`
-- Task 235 adds tenant-safe zones, services, immutable calendar versions, reviewed exceptions/overrides, connection-specific parser profiles and deterministic date-resolution foundations without seeding configuration or creating Production Demand
-- Source evidence can later feed versioned interpretation/contributions, reviewed/frozen Production Demand and Production Plans; Task 234 implements mapping readiness only and does not create demand
+- Migration `049_commerce_catalogue_mapping_foundation.sql` is live/registered as `20260805001610 commerce_catalogue_mapping_foundation`. Migration `050_delivery_calendar_production_date_foundation.sql` is live/registered as `20260805035435 delivery_calendar_production_date_foundation`. Migration `051_production_demand_contribution_foundation.sql` is live/registered as `20260806035017 production_demand_contribution_foundation`; corrective Migration `052_production_demand_digest_schema_fix.sql` is live/registered as `20260806081548 production_demand_digest_schema_fix`
+- Task 235 adds live tenant-safe zones, services, immutable calendar versions, reviewed exceptions/overrides, connection-specific parser profiles and deterministic date-resolution foundations without seeded configuration
+- Task 236 adds append-oriented source-line contributions, explicit blockers/exclusions, scoped recalculation, stable live Production Demand aggregation and a truthful read-only `/production-demand` workspace. After Migration 051 exposed two unqualified pgcrypto calls under its fixed search path, Migration 052 qualified both calls as `extensions.digest(...)` without schema, RLS, permission or behavior changes. Full rollback-only database/runtime verification passed with zero residue. All four Task 236 tables remain empty; no frozen demand or Production Plan, Batch, Task or Inventory mutation exists. Task 236 is safe to commit/deploy, with production acceptance pending deployment/browser verification. Stock On Hand remains a separate known issue
 - Task 233 adds a non-live Shopify connector foundation using `@shopify/shopify-api` `13.1.0`, GraphQL Admin API `2026-07`, managed-install token exchange, encrypted expiring offline credentials, verified reference-only webhook intake, durable jobs, bounded manual worker execution and real Tenant Admin readiness views. Its production hotfix is deployed and browser accepted. No app registration, development-store install, live callback, scheduled executor or imported Shopify data exists
-- Task 230 selected organisation-owned zones, separate customer delivery services and Logistics carriers, immutable effective-dated delivery/production calendars, connection-specific Zapiet parsing and versioned facility/production-date assignments. Task 235 implements that live foundation without storing postcode/customer PII. Database acceptance and the Auth 429 regression passed; production acceptance awaits deployment/browser verification of the final isolated root Auth 400 classification/routing correction
+- Task 230 selected organisation-owned zones, separate customer delivery services and Logistics carriers, immutable effective-dated delivery/production calendars, connection-specific Zapiet parsing and versioned facility/production-date assignments. Task 235 implements and production-validates that live foundation without storing postcode/customer PII
 - Commerce business status and technical health remain separate; provider/store identity cannot rely on order prefix, display label or domain alone
 - Earlier roadmaps remain preserved as superseded historical evidence
 - The app shell now contains a mix of real operational foundations and explicitly honest future/empty workspaces

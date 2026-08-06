@@ -126,6 +126,10 @@ Task 234 is production accepted at `ee755514b2cbbbccd3697d5a14a3f86af148191c`; M
 
 ## Task 235 Delivery Configuration Ownership Update
 
-Task 235 keeps zones, services, calendars and parser profiles manufacturer-tenant owned. Storefront connections only scope applicability; they never become zones, facilities or carriers. Migration 050 is drafted/unapplied and contains no operational seed data.
+Task 235 keeps zones, services, calendars and parser profiles manufacturer-tenant owned. Storefront connections only scope applicability; they never become zones, facilities or carriers. Migration 050 is live/registered and contains no operational seed data.
 
 Commerce catalogue mappings are owned by the target manufacturer organisation and scoped to a same-tenant connection plus provider catalogue variant. Provider catalogue evidence remains Commerce-owned; selected output items remain Products-owned; formulas remain Products/Costings-owned; Production Demand remains Production-owned. Platform Admin and Support receive no new detailed mapping access.
+
+## Task 236 Implementation Update
+
+Production now owns contribution history, generation issues/runs and the live demand projection introduced by live Migrations 051-052 and accepted at the database/runtime gate. Commerce remains authoritative for connection, source order, source line and current quantity; Products remains authoritative for output item/base UOM; Delivery configuration remains authoritative for production date/facility interpretation. The Production projection references those records and does not duplicate or mutate them.

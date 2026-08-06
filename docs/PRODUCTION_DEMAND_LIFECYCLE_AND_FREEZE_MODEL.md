@@ -218,3 +218,7 @@ Duplicate and out-of-order observations remain governed by idempotent no-op and 
 This model changes no source orders, Production Plans, batches, inventory, QA, Logistics, CRM, permissions, tenant data or live systems. Existing legacy production exports remain required until verified parity and explicit decommission approval.
 
 Task 228 creates no SQL, schema, migration, RLS policy, permission or runtime workflow.
+
+## Task 236 Implementation Update
+
+Live Migrations 051-052 implement only the recalculable live stage and have passed full rollback-only database/runtime verification. Generation runs replace a source line's selected-current contribution set idempotently while retaining prior contribution rows as history. Current blocker, exclusion and inactive-source evidence has its own deterministic fingerprint: unchanged evidence retains the same issue row, while only a meaningful evidence transition resolves and replaces it. The stable aggregate is grouped by organisation, facility, production date, internal item and exact UOM. Task 236 deliberately adds no reviewed candidate, watermark, immutable freeze, delta, manual adjustment or plan-allocation records; those boundaries remain Task 237 or later.

@@ -1,6 +1,6 @@
 # Order Intake And Demand Ownership Matrix
 
-> **Task 235 implementation update:** Delivery interpretation becomes an append-oriented reviewed layer in unapplied Migration 050. Source evidence remains Commerce truth and Production Demand remains unimplemented.
+> **Task 236 implementation update:** Delivery interpretation is an append-oriented reviewed layer in live/registered Migration 050. Source evidence remains Commerce truth; live/registered Migrations 051-052 add database/runtime-accepted Production-owned contributions and live demand without review/freeze. Deployment/browser acceptance remains pending.
 
 ## Task 232 Implemented Intake Boundary
 
@@ -134,4 +134,8 @@ Task 234 may refresh only source-line interpretation status from approved mappin
 
 ## Task 235 Delivery Interpretation Update
 
-Task 235 adds append-oriented delivery interpretation and approved override evidence without changing provider source facts. Production-date resolution may become reviewed input to Task 236, but Migration 050 does not create contributions, demand snapshots, freezes or plans.
+Task 235 adds append-oriented delivery interpretation and approved override evidence without changing provider source facts. Production-date resolution is reviewed input to Task 236, while Migration 050 itself creates no contributions, demand snapshots, freezes or plans.
+
+## Task 236 Implementation Update
+
+Unapplied Migration 051 adds the first Production-owned demand records: append-oriented contribution history, fingerprint-idempotent safe issues and generation runs, plus a replaceable live aggregate. Unchanged issue-producing evidence retains its current issue row; meaningful transitions append history. Source orders and lines remain Commerce-owned and unchanged. The live aggregate is not reviewed or frozen demand, and it does not allocate to Production Plans.

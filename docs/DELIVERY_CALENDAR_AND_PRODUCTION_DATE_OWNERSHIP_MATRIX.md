@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Classify Task 230 concepts and Task 235 repository implementation without implying that unapplied Migration 050 is live. `Proposed` continues to mean architecture only where Task 235 did not implement a concept.
+Classify Task 230 concepts and Task 235 production-accepted implementation. Migration 050 is live/registered; `Proposed` continues to mean architecture only where Task 235 did not implement a concept.
 
 ## Location and Eligibility
 

@@ -1,5 +1,15 @@
 # Module Source-Of-Truth Matrix
 
+## Task 236 Production Demand Foundation
+
+| Data or capability | Canonical owner | Consumers | Rules | Current limitation | Status |
+| --- | --- | --- | --- | --- | --- |
+| Production contributions | `production_demand_contributions` in Production | Live demand, later review/freeze, Support traceability | One active mapping output per source line/item; source/mapping/interpretation/facility/item lineage retained; supersede, never rewrite/delete | Migrations 051-052 live/registered; full rollback verification passed; no source or demand rows | Database/runtime accepted; deployment/browser acceptance pending |
+| Generation blockers/exclusions | `production_demand_generation_issues` in Production | Production users and later Support diagnostics | One current safe outcome per source line; no PII/raw payload | No detailed drilldown UI | Repository foundation |
+| Live Production Demand | `production_live_demand` in Production | Production UI and later review/freeze | Stable IDs; active contributions only; exact facility/date/item/UOM key | Recalculable only; not reviewed/frozen/allocated | Repository foundation |
+
+Commerce continues to own source projections, mappings and delivery interpretations. Products owns internal items/UOM. Facilities owns physical scope. Production Plans do not consume or mutate live demand in Task 236.
+
 ## Task 234 Commerce Catalogue Mapping Foundation
 
 | Data or capability | Canonical owner | Consumers | Rules | Current limitation | Status |

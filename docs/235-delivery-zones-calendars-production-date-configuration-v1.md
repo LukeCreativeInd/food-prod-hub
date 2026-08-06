@@ -358,4 +358,8 @@ Required completion checks are lint, TypeScript, production build, Shopify suite
 
 ## Next Task
 
-Task 236 is next only after redeployment, production browser validation of deterministic root routing plus stable tenant/Support/Platform navigation, and explicit approval.
+The deterministic root-routing and Auth corrections passed production validation, allowing the explicitly approved Task 236 repository work to proceed.
+
+## Task 236 Handover Update
+
+Task 235 is deployed and production accepted across commits `8d9059c31c11e7019bf610c031b3433cff7ee03b`, `9982a4ee41886702337afc6f3b80947d106155f3` and `f57f2b14ac6774628c3bbb4f45dc7ffc1714dd8c`. Migration 050 is live/registered as `20260805035435 delivery_calendar_production_date_foundation`. Task 236 adds live/registered Migrations 051-052 downstream; its database/runtime verification passed, and it reads resolved interpretation evidence without changing Task 235 configuration or resolution history.

@@ -171,6 +171,6 @@ Configuration readiness now has a live-schema mapping component: unresolved disc
 
 ## Task 235 Delivery Readiness Update
 
-Delivery parser and calendar readiness are separate derived dimensions in unapplied Migration 050. No parser/calendar is ready merely because no orders exist, and demand readiness is not changed. `/shopify` owns provider-specific readiness; `/integrations` shows only compact cross-provider connection summary.
+Delivery parser and calendar readiness are separate derived dimensions in live/registered Migration 050. No parser/calendar is ready merely because no orders exist. Unapplied Migration 051 adds live-demand projection only from eligible reviewed evidence; `/shopify` owns provider-specific readiness and `/integrations` shows only compact cross-provider connection summary.
 
 Current readiness evaluates the current published configuration in its IANA timezone. Historical source-order interpretation is separate: it selects exactly one published/superseded parser from the stable source-order business timestamp, blocks ambiguous matches, and retains the selected profile and effective date in append-only evidence. Phase 1 parser sources are exact order attributes and source tags; line-attribute aggregation is deferred.

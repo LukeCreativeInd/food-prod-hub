@@ -195,6 +195,12 @@ export const navigationGroups: NavigationGroup[] = [
     iconKey: "production",
     items: [
       {
+        label: "Production Demand",
+        href: "/production-demand",
+        requiredPermission: "production.view",
+        requiredModuleKey: "production",
+      },
+      {
         label: "Production Report",
         href: "/production-report",
         requiredPermission: "production.view",

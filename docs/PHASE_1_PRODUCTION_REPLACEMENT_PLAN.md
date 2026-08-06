@@ -109,4 +109,8 @@ Minimum pick, transfer and staging requirements remain A/E: the PDF proves wareh
 Phase 1 does not require every enterprise optimisation, but it cannot call a static PDF clone a production replacement.
 ## Task 234 Progress Note
 
-Task 234 implements the reviewable product/variant interpretation foundation needed to replace hidden exact-title filters and silent exclusions; Migration 049 is live/registered with no live source data. Task 235 adds the unapplied reviewed calendar/parser/date-resolution foundation. Neither task satisfies parity, parallel-run or decommission gates; Production Demand, real calendar assignment evidence and staff validation remain required.
+Task 234 implements the reviewable product/variant interpretation foundation needed to replace hidden exact-title filters and silent exclusions; Migration 049 is live/registered with no live source data. Task 235 adds the live/registered reviewed calendar/parser/date-resolution foundation. Neither task satisfies parity, parallel-run or decommission gates; real source, mapping and calendar assignment evidence plus staff validation remain required.
+
+## Task 236 Progress Note
+
+Migration 050 is live/registered and Task 235 is production accepted. Live Migrations 051-052 now provide database/runtime-accepted mapping-output contributions, unresolved evidence and a recalculable live Production Demand projection; deployment/browser acceptance remains pending. They do not provide review/freeze/deltas, formula explosion, requirements, area execution or parity evidence. No legacy export, aggregation, Production Report or printed-pack decommission gate is satisfied by this foundation alone.

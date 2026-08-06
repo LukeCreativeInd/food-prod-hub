@@ -111,8 +111,10 @@ test("the repaired contract accepts canonical domains and rejects lookalikes", (
   assert.equal(pattern.test("example.com"), false);
 });
 
-test("the domain repair remains immutable when Migration 050 is added", () => {
+test("the domain repair remains immutable when later foundations are added", () => {
   const migrations = readdirSync(new URL("../../supabase/migrations/", import.meta.url));
   assert.equal(migrations.filter((name) => name.startsWith("050_")).length, 1);
-  assert.equal(migrations.some((name) => name.startsWith("051_")), false);
+  assert.equal(migrations.filter((name) => name.startsWith("051_")).length, 1);
+  assert.equal(migrations.filter((name) => name.startsWith("052_")).length, 1);
+  assert.equal(migrations.some((name) => name.startsWith("053_")), false);
 });

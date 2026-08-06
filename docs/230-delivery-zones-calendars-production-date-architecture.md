@@ -386,4 +386,8 @@ Order and line tags/custom attributes are preserved only as bounded allowlisted 
 
 ## Task 235 Implementation Update
 
-Task 235 implements the constrained repository foundation in unapplied Migration 050. It uses organisation-owned zones, separate delivery services with optional same-tenant Logistics references, immutable effective-dated calendar/parser versions, reviewed exact-date exceptions and approved order overrides. The resolver enforces the approved precedence and blocks same-precedence ambiguity. The Phase 1 model deliberately omits postcode/customer PII storage, capacity, customer-facing calendar work, Zapiet replacement and Production Demand.
+Task 235 implements the constrained live/registered Migration 050 foundation. It uses organisation-owned zones, separate delivery services with optional same-tenant Logistics references, immutable effective-dated calendar/parser versions, reviewed exact-date exceptions and approved order overrides. The resolver enforces the approved precedence and blocks same-precedence ambiguity. The Phase 1 model deliberately omits postcode/customer PII storage, capacity, customer-facing calendar work and Zapiet replacement.
+
+## Task 236 Implementation Update
+
+Migration 050 is now live/registered. Unapplied Migration 051 consumes only a current resolved/overridden delivery interpretation with an exact production date and same-tenant target facility. Missing, blocked or ambiguous interpretation remains a demand-generation issue; Production Demand never re-runs calendar logic or guesses an assignment.

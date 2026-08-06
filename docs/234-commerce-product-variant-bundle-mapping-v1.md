@@ -410,7 +410,7 @@ Production receives no new row or action. Mapping approval only marks source-lin
 
 ## Task 235 Handoff
 
-Task 235 implements delivery zones/calendars, connection-specific Zapiet/date parsing and production-date readiness in drafted, unapplied Migration 050. It also establishes `/shopify` as the provider-specific configuration workspace while keeping `/integrations` compact. No configuration is seeded and demand readiness remains unchanged.
+Task 235 implements delivery zones/calendars, connection-specific Zapiet/date parsing and production-date readiness in live/registered Migration 050. It also establishes `/shopify` as the provider-specific configuration workspace while keeping `/integrations` compact. No configuration was seeded.
 
 ## Deferred Task 236
 
@@ -433,4 +433,8 @@ The package-manager shim stalled once and was not retried. Local binaries are us
 
 ## Next Task
 
-Task 234 was committed at `ee755514b2cbbbccd3697d5a14a3f86af148191c` and production accepted. Task 235 is the latest completed repository task; Task 236 follows only after Migration 050 review/application/validation.
+Task 234 was committed at `ee755514b2cbbbccd3697d5a14a3f86af148191c` and production accepted. Task 235 is also production accepted, and Task 236 now adds the database/runtime-accepted Migrations 051-052 foundation without changing Migration 049. Task 236 deployment/browser acceptance remains pending.
+
+## Task 236 Implementation Update
+
+Task 235 is production accepted. Live Migrations 051-052 consume only each source line's current approved mapping revision. Direct mappings create one contribution per approved output; bundle/pack mappings create one contribution per approved output multiplier; exclusions create no demand. Mapping outputs retain Products-owned item identity and exact base UOM, while inactive items or UOM mismatches block instead of being inferred.

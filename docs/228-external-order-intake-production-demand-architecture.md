@@ -626,4 +626,8 @@ Task 234 implements mapping evidence and source-line interpretation readiness on
 
 ## Task 235 Delivery Interpretation Update
 
-Task 235 keeps imported source-order evidence unchanged and adds a separate append-oriented interpretation layer in unapplied Migration 050. Resolved zone, service, delivery date, production date, parser version, calendar version, matched rule/exception/override and safe result status are attributable without creating contributions, Production Demand or Production Plans.
+Task 235 keeps imported source-order evidence unchanged and adds a separate append-oriented interpretation layer in live/registered Migration 050. Resolved zone, service, delivery date, production date, parser version, calendar version, matched rule/exception/override and safe result status are attributable without changing source evidence or Production Plans.
+
+## Task 236 Implementation Update
+
+Live Migrations 051-052 implement database/runtime-accepted append-oriented contribution revisions and a selected-current live projection. A source line expands through its approved direct or bundle outputs, preserves mapping and delivery-interpretation lineage, and either contributes an exact-UOM quantity or records a safe unresolved issue. Explicit exclusions remain visible and contribute zero. Deployment/browser acceptance remains pending; review, freeze, deltas, manual adjustments and Production Plan allocation remain Task 237 or later.

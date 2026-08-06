@@ -534,4 +534,8 @@ Task 234 implements the manufacturer-owned catalogue interpretation boundary des
 
 ## Task 235 Delivery Configuration Update
 
-Migration 049 is now live/registered. Task 235's unapplied Migration 050 adds organisation-owned zones, services, calendar/parser versions and append-oriented order interpretation while preserving connection/storefront identity as applicability rather than ownership. It seeds no connection or delivery configuration and creates no Production Demand.
+Migrations 049 and 050 are live/registered. Task 235 adds organisation-owned zones, services, calendar/parser versions and append-oriented order interpretation while preserving connection/storefront identity as applicability rather than ownership. It seeded no connection or delivery configuration.
+
+## Task 236 Implementation Update
+
+Unapplied Migration 051 now adds the Production-owned interpretation boundary after Commerce: explicit current approved mapping outputs and resolved delivery interpretations generate traceable contributions and a recalculable live aggregate. Commerce connection, source-order and source-line ownership remains unchanged; no store identity, customer PII, Shopify data or manufacturer acceptance is fabricated.
