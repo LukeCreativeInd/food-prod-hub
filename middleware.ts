@@ -2,15 +2,32 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import {
   getCentralAppModeRedirect,
+  isActiveTenantSubdomain,
   getPlatformAdminAppModeRedirect,
   getSupportAppModeRedirect,
   getSupportAppModeRewritePath,
   getTenantAppModeRedirect,
   resolveAppModeFromHeaders,
 } from "@/lib/app-mode-routing";
+import { PLATFORM_APP_DOMAIN } from "@/lib/platform-brand";
+import { getDeterministicRootRoute } from "@/lib/root-route-policy";
 
 export function middleware(request: NextRequest) {
   const resolvedMode = resolveAppModeFromHeaders(request.headers);
+
+  if (request.nextUrl.pathname === "/") {
+    const rootRoute = getDeterministicRootRoute(resolvedMode.mode, {
+      centralAppDomain: PLATFORM_APP_DOMAIN,
+      isActiveTenant: isActiveTenantSubdomain(resolvedMode),
+    });
+    const rootUrl = rootRoute.href.startsWith("http")
+      ? new URL(rootRoute.href)
+      : new URL(rootRoute.href, request.url);
+
+    return rootRoute.action === "rewrite"
+      ? NextResponse.rewrite(rootUrl)
+      : NextResponse.redirect(rootUrl);
+  }
 
   if (resolvedMode.mode === "tenant_app") {
     const redirectIntent = getTenantAppModeRedirect(
