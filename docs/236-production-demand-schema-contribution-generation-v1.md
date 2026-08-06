@@ -158,9 +158,13 @@ Task 236 database/runtime verification passed for direct generation, unchanged c
 
 The four Task 236 operational tables remain empty. Production contains no Shopify connection, source order, mapping, contribution or live-demand records, and no frozen demand exists. No Production Plan, Batch, Task, stock or Inventory record was created or changed. This database/runtime result makes Task 236 safe to commit and deploy; it is not production accepted until deployment and browser acceptance pass.
 
+## Production Route-Isolation Correction
+
+The initial production deployment at commit `abede6d8596f4da9995c23586f0f70d55cb15efe` exposed one host-classification defect: `/production-demand` was absent from the canonical tenant route-prefix list. The Clean Eats tenant host therefore redirected the route to `/dashboard`, while the central app and Platform Admin hosts rendered the tenant page. The focused correction registers `/production-demand` once in `tenantRoutePrefixes`, so the existing shared host policy allows the tenant route, sends central-app access to workspace selection, sends Platform Admin access to `/platform` and keeps Support, marketing and unknown hosts isolated. It changes no page, data helper, permission, RLS, migration or operational data. Task 236 remains blocked pending deployment and browser acceptance of this correction.
+
 ## Automated Tests
 
-`tests/shopify/production-demand.test.mjs` checks immutable Migration 045-051 hashes, correction numbering, the exact full-function equivalence apart from two `extensions.digest` qualifications, the internal ACL, absence of extension relocation/schema/policy/downstream changes, same-tenant lineage, append history, quantity semantics, direct/bundle/exclusion behavior, issue creation/retention/replacement, blocker-to-exclusion and eligibility transitions, fingerprint inputs, refund ambiguity, contribution fingerprints, aggregation dimensions, zero-state UI and prohibited downstream writes. The existing Shopify/Commerce/mapping/delivery/Auth suite remains mandatory.
+`tests/shopify/production-demand.test.mjs` checks immutable Migration 045-051 hashes, correction numbering, the exact full-function equivalence apart from two `extensions.digest` qualifications, the internal ACL, absence of extension relocation/schema/policy/downstream changes, same-tenant lineage, append history, quantity semantics, direct/bundle/exclusion behavior, issue creation/retention/replacement, blocker-to-exclusion and eligibility transitions, fingerprint inputs, refund ambiguity, contribution fingerprints, aggregation dimensions, zero-state UI and prohibited downstream writes. `tests/shopify/production-demand-route-isolation.test.mjs` checks the canonical prefix, exact/nested matching, tenant/central/Platform Admin/Support/marketing/unknown host policy, unchanged permission guard/navigation and immutable migration fingerprints. The existing Shopify/Commerce/mapping/delivery/Auth suite remains mandatory.
 
 ## SQL Verification
 
@@ -282,7 +286,7 @@ Rollback-only fixtures must use `BEGIN`/`ROLLBACK`, synthetic organisations and 
 
 ## Browser Smoke Tests
 
-After approved application and deployment, verify login, Dashboard, Production navigation, `/production-demand`, truthful zero state, no freeze/allocation controls, no PII/credentials, `/integrations`, `/shopify`, mapping and delivery routes, Products, Components, Finished Products, Production Plan, QA, Logistics, Support, Platform Admin and host isolation. Demo access must remain read-only. Stock On Hand remains a separate known issue.
+The initial production browser pass verified the truthful page and regressions but found the canonical route omission described above. After deploying the focused correction, verify login, Dashboard, direct and sidebar tenant access to `/production-demand`, central workspace selection, Platform Admin `/platform` isolation, Support home isolation, marketing/unknown-host safety, truthful zero state, no freeze/allocation controls, no PII/credentials and the existing Task 233-235 regression routes. Demo access must remain read-only. Stock On Hand remains a separate known issue.
 
 ## Production UI
 
@@ -317,13 +321,13 @@ Commerce mappings, source projections and delivery interpretations remain unchan
 - no detailed contribution drilldown UI exists;
 - no reviewed/frozen demand, delta or Production Plan allocation exists;
 - no UOM conversion is performed;
-- deployment and browser acceptance remain pending;
+- the canonical route correction remains pending deployment and browser acceptance;
 - Stock On Hand remains a separate known issue and is not a Task 236 database/runtime blocker;
 - no real Shopify/source/mapping/demand evidence exists yet, so production tables correctly remain empty.
 
 ## Deferred Task 237
 
-Task 237 owns review, freeze, immutable snapshots/source links, post-freeze delta visibility and authorisation feedback. Migration 052 and full rollback-only database validation are complete, but Task 237 remains blocked until Task 236 is committed, deployed, browser accepted and explicitly approved by Luke.
+Task 237 owns review, freeze, immutable snapshots/source links, post-freeze delta visibility and authorisation feedback. Migration 052 and full rollback-only database validation are complete, but Task 237 remains blocked until the Task 236 route correction is committed, deployed, browser accepted and explicitly approved by Luke.
 
 ## Behaviour Preserved
 
@@ -335,4 +339,4 @@ Required checks are lint, TypeScript, production build, full Shopify suite and `
 
 ## Next Task
 
-Task 237 is next only after Task 236 deployment/browser acceptance and Luke approval. The exact Task 236 commit hash must be backfilled by Task 237 through the post-commit context-delta workflow.
+Task 237 is next only after the Task 236 route correction is committed, deployed, browser accepted and approved by Luke. Task 237 must backfill the exact final Task 236 correction commit through the post-commit context-delta workflow.

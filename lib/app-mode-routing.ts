@@ -37,6 +37,7 @@ const tenantRoutePrefixes = [
   "/costing-snapshots",
   "/price-history",
   "/production",
+  "/production-demand",
   "/production-report",
   "/production-plan",
   "/production-tasks",
