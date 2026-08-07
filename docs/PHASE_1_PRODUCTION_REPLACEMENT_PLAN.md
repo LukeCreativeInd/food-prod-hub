@@ -4,6 +4,8 @@
 
 Clean Eats can plan and execute each production day in EveryBatch, with area-specific live work, trustworthy shortages and actual outcomes, without the current aggregation/report tools or global printed-pack dependency. This plan is an operating-model target, not implementation or parity evidence.
 
+Task 239 now supplies the canonical knowledge boundary used by this plan: Products owns Formula/BOM composition; Production owns independently versioned Method/Step and Work Instruction knowledge; Recipe is presentation only. Formula output basis, expected process yield, planning batch rules and execution actuals are separate concepts. See `PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md`.
+
 ## Current Operating Workflow
 
 Shopify/Zapiet filter -> six-column CSV exports -> exact-title cleanup/aggregation -> combined Clean Eats and separate Made summaries -> manual Production Report upload/date/adjustments -> hard-coded calculation modules -> matched 22-page PDF and paired CSV -> repeated printed room sections. Task 224 verified the source and one matched day; pre-export order/date evidence, exact room distribution and current staff-approved formulas/methods still require evidence.
@@ -31,7 +33,7 @@ Tasks 226-230 are complete. They select organisation-owned facilities, stable co
 
 ## Conditional Legacy Production Data Transition
 
-Task 224 found a large mixed hard-coded rule surface but not an approved current formula/method/instruction source. A controlled current-data staging/review workstream is likely safer than ad hoc transcription, conditional on Luke supplying approved current data and deciding ownership. Formula Import patterns should move earlier after that decision; Mapping QA interaction patterns may be reused. Legacy Python constants must not be imported automatically.
+Task 224 found a large mixed hard-coded rule surface but not an approved current formula/method/instruction source. Task 239 now decides ownership and target classification, but does not approve any source value. A controlled current-data staging/review workstream is safer than ad hoc transcription, conditional on Luke supplying approved current data. Formula Import patterns should move earlier after that decision; Mapping QA interaction patterns may be reused. Legacy Python constants must not be imported automatically.
 
 The approved sequence now includes import ownership, planning, staging/parser, mapping/review and controlled apply in Tasks 238-243, after Demand Gate 2 and before method/instruction implementation. No import is implemented by this plan, Task 224 or Task 225.
 

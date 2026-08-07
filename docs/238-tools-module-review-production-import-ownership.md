@@ -1,5 +1,9 @@
 # Task 238 - Tools Module Review and Production Import Ownership
 
+## Committed Status
+
+Task 238 is complete and committed at `e23024761f1197997b100a4e26cd401c0f19330a` with title `Decide production import ownership`. Task 239 subsequently resolved the Formula/Recipe/Method/Work Instruction targets in `239-formula-method-work-instruction-recipes-ownership-decision.md`.
+
 ## Purpose
 
 Task 238 defines the permanent purpose of EveryBatch Tools and the ownership model for the Clean Eats production-data transition before any importer is built. It prevents a convenient utility workspace from becoming the accidental canonical owner of Products or Production knowledge.
@@ -268,6 +272,8 @@ Task 239 must resolve:
 
 Task 238 does not decide these questions beyond preserving current ownership until Task 239 is approved.
 
+**Task 239 resolution:** Formula/BOM is Products-owned composition; Production Method and Work Instruction are independently versioned Production knowledge; Recipe is presentation only. See `239-formula-method-work-instruction-recipes-ownership-decision.md` for the binding target model.
+
 ## Tasks 240-243 Implications
 
 | Task | Task 238 constraint | Deferred to that task |
@@ -354,7 +360,7 @@ Production imports should minimise customer and personal data. Staging must not 
 - No Production import parser exists.
 - No Production import storage bucket exists.
 - No Production data has been imported.
-- Exact formula/recipe/method/instruction ownership remains Task 239.
+- Task 239 now defines Formula/BOM as Products-owned composition, Method/WI as Production-owned knowledge and Recipe as presentation only.
 - Exact permissions and role mappings remain future implementation decisions.
 - Production Plan allocation remains deferred to the later approved roadmap.
 - Stock On Hand remains a separate known issue.
@@ -375,6 +381,6 @@ Repository lint, type checking, production build, Shopify tests, Markdown diff c
 
 ## Next Task
 
-Task 239 - Formula, Method, Work Instruction and Recipes Ownership Decision - is next only after Task 238 review, approval and commit. The exact Task 238 commit hash must be backfilled by Task 239 through the post-commit context-delta workflow.
+Task 239 - Formula, Method, Work Instruction and Recipes Ownership Decision - follows this task and has backfilled the exact Task 238 commit hash. Its canonical outputs are `PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md` and `FORMULA_METHOD_WORK_INSTRUCTION_RECIPE_OWNERSHIP_MATRIX.md`.
 
 No Migration 056 exists.

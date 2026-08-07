@@ -37,9 +37,24 @@ Migrations 053-055 are live/registered and immutable. Full rollback-only lifecyc
 | Canonical Production records | Production | Production-owned mutation boundaries | Production execution and import reconciliation |
 | Future import configuration | Tenant Admin configuration for Production Import | Future Admin configuration boundary | Production Import parsers/intake |
 
-UI placement does not define data ownership. A future route under Tools may launch Production Data Import, but Tools does not own the staging domain or resulting canonical records. Parser code is platform implementation; run evidence belongs to Production Data Import. Platform Admin receives redacted readiness only and Support receives minimum necessary redacted diagnostics. Exact formula/recipe/method/work-instruction ownership remains Task 239.
+UI placement does not define data ownership. A future route under Tools may launch Production Data Import, but Tools does not own the staging domain or resulting canonical records. Parser code is platform implementation; run evidence belongs to Production Data Import. Platform Admin receives redacted readiness only and Support receives minimum necessary redacted diagnostics. Task 239 resolves the target concepts in the production-knowledge section below.
 
 No Production import schema, parser, bucket, permission or Migration 056 exists.
+
+## Task 239 Production Knowledge Boundary
+
+| Data or capability | Canonical owner | Consumers | Rule | Current status |
+| --- | --- | --- | --- | --- |
+| Internal Item | Products | Formulas, Inventory, Costings, Production and QA | Stable tenant item/material/output identity | Implemented |
+| Formula / BOM, Formula Version and Formula Line | Products | Costings, Production and Recipe presentation | One composition truth; nominal output basis and inputs only; approved history must be immutable | Directionally canonical implementation; lifecycle hardening needed |
+| Recipe | Presentation only | Product reviewers and future operators | Aggregates approved Formula, compatible Method and linked Work Instructions; no canonical Recipe table | Scaffold only; later repurpose `/recipes` |
+| Production Method, Method Version and Method Step | Production | Planning, execution, Recipe presentation and QA links | Independently versioned process definition with explicit Formula compatibility | Architecture decided; not implemented |
+| Work Instruction and Version | Production | Method Steps and operator presentation | Independently versioned controlled human guidance; Method Step pins exact approved version | Architecture decided; not implemented |
+| Expected process yield/loss and process batch envelope | Production Method Version | Costing/planning/execution comparison | Separate from Formula output basis and actual quantities | Architecture decided; not implemented |
+| Planned/actual production and actual consumption | Production/Inventory execution evidence | Reports, variance and traceability | Operational occurrence, never a reusable definition | Partial foundations |
+| QA checkpoint definitions/results | QA | Method references and execution views | QA owns definition/result; Method only references approved definition | QA foundation |
+
+See `PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md` and `FORMULA_METHOD_WORK_INSTRUCTION_RECIPE_OWNERSHIP_MATRIX.md`.
 
 ## Task 234 Commerce Catalogue Mapping Foundation
 
@@ -92,7 +107,7 @@ Future ownership direction is sequenced by `225-348-official-roadmap.md`. Propos
 | Price observations | Supplier Invoice Intake: `price_observations` | Commercial review, Price History | Evidence is append-oriented | Do not treat observations as approved prices | Operational foundation |
 | Approved supplier prices | Products/commercial master: `approved_supplier_prices` | Costings and readiness | Reviewed current price with retained history | Intake proposes evidence; Costings consumes approved data | Operational foundation |
 | Internal items | Products: `internal_items` | Formulas, Inventory, Costings, Production, QA | Tenant-owned canonical material/output identity | Usually organisation-wide; facility overrides need design | Operational foundation |
-| Formulas and versions | Products: `formula_versions`, `formula_lines` | Costings and Production | Versioned; output and expected-yield quantities are formula evidence and history must be preserved | Formula/BOM is not a production method, work instruction or execution record | Operational foundation |
+| Formulas and versions | Products: `formula_versions`, `formula_lines` | Costings and Production | Versioned composition and nominal output basis; current `expected_yield_*` fields are transitional, not approved process-yield truth | Formula/BOM is not a production method, work instruction or execution record; approval immutability/cycle/child-version hardening remains | Operational foundation |
 | Production methods and work instructions | Future Production-owned versioned source, referencing Products outputs/formulas | Area tasks, QA and printable fallback | Approved versions and historical task/run references must remain stable | Do not store methods as formula notes, dashboard rows or PDF-only truth | Critical future architecture |
 | UOM conversion rules | Products: `uom_conversion_rules` | Costings, receiving and production calculations | Contextual, tenant-owned conversion evidence | Never perform unsafe global conversions | Operational foundation |
 | Inventory receipts and lines | Goods Inwards: `inventory_receipts`, `inventory_receipt_lines` | QA, Inventory, Traceability | Draft editing; posting is controlled and historical | Migration `045` makes receipt a direct facility root; lines derive and location must match | Operational foundation; facility schema applied, browser retest pending |

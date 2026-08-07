@@ -1,5 +1,7 @@
 # Component / Formula Builder v1
 
+> **Task 239 architecture note:** This builder edits Products-owned Formula/BOM composition. It does not own Production Method, Work Instruction, expected process yield or scheduler batch-size truth. Current active-version mutability and approval semantics require later hardening before controlled imported Formulas become approved/current.
+
 Task 146 adds the first usable manual builder foundation for component and batch formulas.
 
 This task does not add workbook/CSV import, parser actions, finished product formula editing, production method routes, tablet workflows, QA checklist generation, stock movements, sell price management, broad costing rules, Platform Admin changes, tenant provisioning changes or database migrations.

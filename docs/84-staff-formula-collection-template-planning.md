@@ -1,5 +1,7 @@
 # Staff Formula Collection Template Planning
 
+> **Task 239 classification:** These historical templates are collection evidence, not direct canonical import contracts. Composition belongs to Formula; process yield/batch parameters belong to Method; detailed guidance belongs to Work Instruction; ambiguous values require reviewed staging under Tasks 240-243.
+
 ## Planning Status
 
 This is planning only.

@@ -1,5 +1,7 @@
 # Products Module Real Dashboard
 
+> **Task 239 ownership:** Products owns Internal Items and Formula/BOM composition. Recipe is a later presentation of approved Products and Production knowledge; Method and Work Instruction editing belongs to Production. This dashboard's current data behavior is unchanged.
+
 ## Status
 
 The Products module landing page now acts as a real read-only operational dashboard for the current tenant.

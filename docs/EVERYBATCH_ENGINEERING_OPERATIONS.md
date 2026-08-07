@@ -12,7 +12,7 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Current repository state: Task 238 documentation defines the Tools/Production Import ownership boundary and remains uncommitted pending Luke review. Task 237 is production accepted; Migrations 053-055 are live/registered and immutable. No Migration 056 or Production import implementation exists.
+- Current repository state: Task 238 is committed at `e23024761f1197997b100a4e26cd401c0f19330a`. Task 239 documentation defines the Formula/Method/Work Instruction/Recipe ownership boundary and remains uncommitted pending Luke review. Task 237 is production accepted; Migrations 053-055 are live/registered and immutable. No Migration 056 or Production import implementation exists.
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
@@ -156,6 +156,12 @@ Then update only affected documents. Always update Current Handover and Task Ind
 Every task reviews Tenant Admin, Platform Admin, Support, cross-module ownership, permissions/RLS, tenant isolation and demo data. Platform Admin is SaaS operations, not tenant truth. Support tickets are not QA or Logistics operational records. User-facing changes may require Help Centre/release notes; internal documentation infrastructure does not.
 
 Never bypass RLS, expose secrets, invent operational data, rewrite completed history, silently change roadmap order, apply live changes under old approval, make Clean Eats assumptions global, implement a later task early, or claim browser/staff validation that was not performed.
+
+## Production Knowledge Engineering Boundary
+
+Task 239 defines Formula/BOM as Products-owned structured composition, Production Method and Work Instruction as independently versioned Production knowledge, and Recipe as presentation only. Formula and Method versions connect through explicit compatibility, while historical execution eventually pins exact Formula, Method and Work Instruction versions. Formula output quantity is a composition basis; process yield/loss and process batch envelopes belong to Method Version, and planned/actual quantities remain execution evidence.
+
+The current Formula schema is directionally canonical, not ready for uncontrolled canonical import activation: active versions remain mutable, approval/current semantics are incomplete, indirect cycles are not prevented, child Formula Versions are not pinned and `expected_yield_*` is ambiguous. Production Import staging must classify evidence without guessing and controlled apply must use owning-domain boundaries. No Method/WI schema or Recipe table exists.
 
 ## Shopify Connector Engineering Boundary
 

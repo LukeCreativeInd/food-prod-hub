@@ -1,5 +1,7 @@
 # Costing Snapshot Plan
 
+> **Task 239 boundary:** Costings consumes exact Products Formula Versions and source-price evidence. Formula owns composition; Method may later contribute approved process yield, labour or overhead inputs without rewriting Formula material truth. Recipe has no independent costing identity.
+
 Task 190 plans the future costing snapshot foundation before any schema or UI is built.
 
 This is a planning document only. It does not create migrations, add tables, change RLS, change permissions, alter formula calculations, alter Meal Margins calculations, alter Sell Prices business logic, change Supplier Invoice Intake, change Inventory or Production logic, add packages, use service-role keys or change domain/auth routing.

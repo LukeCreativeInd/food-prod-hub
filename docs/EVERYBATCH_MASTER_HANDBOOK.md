@@ -73,9 +73,9 @@ Single-facility tenants resolve an active default automatically and do not need 
 
 ## 8. Product And Formula Model
 
-Components are first-class manufactured items. Formulas/BOMs describe what goes into an output, quantities and output unit. Versioning protects approved and historical meaning. Contextual UOM conversions must be explicit; unsafe unit assumptions block calculation.
+Components are first-class manufactured items. Formula and BOM are two names for one Products-owned structured composition truth: what inputs make an output, in what quantities, for a nominal output basis. Components and Finished Products share that model. Versioning protects approved and historical meaning. Contextual UOM conversions must be explicit; unsafe unit assumptions block calculation.
 
-The Recipes workspace is unresolved. A formula/BOM is not a production method/route, a human-facing work instruction/recipe card, or a production run/report. Task 224 confirms the legacy report mixes these categories and presentation concerns. The official roadmap resolves ownership in Task 239 before production-data transition and execution work.
+Task 239 resolves the previous Recipes ambiguity. Recipe is a human-friendly presentation of an approved Formula, a compatible independently versioned Production Method and the exact Work Instruction Versions referenced by that method. It is not a separate canonical record. Production owns Method, Method Step and Work Instruction knowledge; QA owns checkpoint definitions/results; Plans, Batches, Tasks and actual records remain execution evidence. See `PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md`.
 
 ## 9. Phase 1 Production Replacement
 
@@ -155,10 +155,10 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 237 is production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67`. Task 238 defines Tools as a permanent bounded utility surface and future Production Data Import as a dedicated Production-governed staging/provenance domain; it does not implement an importer. The official authority is `225-348-official-roadmap.md`; Task 239 follows only after Task 238 review and commit. Stock On Hand remains separate.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 237 is production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67`. Task 238 is committed at `e23024761f1197997b100a4e26cd401c0f19330a` and defines Tools/Production Import ownership. Task 239 defines production-knowledge ownership and is pending review/commit. The official authority is `225-348-official-roadmap.md`; Task 240 follows only after Task 239 review and commit. Stock On Hand remains separate.
 
 ## 19. Current Risks And Read Next
 
-Major risks are production parity and demand architecture, single-site assumptions, ambiguous Recipes ownership, incomplete external integration health, staff-validation gaps, performance backlog and future external-tenant hardening.
+Major risks are production parity, current Formula lifecycle hardening, absent Method/WI implementation, single-site assumptions, incomplete external integration health, staff-validation gaps, performance backlog and future external-tenant hardening.
 
 Read next: `CHAT_HANDOVER_CURRENT.md`, `225-348-official-roadmap.md`, `CODEX_TASK_STANDARDS.md`, `EVERYBATCH_ENGINEERING_OPERATIONS.md`, both current matrices, `DECISION_LOG.md`, `TASK_INDEX.md`, then the current task document.

@@ -4,6 +4,8 @@
 
 > **Task 226 facility decision:** `production_areas`, `production_plans` and `production_batches` require one organisation-owned facility. Plan lines and batch inputs derive facility through their parent, and selected areas/locations must match. Formula versions remain organisation-wide. This facility schema is not implemented; Task 231 remains blocked until Architecture Gate 1.
 
+> **Task 239 knowledge decision:** Formula is Products-owned composition; Method and Work Instruction are independently versioned Production definitions. Future planning/execution must pin exact compatible Formula/Method/Instruction versions. Method Steps are definitions and must not be modelled as Production Tasks.
+
 Task 198 defines and drafts the database/schema foundation for production batch planning.
 
 This task does not build Production Plan UI, production task execution UI, tablet/facility/iPad UI, stock consumption, inventory stock movements from production, Goods Inwards changes, Supplier Invoice Intake changes, costing snapshot changes, formula changes, Meal Margins changes, QA checks, Logistics/dispatch, reports, UOM conversion tables, auth/domain routing, DNS/Vercel/Supabase settings or packages.

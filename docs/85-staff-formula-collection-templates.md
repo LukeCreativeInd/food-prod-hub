@@ -1,5 +1,7 @@
 # Staff Formula Collection Templates
 
+> **Task 239 classification:** Collected files remain source evidence. Formula composition, Production Method parameters and Work Instructions must be classified separately, and no row is approved or imported automatically. Current `expected_yield_*` Formula fields are not the authoritative process-yield target.
+
 ## Status
 
 Initial staff-friendly formula collection templates have been created.

@@ -1,6 +1,6 @@
 # Finished Product Formula Builder Plan
 
-> **Task 224 ownership note:** A formula/BOM defines composition and quantity. The legacy source mixes formula, planning/yield, method/instruction and report-presentation concerns, confirming they need separate ownership. The current Recipes workspace remains unresolved; Review Gate 0 has not approved a rename, merge or ownership change.
+> **Task 239 ownership decision:** A Formula/BOM is the Products-owned composition and nominal output basis. Production Method/Work Instruction knowledge is separate and independently versioned. Recipe is a presentation assembled from approved knowledge, not a canonical table. The current builder remains valid for composition, while its expected-yield fields are transitional and not approved process-yield truth.
 
 Task 150 plans Finished Product Formula Builder v1 before implementation.
 

@@ -2,6 +2,8 @@
 
 > **Task 224 current-state note:** The UI is a real planning foundation, not the daily Clean Eats production replacement. The matched fixture now defines one parity baseline, but this UI still has no Shopify/order intake, demand freeze/delta, formula expansion, inventory allocation, floor tasks, production actuals or report replacement. Proposed extensions remain paused at Review Gate 0.
 
+> **Task 239 boundary:** Plan/Batch quantities are execution intent, not Formula output basis or Method batch envelopes. Later planning must pin exact compatible Formula and Method versions and derive tasks without confusing Method Steps with Production Task records. No such expansion is implemented here.
+
 Task 199 builds the first real Production Plan UI using the schema foundation from task 198 and migration 036.
 
 This task does not build production task execution, tablet/facility/iPad execution, stock reservation, stock consumption, production output stock, QA checks, logistics, reports, UOM conversion tables, Goods Inwards changes, Supplier Invoice Intake changes, costing snapshot changes, formula calculation changes, Meal Margins changes, auth/domain routing changes or packages.

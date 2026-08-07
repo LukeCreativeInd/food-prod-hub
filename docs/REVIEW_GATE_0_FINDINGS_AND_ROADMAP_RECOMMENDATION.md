@@ -2,6 +2,8 @@
 
 > **Reviewed and approved through Task 225 on 4 August 2026.** This file preserves the Task 224 recommendation package. The final approved sequence and numbering are authoritative in [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md).
 
+> **Later decision:** Task 239 resolves the recommendation in item 23. Recipe is a presentation of approved Formula + compatible Production Method + linked Work Instructions, not a third canonical record. The original recommendation chronology below remains preserved.
+
 ## Gate Decision
 
 The evidence is sufficient to plan the next architecture and evidence work safely, and to define a golden matched-day normalisation/report fixture. It is not sufficient to implement approved production formulas/methods, automate the production calendar, retire a legacy tool or finalise the complete roadmap without Luke and Clean Eats staff decisions.

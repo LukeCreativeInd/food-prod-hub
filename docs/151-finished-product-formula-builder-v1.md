@@ -1,5 +1,7 @@
 # Finished Product Formula Builder v1
 
+> **Task 239 architecture note:** This builder edits Products-owned Formula/BOM composition. Finished Products and Components use the same canonical knowledge model. Production Method and Work Instruction remain separately versioned Production knowledge; Recipe is presentation only. Current expected-yield fields are transitional rather than an approved process-yield destination.
+
 Task 151 adds the first usable manual Finished Product Formula Builder.
 
 This task does not add migrations, workbook/CSV import, upload/parser actions, sell price management, margin calculations, unit conversion engine, production task generation, iPad/facility workflow, QA checklist generation, Platform Admin changes, tenant provisioning changes or Supplier Invoice Intake changes.

@@ -1,6 +1,6 @@
 # Formula Import Planning
 
-> **Current terminology after Task 223A:** Formula/BOM, Production Method/Route, human-facing Work Instruction/Recipe Card and Production Run/Report are distinct concepts. The final purpose and module ownership of the current Recipes workspace remains unresolved; this planning document does not settle it.
+> **Task 239 decision:** Formula/BOM is Products-owned composition; Production Method/Step and Work Instruction are independently versioned Production knowledge; Recipe is presentation only. This older import plan does not authorise process-yield imports into current Formula expected-yield fields or create a Recipe record. Use Tasks 240-243 for the current controlled import path.
 
 ## Planning Status
 

@@ -2,6 +2,8 @@
 
 > **Committed and accepted:** Task 224 was committed as `8b8e94a87f6e94fef78c05317f87cad4bb01caea` (`Audit legacy production logic and evidence`). Luke accepted its evidence through Task 225, which closed Review Gate 0 and established [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md).
 
+> **Task 239 ownership decision:** This evidence is now classified through [Production Knowledge Concept Model](./PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md). Products owns Formula/BOM composition; Production owns independently versioned Method and Work Instruction knowledge; Recipe is presentation only. Legacy values remain behavioral evidence and are not approved by that decision.
+
 ## Status And Purpose
 
 Task 224 is a completed and committed read-only evidence/documentation audit. It inspected the supplied cleanup/report source, matched CSV/XLSX/PDF fixture, current EveryBatch foundations and the then-provisional roadmap.

@@ -4,7 +4,7 @@
 
 This is the official EveryBatch roadmap approved by Luke through Task 225 after Review Gate 0. It supersedes `201-250-next-roadmap.md`, `223-276-revised-roadmap.md` and `PROPOSED_POST_223B_ROADMAP.md` for current task order while preserving those documents as historical evidence.
 
-Task 237 is production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67` and deployment `dpl_B7GLzEp5a65YArgHfJRdmciJ2rhy`. Task 238 is the current approved planning task and defines the Tools/Production Import ownership boundary; Task 239 follows only after Task 238 review and commit. Architecture Gate 1 remains approved and Demand Gate 2 is satisfied for this sequencing step. Migration 045 is live/browser validated but unregistered; Migrations 046-055 are live/registered. Migration 056 does not exist. Controlled Shopify development-store validation, Stock On Hand and marketing DNS remain separate.
+Task 237 is production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67` and deployment `dpl_B7GLzEp5a65YArgHfJRdmciJ2rhy`. Task 238 is complete and committed at `e23024761f1197997b100a4e26cd401c0f19330a`. Task 239 is documentation-complete and uncommitted pending Luke review; Task 240 follows only after Task 239 review and commit. Architecture Gate 1 remains approved and Demand Gate 2 is satisfied for this sequencing step. Migration 045 is live/browser validated but unregistered; Migrations 046-055 are live/registered. Migration 056 does not exist. Controlled Shopify development-store validation, Stock On Hand and marketing DNS remain separate.
 
 ## A. Completed Project Baseline
 
@@ -50,8 +50,8 @@ Task 225 closes Review Gate 0 through documentation and governance only.
 
 | Task | Title | Purpose and major dependency | Type | Migration | Production-tool retirement effect |
 | --- | --- | --- | --- | --- | --- |
-| 238 | Tools Module Review and Production Import Ownership | **Current, documentation complete and uncommitted pending review.** Defines Tools as a permanent mixed utility module and Production Data Import as a dedicated Production-governed staging/provenance domain; depends on Demand Gate 2. | Planning/ownership review | No | Prevents import tooling becoming canonical ownership. |
-| 239 | Formula, Method, Work Instruction and Recipes Ownership Decision | Resolve canonical concepts and workspace ownership using Task 224 evidence. | Planning/architecture | No | Establishes where approved replacement knowledge lives. |
+| 238 | Tools Module Review and Production Import Ownership | **Complete and committed at `e23024761f1197997b100a4e26cd401c0f19330a`.** Defines Tools as a permanent mixed utility module and Production Data Import as a dedicated Production-governed staging/provenance domain; depends on Demand Gate 2. | Planning/ownership review | No | Prevents import tooling becoming canonical ownership. |
+| 239 | Formula, Method, Work Instruction and Recipes Ownership Decision | **Documentation complete and uncommitted pending review.** Selects Products-owned Formula/BOM composition, independently versioned Production-owned Method/WI knowledge and a presentation-only Recipe concept. | Planning/architecture | No | Establishes where approved replacement knowledge lives. |
 | 240 | Approved Production Data Collection and Import Plan | Define current-data collection, provenance, review and reconciliation; depends on 238-239. | Planning/data architecture | No | Creates safe path away from legacy constants. |
 | 241 | Production Data Staging and Parser Foundation | Add controlled staging/parser records for approved source data; depends on 240. | Schema/parser foundation | Yes | Enables reviewable transition, not automatic legacy copying. |
 | 242 | Production Data Mapping, Validation and Review UI | Validate items, UOMs, duplicates, cycles, methods and source rows before apply; depends on 241. | UI/workflow | No unless 241 intentionally defers support | Makes imported knowledge auditable. |

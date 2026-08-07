@@ -24,7 +24,7 @@ Future task references use the official `225-348-official-roadmap.md`. A roadmap
 | Products / Ingredients | `/ingredients` | Operational foundation | Ingredient internal items; view/create/edit | UOM/price/formula data quality affects downstream |
 | Products / Packaging | `/packaging` | Operational foundation | Packaging internal items; view/create/edit | Same as Ingredients |
 | Products / Components | `/components` | Operational foundation | Component items and formula builder | Methods/instructions separate; cost readiness blockers shown |
-| Products / Recipes | `/recipes` | Paused/reassessment required | Honest scaffold; no separate recipe records/source | Task 239 resolves formula/method/instruction/Recipes ownership before Tasks 240-245 |
+| Products / Recipes | `/recipes` | Honest scaffold; architecture decided | No separate Recipe records. Task 239 defines Recipe as a future presentation of approved Formula + compatible Method + linked Work Instructions | Later repurpose only after Method/WI foundations; no Recipe table |
 | Products / Finished Products | `/finished-products` | Operational foundation | Finished items and formula builder | Demand, method and execution links future |
 | Products / UOM Conversions | `/uom-conversions` | Operational foundation | Contextual conversion rules | Broader calculation integration remains incremental |
 | Costings / Ingredient Costs | `/ingredient-costs` | Read foundation | Approved supplier prices and item data | Missing/unsafe UOM blocks calculation |
@@ -62,7 +62,8 @@ Future task references use the official `225-348-official-roadmap.md`. A roadmap
 | Reports | `/reports` | Navigation/scaffold | No fake report metrics | Planning/readiness begins at Task 303 |
 | Tools / Supplier Invoice Intake | `/purchase-documents` | Operational foundation | Private upload, supplier parsers, reviewed generic commit | Supplier-specific extraction; no OCR/AI/auto stock posting |
 | Tools / Formula Import | No operational route | Planning documented | Staff templates/plans only | Production transition Tasks 238-243; general expansion Task 300 |
-| Tools / Production Data Import | No operational route | Ownership architecture only | Task 238 selects a dedicated Production-governed import/staging domain that may be surfaced through Tools | No upload, parser, staging, review, apply, bucket, permission or Migration 056 exists; Tasks 239-243 govern next decisions/implementation |
+| Tools / Production Data Import | No operational route | Ownership and target architecture only | Task 238 selects a dedicated Production-governed import/staging domain; Task 239 classifies Products Formula and Production Method/WI targets | No upload, parser, staging, review, apply, bucket, permission or Migration 056 exists; Tasks 240-243 govern planning/implementation |
+| Production / Methods and Work Instructions | No operational route | Architecture decided; not implemented | Production-owned independently versioned Methods/Steps and Work Instructions with explicit Formula compatibility | Schema/UI remain Tasks 244-245; no fake knowledge or execution confusion |
 | Tools / Mapping QA | Commerce mapping route exists; broader QA route absent | Partial foundation | Task 234 owns Commerce catalogue mapping review; current supplier mappings remain visible through Products/Intake | Supplier/item mapping QA remains Task 298; Commerce mappings do not become a generic Tools-owned mapping system |
 | Tenant Admin / Organisation Settings | `/organisation-settings` | Operational configuration | Branding/theme/settings | Facility/integration configuration future |
 | Tenant Admin / Users | `/users` | Foundation | Membership/user visibility | Full invite/lifecycle remains controlled future work |
