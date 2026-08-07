@@ -387,3 +387,7 @@ Task 172 does not include:
 ## Task 234 Commerce Mapping Boundary
 
 Task 234 adds no Support mapping action or detailed mapping access. Future diagnostics may use a safe connection reference, external variant reference, mapping status and bounded error category only; credentials, raw payloads, customer PII and tenant mapping mutation remain prohibited.
+
+## Task 237 Production Demand Boundary
+
+Support receives no review/freeze/delta mutation path or table bypass. Tenant Production Demand routes remain isolated from the Support host. Any future support diagnostic must remain bounded and privacy-safe; Task 237 exposes no customer PII or raw Commerce payload.

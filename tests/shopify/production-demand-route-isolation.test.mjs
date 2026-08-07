@@ -188,7 +188,7 @@ test("Production Demand remains read-gated and appears once in Production naviga
   );
 });
 
-test("route correction leaves Task 236 migrations immutable and adds no Migration 053", () => {
+test("Task 237 nested routes leave Task 236 migrations immutable and use one Migration 053", () => {
   assert.equal(
     sha256(migration051),
     "388504209314465b3e9b5774cd57480492d4f087944dcda1603e5e49a1621cd4",
@@ -198,7 +198,7 @@ test("route correction leaves Task 236 migrations immutable and adds no Migratio
     "39952e96feb877c214f5b6503639038351899246c30a419189157ac9d35c57dd",
   );
   assert.equal(
-    readdirSync(migrationsDirectory).some((name) => name.startsWith("053_")),
-    false,
+    readdirSync(migrationsDirectory).filter((name) => name.startsWith("053_")).length,
+    1,
   );
 });

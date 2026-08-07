@@ -155,6 +155,14 @@ const dynamicPageTitles: Array<{
   meta: PageTitleMeta;
 }> = [
   {
+    pattern: /^\/production-demand\/reviews\/[^/]+\/deltas\/[^/]+$/,
+    meta: { title: "Production Demand Delta", context: "Production" },
+  },
+  {
+    pattern: /^\/production-demand\/reviews\/[^/]+$/,
+    meta: { title: "Production Demand Review", context: "Production" },
+  },
+  {
     pattern: /^\/integrations\/shopify\/mappings\/[^/]+$/,
     meta: { title: "Product Mapping Detail", context: "Admin" },
   },

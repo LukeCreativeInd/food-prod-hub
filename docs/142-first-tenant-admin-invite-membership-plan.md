@@ -228,3 +228,7 @@ First Tenant Admin Invite Action v1
 ```
 
 That future task should be implemented only after manual tenant foundation testing confirms the create flow and module setup are stable.
+
+## Task 237 Tenant Permission Note
+
+Task 237 adds no role or permission mappings. Existing active tenant members with `production.view` may read review/frozen/delta evidence; only members with `production.manage` may capture, review, acknowledge, freeze, generate or decide deltas. Tenant admins do not receive a separate bypass, and demo users remain read-only.

@@ -2,7 +2,7 @@
 
 ## Current Facility Migration State
 
-Architecture Gate 1 is approved. Task 231 is committed at `58d1171d7b6ad1e32943b538ea35b841f5f437b6`; migration 045 is live/browser validated but unregistered. SQL Editor did not register version 045 in `supabase_migrations.schema_migrations`, so reconcile history only through an approved migration-management workflow. Task 232 is committed at `4922b125232720902080e2827665f71b67b46244`; Migrations 046-052 are live/registered. Task 234 is committed at `ee755514b2cbbbccd3697d5a14a3f86af148191c`. Task 235 is production accepted through `8d9059c31c11e7019bf610c031b3433cff7ee03b`, `9982a4ee41886702337afc6f3b80947d106155f3` and `f57f2b14ac6774628c3bbb4f45dc7ffc1714dd8c`. Task 236 is committed/deployed at `abede6d8596f4da9995c23586f0f70d55cb15efe` and database/runtime accepted: immutable Migration 051 is registered as `20260806035017 production_demand_contribution_foundation`; corrective Migration 052 is registered as `20260806081548 production_demand_digest_schema_fix`; and the full rollback-only suite passed with zero residue. Initial browser acceptance found `/production-demand` missing from the canonical tenant route list. The focused correction is uncommitted and must be deployed/browser verified before production acceptance. No app/store is connected and no provider, source-order, mapping, contribution, live-demand or frozen-demand data has been written.
+Architecture Gate 1 is approved. Migrations 046-055 are live/registered; Task 236 is production accepted through `abede6d8596f4da9995c23586f0f70d55cb15efe` and `f344b4ca9a5262b4e7d6967e6ec0c02b0cbe8021`. Task 237 is database/runtime/concurrency accepted and safe to commit/deploy, with deployment/browser acceptance pending. Migration 054 repaired PostgreSQL `42P10`; Migration 055 is registered as `20260806174730 production_demand_frozen_owner_uuid_fix` and repaired PostgreSQL `42804` by typing frozen-base UUID lineage as `null::uuid`. Full rollback-only lifecycle and real independent-session concurrency verification passed; no operational data was written.
 
 ## Authority And Stack
 
@@ -12,7 +12,7 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Current repository work: Task 236 focused canonical route-isolation correction, uncommitted. The main Task 236 deployment is `abede6d8596f4da9995c23586f0f70d55cb15efe`; suggested correction commit: `Fix Production Demand route isolation`. Task 237 must backfill the final correction commit and must not begin before correction deployment, browser acceptance and Luke approval.
+- Current repository state: Task 237 is database/runtime/concurrency accepted and safe to commit/deploy with suggested commit `Build demand review and freeze workflow`. Migrations 053-055 are live/registered and immutable; deployment/browser acceptance remains pending. Task 238 must not begin before Task 237 commit, deployment/browser acceptance and Luke approval.
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`

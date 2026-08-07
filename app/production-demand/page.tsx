@@ -1,6 +1,11 @@
+import Link from "next/link";
+
 import { AppShell } from "@/components/app-shell";
 import { EmptyState, SectionCard, StatCard, StatusBadge } from "@/components/ui";
+import { getProductionDemandActionMessage } from "@/lib/production-demand-action-messages";
 import { getProductionDemandPageData } from "@/lib/production-demand-data";
+
+import { createProductionDemandReviewAction } from "./actions";
 
 function label(value: string) {
   return value
@@ -33,20 +38,33 @@ function runTone(status: string) {
   return "neutral" as const;
 }
 
-export default async function ProductionDemandPage() {
-  const data = await getProductionDemandPageData();
+type PageProps = { searchParams: Promise<{ demand?: string }> };
+
+export default async function ProductionDemandPage({ searchParams }: PageProps) {
+  const [data, query] = await Promise.all([
+    getProductionDemandPageData(),
+    searchParams,
+  ]);
+  const actionMessage = getProductionDemandActionMessage(query.demand);
+  const scopes = [...new Map(data.demand.map((row) => [`${row.facilityId}:${row.productionDateValue}`, row])).values()];
+  const frozenReviewCount = data.reviews.filter((review) => review.status === "frozen").length;
 
   return (
     <AppShell>
       <div className="space-y-6 px-5 py-6 md:px-8">
+        {actionMessage ? (
+          <div className={`rounded-md border px-4 py-3 text-sm font-medium ${actionMessage.tone === "danger" ? "border-red-200 bg-red-50 text-red-800" : actionMessage.tone === "warning" ? "border-amber-200 bg-amber-50 text-amber-900" : "border-emerald-200 bg-emerald-50 text-emerald-800"}`} role="status">
+            {actionMessage.message}
+          </div>
+        ) : null}
         <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-wrap gap-2">
             <StatusBadge tone={data.status === "ready" ? "success" : "warning"}>
               {data.status === "ready" ? "Live projection" : "Foundation pending"}
             </StatusBadge>
-            <StatusBadge tone="neutral">Not reviewed or frozen</StatusBadge>
+            <StatusBadge tone={frozenReviewCount > 0 ? "success" : "neutral"}>{frozenReviewCount > 0 ? `${frozenReviewCount} frozen scopes` : data.reviews.length > 0 ? `${data.reviews.length} review candidates` : "No review captures"}</StatusBadge>
             <StatusBadge tone={data.canManage ? "info" : "neutral"}>
-              {data.canManage ? "Scoped recalculation permitted" : "Read only"}
+              {data.canManage ? "Review actions available" : "Read only"}
             </StatusBadge>
           </div>
           <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-600">
@@ -81,6 +99,47 @@ export default async function ProductionDemandPage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+        </SectionCard>
+
+        <SectionCard title="Demand review and freeze" description="Capture one facility and production date as immutable review evidence. Quantities and source lineage are always resolved server-side." action={<StatusBadge tone={data.canManage ? "info" : "neutral"}>{data.canManage ? "Manager workflow" : "Read only"}</StatusBadge>}>
+          {data.reviews.length === 0 && scopes.length === 0 ? (
+            <EmptyState title="No reviewable demand" description="A non-empty reconciled live-demand scope is required before a review can be captured. No empty review has been created." />
+          ) : (
+            <div className="space-y-4">
+              {data.canManage && scopes.length > 0 ? (
+                <div className="grid gap-3 lg:grid-cols-2">
+                  {scopes.map((scope) => {
+                    const existing = data.reviews.find((review) => review.facilityId === scope.facilityId && review.productionDateValue === scope.productionDateValue && review.status !== "cancelled" && review.status !== "stale");
+                    return (
+                      <form action={createProductionDemandReviewAction} className="rounded-md border border-slate-200 p-4" key={`${scope.facilityId}:${scope.productionDate}`}>
+                        <input name="facility_id" type="hidden" value={scope.facilityId} />
+                        <input name="production_date" type="hidden" value={scope.productionDateValue} />
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div><p className="font-semibold text-slate-900">{scope.facilityName}</p><p className="mt-1 text-sm text-slate-600">{scope.productionDate}</p></div>
+                          {existing ? <StatusBadge tone="neutral">{label(existing.status)}</StatusBadge> : null}
+                        </div>
+                        <p className="mt-3 text-xs leading-5 text-slate-500">Capture uses the complete active contribution set for this scope. No quantity is submitted from this form.</p>
+                        <button className="mt-4 rounded-md bg-emerald-700 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50" disabled={Boolean(existing)} type="submit">Capture review</button>
+                      </form>
+                    );
+                  })}
+                </div>
+              ) : null}
+
+              {data.reviews.length > 0 ? (
+                <div className="overflow-x-auto rounded-md border border-slate-200">
+                  <table className="min-w-[760px] divide-y divide-slate-200 text-sm">
+                    <thead className="bg-slate-50 text-left text-xs font-semibold uppercase text-slate-500"><tr><th className="px-4 py-3">Scope</th><th className="px-4 py-3">Version</th><th className="px-4 py-3">Evidence</th><th className="px-4 py-3">Blockers</th><th className="px-4 py-3">Status</th><th className="px-4 py-3"><span className="sr-only">Open</span></th></tr></thead>
+                    <tbody className="divide-y divide-slate-100 bg-white">
+                      {data.reviews.map((review) => (
+                        <tr key={review.id}><td className="px-4 py-3"><p className="font-semibold text-slate-900">{review.facilityName}</p><p className="mt-1 text-xs text-slate-500">{review.productionDate}</p></td><td className="px-4 py-3 text-slate-600">v{review.versionNumber}</td><td className="px-4 py-3 text-slate-600">{review.demandLineCount} lines / {review.contributionCount} contributions</td><td className="px-4 py-3 text-slate-600">{review.scopedBlockerCount} scoped / {review.unscopedBlockerCount} unscoped</td><td className="px-4 py-3"><StatusBadge tone={review.status === "frozen" ? "success" : review.status === "stale" ? "warning" : "neutral"}>{label(review.status)}</StatusBadge></td><td className="px-4 py-3 text-right"><Link className="font-semibold text-emerald-700 hover:text-emerald-900" href={`/production-demand/reviews/${review.id}`}>Open review</Link></td></tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : null}
             </div>
           )}
         </SectionCard>

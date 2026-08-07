@@ -150,7 +150,7 @@ No permission or role mapping is added. Existing `production.view` reads the wor
 
 Runtime verification confirmed pgcrypto 1.3 exposes `digest(text, text)` and `digest(bytea, text)` in `extensions`, not `public`. Because `public.production_generate_source_line(uuid, uuid)` has fixed `search_path = public`, both unqualified fingerprint calls fail with PostgreSQL `42883: function digest(text, unknown) does not exist`.
 
-`supabase/migrations/052_production_demand_digest_schema_fix.sql` replaces only that complete internal function. It preserves all Migration 051 logic and changes exactly the issue and contribution fingerprint calls to `extensions.digest(..., 'sha256')`. It reasserts no direct execution for `PUBLIC`, `anon`, `authenticated` or `service_role`; it changes no table, constraint, RLS policy, table grant, tenant/worker RPC signature or external RPC ACL. Migration 052 is live and registered as `20260806081548 production_demand_digest_schema_fix`; its exact repository fingerprint is 612 lines, 23,018 bytes and SHA-256 `39952e96feb877c214f5b6503639038351899246c30a419189157ac9d35c57dd`. Migration 051 remains immutable. Migration 053 does not exist.
+`supabase/migrations/052_production_demand_digest_schema_fix.sql` replaces only that complete internal function. It preserves all Migration 051 logic and changes exactly the issue and contribution fingerprint calls to `extensions.digest(..., 'sha256')`. It reasserts no direct execution for `PUBLIC`, `anon`, `authenticated` or `service_role`; it changes no table, constraint, RLS policy, table grant, tenant/worker RPC signature or external RPC ACL. Migration 052 is live and registered as `20260806081548 production_demand_digest_schema_fix`; its exact repository fingerprint is 612 lines, 23,018 bytes and SHA-256 `39952e96feb877c214f5b6503639038351899246c30a419189157ac9d35c57dd`. Migration 051 remains immutable. Task 237 adds separate live/registered Migrations 053-055 for review/freeze/delta behavior without changing either Task 236 migration.
 
 ## Database And Runtime Acceptance
 
@@ -160,7 +160,7 @@ The four Task 236 operational tables remain empty. Production contains no Shopif
 
 ## Production Route-Isolation Correction
 
-The initial production deployment at commit `abede6d8596f4da9995c23586f0f70d55cb15efe` exposed one host-classification defect: `/production-demand` was absent from the canonical tenant route-prefix list. The Clean Eats tenant host therefore redirected the route to `/dashboard`, while the central app and Platform Admin hosts rendered the tenant page. The focused correction registers `/production-demand` once in `tenantRoutePrefixes`, so the existing shared host policy allows the tenant route, sends central-app access to workspace selection, sends Platform Admin access to `/platform` and keeps Support, marketing and unknown hosts isolated. It changes no page, data helper, permission, RLS, migration or operational data. Task 236 remains blocked pending deployment and browser acceptance of this correction.
+The initial production deployment at commit `abede6d8596f4da9995c23586f0f70d55cb15efe` exposed one host-classification defect: `/production-demand` was absent from the canonical tenant route-prefix list. The Clean Eats tenant host therefore redirected the route to `/dashboard`, while the central app and Platform Admin hosts rendered the tenant page. The focused correction registers `/production-demand` once in `tenantRoutePrefixes`, so the existing shared host policy allows the tenant route, sends central-app access to workspace selection, sends Platform Admin access to `/platform` and keeps Support, marketing and unknown hosts isolated. It changes no page, data helper, permission, RLS, migration or operational data. The correction was committed as `f344b4ca9a5262b4e7d6967e6ec0c02b0cbe8021` and subsequently passed deployment and browser acceptance, completing Task 236.
 
 ## Automated Tests
 
@@ -321,13 +321,13 @@ Commerce mappings, source projections and delivery interpretations remain unchan
 - no detailed contribution drilldown UI exists;
 - no reviewed/frozen demand, delta or Production Plan allocation exists;
 - no UOM conversion is performed;
-- the canonical route correction remains pending deployment and browser acceptance;
+- the canonical route correction is deployed and production accepted;
 - Stock On Hand remains a separate known issue and is not a Task 236 database/runtime blocker;
 - no real Shopify/source/mapping/demand evidence exists yet, so production tables correctly remain empty.
 
 ## Deferred Task 237
 
-Task 237 owns review, freeze, immutable snapshots/source links, post-freeze delta visibility and authorisation feedback. Migration 052 and full rollback-only database validation are complete, but Task 237 remains blocked until the Task 236 route correction is committed, deployed, browser accepted and explicitly approved by Luke.
+Task 237 owns review, freeze, immutable snapshots/source links, post-freeze delta visibility and authorisation feedback. Task 236 is production accepted through commits `abede6d8596f4da9995c23586f0f70d55cb15efe` and `f344b4ca9a5262b4e7d6967e6ec0c02b0cbe8021`; Task 237 was then explicitly approved by Luke.
 
 ## Behaviour Preserved
 
@@ -339,4 +339,4 @@ Required checks are lint, TypeScript, production build, full Shopify suite and `
 
 ## Next Task
 
-Task 237 is next only after the Task 236 route correction is committed, deployed, browser accepted and approved by Luke. Task 237 must backfill the exact final Task 236 correction commit through the post-commit context-delta workflow.
+Task 236 is production accepted through `abede6d8596f4da9995c23586f0f70d55cb15efe` and route-isolation correction `f344b4ca9a5262b4e7d6967e6ec0c02b0cbe8021`. Task 237 builds on, but does not modify, Migrations 051-052: live/registered Migrations 053-055 capture immutable reviews, freeze and cumulative deltas and have passed database/runtime/concurrency acceptance. Task 238 remains blocked pending Task 237 commit, deployment/browser acceptance and Luke approval.

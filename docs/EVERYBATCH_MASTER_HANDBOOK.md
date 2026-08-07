@@ -2,7 +2,7 @@
 
 ## Current Facility Foundation
 
-Architecture Gate 1 is approved. Migration 045 is live and implements the reviewed organisation-owned facility model; Clean Eats remains a single-facility tenant using `MAIN`, while facility management UI/selection remain future. Migrations 046-052 are live and provide provider-neutral Commerce evidence, the non-live Shopify connector boundary, reviewed catalogue mappings, delivery configuration/date resolution and database/runtime-accepted Production Demand contributions. Task 235 is production accepted. Task 236 is safe to commit/deploy after full rollback-only verification passed; deployment/browser acceptance remains pending. No Shopify store, source order, mapping, delivery configuration, contribution, live-demand or frozen-demand data exists.
+Architecture Gate 1 is approved. Migration 045 is live and implements the reviewed organisation-owned facility model; Clean Eats remains a single-facility tenant using `MAIN`, while facility management UI/selection remain future. Migrations 046-052 are live and provide provider-neutral Commerce evidence, the non-live Shopify connector boundary, reviewed catalogue mappings, delivery configuration/date resolution and production-accepted live Production Demand contributions. Task 236 is production accepted through `abede6d8596f4da9995c23586f0f70d55cb15efe` and `f344b4ca9a5262b4e7d6967e6ec0c02b0cbe8021`. Task 237 Migrations 053-055 are live/registered and provide database/runtime/concurrency-accepted immutable review/freeze and cumulative approved deltas without Production Plan allocation; deployment/browser acceptance remains pending. No Shopify store, source order, mapping, delivery configuration, contribution, live demand, review, freeze or delta data exists.
 
 ## 1. Purpose And Authority
 
@@ -155,7 +155,7 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 236 remains the current uncommitted task: Migrations 051 and 052 are live/registered, full runtime validation passed with zero residue, and deployment/browser acceptance remains pending. The official authority is `225-348-official-roadmap.md`; Task 237 follows only after Task 236 deployment/browser acceptance and Luke approval. Stock On Hand remains a separate known issue.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 237 is database/runtime/concurrency accepted and safe to commit/deploy; its exact hash must be backfilled by Task 238, and deployment/browser acceptance remains pending. The official authority is `225-348-official-roadmap.md`; Task 238 follows only after Task 237 production acceptance and Luke approval. Stock On Hand remains separate.
 
 ## 19. Current Risks And Read Next
 

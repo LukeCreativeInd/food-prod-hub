@@ -4,11 +4,26 @@
 
 | Data or capability | Canonical owner | Consumers | Rules | Current limitation | Status |
 | --- | --- | --- | --- | --- | --- |
-| Production contributions | `production_demand_contributions` in Production | Live demand, later review/freeze, Support traceability | One active mapping output per source line/item; source/mapping/interpretation/facility/item lineage retained; supersede, never rewrite/delete | Migrations 051-052 live/registered; full rollback verification passed; no source or demand rows | Database/runtime accepted; deployment/browser acceptance pending |
+| Production contributions | `production_demand_contributions` in Production | Live demand, later review/freeze, Support traceability | One active mapping output per source line/item; source/mapping/interpretation/facility/item lineage retained; supersede, never rewrite/delete | Migrations 051-052 live/registered; full rollback verification passed; no source or demand rows | Production accepted |
 | Generation blockers/exclusions | `production_demand_generation_issues` in Production | Production users and later Support diagnostics | One current safe outcome per source line; no PII/raw payload | No detailed drilldown UI | Repository foundation |
 | Live Production Demand | `production_live_demand` in Production | Production UI and later review/freeze | Stable IDs; active contributions only; exact facility/date/item/UOM key | Recalculable only; not reviewed/frozen/allocated | Repository foundation |
 
 Commerce continues to own source projections, mappings and delivery interpretations. Products owns internal items/UOM. Facilities owns physical scope. Production Plans do not consume or mutate live demand in Task 236.
+
+## Task 237 Review, Freeze and Delta Boundary
+
+| Evidence/state | Source of truth | Mutation authority | Consumers |
+| --- | --- | --- | --- |
+| Live active contributions and live aggregates | Task 236 Production Demand tables | Task 236 scoped generators | Task 237 capture/delta comparison |
+| Human-reviewed facility/date capture | `production_demand_reviews` plus immutable review child tables | Task 237 `production.manage` RPCs only | Production Demand UI; later plan allocation |
+| Frozen base commitment | One `status = frozen` review per organisation/facility/date | Irreversible Task 237 freeze RPC | Effective-demand helper; later Task 238 |
+| Post-freeze source differences | `production_demand_delta_contributions` | Deterministic Task 237 generation RPC | Delta UI and aggregate lines |
+| Current approved cumulative adjustment | One `status = approved` delta version per frozen review | Task 237 approve/reject RPCs | Effective frozen demand |
+| Effective frozen demand | Frozen review lines plus latest approved cumulative delta only | Read-only helper | Task 238 planning allocation, not implemented yet |
+
+Commerce, Products and Facilities retain ownership of their source records. Task 237 snapshots lineage but does not update those records. Production Plans and Inventory cannot modify review/freeze/delta evidence and are not written by Task 237. Platform Admin and Support have no cross-tenant mutation bypass.
+
+Migrations 053-055 are live/registered and immutable. Full rollback-only lifecycle, exact/mixed-UOM, cumulative replacement, effective-demand, source-ownership and real independent-session concurrency verification passed with zero residue. This boundary is database/runtime/concurrency accepted; Task 237 deployment/browser acceptance and Task 238 Production Plan allocation remain pending.
 
 ## Task 234 Commerce Catalogue Mapping Foundation
 

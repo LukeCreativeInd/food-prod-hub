@@ -10,6 +10,7 @@ export type ProductionDemandDataStatus =
 export type ProductionDemandRow = {
   id: string;
   productionDate: string;
+  productionDateValue: string;
   facilityId: string;
   facilityName: string;
   internalItemId: string;
@@ -51,6 +52,20 @@ export type ProductionDemandPageData = {
   demand: ProductionDemandRow[];
   issues: ProductionDemandIssue[];
   runs: ProductionDemandRun[];
+  reviews: Array<{
+    id: string;
+    facilityId: string;
+    facilityName: string;
+    productionDate: string;
+    productionDateValue: string;
+    versionNumber: number;
+    status: string;
+    demandLineCount: number;
+    contributionCount: number;
+    scopedBlockerCount: number;
+    unscopedBlockerCount: number;
+    createdAt: string;
+  }>;
   canManage: boolean;
   counts: {
     demandRows: number;
@@ -99,6 +114,19 @@ type RunRow = {
   created_at: string;
 };
 
+type ReviewRow = {
+  id: string;
+  facility_id: string;
+  production_date: string;
+  version_number: number;
+  status: string;
+  demand_line_count: number;
+  contribution_count: number;
+  scoped_blocker_count: number;
+  unscoped_blocker_count: number;
+  created_at: string;
+};
+
 type FacilityRow = { id: string; code: string; name: string };
 type ItemRow = { id: string; display_name: string };
 
@@ -125,7 +153,7 @@ function classifyErrors(errors: QueryError[]): ProductionDemandDataStatus {
 function statusMessage(status: ProductionDemandDataStatus) {
   switch (status) {
     case "schema_missing":
-      return "Migration 051 has not been applied to this environment. No Production Demand state has been assumed.";
+      return "Required Production Demand schema is unavailable. Confirm Migrations 051-053 are applied before using live, review or freeze state.";
     case "permission_denied":
       return "Production Demand data is unavailable for this account. No tenant state has been assumed.";
     case "query_error":
@@ -171,6 +199,7 @@ function emptyResult(
     demand: [],
     issues: [],
     runs: [],
+    reviews: [],
     canManage,
     counts: {
       demandRows: 0,
@@ -194,7 +223,7 @@ export async function getProductionDemandPageData(): Promise<ProductionDemandPag
   const canViewItems = permissionKeys.includes("supplier_items.view");
   const supabase = await createClient();
 
-  const [demandResult, issuesResult, runsResult, contributionResult] =
+  const [demandResult, issuesResult, runsResult, contributionResult, reviewsResult] =
     await Promise.all([
       supabase
         .from("production_live_demand")
@@ -228,6 +257,12 @@ export async function getProductionDemandPageData(): Promise<ProductionDemandPag
         .select("id", { count: "exact", head: true })
         .eq("organisation_id", organisationId)
         .eq("status", "active"),
+      supabase
+        .from("production_demand_reviews")
+        .select("id,facility_id,production_date,version_number,status,demand_line_count,contribution_count,scoped_blocker_count,unscoped_blocker_count,created_at")
+        .eq("organisation_id", organisationId)
+        .order("created_at", { ascending: false })
+        .limit(50),
     ]);
 
   const status = classifyErrors([
@@ -235,6 +270,7 @@ export async function getProductionDemandPageData(): Promise<ProductionDemandPag
     issuesResult.error,
     runsResult.error,
     contributionResult.error,
+    reviewsResult.error,
   ]);
 
   if (status !== "ready") {
@@ -244,7 +280,13 @@ export async function getProductionDemandPageData(): Promise<ProductionDemandPag
   const liveRows = (demandResult.data ?? []) as LiveDemandRow[];
   const issueRows = (issuesResult.data ?? []) as IssueRow[];
   const runRows = (runsResult.data ?? []) as RunRow[];
-  const facilityIds = [...new Set(liveRows.map((row) => row.facility_id))];
+  const reviewRows = (reviewsResult.data ?? []) as ReviewRow[];
+  const facilityIds = [
+    ...new Set([
+      ...liveRows.map((row) => row.facility_id),
+      ...reviewRows.map((row) => row.facility_id),
+    ]),
+  ];
   const itemIds = [...new Set(liveRows.map((row) => row.internal_item_id))];
 
   const [facilitiesResult, itemsResult] = await Promise.all([
@@ -285,6 +327,7 @@ export async function getProductionDemandPageData(): Promise<ProductionDemandPag
     return {
       id: row.id,
       productionDate: formatDate(row.production_date),
+      productionDateValue: row.production_date,
       facilityId: row.facility_id,
       facilityName: facility
         ? `${facility.code} - ${facility.name}`
@@ -324,12 +367,33 @@ export async function getProductionDemandPageData(): Promise<ProductionDemandPag
     completedAt: formatDateTime(row.completed_at ?? row.created_at),
   }));
 
+  const reviews = reviewRows.map((row) => {
+    const facility = facilities.get(row.facility_id);
+    return {
+      id: row.id,
+      facilityId: row.facility_id,
+      facilityName: facility
+        ? `${facility.code} - ${facility.name}`
+        : `Facility ${compactReference(row.facility_id)}`,
+      productionDate: formatDate(row.production_date),
+      productionDateValue: row.production_date,
+      versionNumber: row.version_number,
+      status: row.status,
+      demandLineCount: row.demand_line_count,
+      contributionCount: row.contribution_count,
+      scopedBlockerCount: row.scoped_blocker_count,
+      unscopedBlockerCount: row.unscoped_blocker_count,
+      createdAt: formatDateTime(row.created_at),
+    };
+  });
+
   return {
     status,
     message: statusMessage(status),
     demand,
     issues,
     runs,
+    reviews,
     canManage,
     counts: {
       demandRows: demand.length,

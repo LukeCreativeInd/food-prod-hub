@@ -1,6 +1,6 @@
 # Order Intake And Demand Ownership Matrix
 
-> **Task 236 implementation update:** Delivery interpretation is an append-oriented reviewed layer in live/registered Migration 050. Source evidence remains Commerce truth; live/registered Migrations 051-052 add database/runtime-accepted Production-owned contributions and live demand without review/freeze. Deployment/browser acceptance remains pending.
+> **Task 236/237 implementation update:** Delivery interpretation is an append-oriented reviewed layer in live/registered Migration 050. Source evidence remains Commerce truth; live/registered Migrations 051-052 provide production-accepted Production-owned contributions and live demand. Live/registered Migrations 053-055 add database/runtime/concurrency-accepted review, immutable commitment ownership, freeze and cumulative exact-UOM deltas. Task 237 deployment/browser acceptance remains pending.
 
 ## Task 232 Implemented Intake Boundary
 
@@ -138,4 +138,4 @@ Task 235 adds append-oriented delivery interpretation and approved override evid
 
 ## Task 236 Implementation Update
 
-Unapplied Migration 051 adds the first Production-owned demand records: append-oriented contribution history, fingerprint-idempotent safe issues and generation runs, plus a replaceable live aggregate. Unchanged issue-producing evidence retains its current issue row; meaningful transitions append history. Source orders and lines remain Commerce-owned and unchanged. The live aggregate is not reviewed or frozen demand, and it does not allocate to Production Plans.
+Live Migrations 051-052 own append-oriented contributions, deterministic current issues and replaceable live aggregates and remain byte-identical. Live Migrations 053-055 give Production Demand immutable commitment ownership per tenant source line, review-time external commitment context, frozen base commitment, cumulative exact-UOM delta decisions and effective frozen-demand reads. Their internal organisation evidence barrier is shared by the Task 236 generator and every Task 237 mutation that persists a decision from current Task 236 evidence; real independent-session verification confirmed same-organisation serialization and cross-organisation independence. Source orders/lines remain Commerce-owned; commitment ownership prevents double counting without transferring or mutating Commerce records. Production Plans do not allocate Task 237 demand.

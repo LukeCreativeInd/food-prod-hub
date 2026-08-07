@@ -78,4 +78,4 @@ Task 228 now settles the provider-neutral order-to-demand direction: stable sour
 
 ## Task 236 Progress Note
 
-Unapplied Migration 051 closes only the repository foundation portion of the demand-aggregation gap: approved direct/bundle outputs can produce traceable exact-UOM contributions and a current facility/date/item aggregate, while exclusions and blockers remain visible. Review/freeze/deltas, representative source fixtures, formula expansion, requirements, execution, parallel runs and staff acceptance remain open.
+Task 236 closes the production-accepted live-demand foundation. Live/registered Migrations 053-055 close the database/runtime/concurrency portion of review/freeze/cumulative-delta control; deployment/browser acceptance remains open. Production Plan allocation, representative source fixtures, formula expansion, requirements, execution, parallel runs and staff acceptance remain open.

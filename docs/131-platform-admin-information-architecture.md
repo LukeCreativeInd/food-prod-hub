@@ -672,3 +672,7 @@ No manual Supabase setup is required for this planning task.
 ## Task 234 Commerce Mapping Boundary
 
 Task 234 does not add Platform Admin mapping ownership or mutation. A later platform surface may show redacted completion, unresolved and blocked counts, but detailed mapping contents remain tenant-owned and require explicit future authorisation. Credentials, raw provider evidence and customer data remain excluded.
+
+## Task 237 Production Demand Boundary
+
+Platform Admin receives no cross-tenant review, freeze, delta or effective-demand bypass. Platform roles must also resolve an active tenant membership with `production.view` or `production.manage` through the tenant app. No Platform Admin Task 237 mutation surface is added.

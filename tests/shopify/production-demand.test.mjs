@@ -149,7 +149,7 @@ test("Migration 052 is the only correction and Migrations 045 through 051 remain
   assert.equal(migrations.filter((name) => name.startsWith("051_")).length, 1);
   assert.equal(sha256(migration051), "388504209314465b3e9b5774cd57480492d4f087944dcda1603e5e49a1621cd4");
   assert.equal(migrations.filter((name) => name.startsWith("052_")).length, 1);
-  assert.equal(migrations.some((name) => name.startsWith("053_")), false);
+  assert.equal(migrations.filter((name) => name.startsWith("053_")).length, 1);
   assert.match(migration051, /^begin;/);
   assert.match(migration051, /commit;\s*$/);
   assert.match(migration052, /^begin;/);
@@ -490,13 +490,14 @@ test("facility, production date and UOM remain separate aggregate keys", () => {
   assert.match(migration051, /production_live_demand_key_unique/);
 });
 
-test("Production Demand UI is permission-gated, truthful and does not expose write or freeze controls", () => {
+test("Production Demand UI keeps live demand truthful while Task 237 adds server-controlled review capture", () => {
   assert.match(demandData, /requirePermissionAccessWithPermissions\("production\.view"\)/);
-  assert.match(demandData, /Migration 051 has not been applied/);
+  assert.match(demandData, /Confirm Migrations 051-053 are applied/);
   assert.match(demandPage, /No live Production Demand/);
   assert.match(demandPage, /No demand rows have been fabricated/);
-  assert.match(demandPage, /Not reviewed or frozen/);
-  assert.doesNotMatch(demandPage, /<form|formAction|Freeze demand|Approve demand|Create production plan/i);
+  assert.match(demandPage, /Demand review and freeze/);
+  assert.match(demandPage, /Capture review/);
+  assert.doesNotMatch(demandPage, /name="(quantity|frozen_quantity|delta_quantity)"|Create production plan/i);
   assert.doesNotMatch(`${demandData}\n${demandPage}`, /access_token|refresh_token|ciphertext|raw_(payload|webhook)|customer_(name|email|phone)|shipping_address/i);
   assert.match(navigation, /label: "Production Demand"[\s\S]*href: "\/production-demand"[\s\S]*requiredPermission: "production\.view"/);
   assert.match(pageTitles, /"\/production-demand": \{ title: "Production Demand", context: "Production" \}/);
