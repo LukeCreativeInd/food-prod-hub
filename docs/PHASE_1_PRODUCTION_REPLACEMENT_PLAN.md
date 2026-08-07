@@ -113,4 +113,6 @@ Task 234 implements the reviewable product/variant interpretation foundation nee
 
 ## Task 236 Progress Note
 
-Task 236 is production accepted. Live/registered Migrations 053-055 supply the database/runtime/concurrency-accepted reviewed/frozen demand commitment and cumulative post-freeze change control, but still do not provide Production Plan allocation, formula explosion, requirements, area execution or parity evidence. Task 237 deployment/browser acceptance remains pending. No legacy export, aggregation, Production Report or printed-pack decommission gate is satisfied until Task 237 is production accepted and later planning/execution/parity gates pass.
+Tasks 236 and 237 are production accepted. Live/registered Migrations 053-055 supply the reviewed/frozen demand commitment and cumulative post-freeze change control, but still do not provide Production Plan allocation, formula explosion, requirements, area execution or parity evidence. No legacy export, aggregation, Production Report or printed-pack decommission gate is satisfied until later planning/execution/parity gates pass.
+
+Task 238 establishes that future Production Data Import is a dedicated tenant-owned Production-governed staging/provenance domain that may be surfaced through Tools. It does not import current Clean Eats evidence or make legacy constants canonical. Tasks 239-243 must resolve canonical knowledge ownership, approved source collection, staging, review and controlled reconciliation before any replacement data is applied.

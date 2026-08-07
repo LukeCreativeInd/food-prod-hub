@@ -4,7 +4,7 @@
 
 Task 237 adds the first human-controlled commitment boundary between recalculable live Production Demand and later Production Plan allocation. It captures the exact evidence a production manager reviewed, freezes one immutable base per facility/date scope, and records cumulative post-freeze differences without rewriting that base.
 
-Current status: implementation complete; database/runtime and real independent-session concurrency accepted; safe to commit and deploy. Migrations 053-055 are live/registered and immutable. Deployment/browser acceptance remains pending, so Task 237 is not yet production accepted.
+Current status: complete and production accepted at commit `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67` and deployment `dpl_B7GLzEp5a65YArgHfJRdmciJ2rhy`. Migrations 053-055 are live/registered and immutable. Database/runtime, real independent-session concurrency and deployment/browser acceptance passed.
 
 ## Scope
 
@@ -227,7 +227,7 @@ After Migration 054, freeze progressed to the frozen-base ownership insert and f
 15. Real independent-session concurrency verification passed.
 16. The temporary branch was deleted successfully without merge or production-history repair.
 17. Task 237 became safe to commit and deploy.
-18. Deployment/browser acceptance remains pending; Task 237 is not yet production accepted.
+18. Deployment/browser acceptance passed; Task 237 is production accepted.
 
 ## Automated tests
 
@@ -341,13 +341,11 @@ All Task 236 generation runs, contributions, issues and live-demand tables remai
 
 ## Browser smoke tests
 
-After approved migration application and deployment: verify login, Dashboard, Production navigation, truthful Production Demand zero state, no fake review/freeze/delta, nested host isolation, privacy, no planning/inventory controls, Integrations/Shopify/mappings/delivery routes, Products/Components/Finished Products, Production Plan, QA, Logistics, Organisation Settings, Users, Support and Platform Admin. Stock On Hand remains separate.
-
-Synthetic lifecycle browser tests require separate approval and must not create live customer data.
+Production deployment/browser acceptance passed for login, Dashboard, Production navigation, truthful Production Demand zero state, nested host isolation, privacy, related tenant modules, Support and Platform Admin. No fake review/freeze/delta or operational data was created. Stock On Hand remains separate.
 
 ## Production Plan boundary
 
-Production Plans do not read, allocate or mutate Task 237 state yet. Task 238 owns frozen-demand-to-plan allocation.
+Production Plans do not read, allocate or mutate Task 237 state yet. Production Plan allocation remains deferred to the later approved roadmap and is not part of Task 238.
 
 ## Inventory boundary
 
@@ -373,7 +371,7 @@ Support receives no table bypass or mutation path. Support host isolation contin
 
 ## Deferred next task
 
-Task 238 owns frozen-demand-to-Production-Plan allocation and is unavailable until Task 237 is committed, deployed, browser acceptance passes and Luke explicitly approves continuation.
+Task 238 reviews Tools and Production Import ownership. Frozen-demand-to-Production-Plan allocation remains deferred to the later approved roadmap.
 
 ## Behaviour preserved
 
@@ -381,8 +379,8 @@ Task 236 live contribution generation/recalculation remains unchanged. Commerce,
 
 ## Checks
 
-Before commit: lint, TypeScript, production build, complete Shopify/Commerce/Delivery/Production Demand test suite and `git diff --check`. Database/runtime and concurrency acceptance are complete; deployment/browser acceptance follows commit and deployment.
+Lint, TypeScript, production build, complete Shopify/Commerce/Delivery/Production Demand tests and `git diff --check` passed before commit. Database/runtime, concurrency and deployment/browser acceptance are complete.
 
 ## Next task
 
-Task 238 - Frozen Demand to Production Plan Allocation v1, only after Task 237 production acceptance and explicit approval.
+Task 238 - Tools Module Review and Production Import Ownership. Task 237's exact commit is backfilled by Task 238.

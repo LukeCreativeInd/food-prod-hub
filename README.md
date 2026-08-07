@@ -30,7 +30,7 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 
 ## Current Status
 
-- Latest production-accepted task: Task 236 - Production Demand Schema and Contribution Generation v1; Task 237 is database/runtime/concurrency accepted and safe to commit/deploy, with deployment/browser acceptance pending
+- Latest production-accepted task: Task 237 - Production Demand Review, Freeze and Post-Freeze Delta Workflow v1
 - Task 223A commit: `a8c2761`
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
@@ -47,7 +47,7 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 - Task 234 commit: `ee755514b2cbbbccd3697d5a14a3f86af148191c` (`Build commerce product mappings`)
 - Task 235 commits: `8d9059c31c11e7019bf610c031b3433cff7ee03b` (`Build delivery calendar configuration`), `9982a4ee41886702337afc6f3b80947d106155f3` (`Reduce repeated Supabase auth requests`) and `f57f2b14ac6774628c3bbb4f45dc7ffc1714dd8c` (`Harden Supabase auth error handling`); production accepted
 - Task 236 commits: `abede6d8596f4da9995c23586f0f70d55cb15efe` (`Build production demand contributions`) and `f344b4ca9a5262b4e7d6967e6ec0c02b0cbe8021` (`Fix Production Demand route isolation`)
-- Task 237 suggested commit: `Build demand review and freeze workflow`; exact commit hash must be backfilled by Task 238 after commit
+- Task 237 commit: `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67` (`Build demand review and freeze workflow`); deployed as `dpl_B7GLzEp5a65YArgHfJRdmciJ2rhy` and production accepted
 - Review Gate 0 is closed; the [Tasks 225-348 roadmap](docs/225-348-official-roadmap.md) is authoritative
 - Architecture Gate 1 is approved through Luke's Task 231 prompt
 - Migration `045_facility_schema_foundation.sql` was manually applied through Supabase SQL Editor and the facility schema/backfill checks passed; SQL Editor did not create a version `045` migration-history row
@@ -58,7 +58,8 @@ Start with the [current chat handover](docs/CHAT_HANDOVER_CURRENT.md), then the 
 - Migration `049_commerce_catalogue_mapping_foundation.sql` is live/registered as `20260805001610 commerce_catalogue_mapping_foundation`. Migration `050_delivery_calendar_production_date_foundation.sql` is live/registered as `20260805035435 delivery_calendar_production_date_foundation`. Migration `051_production_demand_contribution_foundation.sql` is live/registered as `20260806035017 production_demand_contribution_foundation`; corrective Migration `052_production_demand_digest_schema_fix.sql` is live/registered as `20260806081548 production_demand_digest_schema_fix`
 - Task 235 adds live tenant-safe zones, services, immutable calendar versions, reviewed exceptions/overrides, connection-specific parser profiles and deterministic date-resolution foundations without seeded configuration
 - Task 236 is production accepted and adds append-oriented source-line contributions, explicit blockers/exclusions, scoped recalculation, stable live Production Demand aggregation and canonical host-isolated `/production-demand`. Migration 052 qualified both pgcrypto calls as `extensions.digest(...)`; full rollback-only and browser acceptance passed with zero residue.
-- Task 237 Migrations 053, 054 and 055 are live/registered as `20260806155351 production_demand_review_freeze_delta_workflow`, `20260806164940 production_demand_source_lock_order_fix` and `20260806174730 production_demand_frozen_owner_uuid_fix`. The chronology is preserved: freeze first exposed PostgreSQL `42P10`, Migration 054 repaired deterministic DISTINCT source-lock ordering, freeze then exposed PostgreSQL `42804`, and Migration 055 typed frozen-base `first_approved_delta_version_id` as `null::uuid`. Full rollback-only lifecycle, ownership, exact/mixed-UOM, cumulative-delta, effective-demand, security and real independent-session concurrency verification passed with zero residue. Task 237 is safe to commit/deploy but is not production accepted until deployment/browser verification passes. Task 238 remains unavailable until that acceptance and Luke's explicit approval.
+- Task 237 Migrations 053, 054 and 055 are live/registered as `20260806155351 production_demand_review_freeze_delta_workflow`, `20260806164940 production_demand_source_lock_order_fix` and `20260806174730 production_demand_frozen_owner_uuid_fix`. The chronology is preserved: freeze first exposed PostgreSQL `42P10`, Migration 054 repaired deterministic DISTINCT source-lock ordering, freeze then exposed PostgreSQL `42804`, and Migration 055 typed frozen-base `first_approved_delta_version_id` as `null::uuid`. Full rollback-only lifecycle, ownership, exact/mixed-UOM, cumulative-delta, effective-demand, security, independent-session concurrency and production browser verification passed with zero residue.
+- Task 238 defines Tools as a permanent mixed utility module with strict domain ownership boundaries. Future Production Data Import is a dedicated tenant-owned import/staging domain governed by Production and may be surfaced through Tools; canonical Products and Production records remain owned by their domains. No Production import implementation, staging schema, parser, storage bucket or Migration 056 exists.
 - Task 233 adds a non-live Shopify connector foundation using `@shopify/shopify-api` `13.1.0`, GraphQL Admin API `2026-07`, managed-install token exchange, encrypted expiring offline credentials, verified reference-only webhook intake, durable jobs, bounded manual worker execution and real Tenant Admin readiness views. Its production hotfix is deployed and browser accepted. No app registration, development-store install, live callback, scheduled executor or imported Shopify data exists
 - Task 230 selected organisation-owned zones, separate customer delivery services and Logistics carriers, immutable effective-dated delivery/production calendars, connection-specific Zapiet parsing and versioned facility/production-date assignments. Task 235 implements and production-validates that live foundation without storing postcode/customer PII
 - Commerce business status and technical health remain separate; provider/store identity cannot rely on order prefix, display label or domain alone
@@ -387,6 +388,8 @@ If `pnpm` asks you to approve dependency build scripts, review the listed packag
 - [Grange Meat Co parser](docs/99-grange-meat-parser.md)
 - [Il Nonno parser](docs/100-il-nonno-parser.md)
 - [Tools module and Supplier Invoice Intake](docs/101-tools-module-supplier-invoice-intake.md)
+- [Task 238 Tools and Production Import ownership](docs/238-tools-module-review-production-import-ownership.md)
+- [Tools and Production Import ownership matrix](docs/TOOLS_AND_PRODUCTION_IMPORT_OWNERSHIP_MATRIX.md)
 - [Performance audit and route load optimisation](docs/102-performance-audit-route-load-optimisation.md)
 - [Products module real dashboard](docs/103-products-module-real-dashboard.md)
 - [Suppliers manual create/edit foundation](docs/104-suppliers-manual-create-edit-foundation.md)

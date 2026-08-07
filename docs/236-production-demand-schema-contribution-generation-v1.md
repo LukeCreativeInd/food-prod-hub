@@ -339,4 +339,4 @@ Required checks are lint, TypeScript, production build, full Shopify suite and `
 
 ## Next Task
 
-Task 236 is production accepted through `abede6d8596f4da9995c23586f0f70d55cb15efe` and route-isolation correction `f344b4ca9a5262b4e7d6967e6ec0c02b0cbe8021`. Task 237 builds on, but does not modify, Migrations 051-052: live/registered Migrations 053-055 capture immutable reviews, freeze and cumulative deltas and have passed database/runtime/concurrency acceptance. Task 238 remains blocked pending Task 237 commit, deployment/browser acceptance and Luke approval.
+Task 236 is production accepted through `abede6d8596f4da9995c23586f0f70d55cb15efe` and route-isolation correction `f344b4ca9a5262b4e7d6967e6ec0c02b0cbe8021`. Task 237 builds on, but does not modify, Migrations 051-052: live/registered Migrations 053-055 capture immutable reviews, freeze and cumulative deltas and are production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67`. Task 238 now defines the Tools/Production Import ownership boundary without changing Production Demand.

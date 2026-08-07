@@ -16,14 +16,30 @@ Commerce continues to own source projections, mappings and delivery interpretati
 | --- | --- | --- | --- |
 | Live active contributions and live aggregates | Task 236 Production Demand tables | Task 236 scoped generators | Task 237 capture/delta comparison |
 | Human-reviewed facility/date capture | `production_demand_reviews` plus immutable review child tables | Task 237 `production.manage` RPCs only | Production Demand UI; later plan allocation |
-| Frozen base commitment | One `status = frozen` review per organisation/facility/date | Irreversible Task 237 freeze RPC | Effective-demand helper; later Task 238 |
+| Frozen base commitment | One `status = frozen` review per organisation/facility/date | Irreversible Task 237 freeze RPC | Effective-demand helper; later Production Plan allocation |
 | Post-freeze source differences | `production_demand_delta_contributions` | Deterministic Task 237 generation RPC | Delta UI and aggregate lines |
 | Current approved cumulative adjustment | One `status = approved` delta version per frozen review | Task 237 approve/reject RPCs | Effective frozen demand |
-| Effective frozen demand | Frozen review lines plus latest approved cumulative delta only | Read-only helper | Task 238 planning allocation, not implemented yet |
+| Effective frozen demand | Frozen review lines plus latest approved cumulative delta only | Read-only helper | Later Production Plan allocation, not implemented yet |
 
 Commerce, Products and Facilities retain ownership of their source records. Task 237 snapshots lineage but does not update those records. Production Plans and Inventory cannot modify review/freeze/delta evidence and are not written by Task 237. Platform Admin and Support have no cross-tenant mutation bypass.
 
-Migrations 053-055 are live/registered and immutable. Full rollback-only lifecycle, exact/mixed-UOM, cumulative replacement, effective-demand, source-ownership and real independent-session concurrency verification passed with zero residue. This boundary is database/runtime/concurrency accepted; Task 237 deployment/browser acceptance and Task 238 Production Plan allocation remain pending.
+Migrations 053-055 are live/registered and immutable. Full rollback-only lifecycle, exact/mixed-UOM, cumulative replacement, effective-demand, source-ownership, real independent-session concurrency and production browser verification passed with zero residue. Task 237 is production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67`; Production Plan allocation remains deferred to the later approved roadmap.
+
+## Task 238 Tools And Production Import Boundary
+
+| Evidence/state | Source of truth | Mutation authority | Consumers |
+| --- | --- | --- | --- |
+| Tools workspace definition | Permanent mixed utility module with strict domain ownership boundaries | Module/navigation configuration only; no generic canonical mutation authority | Specialised bounded utilities |
+| Supplier invoice source/extraction/commit evidence | Supplier Invoice Intake | Existing Purchase Document workflow boundaries | Products, Costings and optional draft Goods Inwards bridge |
+| Future Production source metadata, parser runs and staging revisions | Dedicated tenant-owned Production Data Import domain governed by Production | Future Production Import intake/staging boundaries | Tools utility UI, Production review, redacted Support readiness |
+| Future mapping, validation, review, approval, apply and reconciliation evidence | Production Data Import | Future dedicated import boundaries plus target-domain permission checks | Products and Production apply workflows, audit and redacted diagnostics |
+| Canonical Products records | Products | Products-owned mutation boundaries | Production, Costings, Inventory and import reconciliation |
+| Canonical Production records | Production | Production-owned mutation boundaries | Production execution and import reconciliation |
+| Future import configuration | Tenant Admin configuration for Production Import | Future Admin configuration boundary | Production Import parsers/intake |
+
+UI placement does not define data ownership. A future route under Tools may launch Production Data Import, but Tools does not own the staging domain or resulting canonical records. Parser code is platform implementation; run evidence belongs to Production Data Import. Platform Admin receives redacted readiness only and Support receives minimum necessary redacted diagnostics. Exact formula/recipe/method/work-instruction ownership remains Task 239.
+
+No Production import schema, parser, bucket, permission or Migration 056 exists.
 
 ## Task 234 Commerce Catalogue Mapping Foundation
 

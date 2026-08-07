@@ -1,6 +1,6 @@
 # Order Intake And Demand Ownership Matrix
 
-> **Task 236/237 implementation update:** Delivery interpretation is an append-oriented reviewed layer in live/registered Migration 050. Source evidence remains Commerce truth; live/registered Migrations 051-052 provide production-accepted Production-owned contributions and live demand. Live/registered Migrations 053-055 add database/runtime/concurrency-accepted review, immutable commitment ownership, freeze and cumulative exact-UOM deltas. Task 237 deployment/browser acceptance remains pending.
+> **Task 236/237 implementation update:** Delivery interpretation is an append-oriented reviewed layer in live/registered Migration 050. Source evidence remains Commerce truth; live/registered Migrations 051-052 provide production-accepted Production-owned contributions and live demand. Live/registered Migrations 053-055 add production-accepted review, immutable commitment ownership, freeze and cumulative exact-UOM deltas. Task 237 is accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67`; Production Plan allocation remains later work.
 
 ## Task 232 Implemented Intake Boundary
 

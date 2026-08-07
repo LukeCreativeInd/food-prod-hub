@@ -42,6 +42,10 @@ Tools is for utility workflows such as:
 
 Reports remains for analytics and reporting, not import/intake tooling.
 
+Task 238 makes the permanent ownership rule explicit: Tools is a mixed utility module, and a utility may assist in creating canonical records without becoming their owner. Supplier Invoice Intake owns its source document, extraction, review and commit evidence. Suppliers, supplier items, mappings and approved commercial truth remain owned by Products or the appropriate commercial domain.
+
+Future Production Data Import may be surfaced through Tools, but its staging/provenance domain is governed by Production and its applied records remain owned by Products or Production. See `238-tools-module-review-production-import-ownership.md` and `TOOLS_AND_PRODUCTION_IMPORT_OWNERSHIP_MATRIX.md`.
+
 ## Navigation Changes
 
 Inventory no longer contains:

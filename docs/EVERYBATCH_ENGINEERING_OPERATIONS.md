@@ -2,7 +2,7 @@
 
 ## Current Facility Migration State
 
-Architecture Gate 1 is approved. Migrations 046-055 are live/registered; Task 236 is production accepted through `abede6d8596f4da9995c23586f0f70d55cb15efe` and `f344b4ca9a5262b4e7d6967e6ec0c02b0cbe8021`. Task 237 is database/runtime/concurrency accepted and safe to commit/deploy, with deployment/browser acceptance pending. Migration 054 repaired PostgreSQL `42P10`; Migration 055 is registered as `20260806174730 production_demand_frozen_owner_uuid_fix` and repaired PostgreSQL `42804` by typing frozen-base UUID lineage as `null::uuid`. Full rollback-only lifecycle and real independent-session concurrency verification passed; no operational data was written.
+Architecture Gate 1 is approved. Migrations 046-055 are live/registered. Task 237 is production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67` and deployment `dpl_B7GLzEp5a65YArgHfJRdmciJ2rhy`. Migration 054 repaired PostgreSQL `42P10`; Migration 055 repaired PostgreSQL `42804` by typing frozen-base UUID lineage as `null::uuid`. Full rollback lifecycle, real independent-session concurrency and production browser verification passed; no operational data was written.
 
 ## Authority And Stack
 
@@ -12,7 +12,7 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Current repository state: Task 237 is database/runtime/concurrency accepted and safe to commit/deploy with suggested commit `Build demand review and freeze workflow`. Migrations 053-055 are live/registered and immutable; deployment/browser acceptance remains pending. Task 238 must not begin before Task 237 commit, deployment/browser acceptance and Luke approval.
+- Current repository state: Task 238 documentation defines the Tools/Production Import ownership boundary and remains uncommitted pending Luke review. Task 237 is production accepted; Migrations 053-055 are live/registered and immutable. No Migration 056 or Production import implementation exists.
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
