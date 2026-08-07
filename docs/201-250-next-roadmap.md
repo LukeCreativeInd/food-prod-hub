@@ -1,6 +1,6 @@
 # Tasks 201-250 Historical Roadmap
 
-> **Historical and superseded.** This file preserves the roadmap as it was originally planned. It is not the current source for task names, numbering or order. Task 225 superseded all earlier roadmap authority on 4 August 2026. Use [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md).
+> **Historical and superseded.** This file preserves the roadmap as originally planned. Task 225 superseded it on 4 August 2026, and Task 242 later replaced fixed future numbering. Use the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md) for current order.
 
 This roadmap followed the Phase 1 Operational Review Pack. Its table is retained unchanged as historical planning evidence. Current execution requirements are defined in [Codex Task Standards](./CODEX_TASK_STANDARDS.md).
 

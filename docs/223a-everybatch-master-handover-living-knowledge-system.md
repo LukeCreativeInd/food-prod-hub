@@ -1,6 +1,6 @@
 # Task 223A - EveryBatch Master Handover And Living Knowledge System
 
-> **Historical task context:** The living-knowledge system remains active, but Task 225 superseded the roadmap status described below. Current task order is authoritative in [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md).
+> **Historical task context:** The living-knowledge system remains active. Task 225 superseded the roadmap status described below, and Task 242 later replaced fixed future numbering. Current task order is authoritative in the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md).
 
 ## Durable Status
 

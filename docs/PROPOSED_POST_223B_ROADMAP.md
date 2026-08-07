@@ -1,6 +1,6 @@
 # Proposed Post-223B Roadmap
 
-> **Historical proposal, superseded by Task 225 on 4 August 2026.** Luke reviewed the Task 224 evidence and approved the final sequence recorded in [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). The proposal below is retained as decision history and is not current task authority.
+> **Historical proposal.** Task 225 superseded it on 4 August 2026, and Task 242 later replaced fixed future numbering with the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md). The proposal below remains decision history, not current task authority.
 
 > **Proposed after Task 224 - awaiting Review Gate 0 approval.** This document does not replace the active roadmap. Task 224 is complete, Tasks 225 onward remain provisional, the former paused roadmap is preserved and no later task has been officially activated or renumbered.
 

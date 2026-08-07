@@ -4,6 +4,8 @@
 
 Roles are authoritative; named people appear only where their role is known and still require assignment to the relevant dataset. `Clean Eats to nominate` is intentional and blocks final sign-off when the owner is required.
 
+The columns describe responsibilities, not a mandatory three-different-person workflow. During initial Clean Eats collection, one qualified person may perform more than one role where approved tenant policy permits. The invariant is attributable source, required domain review, explicit approval/publication and durable history. Future day-to-day separation of draft/edit, review and approve/publish is permission/configuration driven and will be tested in Review 1 and Task 249.
+
 | Dataset | Operational owner role | Proposed Clean Eats owner if known | Reviewer role | QA involvement? | Warehouse involvement? | Final approver | Expected evidence | Escalation path | Unresolved owner? |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Item Register | Product composition owner | Clean Eats to nominate | Product master reviewer | No by default | Eddie where material identity needs warehouse confirmation | Final operational approver; Tony as approval sponsor where assigned | Current item list, labels, existing EveryBatch match | Product owner -> Director/operational owner | Yes |

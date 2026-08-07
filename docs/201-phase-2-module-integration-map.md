@@ -1,6 +1,6 @@
 # Phase 2 Module Integration Map
 
-> **Task 201 historical snapshot.** This document records the system state and proposed numbering at Task 201. QA and Logistics are no longer placeholder-only: Tasks 214-217 delivered the first QA foundations and Tasks 219-222 delivered the Logistics scaffold, dispatch/manifest workflow and carrier configuration. Use [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md) for current numbering and sequencing. Reports are Tasks 303-310 and CRM/customer foundations are Tasks 292-296.
+> **Task 201 historical snapshot.** This document records the system state and proposed numbering at Task 201. QA and Logistics are no longer placeholder-only: Tasks 214-217 delivered the first QA foundations and Tasks 219-222 delivered the Logistics scaffold, dispatch/manifest workflow and carrier configuration. Use the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md) for current sequencing and the Candidate Backlog for unnumbered future Reports/CRM capability.
 
 Task 201 maps how QA, Logistics, Reports and CRM should connect into the current Phase 1 EveryBatch / Clean Eats Hub operational foundation.
 

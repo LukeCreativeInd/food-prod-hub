@@ -1,10 +1,12 @@
-# EveryBatch Official Roadmap - Tasks 225-348
+# EveryBatch Historical Roadmap - Tasks 225-348
+
+> **Superseded for future task order by Task 242.** This document preserves the Task 225 plan and completed-task chronology. Tasks through 241 remain historical/completed truth as applicable, but the former fixed future sequence 242-348 is no longer authoritative. Current task order is in [`EVERYBATCH_ROLLING_ROADMAP.md`](./EVERYBATCH_ROLLING_ROADMAP.md), unnumbered future capability is in [`EVERYBATCH_CANDIDATE_BACKLOG.md`](./EVERYBATCH_CANDIDATE_BACKLOG.md), and Reviews are in [`REVIEW_REGISTER.md`](./REVIEW_REGISTER.md).
 
 ## Authority And Status
 
-This is the official EveryBatch roadmap approved by Luke through Task 225 after Review Gate 0. It supersedes `201-250-next-roadmap.md`, `223-276-revised-roadmap.md` and `PROPOSED_POST_223B_ROADMAP.md` for current task order while preserving those documents as historical evidence.
+This was the official EveryBatch roadmap approved by Luke through Task 225 after Review Gate 0. It superseded `201-250-next-roadmap.md`, `223-276-revised-roadmap.md` and `PROPOSED_POST_223B_ROADMAP.md` at that checkpoint. Task 242 later replaced its fixed future numbering with the rolling-horizon model while preserving this document as historical evidence.
 
-Task 237 is production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67` and deployment `dpl_B7GLzEp5a65YArgHfJRdmciJ2rhy`. Tasks 238-240 are complete and committed; Task 240 is `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037`. Task 241 repository implementation is under architect review with Migration 056 unapplied; its parser persistence remains deliberately dormant until a trusted runner is approved. Task 242 remains blocked until migration, Storage, runtime and runner acceptance. Architecture Gate 1 remains approved and Demand Gate 2 is satisfied for this sequencing step. Migration 045 is live/browser validated but unregistered; Migrations 046-055 are live/registered. Controlled Shopify development-store validation, Stock On Hand and marketing DNS remain separate.
+Task 237 is production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67` and deployment `dpl_B7GLzEp5a65YArgHfJRdmciJ2rhy`. Tasks 238-240 are complete and committed. Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb`; Migration 056 is live/registered once as `20260807152024 production_data_staging_parser_foundation`, database/runtime acceptance passed, and parser persistence remains deliberately dormant until a trusted runner is approved. Architecture Gate 1 remains approved and Demand Gate 2 is satisfied. Migration 045 is live/browser validated but unregistered; Migrations 046-056 are live/registered except that historical migration-history nuance. Controlled Shopify development-store validation, Stock On Hand and marketing DNS remain separate.
 
 ## A. Completed Project Baseline
 

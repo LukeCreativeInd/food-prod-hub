@@ -1,6 +1,6 @@
 # Tasks 223-276 Revised Roadmap - Historical
 
-> **Superseded by Task 225 on 4 August 2026.** This document preserves the approved-at-the-time Task 223 sequence and Review Gate 0 context. It is no longer authoritative for current task order. Use [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md).
+> **Superseded historical roadmap.** Task 225 superseded this document on 4 August 2026; Task 242 later superseded fixed future numbering entirely. Use the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md) for current order.
 
 ## Authority And Status
 

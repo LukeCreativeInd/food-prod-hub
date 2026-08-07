@@ -2,7 +2,7 @@
 
 Use this template for EveryBatch / Clean Eats Hub tasks after task 200.
 
-Before using it, read [Codex Task Standards](./CODEX_TASK_STANDARDS.md) and confirm the task name, order, dependencies and review-gate position against [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). The standards remain authoritative where this shorter template omits detail.
+Before using it, read [Codex Task Standards](./CODEX_TASK_STANDARDS.md), confirm the task name/order/dependencies against the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md), inspect relevant unresolved findings in the [Review Register](./REVIEW_REGISTER.md), assess the [Candidate Backlog](./EVERYBATCH_CANDIDATE_BACKLOG.md), and inspect the [Support Content Source Register](./SUPPORT_CONTENT_SOURCE_REGISTER.md) and [Platform Admin Capability and Diagnostics Register](./PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md) where the capability is meaningful to those surfaces. The standards remain authoritative where this shorter template omits detail.
 
 Before drafting the new task, add and assess:
 
@@ -17,9 +17,9 @@ Post-commit context from the previous task:
 - Documents to reconsider:
 ```
 
-Review that delta against the previous task document, README, project context, roadmap/Future Pending register and the permanent living documents. Update only materially affected files.
+Review that delta against the previous task document, README, project context, Rolling Roadmap, Review Register, Candidate Backlog and permanent living documents. Update only materially affected files.
 
-Do not silently add, split, merge, rename, delay or resequence roadmap tasks. Codex or the product architect may recommend a change, but Luke must approve it explicitly before the official roadmap changes.
+The Product Architect must proactively raise evidence-led architecture, security, sequencing, ownership, UX, permission and operational concerns. Do not silently add, split, merge, rename, delay or resequence tasks. Luke must approve material changes before the Rolling Roadmap changes. Urgent lettered subtasks require Luke approval.
 
 For any task touching physical operations, classify each affected record against the Task 226 decision and Task 231 schema foundation: organisation-wide, directly facility-scoped, derived through an authoritative parent, organisation default with facility override, cross-facility, external/source-owned with target assignment, reporting-only or explicitly unresolved. Preserve `organisation_id` as the tenant boundary, do not trust client facility identifiers, and do not broaden migration `045` beyond its approved direct roots without an explicit later task.
 
@@ -176,6 +176,11 @@ Return:
 - Summary
 - Files added
 - Files changed
+- MULTI-SURFACE IMPACT
+  - Tenant App: [impact or No impact]
+  - Platform Admin: [impact or No impact]
+  - Support / Help Centre: [impact, register/guide/release-note change, or No impact]
+  - Public / Marketing: [grounded implication or No impact]
 - Admin + Support impact
 - Cross-module impact
 - Dummy/demo cleanup
@@ -184,6 +189,7 @@ Return:
 - Support guide/troubleshooting/release note impact
 - Documentation impact, including exact earlier files reviewed or corrected
 - Living-document impact, including Current Handover and Task Index plus any capability, decision, ownership, handbook or engineering changes materially required
+- ROADMAP / HORIZON IMPACT: select unchanged, scope clarification, urgent subtask recommendation, early replan, or Candidate Backlog change
 - Behaviour preserved
 - Migration files added/changed, if any
 - FULL SQL MIGRATION CONTENTS if any migration was created
@@ -204,6 +210,6 @@ For work after Task 237, preserve one immutable frozen base per organisation/fac
 
 Current Task 237 state: production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67`; Migrations 053-055 are live/registered and immutable. Full rollback-only lifecycle, independent-session lock-order verification and browser acceptance passed with zero residue.
 
-For Production import work after Task 238, preserve the rule that a utility may assist in creating canonical records without becoming their owner. UI placement under Tools does not confer data ownership. Production Import staging/provenance belongs to a dedicated tenant-owned Production-governed domain; parser/source configuration belongs to Tenant Admin; canonical Products and Production records must be written only through their owning-domain mutation and permission boundaries. Platform Admin and Support receive only redacted readiness/diagnostic context. Task 238 is committed at `e23024761f1197997b100a4e26cd401c0f19330a`.
+For Production import work after Task 238, preserve the rule that a utility may assist in creating canonical records without becoming their owner. UI placement under Tools does not confer data ownership. Production Import staging/provenance belongs to a dedicated tenant-owned Production-governed domain; parser/source configuration belongs to Tenant Admin; canonical Products and Production records must be written only through their owning-domain mutation and permission boundaries. Platform Admin and Support receive only redacted readiness/diagnostic context. Task 241 Migration 056 is live/database-runtime accepted, while official parser persistence remains dormant pending Task 247's approved trusted-runner architecture.
 
-For work after Task 240, preserve the canonical production-knowledge model in `PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md` and the collection contract in `240-approved-production-data-collection-import-plan.md`: Formula/BOM is Products-owned composition; Production Method, Method Step and Work Instruction are Production-owned independently controlled knowledge; Recipe is presentation only; collection rows are evidence, not canonical truth. Do not import process yield into ambiguous Formula yield fields, duplicate nested Component inputs, create a Recipe source of truth, guess source classifications or bypass provenance/sign-off/readiness gates. Task 241 backfilled Task 240's exact commit `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037`; Task 242 must backfill Task 241's final commit and verify Migration 056 live/runtime state before implementation.
+For work after Task 240, preserve the canonical production-knowledge model in `PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md` and the machine collection contract in `240-approved-production-data-collection-import-plan.md`: Formula/BOM is Products-owned composition; Production Method, Method Step and Work Instruction are Production-owned independently controlled knowledge; Recipe is presentation only; collection rows are evidence, not canonical truth. Task 246 may change human presentation without changing field ownership. Task 248 must validate mixed fixed/percentage/ratio/per-unit Formula quantity bases before implementation. Do not import process yield into ambiguous Formula yield fields, duplicate nested Component inputs, create a Recipe source of truth, guess classifications, rewrite source evidence or bypass provenance/review/readiness gates.

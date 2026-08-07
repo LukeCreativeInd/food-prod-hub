@@ -103,4 +103,4 @@ Do not use a Recipe worksheet as canonical truth; copy legacy rows blindly; comb
 
 ## Status
 
-This specification remains the controlled planning contract and no workbook or production data has been created. Task 241 adds an unapplied private-bucket/source/staging foundation and explicit CSV parser, but no XLSX parser, tenant upload route, Method/WI schema, mapping/review/apply workflow or canonical import exists.
+This specification remains the controlled machine/staging planning contract and no workbook or production data has been created. Its original 14-tab workbook layout is one packaging option, not the final approved human experience. Task 246 will prototype entity-focused collection materials over the same fields for Review 1. Task 241's private-bucket/source/staging foundation is live and database/runtime accepted, but no trusted parser runner, XLSX parser, tenant upload route, Method/WI schema, mapping/review/apply workflow or canonical import exists.

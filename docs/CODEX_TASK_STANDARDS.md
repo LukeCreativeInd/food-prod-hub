@@ -4,7 +4,7 @@
 
 These are the permanent execution standards for numbered EveryBatch tasks. Every task must also follow its task-specific prompt. Where a task changes approved roadmap order, terminology, architecture or prior decisions, the affected documentation must be corrected in the same task.
 
-The current task-order authority is `docs/225-348-official-roadmap.md`. Every future prompt must read it before work begins and must respect its dependencies and review gates.
+The current task-order authority is `docs/EVERYBATCH_ROLLING_ROADMAP.md`. Future unnumbered work lives in `docs/EVERYBATCH_CANDIDATE_BACKLOG.md`; scheduled and completed stakeholder Reviews live in `docs/REVIEW_REGISTER.md`. `docs/225-348-official-roadmap.md` is historical planning evidence, not current ordering authority.
 
 ## Branch And Repository Safeguards
 
@@ -23,7 +23,7 @@ The current task-order authority is `docs/225-348-official-roadmap.md`. Every fu
 - Do not bypass RLS or weaken tenant isolation to make a feature work.
 - Do not create fake operational data or present mock data as real records.
 - Do not implement a subsequent roadmap task early.
-- Do not silently add, split, merge, rename, delay or resequence roadmap tasks. Codex and the product architect may recommend evidence-led changes, but Luke must explicitly approve them and the approved change task must update the official roadmap, Current Handover, Task Index and affected living documents.
+- Do not silently add, split, merge, rename, delay or resequence roadmap tasks. The Product Architect must proactively recommend evidence-led changes when current architecture, security, UX or operational evidence requires them, but Luke must approve material changes and the approved change must update the rolling roadmap, Current Handover, Task Index and affected living documents.
 
 ## Product And Architecture Language
 
@@ -51,14 +51,25 @@ Foundation work must be safe, tenant-aware, permission-aware, coherent, demonstr
 - Inspect every existing document materially affected by the task.
 - Update earlier task documents when later work changes or clarifies their decisions.
 - Update `README.md` and `docs/CODEX_PROJECT_CONTEXT.md` when current project truth changes.
-- Update the active roadmap when order, numbering or scope changes.
+- Update the rolling roadmap when order, numbering or active-horizon scope changes; update the Candidate Backlog when unnumbered future capability changes.
 - Update Support planning/context when user-facing behaviour changes.
 - Update release notes only when appropriate for the task.
 - Keep migration references and applied/unapplied status accurate.
 - Preserve parked items, unresolved decisions and known limitations.
 - Do not leave conflicting current guidance merely because a newer task document exists.
 - Keep historical documents, but label superseded planning clearly and point to the current authority.
-- Treat Architecture Gate 1 after Task 230, Demand Gate 2 after Task 237, Materials Gate 3 after Task 251 and Production Replacement Readiness/Review Gate 4 after Task 268 as approval boundaries, not optional commentary.
+- Keep Reviews distinct from Gates. Reviews are stakeholder/evidence checkpoints and do not consume Task numbers. Gates are capability/readiness boundaries. Review Gate 0 is historical, Architecture Gate 1 is approved and Demand Gate 2 is satisfied. The Materials Gate occurs after approved location-aware material preparation is implemented and validated; the Production Replacement Readiness Gate occurs after execution, actuals, parity and staff-validation evidence exists. Do not tie future gates to candidate task numbers.
+
+## Rolling Horizon And Review Governance
+
+- Approximately only the next ten tasks receive authoritative task numbers. Work beyond the active horizon remains unnumbered until Luke approves promotion.
+- Every numbered task must inspect the active horizon, relevant unresolved Review findings and Candidate Backlog implications before work begins.
+- Every task response must include `ROADMAP / HORIZON IMPACT` and assess: remaining horizon unchanged; scope clarification needed; critical lettered subtask recommended; early replan required; or Candidate Backlog change needed.
+- The Product Architect must proactively raise architecture conflicts, security weaknesses, sequencing problems, source-of-truth conflicts, workflow assumptions, UX issues, permission gaps, scaling concerns, operational mismatches and missing foundational work. Do not mechanically proceed when evidence indicates a worse or less safe product.
+- Material roadmap and architecture changes require Luke approval. Do not silently alter the horizon.
+- Reviews may occur between any tasks, do not consume Task numbers and do not automatically stop development. Review findings may change acceptance criteria, backlog, architecture or horizon only through the approved change process.
+- At horizon end, reassess completed evidence, Reviews, security/runtime findings, cross-module consequences and candidates before assigning the next task numbers.
+- A Luke-approved urgent security, integrity, runtime or architecture insertion may use a lettered subtask such as `245A`. Record the reason and reassess the remaining horizon; do not use lettered work for routine fragmentation.
 
 Every task response must explicitly include one of:
 
@@ -98,7 +109,27 @@ Commerce, external-demand and contract-manufacturing tasks must preserve Task 22
 
 Order-intake and Production Demand tasks must also preserve Task 228's layered truth model: provider source identity and observations, controlled current source projections, immutable versioned interpretation/contribution revisions, recalculable live demand, reviewed demand, immutable frozen snapshots, explicit post-freeze deltas, separate reversible manual adjustments and explicit Production Plan allocation. Never silently recalculate frozen history from new mappings, bundle rules, facilities or calendars, and never put broad customer PII in Production Demand.
 
-Every future numbered task must review living-document impact, update `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, and update the capability, decision, ownership, product or engineering living document only when its specific truth changes.
+Every future numbered task must review living-document impact, update `CHAT_HANDOVER_CURRENT.md` and `TASK_INDEX.md`, assess `ROADMAP / HORIZON IMPACT`, inspect relevant Review findings and Candidate Backlog implications, and update the capability, decision, ownership, product or engineering living document only when its specific truth changes.
+
+EveryBatch is a multi-surface product. Every future numbered task and relevant lettered subtask must explicitly assess all four surfaces; `No impact` is valid and silence is not:
+
+```text
+MULTI-SURFACE IMPACT
+
+Tenant App:
+- [workflow, navigation/entity, permissions, states, relationships/history, current-versus-future impact; or No impact]
+
+Platform Admin:
+- [safe readiness, health, counts, diagnostics, provisioning impact; or No impact]
+
+Support / Help Centre:
+- [workflow/help/troubleshooting impact, SUPPORT_CONTENT_SOURCE_REGISTER update, stale guide/release-note impact; or No impact]
+
+Public / Marketing:
+- [grounded public-product language implication; or No impact]
+```
+
+Platform Admin remains a control plane and receives minimum necessary readiness/diagnostic signals, not automatic tenant mutation, approval authority or proprietary content access. Support is a first-class knowledge surface but receives no proprietary tenant content by default. Public implications must be grounded in implemented or approved capability and must not invent claims. Update `SUPPORT_CONTENT_SOURCE_REGISTER.md` and `PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md` when their structured source truth changes; a full Help Centre or marketing article is not required for every task.
 
 Every task response must also include one of:
 
@@ -121,6 +152,7 @@ Every substantial task must consider and report:
 
 - Admin and Platform Admin impact;
 - Support and Help Centre impact;
+- Public and Marketing impact;
 - cross-module impact;
 - source-of-truth ownership;
 - permissions and RLS;

@@ -12,12 +12,13 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Current repository state: Tasks 238-240 are committed; Task 240 is `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037`. Task 241 implements a repository-only source/staging/parser foundation with aggregate run status and uploaded-unverified source truth. Migration 056 remains unapplied; parser persistence remains dormant until a trusted runner is approved, so Task 242 is blocked. Task 237 is production accepted and Migrations 053-055 remain live/registered and immutable.
+- Current repository state: Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb`. Migration 056 is live/registered and database/runtime accepted; aggregate run status and uploaded-unverified source truth are live, while trusted parser persistence remains dormant. Task 242 is the current documentation/governance task.
+- Product-surface governance: every future numbered task and relevant lettered subtask must assess Tenant App, Platform Admin, Support / Help Centre and Public / Marketing impact. Update the Support and Platform diagnostic source registers when their structured truth changes; do not infer content access or mutation authority from an impact assessment.
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
 - Task 226 commit: `36d53894579e0e8762d7ed441187e5c23552678e`
-- Official roadmap: `docs/225-348-official-roadmap.md`; Review Gate 0 is closed and Architecture Gate 1 is approved
+- Current roadmap: `docs/EVERYBATCH_ROLLING_ROADMAP.md`; candidates: `docs/EVERYBATCH_CANDIDATE_BACKLOG.md`; Reviews: `docs/REVIEW_REGISTER.md`; Support source: `docs/SUPPORT_CONTENT_SOURCE_REGISTER.md`; Platform diagnostic source: `docs/PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md`. The Tasks 225-348 roadmap is historical
 - Migration `045` SQL is manually applied and schema/backfill/browser verified; approved migration-history reconciliation remains outstanding before future automated deployment
 
 ## Branch And Task Workflow
@@ -31,7 +32,7 @@ This is the durable technical handover. Repository code/migrations override pros
 7. Reconcile documentation and report living-document impact.
 8. Do not commit, push or perform live actions without exact approval.
 
-Task order and gate authority come from `docs/225-348-official-roadmap.md`. Tasks may be added, split, merged, renamed, delayed or resequenced only through explicit Luke approval and synchronized roadmap/handover/index updates. Recommendations are allowed; silent resequencing is not.
+Task order and capability-gate authority come from `docs/EVERYBATCH_ROLLING_ROADMAP.md`. Approximately ten near-term tasks are numbered; later work remains unnumbered. Every task must assess horizon impact and unresolved Review findings. The Product Architect proactively recommends evidence-led changes, but adding, splitting, merging, renaming, delaying or resequencing requires Luke approval and synchronized roadmap/handover/index updates.
 
 ## Domain And App Modes
 
@@ -161,9 +162,9 @@ Never bypass RLS, expose secrets, invent operational data, rewrite completed his
 
 Task 239 defines Formula/BOM as Products-owned structured composition, Production Method and Work Instruction as independently versioned Production knowledge, and Recipe as presentation only. Formula and Method versions connect through explicit compatibility, while historical execution eventually pins exact Formula, Method and Work Instruction versions. Formula output quantity is a composition basis; process yield/loss and process batch envelopes belong to Method Version, and planned/actual quantities remain execution evidence.
 
-Task 240 defines the input contract for Tasks 241-243: immutable source revisions, stable collection keys, field-level provenance, independent workflow/evidence/confidence states, explicit ambiguity/conflict records, role-based sign-off, blocker validation, dry-run apply gates and immutable reconciliation. Collection files are evidence, never canonical truth. Method/WI candidates remain deferred until Task 244; Formula activation remains blocked on lifecycle hardening.
+Task 240 defines the machine input contract used by Task 241 and later import capabilities: immutable source revisions, stable collection keys, field-level provenance, independent workflow/evidence/confidence states, explicit ambiguity/conflict records, role-based sign-off, blocker validation, dry-run apply gates and immutable reconciliation. Collection files are evidence, never canonical truth. Task 246 owns the human collection prototype, Task 247 the trusted runner decision and Task 248 Formula lifecycle/quantity-basis hardening. Method/WI candidates remain deferred until promoted from the Candidate Backlog.
 
-Task 241 adds Migration 056 but does not apply it. Before Task 242, obtain architect approval, verify the exact migration fingerprint, apply it once, create/review authenticated SELECT and INSERT Storage policies using `can_access_production_import_storage_path`, approve a trusted non-browser parser runner/persistence boundary, and perform rollback-only synthetic source/parser checks with zero database and Storage residue. Never grant the dormant parser RPCs to authenticated merely to make a UI work, and never use actual Clean Eats production data for the first smoke test.
+Task 241 Migration 056 is live/registered and its rollback-only database/Storage acceptance passed with zero synthetic residue. The remaining limitation is architectural: no trusted non-browser parser runner/persistence boundary is approved. Never grant the dormant parser RPCs to authenticated or service_role merely to make a UI work. Task 247 owns trusted-runner architecture; later implementation must repeat proportionate zero-residue runtime verification before real Clean Eats data is used.
 
 The current Formula schema is directionally canonical, not ready for uncontrolled canonical import activation: active versions remain mutable, approval/current semantics are incomplete, indirect cycles are not prevented, child Formula Versions are not pinned and `expected_yield_*` is ambiguous. Production Import staging must classify evidence without guessing and controlled apply must use owning-domain boundaries. No Method/WI schema or Recipe table exists.
 

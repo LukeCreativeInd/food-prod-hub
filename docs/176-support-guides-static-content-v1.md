@@ -1,5 +1,7 @@
 # Support Guides Static Content v1
 
+> **Task 242 source-continuity update:** Existing static guides remain the current published content. `SUPPORT_CONTENT_SOURCE_REGISTER.md` now identifies workflow, permission, state, blocker, troubleshooting and safe-diagnostic inputs for future guide backfill and stale-guide review; it does not publish internal task documentation directly.
+
 Task 176 expands the authenticated EveryBatch support area with static guide content.
 
 ## What Changed

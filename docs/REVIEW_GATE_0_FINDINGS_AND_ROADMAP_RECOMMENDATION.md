@@ -1,6 +1,6 @@
 # Review Gate 0 Findings And Roadmap Recommendation
 
-> **Reviewed and approved through Task 225 on 4 August 2026.** This file preserves the Task 224 recommendation package. The final approved sequence and numbering are authoritative in [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md).
+> **Reviewed and approved through Task 225 on 4 August 2026.** This file preserves the Task 224 recommendation package. Task 242 later replaced its fixed future numbering with the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md).
 
 > **Later decision:** Task 239 resolves the recommendation in item 23. Recipe is a presentation of approved Formula + compatible Production Method + linked Work Instructions, not a third canonical record. The original recommendation chronology below remains preserved.
 

@@ -29,15 +29,15 @@ External demand -> interpreted delivery/production date -> mapped and reviewed d
 
 ## Review Gate 0 - Closed
 
-Task 224, Production Replacement Evidence Collection And Legacy Logic Audit, is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Luke reviewed its findings and closed Review Gate 0 through Task 225. The official replacement sequence is Tasks 226-268 in `225-348-official-roadmap.md`.
+Task 224, Production Replacement Evidence Collection And Legacy Logic Audit, is committed at `8b8e94a87f6e94fef78c05317f87cad4bb01caea`. Luke reviewed its findings and closed Review Gate 0 through Task 225. Task 242 later superseded the fixed future sequence with `EVERYBATCH_ROLLING_ROADMAP.md`; production-replacement capabilities remain preserved in the active horizon and Candidate Backlog.
 
-Tasks 226-230 are complete. They select organisation-owned facilities, stable commerce/manufacturing authority, versioned source-to-demand evidence, the public Shopify app security boundary, and tenant-owned effective delivery/production calendars with retained assignment evidence. Architecture Gate 1 review is current; Task 231 is not approved. Demand Gate 2, Materials Gate 3 and Production Replacement Readiness/Review Gate 4 remain mandatory approval boundaries. Future sequence changes require explicit Luke approval.
+Tasks 226-230 are complete. They select organisation-owned facilities, stable commerce/manufacturing authority, versioned source-to-demand evidence, the public Shopify app security boundary, and tenant-owned effective delivery/production calendars with retained assignment evidence. Architecture Gate 1 and Demand Gate 2 subsequently passed; the remaining Materials and Production Replacement Readiness boundaries are capability-based Gates under Task 242 governance. Future material sequence changes still require explicit Luke approval.
 
 ## Conditional Legacy Production Data Transition
 
 Task 224 found a large mixed hard-coded rule surface but not an approved current formula/method/instruction source. Task 239 now decides ownership and target classification, but does not approve any source value. A controlled current-data staging/review workstream is safer than ad hoc transcription, conditional on Luke supplying approved current data. Formula Import patterns should move earlier after that decision; Mapping QA interaction patterns may be reused. Legacy Python constants must not be imported automatically.
 
-The approved sequence includes import ownership, planning, staging/parser, mapping/review and controlled apply in Tasks 238-243, after Demand Gate 2 and before method/instruction implementation. Task 241 now provides the repository-only staging/parser foundation in unapplied Migration 056; no canonical import, real Clean Eats data or retirement evidence is created by that foundation.
+Tasks 238-241 completed import ownership, planning and the live source/staging foundation. Migration 056 is database/runtime accepted, but trusted parser persistence, mapping/review and controlled apply remain future work. Task 247 owns runner architecture; later review/apply capabilities remain candidates. No canonical import, real Clean Eats data or retirement evidence is created by Task 241.
 
 ## Stage Model
 
@@ -119,4 +119,4 @@ Task 234 implements the reviewable product/variant interpretation foundation nee
 
 Tasks 236 and 237 are production accepted. Live/registered Migrations 053-055 supply the reviewed/frozen demand commitment and cumulative post-freeze change control, but still do not provide Production Plan allocation, formula explosion, requirements, area execution or parity evidence. No legacy export, aggregation, Production Report or printed-pack decommission gate is satisfied until later planning/execution/parity gates pass.
 
-Task 238 establishes Production Data Import as a dedicated tenant-owned Production-governed staging/provenance domain that may be surfaced through Tools. Task 241 implements its unapplied source/parser/staging foundation without importing current Clean Eats evidence or making legacy constants canonical. Tasks 242-243 must still deliver review and controlled reconciliation before any replacement data is applied.
+Task 238 establishes Production Data Import as a dedicated tenant-owned Production-governed staging/provenance domain that may be surfaced through Tools. Task 241 implements its live source/parser/staging foundation without importing current Clean Eats evidence or making legacy constants canonical. A trusted runner, review/override evidence and controlled reconciliation must still be approved and implemented before any replacement data is applied.

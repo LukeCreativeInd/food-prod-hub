@@ -1,5 +1,7 @@
 # Task 239 - Formula, Method, Work Instruction And Recipes Ownership Decision
 
+> **Task 242 current direction:** Task 239's ownership decision remains active. Task 248 will test whether Formula lines need mixed fixed, percentage/ratio and per-unit quantity bases, target finished weight and stronger lifecycle/version controls. This is a hypothesis for Review 1, not an approved schema change. Recipe remains presentation rather than a separate source of truth.
+
 > **Complete and committed:** `cf2a495786a6efd9cf87372496fcfc71ec766fec` (`Decide production knowledge ownership`). Task 240 now defines the approved collection, provenance, readiness and transition package without changing these ownership decisions.
 
 ## Purpose
@@ -16,7 +18,7 @@ This is architecture and documentation only. It changes no application code, UI,
 
 ## Migration State
 
-Migration 045 is live and manually applied but unregistered. Migrations 046-055 are live and registered. Task 239 did not edit those migrations, reconcile history or run a database action. Task 241 subsequently created unapplied Migration 056 without changing this ownership decision.
+Migration 045 is live but unregistered. Migrations 046-056 are live/registered except that known 045 history nuance. Task 239 did not edit those migrations, reconcile history or run a database action. Task 241 subsequently delivered live Migration 056 without changing this ownership decision.
 
 ## Task 238 Committed State
 
@@ -46,7 +48,7 @@ Current permissions are `formulas.view` and `formulas.manage`. Platform Admin, o
 
 **Assessment:** the schema is directionally canonical and remains the valid Products composition target, but approved-version immutability, approval/current semantics, cycle prevention and historical nested-version pinning require future hardening before controlled canonical import activation.
 
-The existing Formula tables are therefore valid target shapes for Task 240 collection and Task 241 staging design. They are not approval that legacy values are current, and Task 243 must not activate imported approved/current Formulas until the lifecycle blockers are resolved.
+The existing Formula tables are therefore valid target shapes for Task 240 collection and Task 241 staging. They are not approval that legacy values are current. Task 248 must resolve the lifecycle and quantity-basis architecture before any later controlled-apply capability may activate imported approved/current Formulas.
 
 ## Current Recipes Workspace
 
@@ -312,7 +314,7 @@ Products remains the canonical workspace for Internal Items, Components, Finishe
 
 ## Production Workspace
 
-Production will own Method identities/versions, Method Steps, Work Instructions, applicability and execution. Tasks 244-245 must create a Production knowledge workspace without confusing Method Steps with Production Tasks or execution records.
+Production will own Method identities/versions, Method Steps, Work Instructions, applicability and execution. Their future schema and workspace remain Candidate Backlog capabilities and must not confuse Method Steps with Production Tasks or execution records.
 
 ## Recipes-Route Decision
 
@@ -350,17 +352,17 @@ Task 240 is committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` and defines 
 
 Staging must represent target category, source lineage, revision, raw value, proposed mapping, ambiguity and review state. It must support Products Formula targets and future Production Method/WI targets without treating Recipe as a table. No raw source becomes canonical automatically.
 
-## Task 242 Implications
+## Future Mapping And Review Implications
 
 Review/validation must cover same-tenant item mapping, UOM safety, duplicate identities, direct/indirect Formula cycles, missing child Formulas, compatibility, version state, facility applicability, required approvals and ambiguous evidence. Validation cannot invent yields, batch rules or process classifications.
 
-## Task 243 Implications
+## Future Controlled-Apply Implications
 
 Controlled apply calls Products-owned mutations for Internal Items/Formulas and Production-owned mutations for Methods/Instructions. It applies an exact approved staging revision, preserves immutable reconciliation and never creates a Recipe record. Formula lifecycle hardening must precede activation of imported approved/current formulas.
 
-## Tasks 244-245 Implications
+## Future Method And Work Instruction Implications
 
-Task 244 must design Method, Method Version, Method Step, Formula compatibility, Work Instruction/version, applicability, QA reference and historical pinning contracts. Task 245 must provide a Production-owned editor and version/approval UI with clear formula links, instruction boundaries, history and supersession. Neither task may model Method Steps as Production Tasks.
+Future promoted Method/WI schema work must design Method, Method Version, Method Step, Formula compatibility, Work Instruction/version, applicability, QA reference and historical pinning contracts. Its UI must remain Production-owned with clear Formula links, instruction boundaries, history and supersession. Neither schema nor UI may model Method Steps as Production Tasks.
 
 ## Source-Of-Truth Impact
 
@@ -416,7 +418,7 @@ Task 244 must design Method, Method Version, Method Step, Formula compatibility,
 
 ## Deferred Implementation
 
-Tasks 240-243 own collection, staging, review and controlled apply. Tasks 244-245 own Method/WI schema and UI. Formula lifecycle hardening, recursive expansion, operational version pinning, Recipe presentation and any permission/RLS changes require separately approved implementation tasks.
+Tasks 240-241 own the machine collection contract and live staging foundation. Task 246 owns the human collection prototype, Task 247 the trusted runner decision and Task 248 Formula quantity/lifecycle hardening. Mapping/review/apply, Method/WI schema/UI, recursive expansion, operational version pinning, Recipe presentation and permission/RLS changes require separately promoted and approved capabilities.
 
 ## Behaviour Preserved
 
@@ -432,4 +434,4 @@ The target taxonomy and ownership contract supported Task 240's approved collect
 
 ## Next Task
 
-Task 240 - Approved Production Data Collection and Import Plan - is complete and committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037`. Task 241 backfills that hash and adds only source/parser/staging evidence; Migration 056 remains unapplied, official parser persistence remains dormant pending a trusted runner, and Task 242 is blocked.
+Task 240 - Approved Production Data Collection and Import Plan - is complete and committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037`. Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb`; Migration 056 is live/database-runtime accepted and official parser persistence remains dormant pending Task 247's trusted-runner architecture. Task 248 owns Formula quantity/lifecycle hardening.

@@ -1,5 +1,7 @@
 # Formula, Method, Work Instruction And Recipe Ownership Matrix
 
+> **Task 242 current direction:** Ownership remains unchanged. Task 248 will assess Formula quantity bases and lifecycle hardening without creating a second ratio source of truth. Task 245 will establish consistent cross-module/history presentation where real version/event evidence exists.
+
 > Task 239 is committed at `cf2a495786a6efd9cf87372496fcfc71ec766fec`. Task 240 uses this matrix as the binding collection classification: workbook rows remain transition evidence and never create a parallel Recipe source of truth.
 
 ## Status
@@ -45,7 +47,7 @@ Canonical Task 239 architecture decision. It classifies ownership and future imp
 | Production Batch | One manufacturing run | Production | Production Batch | Operational lifecycle; pins exact knowledge versions later | Not canonical knowledge import | Implemented foundation |
 | Production Task | Assigned executable work | Production | Tasks / Facility view | Operational lifecycle derived from plan/method | Not canonical knowledge import | Foundation only |
 | Legacy recipe/report row | Mixed behavioral evidence from old tools | Production Data Import staging | Tools / Production Data Import review | Immutable provenance; never canonical without review | Classified target or ambiguous blocker | Evidence only |
-| Import source/parser/staging | Source and interpretation evidence | Production Data Import governed by Production | Future Tools surface | Immutable/revisioned provenance | Staging only | Repository foundation in unapplied Migration 056; no route/apply |
+| Import source/parser/staging | Source and interpretation evidence | Production Data Import governed by Production | Future Tools surface | Immutable/revisioned provenance | Staging only | Live Migration 056 foundation; trusted parser persistence and route/apply remain absent |
 
 ## Formula And Method Relationship
 
@@ -61,31 +63,31 @@ Formula and Method are independently versioned and connected by explicit compati
 | Formula Line | Exact input quantity/UOM | Products | Formula builders | With Formula Version | Canonical | Master | Formula line | Snapshot exact line/version | Existing | Same-tenant input item |
 | Formula nominal output | Composition basis for lines | Products | Formula builders | With Formula Version | Canonical | Master | Formula header | Pin with Formula Version | Existing | Not scheduler batch size |
 | Composition quantity | Input amount for nominal output | Products | Formula builders | With Formula Version | Canonical | Master | Formula line | Pin/copy into evidence | Existing | Exact UOM required |
-| Component nesting | Parent line references Component Internal Item | Products | Formula builders | Resolved per approved versions | Canonical relationship | Master | Formula line | Pin complete resolved chain later | Tasks 242, 246-247 | Never copy child raw lines into parent |
-| Packaging BOM | Packaging forming product unit | Products | Formula builders | With Formula Version | Canonical | Master | Formula line | Pin with Formula | Existing / Task 243 | Dispatch packing stays Logistics |
-| Recipe presentation | Readable aggregate of approved knowledge | Presentation only | `/recipes` later | No independent version | Derived | Presentation | None | Show pinned source versions | Task 245 or later route task | No Recipe table |
-| Production Method | Stable process-definition identity | Production | Future Production knowledge | Identity plus versions | Canonical | Master | Production Method | Retain identity | Task 244 |
-| Method Version | Exact process/applicability revision | Production | Future Production knowledge | Yes | Canonical | Master/config | Method version | Plans/batches pin exact ID | Task 244 | Explicit Formula compatibility |
-| Method Step | Ordered action and structured parameters | Production | Method editor | With Method Version | Canonical | Master/config | Method step | Pin through Method Version | Task 244 | Not a Production Task |
-| Preferred batch size | Preferred process scale | Production | Method/config | With Method Version | Canonical | Config | Method parameter | Pin Method Version | Task 244 | Separate min/max envelope |
-| Expected process yield | Expected output after process loss | Production | Method/config | With Method Version | Canonical | Config | Method parameter | Pin Method Version | Task 244 | Existing Formula field is transitional |
-| Process loss | Expected shrink/trim/retention effect | Production | Method/config | With Method Version | Canonical expected value | Config | Method parameter | Pin Method Version | Task 244 | Actual variance is execution evidence |
-| Duration | Expected process or step duration | Production | Method editor | With Method Version | Canonical expected value | Config | Method/step parameter | Pin Method Version | Task 244 | Actual duration is execution evidence |
-| Temperature | Required/target process temperature | Production | Method editor | With Method Version | Canonical expected value | Config | Method/step parameter | Pin Method Version | Task 244 | QA result remains QA |
-| Production Area | Area identity/capability | Production | Production Areas | Independent lifecycle | Canonical | Config | Existing/future area mapping | Retain assigned and required IDs | Existing foundation / Tasks 244, 252 | Method requirement vs actual assignment |
-| Equipment requirement | Required class/capability | Production | Method/config | With Method Version | Canonical requirement | Config | Method-step relation | Pin Method Version; record actual later | Task 244 | Equipment is not Formula input |
-| Work Instruction | Stable controlled-guidance identity | Production | Future instruction library | Identity plus versions | Canonical | Master | Work Instruction | Retain identity | Task 244 |
-| Work Instruction Version | Exact operator guidance/visuals | Production | Instruction editor / operator view | Yes | Canonical | Master | WI version | Method Step and execution pin exact ID | Tasks 244-245 | New version never rewrites history |
-| Attachment/image | Private guidance asset linked to WI version | Production | Instruction editor/operator view | Version/link controlled | Canonical supporting evidence | Master attachment | WI attachment | Retain checksum/path/version link | Tasks 244-245 | Private tenant-scoped storage |
-| QA checkpoint relationship | Method Step reference to approved QA definition | QA owns definition; Production owns link | Method and QA | Versioned reference | Canonical relationship | Config | QA link | Pin exact QA definition/version | Tasks 244 and QA roadmap | QA owns results/disposition |
+| Component nesting | Parent line references Component Internal Item | Products | Formula builders | Resolved per approved versions | Canonical relationship | Master | Formula line | Pin complete resolved chain later | Task 248 plus later Formula capabilities | Never copy child raw lines into parent |
+| Packaging BOM | Packaging forming product unit | Products | Formula builders | With Formula Version | Canonical | Master | Formula line | Pin with Formula | Existing plus Task 248 review | Dispatch packing stays Logistics |
+| Recipe presentation | Readable aggregate of approved knowledge | Presentation only | `/recipes` later | No independent version | Derived | Presentation | None | Show pinned source versions | Task 245 pattern or later promoted route capability | No Recipe table |
+| Production Method | Stable process-definition identity | Production | Future Production knowledge | Identity plus versions | Canonical | Master | Production Method | Retain identity | Candidate Method schema/workspace capability |
+| Method Version | Exact process/applicability revision | Production | Future Production knowledge | Yes | Canonical | Master/config | Method version | Plans/batches pin exact ID | Candidate Method schema/workspace capability | Explicit Formula compatibility |
+| Method Step | Ordered action and structured parameters | Production | Method editor | With Method Version | Canonical | Master/config | Method step | Pin through Method Version | Candidate Method schema/workspace capability | Not a Production Task |
+| Preferred batch size | Preferred process scale | Production | Method/config | With Method Version | Canonical | Config | Method parameter | Pin Method Version | Candidate Method schema/workspace capability | Separate min/max envelope |
+| Expected process yield | Expected output after process loss | Production | Method/config | With Method Version | Canonical | Config | Method parameter | Pin Method Version | Task 248 classification plus Candidate Method capability | Existing Formula field is transitional |
+| Process loss | Expected shrink/trim/retention effect | Production | Method/config | With Method Version | Canonical expected value | Config | Method parameter | Pin Method Version | Candidate Method schema/workspace capability | Actual variance is execution evidence |
+| Duration | Expected process or step duration | Production | Method editor | With Method Version | Canonical expected value | Config | Method/step parameter | Pin Method Version | Candidate Method schema/workspace capability | Actual duration is execution evidence |
+| Temperature | Required/target process temperature | Production | Method editor | With Method Version | Canonical expected value | Config | Method/step parameter | Pin Method Version | Candidate Method schema/workspace capability | QA result remains QA |
+| Production Area | Area identity/capability | Production | Production Areas | Independent lifecycle | Canonical | Config | Existing/future area mapping | Retain assigned and required IDs | Existing foundation plus Task 250 | Method requirement vs actual assignment |
+| Equipment requirement | Required class/capability | Production | Method/config | With Method Version | Canonical requirement | Config | Method-step relation | Pin Method Version; record actual later | Candidate Method/equipment capabilities | Equipment is not Formula input |
+| Work Instruction | Stable controlled-guidance identity | Production | Future instruction library | Identity plus versions | Canonical | Master | Work Instruction | Retain identity | Candidate Work Instruction capability |
+| Work Instruction Version | Exact operator guidance/visuals | Production | Instruction editor / operator view | Yes | Canonical | Master | WI version | Method Step and execution pin exact ID | Candidate Work Instruction capability | New version never rewrites history |
+| Attachment/image | Private guidance asset linked to WI version | Production | Instruction editor/operator view | Version/link controlled | Canonical supporting evidence | Master attachment | WI attachment | Retain checksum/path/version link | Candidate Work Instruction capability | Private tenant-scoped storage |
+| QA checkpoint relationship | Method Step reference to approved QA definition | QA owns definition; Production owns link | Method and QA | Versioned reference | Canonical relationship | Config | QA link | Pin exact QA definition/version | Candidate Method/QA linkage capability | QA owns results/disposition |
 | Planned production quantity | Intended output | Production | Demand/Plan/Batch | Operational lifecycle | Canonical execution intent | Execution | Not master import | Preserve plan/batch evidence | Existing/later allocation | Not Formula or Method truth |
 | Actual batch quantity | Quantity actually produced | Production | Batch execution | Protected occurrence | Canonical execution evidence | Execution | Execution-only evidence | Immutable/protected history | Later execution tasks | Not reusable definition |
 | Actual input consumption | Quantity actually consumed | Production / Inventory | Batch/Inventory | Append-oriented occurrence | Canonical transaction evidence | Execution | Execution-only evidence | Preserve lot/movement lineage | Later execution tasks | No Task 239 write |
 | Actual output quantity | Produced quantity and measured yield | Production / Inventory | Batch/output posting | Protected occurrence | Canonical transaction evidence | Execution | Execution-only evidence | Preserve batch/lot lineage | Later execution tasks | Compared with expected yield |
-| Production report/presentation | Read model of plans, knowledge and actuals | Reports / Production presentation | Production/Reports | Reproducible snapshot where needed | Derived | Presentation | None | Retain source version IDs | Tasks 260, 268 | Never source of Formula/Method truth |
-| Legacy rule evidence | Old constant/calculation/instruction | Production Data Import staging | Tools / import review | Immutable source/revisions | Evidence only | Staging | Classified or ambiguous | Retain source/checksum/row/parser | Tasks 240-243 | Never auto-approved |
-| Import staging target | Reviewed proposed target-category record | Production Data Import | Tools / Production Import | Revisioned | Evidence only until apply | Staging | Staging record | Retain complete provenance/review | Tasks 241-242 | May target Products/Production/QA/config |
-| Import apply target | Canonical record selected after approval | Owning Products/Production/QA domain | Owning workspace | Owning lifecycle | Canonical after controlled apply | Master/config | Owning mutation boundary | Link exact import outcome/source | Task 243 | Recipe never an apply target |
+| Production report/presentation | Read model of plans, knowledge and actuals | Reports / Production presentation | Production/Reports | Reproducible snapshot where needed | Derived | Presentation | None | Retain source version IDs | Candidate reporting capabilities | Never source of Formula/Method truth |
+| Legacy rule evidence | Old constant/calculation/instruction | Production Data Import staging | Tools / import review | Immutable source/revisions | Evidence only | Staging | Classified or ambiguous | Retain source/checksum/row/parser | Tasks 240-241 plus later review capability | Never auto-approved |
+| Import staging target | Reviewed proposed target-category record | Production Data Import | Tools / Production Import | Revisioned | Evidence only until apply | Staging | Staging record | Retain complete provenance/review | Task 241 foundation plus later review capability | May target Products/Production/QA/config |
+| Import apply target | Canonical record selected after approval | Owning Products/Production/QA domain | Owning workspace | Owning lifecycle | Canonical after controlled apply | Master/config | Owning mutation boundary | Link exact import outcome/source | Candidate controlled-apply capability | Recipe never an apply target |
 
 ## Source-Of-Truth Summary
 
@@ -120,6 +122,6 @@ No permission changes occur in Task 239.
 
 - Task 240 must collect Formula, Method, Work Instruction, planning-rule and ambiguous evidence separately.
 - Task 241 staging must preserve target category, provenance and ambiguity without guessing.
-- Task 242 validation must cover item mapping, units, duplicates, cycles, version compatibility and required approvals.
-- Task 243 controlled apply must call Products and Production mutation boundaries and must not create a Recipe record.
-- Tasks 244-245 must define and implement Production Method and Work Instruction schema/UI without conflating definitions with Production Tasks.
+- Future Production Import validation must cover item mapping, units, duplicates, cycles, version compatibility and required approvals; it remains Candidate Backlog work until promoted.
+- Any future controlled apply must call Products and Production mutation boundaries and must not create a Recipe record.
+- Future promoted Production Method and Work Instruction schema/UI capabilities must not conflate definitions with Production Tasks.

@@ -1,5 +1,7 @@
 # Production Knowledge Concept Model
 
+> **Task 242 current direction:** Formula remains the preferred composition truth, but Task 248 and Review 1 must validate mixed quantity bases such as fixed quantity, percentage/ratio of target output and per-unit quantity. Production Method remains separate execution knowledge. Original evidence is immutable; later corrections and published versions must remain attributable and historically reconstructable.
+
 ## Status
 
 Canonical architecture decision from Task 239. This document defines ownership and relationships only. Production Method and Work Instruction schemas and workspaces do not exist yet.
@@ -166,4 +168,4 @@ No source value becomes canonical merely because it existed in a legacy report. 
 
 ## Implementation State
 
-Task 239 changes no schema or runtime behavior. Task 240 adds the approved collection/provenance/readiness specification only. Task 241 adds unapplied source/parser/staging evidence for these concepts without making them canonical. No Recipe table is approved. No Method or Work Instruction schema exists. No Production data is imported.
+Task 239 changes no schema or runtime behavior. Task 240 adds the approved machine collection/provenance/readiness specification only. Task 241's source/parser/staging foundation is live/database-runtime accepted without making staged concepts canonical. No Recipe table is approved. No Method or Work Instruction schema exists. No Production data is imported.

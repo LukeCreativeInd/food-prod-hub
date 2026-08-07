@@ -6,7 +6,11 @@ Task 241 adds the tenant-safe evidence, parser-run and staging foundation needed
 
 ## Scope
 
-The implementation consists of Migration 056, a code-owned deterministic parser registry, one bounded CSV parser for explicitly selected Task 240 datasets, and focused static/parser tests. Official parser-result persistence is deliberately dormant because the repository has no approved trusted runner other than service-role worker patterns that are not approved for tenant import runtime. It adds no tenant route or UI, packages, real Clean Eats data, legacy constants, Task 242 review or Task 243 apply.
+The implementation consists of Migration 056, a code-owned deterministic parser registry, one bounded CSV parser for explicitly selected Task 240 datasets, and focused static/parser tests. Official parser-result persistence is deliberately dormant because the repository has no approved trusted runner other than service-role worker patterns that are not approved for tenant import runtime. It adds no tenant route or UI, packages, real Clean Eats data, legacy constants, semantic review or canonical apply.
+
+## Committed And Live State
+
+Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb` with title `Build production import staging foundation`. Migration 056 is live and registered exactly once as `20260807152024 production_data_staging_parser_foundation`. Database, RLS, ACL, backing-object upload/read and zero-residue runtime acceptance passed. Exact artifact: 2,349 lines, 81,260 bytes and SHA-256 `3192bcf881432d7aeae82b9a3cc2838b642e6be8ef61e52cd1595eb737a6b7e2`.
 
 ## Task 240 Committed State
 
@@ -58,7 +62,7 @@ The exact object path is:
 
 The path contains exactly four segments and authorisation is resolved against same-tenant source metadata. User filenames do not authorise access and are not part of the object path.
 
-Direct `storage.objects` policy DDL is intentionally omitted because this project has previously encountered SQL Editor ownership restrictions. After architect approval and migration application, existing administrators must create/review these policies in Supabase Storage:
+Direct `storage.objects` policy DDL was intentionally omitted because this project has previously encountered SQL Editor ownership restrictions. Authenticated tenant-safe SELECT and INSERT policies were subsequently created/reviewed in Supabase Storage using these expressions:
 
 ```sql
 -- SELECT, role authenticated
@@ -116,7 +120,7 @@ Each record stores source sheet/row, collection key, controlled target concept, 
 
 ## Staged Field/JSON Decision
 
-Task 241 uses both bounded record JSON and field rows. Record JSON gives deterministic whole-row comparison; `production_import_staged_fields` gives Task 242 cell-level provenance, field-specific ambiguity and review targeting. This is intentionally bounded rather than unrestricted EAV: at most 128 fields per record, controlled field names, bounded values and immutable parser output.
+Task 241 uses both bounded record JSON and field rows. Record JSON gives deterministic whole-row comparison; `production_import_staged_fields` gives future review workflows cell-level provenance, field-specific ambiguity and review targeting. This is intentionally bounded rather than unrestricted EAV: at most 128 fields per record, controlled field names, bounded values and immutable parser output.
 
 ## Target Concept Taxonomy
 
@@ -132,11 +136,11 @@ Source and staged evidence preserve source type/classification, filename/referen
 
 ## Raw Vs Normalized Evidence
 
-Raw CSV cells are retained exactly. Normalization trims surrounding whitespace only and converts empty normalized suggestions to `null`. Formula-like text is preserved as text and produces a warning; it is never executed. Numeric fields are structurally checked as plain decimal text but remain strings for Task 242 semantic/UOM review.
+Raw CSV cells are retained exactly. Normalization trims surrounding whitespace only and converts empty normalized suggestions to `null`. Formula-like text is preserved as text and produces a warning; it is never executed. Numeric fields are structurally checked as plain decimal text but remain strings for future semantic/UOM review.
 
 ## Staging Immutability
 
-Parser-produced records, fields, issues and events reject UPDATE and DELETE. Source identity/path/checksum cannot be changed after registration. Completed parser evidence cannot change. Corrections require new source or parser history, and future human decisions must live in separate Task 242 review/mapping evidence.
+Parser-produced records, fields, issues and events reject UPDATE and DELETE. Source identity/path/checksum cannot be changed after registration. Completed parser evidence cannot change. Corrections require new source or parser history, and future human decisions must live in separate reviewed override/mapping evidence.
 
 ## Issues And Diagnostics
 
@@ -148,7 +152,7 @@ The parser never guesses an ambiguous target. For example, a Yield & Batch Rules
 
 ## Conflict Support
 
-Separate source revisions and parser runs can retain disagreeing evidence. The schema does not impose one staged truth per collection key across sources. Within one parser run, duplicate dataset identities are flagged while both rows remain available for Task 242 review.
+Separate source revisions and parser runs can retain disagreeing evidence. The schema does not impose one staged truth per collection key across sources. Within one parser run, duplicate dataset identities are flagged while both rows remain available for future review.
 
 ## Reprocessing
 
@@ -191,7 +195,7 @@ The following parser functions are internal and have no execute grant to PUBLIC,
 
 ## UI And Route Foundation
 
-No route or UI is added. Until Migration 056 and the manual Storage policies are approved and applied, a tenant upload/parser page would be a misleading dead workflow. Task 242 may add the reviewed workspace after runtime boundaries exist.
+No route or UI is added. Migration 056 and its manual Storage policies are live, but a tenant upload/parser page would still be misleading until Task 247 approves a trusted runner and later implementation creates the persistence boundary.
 
 ## Tools Navigation
 
@@ -215,23 +219,19 @@ Collection files can contain proprietary Formulas, Methods, yields, instructions
 
 ## Formula Hardening Boundary
 
-Task 241 stages Formula candidates only. Task 243 remains blocked from activating imported Formulas until approval/current immutability, approval semantics, indirect cycles, nested-version pinning and ambiguous expected-yield semantics are hardened.
+Task 241 stages Formula candidates only. Task 248 owns Formula quantity-basis and lifecycle hardening architecture. No imported Formula may be activated until approval/current immutability, approval semantics, indirect cycles, nested-version pinning and expected-yield semantics are approved and implemented.
 
 ## Method/WI Boundary
 
-No Method, Method Step or Work Instruction canonical table is created. Task 244 owns that schema. Task 243 cannot apply those staged concepts before Task 244 exists.
+No Method, Method Step or Work Instruction canonical table is created. Their schema/UI remains unnumbered Candidate Backlog work until promoted into an approved horizon. No staged Method/WI concept can be applied before its canonical lifecycle exists.
 
-## Task 242 Handoff
+## Trusted Runner Handoff
 
-Task 242 remains blocked until Migration 056 receives architect approval, is applied, manual Storage policies are verified, rollback-only runtime checks pass and a trusted parser runner/persistence boundary is separately approved. Task 242 owns mapping suggestions, human corrections, semantic validation and review evidence; it must not rewrite parser evidence.
-
-## Task 243 Handoff
-
-Task 243 owns controlled canonical apply and reconciliation. It must call target-domain mutation boundaries, preserve exact approved staging lineage and respect Formula/Method/WI blockers. No Task 243 behavior exists here.
+Task 247 owns trusted Production Import runner and flexible intake architecture. It must preserve actual-byte verification, the dormant RPC boundary, tenant isolation, idempotency and no-service-role tenant-runtime rule. Future mapping, corrections, review and controlled apply must remain separate evidence and must never rewrite parser/source history.
 
 ## Migration
 
-`supabase/migrations/056_production_data_staging_parser_foundation.sql` is additive and intentionally un-applied pending architect review. Migration 057 does not exist. Migration 045 history is untouched and Migrations 046-055 are not modified.
+`supabase/migrations/056_production_data_staging_parser_foundation.sql` is live and registered once as `20260807152024 production_data_staging_parser_foundation`. Migration 057 does not exist. Migration 045 remains live but unregistered; the separate pre-existing `20260807081025 shopify_domain_regex_fix` history row is not changed.
 
 ## Tests
 
@@ -242,7 +242,7 @@ Task 243 owns controlled canonical apply and reconciliation. It must call target
 - No XLSX/PDF/image parser.
 - No tenant upload or parser execution UI.
 - No approved trusted runner or executable parser persistence boundary.
-- Storage policies require manual review/creation after migration approval.
+- Storage policies are manually managed and were verified during Task 241 acceptance.
 - No semantic mapping, UOM compatibility, cycle validation or review workflow.
 - No canonical apply or reconciliation.
 - No physical same-tenant binary deduplication.
@@ -254,8 +254,8 @@ Supplier Invoice Intake, Products, Formulas, Costings, Production Demand, Plans,
 
 ## Checks
 
-Required lint, TypeScript, production build, Shopify suite, focused Task 241 tests and `git diff --check` must pass before commit. Database and browser runtime verification remain post-apply work.
+Lint, TypeScript, production build, Shopify suite, focused Task 241 tests and `git diff --check` passed before commit. Database, Storage and rollback-only runtime acceptance subsequently passed with zero synthetic residue. No Task 241 UI exists, so no UI browser acceptance was required.
 
 ## Next Task
 
-Task 242 is next only after architect approval, live application of Migration 056, manual Storage policy verification, zero-residue runtime acceptance and approval of a trusted parser runner/persistence boundary. Suggested Task 241 commit title: `Build production import staging foundation`.
+Task 242 is the approved governance rebaseline. Task 247 owns the still-unresolved trusted runner architecture; later Production Import mapping/review/apply capabilities remain unnumbered candidates until promoted. Task 241's committed title is `Build production import staging foundation`.

@@ -2,9 +2,9 @@
 
 > **Task 240 QA boundary:** Production collection records only Method-Step QA requirements and references. QA remains owner of definitions and results; QA-linked evidence requires Production and QA review and does not create outcomes or change QA schema.
 
-> **Task 213 planning snapshot.** The placeholder descriptions and proposed follow-on numbering below describe the repository when this plan was written. Tasks 214-217 subsequently delivered QA navigation, schema, Receiving Checks and lot hold/release foundations. Its old follow-on numbering is historical; current task order is maintained in [Tasks 225-348](./225-348-official-roadmap.md).
+> **Task 213 planning snapshot.** The placeholder descriptions and proposed follow-on numbering below describe the repository when this plan was written. Tasks 214-217 subsequently delivered QA navigation, schema, Receiving Checks and lot hold/release foundations. Its old follow-on numbering is historical; current task order is maintained in the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md).
 
-> **Task 226 facility decision:** QA templates remain organisation-wide and versioned. QA execution derives facility from a stable receipt, lot/location, production plan/batch or area source; independent manual/daily checks need explicit facility context later. Results/reviews derive through the check, and holds continue to reference Inventory quantities rather than duplicate them. No QA schema changed in Task 226; the official order is in [Tasks 225-348](./225-348-official-roadmap.md).
+> **Task 226 facility decision:** QA templates remain organisation-wide and versioned. QA execution derives facility from a stable receipt, lot/location, production plan/batch or area source; independent manual/daily checks need explicit facility context later. Results/reviews derive through the check, and holds continue to reference Inventory quantities rather than duplicate them. No QA schema changed in Task 226; current order is in the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md).
 
 Task 213 is a planning-only task for the EveryBatch QA module.
 

@@ -14,7 +14,8 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Tenant 1 and proving ground: **Clean Eats Hub**
 - Repository: `/Users/cealukemichalowsky/Development/food-prod-hub`
 - Required working branch: `main`
-- Latest production-accepted task: **Task 237 - Production Demand Review, Freeze and Post-Freeze Delta Workflow v1**
+- Latest committed implementation task: **Task 241 - Production Data Staging and Parser Foundation**
+- Latest production-browser-accepted task: **Task 237 - Production Demand Review, Freeze and Post-Freeze Delta Workflow v1**
 - Task 223A exact commit hash: `a8c2761`
 - Task 223B exact commit hash: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 exact commit hash: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
@@ -35,20 +36,31 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Task 238 exact commit hash: `e23024761f1197997b100a4e26cd401c0f19330a` (`Decide production import ownership`)
 - Task 239 exact commit hash: `cf2a495786a6efd9cf87372496fcfc71ec766fec` (`Decide production knowledge ownership`)
 - Task 240 exact commit hash: `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` (`Plan approved production data collection`)
-- Official roadmap: `docs/225-348-official-roadmap.md`
+- Task 241 exact commit hash: `8dfc644657c92789dea9831e3f9e51181388cfbb` (`Build production import staging foundation`)
+- Current roadmap authority: `docs/EVERYBATCH_ROLLING_ROADMAP.md`
+- Unnumbered future capability: `docs/EVERYBATCH_CANDIDATE_BACKLOG.md`
+- Review authority: `docs/REVIEW_REGISTER.md`
+- Support content source authority: `docs/SUPPORT_CONTENT_SOURCE_REGISTER.md`
+- Platform readiness/diagnostic source authority: `docs/PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md`
 - Review Gate 0: **closed through Luke's Task 225 approval**
 - Architecture Gate 1: **approved through Luke's Task 231 prompt**
-- Current task: **241 - Production Data Staging and Parser Foundation**; corrected implementation under architect review with Migration 056 unapplied and parser persistence dormant
-- Next task after Migration 056 approval/application, Storage policy/runtime acceptance and trusted parser-runner approval: **242 - Production Data Mapping, Validation and Review UI**
+- Current task: **242 - Rolling Roadmap Governance, Review Framework and Task 241 Truth Reconciliation**
+- Current concrete horizon: **Tasks 242-250**; only this near-term horizon has authoritative task numbers
+- Next approved task: **243 - EveryBatch Information Architecture and UX System Deep Plan**
+- Review 1: **First Major Staff Review**, scheduled Wednesday 12 August 2026; time TBD
+- Product Architect expectation: proactively raise architecture, security, sequencing, ownership, UX, permission and operational conflicts; material roadmap changes still require Luke approval
+- Former fixed future sequence 242-348: **superseded**; `docs/225-348-official-roadmap.md` is historical planning evidence
 - Luke manually applied migration `045_facility_schema_foundation.sql`; schema/backfill and browser smoke tests passed, but SQL Editor did not register version 045 in migration history
 - Migration `046_commerce_connection_order_intake_foundation.sql` is live and registered as `20260804115803 commerce_connection_order_intake_foundation`; its eleven Commerce tables were empty at Task 233 preflight
 - Migration `047_shopify_connector_foundation.sql` is live/registered as `20260804142108 shopify_connector_foundation`; Migration `048_shopify_domain_regex_fix.sql` is live/registered as `20260804145903 shopify_domain_regex_fix`. Shopify and Commerce operational tables remain empty; no Shopify registration, installation, credential, connection, order, mapping or Production Demand data exists
 - Migration `049_commerce_catalogue_mapping_foundation.sql` is live/registered as `20260805001610 commerce_catalogue_mapping_foundation`; Migration `050_delivery_calendar_production_date_foundation.sql` is live/registered as `20260805035435 delivery_calendar_production_date_foundation`
+- Migration `056_production_data_staging_parser_foundation.sql` is live/registered exactly once as `20260807152024 production_data_staging_parser_foundation`; database/runtime acceptance passed with zero synthetic residue. Exact artifact: 2,349 lines, 81,260 bytes, SHA-256 `3192bcf881432d7aeae82b9a3cc2838b642e6be8ef61e52cd1595eb737a6b7e2`
+- Migration 057 does not exist. Migration 045 remains live but unregistered. The separate pre-existing `20260807081025 shopify_domain_regex_fix` history row remains untouched
 - Commerce replacement-connection lineage is constrained to a revoked/archived predecessor in the same manufacturing tenant; cross-tenant connection transfer is not implemented
 
 ## Database And Security
 
-- Repository migrations `001` through `044` and `046` through `048` are documented as applied. Migration `045` SQL is live but absent from `supabase_migrations.schema_migrations`. History reconciliation must use an approved migration-management workflow before future automated deployment.
+- Repository migrations through `056` are documented according to their individual state. Migration `056` is live/registered; Migration `045` SQL is live but absent from `supabase_migrations.schema_migrations`. Do not repair or reinterpret migration history without an approved migration-management workflow.
 - `organisation_id` remains the tenant boundary. Migration `045` adds organisation-owned facilities, a nullable organisation default, and validated direct facility identity on the six approved operational roots. Facility UI and multi-facility workflows are not implemented.
 - Current tenant data access uses Supabase Auth, active membership, permission helpers and RLS.
 - Intentional `SECURITY DEFINER` workflow boundaries exist for Goods Inwards posting, narrow QA hold availability/actions and Logistics dispatch/manifest actions. Reviewed controls include fixed `search_path`, no dynamic SQL, revoked public/anon execution and authenticated execution only where intended.
@@ -75,7 +87,8 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 - Task 235 is production accepted and provides the live tenant-owned delivery configuration foundation under `/shopify`; `/integrations` remains the compact provider catalogue. Task 236 consumes only reviewed mappings and the latest resolved/overridden delivery interpretation. It uses canonical `current_quantity` once, blocks ambiguous refund semantics, and never infers from title/SKU.
 - Migrations `051`-`055` are live/registered and immutable. Task 237 Migration 053 introduced the review/freeze/delta foundation. Migration 054 (`20260806164940 production_demand_source_lock_order_fix`) repaired the freeze/approval DISTINCT lock ordering after PostgreSQL `42P10`; Migration 055 (`20260806174730 production_demand_frozen_owner_uuid_fix`) then repaired PostgreSQL `42804` by typing frozen-base `first_approved_delta_version_id` as `null::uuid`. Full rollback-only lifecycle, real independent-session concurrency and production browser verification passed, including exact-UOM separation, cumulative replacement approval, source ownership and shared evidence-barrier ordering. No cross-UOM header total, ownership transfer, Shopify/Production Plan/Inventory mutation or operational residue was introduced. Production Plan allocation remains deferred to the later approved roadmap; Stock On Hand remains separate.
 - Task 238 selects a dedicated tenant-owned Production Data Import domain governed by Production and surfaced through Tools. Tools is a permanent mixed utility module, not the owner of canonical Products or Production records.
-- Task 239 selects one Products-owned Formula/BOM composition truth, independently versioned Production-owned Methods and Work Instructions, and a presentation-only Recipe concept. Task 240 is committed and defines one controlled multi-tab Clean Eats collection package, stable transition keys, mandatory provenance, explicit ambiguity/conflict review, staff sign-off, readiness gates and eight collection waves. Task 241 adds an unapplied tenant-owned evidence schema, aggregate multi-source status and CSV-only deterministic parser. Upload is explicitly unverified until actual bytes cross a trusted parser boundary; parser persistence has no authenticated or service-role grant. No canonical production data, Method/WI schema, mapping/review/apply UI or real Clean Eats source is included.
+- Task 239 selects one Products-owned Formula/BOM composition truth, independently versioned Production-owned Methods and Work Instructions, and a presentation-only Recipe concept. Task 240's field taxonomy remains the machine collection contract, while Task 246 will prototype a more flexible human-facing collection pack instead of treating one 14-tab workbook as final. Task 241's live foundation provides tenant-owned immutable evidence, aggregate multi-source status and CSV-only deterministic parser code. Upload remains `uploaded_unverified`; parser persistence has no PUBLIC, anon, authenticated or service-role grant until Task 247 resolves a trusted runner. No canonical production data, Method/WI schema, mapping/review/apply UI or real Clean Eats source is included.
+- Task 242 introduces rolling-horizon and multi-surface governance. Every future numbered task and relevant lettered subtask explicitly assesses Tenant App, Platform Admin, Support / Help Centre and Public / Marketing impact; `No impact` is valid and silence is not. Reviews are separately numbered stakeholder checkpoints; Gates remain capability/readiness boundaries; urgent lettered subtasks require Luke approval. Review 1 is expected to challenge Formula quantity bases, Product/Method presentation, Production Areas, warehouse/QA execution, permissions, collection design, IA/UX and Support self-service expectations.
 - Task 230 selects exact-postcode tenant zones, explicit region metadata, customer delivery services separate from Logistics carriers, immutable effective-dated calendars, connection-specific Zapiet parser profiles and delivery-date-driven production/facility assignment evidence. Postcode remains optional/restricted and excluded from Shopify intake unless necessity and legal/privacy approval are established.
 - Current Clean Eats Monday/Tuesday/Thursday patterns are reviewable tenant configuration only. Exact postcodes, cutoffs, services, couriers, holidays and Zapiet keys still require staff evidence before activation.
 - Facility architecture is authoritative in `226-facility-site-architecture-decision.md` and implemented at schema-foundation level by migration `045`: facilities are organisation-owned physical scopes; storefronts/brands/domains are not facilities; master data stays organisation-wide; direct facility fields remain limited to the approved roots.
@@ -87,20 +100,20 @@ See `CURRENT_PLATFORM_CAPABILITY_MATRIX.md` for route-level detail and
 ## Required Reading Order
 
 1. `CHAT_HANDOVER_CURRENT.md`
-2. `225-348-official-roadmap.md`
-3. `CODEX_TASK_STANDARDS.md`
-4. `EVERYBATCH_MASTER_HANDBOOK.md`
-5. `EVERYBATCH_ENGINEERING_OPERATIONS.md`
-6. `CURRENT_PLATFORM_CAPABILITY_MATRIX.md`
-7. `MODULE_SOURCE_OF_TRUTH_MATRIX.md`
-8. `DECISION_LOG.md`
-9. `TASK_INDEX.md`
-10. `226-facility-site-architecture-decision.md`, `FACILITY_SCOPE_AND_OWNERSHIP_MATRIX.md` and `FACILITY_FOUNDATION_MIGRATION_STRATEGY.md` for physical-scope decisions
-11. `227-commerce-connections-contract-manufacturing-architecture.md`, `COMMERCE_CONNECTION_AND_MANUFACTURING_OWNERSHIP_MATRIX.md` and `COMMERCE_CONNECTION_LIFECYCLE_AND_AUTHORISATION_MODEL.md` for commerce ownership and consent
-12. `228-external-order-intake-production-demand-architecture.md`, `ORDER_INTAKE_AND_DEMAND_OWNERSHIP_MATRIX.md`, `PRODUCTION_DEMAND_LIFECYCLE_AND_FREEZE_MODEL.md` and `ORDER_TO_PRODUCTION_TRACEABILITY_MODEL.md` for source-to-demand architecture
-13. `229-shopify-app-architecture-security-plan.md`, `SHOPIFY_OFFICIAL_SOURCE_REGISTER.md`, `SHOPIFY_CONNECTOR_THREAT_MODEL.md`, `SHOPIFY_CONNECTION_LIFECYCLE_AND_READINESS_MODEL.md` and `SHOPIFY_DATA_SCOPE_AND_PRIVACY_MATRIX.md` for Shopify-specific security and connector constraints
-14. `230-delivery-zones-calendars-production-date-architecture.md`, `DELIVERY_CALENDAR_AND_PRODUCTION_DATE_OWNERSHIP_MATRIX.md`, `DELIVERY_AND_PRODUCTION_CALENDAR_RULE_MODEL.md` and `ARCHITECTURE_GATE_1_REVIEW_PACKAGE.md` for the current gate review
-15. The Task 225 approval record, then the Task 224 audit/evidence package where production rationale is needed
+2. `EVERYBATCH_ROLLING_ROADMAP.md`
+3. `REVIEW_REGISTER.md`
+4. `EVERYBATCH_CANDIDATE_BACKLOG.md`
+5. `CODEX_TASK_STANDARDS.md`
+6. `SUPPORT_CONTENT_SOURCE_REGISTER.md`
+7. `PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md`
+8. `EVERYBATCH_MASTER_HANDBOOK.md`
+9. `EVERYBATCH_ENGINEERING_OPERATIONS.md`
+10. `CURRENT_PLATFORM_CAPABILITY_MATRIX.md`
+11. `MODULE_SOURCE_OF_TRUTH_MATRIX.md`
+12. `DECISION_LOG.md`
+13. `TASK_INDEX.md`
+14. Relevant domain architecture and task documents for the current scope
+15. `225-348-official-roadmap.md` only for historical Task 225 planning and completed chronology
 16. `history/ORIGINAL_ARCHITECT_MEMORY_DOSSIER.md` only for deeper historical rationale
 
 ## Working Model

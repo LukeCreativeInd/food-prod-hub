@@ -31,7 +31,7 @@ Migrations 053-055 are live/registered and immutable. Full rollback-only lifecyc
 | --- | --- | --- | --- |
 | Tools workspace definition | Permanent mixed utility module with strict domain ownership boundaries | Module/navigation configuration only; no generic canonical mutation authority | Specialised bounded utilities |
 | Supplier invoice source/extraction/commit evidence | Supplier Invoice Intake | Existing Purchase Document workflow boundaries | Products, Costings and optional draft Goods Inwards bridge |
-| Production source metadata, parser runs and staging revisions | Dedicated tenant-owned Production Data Import domain governed by Production | Unapplied Migration 056 plus code-owned parser; official persistence dormant pending trusted runner | Future Tools utility UI, Production review, redacted Support readiness |
+| Production source metadata, parser runs and staging revisions | Dedicated tenant-owned Production Data Import domain governed by Production | Live Migration 056 plus code-owned parser; official persistence dormant pending trusted runner | Future Tools utility UI, Production review, redacted Support readiness |
 | Future mapping, validation, review, approval, apply and reconciliation evidence | Production Data Import | Future dedicated import boundaries plus target-domain permission checks | Products and Production apply workflows, audit and redacted diagnostics |
 | Canonical Products records | Products | Products-owned mutation boundaries | Production, Costings, Inventory and import reconciliation |
 | Canonical Production records | Production | Production-owned mutation boundaries | Production execution and import reconciliation |
@@ -39,7 +39,7 @@ Migrations 053-055 are live/registered and immutable. Full rollback-only lifecyc
 
 UI placement does not define data ownership. A future route under Tools may launch Production Data Import, but Tools does not own the staging domain or resulting canonical records. Parser code is platform implementation; run evidence belongs to Production Data Import. Platform Admin receives redacted readiness only and Support receives minimum necessary redacted diagnostics. Task 239 resolves the target concepts in the production-knowledge section below.
 
-Task 241 adds the repository schema/parser foundation, aggregate run reconciliation, uploaded-unverified lifecycle, private-bucket definition and permissions in unapplied Migration 056. Parser persistence has no executable tenant or worker grant. No live schema, tenant route, mapping/review/apply workflow or canonical data import exists.
+Task 241's Migration 056 is live/registered and database/runtime accepted. It provides aggregate run reconciliation, uploaded-unverified lifecycle, private Storage, tenant-safe policies and immutable evidence. Parser persistence has no executable PUBLIC, anon, authenticated or service-role grant. No tenant route, trusted runner, mapping/review/apply workflow or canonical data import exists.
 
 ## Task 239 Production Knowledge Boundary
 
@@ -58,7 +58,7 @@ See `PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md` and `FORMULA_METHOD_WORK_INSTRUCTION
 
 ## Task 240 Collection And Import Boundary
 
-The controlled Clean Eats workbook is transition evidence only. Production Data Import owns immutable source revisions and staging evidence through the Task 241 repository foundation, and will own later validation/review, apply evidence and reconciliation. Stable collection keys are temporary cross-sheet identities, not canonical IDs. Products remains owner of Internal Items and Formulas; Production remains owner of Methods, Work Instructions and Areas; QA remains owner of QA definitions/results. Tools is a utility surface; Tenant Admin owns future source configuration; Support receives redacted diagnostics; Platform Admin receives redacted readiness. Migration 056 is unapplied and no canonical import exists.
+The Task 240 machine collection contract and Task 246 future human-facing Collection Pack are transition evidence only. Production Data Import owns immutable source revisions and staging evidence through live Migration 056, and may later own validation/review, apply evidence and reconciliation. Stable collection keys are temporary identities, not canonical IDs. Products remains owner of Internal Items and Formulas; Production remains owner of Methods, Work Instructions and Areas; QA remains owner of QA definitions/results. Tools is a utility surface; Tenant Admin owns future source configuration; Support receives redacted diagnostics; Platform Admin receives redacted readiness. No trusted parser runtime or canonical import exists.
 
 ## Task 234 Commerce Catalogue Mapping Foundation
 
@@ -97,7 +97,7 @@ Xero remains accounting-owned, Detrack remains Logistics-owned, Klaviyo remains 
 
 This matrix defines current canonical ownership. Operational modules own records; dashboards, Reports and cross-module timelines read them. No consumer should create a competing source of truth.
 
-Future ownership direction is sequenced by `225-348-official-roadmap.md`. Proposed records remain future until their approved schema/workflow task is implemented; this matrix does not turn roadmap concepts into current tables.
+Future ownership direction is governed by `EVERYBATCH_ROLLING_ROADMAP.md` and the unnumbered Candidate Backlog. Proposed records remain future until an approved schema/workflow task is implemented; this matrix does not turn roadmap concepts into current tables.
 
 | Record/domain | Canonical owner and source | Readers/derived views | History and tenant rule | Facility direction / prohibited duplication | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -152,8 +152,8 @@ Future ownership direction is sequenced by `225-348-official-roadmap.md`. Propos
 | Customer/accounts | Future CRM | Orders, Logistics, Reports | Tenant-owned customer master | Organisation-wide with addresses/routes possibly facility-aware | Future/Pending |
 | Reports and dashboards | Read models only | Users | Must cite canonical source and freshness | Never create operational truth or fake metrics | Mixed foundations |
 | Support tickets | Support: `support_tickets`, `support_ticket_comments`, `support_ticket_events`, `support_ticket_attachments` | Tenant Support and Platform inbox | Authenticated, tenant-aware history | Not a substitute for QA NC/CA or delivery issue records | Operational foundation |
-| Help Centre content | Support static content | Authenticated Help Centre | Versioned in repository today | Product guidance follows implemented capability | Static content foundation |
-| Platform diagnostics | Platform Admin read models | Platform operators | Must not become tenant operational truth | Future health/readiness may aggregate facility and integration state | Read-only foundation |
+| Help Centre content | Support static content plus `SUPPORT_CONTENT_SOURCE_REGISTER.md` as the source index | Authenticated Help Centre | Versioned in repository today; register points to verified product evidence | Product guidance follows implemented capability and does not expose proprietary tenant content by default | Static content foundation plus governance register |
+| Platform diagnostics | Platform Admin read models plus `PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md` as the intent index | Platform operators | Must not become tenant operational truth or imply mutation/content access | Future health/readiness may aggregate only approved safe facility, capability and integration state | Read-only foundation plus governance register |
 
 ## Permanent Ownership Rules
 
@@ -175,3 +175,4 @@ Future ownership direction is sequenced by `225-348-official-roadmap.md`. Propos
 - QA owns QA evidence and disposition events; it does not duplicate physical quantity.
 - Logistics owns dispatch and manifest history; generated manifests are snapshots.
 - Platform Admin owns SaaS operations, not tenant operations.
+- Support content and Platform diagnostic registers index derived presentation needs; they do not own operational records or grant access.

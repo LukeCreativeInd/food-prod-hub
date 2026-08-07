@@ -1,6 +1,6 @@
 # Task 223B - Phase 1 Production Replacement And Roadmap Reassessment
 
-> **Historical planning status:** Task 225 closed Review Gate 0 on 4 August 2026 and superseded this task's provisional sequence with [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). The evidence gaps and rationale below remain historical context.
+> **Historical planning status:** Task 225 closed Review Gate 0 on 4 August 2026 and superseded this task's provisional sequence. Task 242 later replaced fixed future numbering with the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md). The evidence gaps and rationale below remain historical context.
 
 ## Purpose And Status
 

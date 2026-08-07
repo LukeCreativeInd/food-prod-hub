@@ -4,7 +4,9 @@
 
 `Operational foundation` means a real, controlled workflow exists, not that every edge case is complete. `Browser validated` records available runtime evidence. `Staff validated` is used only after real Clean Eats validation. `Navigation/scaffold` is an honest shell, not implemented capability. `Paused/reassessment required` means roadmap sequencing must be reviewed first.
 
-Future task references use the official `225-348-official-roadmap.md`. A roadmap task does not change the current capability state until implemented and validated.
+Current task references use `EVERYBATCH_ROLLING_ROADMAP.md`; future unnumbered work uses the Candidate Backlog. Historical numbers remain evidence only. A roadmap or candidate entry does not change capability state until implemented and validated.
+
+Multi-surface impact is indexed separately: `SUPPORT_CONTENT_SOURCE_REGISTER.md` preserves Help Centre/troubleshooting inputs and `PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md` preserves safe operator readiness/diagnostic intent. Neither register changes runtime capability, ownership or permissions.
 
 | Module / workspace | Route | State | Source and current actions | Validation / limitations / dependency |
 | --- | --- | --- | --- | --- |
@@ -34,9 +36,9 @@ Future task references use the official `225-348-official-roadmap.md`. A roadmap
 | Costings / Meal Margins | `/meal-margins` | Operational read foundation | Active formulas, costs and active current sell prices | Conservative gross margin preview; no full tax/discount engine |
 | Costings / Price History | `/price-history` | Read foundation | Price observations/approved history | Intake evidence remains separate |
 | Costings / Snapshots | Product detail costing routes | UI/schema foundation | Immutable snapshot create/read | Requires safe units/prices; broader reporting future |
-| Production / Production Report | `/production` | Paused/reassessment required | Real setup/readiness summaries, not demand, report or floor execution | Tasks 255/260 replace control and pack roles; Tasks 266-268 govern parity and retirement |
+| Production / Production Report | `/production` | Paused/reassessment required | Real setup/readiness summaries, not demand, report or floor execution | Replacement control, packs, parity and retirement remain unnumbered candidates governed by capability gates |
 | Production / Production Plan | `/production-plan` | Operational foundation | Plans/lines and planned batch creation for ready lines | No live order demand, actual issue/output or floor execution |
-| Production / Areas | `/production-areas` | Schema plus scaffold | `production_areas` exists; current page is not the complete live area-management workflow | Facility scope follows 226/231; real configuration is Task 252 |
+| Production / Areas | `/production-areas` | Schema plus scaffold | `production_areas` exists; current page is not the complete live area-management workflow | Facility scope follows 226/231; Task 250 owns the current real-configuration assessment |
 | Production / Tasks | `/production-tasks` | Navigation/scaffold | Static sample/preview only; no task records or actions | QA plan 253, schema 254 and execution 257-258 |
 | Production / Facility/iPad | `/facility-tasks` (compatibility redirects include `/facility-ipad-view`) | Critical architecture gate | Visual direction only today | Delivery architecture is Task 256; implementation is Task 258 |
 | Production / Live Demand | `/production-demand` | Production accepted | Live Migrations 051-052 provide append-oriented mapping-output contributions, fingerprint-idempotent current safe issues, scoped recalculation and stable facility/date/item/UOM aggregates with canonical host isolation | All four tables remain empty; no live source data; Stock On Hand is separate |
@@ -57,20 +59,20 @@ Future task references use the official `225-348-official-roadmap.md`. A roadmap
 | Logistics / Manifests | `/logistics/manifests` | Browser validated operational foundation | Draft/generate immutable snapshots | No carrier transmission yet |
 | Logistics / Carrier Configuration | `/logistics/carriers` | Browser validated operational foundation | Carrier/service create/edit/archive | Active-only dispatch selection; history retained |
 | Logistics / Carrier Exports | `/logistics/carrier-exports` | Navigation/scaffold / schema foundation | Export table exists | Architecture 289 and implementation 290 |
-| Logistics / Delivery Issues | `/logistics/delivery-issues` | Navigation/scaffold | Honest empty state | Ownership 287 and implementation 288 |
-| CRM | `/crm` | Navigation/scaffold | No fake customer records | Planning 292, schema 293 and UI 294 |
-| Reports | `/reports` | Navigation/scaffold | No fake report metrics | Planning/readiness begins at Task 303 |
+| Logistics / Delivery Issues | `/logistics/delivery-issues` | Navigation/scaffold | Honest empty state | Ownership and implementation remain Candidate Backlog work |
+| CRM | `/crm` | Navigation/scaffold | No fake customer records | Customer/account planning and implementation remain candidates |
+| Reports | `/reports` | Navigation/scaffold | No fake report metrics | Source-readiness and report workspaces remain candidates |
 | Tools / Supplier Invoice Intake | `/purchase-documents` | Operational foundation | Private upload, supplier parsers, reviewed generic commit | Supplier-specific extraction; no OCR/AI/auto stock posting |
-| Tools / Formula Import | No operational route | Planning documented | Staff templates/plans only | Production transition Tasks 238-243; general expansion Task 300 |
-| Tools / Production Data Import | No operational route | Repository evidence/parser foundation; not live | Tasks 238-240 define ownership, targets and collection contract; Task 241 adds unapplied Migration 056, aggregate multi-source status, truthful uploaded-unverified evidence and bounded code-owned CSV parsing | Official parser persistence is dormant pending an approved trusted runner; no live schema/policies, UI, mapping/review/apply, real Clean Eats data or Method/WI schema; Task 242 blocked |
-| Production / Methods and Work Instructions | No operational route | Architecture decided; not implemented | Production-owned independently versioned Methods/Steps and Work Instructions with explicit Formula compatibility | Schema/UI remain Tasks 244-245; no fake knowledge or execution confusion |
-| Tools / Mapping QA | Commerce mapping route exists; broader QA route absent | Partial foundation | Task 234 owns Commerce catalogue mapping review; current supplier mappings remain visible through Products/Intake | Supplier/item mapping QA remains Task 298; Commerce mappings do not become a generic Tools-owned mapping system |
+| Tools / Formula Import | No operational route | Planning documented | Staff templates/plans only | Production import review/apply and broader Formula import remain Candidate Backlog work |
+| Tools / Production Data Import | No operational route | Live evidence/storage foundation plus deterministic parser code | Tasks 238-240 define ownership/collection; Task 241 Migration 056 is live/registered and runtime accepted with aggregate status and truthful uploaded-unverified evidence | Official parser persistence remains dormant pending Task 247 architecture; no UI, mapping/review/apply, real Clean Eats data or Method/WI schema |
+| Production / Methods and Work Instructions | No operational route | Architecture decided; not implemented | Production-owned independently versioned Methods/Steps and Work Instructions with explicit Formula compatibility | Schema/UI remain Candidate Backlog work; no fake knowledge or execution confusion |
+| Tools / Mapping QA | Commerce mapping route exists; broader QA route absent | Partial foundation | Task 234 owns Commerce catalogue mapping review; current supplier mappings remain visible through Products/Intake | Supplier/item mapping QA remains a candidate; Commerce mappings do not become a generic Tools-owned mapping system |
 | Tenant Admin / Organisation Settings | `/organisation-settings` | Operational configuration | Branding/theme/settings | Facility/integration configuration future |
 | Tenant Admin / Users | `/users` | Foundation | Membership/user visibility | Full invite/lifecycle remains controlled future work |
 | Tenant Admin / Modules | `/modules` | Operational configuration/read foundation | Enabled module registry | Platform provisioning remains separate |
 | Tenant Admin / Integrations | `/integrations` | Navigation/scaffold | Static catalogue/log preview only; Tasks 227-230 commerce, demand, Shopify and calendar architecture are documented, but no live connection, relationship, order, zone, calendar or demand data exists | Gate 1, foundations 232-235 and diagnostics 301 |
-| Platform Admin | `/platform` | Read/configuration foundation | Tenant overview, provisioning foundation, module/feature diagnostics, support inbox | SaaS health/billing/lifecycle depth future |
-| Support / Help Centre | `/support` | Static + operational foundation | Authenticated guides, tickets, comments, attachments; Platform inbox; shared production EveryBatch Auth cookie scope | Product guides must track user-facing capabilities; Auth correction needs post-deploy cross-domain verification |
+| Platform Admin | `/platform` | Read/configuration foundation | Tenant overview, provisioning foundation, module/feature diagnostics, support inbox | Safe future readiness/diagnostic intent is indexed in `PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md`; no tenant operational ownership |
+| Support / Help Centre | `/support` | Static + operational foundation | Authenticated guides, tickets, comments, attachments; Platform inbox; shared production EveryBatch Auth cookie scope | Product-guide/troubleshooting inputs are indexed in `SUPPORT_CONTENT_SOURCE_REGISTER.md`; proprietary content remains excluded by default |
 
 ## External And Legacy Operational Workflows
 

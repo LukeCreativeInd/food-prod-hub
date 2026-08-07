@@ -1,5 +1,7 @@
 # Platform Admin Information Architecture
 
+> **Task 242 multi-surface update:** Platform Admin is the denser EveryBatch control plane, not a Tenant App clone. `PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md` records safe readiness, count, status, diagnostic and provisioning intent without granting tenant operational mutation, approval authority or proprietary content access.
+
 > **Task 240 import boundary:** Platform Admin may later receive redacted Production Import readiness only. It has no default access to tenant source files, Formula, Method, Work Instruction, QA-link or parser payload content and no apply authority.
 
 > **Task 232 commerce boundary:** migration 046 provides non-secret connection identity, relationship state, health and redacted sync-readiness schema for future diagnostics. Platform Admin must not own tenant acceptance/mappings, expose credentials or receive unrestricted cross-tenant source-order/line access. No Platform Admin Commerce route or action is implemented.

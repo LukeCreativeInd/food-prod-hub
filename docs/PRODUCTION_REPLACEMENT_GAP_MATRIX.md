@@ -1,10 +1,10 @@
 # Production Replacement Gap Matrix
 
-> **Task 241 update:** Approved-data collection has a canonical package and the repository now has an unapplied source/staging/parser foundation with bounded CSV support. Live migration/Storage verification, mapping/review, Formula hardening, Method/WI schema, controlled apply and parity evidence remain open.
+> **Task 242 update:** Task 240's machine collection contract is approved and Task 241's source/staging/Storage foundation is live/database-runtime accepted with bounded CSV parser code. Trusted parser persistence, mapping/review, Formula hardening, Method/WI schema, controlled apply and parity evidence remain open. Task 246 will test a flexible human collection pack.
 
 ## Reading The Matrix
 
-`A` means required to retire current production tools, `B` means safer operational depth shortly after replacement, `C` means valuable Phase 1 improvement or later operational optimisation, `D` means later commercial/checkout expansion and `E` marks unknown design details requiring staff/source validation. E does not make the underlying business capability optional. Task references use the official roadmap in `225-348-official-roadmap.md`.
+`A` means required to retire current production tools, `B` means safer operational depth shortly after replacement, `C` means valuable Phase 1 improvement or later operational optimisation, `D` means later commercial/checkout expansion and `E` marks unknown design details requiring staff/source validation. E does not make the underlying business capability optional. Current sequence uses `EVERYBATCH_ROLLING_ROADMAP.md`; older task references remain historical source annotations.
 
 ## Task 224 Evidence Update
 

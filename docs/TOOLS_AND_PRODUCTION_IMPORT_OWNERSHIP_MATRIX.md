@@ -1,10 +1,10 @@
 # Tools and Production Import Ownership Matrix
 
-> **Task 241 update:** Task 240 is committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037`. The repository now has an unapplied tenant-owned evidence schema, aggregate multi-source status and explicit CSV parser. Official parser persistence is dormant pending a trusted-runner decision. No upload route, mapping/review/apply workflow or canonical data mutation exists.
+> **Task 242 current update:** Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb`. Migration 056 is live/registered and database/runtime accepted with tenant-owned evidence, aggregate multi-source status, private Storage and explicit CSV parser code. Official parser persistence remains dormant pending Task 247. No upload route, mapping/review/apply workflow or canonical data mutation exists.
 
 ## Status
 
-Canonical Task 238 ownership decision with Task 241 repository implementation. Migration 056, its permissions and private bucket remain unapplied pending architect review; no tenant route exists.
+Canonical Task 238 ownership decision with Task 241's live foundation. Migration 056, its permissions, bucket and manual Storage policies are live; no tenant route or trusted parser runner exists.
 
 ## Ownership Rule
 
@@ -76,4 +76,4 @@ Navigation is not data ownership. A workflow surfaced under Tools must still use
 
 ## Implementation Constraint
 
-Future schemas must not use a generic Tools ownership model for Production import records. Task 241 must encode `organisation_id` tenant boundaries and Production Import provenance explicitly. Task 243 must apply records through owning-domain mutation controls and retain immutable reconciliation evidence.
+Future schemas must not use a generic Tools ownership model for Production import records. Task 241 encodes `organisation_id` tenant boundaries and Production Import provenance explicitly. Any future controlled apply capability must use owning-domain mutation controls and retain immutable reconciliation evidence.

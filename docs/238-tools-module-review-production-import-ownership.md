@@ -25,7 +25,7 @@ Task 237 is complete, deployed and production accepted.
 - Production Demand operational tables remain empty. No Shopify connection, source order, mapping, contribution, live demand, review, freeze or delta exists.
 - Production Plan allocation remains deferred to a later approved roadmap task.
 
-Migration 045 remains live and unregistered. Migrations 046-055 are live and registered. Task 241 subsequently created Migration 056 in the repository; it remains unapplied pending architect review.
+Migration 045 remains live and unregistered. Migrations 046-056 are live/registered except that known 045 history nuance. Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb`; Migration 056 passed database/runtime acceptance while trusted parser persistence remains dormant.
 
 ## Current Tools Module
 
@@ -274,16 +274,18 @@ Task 238 does not decide these questions beyond preserving current ownership unt
 
 **Task 239 resolution:** Formula/BOM is Products-owned composition; Production Method and Work Instruction are independently versioned Production knowledge; Recipe is presentation only. See `239-formula-method-work-instruction-recipes-ownership-decision.md` for the binding target model.
 
-## Tasks 240-243 Implications
+## Rolling-Roadmap Implications
 
-Task 240 is committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` and defines the approved Clean Eats collection package: separate target datasets, stable transition keys, mandatory provenance, role sign-off, blocker validation, waves, apply gates and reconciliation. Task 241 now implements the repository evidence/parser foundation with aggregate run state and uploaded-unverified source truth; Migration 056 remains unapplied and parser persistence remains ungranted.
+Task 240 is committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` and defines the approved machine collection contract: separate target datasets, stable transition keys, mandatory provenance, role sign-off, blocker validation, waves, apply gates and reconciliation. Task 241 implements the live evidence/Storage foundation with aggregate run state and uploaded-unverified source truth; parser persistence remains ungranted. Task 246 will prototype flexible human collection materials.
 
 | Task | Task 238 constraint | Deferred to that task |
 | --- | --- | --- |
 | 240 - Approved Production Data Collection and Import Plan | Define approved source contracts, provenance and acceptance without making files canonical. | Exact collection templates, source approvals, retention and reconciliation gates. |
 | 241 - Production Data Staging and Parser Foundation | Schema belongs to Production Data Import, is tenant-owned and records source/parser revisions; it must not be Tools-owned master data. | Exact tables, bucket, RLS, parser registry, retention and permissions. |
-| 242 - Production Data Mapping, Validation and Review UI | UI may live under Tools but uses Production Import evidence and permissions; no automatic approval. | Detailed workflow, validations, role mappings and responsive UI. |
-| 243 - Controlled Production Data Apply and Reconciliation | Apply uses trusted Products/Production mutation boundaries, is atomic or explicitly resumable and retains immutable outcomes. | RPCs/actions, target-domain authority, compensation and reconciliation implementation. |
+| 246 - Clean Eats Production Collection Pack Prototype | Human-facing collection material may vary by entity or workflow while preserving the Task 240 machine contract. | Usability evidence and staff-review preparation. |
+| 247 - Trusted Production Import Runner and Flexible Intake Architecture | Official parser persistence needs a trusted, non-browser execution boundary. | Runner identity, execution authority, observability and failure handling. |
+| 248 - Formula Quantity Basis and Lifecycle Hardening | Imported Formula activation remains blocked until quantity bases and lifecycle controls are safe. | Approval/current semantics, immutability, cycle/version pinning and yield classification. |
+| Candidate mapping/review/apply capabilities | UI may live under Tools but uses Production Import evidence and permissions; apply calls owning-domain boundaries and retains immutable reconciliation. | Detailed workflow, validations, role mappings, RPCs/actions and compensation. |
 
 ## Recommended Workspace Model
 
@@ -334,7 +336,7 @@ The canonical detailed matrix is [TOOLS_AND_PRODUCTION_IMPORT_OWNERSHIP_MATRIX.m
 | Formulas / Recipes | Planning affected; exact boundary deferred to Task 239. |
 | Production | Governs Production Import and owns future operational knowledge. |
 | Production Demand / Plans | Unchanged; allocation remains deferred. |
-| Methods / Work Instructions | Planning affected; Task 239 and Tasks 244-245 own later work. |
+| Methods / Work Instructions | Task 239 owns the architecture decision; schema/UI remain Candidate Backlog capabilities. |
 | Inventory / Costings / QA / Logistics | Unchanged; no new writes or ownership. |
 | CRM / Reports | Unchanged and not applicable to Task 238 implementation. |
 | Tenant Admin | Future configuration boundary only. |
@@ -358,18 +360,18 @@ Production imports should minimise customer and personal data. Staging must not 
 ## Known Limitations
 
 - No live Production import implementation or tenant route exists.
-- Migration 056 defines the repository staging schema and private bucket but is unapplied.
+- Migration 056 defines the live staging schema and private bucket; database/runtime acceptance passed, while trusted parser persistence remains dormant.
 - The code-owned parser supports bounded explicit CSV only; XLSX/PDF/images remain unsupported evidence.
 - Storage object policies require manual review/application after Migration 056 approval.
 - No Production data has been imported.
 - Task 239 now defines Formula/BOM as Products-owned composition, Method/WI as Production-owned knowledge and Recipe as presentation only.
-- Task 241 proposes only `production_imports.view` and `production_imports.manage`, conservatively mapped to organisation, operations and production managers; live approval remains pending.
+- Task 241 introduced only `production_imports.view` and `production_imports.manage`, conservatively mapped to organisation, operations and production managers; Migration 056 is live and database/runtime accepted.
 - Production Plan allocation remains deferred to the later approved roadmap.
 - Stock On Hand remains a separate known issue.
 
 ## Deferred Implementation
 
-Tasks 240-243 own the approved data contract, staging/parser foundation, mapping/validation/review UI and controlled apply/reconciliation. Tasks 244-245 own method and work-instruction schema/UI after Task 239 decides the domain model.
+Tasks 240-241 own the approved machine data contract and live staging/parser foundation. Task 246 prototypes the human collection experience, Task 247 decides the trusted parser runner boundary and Task 248 owns Formula hardening. Mapping/review/apply and Method/Work Instruction schema/UI remain Candidate Backlog capabilities until promoted.
 
 ## Behaviour Preserved
 

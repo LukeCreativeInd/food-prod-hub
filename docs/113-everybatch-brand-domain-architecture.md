@@ -1,5 +1,7 @@
 # EveryBatch Brand And Domain Architecture
 
+> **Task 242 multi-surface update:** Tenant App, Platform Admin, Support / Help Centre and Public / Marketing share EveryBatch brand language but retain purpose-specific information architecture and authority. Future public claims must be reconstructable from implemented or approved capability; technical implementation detail is translated into grounded product meaning rather than copied as marketing language.
+
 ## Planning Status
 
 Task 113 is documentation and planning only.

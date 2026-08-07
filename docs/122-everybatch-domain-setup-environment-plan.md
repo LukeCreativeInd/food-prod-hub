@@ -1,6 +1,6 @@
 # EveryBatch Domain Setup and Environment Plan
 
-> **Historical setup plan.** Domain implementation progressed after this document was written. Current domain truth is maintained in `README.md`, `docs/CODEX_PROJECT_CONTEXT.md` and [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md). The future task numbering in this file is not active.
+> **Historical setup plan.** Domain implementation progressed after this document was written. Current domain truth is maintained in `README.md`, `docs/CODEX_PROJECT_CONTEXT.md` and the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md). The future task numbering in this file is not active.
 
 ## Purpose
 

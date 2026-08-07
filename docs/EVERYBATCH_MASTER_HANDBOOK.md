@@ -37,6 +37,10 @@ EveryBatch must remain:
 
 Build the safest useful foundation, demonstrate it with real data, validate it with Clean Eats, then refine exact workflow from operational evidence. Early usefulness does not require every enterprise edge case, but tenant isolation, RLS, historical integrity and safe irreversible actions are never negotiable.
 
+Prefer exception-first workflows. Deterministic software should compare, group, detect duplicates and missing fields, check UOM/cycles, identify changes and prioritise blockers. People should spend attention on ambiguity, meaningful change and judgement. Parser confidence or a clean comparison never automatically equals canonical approval.
+
+Original evidence remains immutable. A correction is separate reviewed evidence with original value, reviewed value, actor, time, reason, provenance and approval/publication lineage. EveryBatch should make this history understandable wherever real domain evidence exists.
+
 Progress is judged by the connected chain:
 
 1. Master data is trustworthy.
@@ -135,9 +139,15 @@ Support is authenticated and owns help content, tickets, comments, events and at
 
 Platform Admin is separate from Tenant Admin. It owns tenant lifecycle, provisioning, modules/features, readiness, diagnostics, support and later billing/health. It may read tenant signals but cannot become an alternate writer of tenant operations.
 
+EveryBatch is governed across four surfaces: Tenant App, Platform Admin, Support / Help Centre and Public / Marketing. Every future numbered task and relevant lettered subtask records its impact on all four, including an explicit `No impact`. The Tenant App is operational, Platform Admin is a denser control plane, Support is knowledge/troubleshooting first and Public / Marketing translates only implemented or approved capability into grounded product meaning. Shared brand/design language does not erase their different authority or information architecture.
+
+`SUPPORT_CONTENT_SOURCE_REGISTER.md` indexes the product behavior needed for future guides and troubleshooting. `PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md` indexes safe readiness, status, count and diagnostic intent. Neither register is a competing operational source of truth or permission grant.
+
 ## 15. UX, Dashboards And Visible Work
 
 Operational UI should be quiet, dense, readable, responsive and honest. Page headers belong in the shell; controls use familiar patterns; status language is consistent; actions expose pending/success/error feedback. Empty states explain ownership, source workflow and next valid action. No fake operational metrics or invented records.
+
+The UI should feel like one Food Manufacturing OS across Dashboard, modules, workspaces, lists, entity details, related records, actions, readiness and History. A combined entity view may read across domains, but it does not transfer backend ownership. Permission-aware hiding improves UX; RLS/RPC remains the security boundary. The future access model is `Module -> Workspace -> Action -> Operational Scope`, with roles as friendly bundles rather than hard-coded runtime authority.
 
 Dashboards should answer what requires attention, what is blocked, what changed and what can happen next, using real source records. Future system-wide capabilities include Action Centre/My Work, expanded search, cross-module timelines, saved views, role-aware filters, notifications/escalation, master-data governance and integration health/retry diagnostics.
 
@@ -155,12 +165,12 @@ Clean Eats validates foundations with real data and real staff. Build success, b
 
 Luke approves roadmap order and live actions. Be explicit about what is current, planned, inferred or unresolved. Prefer implementation evidence over confident narrative, preserve useful rejected alternatives, show exact checks, and never imply permission to write to GitHub, Supabase, Vercel or infrastructure from an earlier task.
 
-Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 237 is production accepted at `13a5f1b4aca93f0f2fbb38dd256ec5968044ef67`. Tasks 238-240 are committed; Task 240 is `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037`. Task 241 implements the repository evidence/parser foundation, but Migration 056 is unapplied and official parser persistence is dormant pending a trusted-runner decision; Task 242 remains blocked. The official authority is `225-348-official-roadmap.md`. Stock On Hand remains separate.
+Future architects should update only the living document whose purpose is affected, use the post-commit context-delta workflow, keep the capability matrix honest, and preserve unresolved decisions. Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb`; Migration 056 is live/registered and database/runtime accepted, while official parser persistence remains dormant pending Task 247's trusted-runner decision. The task-order authority is `EVERYBATCH_ROLLING_ROADMAP.md`; future candidates and Reviews live in their separate canonical registers. Stock On Hand remains separate.
 
-Clean Eats production collection uses one controlled package with separate Item, Formula, Method, Work Instruction, QA, yield/batch, Packaging and evidence datasets. Stable keys connect sheets; mandatory provenance and human sign-off protect current truth. Legacy behavior remains evidence only, ambiguity blocks apply, and the package never becomes canonical by itself.
+Clean Eats production collection uses one machine contract with separate Item, Formula, Method, Work Instruction, QA, yield/batch, Packaging and evidence datasets. Stable keys and provenance remain authoritative underneath flexible human-facing templates that Task 246 will prototype. Legacy behavior remains evidence only, ambiguity blocks apply, and no package becomes canonical by itself.
 
 ## 19. Current Risks And Read Next
 
 Major risks are production parity, current Formula lifecycle hardening, absent Method/WI implementation, single-site assumptions, incomplete external integration health, staff-validation gaps, performance backlog and future external-tenant hardening.
 
-Read next: `CHAT_HANDOVER_CURRENT.md`, `225-348-official-roadmap.md`, `CODEX_TASK_STANDARDS.md`, `EVERYBATCH_ENGINEERING_OPERATIONS.md`, both current matrices, `DECISION_LOG.md`, `TASK_INDEX.md`, then the current task document.
+Read next: `CHAT_HANDOVER_CURRENT.md`, `EVERYBATCH_ROLLING_ROADMAP.md`, `REVIEW_REGISTER.md`, `EVERYBATCH_CANDIDATE_BACKLOG.md`, `CODEX_TASK_STANDARDS.md`, `EVERYBATCH_ENGINEERING_OPERATIONS.md`, both current matrices, `DECISION_LOG.md`, `TASK_INDEX.md`, then the current task document.

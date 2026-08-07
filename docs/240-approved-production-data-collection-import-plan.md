@@ -6,11 +6,11 @@ Define the controlled Clean Eats collection, provenance, review, approval, stagi
 
 ## Scope
 
-Task 240 covers collection datasets, staff responsibilities, stable references, evidence treatment, validation, readiness, transition waves and handoffs to Tasks 241-245. It creates no spreadsheet, importer, upload flow, parser, staging schema, canonical Method or Work Instruction record, production data or runtime behavior.
+Task 240 covers collection datasets, staff responsibilities, stable references, evidence treatment, validation, readiness and transition waves. Its taxonomy remains the machine/staging contract. Task 242 later moved human-facing prototype ownership to Task 246 and trusted-runner architecture to Task 247. Task 240 creates no spreadsheet, importer, upload flow, parser, staging schema, canonical Method or Work Instruction record, production data or runtime behavior.
 
 ## Status And Migration State
 
-Task 240 is complete and committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` with title `Plan approved production data collection`. Migration 045 is live and manually applied but unregistered. Migrations 046-055 are live and registered. Task 240 did not edit or apply them. Task 241 subsequently created unapplied Migration 056.
+Task 240 is complete and committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` with title `Plan approved production data collection`. Migration 045 is live but unregistered. Migrations 046-056 are live/registered except that known 045 history nuance. Task 241 committed and database/runtime accepted Migration 056; its trusted parser persistence remains dormant.
 
 ## Task 239 Committed State
 
@@ -66,11 +66,17 @@ Clean Eats produces at operational scale and already has Internal Items, Formula
 
 Use role ownership, not guessed names. Tony is known as Director/operational owner and approval sponsor. Cettina and Luisa are known QA staff. Eddie is known in Warehousing and may review material or packaging evidence when nominated. Rob is known in Wholesale and is consulted only for wholesale-relevant data. The Product composition owner, Production process owner and kitchen/room leaders remain **Clean Eats to nominate**.
 
-Dual sign-off applies to QA-linked Method requirements (Production plus QA) and packaging where an operational material review is needed. Formula composition, nominal output, Method, yield/loss, Work Instruction and batch-envelope records require submitter, domain reviewer and final approver evidence.
+Dual-domain review applies where QA-linked Method requirements or material/Packaging classification genuinely cross ownership boundaries. Initial Clean Eats collection does not impose a rigid three-different-person sequence: one qualified person may submit, review and approve where tenant policy permits. The invariant is attributable evidence, required review, explicit publication/approval and reconstructable history. Future day-to-day draft/review/approve-publish separation is permission/configuration driven.
 
 ## Collection Package Model
 
-Use one controlled workbook/package with separate structured tabs: Instructions; Item Register; Formula Headers; Formula Lines; Methods; Method Steps; Work Instructions; Area & Applicability; Yield & Batch Rules; Packaging Context; QA Links; Equipment & Resources; Exceptions & Questions; Sign-off & Approval. Separate tabs provide deterministic relationships while remaining usable by staff. Task 240 does not create the workbook.
+Task 240's separate datasets remain the controlled machine contract: Instructions; Item Register; Formula Headers; Formula Lines; Methods; Method Steps; Work Instructions; Area & Applicability; Yield & Batch Rules; Packaging Context; QA Links; Equipment & Resources; Exceptions & Questions; Sign-off & Approval. A 14-tab workbook was the original packaging recommendation, not an unquestioned final staff experience. Task 246 will prototype a flexible Production Knowledge Collection Pack with entity-focused Ready Meal, Component/Batch, Method/Process, Material, Area/Equipment, QA and Questions/Evidence templates mapped to the same fields. Review 1 validates which human format is natural.
+
+## Task 242 Quantity And Review Direction
+
+Clean Eats evidence suggests some meal composition may move from fixed per-meal values toward percentage/ratio rules relative to target meal weight, while other Formula lines remain fixed or per-unit. This is a Task 248 and Review 1 hypothesis, not approved schema. Formula remains the preferred single composition truth unless evidence disproves it.
+
+Future review should be exception-first: deterministic software compares, groups, detects duplicates/missing fields/UOM issues/cycles and identifies changes or blockers; people focus on ambiguity, meaningful change and approval judgement. Parser confidence never equals canonical approval. Original source/parser evidence stays immutable, and any correction becomes separate actor/time/reason/provenance/approval evidence.
 
 ## Stable Collection Identifiers
 
@@ -176,7 +182,7 @@ A wave advances only when its approved scope is complete: every in-scope active 
 | Provenance | Missing source/reviewer/approval; unresolved conflict; legacy-only candidate; ambiguity unresolved | Single verbal source | Corroborating source retained |
 | Apply | Stale staging; canonical target changed; duplicate apply; incompatible active version; reconciliation mismatch; unresolved row | Accepted warning outside approved scope | No-change result |
 
-The complete code-oriented catalogue is defined in `PRODUCTION_DATA_COLLECTION_FIELD_DICTIONARY.md` for Tasks 241-243. Severity never grants permission to apply.
+The complete code-oriented catalogue is defined in `PRODUCTION_DATA_COLLECTION_FIELD_DICTIONARY.md` for Task 241 and later promoted review/apply capabilities. Severity never grants permission to apply.
 
 ## Ambiguity Handling
 
@@ -217,11 +223,11 @@ Each candidate becomes `matches_existing`, `proposes_update`, `proposes_new`, `a
 
 ## Formula Hardening Dependency
 
-Collection can proceed now; Task 241 staging and Task 242 review can proceed after approval. Task 243 must not make an imported Formula approved/current until Formula lifecycle hardening covers approved/current immutability, approval semantics, indirect cycles, nested child-version pinning and the ambiguous `expected_yield_*` fields. The roadmap lacks a dedicated hardening task, so this is an explicit roadmap-review blocker rather than a silently invented implementation task.
+Collection can proceed using the approved machine contract, and Task 241's live foundation can retain source and staging evidence. Task 248 must resolve approved/current immutability, approval semantics, indirect cycles, nested child-version pinning and the ambiguous `expected_yield_*` fields before any later controlled-apply capability may activate an imported Formula.
 
 ## Method/WI Schema Dependency
 
-Method and Work Instruction collection, staging and review may proceed using stable collection keys. Task 243 must defer these candidates because no canonical target exists. Task 244 creates the schema and Task 245 creates its UI. The current roadmap places Task 244 after Task 243; therefore Task 243 can reconcile Method/WI rows as intentionally deferred, but cannot apply them. Any later apply sequencing requires explicit roadmap approval.
+Method and Work Instruction collection, staging and review may proceed using stable collection keys, but candidates remain intentionally deferred because no canonical target exists. Method/WI schema and UI are unnumbered Candidate Backlog capabilities. No controlled apply may activate those candidates until the canonical lifecycle is implemented and the capability is promoted through the rolling roadmap.
 
 ## Source-File And Storage Plan
 
@@ -261,27 +267,23 @@ Failed transactions should be atomic. Already-applied business history is correc
 
 Provide what is done now; do not copy old sheets blindly; do not guess; mark unknowns; use one row per input or step; keep Ingredients and quantities separate from Methods and operator guidance; state every UOM and production area; classify packaging and water/process inputs; record process loss separately; attach source evidence where needed; nominate reviewer; complete sign-off.
 
-## Task 241 Requirements
+## Historical Implementation Handoff And Current Mapping
 
-Task 241 must model import run, source file/revision, parser run, staged record, staged field/value, target concept, mapping result, validation issue, review status, approval evidence, provenance and safe diagnostics. Source files, checksums, parser results and reviewed staging revisions are immutable; reviewer assignments, clarification notes and mapping decisions are controlled mutable metadata. It must not guess ambiguous targets.
+Task 240 originally assigned source/staging to 241, mapping/review to 242, controlled apply to 243 and Method/WI implementation to 244-245. Task 241 delivered the live source/staging foundation but deliberately left official parser persistence dormant. Task 242 replaced the fixed sequence with rolling governance.
 
-## Task 242 Requirements
+Current ownership is:
 
-Task 242 must present source versus canonical comparison, mapping state, ambiguity/conflict review, UOM and cycle findings, required dependencies, reviewer context and sign-off. It must enforce privacy boundaries and distinguish blockers, warnings and information without creating canonical records.
+- Task 247: trusted parser runner and flexible intake architecture.
+- Task 248: Formula quantity-basis and lifecycle hardening architecture.
+- Candidate Backlog: mapping/validation/review UI, override/approval evidence, controlled apply/reconciliation, Method/WI schema and Method/WI UI.
 
-## Task 243 Requirements
-
-Task 243 must enforce the apply gate, owning-domain mutation boundaries, stale-target checks, atomicity, canonical-version creation, immutable apply/reconciliation history, corrective lineage, no service-role tenant UI and no ambiguous-row apply. Products Formula apply waits for lifecycle hardening; Method/WI apply waits for Task 244.
-
-## Tasks 244-245 Dependency
-
-Task 244 must translate approved Method/WI collection semantics into versioned Production schema and explicit Formula compatibility. Task 245 must provide controlled create/review/version UI. Neither may turn Method Steps into execution tasks or Recipe into a source of truth.
+Those future capabilities retain Task 240's requirements: source-versus-canonical comparison, ambiguity/UOM/cycle/dependency checks, privacy-safe reviewer context, immutable correction lineage, stale-target checks, owning-domain mutation boundaries, atomicity and no ambiguous apply. Method Steps never become execution Tasks and Recipe never becomes a canonical source.
 
 ## Source-Of-Truth Impact
 
 | Evidence/concept | Owner |
 | --- | --- |
-| Collection workbook | Transition evidence only |
+| Collection machine contract and human-facing templates | Transition evidence only |
 | Source file and staging | Production Data Import, governed by Production |
 | Internal Item and Formula | Products |
 | Method and Work Instruction | Production |
@@ -309,11 +311,11 @@ Products and Production remain canonical owners; QA supplies definition review; 
 
 ## Known Limitations
 
-Formula lifecycle hardening is not scheduled explicitly. No Method/WI or equipment-resource schema exists. Current Formula `expected_yield_*` fields are semantically ambiguous. Exact Clean Eats Product/Production owners and current priority list remain to be nominated. Collection templates are specified but not generated.
+Formula lifecycle hardening is planned in Task 248, but no implementation is approved. No Method/WI or equipment-resource schema exists. Current Formula `expected_yield_*` fields are semantically ambiguous. Exact Clean Eats Product/Production owners and current priority list remain to be nominated. Task 246 will prototype collection materials; none exists yet.
 
 ## Deferred Implementation
 
-No live production data import or tenant route exists. Task 241 now defines an unapplied staging/source/parser schema, private bucket foundation and bounded CSV parser. No Method schema, Work Instruction schema or data import exists. There is no upload UI, mapping UI, controlled apply or reconciliation workflow. Migration 056 remains pending architect review.
+No live production data import or tenant route exists. Task 241's Migration 056 and private Storage foundation are live/database-runtime accepted, and bounded deterministic CSV parser code exists. The trusted persistence runner remains dormant. No Method schema, Work Instruction schema, upload UI, mapping UI, controlled apply or reconciliation workflow exists.
 
 ## Behaviour Preserved
 
@@ -323,6 +325,6 @@ No application, schema, migration, package, permission, RLS, Auth, domain, navig
 
 Task 240 requires lint, TypeScript, build, Shopify tests, `git diff --check`, branch/status and scope scans. This task performs no database, deployment or live-system action.
 
-## Next Task
+## Current Roadmap Relationship
 
-Task 241 is **Production Data Staging and Parser Foundation**. It has backfilled Task 240's exact commit `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` and implements the repository evidence/parser foundation. Migration 056 remains unapplied; official parser persistence is dormant until a trusted runner is approved, and Task 242 remains blocked until migration, Storage, runner and runtime acceptance.
+Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb`; Migration 056 is live/registered and database/runtime accepted. Task 242 establishes rolling governance. Task 246 owns human collection prototypes, Task 247 trusted-runner architecture and Task 248 Formula hardening architecture. Later mapping/review/apply and Method/WI work remains unnumbered until promoted.

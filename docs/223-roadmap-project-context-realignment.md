@@ -1,6 +1,6 @@
 # Task 223 - Roadmap And Project Context Realignment
 
-> **Historical roadmap-control task:** Task 225 superseded this task's roadmap authority on 4 August 2026. The current authority is [EveryBatch Official Roadmap - Tasks 225-348](./225-348-official-roadmap.md); the decisions below describe the Task 223 checkpoint.
+> **Historical roadmap-control task:** Task 225 superseded this task on 4 August 2026, and Task 242 later superseded the fixed Task 225 future sequence. Current authority is the [EveryBatch Rolling Roadmap](./EVERYBATCH_ROLLING_ROADMAP.md); the decisions below describe the Task 223 checkpoint.
 
 ## Why The Roadmap Paused
 
