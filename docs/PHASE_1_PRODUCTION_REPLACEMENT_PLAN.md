@@ -1,5 +1,7 @@
 # Phase 1 Production Replacement Plan
 
+> **Task 240 transition rule:** Current approved Product/Production knowledge must be collected through the controlled package, mandatory provenance, role sign-off and readiness gates. Legacy tool values remain comparison evidence only. No importer, Method/WI schema or production data is created by Task 240.
+
 ## Executive Outcome
 
 Clean Eats can plan and execute each production day in EveryBatch, with area-specific live work, trustworthy shortages and actual outcomes, without the current aggregation/report tools or global printed-pack dependency. This plan is an operating-model target, not implementation or parity evidence.

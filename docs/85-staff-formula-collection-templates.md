@@ -2,6 +2,8 @@
 
 > **Task 239 classification:** Collected files remain source evidence. Formula composition, Production Method parameters and Work Instructions must be classified separately, and no row is approved or imported automatically. Current `expected_yield_*` Formula fields are not the authoritative process-yield target.
 
+> **Task 240 supersession:** The existing CSVs are retained as historical draft artifacts and must not be issued as the controlled import package. Task 240's package specification, field dictionary, responsibility matrix and wave plan are canonical for future generated collection files.
+
 ## Status
 
 Initial staff-friendly formula collection templates have been created.

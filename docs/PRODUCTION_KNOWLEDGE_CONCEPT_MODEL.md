@@ -4,6 +4,8 @@
 
 Canonical architecture decision from Task 239. This document defines ownership and relationships only. Production Method and Work Instruction schemas and workspaces do not exist yet.
 
+Task 239 is committed at `cf2a495786a6efd9cf87372496fcfc71ec766fec`. Task 240 preserves this taxonomy in a controlled collection package and treats every workbook row as evidence until reviewed and applied through its owning domain.
+
 ## Core Concepts
 
 | Concept | Canonical meaning | Owner | Versioned | Current implementation |
@@ -164,4 +166,4 @@ No source value becomes canonical merely because it existed in a legacy report. 
 
 ## Implementation State
 
-Task 239 changes no schema or runtime behavior. No Recipe table is approved. No Method or Work Instruction schema exists. No Production data is imported. Migration 056 does not exist.
+Task 239 changes no schema or runtime behavior. Task 240 adds the approved collection/provenance/readiness specification only. No Recipe table is approved. No Method or Work Instruction schema exists. No Production data is imported. Migration 056 does not exist.

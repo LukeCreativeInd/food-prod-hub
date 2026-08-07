@@ -276,6 +276,8 @@ Task 238 does not decide these questions beyond preserving current ownership unt
 
 ## Tasks 240-243 Implications
 
+Task 240 now defines the approved Clean Eats collection package: separate target datasets, stable transition keys, mandatory provenance, role sign-off, blocker validation, waves, apply gates and reconciliation. This remains planning only. Task 241 cannot begin until Task 240 is reviewed and committed.
+
 | Task | Task 238 constraint | Deferred to that task |
 | --- | --- | --- |
 | 240 - Approved Production Data Collection and Import Plan | Define approved source contracts, provenance and acceptance without making files canonical. | Exact collection templates, source approvals, retention and reconciliation gates. |

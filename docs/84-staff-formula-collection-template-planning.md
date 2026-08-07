@@ -2,6 +2,8 @@
 
 > **Task 239 classification:** These historical templates are collection evidence, not direct canonical import contracts. Composition belongs to Formula; process yield/batch parameters belong to Method; detailed guidance belongs to Work Instruction; ambiguous values require reviewed staging under Tasks 240-243.
 
+> **Task 240 supersession:** The canonical collection contract is now `CLEAN_EATS_PRODUCTION_DATA_COLLECTION_PACKAGE_SPEC.md` plus `PRODUCTION_DATA_COLLECTION_FIELD_DICTIONARY.md`. This Task 84 plan remains historical context only.
+
 ## Planning Status
 
 This is planning only.

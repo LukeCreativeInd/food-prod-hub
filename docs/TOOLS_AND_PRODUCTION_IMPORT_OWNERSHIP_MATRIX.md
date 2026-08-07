@@ -1,5 +1,7 @@
 # Tools and Production Import Ownership Matrix
 
+> **Task 240 update:** The future Production Data Import boundary now has a canonical collection/package specification, stable keys, provenance, review/readiness and wave plan. No upload, parser, staging, apply workflow, bucket or Migration 056 exists.
+
 ## Status
 
 Canonical Task 238 planning decision. No Production import implementation, staging schema, parser, route, permission or storage bucket exists yet.

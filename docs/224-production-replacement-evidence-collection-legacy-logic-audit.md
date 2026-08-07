@@ -4,6 +4,8 @@
 
 > **Task 239 ownership decision:** This evidence is now classified through [Production Knowledge Concept Model](./PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md). Products owns Formula/BOM composition; Production owns independently versioned Method and Work Instruction knowledge; Recipe is presentation only. Legacy values remain behavioral evidence and are not approved by that decision.
 
+> **Task 240 collection rule:** The approved collection plan now requires current-owner confirmation, mandatory provenance and explicit ambiguity/conflict resolution before this legacy evidence can support any staged candidate. Legacy values never become canonical automatically.
+
 ## Status And Purpose
 
 Task 224 is a completed and committed read-only evidence/documentation audit. It inspected the supplied cleanup/report source, matched CSV/XLSX/PDF fixture, current EveryBatch foundations and the then-provisional roadmap.

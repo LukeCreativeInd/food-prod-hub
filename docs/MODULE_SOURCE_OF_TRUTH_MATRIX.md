@@ -56,6 +56,10 @@ No Production import schema, parser, bucket, permission or Migration 056 exists.
 
 See `PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md` and `FORMULA_METHOD_WORK_INSTRUCTION_RECIPE_OWNERSHIP_MATRIX.md`.
 
+## Task 240 Collection And Import Boundary
+
+The controlled Clean Eats workbook is transition evidence only. Production Data Import owns future immutable source revisions, staging, validation/review, apply evidence and reconciliation, governed by Production. Stable collection keys are temporary cross-sheet identities, not canonical IDs. Products remains owner of Internal Items and Formulas; Production remains owner of Methods, Work Instructions and Areas; QA remains owner of QA definitions/results. Tools is a utility surface; Tenant Admin owns future source configuration; Support receives redacted diagnostics; Platform Admin receives redacted readiness. No implementation or Migration 056 exists.
+
 ## Task 234 Commerce Catalogue Mapping Foundation
 
 | Data or capability | Canonical owner | Consumers | Rules | Current limitation | Status |

@@ -1,5 +1,7 @@
 # Formula Collection Workbook Structure
 
+> **Superseded specification:** This early five-tab outline is retained as historical planning evidence. Task 240 selects a fourteen-tab controlled package that separates Items, Formula headers/lines, Methods/Steps, Work Instructions, QA, yield/batch, Packaging, equipment, exceptions and sign-off. See `docs/CLEAN_EATS_PRODUCTION_DATA_COLLECTION_PACKAGE_SPEC.md`. Do not generate a workbook from this older outline.
+
 The CSV files in this folder are the repo/source version of the Clean Eats formula collection pack.
 
 If Luke wants a staff-friendly XLSX workbook later, it should use the following tabs:

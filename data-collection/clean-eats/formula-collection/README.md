@@ -1,5 +1,7 @@
 # Clean Eats Formula Collection Pack
 
+> **Historical draft only:** Task 240 supersedes this early CSV pack as the collection contract. Do not issue these files as import-ready templates or treat their example rows as Clean Eats truth. Use `docs/CLEAN_EATS_PRODUCTION_DATA_COLLECTION_PACKAGE_SPEC.md` and `docs/PRODUCTION_DATA_COLLECTION_FIELD_DICTIONARY.md` when a later approved task generates the controlled workbook. The existing CSVs remain historical planning evidence and are not modified or imported by Task 240.
+
 ## Purpose
 
 This pack helps Clean Eats staff capture the formula and production knowledge that supplier invoices cannot provide.

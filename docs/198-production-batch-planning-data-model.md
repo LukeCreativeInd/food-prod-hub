@@ -1,5 +1,7 @@
 # Production Batch Planning Data Model
 
+> **Task 240 Production boundary:** Formula nominal output, Method batch envelope, planned batch quantity and actual quantity are separate. Collection never imports planned or actual batches as Method configuration and never creates Production Plan/Batch records.
+
 > **Task 224 evidence note:** This foundation provides areas, plans, lines, batches and planned input fields. The matched legacy audit confirms the replacement also needs preserved demand provenance, reviewed mappings, approved formula/yield semantics and area-specific work. It still does not allocate/transfer/consume stock, create output, generate tasks or replace the report. Planning must never be treated as physical movement. Task 225 later approved the current sequence in `225-348-official-roadmap.md`.
 
 > **Task 226 facility decision:** `production_areas`, `production_plans` and `production_batches` require one organisation-owned facility. Plan lines and batch inputs derive facility through their parent, and selected areas/locations must match. Formula versions remain organisation-wide. This facility schema is not implemented; Task 231 remains blocked until Architecture Gate 1.

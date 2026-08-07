@@ -2,6 +2,8 @@
 
 > **Task 239 decision:** Formula/BOM is Products-owned composition; Production Method/Step and Work Instruction are independently versioned Production knowledge; Recipe is presentation only. This older import plan does not authorise process-yield imports into current Formula expected-yield fields or create a Recipe record. Use Tasks 240-243 for the current controlled import path.
 
+> **Task 240 supersession:** The current plan requires immutable source revisions, stable collection keys, field-level provenance, blocker validation, explicit approval, Formula lifecycle hardening and owning-domain reconciliation. This older direct CSV grouping flow is not an approved implementation contract.
+
 ## Planning Status
 
 This is planning only.

@@ -1,5 +1,7 @@
 # Production Replacement Gap Matrix
 
+> **Task 240 update:** Approved-data collection now has a canonical package, field dictionary, responsibility matrix, readiness matrix and wave plan. This closes the planning gap only; staging, parsing, Formula hardening, Method/WI schema and controlled apply remain open.
+
 ## Reading The Matrix
 
 `A` means required to retire current production tools, `B` means safer operational depth shortly after replacement, `C` means valuable Phase 1 improvement or later operational optimisation, `D` means later commercial/checkout expansion and `E` marks unknown design details requiring staff/source validation. E does not make the underlying business capability optional. Task references use the official roadmap in `225-348-official-roadmap.md`.

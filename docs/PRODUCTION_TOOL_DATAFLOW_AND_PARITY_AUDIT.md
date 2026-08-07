@@ -1,5 +1,7 @@
 # Production Tool Dataflow And Parity Audit
 
+> **Task 240 use:** Legacy flow observations are retained as parity evidence and exception prompts. They cannot supply canonical quantities, yield, batch, Method or Work Instruction values without current-owner review and approval under the Task 240 collection contract.
+
 ## Audit Boundary
 
 Task 224 traced one matched production day through three raw Zapiet exports, two cleanup outputs and the generated 22-page Production Report. Findings are evidence of current behaviour, not approval of legacy values as EveryBatch master data.

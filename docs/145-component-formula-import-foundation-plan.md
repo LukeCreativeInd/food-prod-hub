@@ -1,5 +1,7 @@
 # Component / Formula Import Foundation Plan
 
+> **Task 240 supersession:** This earlier Formula-only helper plan is not the approved Production Data Import contract. Future work must use Task 240's stable keys, immutable source revisions, provenance, review/readiness gates and Formula lifecycle hardening dependency. Method/WI rows remain separate and cannot apply before Task 244.
+
 > **Task 224 evidence note:** Legacy Production Report formulas, yields, water additions, batch rules and mappings are behavioural evidence only and must not be imported as canonical data. This import pattern may move earlier only for current approved Clean Eats source data, with source-row provenance, UOM/item validation, review and controlled apply.
 
 > **Task 239 correction:** Formula import targets Products-owned composition and nominal output basis only. Expected process yield/loss, process batch envelopes, Method Steps and Work Instructions are separate Production targets. The current `formula_versions.expected_yield_*` fields are transitional and must not receive authoritative process-yield imports. Recipe is not an import table. This older plan remains useful for Formula staging patterns, subject to Tasks 240-243.

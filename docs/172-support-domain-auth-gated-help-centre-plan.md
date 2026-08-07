@@ -1,5 +1,7 @@
 # Support Domain And Auth-Gated Help Centre Plan
 
+> **Task 240 import boundary:** Support may later receive minimum redacted run status, counts and safe diagnostics. Source files, proprietary Formula/Method/WI content, QA detail and unrestricted parser payloads require explicit audited tenant-authorised escalation and are not implemented here.
+
 > **Task 232 commerce boundary:** future Support may use safe connection/order references, readiness blockers and redacted error categories from the Commerce foundation. Credentials, raw provider payloads, customer PII and cross-tenant operational access remain excluded. Migration 046 changes no Support route, ticket workflow or permission.
 
 Task 172 plans the future authenticated EveryBatch support/help centre.

@@ -1,5 +1,7 @@
 # Tools Module and Supplier Invoice Intake
 
+> **Task 240 comparison:** Production Data Import may reuse the review-first, source-preserving principle, but owns a separate Production-governed source/staging domain and a multi-domain dependency graph. Supplier Invoice Intake schema, storage and commit behavior are not reused or changed.
+
 ## Status
 
 Supplier Invoice Intake has been moved out of Inventory navigation and into a new top-level Tools module.

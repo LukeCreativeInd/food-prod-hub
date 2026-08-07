@@ -1,5 +1,7 @@
 # Products Data Model QA Pass
 
+> **Task 240 Products boundary:** Clean Eats collection may propose Internal Item and Formula candidates, but Products remains canonical owner. Existing records are reconciled rather than overwritten; imported Formula activation waits for lifecycle hardening.
+
 Task 186 reviews the current Products, Formulas, Costings and support-context foundation before deeper inventory and production workflows are built.
 
 This pass does not create migrations, change RLS, change permissions, import data, create stock movements, build purchasing receiving, or alter production logic.

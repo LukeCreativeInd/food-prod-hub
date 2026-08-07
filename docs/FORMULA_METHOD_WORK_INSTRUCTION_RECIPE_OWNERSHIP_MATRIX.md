@@ -1,5 +1,7 @@
 # Formula, Method, Work Instruction And Recipe Ownership Matrix
 
+> Task 239 is committed at `cf2a495786a6efd9cf87372496fcfc71ec766fec`. Task 240 uses this matrix as the binding collection classification: workbook rows remain transition evidence and never create a parallel Recipe source of truth.
+
 ## Status
 
 Canonical Task 239 architecture decision. It classifies ownership and future import targets without implementing schema, UI or operational data.

@@ -12,7 +12,7 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Current repository state: Task 238 is committed at `e23024761f1197997b100a4e26cd401c0f19330a`. Task 239 documentation defines the Formula/Method/Work Instruction/Recipe ownership boundary and remains uncommitted pending Luke review. Task 237 is production accepted; Migrations 053-055 are live/registered and immutable. No Migration 056 or Production import implementation exists.
+- Current repository state: Task 238 is committed at `e23024761f1197997b100a4e26cd401c0f19330a`; Task 239 is committed at `cf2a495786a6efd9cf87372496fcfc71ec766fec`. Task 240 defines the approved collection/provenance/readiness contract and remains documentation-complete and uncommitted pending Luke review. Task 237 is production accepted; Migrations 053-055 are live/registered and immutable. No Migration 056 or Production import implementation exists.
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
@@ -160,6 +160,8 @@ Never bypass RLS, expose secrets, invent operational data, rewrite completed his
 ## Production Knowledge Engineering Boundary
 
 Task 239 defines Formula/BOM as Products-owned structured composition, Production Method and Work Instruction as independently versioned Production knowledge, and Recipe as presentation only. Formula and Method versions connect through explicit compatibility, while historical execution eventually pins exact Formula, Method and Work Instruction versions. Formula output quantity is a composition basis; process yield/loss and process batch envelopes belong to Method Version, and planned/actual quantities remain execution evidence.
+
+Task 240 defines the input contract for Tasks 241-243: immutable source revisions, stable collection keys, field-level provenance, independent workflow/evidence/confidence states, explicit ambiguity/conflict records, role-based sign-off, blocker validation, dry-run apply gates and immutable reconciliation. Collection files are evidence, never canonical truth. Method/WI candidates remain deferred until Task 244; Formula activation remains blocked on lifecycle hardening.
 
 The current Formula schema is directionally canonical, not ready for uncontrolled canonical import activation: active versions remain mutable, approval/current semantics are incomplete, indirect cycles are not prevented, child Formula Versions are not pinned and `expected_yield_*` is ambiguous. Production Import staging must classify evidence without guessing and controlled apply must use owning-domain boundaries. No Method/WI schema or Recipe table exists.
 

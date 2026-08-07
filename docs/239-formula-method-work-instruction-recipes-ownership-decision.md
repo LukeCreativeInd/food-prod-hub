@@ -1,12 +1,14 @@
 # Task 239 - Formula, Method, Work Instruction And Recipes Ownership Decision
 
+> **Complete and committed:** `cf2a495786a6efd9cf87372496fcfc71ec766fec` (`Decide production knowledge ownership`). Task 240 now defines the approved collection, provenance, readiness and transition package without changing these ownership decisions.
+
 ## Purpose
 
 Task 239 resolves the canonical meaning, ownership and lifecycle relationships of Formula, Production Method, Method Step, Work Instruction and Recipe. It turns Task 224 legacy evidence into a clean target model for Tasks 240-245 without importing data or implementing schema.
 
 ## Status
 
-Documentation-complete and uncommitted pending Luke review. Suggested commit: `Decide production knowledge ownership`. The exact Task 239 commit hash must be backfilled by Task 240 after this task is committed.
+Complete and committed at `cf2a495786a6efd9cf87372496fcfc71ec766fec` with title `Decide production knowledge ownership`.
 
 ## Scope
 
@@ -342,9 +344,7 @@ Formulas, yields, methods, instructions, supplier-linked costs and process attac
 
 ## Task 240 Implications
 
-Task 240 can now define the approved collection plan and taxonomy. It must collect composition, process, instructions, planning rules, QA references and ambiguous evidence separately; preserve source provenance; avoid mapping process yield into current Formula expected-yield fields as authoritative truth; and require staff approval.
-
-Task 240 remains unavailable until Task 239 is reviewed and committed.
+Task 240 defines the approved collection plan and taxonomy. It collects composition, process, instructions, planning rules, QA references and ambiguous evidence separately; preserves source provenance; avoids mapping process yield into current Formula expected-yield fields as authoritative truth; and requires staff approval. Task 240 remains documentation-only and uncommitted pending Luke review.
 
 ## Task 241 Implications
 
@@ -428,10 +428,8 @@ Task completion requires lint, TypeScript, production build, Shopify tests and `
 
 ## Task 240 Readiness
 
-The target taxonomy and ownership contract are ready for Task 240 planning after Luke reviews and commits Task 239. Task 240 may define approved collection, provenance, review and reconciliation. It may not create staging schema, apply Production data, treat legacy values as approved, or bypass the Formula lifecycle limitations recorded here.
+The target taxonomy and ownership contract supported Task 240's approved collection, provenance, review and reconciliation plan. Task 240 creates no staging schema, applies no Production data, treats no legacy value as approved and preserves the Formula lifecycle limitations recorded here.
 
 ## Next Task
 
-Task 240 - Approved Production Data Collection and Import Plan - is the next approved task only after Task 239 review and commit. The exact Task 239 commit hash must be backfilled by Task 240 through the post-commit context-delta workflow.
-
-Suggested commit: `Decide production knowledge ownership`
+Task 240 - Approved Production Data Collection and Import Plan - is documentation-complete and uncommitted. Task 241 remains unavailable until Task 240 is reviewed and committed, and must then backfill Task 240's exact commit hash.
