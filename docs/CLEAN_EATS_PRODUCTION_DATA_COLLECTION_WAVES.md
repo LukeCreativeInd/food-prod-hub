@@ -21,7 +21,7 @@ Use `critical`, `high`, `normal` and `deferred`. Clean Eats nominates currently 
 
 ## Handoff To Task 241
 
-Each handoff identifies package version, approved scope, source files/references, stable keys, unresolved exclusions, reviewers, approvals and readiness results. Task 241 may stage only after Task 240 is committed and the wave gate is met. Staging does not imply apply.
+Each handoff identifies package version, approved scope, source files/references, stable keys, unresolved exclusions, reviewers, approvals and readiness results. Task 240 is committed; the Task 241 foundation may stage only after Migration 056 and Storage policies are approved/applied and the wave gate is met. Staging does not imply apply.
 
 ## No Arbitrary Deadlines Or Thresholds
 

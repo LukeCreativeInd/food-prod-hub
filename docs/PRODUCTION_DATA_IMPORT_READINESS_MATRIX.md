@@ -26,9 +26,9 @@ This matrix separates what Clean Eats can collect now from what EveryBatch can s
 
 ## Critical Sequencing
 
-- Task 241 can stage the full taxonomy after Task 240 is committed.
+- Task 240 is committed and Task 241 now defines staging for the full taxonomy; Migration 056 remains unapplied.
 - Task 242 can map, validate and review all collected evidence.
 - Task 243 can only apply a candidate when its canonical target and safe lifecycle exist.
 - Imported Formula approval/current activation waits for explicit Formula lifecycle hardening.
 - Method/WI candidates remain deferred until Task 244 creates their canonical targets; Task 245 provides their controlled UI.
-- Migration 056 does not exist and Task 240 creates none.
+- Migration 056 exists in the repository pending architect review. Task 240 created no migration, and Task 242 remains blocked until live Storage/runtime acceptance plus approval of a trusted parser runner/persistence boundary.

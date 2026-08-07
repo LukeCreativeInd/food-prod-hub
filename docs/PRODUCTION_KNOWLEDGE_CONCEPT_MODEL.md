@@ -166,4 +166,4 @@ No source value becomes canonical merely because it existed in a legacy report. 
 
 ## Implementation State
 
-Task 239 changes no schema or runtime behavior. Task 240 adds the approved collection/provenance/readiness specification only. No Recipe table is approved. No Method or Work Instruction schema exists. No Production data is imported. Migration 056 does not exist.
+Task 239 changes no schema or runtime behavior. Task 240 adds the approved collection/provenance/readiness specification only. Task 241 adds unapplied source/parser/staging evidence for these concepts without making them canonical. No Recipe table is approved. No Method or Work Instruction schema exists. No Production data is imported.

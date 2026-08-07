@@ -31,7 +31,7 @@ Migrations 053-055 are live/registered and immutable. Full rollback-only lifecyc
 | --- | --- | --- | --- |
 | Tools workspace definition | Permanent mixed utility module with strict domain ownership boundaries | Module/navigation configuration only; no generic canonical mutation authority | Specialised bounded utilities |
 | Supplier invoice source/extraction/commit evidence | Supplier Invoice Intake | Existing Purchase Document workflow boundaries | Products, Costings and optional draft Goods Inwards bridge |
-| Future Production source metadata, parser runs and staging revisions | Dedicated tenant-owned Production Data Import domain governed by Production | Future Production Import intake/staging boundaries | Tools utility UI, Production review, redacted Support readiness |
+| Production source metadata, parser runs and staging revisions | Dedicated tenant-owned Production Data Import domain governed by Production | Unapplied Migration 056 plus code-owned parser; official persistence dormant pending trusted runner | Future Tools utility UI, Production review, redacted Support readiness |
 | Future mapping, validation, review, approval, apply and reconciliation evidence | Production Data Import | Future dedicated import boundaries plus target-domain permission checks | Products and Production apply workflows, audit and redacted diagnostics |
 | Canonical Products records | Products | Products-owned mutation boundaries | Production, Costings, Inventory and import reconciliation |
 | Canonical Production records | Production | Production-owned mutation boundaries | Production execution and import reconciliation |
@@ -39,7 +39,7 @@ Migrations 053-055 are live/registered and immutable. Full rollback-only lifecyc
 
 UI placement does not define data ownership. A future route under Tools may launch Production Data Import, but Tools does not own the staging domain or resulting canonical records. Parser code is platform implementation; run evidence belongs to Production Data Import. Platform Admin receives redacted readiness only and Support receives minimum necessary redacted diagnostics. Task 239 resolves the target concepts in the production-knowledge section below.
 
-No Production import schema, parser, bucket, permission or Migration 056 exists.
+Task 241 adds the repository schema/parser foundation, aggregate run reconciliation, uploaded-unverified lifecycle, private-bucket definition and permissions in unapplied Migration 056. Parser persistence has no executable tenant or worker grant. No live schema, tenant route, mapping/review/apply workflow or canonical data import exists.
 
 ## Task 239 Production Knowledge Boundary
 
@@ -58,7 +58,7 @@ See `PRODUCTION_KNOWLEDGE_CONCEPT_MODEL.md` and `FORMULA_METHOD_WORK_INSTRUCTION
 
 ## Task 240 Collection And Import Boundary
 
-The controlled Clean Eats workbook is transition evidence only. Production Data Import owns future immutable source revisions, staging, validation/review, apply evidence and reconciliation, governed by Production. Stable collection keys are temporary cross-sheet identities, not canonical IDs. Products remains owner of Internal Items and Formulas; Production remains owner of Methods, Work Instructions and Areas; QA remains owner of QA definitions/results. Tools is a utility surface; Tenant Admin owns future source configuration; Support receives redacted diagnostics; Platform Admin receives redacted readiness. No implementation or Migration 056 exists.
+The controlled Clean Eats workbook is transition evidence only. Production Data Import owns immutable source revisions and staging evidence through the Task 241 repository foundation, and will own later validation/review, apply evidence and reconciliation. Stable collection keys are temporary cross-sheet identities, not canonical IDs. Products remains owner of Internal Items and Formulas; Production remains owner of Methods, Work Instructions and Areas; QA remains owner of QA definitions/results. Tools is a utility surface; Tenant Admin owns future source configuration; Support receives redacted diagnostics; Platform Admin receives redacted readiness. Migration 056 is unapplied and no canonical import exists.
 
 ## Task 234 Commerce Catalogue Mapping Foundation
 

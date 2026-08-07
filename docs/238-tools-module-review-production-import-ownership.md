@@ -25,7 +25,7 @@ Task 237 is complete, deployed and production accepted.
 - Production Demand operational tables remain empty. No Shopify connection, source order, mapping, contribution, live demand, review, freeze or delta exists.
 - Production Plan allocation remains deferred to a later approved roadmap task.
 
-Migration 045 remains live and unregistered. Migrations 046-055 are live and registered. Migration 056 does not exist.
+Migration 045 remains live and unregistered. Migrations 046-055 are live and registered. Task 241 subsequently created Migration 056 in the repository; it remains unapplied pending architect review.
 
 ## Current Tools Module
 
@@ -124,7 +124,7 @@ The final bucket and policy implementation remain deferred.
 
 Parser code is platform implementation for the Production Data Import domain, kept in a versioned domain-specific registry rather than treated as tenant data or generic Tools truth. Tenant-configurable parser/source profiles belong to Tenant Admin configuration. Each parser run records the exact parser key/version and creates a new evidence revision; reruns do not overwrite applied evidence.
 
-Parser diagnostics and parsed output belong to Production Data Import. Tools may invoke and display the workflow. No Production import parser exists today.
+Parser diagnostics and parsed output belong to Production Data Import. Tools may eventually invoke and display the workflow. Task 241 subsequently adds a code-owned, bounded explicit CSV parser foundation, but official persistence remains dormant until a trusted runner is approved and no tenant route exists.
 
 ## Staging Ownership
 
@@ -276,7 +276,7 @@ Task 238 does not decide these questions beyond preserving current ownership unt
 
 ## Tasks 240-243 Implications
 
-Task 240 now defines the approved Clean Eats collection package: separate target datasets, stable transition keys, mandatory provenance, role sign-off, blocker validation, waves, apply gates and reconciliation. This remains planning only. Task 241 cannot begin until Task 240 is reviewed and committed.
+Task 240 is committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` and defines the approved Clean Eats collection package: separate target datasets, stable transition keys, mandatory provenance, role sign-off, blocker validation, waves, apply gates and reconciliation. Task 241 now implements the repository evidence/parser foundation with aggregate run state and uploaded-unverified source truth; Migration 056 remains unapplied and parser persistence remains ungranted.
 
 | Task | Task 238 constraint | Deferred to that task |
 | --- | --- | --- |
@@ -357,13 +357,13 @@ Production imports should minimise customer and personal data. Staging must not 
 
 ## Known Limitations
 
-- No Production import implementation exists.
-- No Production staging schema exists.
-- No Production import parser exists.
-- No Production import storage bucket exists.
+- No live Production import implementation or tenant route exists.
+- Migration 056 defines the repository staging schema and private bucket but is unapplied.
+- The code-owned parser supports bounded explicit CSV only; XLSX/PDF/images remain unsupported evidence.
+- Storage object policies require manual review/application after Migration 056 approval.
 - No Production data has been imported.
 - Task 239 now defines Formula/BOM as Products-owned composition, Method/WI as Production-owned knowledge and Recipe as presentation only.
-- Exact permissions and role mappings remain future implementation decisions.
+- Task 241 proposes only `production_imports.view` and `production_imports.manage`, conservatively mapped to organisation, operations and production managers; live approval remains pending.
 - Production Plan allocation remains deferred to the later approved roadmap.
 - Stock On Hand remains a separate known issue.
 

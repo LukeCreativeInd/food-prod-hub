@@ -10,7 +10,7 @@ Task 240 covers collection datasets, staff responsibilities, stable references, 
 
 ## Status And Migration State
 
-Task 240 is documentation-complete and uncommitted pending Luke review. Migration 045 is live and manually applied but unregistered. Migrations 046-055 are live and registered. Task 240 does not edit or apply them. Migration 056 is absent and remains absent.
+Task 240 is complete and committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` with title `Plan approved production data collection`. Migration 045 is live and manually applied but unregistered. Migrations 046-055 are live and registered. Task 240 did not edit or apply them. Task 241 subsequently created unapplied Migration 056.
 
 ## Task 239 Committed State
 
@@ -237,7 +237,7 @@ Uploaded source files are immutable. A correction creates a new source revision 
 
 ## Review Lifecycle
 
-- **File:** uploaded -> accepted or quarantined -> archived.
+- **File:** registered -> uploaded-unverified -> cryptographically verified by a trusted parser boundary, or failed/quarantined -> superseded/archived.
 - **Parser run:** queued -> running -> succeeded or failed.
 - **Staged record:** parsed -> needs mapping / validation failed / needs clarification -> ready for review -> reviewed -> approved or rejected/superseded.
 - **Review package:** assembling -> ready -> reviewed -> approved for apply or rejected/superseded/cancelled.
@@ -313,7 +313,7 @@ Formula lifecycle hardening is not scheduled explicitly. No Method/WI or equipme
 
 ## Deferred Implementation
 
-No production data import exists. No staging schema exists. No parser exists. No Production import bucket exists. No Method schema exists. No Work Instruction schema exists. No data was imported. There is no upload UI, mapping UI, controlled apply or reconciliation workflow. Migration 056 remains absent. Task 241 cannot begin until Task 240 is reviewed and committed.
+No live production data import or tenant route exists. Task 241 now defines an unapplied staging/source/parser schema, private bucket foundation and bounded CSV parser. No Method schema, Work Instruction schema or data import exists. There is no upload UI, mapping UI, controlled apply or reconciliation workflow. Migration 056 remains pending architect review.
 
 ## Behaviour Preserved
 
@@ -325,4 +325,4 @@ Task 240 requires lint, TypeScript, build, Shopify tests, `git diff --check`, br
 
 ## Next Task
 
-Task 241 is **Production Data Staging and Parser Foundation**. It cannot begin until Task 240 is reviewed and committed. Task 240 is documentation-complete and uncommitted; suggested commit title is `Plan approved production data collection`. Its exact commit hash must be backfilled by Task 241 through the post-commit context-delta workflow.
+Task 241 is **Production Data Staging and Parser Foundation**. It has backfilled Task 240's exact commit `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` and implements the repository evidence/parser foundation. Migration 056 remains unapplied; official parser persistence is dormant until a trusted runner is approved, and Task 242 remains blocked until migration, Storage, runner and runtime acceptance.

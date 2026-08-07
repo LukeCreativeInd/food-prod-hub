@@ -38,7 +38,10 @@ test("Migration 053 remains transactional and unique beside corrective Migration
   assert.equal(migrations.filter((name) => name.startsWith("053_")).length, 1);
   assert.equal(migrations.filter((name) => name.startsWith("054_")).length, 1);
   assert.equal(migrations.filter((name) => name.startsWith("055_")).length, 1);
-  assert.equal(migrations.some((name) => name.startsWith("056_")), false);
+  assert.equal(
+    migrations.filter((name) => name === "056_production_data_staging_parser_foundation.sql").length,
+    1,
+  );
   assert.match(migration053, /^begin;/);
   assert.match(migration053, /commit;\s*$/);
 });

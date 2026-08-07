@@ -103,4 +103,4 @@ Do not use a Recipe worksheet as canonical truth; copy legacy rows blindly; comb
 
 ## Status
 
-This specification is planning. No workbook, private bucket, parser, staging record, Method/WI schema or data import exists. Migration 056 is absent.
+This specification remains the controlled planning contract and no workbook or production data has been created. Task 241 adds an unapplied private-bucket/source/staging foundation and explicit CSV parser, but no XLSX parser, tenant upload route, Method/WI schema, mapping/review/apply workflow or canonical import exists.

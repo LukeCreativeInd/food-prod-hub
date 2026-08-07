@@ -1,6 +1,6 @@
 # Production Replacement Gap Matrix
 
-> **Task 240 update:** Approved-data collection now has a canonical package, field dictionary, responsibility matrix, readiness matrix and wave plan. This closes the planning gap only; staging, parsing, Formula hardening, Method/WI schema and controlled apply remain open.
+> **Task 241 update:** Approved-data collection has a canonical package and the repository now has an unapplied source/staging/parser foundation with bounded CSV support. Live migration/Storage verification, mapping/review, Formula hardening, Method/WI schema, controlled apply and parity evidence remain open.
 
 ## Reading The Matrix
 

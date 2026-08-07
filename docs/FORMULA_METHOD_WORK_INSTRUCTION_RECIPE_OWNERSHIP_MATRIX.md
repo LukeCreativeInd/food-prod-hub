@@ -45,7 +45,7 @@ Canonical Task 239 architecture decision. It classifies ownership and future imp
 | Production Batch | One manufacturing run | Production | Production Batch | Operational lifecycle; pins exact knowledge versions later | Not canonical knowledge import | Implemented foundation |
 | Production Task | Assigned executable work | Production | Tasks / Facility view | Operational lifecycle derived from plan/method | Not canonical knowledge import | Foundation only |
 | Legacy recipe/report row | Mixed behavioral evidence from old tools | Production Data Import staging | Tools / Production Data Import review | Immutable provenance; never canonical without review | Classified target or ambiguous blocker | Evidence only |
-| Import source/parser/staging | Source and interpretation evidence | Production Data Import governed by Production | May be surfaced through Tools | Immutable/revisioned provenance | Staging only | Not implemented |
+| Import source/parser/staging | Source and interpretation evidence | Production Data Import governed by Production | Future Tools surface | Immutable/revisioned provenance | Staging only | Repository foundation in unapplied Migration 056; no route/apply |
 
 ## Formula And Method Relationship
 

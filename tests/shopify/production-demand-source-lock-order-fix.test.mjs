@@ -58,7 +58,9 @@ test("Migration 054 remains the unique source-lock correction beside Migration 0
   const migrations = readdirSync(migrationsDirectory);
   assert.deepEqual(migrations.filter((name) => name.startsWith("054_")), ["054_production_demand_source_lock_order_fix.sql"]);
   assert.deepEqual(migrations.filter((name) => name.startsWith("055_")), ["055_production_demand_frozen_owner_uuid_fix.sql"]);
-  assert.equal(migrations.some((name) => name.startsWith("056_")), false);
+  assert.deepEqual(migrations.filter((name) => name.startsWith("056_")), [
+    "056_production_data_staging_parser_foundation.sql",
+  ]);
   assert.match(migration054, /^begin;/);
   assert.match(migration054, /commit;\s*$/);
 });

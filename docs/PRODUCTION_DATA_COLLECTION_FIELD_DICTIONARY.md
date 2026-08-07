@@ -217,4 +217,4 @@ These fields apply to every data row in Item Register, Formula Headers/Lines, Me
 
 ## Staging Interpretation
 
-Task 241 may normalize these fields into staged records/fields, but must preserve raw value, normalized suggestion, parser key/version, source revision, evidence dimensions and stable collection keys. Unknown or unsupported values remain validation issues. Task 240 defines no SQL table, enum or parser.
+Task 241 implements bounded staged records and field evidence that preserve raw value, trimmed normalized suggestion, parser key/version, source checksum/revision, evidence dimensions and stable collection keys. Unknown or unsupported values remain issues. Task 240 itself defines no SQL table, enum or parser; unapplied Migration 056 and the code-owned CSV registry implement the foundation.

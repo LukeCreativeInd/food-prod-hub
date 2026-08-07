@@ -1,10 +1,10 @@
 # Tools and Production Import Ownership Matrix
 
-> **Task 240 update:** The future Production Data Import boundary now has a canonical collection/package specification, stable keys, provenance, review/readiness and wave plan. No upload, parser, staging, apply workflow, bucket or Migration 056 exists.
+> **Task 241 update:** Task 240 is committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037`. The repository now has an unapplied tenant-owned evidence schema, aggregate multi-source status and explicit CSV parser. Official parser persistence is dormant pending a trusted-runner decision. No upload route, mapping/review/apply workflow or canonical data mutation exists.
 
 ## Status
 
-Canonical Task 238 planning decision. No Production import implementation, staging schema, parser, route, permission or storage bucket exists yet.
+Canonical Task 238 ownership decision with Task 241 repository implementation. Migration 056, its permissions and private bucket remain unapplied pending architect review; no tenant route exists.
 
 ## Ownership Rule
 

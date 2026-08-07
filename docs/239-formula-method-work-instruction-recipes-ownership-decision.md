@@ -16,7 +16,7 @@ This is architecture and documentation only. It changes no application code, UI,
 
 ## Migration State
 
-Migration 045 is live and manually applied but unregistered. Migrations 046-055 are live and registered. Task 239 does not edit those migrations, reconcile history or run a database action. Migration 056 is absent.
+Migration 045 is live and manually applied but unregistered. Migrations 046-055 are live and registered. Task 239 did not edit those migrations, reconcile history or run a database action. Task 241 subsequently created unapplied Migration 056 without changing this ownership decision.
 
 ## Task 238 Committed State
 
@@ -344,7 +344,7 @@ Formulas, yields, methods, instructions, supplier-linked costs and process attac
 
 ## Task 240 Implications
 
-Task 240 defines the approved collection plan and taxonomy. It collects composition, process, instructions, planning rules, QA references and ambiguous evidence separately; preserves source provenance; avoids mapping process yield into current Formula expected-yield fields as authoritative truth; and requires staff approval. Task 240 remains documentation-only and uncommitted pending Luke review.
+Task 240 is committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` and defines the approved collection plan and taxonomy. It collects composition, process, instructions, planning rules, QA references and ambiguous evidence separately; preserves source provenance; avoids mapping process yield into current Formula expected-yield fields as authoritative truth; and requires staff approval.
 
 ## Task 241 Implications
 
@@ -432,4 +432,4 @@ The target taxonomy and ownership contract supported Task 240's approved collect
 
 ## Next Task
 
-Task 240 - Approved Production Data Collection and Import Plan - is documentation-complete and uncommitted. Task 241 remains unavailable until Task 240 is reviewed and committed, and must then backfill Task 240's exact commit hash.
+Task 240 - Approved Production Data Collection and Import Plan - is complete and committed at `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037`. Task 241 backfills that hash and adds only source/parser/staging evidence; Migration 056 remains unapplied, official parser persistence remains dormant pending a trusted runner, and Task 242 is blocked.

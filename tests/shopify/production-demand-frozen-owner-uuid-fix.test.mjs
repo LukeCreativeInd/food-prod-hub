@@ -22,10 +22,12 @@ function ownershipInsert(source) {
   return source.match(/insert into public\.production_demand_commitment_source_owners \([\s\S]*?order by evidence\.source_order_line_id;/)?.[0] ?? "";
 }
 
-test("Migration 055 is the only UUID correction and Migration 056 is absent", () => {
+test("Migration 055 remains the only UUID correction before additive Migration 056", () => {
   const migrations = readdirSync(migrationsDirectory);
   assert.deepEqual(migrations.filter((name) => name.startsWith("055_")), ["055_production_demand_frozen_owner_uuid_fix.sql"]);
-  assert.equal(migrations.some((name) => name.startsWith("056_")), false);
+  assert.deepEqual(migrations.filter((name) => name.startsWith("056_")), [
+    "056_production_data_staging_parser_foundation.sql",
+  ]);
   assert.match(migration055, /^begin;/);
   assert.match(migration055, /commit;\s*$/);
 });
