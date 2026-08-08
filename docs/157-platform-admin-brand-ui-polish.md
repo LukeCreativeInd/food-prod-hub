@@ -1,5 +1,7 @@
 # Platform Admin Brand/UI Polish
 
+> **Task 243 clarification:** Platform Admin remains a distinct, denser EveryBatch control-plane surface. Its shell and page patterns should share semantic tokens and status language with the Tenant App while following `EVERYBATCH_INFORMATION_ARCHITECTURE.md` and `EVERYBATCH_UX_DESIGN_SYSTEM.md`; this does not expand access to tenant operational content.
+
 Task 157 applies the EveryBatch brand direction to the separated Platform Admin surface.
 
 ## Brand Direction Applied

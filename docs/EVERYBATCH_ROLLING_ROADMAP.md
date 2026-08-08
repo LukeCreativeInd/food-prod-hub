@@ -6,7 +6,7 @@ This is the authoritative current task-order document for EveryBatch. It replace
 
 ## Current Completed Baseline
 
-The completed baseline through Task 241 remains historical truth. Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb` (`Build production import staging foundation`). Migration 056 is live and registered once as `20260807152024 production_data_staging_parser_foundation`. Its trusted parser persistence functions remain intentionally dormant and ungranted.
+The completed baseline through Task 242 remains historical truth. Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb` (`Build production import staging foundation`). Task 242 is committed at `9fa6ffc017509559976832ff823392ff13574673` (`Establish rolling roadmap governance`). Migration 056 is live and registered once as `20260807152024 production_data_staging_parser_foundation`. Its trusted parser persistence functions remain intentionally dormant and ungranted.
 
 ## Rolling Task Horizon
 
@@ -59,11 +59,11 @@ A critical security, integrity, runtime or architecture correction may be insert
 
 ### Task 242 - Rolling Roadmap Governance, Review Framework and Task 241 Truth Reconciliation
 
-Documentation/governance only. Establish this rolling model, the Review system, architect-intervention expectation, active horizon, candidate backlog and Review 1; reconcile Task 241 committed/live truth and supersede the old fixed future sequence. No migration. Suggested commit: `Establish rolling roadmap governance`.
+**Complete and committed** at `9fa6ffc017509559976832ff823392ff13574673` (`Establish rolling roadmap governance`). Documentation/governance only. Establishes this rolling model, the Review system, architect-intervention expectation, active horizon, candidate backlog and Review 1; reconciles Task 241 committed/live truth and supersedes the old fixed future sequence. No migration.
 
 ### Task 243 - EveryBatch Information Architecture and UX System Deep Plan
 
-Define EveryBatch as one Food Manufacturing OS before broad UI work: shell hierarchy, global header, sidebar, breadcrumbs, search, dashboard and landing-page patterns, lists, entity detail, create/edit, history, related records, action placement, readiness language, layout system, empty/loading/error states, permission-aware presentation, responsive behavior, cross-module links and source-of-truth presentation. Define surface variants: operational Tenant App; denser Platform Admin control plane; knowledge-first, search/task-led Support; and shared-brand but purpose-distinct Public / Marketing. Use real data and honest future states. Do not expand this into a Support or marketing rebuild. No migration expected. Review 1 value: very high.
+**Documentation/planning complete and uncommitted.** Defines EveryBatch as one Food Manufacturing OS before broad UI work: shell hierarchy, global header, sidebar, breadcrumbs, search, dashboard and landing-page patterns, lists, entity detail, create/edit, history, related records, action placement, readiness language, layout system, empty/loading/error states, permission-aware presentation, responsive behavior, cross-module links and source-of-truth presentation. Defines operational Tenant App, denser Platform Admin, knowledge-first Support and purpose-distinct Public variants. No migration. Task 244 remains blocked until review and commit. Suggested commit: `Define EveryBatch information architecture`.
 
 ### Task 244 - EveryBatch Meeting-Readiness UI System and Module Landing Page Overhaul v1
 

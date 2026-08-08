@@ -30,3 +30,9 @@ Platform Admin may receive capability enablement, configuration/readiness state,
 ## Update Rule
 
 Future tasks update this register when capability enablement, readiness, provisioning, safe health, diagnostic or Support context changes. `No Platform Admin impact` is valid and must be stated. New visibility must use minimum necessary data and never infer mutation or proprietary-content access from operator status alone.
+
+## Task 243 Platform IA Direction
+
+Platform Admin remains a denser EveryBatch control plane, not a Tenant App clone. Its hierarchy is Platform Overview, Tenants, Platform configuration, Operations/Support, Commercial and Users. Tenant detail is a readiness/provisioning hub that may present only deliberately implemented capability enablement, configuration/readiness, safe counts/status, bounded error categories and Support context. Tenant operational entities, Formula/Method/WI content, source files, customer/supplier evidence, QA detail and approval actions remain outside the default surface.
+
+Task 244 may align semantic tokens, page headers, cards, tables, responsive behaviour and accessibility. It must not add new diagnostics, queries, tenant mutation, impersonation or content access. A future capability/readiness dashboard consumes this register only after each signal has an approved data source and permission boundary.

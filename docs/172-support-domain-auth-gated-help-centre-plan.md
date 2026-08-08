@@ -2,6 +2,8 @@
 
 > **Task 242 multi-surface update:** Support is a first-class EveryBatch knowledge/troubleshooting surface. `SUPPORT_CONTENT_SOURCE_REGISTER.md` is now the durable bridge from implemented workflows to future guides, common states, blockers and safe diagnostics. It does not expose internal task docs or proprietary tenant content, and it does not require a full article for every engineering task.
 
+> **Task 243 UX direction:** Support is search-led and task-led: Getting Started, module/workflow/concept guides, troubleshooting, product updates and tickets/contact. Tenant pages may link to exact contextual guidance; Support remains a distinct authenticated knowledge surface rather than a Tenant App clone.
+
 > **Task 240 import boundary:** Support may later receive minimum redacted run status, counts and safe diagnostics. Source files, proprietary Formula/Method/WI content, QA detail and unrestricted parser payloads require explicit audited tenant-authorised escalation and are not implemented here.
 
 > **Task 232 commerce boundary:** future Support may use safe connection/order references, readiness blockers and redacted error categories from the Commerce foundation. Credentials, raw provider payloads, customer PII and cross-tenant operational access remain excluded. Migration 046 changes no Support route, ticket workflow or permission.

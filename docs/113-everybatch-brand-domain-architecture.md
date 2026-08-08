@@ -2,6 +2,8 @@
 
 > **Task 242 multi-surface update:** Tenant App, Platform Admin, Support / Help Centre and Public / Marketing share EveryBatch brand language but retain purpose-specific information architecture and authority. Future public claims must be reconstructable from implemented or approved capability; technical implementation detail is translated into grounded product meaning rather than copied as marketing language.
 
+> **Task 243 UX direction:** Shared brand tokens, status semantics, controls, icon language and accessibility connect the four surfaces. Their navigation, density, content model and data boundaries remain distinct. Public capability language and screenshots must be traceable to implemented or approved evidence and contain no tenant data.
+
 ## Planning Status
 
 Task 113 is documentation and planning only.

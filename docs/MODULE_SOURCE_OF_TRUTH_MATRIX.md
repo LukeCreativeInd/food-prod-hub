@@ -154,6 +154,7 @@ Future ownership direction is governed by `EVERYBATCH_ROLLING_ROADMAP.md` and th
 | Support tickets | Support: `support_tickets`, `support_ticket_comments`, `support_ticket_events`, `support_ticket_attachments` | Tenant Support and Platform inbox | Authenticated, tenant-aware history | Not a substitute for QA NC/CA or delivery issue records | Operational foundation |
 | Help Centre content | Support static content plus `SUPPORT_CONTENT_SOURCE_REGISTER.md` as the source index | Authenticated Help Centre | Versioned in repository today; register points to verified product evidence | Product guidance follows implemented capability and does not expose proprietary tenant content by default | Static content foundation plus governance register |
 | Platform diagnostics | Platform Admin read models plus `PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md` as the intent index | Platform operators | Must not become tenant operational truth or imply mutation/content access | Future health/readiness may aggregate only approved safe facility, capability and integration state | Read-only foundation plus governance register |
+| Information architecture and UX presentation | `EVERYBATCH_INFORMATION_ARCHITECTURE.md`, `EVERYBATCH_UX_DESIGN_SYSTEM.md`, `EVERYBATCH_PAGE_PATTERN_SYSTEM.md` and `EVERYBATCH_CROSS_MODULE_NAVIGATION_MODEL.md` | Tenant App, Platform Admin, Support and future Public presentation | Presentation may aggregate permission-visible context but cannot transfer ownership, create authority or invent History/readiness | Task 243 planning only; Task 244/245 implementation pending | Canonical presentation guidance |
 
 ## Permanent Ownership Rules
 
@@ -176,3 +177,4 @@ Future ownership direction is governed by `EVERYBATCH_ROLLING_ROADMAP.md` and th
 - Logistics owns dispatch and manifest history; generated manifests are snapshots.
 - Platform Admin owns SaaS operations, not tenant operations.
 - Support content and Platform diagnostic registers index derived presentation needs; they do not own operational records or grant access.
+- Task 243 IA/UX artifacts govern presentation and navigation only; they do not own operational records, permissions, lifecycle or derived business truth.

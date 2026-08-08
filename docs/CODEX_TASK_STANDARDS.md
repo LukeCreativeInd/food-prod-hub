@@ -32,6 +32,7 @@ The current task-order authority is `docs/EVERYBATCH_ROLLING_ROADMAP.md`. Future
 - A **module** is a major product area such as Inventory, Products, QA, Logistics, Reports, Tools or Production.
 - A **workspace** or internal **submodule** is an operational area inside a module, such as Goods Inwards, Manifests, Receiving Checks or Formula Import. User-facing language should generally use workspace.
 - A **page** is a specific route, list, detail, record or form screen.
+- UI, navigation and page-architecture tasks must consult `EVERYBATCH_INFORMATION_ARCHITECTURE.md`, `EVERYBATCH_UX_DESIGN_SYSTEM.md`, `EVERYBATCH_PAGE_PATTERN_SYSTEM.md` and `EVERYBATCH_CROSS_MODULE_NAVIGATION_MODEL.md`. These documents govern presentation and navigation without changing domain ownership, permissions or route security.
 
 ## Foundation Standard
 

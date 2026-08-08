@@ -35,3 +35,16 @@ Every future numbered task and relevant lettered subtask must assess Support imp
 ## Future Backfill
 
 Future Support content work uses this register to select and verify guides against current implementation. It should backfill historic capability progressively, prioritising active workflows and stale/missing guides rather than rewriting every old task at once. When later tasks change a workflow, they update this register even when no Help Centre article is produced immediately.
+
+## Task 243 Support IA Direction
+
+Support is knowledge-first and task-led. Its intended hierarchy is search, Getting Started, module guides, workflow guides, concept guides, troubleshooting, product updates/release notes and tickets/contact. Tenant App pages may link directly to a relevant guide; they do not duplicate full guide content. The register remains the evidence bridge and does not publish proprietary tenant data.
+
+| Contextual-help opportunity | User question | Future destination | Safe boundary |
+| --- | --- | --- | --- |
+| Products | How do Suppliers, materials, Components and Finished Products relate? | Products overview and entity-relationship guide | No tenant item/formula contents in generic Support content |
+| Formula / Recipe / Method | Why are these different, and where is each changed? | Concept guide plus task-led Formula guidance | Architecture only until Method/WI exists; no proprietary Formula content |
+| Production Demand | How do contributions, blockers, review, freeze and deltas work? | Production Demand workflow/troubleshooting | No source-order/customer detail; bounded status/error categories only |
+| QA | Why is a check or lot blocked, and who can release it? | QA permissions and workflow troubleshooting | No detailed QA evidence without approved access |
+| Production Import | What does uploaded-unverified mean and why is apply unavailable? | Import states/readiness guide after tenant workflow exists | No source file, staged value or parser payload |
+| Permissions / no access | Why can I view but not perform an action? | Access and permission explanation | No hidden record existence or role/security internals |

@@ -1,5 +1,7 @@
 # Loading UX and Route Transition Polish
 
+> **Task 243 direction:** Shell-preserving loading remains canonical. Task 244 must preserve request-scoped Auth stability and disabled dense-navigation prefetching while aligning content skeletons, bounded action pending states and semantic theme tokens.
+
 ## Purpose
 
 Task 111 improves perceived route transition quality after the task 110 speed and performance pass.

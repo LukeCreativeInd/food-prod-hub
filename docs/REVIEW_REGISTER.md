@@ -12,6 +12,6 @@ Every Review records: number, title, status, scheduled/completed date, known par
 
 | Review | Title | Status | Date | Participants / roles | Purpose | Working record |
 | --- | --- | --- | --- | --- | --- | --- |
-| Review 1 | First Major Staff Review | Scheduled | Wednesday 12 August 2026; time TBD | Luke; Clean Eats operational staff; further names/roles TBD | Challenge product, workflow, Formula, Method, Production, warehouse, QA, permissions, collection, UX and Support self-service assumptions with real operational evidence. | [`reviews/001-first-major-staff-review.md`](./reviews/001-first-major-staff-review.md) |
+| Review 1 | First Major Staff Review | Scheduled; Task 243 IA assumptions prepared | Wednesday 12 August 2026; time TBD | Luke; Clean Eats operational staff; further names/roles TBD | Challenge product, workflow, Formula, Method, Production, warehouse, QA, permissions, collection, IA/UX and Support self-service assumptions with real operational evidence. | [`reviews/001-first-major-staff-review.md`](./reviews/001-first-major-staff-review.md) |
 
 No Review 2 or later Review is scheduled.

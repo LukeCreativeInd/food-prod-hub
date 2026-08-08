@@ -1,5 +1,7 @@
 # Support Guides Static Content v1
 
+> **Task 243 clarification:** Support is a knowledge-first, task-led EveryBatch surface. Future guide hierarchy, search and contextual links should follow `EVERYBATCH_INFORMATION_ARCHITECTURE.md` and `EVERYBATCH_UX_DESIGN_SYSTEM.md`, with operational claims still governed by `SUPPORT_CONTENT_SOURCE_REGISTER.md`.
+
 > **Task 242 source-continuity update:** Existing static guides remain the current published content. `SUPPORT_CONTENT_SOURCE_REGISTER.md` now identifies workflow, permission, state, blocker, troubleshooting and safe-diagnostic inputs for future guide backfill and stale-guide review; it does not publish internal task documentation directly.
 
 Task 176 expands the authenticated EveryBatch support area with static guide content.

@@ -14,7 +14,7 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Tenant 1 and proving ground: **Clean Eats Hub**
 - Repository: `/Users/cealukemichalowsky/Development/food-prod-hub`
 - Required working branch: `main`
-- Latest committed implementation task: **Task 241 - Production Data Staging and Parser Foundation**
+- Latest completed and committed task: **Task 242 - Rolling Roadmap Governance, Review Framework and Task 241 Truth Reconciliation**
 - Latest production-browser-accepted task: **Task 237 - Production Demand Review, Freeze and Post-Freeze Delta Workflow v1**
 - Task 223A exact commit hash: `a8c2761`
 - Task 223B exact commit hash: `f8f576603d97732d9fa1f29702fec78fccb05036`
@@ -37,16 +37,21 @@ This is the concise current-state handover. Deeper product rationale lives in
 - Task 239 exact commit hash: `cf2a495786a6efd9cf87372496fcfc71ec766fec` (`Decide production knowledge ownership`)
 - Task 240 exact commit hash: `a1369117a2d4ebc7ef6ab7b2d819bbaab348e037` (`Plan approved production data collection`)
 - Task 241 exact commit hash: `8dfc644657c92789dea9831e3f9e51181388cfbb` (`Build production import staging foundation`)
+- Task 242 exact commit hash: `9fa6ffc017509559976832ff823392ff13574673` (`Establish rolling roadmap governance`)
 - Current roadmap authority: `docs/EVERYBATCH_ROLLING_ROADMAP.md`
 - Unnumbered future capability: `docs/EVERYBATCH_CANDIDATE_BACKLOG.md`
 - Review authority: `docs/REVIEW_REGISTER.md`
 - Support content source authority: `docs/SUPPORT_CONTENT_SOURCE_REGISTER.md`
 - Platform readiness/diagnostic source authority: `docs/PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md`
+- Information Architecture authority: `docs/EVERYBATCH_INFORMATION_ARCHITECTURE.md`
+- UX Design System authority: `docs/EVERYBATCH_UX_DESIGN_SYSTEM.md`
+- Page Pattern authority: `docs/EVERYBATCH_PAGE_PATTERN_SYSTEM.md`
+- Cross-module navigation authority: `docs/EVERYBATCH_CROSS_MODULE_NAVIGATION_MODEL.md`
 - Review Gate 0: **closed through Luke's Task 225 approval**
 - Architecture Gate 1: **approved through Luke's Task 231 prompt**
-- Current task: **242 - Rolling Roadmap Governance, Review Framework and Task 241 Truth Reconciliation**
+- Current task: **243 - EveryBatch Information Architecture and UX System Deep Plan**; documentation/planning complete and uncommitted
 - Current concrete horizon: **Tasks 242-250**; only this near-term horizon has authoritative task numbers
-- Next approved task: **243 - EveryBatch Information Architecture and UX System Deep Plan**
+- Next approved task after Task 243 review/commit: **244 - EveryBatch Meeting-Readiness UI System and Module Landing Page Overhaul v1**; currently blocked
 - Review 1: **First Major Staff Review**, scheduled Wednesday 12 August 2026; time TBD
 - Product Architect expectation: proactively raise architecture, security, sequencing, ownership, UX, permission and operational conflicts; material roadmap changes still require Luke approval
 - Former fixed future sequence 242-348: **superseded**; `docs/225-348-official-roadmap.md` is historical planning evidence

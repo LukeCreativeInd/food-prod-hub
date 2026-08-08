@@ -12,13 +12,13 @@ This is the durable technical handover. Repository code/migrations override pros
 - Stack: Next.js 15 App Router, React 19, TypeScript 5.6, Tailwind CSS 3.4, Supabase SSR/JS, Vercel Analytics and Speed Insights, pnpm 11
 - Hosting model: Vercel app with Supabase backend and GitHub source
 - Current expected branch: `main`
-- Current repository state: Task 241 is committed at `8dfc644657c92789dea9831e3f9e51181388cfbb`. Migration 056 is live/registered and database/runtime accepted; aggregate run status and uploaded-unverified source truth are live, while trusted parser persistence remains dormant. Task 242 is the current documentation/governance task.
+- Current repository state: Task 242 is committed at `9fa6ffc017509559976832ff823392ff13574673` (`Establish rolling roadmap governance`). Migration 056 is live/registered and database/runtime accepted; aggregate run status and uploaded-unverified source truth are live, while trusted parser persistence remains dormant. Task 243 planning is complete and uncommitted; Task 244 is blocked pending review and commit.
 - Product-surface governance: every future numbered task and relevant lettered subtask must assess Tenant App, Platform Admin, Support / Help Centre and Public / Marketing impact. Update the Support and Platform diagnostic source registers when their structured truth changes; do not infer content access or mutation authority from an impact assessment.
 - Task 223B commit: `f8f576603d97732d9fa1f29702fec78fccb05036`
 - Task 224 commit: `8b8e94a87f6e94fef78c05317f87cad4bb01caea`
 - Task 225 commit: `82a81613556c311198449670b0425106f062a4ef`
 - Task 226 commit: `36d53894579e0e8762d7ed441187e5c23552678e`
-- Current roadmap: `docs/EVERYBATCH_ROLLING_ROADMAP.md`; candidates: `docs/EVERYBATCH_CANDIDATE_BACKLOG.md`; Reviews: `docs/REVIEW_REGISTER.md`; Support source: `docs/SUPPORT_CONTENT_SOURCE_REGISTER.md`; Platform diagnostic source: `docs/PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md`. The Tasks 225-348 roadmap is historical
+- Current roadmap: `docs/EVERYBATCH_ROLLING_ROADMAP.md`; IA/UX authorities: `docs/EVERYBATCH_INFORMATION_ARCHITECTURE.md`, `docs/EVERYBATCH_UX_DESIGN_SYSTEM.md`, `docs/EVERYBATCH_PAGE_PATTERN_SYSTEM.md` and `docs/EVERYBATCH_CROSS_MODULE_NAVIGATION_MODEL.md`; candidates: `docs/EVERYBATCH_CANDIDATE_BACKLOG.md`; Reviews: `docs/REVIEW_REGISTER.md`; Support source: `docs/SUPPORT_CONTENT_SOURCE_REGISTER.md`; Platform diagnostic source: `docs/PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md`. The Tasks 225-348 roadmap is historical
 - Migration `045` SQL is manually applied and schema/backfill/browser verified; approved migration-history reconciliation remains outstanding before future automated deployment
 
 ## Branch And Task Workflow

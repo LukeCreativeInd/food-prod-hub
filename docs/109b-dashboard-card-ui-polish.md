@@ -1,5 +1,7 @@
 # UI Overhaul v2 Part B - Dashboard, Card and Page Polish
 
+> **Task 243 direction:** The Tenant Dashboard prioritises cross-module attention; module homes orient one domain. Task 244 should reduce identical-card repetition, preserve real/permission-visible data and use semantic card/grid patterns from `EVERYBATCH_PAGE_PATTERN_SYSTEM.md`.
+
 ## Purpose
 
 This pass polishes shared page surfaces after the 109A app shell work. It focuses on dashboards, cards, source document prominence, invoice review overflow and loading consistency.

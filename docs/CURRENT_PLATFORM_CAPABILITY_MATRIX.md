@@ -73,6 +73,7 @@ Multi-surface impact is indexed separately: `SUPPORT_CONTENT_SOURCE_REGISTER.md`
 | Tenant Admin / Integrations | `/integrations` | Navigation/scaffold | Static catalogue/log preview only; Tasks 227-230 commerce, demand, Shopify and calendar architecture are documented, but no live connection, relationship, order, zone, calendar or demand data exists | Gate 1, foundations 232-235 and diagnostics 301 |
 | Platform Admin | `/platform` | Read/configuration foundation | Tenant overview, provisioning foundation, module/feature diagnostics, support inbox | Safe future readiness/diagnostic intent is indexed in `PLATFORM_ADMIN_CAPABILITY_AND_DIAGNOSTICS_REGISTER.md`; no tenant operational ownership |
 | Support / Help Centre | `/support` | Static + operational foundation | Authenticated guides, tickets, comments, attachments; Platform inbox; shared production EveryBatch Auth cookie scope | Product-guide/troubleshooting inputs are indexed in `SUPPORT_CONTENT_SOURCE_REGISTER.md`; proprietary content remains excluded by default |
+| Information architecture / UX system | Repository planning artifacts | Planning complete; uncommitted | Canonical surface/module/workspace hierarchy, page patterns, design semantics and cross-module navigation | No application implementation; Task 244 blocked pending Task 243 review/commit |
 
 ## External And Legacy Operational Workflows
 

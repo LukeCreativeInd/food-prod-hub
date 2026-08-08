@@ -1,5 +1,7 @@
 # UI Overhaul v2 Part A - App Shell, Navigation and Branding
 
+> **Task 243 direction:** Preserve current route/Auth/permission behaviour while converging Tenant App shell ownership, adding a consistent breadcrumb/page-action model, making collapsed navigation genuinely useful and replacing narrow horizontal navigation with an accessible mobile drawer. See `EVERYBATCH_INFORMATION_ARCHITECTURE.md` and `EVERYBATCH_UX_DESIGN_SYSTEM.md`.
+
 ## Purpose
 
 This pass polishes the shared app shell for Clean Eats Hub without changing dashboards, business workflows, permissions, RLS, Supplier Invoice Intake logic or Platform Admin functionality.

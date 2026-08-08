@@ -1,5 +1,7 @@
 # Task 242 - Rolling Roadmap Governance, Review Framework and Task 241 Truth Reconciliation
 
+> **Committed:** `9fa6ffc017509559976832ff823392ff13574673` (`Establish rolling roadmap governance`). Task 243 backfilled this durable post-commit state.
+
 ## Purpose And Scope
 
 Task 242 replaces mechanical long-range task numbering with a Luke-approved rolling planning model, introduces Reviews as separate stakeholder checkpoints, schedules Review 1, creates an unnumbered candidate backlog and reconciles Task 241's committed/live truth. This is documentation and governance only: no application, migration, Supabase, permission, navigation or operational behavior changes.

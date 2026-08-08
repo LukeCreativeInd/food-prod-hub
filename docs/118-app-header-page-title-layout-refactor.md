@@ -1,5 +1,7 @@
 # App Header and Page Title Layout Refactor
 
+> **Task 243 direction:** One main page title belongs to the shell/page-header system. Content should begin with context, status, actions or data rather than a duplicate hero; breadcrumbs provide hierarchy and module/entity actions remain local.
+
 ## Purpose
 
 Task 118 moves the active workspace title into the persistent app header so the tenant workspace feels closer to the EveryBatch app mockup direction.

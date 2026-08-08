@@ -32,6 +32,10 @@ Demonstrate implemented capability truthfully and distinguish it from planned wo
 - Task 240's machine taxonomy is valid even if one large workbook is not the best human collection experience.
 - Draft/review/publish and permissions may be flexible by tenant rather than rigid three-person separation.
 - Exception-first review can reduce repetitive approval work without turning parser confidence into canonical approval.
+- The canonical hierarchy `Surface -> Module -> Workspace -> Page type -> Entity/workflow` matches how staff expect to navigate.
+- The Dashboard should prioritise attention while module homes explain one operational domain.
+- Important Suppliers, Items, Components and Finished Products should open into readable Entity Hubs with explicit edit and related-record context.
+- Current module order can remain while workspace grouping and labels improve.
 
 ## Questions By Role And Domain
 
@@ -98,6 +102,15 @@ Demonstrate implemented capability truthfully and distinguish it from planned wo
 - Which guidance should explain why a control is blocked, not only what button to press?
 
 Platform Admin is an EveryBatch operator control plane rather than a Clean Eats staff workflow. Do not spend Review 1 time on its detailed administration unless staff evidence makes that relevant.
+
+### IA And Navigation
+
+- Which module or workspace labels are unclear to staff?
+- When do staff expect a module home versus opening a queue/list immediately?
+- Which cross-module links would remove the most repeated navigation?
+- Do breadcrumbs and human-readable record labels match how staff describe their work?
+- Which information belongs on a readable detail page before an edit action is offered?
+- Which current tables or forms are difficult on a laptop, tablet or phone?
 
 ## Capability Context
 
